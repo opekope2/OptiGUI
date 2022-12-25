@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.mod_author.mod_id.mixins",
+  "package": "opekope2.optigui.mixin",
   "compatibilityLevel": "JAVA_${java}",
   "injectors": {
     "defaultRequire": 1
