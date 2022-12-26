@@ -8,7 +8,7 @@ package opekope2.optigui.filter
  * @param filters The sub-filters to evaluate
  */
 class ConjunctiveFilter<T>(private val filters: Iterable<Filter<T>>) : Filter<T>() {
-    override fun test(value: T): FilterResult<T> {
+    override fun test(value: T): FilterResult<out T> {
         val results = filters.map { it.test(value) }
         return if (results.all { it.skip }) FilterResult.skip()
         else FilterResult.create(results.none { !it.skip && !it.match })

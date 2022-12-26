@@ -10,5 +10,5 @@ abstract class Filter<T> {
      * @param value The value the filter should evaluate
      * @return The result of the filter, which optionally includes a replacement
      */
-    abstract fun test(value: T): FilterResult<T>
+    abstract fun test(value: T): FilterResult<out T>
 }
