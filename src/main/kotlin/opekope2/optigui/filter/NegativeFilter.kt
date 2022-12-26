@@ -9,10 +9,6 @@ package opekope2.optigui.filter
  */
 class NegativeFilter<T> @JvmOverloads constructor(private val filter: Filter<T>, private val replacement: T? = null) :
     Filter<T>() {
-    override fun test(value: T): FilterResult<out T> {
-        val result = filter.test(value)
-        if (result.skip) return result
-
-        return FilterResult.create(!result.match, replacement)
-    }
+    override fun test(value: T): FilterResult<out T> =
+        filter.test(value).let { FilterResult(it.skip, !it.match, replacement) }
 }

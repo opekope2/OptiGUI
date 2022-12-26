@@ -1,10 +1,11 @@
 package opekope2.optigui.filter
 
 /**
- * A filter which succeeds when the given value is [expectedValue], fails otherwise, and never skips
+ * A filter which succeeds when the given value is [expectedValue], fails otherwise, and never skips.
+ *
  * @param T The type the filter accepts
  * @param expectedValue The value the filter should succeed for
  */
 class EqualityFilter<T>(private val expectedValue: T) : Filter<T>() {
-    override fun test(value: T) = FilterResult.create<T>(value == expectedValue)
+    override fun test(value: T) = FilterResult<T>(value == expectedValue)
 }

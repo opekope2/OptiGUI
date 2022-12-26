@@ -1,46 +1,47 @@
 package opekope2.optigui.filter
 
 /**
- * Represents a filter result
+ * Represents a filter result.
  *
  * @param skip Whether the result indicates that it should be skipped
- * @param match True if the result is a match, false if the result is a mismatch. Ignored, if [skip] is `false`
- * @param replacement The optional replacement. Ignored, if [skip] is `false` or [match] is `false`
+ * @param match `true` if the result is a match, `false` if it's a mismatch
+ * @param replacement The optional replacement
  */
-class FilterResult<T> private constructor(
-    val skip: Boolean,
-    val match: Boolean = false,
-    val replacement: T? = null
-) {
-    companion object {
-        /**
-         * Creates a filter result indicating a match
-         * @param replacement The optional replacement
-         */
-        @JvmStatic
-        @JvmOverloads
-        fun <T> match(replacement: T? = null) = FilterResult(skip = false, match = true, replacement = replacement)
+class FilterResult<T> @JvmOverloads constructor(skip: Boolean, match: Boolean = false, replacement: T? = null) {
+    /**
+     * Whether the result is skipped (the filter was unable to process).
+     */
+    var skip = false
+        private set
 
-        /**
-         * Creates a filter result indicating a mismatch
-         */
-        @JvmStatic
-        fun <T> mismatch() = FilterResult<T>(skip = false, match = false)
+    /**
+     * `true` if the result is a match, `false`, if it's a mismatch.
+     * `false`, if [skip] is `true` (and doesn't have a meaning).
+     */
+    var match = false
+        private set
 
-        /**
-         * Creates a filter result indicating a skip (the filter was unable to process)
-         */
-        @JvmStatic
-        fun <T> skip() = FilterResult<T>(skip = true)
+    /**
+     * The optional replacement.
+     * `null`, if [skip] is `true` (and doesn't have a meaning).
+     */
+    var replacement: T? = null
+        private set
 
-        /**
-         * Creates a filter result, indicating a match or mismatch (which was not skipped)
-         *
-         * @param match Whether the filter was matched
-         * @param replacement The optional replacement
-         */
-        @JvmStatic
-        @JvmOverloads
-        fun <T> create(match: Boolean, replacement: T? = null) = if (match) match(replacement) else mismatch()
+    init {
+        this.skip = skip
+        if (!skip) {
+            this.match = match
+            this.replacement = replacement
+        }
     }
+
+    /**
+     * Creates a filter result, which was not skipped.
+     *
+     * @param match `true` if the result is a match, `false` if it's a mismatch
+     * @param replacement The optional replacement
+     */
+    @JvmOverloads
+    constructor(match: Boolean, replacement: T? = null) : this(skip = false, match, replacement)
 }
