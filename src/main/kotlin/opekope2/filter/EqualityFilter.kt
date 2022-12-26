@@ -1,4 +1,4 @@
-package opekope2.optigui.filter
+package opekope2.filter
 
 /**
  * A filter which succeeds when the given value is [expectedValue], fails otherwise, and never skips.

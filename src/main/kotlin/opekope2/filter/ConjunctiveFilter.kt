@@ -1,4 +1,4 @@
-package opekope2.optigui.filter
+package opekope2.filter
 
 /**
  * A filter which applies the logical AND operation between the given filters and returns the result.

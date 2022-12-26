@@ -1,4 +1,4 @@
-package opekope2.optigui.filter
+package opekope2.filter
 
 /**
  * Base class for all filters.

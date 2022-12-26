@@ -1,4 +1,4 @@
-package opekope2.optigui.filter
+package opekope2.filter
 
 /**
  * A filter which returns the result of the sub-filter, and replaces its replacement.

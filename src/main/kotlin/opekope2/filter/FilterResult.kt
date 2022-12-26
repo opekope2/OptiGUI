@@ -1,4 +1,4 @@
-package opekope2.optigui.filter
+package opekope2.filter
 
 /**
  * Represents a filter result.
