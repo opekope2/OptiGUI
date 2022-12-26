@@ -5,5 +5,7 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "mixins": []
+  "mixins": [
+    "RenderSystemMixin"
+  ]
 }
