@@ -35,13 +35,4 @@ class FilterResult<T> @JvmOverloads constructor(skip: Boolean, match: Boolean = 
             this.replacement = replacement
         }
     }
-
-    /**
-     * Creates a filter result, which was not skipped.
-     *
-     * @param match `true` if the result is a match, `false` if it's a mismatch
-     * @param replacement The optional replacement
-     */
-    @JvmOverloads
-    constructor(match: Boolean, replacement: T? = null) : this(skip = false, match, replacement)
 }
