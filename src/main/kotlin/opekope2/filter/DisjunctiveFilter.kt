@@ -11,16 +11,9 @@ package opekope2.filter
  * @param T The type the filter accepts
  * @param filters The sub-filters to evaluate
  */
-class DisjunctiveFilter<T>(private val filters: Iterable<Filter<T>>) : Filter<T>() {
-    override fun test(value: T): FilterResult<out T> = filters.map { it.test(value) }.let { results ->
-        var ret: FilterResult<out T>? = null // First mismatch
-
-        for (res in results) {
-            if (res.skip) continue
-            else if (res.match) return@let res
-            else if (ret == null) ret = res
-        }
-
-        return@let ret ?: /* all skipped */ FilterResult(skip = true)
+class DisjunctiveFilter<T>(private val filters: Iterable<Filter<T, out Any>>) : Filter<T, Unit>() {
+    override fun test(value: T): FilterResult<Unit> = filters.map { it.test(value) }.let { result ->
+        if (result.all { it.skip }) FilterResult(skip = true)
+        else FilterResult(skip = false, match = result.any { !it.skip && it.match })
     }
 }

@@ -5,6 +5,6 @@ package opekope2.filter
  * @param T The type the filter accepts
  * @param expectedValue The value the filter should fail for
  */
-class InequalityFilter<T>(private val expectedValue: T) : Filter<T>() {
-    override fun test(value: T) = FilterResult<T>(skip = false, match = value != expectedValue)
+class InequalityFilter<T>(private val expectedValue: T) : Filter<T, Unit>() {
+    override fun test(value: T) = FilterResult<Unit>(skip = false, match = value != expectedValue)
 }

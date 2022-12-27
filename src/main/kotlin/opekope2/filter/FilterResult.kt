@@ -5,9 +5,9 @@ package opekope2.filter
  *
  * @param skip Whether the result indicates that it should be skipped
  * @param match `true` if the result is a match, `false` if it's a mismatch
- * @param replacement The optional replacement
+ * @param result The optional result
  */
-class FilterResult<T> @JvmOverloads constructor(skip: Boolean, match: Boolean = false, replacement: T? = null) {
+class FilterResult<T> @JvmOverloads constructor(skip: Boolean, match: Boolean = false, result: T? = null) {
     /**
      * Whether the result is skipped (the filter was unable to process).
      */
@@ -22,7 +22,7 @@ class FilterResult<T> @JvmOverloads constructor(skip: Boolean, match: Boolean = 
         private set
 
     /**
-     * The optional replacement.
+     * The optional result.
      * `null`, if [skip] is `true` (and doesn't have a meaning).
      */
     var replacement: T? = null
@@ -32,7 +32,7 @@ class FilterResult<T> @JvmOverloads constructor(skip: Boolean, match: Boolean = 
         this.skip = skip
         if (!skip) {
             this.match = match
-            this.replacement = replacement
+            this.replacement = result
         }
     }
 }
