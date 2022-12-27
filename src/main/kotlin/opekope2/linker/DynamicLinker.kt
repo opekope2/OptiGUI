@@ -3,10 +3,17 @@ package opekope2.linker
 import java.lang.invoke.MethodHandle
 
 /**
- * An abstract linker class which lets you access classes and its public members at runtime
+ * An abstract linker class which lets you access classes and its public members at runtime.
+ * If the linking fails, the constructor should throw.
+ *
  * @param className The name of the class to access
  */
 abstract class DynamicLinker(val className: String) {
+    /**
+     * The linked class
+     */
+    abstract val clazz: Class<*>
+
     /**
      * Returns the handle to the requested method or null if not found.
      * If used from kotlin, use java primitive types (like `int` instead of [java.lang.Integer]) defined in [JavaPrimitive]

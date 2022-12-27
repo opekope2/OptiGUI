@@ -22,7 +22,8 @@ class FabricDynamicLinker @JvmOverloads constructor(
 ) : DynamicLinker(className) {
     private val lookup = MethodHandles.publicLookup()
     private val mappingResolver = FabricLoader.getInstance().mappingResolver
-    private val clazz: Class<*> = Class.forName(mappingResolver.mapClassName(namespace, className))
+
+    override val clazz: Class<*> = Class.forName(mappingResolver.mapClassName(namespace, className))
 
     override fun linkVirtualMethod(methodName: String, returnType: Class<*>, vararg params: Class<*>): MethodHandle? =
         catchAll {
