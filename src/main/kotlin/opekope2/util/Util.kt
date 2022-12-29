@@ -1,11 +1,28 @@
 package opekope2.util
 
-import opekope2.filter.FilterResult
+import net.minecraft.util.Identifier
+import opekope2.optigui.resource.IResourceManager
 
-fun <T> catchAll(function: () -> T): T? = try {
+/**
+ * Runs a code block and returns its result.
+ * If it raises and exception, suppresses it exceptions, and returns `null`
+ */
+inline fun <T> catchAll(function: () -> T): T? = try {
     function()
-} catch (_: Throwable) {
+} catch (_: Exception) {
     null
+}
+
+/**
+ * Converts the given string to a boolean:
+ * - `true`, if the string is "true" (case-insensitive)
+ * - `false`, if the string is "false" (case-insensitive)
+ * - `null` otherwise
+ */
+fun String.toBoolean(): Boolean? = when (lowercase()) {
+    "true" -> true
+    "false" -> false
+    else -> null
 }
 
 /**
