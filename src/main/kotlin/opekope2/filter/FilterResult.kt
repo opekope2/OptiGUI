@@ -25,14 +25,14 @@ class FilterResult<T> @JvmOverloads constructor(skip: Boolean, match: Boolean = 
      * The optional result.
      * `null`, if [skip] is `true` (and doesn't have a meaning).
      */
-    var replacement: T? = null
+    var result: T? = null
         private set
 
     init {
         this.skip = skip
         if (!skip) {
             this.match = match
-            this.replacement = result
+            this.result = result
         }
     }
 }
