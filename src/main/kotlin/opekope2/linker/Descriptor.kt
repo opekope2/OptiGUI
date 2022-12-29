@@ -1,28 +1,28 @@
 package opekope2.linker
 
 /**
- * Helper class to obtain field and method descriptors. Used by [FabricDynamicLinker]
+ * Helper class to obtain field and method descriptors. Used by [FabricDynamicLinker].
  */
 class Descriptor {
     companion object {
         private val primitiveDesc = mapOf(
-            JavaPrimitive.Byte to "B",
-            JavaPrimitive.Char to "C",
-            JavaPrimitive.Double to "D",
-            JavaPrimitive.Float to "F",
-            JavaPrimitive.Int to "I",
-            JavaPrimitive.Long to "J",
-            JavaPrimitive.Short to "S",
-            JavaPrimitive.Boolean to "Z",
-            JavaPrimitive.Void to "V"
+            JvmPrimitive.BYTE to "B",
+            JvmPrimitive.CHAR to "C",
+            JvmPrimitive.DOUBLE to "D",
+            JvmPrimitive.FLOAT to "F",
+            JvmPrimitive.INT to "I",
+            JvmPrimitive.LONG to "J",
+            JvmPrimitive.SHORT to "S",
+            JvmPrimitive.BOOLEAN to "Z",
+            JvmPrimitive.VOID to "V"
         )
 
         /**
-         * Gets the descriptor of a method with the given parameters and return type
+         * Gets the descriptor of a method with the given parameters and return type.
          *
          * @param returnType The return type of the method
          * @param params The parameter types of the method (if any)
-         * @see JavaPrimitive
+         * @see JvmPrimitive
          */
         @JvmStatic
         fun ofMethod(returnType: Class<*>, vararg params: Class<*>): String {
@@ -30,15 +30,33 @@ class Descriptor {
 
             params.forEach { builder.append(ofClass(it)) }
 
-            builder.append(")${ofClass(returnType)}")
+            builder.append(")", ofClass(returnType))
             return builder.toString()
         }
 
         /**
-         * Gets the descriptor of the given class. This should be used when supplying the type of a field
+         * Gets the descriptor of the given class.
+         */
+        @JvmStatic
+        fun ofClass(className: String): String = binaryName("L$className;")
+
+        /**
+         * Gets the descriptor of the given class.
          */
         @JvmStatic
         fun ofClass(clazz: Class<*>): String =
-            primitiveDesc[clazz] ?: (if (clazz.isArray) clazz.name else "L${clazz.name};").replace('.', '/')
+            primitiveDesc[clazz] ?: binaryName(if (clazz.isArray) clazz.name else "L${clazz.name};")
+
+        /**
+         * Gets the binary name of the given class.
+         */
+        @JvmStatic
+        fun binaryName(className: String) = className.replace('.', '/')
+
+        /**
+         * Gets the binary name of the given class.
+         */
+        @JvmStatic
+        fun binaryName(clazz: Class<*>): String = binaryName(clazz.name)
     }
 }

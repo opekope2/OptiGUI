@@ -9,7 +9,8 @@ import java.lang.invoke.MethodType
 /**
  * A Fabric Loader based dynamic linker class, which automatically remaps the supplied class name to the one used by Minecraft.
  *
- * Based on [Fabric Refection Tutorial](https://fabricmc.net/wiki/tutorial:reflection)
+ * Based on [Fabric Refection Tutorial](https://fabricmc.net/wiki/tutorial:reflection) and
+ * [MethodHandles.Lookup](https://docs.oracle.com/javase/8/docs/api/java/lang/invoke/MethodHandles.Lookup.html)
  *
  * [Mapping resolver documentation](https://maven.fabricmc.net/docs/fabric-loader-0.14.12/net/fabricmc/loader/api/MappingResolver.html)
  *
@@ -25,7 +26,85 @@ class FabricDynamicLinker @JvmOverloads constructor(
 
     override val clazz: Class<*> = Class.forName(mappingResolver.mapClassName(namespace, className))
 
-    override fun linkVirtualMethod(methodName: String, returnType: Class<*>, vararg params: Class<*>): MethodHandle? =
+    override fun findConstructor(vararg params: Class<*>): MethodHandle? =
+        catchAll {
+            lookup.findConstructor(
+                clazz,
+                MethodType.methodType(JvmPrimitive.VOID, params)
+            )
+        }
+
+    override fun findGetter(fieldName: String, fieldType: Class<*>): MethodHandle? =
+        catchAll {
+            lookup.findGetter(
+                clazz,
+                mappingResolver.mapFieldName(
+                    namespace,
+                    mappingResolver.unmapClassName(namespace, clazz.name),
+                    fieldName,
+                    Descriptor.ofClass(mappingResolver.unmapClassName(namespace, fieldType.name))
+                ),
+                fieldType
+            )
+        }
+
+    override fun findSetter(fieldName: String, fieldType: Class<*>): MethodHandle? =
+        catchAll {
+            lookup.findSetter(
+                clazz,
+                mappingResolver.mapFieldName(
+                    namespace,
+                    mappingResolver.unmapClassName(namespace, clazz.name),
+                    fieldName,
+                    Descriptor.ofClass(mappingResolver.unmapClassName(namespace, fieldType.name))
+                ),
+                fieldType
+            )
+        }
+
+    override fun findStaticMethod(methodName: String, returnType: Class<*>, vararg params: Class<*>): MethodHandle? =
+        catchAll {
+            lookup.findStatic(
+                clazz,
+                mappingResolver.mapMethodName(
+                    namespace,
+                    mappingResolver.unmapClassName(namespace, clazz.name),
+                    methodName,
+                    Descriptor.ofMethod(returnType, *params)
+                ),
+                MethodType.methodType(returnType, params)
+            )
+        }
+
+    override fun findStaticGetter(fieldName: String, fieldType: Class<*>): MethodHandle? =
+        catchAll {
+            lookup.findStaticGetter(
+                clazz,
+                mappingResolver.mapFieldName(
+                    namespace,
+                    mappingResolver.unmapClassName(namespace, clazz.name),
+                    fieldName,
+                    Descriptor.ofClass(mappingResolver.unmapClassName(namespace, fieldType.name))
+                ),
+                fieldType
+            )
+        }
+
+    override fun findStaticSetter(fieldName: String, fieldType: Class<*>): MethodHandle? =
+        catchAll {
+            lookup.findStaticSetter(
+                clazz,
+                mappingResolver.mapFieldName(
+                    namespace,
+                    mappingResolver.unmapClassName(namespace, clazz.name),
+                    fieldName,
+                    Descriptor.ofClass(mappingResolver.unmapClassName(namespace, fieldType.name))
+                ),
+                fieldType
+            )
+        }
+
+    override fun findVirtualMethod(methodName: String, returnType: Class<*>, vararg params: Class<*>): MethodHandle? =
         catchAll {
             lookup.findVirtual(
                 clazz,
