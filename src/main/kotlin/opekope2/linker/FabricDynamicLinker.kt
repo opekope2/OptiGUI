@@ -42,7 +42,7 @@ class FabricDynamicLinker @JvmOverloads constructor(
                     namespace,
                     mappingResolver.unmapClassName(namespace, clazz.name),
                     fieldName,
-                    Descriptor.ofClass(mappingResolver.unmapClassName(namespace, fieldType.name))
+                    FabricDescriptor.ofClass(fieldType)
                 ),
                 fieldType
             )
@@ -56,7 +56,7 @@ class FabricDynamicLinker @JvmOverloads constructor(
                     namespace,
                     mappingResolver.unmapClassName(namespace, clazz.name),
                     fieldName,
-                    Descriptor.ofClass(mappingResolver.unmapClassName(namespace, fieldType.name))
+                    FabricDescriptor.ofClass(fieldType)
                 ),
                 fieldType
             )
@@ -70,7 +70,7 @@ class FabricDynamicLinker @JvmOverloads constructor(
                     namespace,
                     mappingResolver.unmapClassName(namespace, clazz.name),
                     methodName,
-                    Descriptor.ofMethod(returnType, *params)
+                    FabricDescriptor.ofMethod(returnType, *params)
                 ),
                 MethodType.methodType(returnType, params)
             )
@@ -84,7 +84,7 @@ class FabricDynamicLinker @JvmOverloads constructor(
                     namespace,
                     mappingResolver.unmapClassName(namespace, clazz.name),
                     fieldName,
-                    Descriptor.ofClass(mappingResolver.unmapClassName(namespace, fieldType.name))
+                    FabricDescriptor.ofClass(fieldType)
                 ),
                 fieldType
             )
@@ -98,7 +98,7 @@ class FabricDynamicLinker @JvmOverloads constructor(
                     namespace,
                     mappingResolver.unmapClassName(namespace, clazz.name),
                     fieldName,
-                    Descriptor.ofClass(mappingResolver.unmapClassName(namespace, fieldType.name))
+                    FabricDescriptor.ofClass(fieldType)
                 ),
                 fieldType
             )
@@ -112,7 +112,7 @@ class FabricDynamicLinker @JvmOverloads constructor(
                     namespace,
                     mappingResolver.unmapClassName(namespace, clazz.name),
                     methodName,
-                    Descriptor.ofMethod(returnType, *params)
+                    FabricDescriptor.ofMethod(returnType, *params)
                 ),
                 MethodType.methodType(returnType, params)
             )
