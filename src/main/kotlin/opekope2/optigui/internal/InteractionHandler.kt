@@ -1,16 +1,24 @@
 package opekope2.optigui.internal
 
+import net.fabricmc.fabric.api.event.player.UseBlockCallback
+import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.entity.Entity
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import net.minecraft.util.hit.BlockHitResult
+import net.minecraft.util.hit.EntityHitResult
+import net.minecraft.world.World
 import opekope2.filter.Filter
 import opekope2.filter.FilterResult
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.interaction.canReplaceTexture
 
-internal object InteractionHandler {
+internal object InteractionHandler : UseBlockCallback, UseEntityCallback {
     internal var filter: Filter<Interaction, Identifier> = object : Filter<Interaction, Identifier>() {
         override fun test(value: Interaction) = FilterResult<Identifier>(skip = true)
     }
@@ -45,5 +53,25 @@ internal object InteractionHandler {
                 lastEntity = null
             }
         }
+    }
+
+    override fun interact(player: PlayerEntity, world: World, hand: Hand, hitResult: BlockHitResult): ActionResult {
+        if (world.isClient) {
+            lastBlockEntity = world.getBlockEntity(hitResult.blockPos)
+            lastEntity = null
+        }
+
+        return ActionResult.PASS
+    }
+
+    override fun interact(
+        player: PlayerEntity, world: World, hand: Hand, entity: Entity, hitResult: EntityHitResult?
+    ): ActionResult {
+        if (world.isClient) {
+            lastBlockEntity = null
+            lastEntity = entity
+        }
+
+        return ActionResult.PASS
     }
 }
