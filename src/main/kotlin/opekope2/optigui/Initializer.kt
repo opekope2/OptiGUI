@@ -1,6 +1,7 @@
 package opekope2.optigui
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
@@ -19,6 +20,7 @@ fun initialize() {
     UseBlockCallback.EVENT.register(InteractionHandler)
     UseEntityCallback.EVENT.register(InteractionHandler)
     ClientTickEvents.END_WORLD_TICK.register(InteractionHandler)
+    ClientPlayConnectionEvents.DISCONNECT.register(InteractionHandler)
 
     logger.info("OptiGUI $version initialized.")
 }

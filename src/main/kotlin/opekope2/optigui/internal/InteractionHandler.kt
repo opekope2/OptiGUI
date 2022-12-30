@@ -1,11 +1,14 @@
 package opekope2.optigui.internal
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
+import net.minecraft.client.network.ClientPlayNetworkHandler
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
@@ -22,7 +25,8 @@ import opekope2.optigui.interaction.blockEntityFactories
 import opekope2.optigui.interaction.canReplaceTexture
 import opekope2.optigui.interaction.entityFactories
 
-internal object InteractionHandler : UseBlockCallback, UseEntityCallback, ClientTickEvents.EndWorldTick {
+internal object InteractionHandler :
+    UseBlockCallback, UseEntityCallback, ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Disconnect {
     internal var filter: Filter<Interaction, Identifier> = object : Filter<Interaction, Identifier>() {
         override fun test(value: Interaction) = FilterResult<Identifier>(skip = true)
     }
@@ -83,5 +87,12 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, Client
         interactionData = lastBlockEntity?.let { blockEntityFactories[it.javaClass]?.createInteractionData(it) }
             ?: lastEntity?.let { entityFactories[it.javaClass]?.createInteractionData(it) }
                     ?: riddenEntity?.let { entityFactories[it.javaClass]?.createInteractionData(it) }
+    }
+
+    override fun onPlayDisconnect(handler: ClientPlayNetworkHandler?, client: MinecraftClient?) {
+        // Clean up, don't let memory leak. Just to be sure.
+        lastBlockEntity = null
+        lastEntity = null
+        riddenEntity = null
     }
 }
