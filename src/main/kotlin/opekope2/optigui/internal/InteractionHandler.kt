@@ -1,6 +1,9 @@
 package opekope2.optigui.internal
 
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
+import net.minecraft.entity.Entity
 import net.minecraft.util.Identifier
 import opekope2.filter.Filter
 import opekope2.filter.FilterResult
@@ -14,6 +17,8 @@ internal object InteractionHandler {
 
     private var currentScreen: HandledScreen<*>? = null
 
+    private var lastBlockEntity: BlockEntity? = null
+    private var lastEntity: Entity? = null
     private var interactionData: Any? = null
 
     @JvmStatic
@@ -27,4 +32,15 @@ internal object InteractionHandler {
             .let { if (!it.skip && it.match) it.result else null } ?: texture
     }
 
+    @JvmStatic
+    fun handleScreenChange(screen: Screen?) {
+        (screen as HandledScreen<*>?).let {
+            currentScreen = it
+
+            if (it == null) {
+                lastBlockEntity = null
+                lastEntity = null
+            }
+        }
+    }
 }
