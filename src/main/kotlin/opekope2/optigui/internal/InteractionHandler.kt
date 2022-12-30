@@ -53,7 +53,7 @@ internal object InteractionHandler :
 
     @JvmStatic
     fun handleScreenChange(screen: Screen?) {
-        (screen as HandledScreen<*>?).let {
+        (screen as? HandledScreen<*>).let {
             currentScreen = it
 
             if (it == null) {
