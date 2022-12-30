@@ -19,6 +19,9 @@ internal val filterFactories = mutableListOf<(Resource) -> Filter<Interaction, I
  * and if yes, provides a replacement texture.
  * Please note that all replaceable textures (the textures your filter may replace)
  * should be registered using [opekope2.optigui.interaction.registerReplaceableTexture] for performance reasons.
+ *
+ * Interaction data providers should be registered for every supported block entity or entity using
+ * [opekope2.optigui.interaction.registerInteractionDataFactory].
  */
 fun registerFilterFactory(factory: (Resource) -> Filter<Interaction, Identifier>?) {
     if (factory !in filterFactories) filterFactories.add(factory)

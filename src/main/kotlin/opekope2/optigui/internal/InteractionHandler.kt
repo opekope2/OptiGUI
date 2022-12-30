@@ -1,10 +1,12 @@
 package opekope2.optigui.internal
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ActionResult
@@ -16,9 +18,11 @@ import net.minecraft.world.World
 import opekope2.filter.Filter
 import opekope2.filter.FilterResult
 import opekope2.optigui.interaction.Interaction
+import opekope2.optigui.interaction.blockEntityFactories
 import opekope2.optigui.interaction.canReplaceTexture
+import opekope2.optigui.interaction.entityFactories
 
-internal object InteractionHandler : UseBlockCallback, UseEntityCallback {
+internal object InteractionHandler : UseBlockCallback, UseEntityCallback, ClientTickEvents.EndWorldTick {
     internal var filter: Filter<Interaction, Identifier> = object : Filter<Interaction, Identifier>() {
         override fun test(value: Interaction) = FilterResult<Identifier>(skip = true)
     }
@@ -73,5 +77,11 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback {
         }
 
         return ActionResult.PASS
+    }
+
+    override fun onEndTick(world: ClientWorld) {
+        interactionData = lastBlockEntity?.let { blockEntityFactories[it.javaClass]?.createInteractionData(it) }
+            ?: lastEntity?.let { entityFactories[it.javaClass]?.createInteractionData(it) }
+                    ?: riddenEntity?.let { entityFactories[it.javaClass]?.createInteractionData(it) }
     }
 }
