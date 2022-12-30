@@ -22,6 +22,9 @@ internal object InteractionHandler {
     private var interactionData: Any? = null
 
     @JvmStatic
+    var riddenEntity: Entity? = null
+
+    @JvmStatic
     fun replaceTexture(texture: Identifier): Identifier {
         // Don't bother replacing GUI texture if it's not open
         val screen = currentScreen ?: return texture
