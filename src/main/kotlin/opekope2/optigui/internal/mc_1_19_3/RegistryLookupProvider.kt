@@ -41,6 +41,6 @@ class RegistryLookupProvider : IRegistryLookupProvider {
 
         private fun <T> loadRegistry(intermediaryName: String): DefaultedRegistry<T> =
             linker.findStaticGetter(intermediaryName, DefaultedRegistry::class.java)?.invoke() as? DefaultedRegistry<T>
-                ?: throw LinkerException("Failed to load registry")
+                ?: throw LinkerException("Failed to load registry.")
     }
 }
