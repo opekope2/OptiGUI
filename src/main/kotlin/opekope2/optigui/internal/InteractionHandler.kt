@@ -20,13 +20,11 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
 import opekope2.filter.Filter
 import opekope2.filter.FilterResult
-import opekope2.optigui.interaction.Interaction
-import opekope2.optigui.interaction.blockEntityFactories
-import opekope2.optigui.interaction.canReplaceTexture
-import opekope2.optigui.interaction.entityFactories
+import opekope2.optigui.interaction.*
+import opekope2.optigui.interaction.blockEntityPreprocessors
 
-internal object InteractionHandler :
-    UseBlockCallback, UseEntityCallback, ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Disconnect {
+internal object InteractionHandler : UseBlockCallback, UseEntityCallback, ClientTickEvents.EndWorldTick,
+    ClientPlayConnectionEvents.Disconnect {
     internal var filter: Filter<Interaction, Identifier> = object : Filter<Interaction, Identifier>() {
         override fun test(value: Interaction) = FilterResult<Identifier>(skip = true)
     }
@@ -84,9 +82,9 @@ internal object InteractionHandler :
     }
 
     override fun onEndTick(world: ClientWorld) {
-        interactionData = lastBlockEntity?.let { blockEntityFactories[it.javaClass]?.createInteractionData(it) }
-            ?: lastEntity?.let { entityFactories[it.javaClass]?.createInteractionData(it) }
-                    ?: riddenEntity?.let { entityFactories[it.javaClass]?.createInteractionData(it) }
+        interactionData = lastBlockEntity?.let { blockEntityPreprocessors[it.javaClass]?.process(it) }
+            ?: lastEntity?.let { entityPreprocessors[it.javaClass]?.process(it) }
+                    ?: riddenEntity?.let { entityPreprocessors[it.javaClass]?.process(it) }
     }
 
     override fun onPlayDisconnect(handler: ClientPlayNetworkHandler?, client: MinecraftClient?) {

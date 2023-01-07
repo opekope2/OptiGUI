@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier
  * @param screenTitle The active GUI screen's title
  * @param data The interaction data returned by the interaction data provider
  *
- * @see IBlockEntityInteractionDataFactory
- * @see IEntityInteractionDataFactory
+ * @see IBlockEntityPreprocessor
+ * @see IEntityPreprocessor
  */
 class Interaction(val texture: Identifier, val screenTitle: Text, val data: Any?)
