@@ -4,7 +4,8 @@ import net.minecraft.util.Identifier
 import java.util.*
 
 /**
- * Resolves a texture path starting at [resourcePath] if it's relative.
+ * Resolves a texture path starting at [resourcePath] if it's relative. Ported from v1 codebase.
+ * Legacy code, if it works, then don't touch it.
  *
  * @param resourcePath The starting path
  * @param path The path to expand to an absolute path

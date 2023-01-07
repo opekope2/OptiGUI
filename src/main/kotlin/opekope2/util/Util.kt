@@ -7,7 +7,7 @@ import opekope2.optigui.resource.IResourceManager
  * Runs a code block and returns its result.
  * If it raises and exception, suppresses it exceptions, and returns `null`
  */
-inline fun <T> catchAll(function: () -> T): T? = try {
+internal inline fun <T> catchAll(function: () -> T): T? = try {
     function()
 } catch (_: Exception) {
     null
@@ -19,7 +19,7 @@ inline fun <T> catchAll(function: () -> T): T? = try {
  * - `false`, if the string is "false" (case-insensitive)
  * - `null` otherwise
  */
-fun String.toBoolean(): Boolean? = when (lowercase()) {
+internal fun String.toBoolean(): Boolean? = when (lowercase()) {
     "true" -> true
     "false" -> false
     else -> null
@@ -31,7 +31,7 @@ fun String.toBoolean(): Boolean? = when (lowercase()) {
  * @param id The resource identifier
  * @return The found identifier or `null` if not found
  */
-fun IResourceManager.resolveResource(id: Identifier?): Identifier? {
+internal fun IResourceManager.resolveResource(id: Identifier?): Identifier? {
     if (resourceExists(id ?: return null)) return id
 
     val idPng = Identifier(id.namespace, "${id.path}.png")
