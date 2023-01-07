@@ -28,6 +28,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, Client
     internal var filter: Filter<Interaction, Identifier> = object : Filter<Interaction, Identifier>() {
         override fun test(value: Interaction) = FilterResult<Identifier>(skip = true)
     }
+    internal var replaceableTextures = mutableSetOf<Identifier>()
 
     private var currentScreen: HandledScreen<*>? = null
 
@@ -43,7 +44,8 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, Client
         // Don't bother replacing GUI texture if it's not open
         val screen = currentScreen ?: return texture
 
-        if (!canReplaceTexture(texture)) return texture
+        // Only replace predefined textures
+        if (texture !in replaceableTextures) return texture
 
         return filter.test(Interaction(texture, screen.title, interactionData))
             .let { if (!it.skip && it.match) it.result else null } ?: texture
