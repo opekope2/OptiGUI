@@ -37,3 +37,8 @@ internal fun IResourceManager.resolveResource(id: Identifier?): Identifier? {
     val idPng = Identifier(id.namespace, "${id.path}.png")
     return if (resourceExists(idPng)) idPng else null
 }
+
+/**
+ * Trim parentheses from the start and end of a string
+ */
+fun String.trimParentheses() = trimStart('(').trimEnd(')')
