@@ -24,6 +24,7 @@ fun initialize() {
         "1.19.3" -> opekope2.optigui.internal.mc_1_19_3.initialize()
         else -> throw UnsupportedMinecraftVersionException(modVersion, gameVersion)
     }
+    opekope2.optigui.internal.mc_all.initialize()
 
     ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(ResourceLoader)
     UseBlockCallback.EVENT.register(InteractionHandler)
