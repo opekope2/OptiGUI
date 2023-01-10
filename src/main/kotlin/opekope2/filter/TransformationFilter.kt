@@ -9,7 +9,7 @@ package opekope2.filter
  * @param transform The transform to apply to the value in [test] before evaluating [filter]
  * @param filter The other filter
  */
-class TransformFilter<TSource, TFilter, TResult>(
+class TransformationFilter<TSource, TFilter, TResult>(
     private val transform: (TSource) -> TFilter,
     private val filter: Filter<TFilter, TResult>
 ) : Filter<TSource, TResult>() {
