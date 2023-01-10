@@ -1,7 +1,7 @@
 package opekope2.filter
 
 /**
- * A filter which applies a transform to the value before evaluating another filter on it
+ * A filter which applies a transform to the value before evaluating another filter on it.
  *
  * @param TSource The type this filter accepts
  * @param TFilter The type the other filter accepts

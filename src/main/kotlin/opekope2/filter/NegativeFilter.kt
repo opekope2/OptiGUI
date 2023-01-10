@@ -1,7 +1,7 @@
 package opekope2.filter
 
 /**
- * A filter, which returns the opposite result of the provided filter
+ * A filter, which returns the opposite result of the provided filter.
  *
  * @param T the type the filter accepts
  * @param filter the filter to negate
