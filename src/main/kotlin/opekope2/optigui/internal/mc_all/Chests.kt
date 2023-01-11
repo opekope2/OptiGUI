@@ -45,7 +45,7 @@ internal fun createChestFilter(resource: Resource): FilterInfo? {
     filters.addForProperty(resource, "biomes") { biomes ->
         TransformationFilter(
             { (it.data as? ChestProperties)?.biome },
-            ContainingFilter(biomes.split(' ', '\t').mapNotNull { Identifier.tryParse(it) })
+            ContainingFilter(biomes.split(*delimiters).mapNotNull { Identifier.tryParse(it) })
         )
     }
     filters.addForProperty(resource, "heights") { heights ->
@@ -54,7 +54,7 @@ internal fun createChestFilter(resource: Resource): FilterInfo? {
             NullableFilter(
                 skipOnNull = false,
                 failOnNull = true,
-                filter = DisjunctionFilter(heights.split(' ', '\t').mapNotNull { NumberOrRange.parse(it)?.toFilter() })
+                filter = DisjunctionFilter(heights.split(*delimiters).mapNotNull { NumberOrRange.parse(it)?.toFilter() })
             )
         )
     }
