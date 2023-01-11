@@ -4,7 +4,6 @@ import net.minecraft.block.entity.BeaconBlockEntity
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.util.Nameable
 import opekope2.filter.*
-import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.properties.BeaconProperties
 import opekope2.optigui.mixin.BeaconBlockEntityAccessorMixin
 import opekope2.optigui.provider.IRegistryLookupProvider
@@ -23,7 +22,7 @@ fun createBeaconFilter(resource: Resource): FilterInfo? {
         resource.resourceManager.resolveResource(resolvePath(resFolder, it))
     } ?: return null
 
-    val filters = mutableListOf<Filter<Interaction, Unit>>()
+    val filters = createGeneralFilters(resource, "beacon", BuiltinTexturePath.BEACON)
 
     filters.addForProperty(resource, "levels") { levels ->
         TransformationFilter(
