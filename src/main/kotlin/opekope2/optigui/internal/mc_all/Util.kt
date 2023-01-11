@@ -18,3 +18,5 @@ internal inline fun MutableCollection<Filter<Interaction, Unit>>.addForProperty(
     property: String,
     filterCreator: (String) -> Filter<Interaction, Unit>
 ) = addForProperty(resource, property, { it }, filterCreator)
+
+internal val delimiters = charArrayOf(' ', '\t')
