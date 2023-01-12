@@ -9,7 +9,7 @@ import opekope2.optigui.internal.properties.ChestProperties
 import opekope2.optigui.provider.IRegistryLookupProvider
 import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
-import opekope2.util.BuiltinTexturePath
+import opekope2.util.TexturePath
 import opekope2.util.resolvePath
 import opekope2.util.resolveResource
 import opekope2.util.toBoolean
@@ -17,16 +17,18 @@ import java.io.File
 import java.time.LocalDateTime
 import java.time.Month
 
+private const val container = "chest"
+private val texture = TexturePath.GENERIC_54
 private val chestTypeEnum = EnumProperty.of("type", ChestType::class.java)
 
 internal fun createChestFilter(resource: Resource): FilterInfo? {
-    if (resource.properties["container"] != "chest") return null
+    if (resource.properties["container"] != container) return null
     val resFolder = File(resource.id.path).parent.replace('\\', '/')
     val replacement = (resource.properties["texture"] as? String)?.let {
         resource.resourceManager.resolveResource(resolvePath(resFolder, it))
     } ?: return null
 
-    val filters = createGeneralFilters(resource, "chest", BuiltinTexturePath.CHEST)
+    val filters = createGeneralFilters(resource, container, texture)
 
     filters.addForProperty(resource, "large", { it.toBoolean() }) { large ->
         TransformationFilter(
@@ -55,7 +57,7 @@ internal fun createChestFilter(resource: Resource): FilterInfo? {
 
     return FilterInfo(
         OverridingFilter(ConjunctionFilter(filters), replacement),
-        setOf(BuiltinTexturePath.CHEST)
+        setOf(texture)
     )
 }
 
@@ -68,8 +70,8 @@ internal fun processChest(chest: BlockEntity): Any? {
     val type = state.entries[chestTypeEnum]
 
     return ChestProperties(
-        container = "chest",
-        texture = BuiltinTexturePath.CHEST,
+        container = container,
+        texture = texture,
         name = (chest as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, chest.pos),
         height = chest.pos.y,

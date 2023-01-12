@@ -9,20 +9,23 @@ import opekope2.optigui.mixin.BeaconBlockEntityAccessorMixin
 import opekope2.optigui.provider.IRegistryLookupProvider
 import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
-import opekope2.util.BuiltinTexturePath
 import opekope2.util.NumberOrRange
+import opekope2.util.TexturePath
 import opekope2.util.resolvePath
 import opekope2.util.resolveResource
 import java.io.File
 
+private const val container = "beacon"
+private val texture = TexturePath.BEACON
+
 fun createBeaconFilter(resource: Resource): FilterInfo? {
-    if (resource.properties["container"] != "beacon") return null
+    if (resource.properties["container"] != container) return null
     val resFolder = File(resource.id.path).parent.replace('\\', '/')
     val replacement = (resource.properties["texture"] as? String)?.let {
         resource.resourceManager.resolveResource(resolvePath(resFolder, it))
     } ?: return null
 
-    val filters = createGeneralFilters(resource, "beacon", BuiltinTexturePath.BEACON)
+    val filters = createGeneralFilters(resource, container, texture)
 
     filters.addForProperty(resource, "levels") { levels ->
         TransformationFilter(
@@ -37,7 +40,7 @@ fun createBeaconFilter(resource: Resource): FilterInfo? {
 
     return FilterInfo(
         OverridingFilter(ConjunctionFilter(filters), replacement),
-        setOf(BuiltinTexturePath.BEACON)
+        setOf(texture)
     )
 }
 
@@ -48,8 +51,8 @@ internal fun processBeacon(beacon: BlockEntity): Any? {
     val world = beacon.world ?: return null
 
     return BeaconProperties(
-        container = "beacon",
-        texture = BuiltinTexturePath.BEACON,
+        container = container,
+        texture = texture,
         name = (beacon as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, beacon.pos),
         height = beacon.pos.y,
