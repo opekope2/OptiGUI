@@ -33,7 +33,7 @@ fun createBrewingStandFilter(resource: Resource): FilterInfo? {
     )
 }
 
-internal typealias BrewingStandProperties = GeneralProperties
+private typealias BrewingStandProperties = GeneralProperties
 
 internal fun processBrewingStand(brewingStand: BlockEntity): Any? {
     if (brewingStand !is BrewingStandBlockEntity) return null

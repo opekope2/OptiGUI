@@ -33,7 +33,7 @@ fun createEnchantingTableFilter(resource: Resource): FilterInfo? {
     )
 }
 
-internal typealias EnchantingTableProperties = GeneralProperties
+private typealias EnchantingTableProperties = GeneralProperties
 
 internal fun processEnchantingTable(enchantingTable: BlockEntity): Any? {
     if (enchantingTable !is EnchantingTableBlockEntity) return null
