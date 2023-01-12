@@ -9,6 +9,7 @@ internal fun initialize() {
     // Register block entity filter factories
     registerFilterFactory(::createChestFilter)
     registerFilterFactory(::createBeaconFilter)
+    registerFilterFactory(::createDispenserFilter)
     registerFilterFactory(::createShulkerBoxFilter)
 
     // Register entity filter factories
@@ -26,6 +27,10 @@ internal fun initialize() {
     // Register preprocessor for villagers
     registerPreprocessor<VillagerEntity>(::processVillager)
     registerPreprocessor<WanderingTraderEntity>(::processVillager)
+
+    // Register preprocessor for dispenser & dropper
+    registerPreprocessor<DispenserBlockEntity>(::processDispenser)
+    registerPreprocessor<DropperBlockEntity>(::processDispenser)
 
     // Register preprocessor for shulker boxes
     registerPreprocessor<ShulkerBoxBlockEntity>(::processShulkerBox)
