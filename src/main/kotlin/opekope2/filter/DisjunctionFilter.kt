@@ -12,6 +12,11 @@ package opekope2.filter
  * @param filters The sub-filters to evaluate
  */
 class DisjunctionFilter<T>(private val filters: Iterable<Filter<T, out Any>>) : Filter<T, Unit>() {
+    /**
+     * Alternative constructor with variable arguments
+     */
+    constructor(vararg filters: Filter<T, out Any>) : this(filters.toList())
+
     override fun test(value: T): FilterResult<Unit> = filters.map { it.test(value) }.let { result ->
         if (result.all { it.skip }) FilterResult(skip = true)
         else FilterResult(skip = false, match = result.any { !it.skip && it.match })

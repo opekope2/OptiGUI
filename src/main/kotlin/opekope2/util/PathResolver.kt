@@ -20,7 +20,7 @@ fun resolvePath(resourcePath: String, path: String): Identifier? {
 
     // Because there was a resource pack with two dangling tab characters after the resource name
     tokenizer = StringTokenizer(path.trim(), ":/", true)
-    var namespace = "minecraft"
+    var namespace = Identifier.DEFAULT_NAMESPACE
     var nToken = -1
 
     while (tokenizer.hasMoreTokens()) {
