@@ -17,6 +17,7 @@ internal fun initialize() {
     registerPreprocessor<ChestBlockEntity>(::processChest)
     registerPreprocessor<TrappedChestBlockEntity>(::processChest)
     registerPreprocessor<EnderChestBlockEntity>(::processChest)
+    registerPreprocessor<BarrelBlockEntity>(::processChest)
 
     // Register preprocessor for beacon
     registerPreprocessor<BeaconBlockEntity>(::processBeacon)

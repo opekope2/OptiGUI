@@ -11,7 +11,8 @@ internal class ChestProperties(
     val large: Boolean? = null,
     val trapped: Boolean? = null,
     val christmas: Boolean? = null,
-    val ender: Boolean? = null
+    val ender: Boolean? = null,
+    val barrel: Boolean? = null
 ) : GeneralProperties(container, texture, name, biome, height) {
     override fun hashCode(): Int {
         var result = super.hashCode()
@@ -19,6 +20,7 @@ internal class ChestProperties(
         result = 31 * result + (trapped?.hashCode() ?: 0)
         result = 31 * result + (christmas?.hashCode() ?: 0)
         result = 31 * result + (ender?.hashCode() ?: 0)
+        result = 31 * result + (barrel?.hashCode() ?: 0)
         return result
     }
 
@@ -29,5 +31,6 @@ internal class ChestProperties(
                     && trapped == other.trapped
                     && christmas == other.christmas
                     && ender == other.ender
+                    && barrel == other.barrel
         else false
 }

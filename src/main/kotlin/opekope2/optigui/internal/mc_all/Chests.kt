@@ -54,6 +54,12 @@ internal fun createChestFilter(resource: Resource): FilterInfo? {
             EqualityFilter(ender)
         )
     }
+    filters.addForProperty(resource, "_barrel", { it.toBoolean() }) { barrel ->
+        TransformationFilter(
+            { (it.data as? ChestProperties)?.barrel },
+            EqualityFilter(barrel)
+        )
+    }
 
     return FilterInfo(
         OverridingFilter(ConjunctionFilter(filters), replacement),
@@ -78,7 +84,8 @@ internal fun processChest(chest: BlockEntity): Any? {
         large = type != ChestType.SINGLE,
         trapped = chest is TrappedChestBlockEntity,
         christmas = isChristmas(),
-        ender = chest is EnderChestBlockEntity
+        ender = chest is EnderChestBlockEntity,
+        barrel = chest is BarrelBlockEntity
     )
 }
 
