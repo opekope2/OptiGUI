@@ -42,3 +42,9 @@ internal fun IResourceManager.resolveResource(id: Identifier?): Identifier? {
  * Trim parentheses from the start and end of a string
  */
 fun String.trimParentheses() = trimStart('(').trimEnd(')')
+
+/**
+ * Splits a string at the given delimiters and returns every substring, which is not empty
+ */
+fun CharSequence.splitIgnoreEmpty(vararg delimiters: Char) =
+    this.split(*delimiters).filter { it.isNotEmpty() }

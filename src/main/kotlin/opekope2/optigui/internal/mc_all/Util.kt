@@ -25,6 +25,8 @@ internal inline fun MutableCollection<Filter<Interaction, Unit>>.addForProperty(
 
 internal val delimiters = charArrayOf(' ', '\t')
 
+internal const val textureFilterIndex = 1
+
 internal fun createGeneralFilters(
     resource: Resource,
     container: String,
@@ -35,6 +37,7 @@ internal fun createGeneralFilters(
             { (it.data as? GeneralProperties)?.container },
             EqualityFilter(container)
         ),
+        // textureFilterIndex
         TransformationFilter(
             { it.texture },
             EqualityFilter(texturePath)
