@@ -12,7 +12,7 @@ internal class ShulkerBoxProperties(
 ) : GeneralProperties(container, texture, name, biome, height) {
     override fun hashCode(): Int {
         var result = super.hashCode()
-        result = 31 * result + (color?.hashCode() ?: 0)
+        result = 31 * result + color.hashCode()
         return result
     }
 

@@ -12,8 +12,8 @@ internal open class GeneralProperties(
     override fun hashCode(): Int {
         var result = container.hashCode()
         result = 31 * result + texture.hashCode()
-        result = 31 * result + (name?.hashCode() ?: 0)
-        result = 31 * result + (biome?.hashCode() ?: 0)
+        result = 31 * result + name.hashCode()
+        result = 31 * result + biome.hashCode()
         result = 31 * result + height
         return result
     }
