@@ -11,10 +11,7 @@ import opekope2.optigui.internal.properties.VillagerProperties
 import opekope2.optigui.provider.IRegistryLookupProvider
 import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
-import opekope2.util.TexturePath
-import opekope2.util.parseProfession
-import opekope2.util.resolvePath
-import opekope2.util.resolveResource
+import opekope2.util.*
 import java.io.File
 
 private const val container = "villager"
@@ -30,8 +27,11 @@ internal fun createVillagerFilter(resource: Resource): FilterInfo? {
 
     val filters = createGeneralFilters(resource, container, texture)
 
-    filters.addForProperty(resource, "professions") { name ->
-        val professions = name.split(*delimiters).mapNotNull { parseProfession(it) }
+    filters.addForProperty(
+        resource,
+        "professions",
+        { it.splitIgnoreEmpty(*delimiters).mapNotNull(::parseProfession) }
+    ) { professions ->
         val professionFilters: Collection<Filter<Interaction, Unit>> = professions.map { (profession, levels) ->
             ConjunctionFilter(
                 TransformationFilter(

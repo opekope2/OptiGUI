@@ -9,10 +9,7 @@ import opekope2.optigui.mixin.BeaconBlockEntityAccessorMixin
 import opekope2.optigui.provider.IRegistryLookupProvider
 import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
-import opekope2.util.NumberOrRange
-import opekope2.util.TexturePath
-import opekope2.util.resolvePath
-import opekope2.util.resolveResource
+import opekope2.util.*
 import java.io.File
 
 private const val container = "beacon"
@@ -27,13 +24,13 @@ fun createBeaconFilter(resource: Resource): FilterInfo? {
 
     val filters = createGeneralFilters(resource, container, texture)
 
-    filters.addForProperty(resource, "levels") { levels ->
+    filters.addForProperty(resource, "levels", { it.splitIgnoreEmpty(*delimiters) }) { levels ->
         TransformationFilter(
             { (it.data as? BeaconProperties)?.level },
             NullableFilter(
                 skipOnNull = false,
                 failOnNull = true,
-                filter = DisjunctionFilter(levels.split(*delimiters).mapNotNull { NumberOrRange.parse(it)?.toFilter() })
+                filter = DisjunctionFilter(levels.mapNotNull { NumberOrRange.parse(it)?.toFilter() })
             )
         )
     }

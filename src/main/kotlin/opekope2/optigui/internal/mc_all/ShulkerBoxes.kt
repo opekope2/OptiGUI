@@ -11,6 +11,7 @@ import opekope2.optigui.resource.Resource
 import opekope2.util.TexturePath
 import opekope2.util.resolvePath
 import opekope2.util.resolveResource
+import opekope2.util.splitIgnoreEmpty
 import java.io.File
 
 private const val container = "shulker_box"
@@ -25,10 +26,10 @@ internal fun createShulkerBoxFilter(resource: Resource): FilterInfo? {
 
     val filters = createGeneralFilters(resource, container, texture)
 
-    filters.addForProperty(resource, "colors") { large ->
+    filters.addForProperty(resource, "colors", { it.splitIgnoreEmpty(*delimiters) }) { colors ->
         TransformationFilter(
             { (it.data as? ShulkerBoxProperties)?.color },
-            ContainingFilter(large.split(*delimiters))
+            ContainingFilter(colors)
         )
     }
 

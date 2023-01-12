@@ -7,6 +7,7 @@ import opekope2.optigui.internal.properties.GeneralProperties
 import opekope2.optigui.resource.Resource
 import opekope2.util.NumberOrRange
 import opekope2.util.parseWildcardOrRegex
+import opekope2.util.splitIgnoreEmpty
 
 internal inline fun <T> MutableCollection<Filter<Interaction, Unit>>.addForProperty(
     resource: Resource,
@@ -53,7 +54,7 @@ internal fun createGeneralFilters(
     filters.addForProperty(resource, "biomes") { biomes ->
         TransformationFilter(
             { (it.data as? GeneralProperties)?.biome },
-            ContainingFilter(biomes.split(*delimiters).mapNotNull { Identifier.tryParse(it) })
+            ContainingFilter(biomes.splitIgnoreEmpty(*delimiters).mapNotNull(Identifier::tryParse))
         )
     }
     filters.addForProperty(resource, "heights") { heights ->
@@ -63,7 +64,7 @@ internal fun createGeneralFilters(
                 skipOnNull = false,
                 failOnNull = true,
                 filter = DisjunctionFilter(
-                    heights.split(*delimiters).mapNotNull { NumberOrRange.parse(it)?.toFilter() })
+                    heights.splitIgnoreEmpty(*delimiters).mapNotNull { NumberOrRange.parse(it)?.toFilter() })
             )
         )
     }

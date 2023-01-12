@@ -12,6 +12,7 @@ import opekope2.optigui.resource.Resource
 import opekope2.util.TexturePath
 import opekope2.util.resolvePath
 import opekope2.util.resolveResource
+import opekope2.util.splitIgnoreEmpty
 import java.io.File
 
 private const val container = "dispenser"
@@ -26,10 +27,10 @@ fun createDispenserFilter(resource: Resource): FilterInfo? {
 
     val filters = createGeneralFilters(resource, container, texture)
 
-    filters.addForProperty(resource, "variants") { variants ->
+    filters.addForProperty(resource, "variants", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
         TransformationFilter(
             { (it.data as? DispenserProperties)?.variant },
-            ContainingFilter(variants.split(*delimiters))
+            ContainingFilter(variants)
         )
     }
 
@@ -45,7 +46,7 @@ internal fun processDispenser(dispenser: BlockEntity): Any? {
 
     val world = dispenser.world ?: return null
 
-    val variant = when(dispenser){
+    val variant = when (dispenser) {
         is DropperBlockEntity -> "dropper"
         else -> "dispenser"
     }
