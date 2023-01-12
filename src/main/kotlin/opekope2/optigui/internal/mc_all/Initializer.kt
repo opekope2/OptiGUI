@@ -12,6 +12,7 @@ internal fun initialize() {
     registerFilterFactory(::createBrewingStandFilter)
     registerFilterFactory(::createEnchantingTableFilter)
     registerFilterFactory(::createFurnaceFilter)
+    registerFilterFactory(::createHopperFilter)
 
     registerFilterFactory(::createChestFilter)
     registerFilterFactory(::createBeaconFilter)
@@ -32,6 +33,9 @@ internal fun initialize() {
     registerPreprocessor<FurnaceBlockEntity>(::processFurnace)
     registerPreprocessor<BlastFurnaceBlockEntity>(::processFurnace)
     registerPreprocessor<SmokerBlockEntity>(::processFurnace)
+
+    // Register preprocessor for hopper
+    registerPreprocessor<HopperBlockEntity>(::processHopper)
 
     // Register preprocessor for chests
     registerPreprocessor<ChestBlockEntity>(::processChest)
