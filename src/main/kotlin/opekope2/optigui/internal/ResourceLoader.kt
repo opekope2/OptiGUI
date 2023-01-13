@@ -36,9 +36,9 @@ internal object ResourceLoader : SimpleSynchronousResourceReloadListener {
 
     private class CascadeFilter(private val filters: Iterable<Filter<Interaction, Identifier>>) :
         Filter<Interaction, Identifier>() {
-        override fun test(value: Interaction): FilterResult<out Identifier> {
+        override fun evaluate(value: Interaction): FilterResult<out Identifier> {
             filters.forEach { filter ->
-                filter.test(value).let { if (!it.skip && it.match && it.result != null) return it }
+                filter.evaluate(value).let { if (!it.skip && it.match && it.result != null) return it }
             }
             return FilterResult(skip = true)
         }

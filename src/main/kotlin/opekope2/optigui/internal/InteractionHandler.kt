@@ -26,7 +26,7 @@ import opekope2.optigui.interaction.blockEntityPreprocessors
 internal object InteractionHandler : UseBlockCallback, UseEntityCallback, ClientTickEvents.EndWorldTick,
     ClientPlayConnectionEvents.Disconnect {
     internal var filter: Filter<Interaction, Identifier> = object : Filter<Interaction, Identifier>() {
-        override fun test(value: Interaction) = FilterResult<Identifier>(skip = true)
+        override fun evaluate(value: Interaction) = FilterResult<Identifier>(skip = true)
     }
     internal var replaceableTextures = mutableSetOf<Identifier>()
 
@@ -47,7 +47,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, Client
         // Only replace predefined textures
         if (texture !in replaceableTextures) return texture
 
-        return filter.test(Interaction(texture, screen.title, interactionData))
+        return filter.evaluate(Interaction(texture, screen.title, interactionData))
             .let { if (!it.skip && it.match) it.result else null } ?: texture
     }
 

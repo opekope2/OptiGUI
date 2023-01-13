@@ -15,7 +15,7 @@ class NullableFilter<T, TResult>(
     val failOnNull: Boolean,
     val filter: Filter<T, TResult>
 ) : Filter<T?, TResult>() {
-    override fun test(value: T?): FilterResult<out TResult> =
+    override fun evaluate(value: T?): FilterResult<out TResult> =
         if (value == null) FilterResult(skip = skipOnNull, match = !failOnNull)
-        else filter.test(value)
+        else filter.evaluate(value)
 }

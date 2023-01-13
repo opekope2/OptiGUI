@@ -24,7 +24,7 @@ fun interface IBlockEntityPreprocessor {
      * Processes a block entity.
      *
      * @param blockEntity The source block entity
-     * @return An object, which will be included in [Interaction.data], and processed by [opekope2.filter.Filter.test]
+     * @return An object, which will be included in [Interaction.data], and processed by [opekope2.filter.Filter.evaluate]
      */
     fun process(blockEntity: BlockEntity): Any?
 }
@@ -48,7 +48,7 @@ fun interface IEntityPreprocessor {
      * Creates an interaction data based on a block entity.
      *
      * @param entity The source entity
-     * @return An object, which will be included in [Interaction.data], and processed by [opekope2.filter.Filter.test]
+     * @return An object, which will be included in [Interaction.data], and processed by [opekope2.filter.Filter.evaluate]
      */
     fun process(entity: Entity): Any?
 }
