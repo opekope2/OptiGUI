@@ -22,6 +22,12 @@ internal val filterFactories = mutableSetOf<(Resource) -> FilterInfo?>()
  * Block entity preprocessors and entity preprocessors supply the [Interaction.data] of the filter the factory creates,
  * which can be registered for every supported block entity and entity using [registerPreprocessor].
  *
+ * To process anything other than block entities and entities, (for example, creative inventory, anvil screen,
+ * most villager job sites), preprocessors are not available. Processing takes place in the filter created by [factory].
+ * For example, add a [TransformationFilter] to provide [Interaction.data] using [Interaction.copy], then pass
+ * the new interaction to other filters. You can add a texture filter in front of processing to avoid unnecessary
+ * computing.
+ *
  * @param factory The filter factory to register
  */
 fun registerFilterFactory(factory: (Resource) -> FilterInfo?) {

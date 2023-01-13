@@ -36,6 +36,8 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, Client
     private var lastEntity: Entity? = null
     private var interactionData: Any? = null
 
+    private var rawInteraction: RawInteraction? = null
+
     @JvmStatic
     var riddenEntity: Entity? = null
 
@@ -47,7 +49,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, Client
         // Only replace predefined textures
         if (texture !in replaceableTextures) return texture
 
-        return filter.evaluate(Interaction(texture, screen.title, interactionData))
+        return filter.evaluate(Interaction(texture, screen.title, rawInteraction, interactionData))
             .let { if (!it.skip && it.match) it.result else null } ?: texture
     }
 
@@ -59,6 +61,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, Client
             if (it == null) {
                 lastBlockEntity = null
                 lastEntity = null
+                rawInteraction = null
             }
         }
     }
@@ -67,6 +70,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, Client
         if (world.isClient) {
             lastBlockEntity = world.getBlockEntity(hitResult.blockPos)
             lastEntity = null
+            rawInteraction = RawInteraction(player, world, hand, hitResult)
         }
 
         return ActionResult.PASS
@@ -78,6 +82,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, Client
         if (world.isClient) {
             lastBlockEntity = null
             lastEntity = entity
+            rawInteraction = RawInteraction(player, world, hand, hitResult)
         }
 
         return ActionResult.PASS
@@ -94,5 +99,6 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, Client
         lastBlockEntity = null
         lastEntity = null
         riddenEntity = null
+        rawInteraction = null
     }
 }
