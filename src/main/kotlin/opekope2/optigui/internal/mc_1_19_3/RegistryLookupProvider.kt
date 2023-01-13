@@ -1,6 +1,8 @@
 package opekope2.optigui.internal.mc_1_19_3
 
 import net.minecraft.block.Block
+import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
 import net.minecraft.registry.DefaultedRegistry
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -19,6 +21,13 @@ class RegistryLookupProvider : IRegistryLookupProvider {
     private val blockRegistry: DefaultedRegistry<Block> = loadRegistry("field_41175")
 
     /**
+     * The entity type registry (Registries.ENTITY_TYPE).
+     *
+     * [Documentation (1.19.3)](https://maven.fabricmc.net/docs/yarn-1.19.3+build.5/net/minecraft/registry/Registries.html#ENTITY_TYPE)
+     */
+    private val entityTypeRegistry: DefaultedRegistry<EntityType<*>> = loadRegistry("field_41177")
+
+    /**
      * The villager profession registry (Registries.VILLAGER_PROFESSION).
      *
      * [Documentation (1.19.3)](https://maven.fabricmc.net/docs/yarn-1.19.3+build.5/net/minecraft/registry/Registries.html#VILLAGER_PROFESSION)
@@ -26,6 +35,8 @@ class RegistryLookupProvider : IRegistryLookupProvider {
     private val villagerProfessionRegistry: DefaultedRegistry<VillagerProfession> = loadRegistry("field_41195")
 
     override fun lookupBlockId(block: Block): Identifier = blockRegistry.getId(block)
+
+    override fun lookupEntityId(entity: Entity): Identifier = entityTypeRegistry.getId(entity.type)
 
     override fun lookupBiome(world: World, pos: BlockPos): Identifier? =
         world.getBiome(pos).key.let { if (it.isPresent) it.get().value else null }
