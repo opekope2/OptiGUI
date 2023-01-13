@@ -11,9 +11,9 @@ package opekope2.filter
  * @param filter The filter to evaluate
  */
 class NullableFilter<T, TResult>(
-    val skipOnNull: Boolean,
-    val failOnNull: Boolean,
-    val filter: Filter<T, TResult>
+    private val skipOnNull: Boolean,
+    private val failOnNull: Boolean,
+    private val filter: Filter<T, TResult>
 ) : Filter<T?, TResult>() {
     override fun evaluate(value: T?): FilterResult<out TResult> =
         if (value == null) FilterResult(skip = skipOnNull, match = !failOnNull)
