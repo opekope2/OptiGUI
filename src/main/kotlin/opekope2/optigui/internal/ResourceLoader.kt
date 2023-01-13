@@ -19,19 +19,26 @@ internal object ResourceLoader : SimpleSynchronousResourceReloadListener {
     override fun reload(manager: ResourceManager) {
         val wrapper = resourceManagerProvider.wrapResourceManager(manager)
         val filters = mutableListOf<Filter<Interaction, Identifier>>()
+        val replaceableTextures = mutableSetOf<Identifier>()
 
         for (resource in wrapper.findResources("optifine/gui/container") { it.toString().endsWith(".properties") }) {
-            filterFactories.forEach { it(Resource(wrapper, resource))?.let { filters.add(it) } }
+            filterFactories.forEach {
+                it(Resource(wrapper, resource))?.let {
+                    filters.add(it.filter)
+                    replaceableTextures.addAll(it.replaceableTextures)
+                }
+            }
         }
 
         InteractionHandler.filter = CascadeFilter(filters)
+        InteractionHandler.replaceableTextures = replaceableTextures
     }
 
     private class CascadeFilter(private val filters: Iterable<Filter<Interaction, Identifier>>) :
         Filter<Interaction, Identifier>() {
-        override fun test(value: Interaction): FilterResult<out Identifier> {
+        override fun evaluate(value: Interaction): FilterResult<out Identifier> {
             filters.forEach { filter ->
-                filter.test(value).let { if (!it.skip && it.match && it.result != null) return it }
+                filter.evaluate(value).let { if (!it.skip && it.match && it.result != null) return it }
             }
             return FilterResult(skip = true)
         }

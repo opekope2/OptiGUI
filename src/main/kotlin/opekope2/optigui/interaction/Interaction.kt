@@ -8,9 +8,15 @@ import net.minecraft.util.Identifier
  *
  * @param texture The texture to be replaced.
  * @param screenTitle The active GUI screen's title
+ * @param rawInteraction The raw interaction from Minecraft containing the details. See [RawInteraction] documentation
  * @param data The interaction data returned by the interaction data provider
  *
- * @see IBlockEntityInteractionDataFactory
- * @see IEntityInteractionDataFactory
+ * @see IBlockEntityPreprocessor
+ * @see IEntityPreprocessor
  */
-class Interaction(val texture: Identifier, val screenTitle: Text, val data: Any?)
+data class Interaction(
+    val texture: Identifier,
+    val screenTitle: Text,
+    val rawInteraction: RawInteraction?,
+    val data: Any?
+)

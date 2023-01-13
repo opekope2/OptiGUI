@@ -20,22 +20,23 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
 import opekope2.filter.Filter
 import opekope2.filter.FilterResult
-import opekope2.optigui.interaction.Interaction
-import opekope2.optigui.interaction.blockEntityFactories
-import opekope2.optigui.interaction.canReplaceTexture
-import opekope2.optigui.interaction.entityFactories
+import opekope2.optigui.interaction.*
+import opekope2.optigui.interaction.blockEntityPreprocessors
 
-internal object InteractionHandler :
-    UseBlockCallback, UseEntityCallback, ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Disconnect {
+internal object InteractionHandler : UseBlockCallback, UseEntityCallback, ClientTickEvents.EndWorldTick,
+    ClientPlayConnectionEvents.Disconnect {
     internal var filter: Filter<Interaction, Identifier> = object : Filter<Interaction, Identifier>() {
-        override fun test(value: Interaction) = FilterResult<Identifier>(skip = true)
+        override fun evaluate(value: Interaction) = FilterResult<Identifier>(skip = true)
     }
+    internal var replaceableTextures = mutableSetOf<Identifier>()
 
     private var currentScreen: HandledScreen<*>? = null
 
     private var lastBlockEntity: BlockEntity? = null
     private var lastEntity: Entity? = null
     private var interactionData: Any? = null
+
+    private var rawInteraction: RawInteraction? = null
 
     @JvmStatic
     var riddenEntity: Entity? = null
@@ -45,9 +46,10 @@ internal object InteractionHandler :
         // Don't bother replacing GUI texture if it's not open
         val screen = currentScreen ?: return texture
 
-        if (!canReplaceTexture(texture)) return texture
+        // Only replace predefined textures
+        if (texture !in replaceableTextures) return texture
 
-        return filter.test(Interaction(texture, screen.title, interactionData))
+        return filter.evaluate(Interaction(texture, screen.title, rawInteraction, interactionData))
             .let { if (!it.skip && it.match) it.result else null } ?: texture
     }
 
@@ -59,6 +61,7 @@ internal object InteractionHandler :
             if (it == null) {
                 lastBlockEntity = null
                 lastEntity = null
+                rawInteraction = null
             }
         }
     }
@@ -67,6 +70,7 @@ internal object InteractionHandler :
         if (world.isClient) {
             lastBlockEntity = world.getBlockEntity(hitResult.blockPos)
             lastEntity = null
+            rawInteraction = RawInteraction(player, world, hand, hitResult)
         }
 
         return ActionResult.PASS
@@ -78,15 +82,16 @@ internal object InteractionHandler :
         if (world.isClient) {
             lastBlockEntity = null
             lastEntity = entity
+            rawInteraction = RawInteraction(player, world, hand, hitResult)
         }
 
         return ActionResult.PASS
     }
 
     override fun onEndTick(world: ClientWorld) {
-        interactionData = lastBlockEntity?.let { blockEntityFactories[it.javaClass]?.createInteractionData(it) }
-            ?: lastEntity?.let { entityFactories[it.javaClass]?.createInteractionData(it) }
-                    ?: riddenEntity?.let { entityFactories[it.javaClass]?.createInteractionData(it) }
+        interactionData = lastBlockEntity?.let { blockEntityPreprocessors[it.javaClass]?.process(it) }
+            ?: lastEntity?.let { entityPreprocessors[it.javaClass]?.process(it) }
+                    ?: riddenEntity?.let { entityPreprocessors[it.javaClass]?.process(it) }
     }
 
     override fun onPlayDisconnect(handler: ClientPlayNetworkHandler?, client: MinecraftClient?) {
@@ -94,5 +99,6 @@ internal object InteractionHandler :
         lastBlockEntity = null
         lastEntity = null
         riddenEntity = null
+        rawInteraction = null
     }
 }

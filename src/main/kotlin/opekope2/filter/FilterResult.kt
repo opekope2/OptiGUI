@@ -3,6 +3,7 @@ package opekope2.filter
 /**
  * Represents a filter result.
  *
+ * @param T The type a [Filter] yields if the result is a match
  * @param skip Whether the result indicates that it should be skipped
  * @param match `true` if the result is a match, `false` if it's a mismatch
  * @param result The optional result
