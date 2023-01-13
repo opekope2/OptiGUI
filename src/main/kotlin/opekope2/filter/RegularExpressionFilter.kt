@@ -6,5 +6,5 @@ package opekope2.filter
  * @param regex The regular expression to filter with
  */
 class RegularExpressionFilter(private val regex: Regex) : Filter<String, Unit>() {
-    override fun test(value: String): FilterResult<out Unit> = FilterResult(skip = false, match = regex.matches(value))
+    override fun evaluate(value: String): FilterResult<out Unit> = FilterResult(skip = false, match = regex.matches(value))
 }
