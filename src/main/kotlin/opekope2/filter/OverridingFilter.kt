@@ -13,5 +13,6 @@ package opekope2.filter
  */
 class OverridingFilter<T, TResult>(private val filter: Filter<T, out Any>, private val result: TResult) :
     Filter<T, TResult>() {
-    override fun evaluate(value: T) = filter.evaluate(value).let { FilterResult(it.skip, it.match, result) }
+    override fun evaluate(value: T): FilterResult<out TResult> =
+        filter.evaluate(value).let { FilterResult(it.skip, it.match, result) }
 }
