@@ -9,6 +9,7 @@ import opekope2.optigui.interaction.registerPreprocessor
 
 internal fun initialize() {
     // Register block entity filter factories
+    registerFilterFactory(::createAnvilFilter)
     registerFilterFactory(::createBrewingStandFilter)
     registerFilterFactory(::createEnchantingTableFilter)
     registerFilterFactory(::createFurnaceFilter)
