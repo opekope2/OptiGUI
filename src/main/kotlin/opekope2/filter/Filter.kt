@@ -1,17 +1,17 @@
 package opekope2.filter
 
 /**
- * Base class for all filters.
+ * Functional interface for filtering.
  *
  * @param T The type the filter accepts
- * @param TResult the type the filter returns
+ * @param TResult The type the filter returns
  */
-abstract class Filter<T, TResult> {
+fun interface Filter<T, TResult> {
     /**
      * Evaluates the filter with the given value.
      *
      * @param value The value the filter should evaluate
      * @return The result of the filter, which optionally includes a replacement
      */
-    abstract fun evaluate(value: T): FilterResult<out TResult>
+    fun evaluate(value: T): FilterResult<out TResult>
 }
