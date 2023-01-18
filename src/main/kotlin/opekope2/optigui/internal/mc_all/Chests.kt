@@ -33,31 +33,40 @@ internal fun createChestFilter(resource: Resource): FilterInfo? {
     filters.addForProperty(resource, "large", { it.toBoolean() }) { large ->
         TransformationFilter(
             { (it.data as? ChestProperties)?.large },
-            EqualityFilter(large)
+            createOptionalEqualityFilter(large)
         )
     }
     filters.addForProperty(resource, "trapped", { it.toBoolean() }) { trapped ->
         TransformationFilter(
             { (it.data as? ChestProperties)?.trapped },
-            EqualityFilter(trapped)
+            createOptionalEqualityFilter(trapped)
         )
     }
     filters.addForProperty(resource, "christmas", { it.toBoolean() }) { christmas ->
         TransformationFilter(
             { (it.data as? ChestProperties)?.christmas },
-            EqualityFilter(christmas)
+            createOptionalEqualityFilter(christmas)
         )
     }
     filters.addForProperty(resource, "ender", { it.toBoolean() }) { ender ->
         TransformationFilter(
             { (it.data as? ChestProperties)?.ender },
-            EqualityFilter(ender)
+            createOptionalEqualityFilter(ender)
         )
     }
-    filters.addForProperty(resource, "_barrel", { it.toBoolean() }) { barrel ->
-        TransformationFilter(
+
+    // _barrel needs to be opted in explicitly for compatibility
+    if (resource.properties.containsKey("_barrel")) {
+        filters.addForProperty(resource, "_barrel", { it.toBoolean() }) { barrel ->
+            TransformationFilter(
+                { (it.data as? ChestProperties)?.barrel },
+                createOptionalEqualityFilter(barrel)
+            )
+        }
+    } else {
+        filters += TransformationFilter(
             { (it.data as? ChestProperties)?.barrel },
-            EqualityFilter(barrel)
+            EqualityFilter(false)
         )
     }
 
@@ -90,3 +99,7 @@ internal fun processChest(chest: BlockEntity): Any? {
 }
 
 private fun isChristmas(): Boolean = LocalDateTime.now().let { it.month == Month.DECEMBER && it.dayOfMonth in 24..26 }
+
+private fun <T> createOptionalEqualityFilter(expectedValue: T?): Filter<T, Unit> =
+    if (expectedValue == null) StaticFilter(FilterResult(skip = false, match = true))
+    else EqualityFilter(expectedValue)
