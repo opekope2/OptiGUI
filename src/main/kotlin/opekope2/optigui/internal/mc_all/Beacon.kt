@@ -27,9 +27,10 @@ fun createBeaconFilter(resource: Resource): FilterInfo? {
     filters.addForProperty(resource, "levels", { it.splitIgnoreEmpty(*delimiters) }) { levels ->
         TransformationFilter(
             { (it.data as? BeaconProperties)?.level },
-            NullableFilter(
+            NullSafeFilter(
                 skipOnNull = false,
                 failOnNull = true,
+                // can't process null
                 filter = DisjunctionFilter(levels.mapNotNull { NumberOrRange.parse(it)?.toFilter() })
             )
         )

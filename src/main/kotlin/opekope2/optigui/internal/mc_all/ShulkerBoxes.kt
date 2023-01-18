@@ -29,7 +29,7 @@ internal fun createShulkerBoxFilter(resource: Resource): FilterInfo? {
     filters.addForProperty(resource, "colors", { it.splitIgnoreEmpty(*delimiters) }) { colors ->
         TransformationFilter(
             { (it.data as? ShulkerBoxProperties)?.color },
-            ContainingFilter(colors)
+            ContainingFilter(colors) // colors can't contain null
         )
     }
 

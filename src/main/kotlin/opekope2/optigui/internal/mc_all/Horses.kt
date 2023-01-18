@@ -31,7 +31,7 @@ fun createHorseFilter(resource: Resource): FilterInfo? {
     filters.addForProperty(resource, "variants", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
         TransformationFilter(
             { (it.data as? HorseProperties)?.variant },
-            ContainingFilter(variants)
+            ContainingFilter(variants) // variants can't contain null
         )
     }
 

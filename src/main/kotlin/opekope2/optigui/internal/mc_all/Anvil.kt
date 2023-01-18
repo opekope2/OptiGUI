@@ -28,7 +28,8 @@ fun createAnvilFilter(resource: Resource): FilterInfo? {
         OverridingFilter(
             TransformationFilter(
                 ::processAnvilInteraction,
-                NullableFilter(
+                // Fail if not anvil
+                NullSafeFilter(
                     skipOnNull = false,
                     failOnNull = true,
                     filter = ConjunctionFilter(filters)

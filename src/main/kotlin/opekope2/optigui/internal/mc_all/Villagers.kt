@@ -36,17 +36,14 @@ internal fun createVillagerFilter(resource: Resource): FilterInfo? {
             ConjunctionFilter(
                 TransformationFilter(
                     { (it.data as? VillagerProperties)?.profession },
-                    NullableFilter(
-                        skipOnNull = false,
-                        failOnNull = true,
-                        filter = EqualityFilter(profession)
-                    )
+                    EqualityFilter(profession) // null != profession
                 ),
                 TransformationFilter(
                     { (it.data as? VillagerProperties)?.level },
-                    NullableFilter(
+                    NullSafeFilter(
                         skipOnNull = false,
                         failOnNull = true,
+                        // can't process null
                         filter = DisjunctionFilter(levels.mapNotNull { it.toFilter() })
                     )
                 )
