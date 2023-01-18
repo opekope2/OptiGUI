@@ -11,7 +11,7 @@ package opekope2.filter
  * @param T The type the filter accepts
  * @param filters The sub-filters to evaluate
  */
-class DisjunctionFilter<T>(private val filters: Iterable<Filter<T, out Any>>) : Filter<T, Unit>() {
+class DisjunctionFilter<T>(private val filters: Iterable<Filter<T, out Any>>) : Filter<T, Unit> {
     /**
      * Alternative constructor with variable arguments
      */

@@ -12,6 +12,6 @@ package opekope2.filter
 class TransformationFilter<TSource, TFilter, TResult>(
     private val transform: (TSource) -> TFilter,
     private val filter: Filter<TFilter, TResult>
-) : Filter<TSource, TResult>() {
+) : Filter<TSource, TResult> {
     override fun evaluate(value: TSource) = filter.evaluate(transform(value))
 }

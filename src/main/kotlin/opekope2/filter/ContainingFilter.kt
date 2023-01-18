@@ -7,6 +7,6 @@ package opekope2.filter
  * @param T The type the filter accepts
  * @param collection The collection to check for the input
  */
-class ContainingFilter<T>(private val collection: Collection<T>) : Filter<T, Unit>() {
+class ContainingFilter<T>(private val collection: Collection<T>) : Filter<T, Unit> {
     override fun evaluate(value: T): FilterResult<out Unit> = FilterResult(skip = false, match = value in collection)
 }
