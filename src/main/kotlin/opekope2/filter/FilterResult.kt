@@ -24,7 +24,7 @@ class FilterResult<T> @JvmOverloads constructor(skip: Boolean, match: Boolean = 
 
     /**
      * The optional result.
-     * `null`, if [skip] is `true` (and doesn't have a meaning).
+     * `null`, if [skip] is `true` or [match] is `false` (and doesn't have a meaning).
      */
     var result: T? = null
         private set
@@ -33,7 +33,9 @@ class FilterResult<T> @JvmOverloads constructor(skip: Boolean, match: Boolean = 
         this.skip = skip
         if (!skip) {
             this.match = match
-            this.result = result
+            if (match) {
+                this.result = result
+            }
         }
     }
 }
