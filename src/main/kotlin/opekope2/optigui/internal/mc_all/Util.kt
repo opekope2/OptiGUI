@@ -26,45 +26,59 @@ internal inline fun MutableCollection<Filter<Interaction, Unit>>.addForProperty(
 
 internal val delimiters = charArrayOf(' ', '\t')
 
-internal const val textureFilterIndex = 1
-
 internal fun createGeneralFilters(
     resource: Resource,
     container: String,
     texturePath: Identifier
 ): MutableList<Filter<Interaction, Unit>> {
+    val filters = createGeneralFilters(resource, container)
+
+    filters += TransformationFilter(
+        { it.texture },
+        EqualityFilter(texturePath)
+    )
+
+    return filters
+}
+
+internal fun createGeneralFilters(
+    resource: Resource,
+    container: String
+): MutableList<Filter<Interaction, Unit>> {
     val filters = mutableListOf<Filter<Interaction, Unit>>(
         TransformationFilter(
             { (it.data as? GeneralProperties)?.container },
-            EqualityFilter(container)
-        ),
-        // textureFilterIndex
-        TransformationFilter(
-            { it.texture },
-            EqualityFilter(texturePath)
+            EqualityFilter(container) // null != container
         )
     )
 
     filters.addForProperty(resource, "name") { name ->
         TransformationFilter(
-            { (it.data as? GeneralProperties)?.name ?: it.screenTitle.string },
+            { (it.data as? GeneralProperties)?.name ?: it.screenTitle.string }, // not null
             RegularExpressionFilter(parseWildcardOrRegex(name))
         )
     }
-    filters.addForProperty(resource, "biomes") { biomes ->
+    filters.addForProperty(
+        resource,
+        "biomes",
+        { it.splitIgnoreEmpty(*delimiters).mapNotNull(Identifier::tryParse) }
+    ) { biomes ->
         TransformationFilter(
             { (it.data as? GeneralProperties)?.biome },
-            ContainingFilter(biomes.splitIgnoreEmpty(*delimiters).mapNotNull(Identifier::tryParse))
+            ContainingFilter(biomes) // biomes can't contain null
         )
     }
-    filters.addForProperty(resource, "heights") { heights ->
+    filters.addForProperty(
+        resource,
+        "heights",
+        { value -> value.splitIgnoreEmpty(*delimiters).mapNotNull { NumberOrRange.parse(it)?.toFilter() } }
+    ) { heights ->
         TransformationFilter(
             { (it.data as? GeneralProperties)?.height },
-            NullableFilter(
+            NullSafeFilter(
                 skipOnNull = false,
                 failOnNull = true,
-                filter = DisjunctionFilter(
-                    heights.splitIgnoreEmpty(*delimiters).mapNotNull { NumberOrRange.parse(it)?.toFilter() })
+                filter = DisjunctionFilter(heights) // can't process null
             )
         )
     }
