@@ -4,7 +4,7 @@ package opekope2.filter
  * Base class for all filters.
  *
  * @param T The type the filter accepts
- * @param TResult the type the filter returns
+ * @param TResult The type the filter returns
  */
 abstract class Filter<T, TResult> {
     /**
