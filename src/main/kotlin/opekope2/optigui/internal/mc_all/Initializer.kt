@@ -11,6 +11,7 @@ internal fun initialize() {
     // Register block entity filter factories
     registerFilterFactory(::createAnvilFilter)
     registerFilterFactory(::createBrewingStandFilter)
+    registerFilterFactory(::createCraftingTableFilter)
     registerFilterFactory(::createEnchantingTableFilter)
     registerFilterFactory(::createFurnaceFilter)
     registerFilterFactory(::createHopperFilter)
