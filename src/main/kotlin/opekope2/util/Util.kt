@@ -19,11 +19,7 @@ internal inline fun <T> catchAll(function: () -> T): T? = try {
  * - `false`, if the string is "false" (case-insensitive)
  * - `null` otherwise
  */
-internal fun String.toBoolean(): Boolean? = when (lowercase()) {
-    "true" -> true
-    "false" -> false
-    else -> null
-}
+internal fun String.toBoolean(): Boolean? = lowercase().toBooleanStrictOrNull()
 
 /**
  * Resolves an OptiFine-compatible PNG image resource by appending the extension if necessary.
