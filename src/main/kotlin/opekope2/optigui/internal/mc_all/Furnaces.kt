@@ -19,7 +19,6 @@ import opekope2.util.splitIgnoreEmpty
 import java.io.File
 
 private const val container = "furnace"
-private val texture = Identifier("optigui", "furnace_gui_texture_path_placeholder")
 private val variantToTextureMap = mapOf(
     "_furnace" to TexturePath.FURNACE,
     "_blast_furnace" to TexturePath.BLAST_FURNACE,
@@ -42,32 +41,27 @@ fun createFurnaceFilter(resource: Resource): FilterInfo? {
         resource.resourceManager.resolveResource(resolvePath(resFolder, it))
     } ?: return null
 
-    val filters = createGeneralFilters(resource, container, texture)
-    filters.removeAt(textureFilterIndex)
+    val filters = createGeneralFilters(resource, container)
 
     val variants = resource.properties["variants"] as? String
-    val textures: Set<Identifier>
+    val textures: Set<Identifier> =
+        // bast furnace and smoker variants need to be opted in explicitly
+        if (variants == null) setOf(TexturePath.FURNACE)
+        else {
+            val foundVariants = variants.splitIgnoreEmpty(*delimiters).mapNotNull(variantMap::get)
 
-    if (variants == null) {
-        textures = setOf(TexturePath.FURNACE, TexturePath.BLAST_FURNACE, TexturePath.SMOKER)
+            filters += TransformationFilter(
+                { (it.data as? FurnaceProperties)?.variant },
+                ContainingFilter(foundVariants)
+            )
 
-        filters += TransformationFilter(
-            { it.texture },
-            ContainingFilter(textures)
-        )
-    } else {
-        val foundVariants = variants.splitIgnoreEmpty(*delimiters).mapNotNull(variantMap::get)
-        textures = foundVariants.mapNotNull(variantToTextureMap::get).toSet()
+            foundVariants.mapNotNull(variantToTextureMap::get).toSet()
+        }
 
-        filters += TransformationFilter(
-            { (it.data as? FurnaceProperties)?.variant },
-            ContainingFilter(foundVariants)
-        )
-        filters += TransformationFilter(
-            { it.texture },
-            ContainingFilter(textures)
-        )
-    }
+    filters += TransformationFilter(
+        { it.texture },
+        ContainingFilter(textures)
+    )
 
     return FilterInfo(
         OverridingFilter(ConjunctionFilter(filters), replacement),
