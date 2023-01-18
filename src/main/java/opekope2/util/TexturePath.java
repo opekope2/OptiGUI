@@ -26,4 +26,6 @@ public interface TexturePath {
 
     Identifier HORSE = new Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/horse.png");
     Identifier VILLAGER2 = new Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/villager2.png");
+
+    Identifier INVENTORY = new Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/inventory.png");
 }
