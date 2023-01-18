@@ -43,4 +43,5 @@ fun parseProfession(input: String): Pair<Identifier, Collection<NumberOrRange>>?
     return Pair(Identifier(namespace, profession), levels ?: listOf())
 }
 
-private fun parseRangeList(rangeList: String) = rangeList.split(',').mapNotNull { NumberOrRange.parse(it) }
+private fun parseRangeList(rangeList: String) =
+        rangeList.splitIgnoreEmpty(',').mapNotNull(NumberOrRange::parse)
