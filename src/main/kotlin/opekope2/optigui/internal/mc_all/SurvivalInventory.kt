@@ -43,7 +43,7 @@ fun createSurvivalInventoryFilter(resource: Resource): FilterInfo? {
 
 private typealias SurvivalInventoryProperties = GeneralProperties
 
-internal fun processSurvivalInventory(interaction: Interaction): Interaction? {
+private fun processSurvivalInventory(interaction: Interaction): Interaction? {
     val lookup = getProvider<IRegistryLookupProvider>()
 
     val mc = MinecraftClient.getInstance()

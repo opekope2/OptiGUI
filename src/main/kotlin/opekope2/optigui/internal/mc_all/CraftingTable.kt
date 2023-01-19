@@ -43,7 +43,7 @@ fun createCraftingTableFilter(resource: Resource): FilterInfo? {
 
 private typealias CraftingTableProperties = GeneralProperties
 
-internal fun processCraftingTableInteraction(interaction: Interaction): Interaction? {
+private fun processCraftingTableInteraction(interaction: Interaction): Interaction? {
     val lookup = getProvider<IRegistryLookupProvider>()
 
     val world = interaction.rawInteraction?.world ?: return null
