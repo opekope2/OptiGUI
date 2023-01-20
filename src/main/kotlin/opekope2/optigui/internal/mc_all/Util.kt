@@ -2,6 +2,7 @@ package opekope2.optigui.internal.mc_all
 
 import net.minecraft.util.Identifier
 import opekope2.filter.*
+import opekope2.filter.FilterResult.Mismatch
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.properties.GeneralProperties
 import opekope2.optigui.resource.Resource
@@ -33,10 +34,8 @@ internal fun createGeneralFilters(
 ): MutableList<Filter<Interaction, Unit>> {
     val filters = createGeneralFilters(resource, container)
 
-    filters += TransformationFilter(
-        { it.texture },
-        EqualityFilter(texturePath)
-    )
+    val texturePathFilter = EqualityFilter(texturePath)
+    filters += Filter { texturePathFilter.evaluate(it.texture) }
 
     return filters
 }
@@ -45,42 +44,44 @@ internal fun createGeneralFilters(
     resource: Resource,
     container: String
 ): MutableList<Filter<Interaction, Unit>> {
+    val containerFilter = EqualityFilter(container)
+
     val filters = mutableListOf<Filter<Interaction, Unit>>(
-        TransformationFilter(
-            { (it.data as? GeneralProperties)?.container },
-            EqualityFilter(container) // null != container
-        )
+        Filter {
+            containerFilter.evaluate((it.data as? GeneralProperties)?.container ?: return@Filter Mismatch())
+        }
     )
 
     filters.addForProperty(resource, "name") { name ->
-        TransformationFilter(
-            { (it.data as? GeneralProperties)?.name ?: it.screenTitle.string }, // not null
-            RegularExpressionFilter(parseWildcardOrRegex(name))
-        )
+        val nameFilter = RegularExpressionFilter(parseWildcardOrRegex(name))
+
+        Filter {
+            nameFilter.evaluate((it.data as? GeneralProperties)?.name ?: it.screenTitle.string)
+        }
     }
+
     filters.addForProperty(
         resource,
         "biomes",
         { it.splitIgnoreEmpty(*delimiters).mapNotNull(Identifier::tryParse) }
     ) { biomes ->
-        TransformationFilter(
-            { (it.data as? GeneralProperties)?.biome },
-            ContainingFilter(biomes) // biomes can't contain null
-        )
+        val biomeFilter = ContainingFilter(biomes)
+
+        Filter {
+            biomeFilter.evaluate((it.data as? GeneralProperties)?.biome ?: return@Filter Mismatch())
+        }
     }
+
     filters.addForProperty(
         resource,
         "heights",
         { value -> value.splitIgnoreEmpty(*delimiters).mapNotNull { NumberOrRange.parse(it)?.toFilter() } }
     ) { heights ->
-        TransformationFilter(
-            { (it.data as? GeneralProperties)?.height },
-            NullSafeFilter(
-                skipOnNull = false,
-                failOnNull = true,
-                filter = DisjunctionFilter(heights) // can't process null
-            )
-        )
+        val heightFilter = DisjunctionFilter(heights)
+
+        Filter {
+            heightFilter.evaluate((it.data as? GeneralProperties)?.height ?: return@Filter Mismatch())
+        }
     }
 
     return filters
