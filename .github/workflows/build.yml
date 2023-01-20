@@ -1,0 +1,41 @@
+name: Build project
+
+on:
+  workflow_call:
+    inputs:
+      test-project:
+        type: boolean
+      upload-output:
+        type: boolean
+
+jobs:
+  build:
+    name: Build project
+    strategy:
+      matrix:
+        os: [
+          ubuntu-latest,
+          windows-latest
+        ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Validate gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: JDK setup
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+      - name: Build project
+        run: ./gradlew build
+      - name: Test project
+        if: inputs.test-project
+        run: ./gradlew test
+      - name: Upload build output
+        if: matrix.os == 'ubuntu-latest' && inputs.upload-output
+        uses: actions/upload-artifact@v3
+        with:
+          name: jars
+          path: build/libs/*.jar
