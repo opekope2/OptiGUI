@@ -33,20 +33,20 @@ internal fun createVillagerFilter(resource: Resource): FilterInfo? {
         { it.splitIgnoreEmpty(*delimiters).mapNotNull(::parseProfession) }
     ) { professions ->
         val professionFilters: Collection<Filter<Interaction, Unit>> = professions.map { (profession, levels) ->
+            val professionFilter = EqualityFilter(profession)
+            val levelFilter = DisjunctionFilter(levels.mapNotNull { it.toFilter() })
+
             ConjunctionFilter(
-                TransformationFilter(
-                    { (it.data as? VillagerProperties)?.profession },
-                    EqualityFilter(profession) // null != profession
-                ),
-                TransformationFilter(
-                    { (it.data as? VillagerProperties)?.level },
-                    NullSafeFilter(
-                        skipOnNull = false,
-                        failOnNull = true,
-                        // can't process null
-                        filter = DisjunctionFilter(levels.mapNotNull { it.toFilter() })
+                Filter {
+                    professionFilter.evaluate(
+                        (it.data as? VillagerProperties)?.profession ?: return@Filter FilterResult.Mismatch()
                     )
-                )
+                },
+                Filter {
+                    levelFilter.evaluate(
+                        (it.data as? VillagerProperties)?.level ?: return@Filter FilterResult.Mismatch()
+                    )
+                }
             )
         }
 
@@ -54,7 +54,7 @@ internal fun createVillagerFilter(resource: Resource): FilterInfo? {
     }
 
     return FilterInfo(
-        OverridingFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(ConjunctionFilter(filters), replacement),
         setOf(texture)
     )
 }
