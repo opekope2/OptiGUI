@@ -8,9 +8,9 @@
     "opekope2"
   ],
   "contact": {
-    "homepage": "https://github.com/opekope2/OptiGUI",
-    "sources": "https://github.com/opekope2/OptiGUI",
-    "issues": "https://github.com/opekope2/OptiGUI/issues"
+    "homepage": "https://github.com/opekope2/OptiGUI-Next",
+    "sources": "https://github.com/opekope2/OptiGUI-Next",
+    "issues": "https://github.com/opekope2/OptiGUI-Next/issues"
   },
   "license": "MIT",
   "icon": "assets/optigui/icon.png",
