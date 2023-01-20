@@ -22,19 +22,13 @@ fun createAnvilFilter(resource: Resource): FilterInfo? {
         resource.resourceManager.resolveResource(resolvePath(resFolder, it))
     } ?: return null
 
-    val filters = createGeneralFilters(resource, container, texture)
+    val filters = ConjunctionFilter(createGeneralFilters(resource, container, texture))
 
     return FilterInfo(
-        OverridingFilter(
-            TransformationFilter(
-                ::processAnvilInteraction,
-                // Fail if not anvil
-                NullSafeFilter(
-                    skipOnNull = false,
-                    failOnNull = true,
-                    filter = ConjunctionFilter(filters)
-                )
-            ),
+        PostProcessorFilter(
+            Filter {
+                filters.evaluate(processAnvilInteraction(it) ?: return@Filter FilterResult.Mismatch())
+            },
             replacement
         ),
         setOf(texture)
