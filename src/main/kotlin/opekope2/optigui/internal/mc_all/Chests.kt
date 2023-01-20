@@ -5,6 +5,7 @@ import net.minecraft.block.enums.ChestType
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.Nameable
 import opekope2.filter.*
+import opekope2.filter.FilterResult.Mismatch
 import opekope2.optigui.internal.properties.ChestProperties
 import opekope2.optigui.provider.IRegistryLookupProvider
 import opekope2.optigui.provider.getProvider
@@ -31,47 +32,53 @@ internal fun createChestFilter(resource: Resource): FilterInfo? {
     val filters = createGeneralFilters(resource, container, texture)
 
     filters.addForProperty(resource, "large", { it.toBoolean() }) { large ->
-        TransformationFilter(
-            { (it.data as? ChestProperties)?.large },
-            createOptionalEqualityFilter(large)
-        )
+        val largeFilter = createOptionalEqualityFilter(large)
+
+        Filter {
+            largeFilter.evaluate((it.data as? ChestProperties)?.large ?: return@Filter Mismatch())
+        }
     }
     filters.addForProperty(resource, "trapped", { it.toBoolean() }) { trapped ->
-        TransformationFilter(
-            { (it.data as? ChestProperties)?.trapped },
-            createOptionalEqualityFilter(trapped)
-        )
+        val trappedFilter = createOptionalEqualityFilter(trapped)
+
+        Filter {
+            trappedFilter.evaluate((it.data as? ChestProperties)?.trapped ?: return@Filter Mismatch())
+        }
     }
     filters.addForProperty(resource, "christmas", { it.toBoolean() }) { christmas ->
-        TransformationFilter(
-            { (it.data as? ChestProperties)?.christmas },
-            createOptionalEqualityFilter(christmas)
-        )
+        val christmasFilter = createOptionalEqualityFilter(christmas)
+
+        Filter {
+            christmasFilter.evaluate((it.data as? ChestProperties)?.christmas ?: return@Filter Mismatch())
+        }
     }
     filters.addForProperty(resource, "ender", { it.toBoolean() }) { ender ->
-        TransformationFilter(
-            { (it.data as? ChestProperties)?.ender },
-            createOptionalEqualityFilter(ender)
-        )
+        val enderFilter = createOptionalEqualityFilter(ender)
+
+        Filter {
+            enderFilter.evaluate((it.data as? ChestProperties)?.ender ?: return@Filter Mismatch())
+        }
     }
 
     // _barrel needs to be opted in explicitly for compatibility
     if (resource.properties.containsKey("_barrel")) {
         filters.addForProperty(resource, "_barrel", { it.toBoolean() }) { barrel ->
-            TransformationFilter(
-                { (it.data as? ChestProperties)?.barrel },
-                createOptionalEqualityFilter(barrel)
-            )
+            val barrelFilter = createOptionalEqualityFilter(barrel)
+
+            Filter {
+                barrelFilter.evaluate((it.data as? ChestProperties)?.barrel ?: return@Filter Mismatch())
+            }
         }
     } else {
-        filters += TransformationFilter(
-            { (it.data as? ChestProperties)?.barrel },
-            EqualityFilter(false)
-        )
+        val barrelFilter = EqualityFilter(false)
+
+        filters += Filter {
+            barrelFilter.evaluate((it.data as? ChestProperties)?.barrel ?: return@Filter Mismatch())
+        }
     }
 
     return FilterInfo(
-        OverridingFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(ConjunctionFilter(filters), replacement),
         setOf(texture)
     )
 }
@@ -101,5 +108,5 @@ internal fun processChest(chest: BlockEntity): Any? {
 private fun isChristmas(): Boolean = LocalDateTime.now().let { it.month == Month.DECEMBER && it.dayOfMonth in 24..26 }
 
 private fun <T> createOptionalEqualityFilter(expectedValue: T?): Filter<T, Unit> =
-    if (expectedValue == null) StaticFilter(FilterResult(skip = false, match = true))
+    if (expectedValue == null) Filter { FilterResult.Match(Unit) }
     else EqualityFilter(expectedValue)
