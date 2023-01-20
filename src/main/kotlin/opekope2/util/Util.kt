@@ -20,11 +20,7 @@ internal inline fun <T> catchAll(function: () -> T): T? = try {
  * - `false`, if the string is "false" (case-insensitive)
  * - `null` otherwise
  */
-internal fun String.toBoolean(): Boolean? = when (lowercase()) {
-    "true" -> true
-    "false" -> false
-    else -> null
-}
+internal fun String.toBoolean(): Boolean? = lowercase().toBooleanStrictOrNull()
 
 /**
  * Resolves an OptiFine-compatible PNG image resource by appending the extension if necessary.
@@ -52,3 +48,14 @@ fun <TOld, TNew> FilterResult<TOld>.withResult(result: TNew): FilterResult<TNew>
     is FilterResult.Mismatch -> FilterResult.Mismatch()
     is FilterResult.Match -> FilterResult.Match(result)
 }
+
+/**
+ * Trim parentheses from the start and end of a string
+ */
+fun String.trimParentheses() = trimStart('(').trimEnd(')')
+
+/**
+ * Splits a string at the given delimiters and returns every substring, which is not empty
+ */
+fun CharSequence.splitIgnoreEmpty(vararg delimiters: Char) =
+    this.split(*delimiters).filter { it.isNotEmpty() }

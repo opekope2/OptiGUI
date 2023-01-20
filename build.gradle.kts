@@ -20,6 +20,8 @@ dependencies {
         "net.fabricmc", "fabric-language-kotlin", project.extra["fabric_language_kotlin_version"] as String
     )
 
+    include(implementation("org.apache.commons", "commons-text", "1.10.0"))
+
     testImplementation(kotlin("test"))
 }
 
@@ -60,4 +62,7 @@ tasks {
 
 tasks.test {
     useJUnitPlatform()
+    testLogging {
+        events("PASSED", "SKIPPED", "FAILED")
+    }
 }
