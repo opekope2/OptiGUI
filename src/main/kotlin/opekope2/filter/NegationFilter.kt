@@ -3,6 +3,9 @@ package opekope2.filter
 /**
  * A filter, which returns the opposite result of the provided filter.
  *
+ * [FilterResult.Match] and [FilterResult.Mismatch] are opposites.
+ * [FilterResult.Skip] is the opposite of itself.
+ *
  * @param T The type the filter accepts
  * @param filter The filter to negate
  */
