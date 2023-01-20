@@ -5,7 +5,7 @@ import net.minecraft.block.entity.HopperBlockEntity
 import net.minecraft.util.Nameable
 import opekope2.filter.ConjunctionFilter
 import opekope2.filter.FilterInfo
-import opekope2.filter.OverridingFilter
+import opekope2.filter.PostProcessorFilter
 import opekope2.optigui.internal.properties.GeneralProperties
 import opekope2.optigui.provider.IRegistryLookupProvider
 import opekope2.optigui.provider.getProvider
@@ -28,7 +28,7 @@ fun createHopperFilter(resource: Resource): FilterInfo? {
     val filters = createGeneralFilters(resource, container, texture)
 
     return FilterInfo(
-        OverridingFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(ConjunctionFilter(filters), replacement),
         setOf(texture)
     )
 }
