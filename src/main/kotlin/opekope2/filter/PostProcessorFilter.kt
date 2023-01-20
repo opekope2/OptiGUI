@@ -11,8 +11,6 @@ package opekope2.filter
  * @param filter The sub-filter to evaluate
  * @param transform The function, which transforms the result of [evaluate].
  * Its input is both the input of [evaluate] and the result of [filter]
- *
- * @see PreProcessorFilter
  */
 class PostProcessorFilter<T, TFilterResult, TResult>(
     private val filter: Filter<T, out TFilterResult>,
