@@ -8,6 +8,8 @@ package opekope2.filter
  * @param TResult the type the filter returns
  * @param transform The transform to apply to the value in [evaluate] before evaluating [filter]
  * @param filter The sub-filter to evaluate
+ *
+ * @see PostProcessorFilter
  */
 class PreProcessorFilter<TSource, TFilter, TResult>(
     private val transform: (TSource) -> TFilter,
