@@ -23,18 +23,13 @@ fun createSurvivalInventoryFilter(resource: Resource): FilterInfo? {
         resource.resourceManager.resolveResource(resolvePath(resFolder, it))
     } ?: return null
 
-    val filters = createGeneralFilters(resource, container, texture)
+    val filters = ConjunctionFilter(createGeneralFilters(resource, container, texture))
 
     return FilterInfo(
-        OverridingFilter(
-            TransformationFilter(
-                ::processSurvivalInventory,
-                NullSafeFilter(
-                    skipOnNull = false,
-                    failOnNull = true,
-                    filter = ConjunctionFilter(filters)
-                )
-            ),
+        PostProcessorFilter(
+            Filter {
+                filters.evaluate(processSurvivalInventory(it) ?: return@Filter FilterResult.Mismatch())
+            },
             replacement
         ),
         setOf(texture)
