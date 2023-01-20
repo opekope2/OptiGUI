@@ -1,10 +1,12 @@
 package opekope2.optigui
 
+import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.MinecraftVersion
 import net.minecraft.block.entity.*
 import net.minecraft.resource.ResourceType
