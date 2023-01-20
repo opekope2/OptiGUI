@@ -1,10 +1,6 @@
 package opekope2.optigui.internal.mc_all
 
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity
-import net.minecraft.block.entity.BlastFurnaceBlockEntity
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.FurnaceBlockEntity
-import net.minecraft.block.entity.SmokerBlockEntity
+import net.minecraft.block.entity.*
 import net.minecraft.util.Identifier
 import net.minecraft.util.Nameable
 import opekope2.filter.*
@@ -45,26 +41,28 @@ fun createFurnaceFilter(resource: Resource): FilterInfo? {
 
     val variants = resource.properties["variants"] as? String
     val textures: Set<Identifier> =
-        // bast furnace and smoker variants need to be opted in explicitly
+        // blast furnace and smoker variants need to be opted in explicitly
         if (variants == null) setOf(TexturePath.FURNACE)
         else {
             val foundVariants = variants.splitIgnoreEmpty(*delimiters).mapNotNull(variantMap::get)
+            val variantFilter = ContainingFilter(foundVariants)
 
-            filters += TransformationFilter(
-                { (it.data as? FurnaceProperties)?.variant },
-                ContainingFilter(foundVariants)
-            )
+            filters += Filter {
+                variantFilter.evaluate(
+                    (it.data as? FurnaceProperties)?.variant ?: return@Filter FilterResult.Mismatch()
+                )
+            }
 
             foundVariants.mapNotNull(variantToTextureMap::get).toSet()
         }
 
-    filters += TransformationFilter(
-        { it.texture },
-        ContainingFilter(textures)
-    )
+    val textureFilter = ContainingFilter(textures)
+    filters += Filter {
+        textureFilter.evaluate(it.texture)
+    }
 
     return FilterInfo(
-        OverridingFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(ConjunctionFilter(filters), replacement),
         textures
     )
 }
