@@ -8,7 +8,8 @@ package opekope2.filter
  * @see [between]
  */
 class NumberRangeFilter private constructor(private val min: Int, private val max: Int) : Filter<Int, Unit> {
-    override fun evaluate(value: Int): FilterResult<out Unit> = FilterResult(skip = false, match = value in min..max)
+    override fun evaluate(value: Int): FilterResult<out Unit> =
+        if (value in min..max) FilterResult.Match(Unit) else FilterResult.Mismatch()
 
     companion object {
         /**

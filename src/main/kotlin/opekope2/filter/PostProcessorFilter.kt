@@ -19,7 +19,7 @@ class PostProcessorFilter<T, TFilterResult, TResult>(
     private val transform: (input: T, result: FilterResult<out TFilterResult>) -> FilterResult<out TResult>
 ) : Filter<T, TResult> {
     /**
-     * Creates a new post-processor filter by specifying [FilterResult.result].
+     * Creates a new post-processor filter by specifying [FilterResult.Match.result].
      *
      * @param filter The sub-filter to evaluate
      * @param result The (constant) result of the [transform] function
@@ -27,11 +27,11 @@ class PostProcessorFilter<T, TFilterResult, TResult>(
     constructor(filter: Filter<T, out TFilterResult>, result: TResult) : this(
         filter,
         { _, filterResult ->
-            FilterResult(
-                skip = filterResult.skip,
-                match = filterResult.match,
-                result = result
-            )
+            when (filterResult) {
+                is FilterResult.Match -> FilterResult.Match(result)
+                is FilterResult.Mismatch -> FilterResult.Mismatch()
+                is FilterResult.Skip -> FilterResult.Skip()
+            }
         }
     )
 

@@ -18,7 +18,8 @@ class DisjunctionFilter<T>(private val filters: Iterable<Filter<T, out Any>>) : 
     constructor(vararg filters: Filter<T, out Any>) : this(filters.toList())
 
     override fun evaluate(value: T): FilterResult<Unit> = filters.map { it.evaluate(value) }.let { result ->
-        if (result.all { it.skip }) FilterResult(skip = true)
-        else FilterResult(skip = false, match = result.any { !it.skip && it.match })
+        if (result.any { it is FilterResult.Match }) FilterResult.Match(Unit)
+        else if (result.all { it is FilterResult.Skip }) FilterResult.Skip()
+        else FilterResult.Mismatch()
     }
 }
