@@ -3,39 +3,28 @@ package opekope2.filter
 /**
  * Represents a filter result.
  *
- * @param T The type a [Filter] yields if the result is a match
- * @param skip Whether the result indicates that it should be skipped
- * @param match `true` if the result is a match, `false` if it's a mismatch
- * @param result The optional result
+ * @param T The type a [Filter] returns
  */
-class FilterResult<T> @JvmOverloads constructor(skip: Boolean, match: Boolean = false, result: T? = null) {
+sealed interface FilterResult<T> {
     /**
-     * Whether the result is skipped (the filter was unable to process).
+     * Represents a skipping filter result.
+     *
+     * @param T The type a [Filter] would return in case of a match
      */
-    var skip = false
-        private set
+    class Skip<T> : FilterResult<T>
 
     /**
-     * `true` if the result is a match, `false`, if it's a mismatch.
-     * `false`, if [skip] is `true` (and doesn't have a meaning).
+     * Represents a mismatching filter result.
+     *
+     * @param T The type a [Filter] would return in case of a match
      */
-    var match = false
-        private set
+    class Mismatch<T> : FilterResult<T>
 
     /**
-     * The optional result.
-     * `null`, if [skip] is `true` or [match] is `false` (and doesn't have a meaning).
+     * Represents a matching filter result.
+     *
+     * @param T The type a [Filter] returns
+     * @param result The result of the filter
      */
-    var result: T? = null
-        private set
-
-    init {
-        this.skip = skip
-        if (!skip) {
-            this.match = match
-            if (match) {
-                this.result = result
-            }
-        }
-    }
+    data class Match<T>(val result: T) : FilterResult<T>
 }
