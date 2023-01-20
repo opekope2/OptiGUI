@@ -22,19 +22,13 @@ fun createCraftingTableFilter(resource: Resource): FilterInfo? {
         resource.resourceManager.resolveResource(resolvePath(resFolder, it))
     } ?: return null
 
-    val filters = createGeneralFilters(resource, container, texture)
+    val filters = ConjunctionFilter(createGeneralFilters(resource, container, texture))
 
     return FilterInfo(
-        OverridingFilter(
-            TransformationFilter(
-                ::processCraftingTableInteraction,
-                // Fail if not crafting table
-                NullSafeFilter(
-                    skipOnNull = false,
-                    failOnNull = true,
-                    ConjunctionFilter(filters)
-                )
-            ),
+        PostProcessorFilter(
+            Filter {
+                filters.evaluate(processCraftingTableInteraction(it) ?: return@Filter FilterResult.Mismatch())
+            },
             replacement
         ),
         setOf(texture)
