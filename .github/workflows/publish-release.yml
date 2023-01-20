@@ -29,7 +29,7 @@ jobs:
       - name: Load project info
         run: |
           git for-each-ref $GITHUB_REF --format '%(contents)' > CHANGELOG.g.md
-          echo GAME_VERSIONS=`jq -c .depends.minecraft src/main/resources/fabric.mod.json` >> $GITHUB_ENV
+          echo GAME_VERSIONS=`jq -c '.depends.minecraft|join("\n")' src/main/resources/fabric.mod.json` >> $GITHUB_ENV
       - name: Publish to GitHub, Modrinth, and CurseForge
         uses: Kir-Antipov/mc-publish@v3.2
         with:
