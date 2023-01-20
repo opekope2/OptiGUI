@@ -26,6 +26,8 @@ fun initialize() {
     }
     opekope2.optigui.internal.mc_all.initialize()
 
+    registerDevMessage()
+
     ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(ResourceLoader)
     UseBlockCallback.EVENT.register(InteractionHandler)
     UseEntityCallback.EVENT.register(InteractionHandler)
