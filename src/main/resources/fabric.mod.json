@@ -8,9 +8,9 @@
     "opekope2"
   ],
   "contact": {
-    "homepage": "https://github.com/opekope2/OptiGUI",
-    "sources": "https://github.com/opekope2/OptiGUI",
-    "issues": "https://github.com/opekope2/OptiGUI/issues"
+    "homepage": "https://github.com/opekope2/OptiGUI-Next",
+    "sources": "https://github.com/opekope2/OptiGUI-Next",
+    "issues": "https://github.com/opekope2/OptiGUI-Next/issues"
   },
   "license": "MIT",
   "icon": "assets/optigui/icon.png",
@@ -30,7 +30,9 @@
     "fabricloader": ">=${fabricloader}",
     "fabric-api": ">=${fabric_api}",
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
-    "minecraft": ">=${minecraft}",
+    "minecraft": [
+      "=1.19.3"
+    ],
     "java": ">=${java}"
   }
 }

@@ -19,6 +19,10 @@ dependencies {
     modImplementation(
         "net.fabricmc", "fabric-language-kotlin", project.extra["fabric_language_kotlin_version"] as String
     )
+
+    include(implementation("org.apache.commons", "commons-text", "1.10.0"))
+
+    testImplementation(kotlin("test"))
 }
 
 blossom.replaceToken("@mod_version@", project.extra["mod_version"])
@@ -41,7 +45,6 @@ tasks {
                     "fabricloader" to project.extra["loader_version"] as String,
                     "fabric_api" to project.extra["fabric_version"] as String,
                     "fabric_language_kotlin" to project.extra["fabric_language_kotlin_version"] as String,
-                    "minecraft" to project.extra["minecraft_version"] as String,
                     "java" to project.extra["java_version"] as String
                 )
             )
@@ -53,5 +56,12 @@ tasks {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
         withSourcesJar()
+    }
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("PASSED", "SKIPPED", "FAILED")
     }
 }

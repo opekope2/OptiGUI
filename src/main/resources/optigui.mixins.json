@@ -5,5 +5,10 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "mixins": []
+  "client": [
+    "ClientPlayerEntityMixin",
+    "MinecraftClientMixin",
+    "RenderSystemMixin",
+    "BeaconBlockEntityAccessorMixin"
+  ]
 }
