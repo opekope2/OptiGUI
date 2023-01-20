@@ -1,5 +1,6 @@
 package opekope2.optigui.internal.mc_all
 
+import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import opekope2.filter.*
 import opekope2.optigui.interaction.Interaction
@@ -41,7 +42,7 @@ private fun processStonecutterInteraction(interaction: Interaction): Interaction
     val lookup = getProvider<IRegistryLookupProvider>()
 
     val world = interaction.rawInteraction?.world ?: return null
-    val pos = BlockPos(interaction.rawInteraction.hitResult?.pos ?: return null)
+    val pos = BlockPos((interaction.rawInteraction.hitResult as? BlockHitResult)?.blockPos ?: return null)
 
     return interaction.copy(
         data = StonecutterProperties(
