@@ -1,7 +1,7 @@
 package opekope2.filter
 
 /**
- * A filter which succeeds when the given value is [expectedValue], fails otherwise, and never skips.
+ * A filter, which succeeds when the given value is [expectedValue], fails otherwise, and never skips.
  *
  * @param T The type the filter accepts
  * @param expectedValue The value the filter should succeed for

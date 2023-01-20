@@ -1,7 +1,7 @@
 package opekope2.filter
 
 /**
- * A filter which applies the logical OR operation between the given filters and returns the result.
+ * A filter, which applies the logical OR operation between the given filters and returns the result.
  * Only skips if all sub-filters skip, and only yields mismatch if no sub-filters yield match.
  *
  * This filter yields the first non-skipping match result of all sub-filters if any,
