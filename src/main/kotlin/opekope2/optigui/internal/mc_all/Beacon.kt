@@ -25,19 +25,15 @@ fun createBeaconFilter(resource: Resource): FilterInfo? {
     val filters = createGeneralFilters(resource, container, texture)
 
     filters.addForProperty(resource, "levels", { it.splitIgnoreEmpty(*delimiters) }) { levels ->
-        TransformationFilter(
-            { (it.data as? BeaconProperties)?.level },
-            NullSafeFilter(
-                skipOnNull = false,
-                failOnNull = true,
-                // can't process null
-                filter = DisjunctionFilter(levels.mapNotNull { NumberOrRange.parse(it)?.toFilter() })
-            )
-        )
+        val levelFilter = DisjunctionFilter(levels.mapNotNull { NumberOrRange.parse(it)?.toFilter() })
+
+        Filter {
+            levelFilter.evaluate((it.data as? BeaconProperties)?.level ?: return@Filter FilterResult.Mismatch())
+        }
     }
 
     return FilterInfo(
-        OverridingFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(ConjunctionFilter(filters), replacement),
         setOf(texture)
     )
 }
