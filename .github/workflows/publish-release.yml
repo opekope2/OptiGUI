@@ -47,7 +47,7 @@ jobs:
           files-primary: dist/!(*-@(dev|sources|javadoc)).jar
           files-secondary: ''
           changelog-file: CHANGELOG.g.md
-          game-versions: ${{ fromJSON(env.GAME_VERSIONS) }}
+          game-versions: ${{ env.GAME_VERSIONS }}
           version-resolver: exact
           java: 17
       - name: Delete build output
