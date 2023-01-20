@@ -21,7 +21,6 @@ import net.minecraft.world.World
 import opekope2.filter.Filter
 import opekope2.filter.FilterResult
 import opekope2.optigui.interaction.*
-import opekope2.optigui.interaction.blockEntityPreprocessors
 
 internal object InteractionHandler : UseBlockCallback, UseEntityCallback, ClientTickEvents.EndWorldTick,
     ClientPlayConnectionEvents.Disconnect {
