@@ -21,6 +21,12 @@ internal fun initialize() {
     registerFilterFactory(::createDispenserFilter)
     registerFilterFactory(::createShulkerBoxFilter)
 
+    registerFilterFactory(::createLoomFilter)
+    registerFilterFactory(::createCartographyTableFilter)
+    registerFilterFactory(::createGrindstoneFilter)
+    registerFilterFactory(::createSmithingTableFilter)
+    registerFilterFactory(::createStonecutterFilter)
+
     // Register inventory filter factories
     registerFilterFactory(::createSurvivalInventoryFilter)
     registerFilterFactory(::createCreativeInventoryFilter)
