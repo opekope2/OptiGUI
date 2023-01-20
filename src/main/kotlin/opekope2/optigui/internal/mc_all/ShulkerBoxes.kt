@@ -27,14 +27,17 @@ internal fun createShulkerBoxFilter(resource: Resource): FilterInfo? {
     val filters = createGeneralFilters(resource, container, texture)
 
     filters.addForProperty(resource, "colors", { it.splitIgnoreEmpty(*delimiters) }) { colors ->
-        TransformationFilter(
-            { (it.data as? ShulkerBoxProperties)?.color },
-            ContainingFilter(colors) // colors can't contain null
-        )
+        val colorFilter = ContainingFilter(colors)
+
+        Filter {
+            colorFilter.evaluate(
+                (it.data as? ShulkerBoxProperties)?.color ?: return@Filter FilterResult.Mismatch()
+            )
+        }
     }
 
     return FilterInfo(
-        OverridingFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(ConjunctionFilter(filters), replacement),
         setOf(texture)
     )
 }
