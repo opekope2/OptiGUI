@@ -1,5 +1,7 @@
 package opekope2.filter
 
+import opekope2.util.withResult
+
 /**
  * A post-processor filter, which enables the output of the given sub-filter to be changed.
  *
@@ -24,13 +26,7 @@ class PostProcessorFilter<T, TFilterResult, TResult>(
      */
     constructor(filter: Filter<T, out TFilterResult>, result: TResult) : this(
         filter,
-        { _, filterResult ->
-            when (filterResult) {
-                is FilterResult.Match -> FilterResult.Match(result)
-                is FilterResult.Mismatch -> FilterResult.Mismatch()
-                is FilterResult.Skip -> FilterResult.Skip()
-            }
-        }
+        { _, filterResult -> filterResult.withResult(result) }
     )
 
     override fun evaluate(value: T): FilterResult<out TResult> = transform(value, filter.evaluate(value))
