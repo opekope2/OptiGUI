@@ -2,24 +2,11 @@ package opekope2.optigui.internal.properties
 
 import net.minecraft.util.Identifier
 
-internal class FurnaceProperties(
-    container: String,
-    texture: Identifier,
-    name: String?,
-    biome: Identifier?,
-    height: Int,
+internal data class FurnaceProperties(
+    override val container: String,
+    override val texture: Identifier,
+    override val name: String?,
+    override val biome: Identifier?,
+    override val height: Int,
     val variant: String
-) :
-    GeneralProperties(container, texture, name, biome, height) {
-    override fun hashCode(): Int {
-        var result = super.hashCode()
-        result = 31 * result + variant.hashCode()
-        return result
-    }
-
-    override fun equals(other: Any?): Boolean =
-        if (other is FurnaceProperties)
-            super.equals(other)
-                    && variant == other.variant
-        else false
-}
+) : GeneralProperties(container, texture, name, biome, height)

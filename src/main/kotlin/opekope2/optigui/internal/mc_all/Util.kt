@@ -4,7 +4,7 @@ import net.minecraft.util.Identifier
 import opekope2.filter.*
 import opekope2.filter.FilterResult.Mismatch
 import opekope2.optigui.interaction.Interaction
-import opekope2.optigui.internal.properties.GeneralProperties
+import opekope2.optigui.internal.properties.OptiFineProperties
 import opekope2.optigui.resource.Resource
 import opekope2.util.NumberOrRange
 import opekope2.util.parseWildcardOrRegex
@@ -48,7 +48,7 @@ internal fun createGeneralFilters(
 
     val filters = mutableListOf<Filter<Interaction, Unit>>(
         Filter {
-            containerFilter.evaluate((it.data as? GeneralProperties)?.container ?: return@Filter Mismatch())
+            containerFilter.evaluate((it.data as? OptiFineProperties)?.container ?: return@Filter Mismatch())
         }
     )
 
@@ -56,7 +56,7 @@ internal fun createGeneralFilters(
         val nameFilter = RegularExpressionFilter(parseWildcardOrRegex(name))
 
         Filter {
-            nameFilter.evaluate((it.data as? GeneralProperties)?.name ?: it.screenTitle.string)
+            nameFilter.evaluate((it.data as? OptiFineProperties)?.name ?: it.screenTitle.string)
         }
     }
 
@@ -68,7 +68,7 @@ internal fun createGeneralFilters(
         val biomeFilter = ContainingFilter(biomes)
 
         Filter {
-            biomeFilter.evaluate((it.data as? GeneralProperties)?.biome ?: return@Filter Mismatch())
+            biomeFilter.evaluate((it.data as? OptiFineProperties)?.biome ?: return@Filter Mismatch())
         }
     }
 
@@ -80,7 +80,7 @@ internal fun createGeneralFilters(
         val heightFilter = DisjunctionFilter(heights)
 
         Filter {
-            heightFilter.evaluate((it.data as? GeneralProperties)?.height ?: return@Filter Mismatch())
+            heightFilter.evaluate((it.data as? OptiFineProperties)?.height ?: return@Filter Mismatch())
         }
     }
 

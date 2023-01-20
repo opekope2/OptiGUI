@@ -8,7 +8,7 @@ import opekope2.filter.FilterInfo
 import opekope2.filter.FilterResult.Mismatch
 import opekope2.filter.PostProcessorFilter
 import opekope2.optigui.interaction.Interaction
-import opekope2.optigui.internal.properties.GeneralProperties
+import opekope2.optigui.internal.properties.OptiFineProperties
 import opekope2.optigui.provider.IRegistryLookupProvider
 import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
@@ -53,7 +53,7 @@ fun createCreativeInventoryFilter(resource: Resource): FilterInfo? {
     )
 }
 
-private typealias CreativeInventoryProperties = GeneralProperties
+private typealias CreativeInventoryProperties = OptiFineProperties
 
 private fun processCreativeInventory(interaction: Interaction): Interaction? {
     val lookup = getProvider<IRegistryLookupProvider>()

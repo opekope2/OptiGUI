@@ -6,7 +6,7 @@ import net.minecraft.util.Nameable
 import opekope2.filter.ConjunctionFilter
 import opekope2.filter.FilterInfo
 import opekope2.filter.PostProcessorFilter
-import opekope2.optigui.internal.properties.GeneralProperties
+import opekope2.optigui.internal.properties.OptiFineProperties
 import opekope2.optigui.provider.IRegistryLookupProvider
 import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
@@ -33,7 +33,7 @@ fun createEnchantingTableFilter(resource: Resource): FilterInfo? {
     )
 }
 
-private typealias EnchantingTableProperties = GeneralProperties
+private typealias EnchantingTableProperties = OptiFineProperties
 
 internal fun processEnchantingTable(enchantingTable: BlockEntity): Any? {
     if (enchantingTable !is EnchantingTableBlockEntity) return null

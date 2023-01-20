@@ -4,7 +4,7 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import opekope2.filter.*
 import opekope2.optigui.interaction.Interaction
-import opekope2.optigui.internal.properties.GeneralProperties
+import opekope2.optigui.internal.properties.OptiFineProperties
 import opekope2.optigui.provider.IRegistryLookupProvider
 import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
@@ -36,7 +36,7 @@ fun createGrindstoneFilter(resource: Resource): FilterInfo? {
     )
 }
 
-private typealias GrindstoneProperties = GeneralProperties
+private typealias GrindstoneProperties = OptiFineProperties
 
 private fun processGrindstoneInteraction(interaction: Interaction): Interaction? {
     val lookup = getProvider<IRegistryLookupProvider>()

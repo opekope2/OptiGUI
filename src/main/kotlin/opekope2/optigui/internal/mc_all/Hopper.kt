@@ -6,7 +6,7 @@ import net.minecraft.util.Nameable
 import opekope2.filter.ConjunctionFilter
 import opekope2.filter.FilterInfo
 import opekope2.filter.PostProcessorFilter
-import opekope2.optigui.internal.properties.GeneralProperties
+import opekope2.optigui.internal.properties.OptiFineProperties
 import opekope2.optigui.provider.IRegistryLookupProvider
 import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
@@ -33,7 +33,7 @@ fun createHopperFilter(resource: Resource): FilterInfo? {
     )
 }
 
-private typealias HopperProperties = GeneralProperties
+private typealias HopperProperties = OptiFineProperties
 
 internal fun processHopper(blockEntity: BlockEntity): Any? {
     if (blockEntity !is HopperBlockEntity) return null
