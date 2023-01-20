@@ -7,5 +7,5 @@ package opekope2.filter
  */
 class RegularExpressionFilter(private val regex: Regex) : Filter<String, Unit> {
     override fun evaluate(value: String): FilterResult<out Unit> =
-        FilterResult(skip = false, match = regex.matches(value))
+        if (regex.matches(value)) FilterResult.Match(Unit) else FilterResult.Mismatch()
 }

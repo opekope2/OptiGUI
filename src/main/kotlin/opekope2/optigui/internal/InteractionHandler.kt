@@ -20,13 +20,12 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
 import opekope2.filter.Filter
 import opekope2.filter.FilterResult
-import opekope2.filter.StaticFilter
 import opekope2.optigui.interaction.*
 import opekope2.optigui.interaction.blockEntityPreprocessors
 
 internal object InteractionHandler : UseBlockCallback, UseEntityCallback, ClientTickEvents.EndWorldTick,
     ClientPlayConnectionEvents.Disconnect {
-    internal var filter: Filter<Interaction, Identifier> = StaticFilter(FilterResult(skip = true))
+    internal var filter: Filter<Interaction, Identifier> = Filter { FilterResult.Skip() }
     internal var replaceableTextures = mutableSetOf<Identifier>()
 
     private var currentScreen: HandledScreen<*>? = null
@@ -48,8 +47,9 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, Client
         // Only replace predefined textures
         if (texture !in replaceableTextures) return texture
 
+        // TODO caching
         return filter.evaluate(Interaction(texture, screen.title, rawInteraction, interactionData))
-            .let { if (!it.skip && it.match) it.result else null } ?: texture
+            .let { (it as? FilterResult.Match)?.result ?: texture }
     }
 
     @JvmStatic

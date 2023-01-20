@@ -3,12 +3,13 @@ package opekope2.filter
 /**
  * A filter, which yields a successful result only when the input number is within the defined range, and never skips.
  *
- * @see [atLeast]
- * @see [atMost]
- * @see [between]
+ * @see [NumberRangeFilter.atLeast]
+ * @see [NumberRangeFilter.atMost]
+ * @see [NumberRangeFilter.between]
  */
 class NumberRangeFilter private constructor(private val min: Int, private val max: Int) : Filter<Int, Unit> {
-    override fun evaluate(value: Int): FilterResult<out Unit> = FilterResult(skip = false, match = value in min..max)
+    override fun evaluate(value: Int): FilterResult<out Unit> =
+        if (value in min..max) FilterResult.Match(Unit) else FilterResult.Mismatch()
 
     companion object {
         /**

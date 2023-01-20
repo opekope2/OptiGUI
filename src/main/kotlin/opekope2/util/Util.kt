@@ -1,6 +1,7 @@
 package opekope2.util
 
 import net.minecraft.util.Identifier
+import opekope2.filter.FilterResult
 import opekope2.optigui.resource.IResourceManager
 
 /**
@@ -32,6 +33,20 @@ internal fun IResourceManager.resolveResource(id: Identifier?): Identifier? {
 
     val idPng = Identifier(id.namespace, "${id.path}.png")
     return if (resourceExists(idPng)) idPng else null
+}
+
+/**
+ * If the current [FilterResult] is [FilterResult.Match], change its result to the given one.
+ * Otherwise, return the original.
+ *
+ * @param TOld The type of the old result
+ * @param TNew The type of the new result
+ * @param result The new result
+ */
+fun <TOld, TNew> FilterResult<TOld>.withResult(result: TNew): FilterResult<TNew> = when (this) {
+    is FilterResult.Skip -> FilterResult.Skip()
+    is FilterResult.Mismatch -> FilterResult.Mismatch()
+    is FilterResult.Match -> FilterResult.Match(result)
 }
 
 /**

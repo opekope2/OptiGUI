@@ -38,9 +38,9 @@ internal object ResourceLoader : SimpleSynchronousResourceReloadListener {
         Filter<Interaction, Identifier> {
         override fun evaluate(value: Interaction): FilterResult<out Identifier> {
             filters.forEach { filter ->
-                filter.evaluate(value).let { if (!it.skip && it.match && it.result != null) return it }
+                filter.evaluate(value).let { if (it is FilterResult.Match) return it }
             }
-            return FilterResult(skip = true)
+            return FilterResult.Skip()
         }
     }
 }
