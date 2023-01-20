@@ -29,14 +29,17 @@ fun createHorseFilter(resource: Resource): FilterInfo? {
     val filters = createGeneralFilters(resource, container, texture)
 
     filters.addForProperty(resource, "variants", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
-        TransformationFilter(
-            { (it.data as? HorseProperties)?.variant },
-            ContainingFilter(variants) // variants can't contain null
-        )
+        val variantFilter = ContainingFilter(variants)
+
+        Filter {
+            variantFilter.evaluate(
+                (it.data as? HorseProperties)?.variant ?: return@Filter FilterResult.Mismatch()
+            )
+        }
     }
 
     return FilterInfo(
-        OverridingFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(ConjunctionFilter(filters), replacement),
         setOf(texture)
     )
 }
