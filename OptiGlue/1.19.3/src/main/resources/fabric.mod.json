@@ -3,7 +3,7 @@
   "id": "optiglue",
   "version": "${version}",
   "name": "OptiGlue",
-  "description": "A client side drop-in replacement for OptiFine custom GUIs",
+  "description": "Minecraft glue library for OptiGUI",
   "authors": [
     "opekope2"
   ],
@@ -13,7 +13,6 @@
     "issues": "https://github.com/opekope2/OptiGUI-Next/issues"
   },
   "license": "MIT",
-  "icon": "assets/optigui/icon.png",
   "environment": "client",
   "entrypoints": {
     "optigui": [

@@ -1,11 +1,11 @@
-package opekope2.optiglue.mc_1_19_3
+package opekope2.optiglue
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 import opekope2.optigui.provider.ResourceResolver
 
-class GlueResourceResolver() : ResourceResolver {
+class ResourceResolverImpl : ResourceResolver {
     private val manager: ResourceManager by lazy { MinecraftClient.getInstance().resourceManager }
 
     override fun resolveResource(id: Identifier?): Identifier? {

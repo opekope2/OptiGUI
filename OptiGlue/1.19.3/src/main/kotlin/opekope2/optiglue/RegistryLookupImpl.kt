@@ -1,4 +1,4 @@
-package opekope2.optiglue.mc_1_19_3
+package opekope2.optiglue
 
 import net.minecraft.block.Block
 import net.minecraft.entity.Entity
@@ -10,7 +10,7 @@ import net.minecraft.world.World
 import opekope2.optigui.provider.RegistryLookup
 import kotlin.jvm.optionals.getOrNull
 
-internal class GlueRegistryLookup : RegistryLookup {
+internal class RegistryLookupImpl : RegistryLookup {
     override fun lookupBlockId(block: Block): Identifier = Registries.BLOCK.getId(block)
     override fun lookupEntityId(entity: Entity): Identifier = Registries.ENTITY_TYPE.getId(entity.type)
 
