@@ -6,7 +6,7 @@ plugins {
 
 base { archivesName.set(project.extra["archives_base_name"] as String) }
 
-version = project.extra["mod_version"] as String
+version = "${project.extra["mod_version"]}+1.19.3"
 group = project.extra["maven_group"] as String
 
 repositories {}
@@ -20,12 +20,7 @@ dependencies {
         "net.fabricmc", "fabric-language-kotlin", project.extra["fabric_language_kotlin_version"] as String
     )
 
-    runtimeOnly(project(":OptiGlue:1.19.3", configuration = "namedElements"))
-    include(project(":OptiGlue:1.19.3", configuration = "namedElements"))
-
-    include(implementation("org.apache.commons", "commons-text", "1.10.0"))
-
-    testImplementation(kotlin("test"))
+    implementation(project(":OptiGUI", configuration = "namedElements"))
 }
 
 blossom.replaceToken("@mod_version@", project.extra["mod_version"])
@@ -59,12 +54,5 @@ tasks {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
         withSourcesJar()
-    }
-}
-
-tasks.test {
-    useJUnitPlatform()
-    testLogging {
-        events("PASSED", "SKIPPED", "FAILED")
     }
 }

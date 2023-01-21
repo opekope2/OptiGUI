@@ -11,4 +11,4 @@ pluginManagement {
     }
 }
 
-include("OptiGUI")
+include("OptiGUI", "OptiGlue:1.19.3")
