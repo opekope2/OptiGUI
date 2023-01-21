@@ -5,25 +5,19 @@ import net.minecraft.util.math.BlockPos
 import opekope2.filter.*
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.properties.OptiFineProperties
-import opekope2.optigui.provider.IRegistryLookupProvider
+import opekope2.optigui.provider.RegistryLookup
 import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
 import opekope2.util.TexturePath
-import opekope2.util.resolvePath
-import opekope2.util.resolveResource
-import java.io.File
 
-private const val container = "_stonecutter"
+private const val CONTAINER = "_stonecutter"
 private val texture = TexturePath.STONECUTTER
 
 fun createStonecutterFilter(resource: Resource): FilterInfo? {
-    if (resource.properties["container"] != container) return null
-    val resFolder = File(resource.id.path).parent.replace('\\', '/')
-    val replacement = (resource.properties["texture"] as? String)?.let {
-        resource.resourceManager.resolveResource(resolvePath(resFolder, it))
-    } ?: return null
+    if (resource.properties["container"] != CONTAINER) return null
+    val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = ConjunctionFilter(createGeneralFilters(resource, container, texture))
+    val filters = ConjunctionFilter(createGeneralFilters(resource, CONTAINER, texture))
 
     return FilterInfo(
         PostProcessorFilter(
@@ -39,14 +33,14 @@ fun createStonecutterFilter(resource: Resource): FilterInfo? {
 private typealias StonecutterProperties = OptiFineProperties
 
 private fun processStonecutterInteraction(interaction: Interaction): Interaction? {
-    val lookup = getProvider<IRegistryLookupProvider>()
+    val lookup = getProvider<RegistryLookup>()
 
     val world = interaction.rawInteraction?.world ?: return null
     val pos = BlockPos((interaction.rawInteraction.hitResult as? BlockHitResult)?.blockPos ?: return null)
 
     return interaction.copy(
         data = StonecutterProperties(
-            container = container,
+            container = CONTAINER,
             texture = texture,
             name = null,
             biome = lookup.lookupBiome(world, pos),

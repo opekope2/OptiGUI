@@ -5,25 +5,19 @@ import net.minecraft.util.math.BlockPos
 import opekope2.filter.*
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.properties.OptiFineProperties
-import opekope2.optigui.provider.IRegistryLookupProvider
+import opekope2.optigui.provider.RegistryLookup
 import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
 import opekope2.util.TexturePath
-import opekope2.util.resolvePath
-import opekope2.util.resolveResource
-import java.io.File
 
-private const val container = "inventory"
+private const val CONTAINER = "inventory"
 private val texture = TexturePath.INVENTORY
 
 fun createSurvivalInventoryFilter(resource: Resource): FilterInfo? {
-    if (resource.properties["container"] != container) return null
-    val resFolder = File(resource.id.path).parent.replace('\\', '/')
-    val replacement = (resource.properties["texture"] as? String)?.let {
-        resource.resourceManager.resolveResource(resolvePath(resFolder, it))
-    } ?: return null
+    if (resource.properties["container"] != CONTAINER) return null
+    val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = ConjunctionFilter(createGeneralFilters(resource, container, texture))
+    val filters = ConjunctionFilter(createGeneralFilters(resource, CONTAINER, texture))
 
     return FilterInfo(
         PostProcessorFilter(
@@ -39,7 +33,7 @@ fun createSurvivalInventoryFilter(resource: Resource): FilterInfo? {
 private typealias SurvivalInventoryProperties = OptiFineProperties
 
 private fun processSurvivalInventory(interaction: Interaction): Interaction? {
-    val lookup = getProvider<IRegistryLookupProvider>()
+    val lookup = getProvider<RegistryLookup>()
 
     val mc = MinecraftClient.getInstance()
     val world = mc.world ?: return null
@@ -47,7 +41,7 @@ private fun processSurvivalInventory(interaction: Interaction): Interaction? {
 
     return interaction.copy(
         data = SurvivalInventoryProperties(
-            container = container,
+            container = CONTAINER,
             texture = texture,
             name = null,
             biome = lookup.lookupBiome(world, pos),

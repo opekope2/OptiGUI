@@ -5,16 +5,13 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.Nameable
 import opekope2.filter.*
 import opekope2.optigui.internal.properties.FurnaceProperties
-import opekope2.optigui.provider.IRegistryLookupProvider
+import opekope2.optigui.provider.RegistryLookup
 import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
 import opekope2.util.TexturePath
-import opekope2.util.resolvePath
-import opekope2.util.resolveResource
 import opekope2.util.splitIgnoreEmpty
-import java.io.File
 
-private const val container = "furnace"
+private const val CONTAINER = "furnace"
 private val variantToTextureMap = mapOf(
     "_furnace" to TexturePath.FURNACE,
     "_blast_furnace" to TexturePath.BLAST_FURNACE,
@@ -31,13 +28,10 @@ private val variantMap = mapOf(
 )
 
 fun createFurnaceFilter(resource: Resource): FilterInfo? {
-    if (resource.properties["container"] != container) return null
-    val resFolder = File(resource.id.path).parent.replace('\\', '/')
-    val replacement = (resource.properties["texture"] as? String)?.let {
-        resource.resourceManager.resolveResource(resolvePath(resFolder, it))
-    } ?: return null
+    if (resource.properties["container"] != CONTAINER) return null
+    val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, container)
+    val filters = createGeneralFilters(resource, CONTAINER)
 
     val variants = resource.properties["variants"] as? String
     val textures: Set<Identifier> =
@@ -69,7 +63,7 @@ fun createFurnaceFilter(resource: Resource): FilterInfo? {
 
 internal fun processFurnace(furnace: BlockEntity): Any? {
     if (furnace !is AbstractFurnaceBlockEntity) return null
-    val lookup = getProvider<IRegistryLookupProvider>()
+    val lookup = getProvider<RegistryLookup>()
 
     val world = furnace.world ?: return null
 
@@ -81,7 +75,7 @@ internal fun processFurnace(furnace: BlockEntity): Any? {
     }
 
     return FurnaceProperties(
-        container = container,
+        container = CONTAINER,
         texture = variantToTextureMap[variant]!!,
         name = (furnace as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, furnace.pos),

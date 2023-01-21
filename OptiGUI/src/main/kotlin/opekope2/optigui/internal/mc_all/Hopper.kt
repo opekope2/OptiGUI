@@ -7,25 +7,19 @@ import opekope2.filter.ConjunctionFilter
 import opekope2.filter.FilterInfo
 import opekope2.filter.PostProcessorFilter
 import opekope2.optigui.internal.properties.OptiFineProperties
-import opekope2.optigui.provider.IRegistryLookupProvider
+import opekope2.optigui.provider.RegistryLookup
 import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
 import opekope2.util.TexturePath
-import opekope2.util.resolvePath
-import opekope2.util.resolveResource
-import java.io.File
 
-private const val container = "hopper"
+private const val CONTAINER = "hopper"
 private val texture = TexturePath.HOPPER
 
 fun createHopperFilter(resource: Resource): FilterInfo? {
-    if (resource.properties["container"] != container) return null
-    val resFolder = File(resource.id.path).parent.replace('\\', '/')
-    val replacement = (resource.properties["texture"] as? String)?.let {
-        resource.resourceManager.resolveResource(resolvePath(resFolder, it))
-    } ?: return null
+    if (resource.properties["container"] != CONTAINER) return null
+    val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, container, texture)
+    val filters = createGeneralFilters(resource, CONTAINER, texture)
 
     return FilterInfo(
         PostProcessorFilter(ConjunctionFilter(filters), replacement),
@@ -37,12 +31,12 @@ private typealias HopperProperties = OptiFineProperties
 
 internal fun processHopper(blockEntity: BlockEntity): Any? {
     if (blockEntity !is HopperBlockEntity) return null
-    val lookup = getProvider<IRegistryLookupProvider>()
+    val lookup = getProvider<RegistryLookup>()
 
     val world = blockEntity.world ?: return null
 
     return HopperProperties(
-        container = container,
+        container = CONTAINER,
         texture = texture,
         name = (blockEntity as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, blockEntity.pos),

@@ -5,10 +5,14 @@ import opekope2.filter.*
 import opekope2.filter.FilterResult.Mismatch
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.properties.GeneralProperties
+import opekope2.optigui.provider.ResourceResolver
+import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
 import opekope2.util.NumberOrRange
 import opekope2.util.parseWildcardOrRegex
+import opekope2.util.resolvePath
 import opekope2.util.splitIgnoreEmpty
+import java.io.File
 
 internal inline fun <T> MutableCollection<Filter<Interaction, Unit>>.addForProperty(
     resource: Resource,
@@ -85,4 +89,15 @@ internal fun createGeneralFilters(
     }
 
     return filters
+}
+
+private val resourceResolver: ResourceResolver by lazy(::getProvider)
+internal fun findReplacementTexture(resource: Resource, texturePath: String): Identifier? {
+    val resFolder = File(resource.id.path).parent.replace('\\', '/')
+
+    return resourceResolver.resolveResource(resolvePath(resFolder, texturePath))
+}
+
+internal fun findReplacementTexture(resource: Resource): Identifier? {
+    return findReplacementTexture(resource, resource.properties["texture"] as? String ?: return null)
 }

@@ -8,24 +8,22 @@ import net.minecraft.util.Nameable
 import opekope2.filter.*
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.properties.VillagerProperties
-import opekope2.optigui.provider.IRegistryLookupProvider
+import opekope2.optigui.provider.RegistryLookup
 import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
-import opekope2.util.*
-import java.io.File
+import opekope2.util.TexturePath
+import opekope2.util.parseProfession
+import opekope2.util.splitIgnoreEmpty
 
-private const val container = "villager"
+private const val CONTAINER = "villager"
 private val texture = TexturePath.VILLAGER2
 private val wanderingTraderProfession = Identifier(Identifier.DEFAULT_NAMESPACE, "_wandering_trader")
 
 internal fun createVillagerFilter(resource: Resource): FilterInfo? {
-    if (resource.properties["container"] != container) return null
-    val resFolder = File(resource.id.path).parent.replace('\\', '/')
-    val replacement = (resource.properties["texture"] as? String)?.let {
-        resource.resourceManager.resolveResource(resolvePath(resFolder, it))
-    } ?: return null
+    if (resource.properties["container"] != CONTAINER) return null
+    val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, container, texture)
+    val filters = createGeneralFilters(resource, CONTAINER, texture)
 
     filters.addForProperty(
         resource,
@@ -61,13 +59,13 @@ internal fun createVillagerFilter(resource: Resource): FilterInfo? {
 
 internal fun processVillager(villager: Entity): Any? {
     if (villager !is VillagerEntity && villager !is WanderingTraderEntity) return null
-    val lookup = getProvider<IRegistryLookupProvider>()
+    val lookup = getProvider<RegistryLookup>()
 
     val world = villager.world ?: return null
     val villagerData = (villager as? VillagerEntity)?.villagerData
 
     return VillagerProperties(
-        container = container,
+        container = CONTAINER,
         texture = texture,
         name = (villager as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, villager.blockPos),

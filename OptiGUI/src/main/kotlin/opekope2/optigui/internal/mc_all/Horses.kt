@@ -7,26 +7,20 @@ import net.minecraft.entity.passive.*
 import net.minecraft.util.Nameable
 import opekope2.filter.*
 import opekope2.optigui.internal.properties.HorseProperties
-import opekope2.optigui.provider.IRegistryLookupProvider
+import opekope2.optigui.provider.RegistryLookup
 import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
 import opekope2.util.TexturePath
-import opekope2.util.resolvePath
-import opekope2.util.resolveResource
 import opekope2.util.splitIgnoreEmpty
-import java.io.File
 
-private const val container = "horse"
+private const val CONTAINER = "horse"
 private val texture = TexturePath.HORSE
 
 fun createHorseFilter(resource: Resource): FilterInfo? {
-    if (resource.properties["container"] != container) return null
-    val resFolder = File(resource.id.path).parent.replace('\\', '/')
-    val replacement = (resource.properties["texture"] as? String)?.let {
-        resource.resourceManager.resolveResource(resolvePath(resFolder, it))
-    } ?: return null
+    if (resource.properties["container"] != CONTAINER) return null
+    val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, container, texture)
+    val filters = createGeneralFilters(resource, CONTAINER, texture)
 
     filters.addForProperty(resource, "variants", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
         val variantFilter = ContainingFilter(variants)
@@ -46,7 +40,7 @@ fun createHorseFilter(resource: Resource): FilterInfo? {
 
 internal fun processHorse(horse: Entity): Any? {
     if (horse !is AbstractHorseEntity) return null
-    val lookup = getProvider<IRegistryLookupProvider>()
+    val lookup = getProvider<RegistryLookup>()
 
     val world = horse.world ?: return null
 
@@ -62,7 +56,7 @@ internal fun processHorse(horse: Entity): Any? {
     }
 
     return HorseProperties(
-        container = container,
+        container = CONTAINER,
         texture = texture,
         name = (horse as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, horse.blockPos),

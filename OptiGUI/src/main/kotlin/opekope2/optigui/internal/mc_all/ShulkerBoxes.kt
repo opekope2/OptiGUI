@@ -5,26 +5,20 @@ import net.minecraft.block.entity.ShulkerBoxBlockEntity
 import net.minecraft.util.Nameable
 import opekope2.filter.*
 import opekope2.optigui.internal.properties.ShulkerBoxProperties
-import opekope2.optigui.provider.IRegistryLookupProvider
+import opekope2.optigui.provider.RegistryLookup
 import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
 import opekope2.util.TexturePath
-import opekope2.util.resolvePath
-import opekope2.util.resolveResource
 import opekope2.util.splitIgnoreEmpty
-import java.io.File
 
-private const val container = "shulker_box"
+private const val CONTAINER = "shulker_box"
 private val texture = TexturePath.SHULKER_BOX
 
 internal fun createShulkerBoxFilter(resource: Resource): FilterInfo? {
-    if (resource.properties["container"] != container) return null
-    val resFolder = File(resource.id.path).parent.replace('\\', '/')
-    val replacement = (resource.properties["texture"] as? String)?.let {
-        resource.resourceManager.resolveResource(resolvePath(resFolder, it))
-    } ?: return null
+    if (resource.properties["container"] != CONTAINER) return null
+    val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, container, texture)
+    val filters = createGeneralFilters(resource, CONTAINER, texture)
 
     filters.addForProperty(resource, "colors", { it.splitIgnoreEmpty(*delimiters) }) { colors ->
         val colorFilter = ContainingFilter(colors)
@@ -44,12 +38,12 @@ internal fun createShulkerBoxFilter(resource: Resource): FilterInfo? {
 
 internal fun processShulkerBox(shulkerBox: BlockEntity): Any? {
     if (shulkerBox !is ShulkerBoxBlockEntity) return null
-    val lookup = getProvider<IRegistryLookupProvider>()
+    val lookup = getProvider<RegistryLookup>()
 
     val world = shulkerBox.world ?: return null
 
     return ShulkerBoxProperties(
-        container = container,
+        container = CONTAINER,
         texture = texture,
         name = (shulkerBox as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, shulkerBox.pos),
