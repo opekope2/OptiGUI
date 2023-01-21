@@ -24,12 +24,9 @@ jobs:
           name: jars
           path: dist
       - name: Fetch release tag
-        run: |
-          git fetch origin $GITHUB_REF:$GITHUB_REF -f
-      - name: Load project info
-        run: |
-          git for-each-ref $GITHUB_REF --format '%(contents)' > CHANGELOG.g.md
-          echo GAME_VERSIONS=`jq -c '.depends.minecraft|join("\n")' src/main/resources/fabric.mod.json` >> $GITHUB_ENV
+        run: git fetch origin $GITHUB_REF:$GITHUB_REF -f
+      - name: Load changelog
+        run: git for-each-ref $GITHUB_REF --format '%(contents)' > CHANGELOG.g.md
       - name: Publish to GitHub, Modrinth, and CurseForge
         uses: Kir-Antipov/mc-publish@v3.2
         with:
@@ -47,7 +44,10 @@ jobs:
           files-primary: dist/!(*-@(dev|sources|javadoc)).jar
           files-secondary: ''
           changelog-file: CHANGELOG.g.md
-          game-versions: ${{ env.GAME_VERSIONS }}
+          # Update manually each time fabric.mod.json is edited until a better solution is found,
+          # or Kir-Antipov/mc-publish@v4 is released. Copy values from src/main/resources/fabric.mod.json
+          game-versions: |
+            1.19.3
           version-resolver: exact
           java: 17
       - name: Delete build output

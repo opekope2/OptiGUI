@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "optigui",
+  "version": "${version}",
+  "name": "OptiGUI",
+  "description": "A client side drop-in replacement for OptiFine custom GUIs",
+  "authors": [
+    "opekope2"
+  ],
+  "contact": {
+    "homepage": "https://github.com/opekope2/OptiGUI-Next",
+    "sources": "https://github.com/opekope2/OptiGUI-Next",
+    "issues": "https://github.com/opekope2/OptiGUI-Next/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/optigui/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.InitializerKt::initialize"
+      }
+    ]
+  },
+  "mixins": [
+    "optigui.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${fabricloader}",
+    "fabric-api": ">=${fabric_api}",
+    "fabric-language-kotlin": ">=${fabric_language_kotlin}",
+    "minecraft": ">=1.19.3",
+    "java": ">=${java}"
+  },
+  "recommends": {
+    "knowmyname": "*"
+  },
+  "suggests": {
+    "animatica": "*"
+  },
+  "breaks": {
+    "optifabric": "*"
+  }
+}
