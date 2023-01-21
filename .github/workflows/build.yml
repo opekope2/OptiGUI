@@ -38,4 +38,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jars
-          path: build/libs/*.jar
+          path: OptiGUI/build/libs/*.jar
