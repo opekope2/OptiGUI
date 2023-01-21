@@ -28,7 +28,7 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
-blossom.replaceToken("@mod_version@", project.extra["mod_version"])
+blossom.replaceToken("@mod_version@", version)
 
 tasks {
     val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
@@ -44,7 +44,7 @@ tasks {
         filesMatching("fabric.mod.json") {
             expand(
                 mutableMapOf(
-                    "version" to project.extra["mod_version"] as String,
+                    "version" to version,
                     "fabricloader" to project.extra["loader_version"] as String,
                     "fabric_api" to project.extra["fabric_version"] as String,
                     "fabric_language_kotlin" to project.extra["fabric_language_kotlin_version"] as String,
