@@ -45,7 +45,7 @@ jobs:
           files-secondary: ''
           changelog-file: CHANGELOG.g.md
           # Update manually each time fabric.mod.json is edited until a better solution is found,
-          # because GitHub has issues with CI. Copy values from src/main/resources/fabric.mod.json
+          # or Kir-Antipov/mc-publish@v4 is released. Copy values from src/main/resources/fabric.mod.json
           game-versions: |
             1.19.3
           version-resolver: exact
