@@ -5,33 +5,29 @@ import opekope2.optigui.exception.ResourceNotFoundException
 import java.util.*
 
 /**
- * A wrapper class for [net.minecraft.resource.Resource]
+ * A base resource class for loading OptiFine properties.
  *
- * @param resourceManager A wrapper for [net.minecraft.resource.ResourceManager]
  * @param id The identifier of the resource
  */
-class Resource(val resourceManager: IResourceManager, val id: Identifier) {
+abstract class Resource(val id: Identifier) {
     /**
-     * Returns if the current resource exists or not
+     * Returns if the current resource exists.
      */
-    val exists = resourceManager.resourceExists(id)
+    abstract val exists: Boolean
 
     /**
      * Returns the name of the resource pack the current resource is loaded from.
      *
-     * @throws ResourceNotFoundException If [exists] is `false`
+     * @throws ResourceNotFoundException If the resource doesn't exist
      */
-    val resourcePack: String by lazy { if (exists) resourceManager.resourcePackName(id) else throwResourceNotFound() }
+    @get:Throws(ResourceNotFoundException::class)
+    abstract val resourcePack: String
 
     /**
      * Returns the parsed `.properties` file.
      *
-     * @throws ResourceNotFoundException If [exists] is `false`
+     * @throws ResourceNotFoundException If the resource doesn't exist
      */
-    val properties: Properties by lazy {
-        if (exists) Properties().apply { load(resourceManager.getInputStream(id)) } else throwResourceNotFound()
-    }
-
-    private fun throwResourceNotFound(): Nothing =
-        throw ResourceNotFoundException("Resource '${id}' doesn't exist!")
+    @get:Throws(ResourceNotFoundException::class)
+    abstract val properties: Properties
 }

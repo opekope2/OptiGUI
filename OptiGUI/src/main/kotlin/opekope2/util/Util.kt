@@ -1,8 +1,6 @@
 package opekope2.util
 
-import net.minecraft.util.Identifier
 import opekope2.filter.FilterResult
-import opekope2.optigui.resource.IResourceManager
 
 /**
  * Runs a code block and returns its result.
@@ -21,19 +19,6 @@ internal inline fun <T> catchAll(function: () -> T): T? = try {
  * - `null` otherwise
  */
 internal fun String.toBoolean(): Boolean? = lowercase().toBooleanStrictOrNull()
-
-/**
- * Resolves an OptiFine-compatible PNG image resource by appending the extension if necessary.
- *
- * @param id The resource identifier
- * @return The found identifier or `null` if not found
- */
-internal fun IResourceManager.resolveResource(id: Identifier?): Identifier? {
-    if (resourceExists(id ?: return null)) return id
-
-    val idPng = Identifier(id.namespace, "${id.path}.png")
-    return if (resourceExists(idPng)) idPng else null
-}
 
 /**
  * If the current [FilterResult] is [FilterResult.Match], change its result to the given one.
