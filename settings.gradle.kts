@@ -10,3 +10,5 @@ pluginManagement {
         id("net.kyori.blossom") version "1.3.1"
     }
 }
+
+include("OptiGUI", "OptiGlue:1.19.3")

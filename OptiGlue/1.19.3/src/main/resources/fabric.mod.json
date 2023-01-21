@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "optiglue",
+  "version": "${version}",
+  "name": "OptiGlue",
+  "description": "Minecraft glue library for OptiGUI",
+  "authors": [
+    "opekope2"
+  ],
+  "contact": {
+    "homepage": "https://github.com/opekope2/OptiGUI-Next",
+    "sources": "https://github.com/opekope2/OptiGUI-Next",
+    "issues": "https://github.com/opekope2/OptiGUI-Next/issues"
+  },
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "optigui": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optiglue.InitializerKt::initialize"
+      }
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${fabricloader}",
+    "fabric-api": ">=${fabric_api}",
+    "fabric-language-kotlin": ">=${fabric_language_kotlin}",
+    "minecraft": ">=1.19.3",
+    "java": ">=${java}"
+  }
+}
