@@ -26,8 +26,9 @@ internal val filterFactories = mutableSetOf<(Resource) -> FilterInfo?>()
  *
  * To process anything other than block entities and entities, (for example, creative inventory, anvil screen,
  * most villager job sites), preprocessors are not available. Processing takes place in the filter created by [factory].
- * For example, add an arrow function to provide [Interaction.data] using [Interaction.copy], then invoke another filter
- * with the new interaction. You can add a texture filter in front of processing to avoid unnecessary computing.
+ * For example, add an arrow function, a [PreProcessorFilter] and/or [NullGuardFilter] to provide [Interaction.data]
+ * using [Interaction.copy], then invoke another filter with the new interaction.
+ * You can add a texture filter in front of processing to avoid unnecessary computing.
  *
  * @param factory The filter factory to register
  */
