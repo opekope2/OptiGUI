@@ -1,6 +1,5 @@
 package opekope2.optigui
 
-import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
@@ -37,4 +36,10 @@ fun initialize() {
     ClientPlayConnectionEvents.DISCONNECT.register(InteractionHandler)
 
     logger.info("OptiGUI $modVersion initialized.")
+
+    runEntryPoints()
 }
+
+private fun runEntryPoints() =
+    FabricLoader.getInstance().getEntrypoints("optigui", /* Java moment */ EntryPoint::class.java)
+        .forEach(EntryPoint::run)
