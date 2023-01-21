@@ -32,5 +32,14 @@
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
     "minecraft": ">=1.19.3",
     "java": ">=${java}"
+  },
+  "recommends": {
+    "knowmyname": "*"
+  },
+  "suggests": {
+    "animatica": "*"
+  },
+  "breaks": {
+    "optifabric": "*"
   }
 }
