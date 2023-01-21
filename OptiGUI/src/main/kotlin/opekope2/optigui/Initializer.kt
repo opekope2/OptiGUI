@@ -19,7 +19,7 @@ private val gameVersion = MinecraftVersion.CURRENT.name
 
 @Suppress("unused")
 fun initialize() {
-    registerProvider(ResourceLoader) // OptiGlue magic
+    registerProvider(ResourceLoader) // Needed by OptiGlue
 
     opekope2.optigui.internal.mc_all.initialize()
 
@@ -30,9 +30,9 @@ fun initialize() {
     ClientTickEvents.END_WORLD_TICK.register(InteractionHandler)
     ClientPlayConnectionEvents.DISCONNECT.register(InteractionHandler)
 
-    logger.info("OptiGUI $modVersion initialized.")
-
     runEntryPoints()
+
+    logger.info("OptiGUI $modVersion initialized in Minecraft $gameVersion.")
 }
 
 private fun runEntryPoints() =
