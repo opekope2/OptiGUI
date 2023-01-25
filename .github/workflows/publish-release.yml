@@ -1,0 +1,58 @@
+name: Publish OptiGUI
+
+on:
+  push:
+    tags: [ '*' ]
+
+jobs:
+  build:
+    name: Build OptiGUI
+    uses: ./.github/workflows/build.yml
+    with:
+      upload-output: true
+
+  publish:
+    name: Publish OptiGUI
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Download build output
+        uses: actions/download-artifact@v3
+        with:
+          name: jars
+          path: dist
+      - name: Fetch release tag
+        run: git fetch origin $GITHUB_REF:$GITHUB_REF -f
+      - name: Load changelog
+        run: git for-each-ref $GITHUB_REF --format '%(contents)' > CHANGELOG.g.md
+      - name: Publish to GitHub, Modrinth, and CurseForge
+        uses: Kir-Antipov/mc-publish@v3.2
+        with:
+          modrinth-id: ${{ vars.MODRINTH_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          modrinth-featured: false
+
+          curseforge-id: ${{ vars.CURSEFORGE_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-files-secondary: dist/*-@(dev|sources|javadoc).jar
+
+          name: OptiGUI ${{ github.ref_name }}
+          files-primary: dist/!(*-@(dev|sources|javadoc)).jar
+          files-secondary: ''
+          changelog-file: CHANGELOG.g.md
+          # Update manually each time fabric.mod.json is edited until a better solution is found,
+          # or Kir-Antipov/mc-publish@v4 is released. Copy values from src/main/resources/fabric.mod.json
+          game-versions: |
+            1.19.3
+          version-resolver: exact
+          java: 17
+      - name: Delete build output
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: jars
+          useGlob: false
+          failOnError: false
