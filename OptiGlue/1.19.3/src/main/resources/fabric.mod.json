@@ -15,10 +15,10 @@
   "license": "MIT",
   "environment": "client",
   "entrypoints": {
-    "optigui": [
+    "optiglue": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.optiglue.InitializerKt::initialize"
+        "value": "opekope2.optiglue.OptiGlueMod"
       }
     ]
   },
