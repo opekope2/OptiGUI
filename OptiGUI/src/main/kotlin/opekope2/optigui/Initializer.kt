@@ -23,7 +23,7 @@ fun initialize() {
 
     opekope2.optigui.internal.mc_all.initialize()
 
-    registerDevMessage()
+    setupDevMessage()
 
     UseBlockCallback.EVENT.register(InteractionHandler)
     UseEntityCallback.EVENT.register(InteractionHandler)
