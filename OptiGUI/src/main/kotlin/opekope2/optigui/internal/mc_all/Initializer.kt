@@ -72,7 +72,6 @@ internal fun initialize() {
     registerPreprocessor<MuleEntity>(::processHorse)
     registerPreprocessor<LlamaEntity>(::processHorse)
     registerPreprocessor<TraderLlamaEntity>(::processHorse)
-    registerPreprocessor<CamelEntity>(::processHorse)
     registerPreprocessor<ZombieHorseEntity>(::processHorse)
     registerPreprocessor<SkeletonHorseEntity>(::processHorse)
 

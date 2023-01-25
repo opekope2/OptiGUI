@@ -9,7 +9,9 @@ import net.minecraft.resource.ResourceType
 import opekope2.optiglue.mc_1_19_3.RegistryLookupImpl
 import opekope2.optiglue.mc_1_19_3.ResourceResolverImpl
 import opekope2.optigui.EntryPoint
+import opekope2.optigui.interaction.registerPreprocessor
 import opekope2.optigui.internal.glue.OptiGlue
+import opekope2.optigui.internal.mc_all.processHorse
 import opekope2.optigui.provider.RegistryLookup
 import opekope2.optigui.provider.ResourceResolver
 import opekope2.optigui.provider.registerProvider
@@ -26,6 +28,10 @@ object OptiGlueMod : EntryPoint, OptiGlue {
         registerProvider<RegistryLookup>(RegistryLookupImpl())
         registerProvider<ResourceResolver>(ResourceResolverImpl())
         registerProvider<OptiGlue>(this)
+
+        // Register preprocessor for camel in 1.19.3+
+        // Camel filter factory is just horse filter factory, registered in OptiGUI
+        registerPreprocessor<CamelEntity>(::processHorse)
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(ResourceLoader)
 
