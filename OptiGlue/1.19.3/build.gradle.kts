@@ -6,7 +6,7 @@ plugins {
 
 base { archivesName.set(project.extra["archives_base_name"] as String) }
 
-version = "${project.extra["mod_version"]}+1.19.3"
+version = "${project.extra["mod_version"]}+${project.extra["minecraft_version"]}"
 group = project.extra["maven_group"] as String
 
 repositories {}
@@ -21,6 +21,10 @@ dependencies {
     )
 
     implementation(project(":OptiGUI", configuration = "namedElements"))
+}
+
+loom {
+    clientOnlyMinecraftJar()
 }
 
 blossom.replaceToken("@mod_version@", version)

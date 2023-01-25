@@ -28,6 +28,10 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
+loom {
+    clientOnlyMinecraftJar()
+}
+
 blossom.replaceToken("@mod_version@", version)
 
 tasks {
