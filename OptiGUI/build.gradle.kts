@@ -15,15 +15,26 @@ dependencies {
     minecraft("com.mojang", "minecraft", project.extra["minecraft_version"] as String)
     mappings("net.fabricmc", "yarn", project.extra["yarn_mappings"] as String, null, "v2")
     modImplementation("net.fabricmc", "fabric-loader", project.extra["loader_version"] as String)
-    modImplementation("net.fabricmc.fabric-api", "fabric-api", project.extra["fabric_version"] as String)
     modImplementation(
-        "net.fabricmc", "fabric-language-kotlin", project.extra["fabric_language_kotlin_version"] as String
+        "net.fabricmc",
+        "fabric-language-kotlin",
+        project.extra["fabric_language_kotlin_version"] as String
     )
 
-    runtimeOnly(project(":OptiGlue:1.19", configuration = "namedElements"))
-    include(project(":OptiGlue:1.19", configuration = "namedElements"))
+    (project.extra["fabric_version"] as String).also { fabricVersion ->
+        modImplementation(fabricApi.module("fabric-lifecycle-events-v1", fabricVersion))
+        modImplementation(fabricApi.module("fabric-networking-api-v1", fabricVersion))
+        modImplementation(fabricApi.module("fabric-events-interaction-v0", fabricVersion))
 
+        // OptiGlue transitive dependency.
+        // Declare explicitly, otherwise fabric loader will not find it.
+        modRuntimeOnly(fabricApi.module("fabric-resource-loader-v0", fabricVersion))
+    }
+
+    runtimeOnly(project(":OptiGlue:1.19", configuration = "namedElements"))
     runtimeOnly(project(":OptiGlue:1.19.3", configuration = "namedElements"))
+
+    include(project(":OptiGlue:1.19", configuration = "namedElements"))
     include(project(":OptiGlue:1.19.3", configuration = "namedElements"))
 
     include(implementation("org.apache.commons", "commons-text", "1.10.0"))
@@ -53,7 +64,6 @@ tasks {
                 mutableMapOf(
                     "version" to version,
                     "fabricloader" to project.extra["loader_version"] as String,
-                    "fabric_api" to project.extra["fabric_version"] as String,
                     "fabric_language_kotlin" to project.extra["fabric_language_kotlin_version"] as String,
                     "java" to project.extra["java_version"] as String
                 )

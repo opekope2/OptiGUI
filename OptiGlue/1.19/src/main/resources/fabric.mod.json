@@ -24,7 +24,7 @@
   },
   "depends": {
     "fabricloader": ">=${fabricloader}",
-    "fabric": ">=${fabric_api}",
+    "fabric-resource-loader-v0": "*",
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
     "minecraft": ">=1.19 <1.19.3",
     "java": ">=${java}"

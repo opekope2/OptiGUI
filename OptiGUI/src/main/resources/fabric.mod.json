@@ -28,7 +28,9 @@
   ],
   "depends": {
     "fabricloader": ">=${fabricloader}",
-    "fabric-api": ">=${fabric_api}",
+    "fabric-lifecycle-events-v1": "*",
+    "fabric-networking-api-v1": "*",
+    "fabric-events-interaction-v0": "*",
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
     "minecraft": ">=1.19",
     "java": ">=${java}"
@@ -41,5 +43,10 @@
   },
   "breaks": {
     "optifabric": "*"
+  },
+  "custom": {
+    "mc-publish": {
+      "quilt": true
+    }
   }
 }
