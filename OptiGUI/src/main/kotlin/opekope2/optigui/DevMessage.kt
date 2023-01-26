@@ -3,10 +3,16 @@ package opekope2.optigui
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.minecraft.text.Text
 
-fun registerDevMessage() {
-    if ("alpha" !in modVersion && "beta" !in modVersion) return
+fun setupDevMessage() {
+    if ("alpha" !in modVersion) return
+
+    var shown = false
 
     ClientPlayConnectionEvents.JOIN.register(ClientPlayConnectionEvents.Join { _, _, client ->
+        if (shown) return@Join
+
+        shown = true
+
         client.inGameHud.chatHud.addMessage(
             Text.Serializer.fromJson(
                 """

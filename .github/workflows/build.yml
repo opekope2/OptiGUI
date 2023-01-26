@@ -39,3 +39,4 @@ jobs:
         with:
           name: jars
           path: OptiGUI/build/libs/*.jar
+          if-no-files-found: error

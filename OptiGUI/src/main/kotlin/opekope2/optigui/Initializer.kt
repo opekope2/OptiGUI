@@ -9,6 +9,8 @@ import net.minecraft.MinecraftVersion
 import net.minecraft.block.entity.*
 import opekope2.optigui.internal.InteractionHandler
 import opekope2.optigui.internal.ResourceLoader
+import opekope2.optigui.internal.glue.OptiGlue
+import opekope2.optigui.provider.getProviderOrNull
 import opekope2.optigui.provider.registerProvider
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -23,16 +25,26 @@ fun initialize() {
 
     opekope2.optigui.internal.mc_all.initialize()
 
-    registerDevMessage()
+    setupDevMessage()
 
     UseBlockCallback.EVENT.register(InteractionHandler)
     UseEntityCallback.EVENT.register(InteractionHandler)
     ClientTickEvents.END_WORLD_TICK.register(InteractionHandler)
     ClientPlayConnectionEvents.DISCONNECT.register(InteractionHandler)
 
+    loadOptiGlue()
+
     runEntryPoints()
 
     logger.info("OptiGUI $modVersion initialized in Minecraft $gameVersion.")
+}
+
+private fun loadOptiGlue() {
+    FabricLoader.getInstance().getEntrypoints("optiglue", /* Java moment */ EntryPoint::class.java)
+        .forEach(EntryPoint::run)
+
+    // Ensure OptiGlue loaded
+    getProviderOrNull<OptiGlue>() ?: throw RuntimeException("Error loading OptiGlue!")
 }
 
 private fun runEntryPoints() =

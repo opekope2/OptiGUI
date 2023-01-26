@@ -1,3 +1,5 @@
+@file:JvmName("FilterFactory")
+
 package opekope2.filter
 
 import opekope2.optigui.interaction.Interaction
@@ -24,11 +26,28 @@ internal val filterFactories = mutableSetOf<(Resource) -> FilterInfo?>()
  *
  * To process anything other than block entities and entities, (for example, creative inventory, anvil screen,
  * most villager job sites), preprocessors are not available. Processing takes place in the filter created by [factory].
- * For example, add an arrow function to provide [Interaction.data] using [Interaction.copy], then invoke another filter
- * with the new interaction. You can add a texture filter in front of processing to avoid unnecessary computing.
+ * For example, add an arrow function, a [PreProcessorFilter] and/or [NullGuardFilter] to provide [Interaction.data]
+ * using [Interaction.copy], then invoke another filter with the new interaction.
+ * You can add a texture filter in front of processing to avoid unnecessary computing.
  *
  * @param factory The filter factory to register
  */
 fun registerFilterFactory(factory: (Resource) -> FilterInfo?) {
     filterFactories.add(factory)
 }
+
+/**
+ * Creates a [PreProcessorFilter], which doesn't pass null as an input to [filter].
+ *
+ * @param TSource The type [PreProcessorFilter] filter accepts
+ * @param TFilter The type [filter] accepts
+ * @param TResult the type [filter] returns
+ * @param transform The transform to pass to [PreProcessorFilter.transform]
+ * @param nullResult The result to pass to [NullGuardFilter.nullResult]
+ * @param filter The sub-filter to evaluate
+ */
+fun <TSource, TFilter, TResult> createNullSafePreProcessorFilter(
+    transform: (TSource) -> TFilter,
+    nullResult: FilterResult<TResult>,
+    filter: Filter<TFilter, TResult>
+) = PreProcessorFilter(transform, NullGuardFilter(nullResult, filter))

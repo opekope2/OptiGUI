@@ -48,6 +48,9 @@ jobs:
           # or Kir-Antipov/mc-publish@v4 is released. Copy values from src/main/resources/fabric.mod.json
           game-versions: |
             1.19.3
+            1.19.2
+            1.19.1
+            1.19
           version-resolver: exact
           java: 17
       - name: Delete build output
