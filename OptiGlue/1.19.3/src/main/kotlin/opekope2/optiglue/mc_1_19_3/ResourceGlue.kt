@@ -8,7 +8,6 @@ import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
 internal class ResourceGlue(manager: ResourceManager, id: Identifier) : Resource(id) {
-    @OptIn(ExperimentalStdlibApi::class)
     private val resource = manager.getResource(id).getOrNull()
 
     override val exists: Boolean = resource != null

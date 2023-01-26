@@ -14,7 +14,6 @@ internal class RegistryLookupImpl : RegistryLookup {
     override fun lookupBlockId(block: Block): Identifier = Registry.BLOCK.getId(block)
     override fun lookupEntityId(entity: Entity): Identifier = Registry.ENTITY_TYPE.getId(entity.type)
 
-    @OptIn(ExperimentalStdlibApi::class)
     override fun lookupBiome(world: World, pos: BlockPos): Identifier =
         world.getBiome(pos).key.getOrNull()?.value ?: throw RuntimeException("Cannot load biome at $pos (world=$world)!")
 
