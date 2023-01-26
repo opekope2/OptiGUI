@@ -1,11 +1,10 @@
 package opekope2.optigui.internal.mc_all
 
 import net.minecraft.entity.Entity
-import net.minecraft.entity.mob.SkeletonHorseEntity
-import net.minecraft.entity.mob.ZombieHorseEntity
-import net.minecraft.entity.passive.*
+import net.minecraft.entity.passive.AbstractHorseEntity
 import net.minecraft.util.Nameable
 import opekope2.filter.*
+import opekope2.optigui.internal.glue.OptiGlue
 import opekope2.optigui.internal.properties.HorseProperties
 import opekope2.optigui.provider.RegistryLookup
 import opekope2.optigui.provider.getProvider
@@ -38,22 +37,13 @@ fun createHorseFilter(resource: Resource): FilterInfo? {
     )
 }
 
-internal fun processHorse(horse: Entity): Any? {
+// Referenced from glue for 1.19.3+ camel support
+fun processHorse(horse: Entity): Any? {
     if (horse !is AbstractHorseEntity) return null
     val lookup = getProvider<RegistryLookup>()
+    val optiGlue = getProvider<OptiGlue>()
 
     val world = horse.world ?: return null
-
-    val variant = when (horse) {
-        is HorseEntity -> "horse"
-        is DonkeyEntity -> "donkey"
-        is MuleEntity -> "mule"
-        is LlamaEntity -> "llama" // Includes trader llama
-        is CamelEntity -> "_camel"
-        is ZombieHorseEntity -> "_zombie_horse"
-        is SkeletonHorseEntity -> "_skeleton_horse"
-        else -> return null
-    }
 
     return HorseProperties(
         container = CONTAINER,
@@ -61,6 +51,6 @@ internal fun processHorse(horse: Entity): Any? {
         name = (horse as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, horse.blockPos),
         height = horse.blockPos.y,
-        variant = variant
+        variant = optiGlue.getHorseVariant(horse) ?: return null
     )
 }

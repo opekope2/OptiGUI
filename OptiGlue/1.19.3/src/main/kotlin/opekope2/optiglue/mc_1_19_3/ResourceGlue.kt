@@ -1,4 +1,4 @@
-package opekope2.optiglue
+package opekope2.optiglue.mc_1_19_3
 
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
@@ -7,7 +7,7 @@ import opekope2.optigui.resource.Resource
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
-internal class ResourceImpl(manager: ResourceManager, id: Identifier) : Resource(id) {
+internal class ResourceGlue(manager: ResourceManager, id: Identifier) : Resource(id) {
     @OptIn(ExperimentalStdlibApi::class)
     private val resource = manager.getResource(id).getOrNull()
 
