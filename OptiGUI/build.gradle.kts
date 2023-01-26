@@ -20,6 +20,9 @@ dependencies {
         "net.fabricmc", "fabric-language-kotlin", project.extra["fabric_language_kotlin_version"] as String
     )
 
+    runtimeOnly(project(":OptiGlue:1.19", configuration = "namedElements"))
+    include(project(":OptiGlue:1.19", configuration = "namedElements"))
+
     runtimeOnly(project(":OptiGlue:1.19.3", configuration = "namedElements"))
     include(project(":OptiGlue:1.19.3", configuration = "namedElements"))
 

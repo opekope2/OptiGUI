@@ -30,7 +30,7 @@
     "fabricloader": ">=${fabricloader}",
     "fabric-api": ">=${fabric_api}",
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
-    "minecraft": ">=1.19.3",
+    "minecraft": ">=1.19",
     "java": ">=${java}"
   },
   "recommends": {
