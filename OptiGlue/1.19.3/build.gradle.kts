@@ -6,7 +6,7 @@ plugins {
 
 base { archivesName.set(project.extra["archives_base_name"] as String) }
 
-version = "${project.extra["mod_version"]}+${project.extra["minecraft_version"]}"
+version = "${project.extra["mod_version"]}-mc.${project.extra["minecraft_version"]}"
 group = project.extra["maven_group"] as String
 
 repositories {}
