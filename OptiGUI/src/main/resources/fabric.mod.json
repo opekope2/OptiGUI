@@ -43,10 +43,5 @@
   },
   "breaks": {
     "optifabric": "*"
-  },
-  "custom": {
-    "mc-publish": {
-      "quilt": true
-    }
   }
 }
