@@ -13,8 +13,12 @@ repositories {}
 
 dependencies {
     minecraft("com.mojang", "minecraft", project.extra["minecraft_version"] as String)
-    mappings("net.fabricmc", "yarn", project.extra["yarn_mappings"] as String, null, "v2")
-    modImplementation("net.fabricmc", "fabric-loader", project.extra["loader_version"] as String)
+    mappings(loom.layered {
+        val mappingsDir = rootProject.projectDir.child("mappings").child(project.extra["minecraft_version"] as String)
+
+        mappings(mappingsDir.child("mappings.tiny"))
+        mappingsDir.listFiles { _, name -> name.endsWith(".mapping") }.forEach { mappings(it) { enigmaMappings() } }
+    })
     modImplementation(fabricApi.module("fabric-resource-loader-v0", project.extra["fabric_version"] as String))
     modImplementation(
         "net.fabricmc", "fabric-language-kotlin", project.extra["fabric_language_kotlin_version"] as String
@@ -44,7 +48,6 @@ tasks {
             expand(
                 mutableMapOf(
                     "version" to version,
-                    "fabricloader" to project.extra["loader_version"] as String,
                     "fabric_language_kotlin" to project.extra["fabric_language_kotlin_version"] as String,
                     "java" to project.extra["java_version"] as String
                 )
@@ -59,3 +62,5 @@ tasks {
         withSourcesJar()
     }
 }
+
+fun File.child(name: String) = File(this, name)

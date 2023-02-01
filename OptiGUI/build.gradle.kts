@@ -13,7 +13,12 @@ repositories {}
 
 dependencies {
     minecraft("com.mojang", "minecraft", project.extra["minecraft_version"] as String)
-    mappings("net.fabricmc", "yarn", project.extra["yarn_mappings"] as String, null, "v2")
+    mappings(loom.layered {
+        val mappingsDir = rootProject.projectDir.child("mappings").child(project.extra["minecraft_version"] as String)
+
+        mappings(mappingsDir.child("mappings.tiny"))
+        mappingsDir.listFiles { _, name -> name.endsWith(".mapping") }.forEach { mappings(it) { enigmaMappings() } }
+    })
     modImplementation("net.fabricmc", "fabric-loader", project.extra["loader_version"] as String)
     modImplementation(
         "net.fabricmc",
@@ -31,9 +36,13 @@ dependencies {
         modRuntimeOnly(fabricApi.module("fabric-resource-loader-v0", fabricVersion))
     }
 
+    runtimeOnly(project(":OptiGlue:1.18", configuration = "namedElements"))
+    runtimeOnly(project(":OptiGlue:1.18.2", configuration = "namedElements"))
     runtimeOnly(project(":OptiGlue:1.19", configuration = "namedElements"))
     runtimeOnly(project(":OptiGlue:1.19.3", configuration = "namedElements"))
 
+    include(project(":OptiGlue:1.18", configuration = "namedElements"))
+    include(project(":OptiGlue:1.18.2", configuration = "namedElements"))
     include(project(":OptiGlue:1.19", configuration = "namedElements"))
     include(project(":OptiGlue:1.19.3", configuration = "namedElements"))
 
@@ -85,3 +94,5 @@ tasks.test {
         events("PASSED", "SKIPPED", "FAILED")
     }
 }
+
+fun File.child(name: String) = File(this, name)
