@@ -32,7 +32,7 @@
     "fabric-networking-api-v1": "*",
     "fabric-events-interaction-v0": "*",
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
-    "minecraft": ">=1.18.2",
+    "minecraft": ">=1.18",
     "java": ">=${java}"
   },
   "recommends": {
