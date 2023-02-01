@@ -36,9 +36,11 @@ dependencies {
         modRuntimeOnly(fabricApi.module("fabric-resource-loader-v0", fabricVersion))
     }
 
+    runtimeOnly(project(":OptiGlue:1.18.2", configuration = "namedElements"))
     runtimeOnly(project(":OptiGlue:1.19", configuration = "namedElements"))
     runtimeOnly(project(":OptiGlue:1.19.3", configuration = "namedElements"))
 
+    include(project(":OptiGlue:1.18.2", configuration = "namedElements"))
     include(project(":OptiGlue:1.19", configuration = "namedElements"))
     include(project(":OptiGlue:1.19.3", configuration = "namedElements"))
 
