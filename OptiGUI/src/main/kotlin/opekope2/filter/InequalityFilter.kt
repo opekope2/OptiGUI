@@ -9,4 +9,6 @@ package opekope2.filter
 class InequalityFilter<T>(private val unexpectedValue: T) : Filter<T, Unit> {
     override fun evaluate(value: T): FilterResult<out Unit> =
         if (value != unexpectedValue) FilterResult.Match(Unit) else FilterResult.Mismatch()
+
+    override fun toString(): String = "${javaClass.name}, unexpectedValue: $unexpectedValue"
 }

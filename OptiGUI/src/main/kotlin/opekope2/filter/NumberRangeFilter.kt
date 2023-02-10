@@ -11,6 +11,8 @@ class NumberRangeFilter private constructor(private val min: Int, private val ma
     override fun evaluate(value: Int): FilterResult<out Unit> =
         if (value in min..max) FilterResult.Match(Unit) else FilterResult.Mismatch()
 
+    override fun toString(): String = "${javaClass.name}, $min..$max"
+
     companion object {
         /**
          * Creates a filter, which yields a successful result when the input number >= [min]

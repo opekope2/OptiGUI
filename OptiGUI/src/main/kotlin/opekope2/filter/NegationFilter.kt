@@ -11,6 +11,10 @@ import opekope2.util.withResult
  * @param T The type the filter accepts
  * @param filter The filter to negate
  */
-class NegationFilter<T>(private val filter: Filter<T, out Any>) : Filter<T, Unit> {
+class NegationFilter<T>(private val filter: Filter<T, out Any>) : Filter<T, Unit>, Iterable<Filter<T, out Any>> {
     override fun evaluate(value: T): FilterResult<out Unit> = filter.evaluate(value).withResult(Unit)
+
+    override fun iterator(): Iterator<Filter<T, out Any>> = setOf(filter).iterator()
+
+    override fun toString(): String = javaClass.name
 }

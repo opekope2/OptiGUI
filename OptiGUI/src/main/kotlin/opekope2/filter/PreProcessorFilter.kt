@@ -16,6 +16,10 @@ package opekope2.filter
 class PreProcessorFilter<TSource, TFilter, TResult>(
     private val transform: (TSource) -> TFilter,
     private val filter: Filter<TFilter, TResult>
-) : Filter<TSource, TResult> {
+) : Filter<TSource, TResult>, Iterable<Filter<TFilter, TResult>> {
     override fun evaluate(value: TSource) = filter.evaluate(transform(value))
+
+    override fun iterator(): Iterator<Filter<TFilter, TResult>> = setOf(filter).iterator()
+
+    override fun toString(): String = javaClass.name
 }

@@ -19,7 +19,7 @@ import opekope2.util.withResult
 class PostProcessorFilter<T, TFilterResult, TResult>(
     private val filter: Filter<T, out TFilterResult>,
     private val transform: (input: T, result: FilterResult<out TFilterResult>) -> FilterResult<out TResult>
-) : Filter<T, TResult> {
+) : Filter<T, TResult>, Iterable<Filter<T, out TFilterResult>> {
     /**
      * Creates a new post-processor filter by specifying [FilterResult.Match.result].
      *
@@ -32,4 +32,8 @@ class PostProcessorFilter<T, TFilterResult, TResult>(
     )
 
     override fun evaluate(value: T): FilterResult<out TResult> = transform(value, filter.evaluate(value))
+
+    override fun iterator(): Iterator<Filter<T, out TFilterResult>> = setOf(filter).iterator()
+
+    override fun toString(): String = javaClass.name
 }

@@ -11,7 +11,8 @@ package opekope2.filter
  * @param T The type the filter accepts
  * @param filters The sub-filters to evaluate
  */
-class DisjunctionFilter<T>(private val filters: Iterable<Filter<T, out Any>>) : Filter<T, Unit> {
+class DisjunctionFilter<T>(private val filters: Iterable<Filter<T, out Any>>) : Filter<T, Unit>,
+    Iterable<Filter<T, out Any>> {
     /**
      * Alternative constructor with variable arguments
      */
@@ -22,4 +23,8 @@ class DisjunctionFilter<T>(private val filters: Iterable<Filter<T, out Any>>) : 
         else if (result.all { it is FilterResult.Skip }) FilterResult.Skip()
         else FilterResult.Mismatch()
     }
+
+    override fun iterator(): Iterator<Filter<T, out Any>> = filters.iterator()
+
+    override fun toString(): String = javaClass.name
 }
