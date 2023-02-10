@@ -3,24 +3,42 @@ package opekope2.util
 import opekope2.filter.Filter
 import java.util.*
 
+/**
+ * An indentation and tree formatter utility class.
+ */
 class TreeFormatter {
     private val builder = StringBuilder()
     private val styles = Stack<Boolean>()
 
+    /**
+     * Indents the following lines by 1.
+     */
     fun indent() {
         styles.push(true)
     }
 
+    /**
+     * Indents all code ran inside [function] by 1, then resets the indentation to the previous one.
+     */
     fun indent(function: TreeFormatter.() -> Unit) {
         indent()
         function()
         unindent()
     }
 
+    /**
+     * Unindents the following lines by 1.
+     */
     fun unindent() {
         styles.pop()
     }
 
+    /**
+     * Appends a line to the tree with indentation.
+     *
+     * @param line The string to append
+     * @param lastChild Whether [line] is the last child of the parent node (for different formatting)
+     */
     @JvmOverloads
     fun append(line: String, lastChild: Boolean = false) {
         if (lastChild) {
@@ -39,6 +57,9 @@ class TreeFormatter {
     override fun toString() = builder.toString()
 }
 
+/**
+ * Formats a filter chain as a tree with ASCII characters, and returns the formatted string.
+ */
 fun Filter<*, *>.dump() = dump(TreeFormatter(), last = true)
 
 private fun Filter<*, *>.dump(writer: TreeFormatter, last: Boolean): String {
