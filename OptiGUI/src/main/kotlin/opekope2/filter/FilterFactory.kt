@@ -46,8 +46,8 @@ fun registerFilterFactory(factory: (Resource) -> FilterInfo?) {
  * @param nullResult The result to pass to [NullGuardFilter.nullResult]
  * @param filter The sub-filter to evaluate
  */
-fun <TSource, TFilter, TResult> createNullSafePreProcessorFilter(
-    transform: (TSource) -> TFilter,
+fun <TSource, TFilter, TResult> nullSafePreProcessorFilter(
+    transform: (TSource) -> TFilter?,
     nullResult: FilterResult<TResult>,
     filter: Filter<TFilter, TResult>
 ) = PreProcessorFilter(transform, NullGuardFilter(nullResult, filter))
