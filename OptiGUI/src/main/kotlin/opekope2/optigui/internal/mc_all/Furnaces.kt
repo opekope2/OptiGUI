@@ -39,21 +39,20 @@ fun createFurnaceFilter(resource: Resource): FilterInfo? {
         if (variants == null) setOf(TexturePath.FURNACE)
         else {
             val foundVariants = variants.splitIgnoreEmpty(*delimiters).mapNotNull(variantMap::get)
-            val variantFilter = ContainingFilter(foundVariants)
 
-            filters += Filter {
-                variantFilter.evaluate(
-                    (it.data as? FurnaceProperties)?.variant ?: return@Filter FilterResult.Mismatch()
-                )
-            }
+            filters += nullSafePreProcessorFilter(
+                { (it.data as? FurnaceProperties)?.variant },
+                FilterResult.Mismatch(),
+                ContainingFilter(foundVariants)
+            )
 
             foundVariants.mapNotNull(variantToTextureMap::get).toSet()
         }
 
-    val textureFilter = ContainingFilter(textures)
-    filters += Filter {
-        textureFilter.evaluate(it.texture)
-    }
+    filters += PreProcessorFilter(
+        { it.texture },
+        ContainingFilter(textures)
+    )
 
     return FilterInfo(
         PostProcessorFilter(ConjunctionFilter(filters), replacement),

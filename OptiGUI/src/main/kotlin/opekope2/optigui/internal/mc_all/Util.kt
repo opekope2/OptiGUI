@@ -20,7 +20,7 @@ internal inline fun <T> MutableCollection<Filter<Interaction, Unit>>.addForPrope
     propertyConverter: (String) -> T,
     filterCreator: (T) -> Filter<Interaction, Unit>
 ) {
-    (resource.properties[property] as? String)?.let { add(filterCreator(propertyConverter(it))) }
+    (resource.properties[property] as? String)?.let { propertyConverter(it) }?.let { add(filterCreator(it)) }
 }
 
 internal inline fun MutableCollection<Filter<Interaction, Unit>>.addForProperty(
@@ -38,8 +38,10 @@ internal fun createGeneralFilters(
 ): MutableList<Filter<Interaction, Unit>> {
     val filters = createGeneralFilters(resource, container)
 
-    val texturePathFilter = EqualityFilter(texturePath)
-    filters += Filter { texturePathFilter.evaluate(it.texture) }
+    filters += PreProcessorFilter(
+        { it.texture },
+        EqualityFilter(texturePath)
+    )
 
     return filters
 }
@@ -48,20 +50,19 @@ internal fun createGeneralFilters(
     resource: Resource,
     container: String
 ): MutableList<Filter<Interaction, Unit>> {
-    val containerFilter = EqualityFilter(container)
-
     val filters = mutableListOf<Filter<Interaction, Unit>>(
-        Filter {
-            containerFilter.evaluate((it.data as? GeneralProperties)?.container ?: return@Filter Mismatch())
-        }
+        nullSafePreProcessorFilter(
+            { (it.data as? GeneralProperties)?.container },
+            Mismatch(),
+            EqualityFilter(container)
+        )
     )
 
     filters.addForProperty(resource, "name") { name ->
-        val nameFilter = RegularExpressionFilter(parseWildcardOrRegex(name))
-
-        Filter {
-            nameFilter.evaluate((it.data as? GeneralProperties)?.name ?: it.screenTitle.string)
-        }
+        PreProcessorFilter(
+            { (it.data as? GeneralProperties)?.name ?: it.screenTitle.string },
+            RegularExpressionFilter(parseWildcardOrRegex(name))
+        )
     }
 
     filters.addForProperty(
@@ -69,11 +70,11 @@ internal fun createGeneralFilters(
         "biomes",
         { it.splitIgnoreEmpty(*delimiters).mapNotNull(Identifier::tryParse) }
     ) { biomes ->
-        val biomeFilter = ContainingFilter(biomes)
-
-        Filter {
-            biomeFilter.evaluate((it.data as? GeneralProperties)?.biome ?: return@Filter Mismatch())
-        }
+        nullSafePreProcessorFilter(
+            { (it.data as? GeneralProperties)?.biome },
+            Mismatch(),
+            ContainingFilter(biomes)
+        )
     }
 
     filters.addForProperty(
@@ -81,11 +82,11 @@ internal fun createGeneralFilters(
         "heights",
         { value -> value.splitIgnoreEmpty(*delimiters).mapNotNull { NumberOrRange.parse(it)?.toFilter() } }
     ) { heights ->
-        val heightFilter = DisjunctionFilter(heights)
-
-        Filter {
-            heightFilter.evaluate((it.data as? GeneralProperties)?.height ?: return@Filter Mismatch())
-        }
+        nullSafePreProcessorFilter(
+            { (it.data as? GeneralProperties)?.height },
+            Mismatch(),
+            DisjunctionFilter(heights)
+        )
     }
 
     return filters

@@ -31,20 +31,17 @@ internal fun createVillagerFilter(resource: Resource): FilterInfo? {
         { it.splitIgnoreEmpty(*delimiters).mapNotNull(::parseProfession) }
     ) { professions ->
         val professionFilters: Collection<Filter<Interaction, Unit>> = professions.map { (profession, levels) ->
-            val professionFilter = EqualityFilter(profession)
-            val levelFilter = DisjunctionFilter(levels.mapNotNull { it.toFilter() })
-
             ConjunctionFilter(
-                Filter {
-                    professionFilter.evaluate(
-                        (it.data as? VillagerProperties)?.profession ?: return@Filter FilterResult.Mismatch()
-                    )
-                },
-                Filter {
-                    levelFilter.evaluate(
-                        (it.data as? VillagerProperties)?.level ?: return@Filter FilterResult.Mismatch()
-                    )
-                }
+                nullSafePreProcessorFilter(
+                    { (it.data as? VillagerProperties)?.profession },
+                    FilterResult.Mismatch(),
+                    EqualityFilter(profession)
+                ),
+                nullSafePreProcessorFilter(
+                    { (it.data as? VillagerProperties)?.level },
+                    FilterResult.Mismatch(),
+                    DisjunctionFilter(levels.mapNotNull { it.toFilter() })
+                )
             )
         }
 

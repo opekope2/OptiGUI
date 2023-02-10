@@ -2,11 +2,8 @@ package opekope2.optigui.internal.mc_all
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.util.Identifier
-import opekope2.filter.ConjunctionFilter
-import opekope2.filter.Filter
-import opekope2.filter.FilterInfo
+import opekope2.filter.*
 import opekope2.filter.FilterResult.Mismatch
-import opekope2.filter.PostProcessorFilter
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.properties.OptiFineProperties
 import opekope2.optigui.provider.RegistryLookup
@@ -19,7 +16,7 @@ private const val CONTAINER = "creative"
 fun createCreativeInventoryFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
 
-    val filters = ConjunctionFilter(createGeneralFilters(resource, CONTAINER))
+    val filters = createGeneralFilters(resource, CONTAINER)
 
     val textureMap = mutableMapOf<Identifier, Identifier>()
     for ((key, value) in resource.properties) {
@@ -34,13 +31,19 @@ fun createCreativeInventoryFilter(resource: Resource): FilterInfo? {
         }
     }
 
+    filters += PreProcessorFilter(
+        { it.texture },
+        ContainingFilter(textureMap.keys)
+    )
+
     return FilterInfo(
         PostProcessorFilter(
-            Filter {
-                if (!textureMap.containsKey(it.texture)) return@Filter Mismatch()
+            nullSafePreProcessorFilter(
+                ::processCreativeInventory,
+                Mismatch(),
+                ConjunctionFilter(filters)
+            )
 
-                filters.evaluate(processCreativeInventory(it) ?: return@Filter Mismatch())
-            }
         ) { input, filterResult ->
             filterResult.withResult(textureMap[input.texture] ?: return@PostProcessorFilter Mismatch())
         },

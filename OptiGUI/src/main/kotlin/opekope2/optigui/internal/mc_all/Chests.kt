@@ -26,49 +26,39 @@ internal fun createChestFilter(resource: Resource): FilterInfo? {
     val filters = createGeneralFilters(resource, CONTAINER, texture)
 
     filters.addForProperty(resource, "large", { it.toBoolean() }) { large ->
-        val largeFilter = createOptionalEqualityFilter(large)
-
-        Filter {
-            largeFilter.evaluate((it.data as? ChestProperties)?.large ?: return@Filter Mismatch())
-        }
+        nullSafePreProcessorFilter(
+            { (it.data as? ChestProperties)?.large },
+            Mismatch(),
+            EqualityFilter(large)
+        )
     }
     filters.addForProperty(resource, "trapped", { it.toBoolean() }) { trapped ->
-        val trappedFilter = createOptionalEqualityFilter(trapped)
-
-        Filter {
-            trappedFilter.evaluate((it.data as? ChestProperties)?.trapped ?: return@Filter Mismatch())
-        }
+        nullSafePreProcessorFilter(
+            { (it.data as? ChestProperties)?.trapped },
+            Mismatch(),
+            EqualityFilter(trapped)
+        )
     }
     filters.addForProperty(resource, "christmas", { it.toBoolean() }) { christmas ->
-        val christmasFilter = createOptionalEqualityFilter(christmas)
-
-        Filter {
-            christmasFilter.evaluate((it.data as? ChestProperties)?.christmas ?: return@Filter Mismatch())
-        }
+        nullSafePreProcessorFilter(
+            { (it.data as? ChestProperties)?.christmas },
+            Mismatch(),
+            EqualityFilter(christmas)
+        )
     }
     filters.addForProperty(resource, "ender", { it.toBoolean() }) { ender ->
-        val enderFilter = createOptionalEqualityFilter(ender)
-
-        Filter {
-            enderFilter.evaluate((it.data as? ChestProperties)?.ender ?: return@Filter Mismatch())
-        }
+        nullSafePreProcessorFilter(
+            { (it.data as? ChestProperties)?.ender },
+            Mismatch(),
+            EqualityFilter(ender)
+        )
     }
-
-    // _barrel needs to be opted in explicitly for compatibility
-    if (resource.properties.containsKey("_barrel")) {
-        filters.addForProperty(resource, "_barrel", { it.toBoolean() }) { barrel ->
-            val barrelFilter = createOptionalEqualityFilter(barrel)
-
-            Filter {
-                barrelFilter.evaluate((it.data as? ChestProperties)?.barrel ?: return@Filter Mismatch())
-            }
-        }
-    } else {
-        val barrelFilter = EqualityFilter(false)
-
-        filters += Filter {
-            barrelFilter.evaluate((it.data as? ChestProperties)?.barrel ?: return@Filter Mismatch())
-        }
+    filters.addForProperty(resource, "_barrel", { it.toBoolean() }) { barrel ->
+        nullSafePreProcessorFilter(
+            { (it.data as? ChestProperties)?.barrel },
+            Mismatch(),
+            EqualityFilter(barrel)
+        )
     }
 
     return FilterInfo(
@@ -101,6 +91,3 @@ internal fun processChest(chest: BlockEntity): Any? {
 
 private fun isChristmas(): Boolean = LocalDateTime.now().let { it.month == Month.DECEMBER && it.dayOfMonth in 24..26 }
 
-private fun <T> createOptionalEqualityFilter(expectedValue: T?): Filter<T, Unit> =
-    if (expectedValue == null) Filter { FilterResult.Match(Unit) }
-    else EqualityFilter(expectedValue)
