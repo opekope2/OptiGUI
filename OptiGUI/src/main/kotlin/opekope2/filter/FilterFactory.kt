@@ -35,19 +35,3 @@ internal val filterFactories = mutableSetOf<(Resource) -> FilterInfo?>()
 fun registerFilterFactory(factory: (Resource) -> FilterInfo?) {
     filterFactories.add(factory)
 }
-
-/**
- * Creates a [PreProcessorFilter], which doesn't pass null as an input to [filter].
- *
- * @param TSource The type [PreProcessorFilter] filter accepts
- * @param TFilter The type [filter] accepts
- * @param TResult the type [filter] returns
- * @param transform The transform to pass to [PreProcessorFilter.transform]
- * @param nullResult The result to pass to [NullGuardFilter.nullResult]
- * @param filter The sub-filter to evaluate
- */
-fun <TSource, TFilter, TResult> nullSafePreProcessorFilter(
-    transform: (TSource) -> TFilter?,
-    nullResult: FilterResult<TResult>,
-    filter: Filter<TFilter, TResult>
-) = PreProcessorFilter(transform, NullGuardFilter(nullResult, filter))
