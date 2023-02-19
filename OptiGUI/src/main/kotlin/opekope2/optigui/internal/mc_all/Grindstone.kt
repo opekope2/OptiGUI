@@ -21,7 +21,7 @@ fun createGrindstoneFilter(resource: Resource): FilterInfo? {
 
     return FilterInfo(
         PostProcessorFilter(
-            nullSafePreProcessorFilter(
+            PreProcessorFilter.nullGuarded(
                 ::processGrindstoneInteraction,
                 FilterResult.Mismatch(),
                 ConjunctionFilter(filters)

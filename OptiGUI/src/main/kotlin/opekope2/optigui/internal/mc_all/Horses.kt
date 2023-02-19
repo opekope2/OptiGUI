@@ -22,7 +22,7 @@ fun createHorseFilter(resource: Resource): FilterInfo? {
     val filters = createGeneralFilters(resource, CONTAINER, texture)
 
     filters.addForProperty(resource, "variants", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
-        nullSafePreProcessorFilter(
+        PreProcessorFilter.nullGuarded(
             { (it.data as? HorseProperties)?.variant },
             FilterResult.Mismatch(),
             ContainingFilter(variants)

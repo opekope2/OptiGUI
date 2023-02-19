@@ -21,7 +21,7 @@ internal fun createShulkerBoxFilter(resource: Resource): FilterInfo? {
     val filters = createGeneralFilters(resource, CONTAINER, texture)
 
     filters.addForProperty(resource, "colors", { it.splitIgnoreEmpty(*delimiters) }) { colors ->
-        nullSafePreProcessorFilter(
+        PreProcessorFilter.nullGuarded(
             { (it.data as? ShulkerBoxProperties)?.color },
             FilterResult.Mismatch(),
             ContainingFilter(colors)

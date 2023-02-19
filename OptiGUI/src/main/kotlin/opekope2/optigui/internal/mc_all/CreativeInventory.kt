@@ -38,7 +38,7 @@ fun createCreativeInventoryFilter(resource: Resource): FilterInfo? {
 
     return FilterInfo(
         PostProcessorFilter(
-            nullSafePreProcessorFilter(
+            PreProcessorFilter.nullGuarded(
                 ::processCreativeInventory,
                 Mismatch(),
                 ConjunctionFilter(filters)

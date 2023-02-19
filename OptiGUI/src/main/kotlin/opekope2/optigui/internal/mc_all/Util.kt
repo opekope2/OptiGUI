@@ -51,7 +51,7 @@ internal fun createGeneralFilters(
     container: String
 ): MutableList<Filter<Interaction, Unit>> {
     val filters = mutableListOf<Filter<Interaction, Unit>>(
-        nullSafePreProcessorFilter(
+        PreProcessorFilter.nullGuarded(
             { (it.data as? GeneralProperties)?.container },
             Mismatch(),
             EqualityFilter(container)
@@ -70,7 +70,7 @@ internal fun createGeneralFilters(
         "biomes",
         { it.splitIgnoreEmpty(*delimiters).mapNotNull(Identifier::tryParse) }
     ) { biomes ->
-        nullSafePreProcessorFilter(
+        PreProcessorFilter.nullGuarded(
             { (it.data as? GeneralProperties)?.biome },
             Mismatch(),
             ContainingFilter(biomes)
@@ -82,7 +82,7 @@ internal fun createGeneralFilters(
         "heights",
         { value -> value.splitIgnoreEmpty(*delimiters).mapNotNull { NumberOrRange.parse(it)?.toFilter() } }
     ) { heights ->
-        nullSafePreProcessorFilter(
+        PreProcessorFilter.nullGuarded(
             { (it.data as? GeneralProperties)?.height },
             Mismatch(),
             DisjunctionFilter(heights)

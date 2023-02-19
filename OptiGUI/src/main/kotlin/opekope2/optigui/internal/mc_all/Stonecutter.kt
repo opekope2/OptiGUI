@@ -21,7 +21,7 @@ fun createStonecutterFilter(resource: Resource): FilterInfo? {
 
     return FilterInfo(
         PostProcessorFilter(
-            nullSafePreProcessorFilter(
+            PreProcessorFilter.nullGuarded(
                 ::processStonecutterInteraction,
                 FilterResult.Mismatch(),
                 ConjunctionFilter(filters)

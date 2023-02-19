@@ -20,7 +20,7 @@ fun createAnvilFilter(resource: Resource): FilterInfo? {
     val filters = ConjunctionFilter(createGeneralFilters(resource, CONTAINER, texture))
 
     return FilterInfo(
-        nullSafePreProcessorFilter(
+        PreProcessorFilter.nullGuarded(
             ::processAnvilInteraction,
             FilterResult.Mismatch(),
             PostProcessorFilter(

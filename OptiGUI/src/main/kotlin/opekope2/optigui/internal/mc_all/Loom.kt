@@ -21,7 +21,7 @@ fun createLoomFilter(resource: Resource): FilterInfo? {
 
     return FilterInfo(
         PostProcessorFilter(
-            nullSafePreProcessorFilter(
+            PreProcessorFilter.nullGuarded(
                 ::processLoomInteraction,
                 FilterResult.Mismatch(),
                 ConjunctionFilter(filters)

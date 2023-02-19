@@ -32,12 +32,12 @@ internal fun createVillagerFilter(resource: Resource): FilterInfo? {
     ) { professions ->
         val professionFilters: Collection<Filter<Interaction, Unit>> = professions.map { (profession, levels) ->
             ConjunctionFilter(
-                nullSafePreProcessorFilter(
+                PreProcessorFilter.nullGuarded(
                     { (it.data as? VillagerProperties)?.profession },
                     FilterResult.Mismatch(),
                     EqualityFilter(profession)
                 ),
-                nullSafePreProcessorFilter(
+                PreProcessorFilter.nullGuarded(
                     { (it.data as? VillagerProperties)?.level },
                     FilterResult.Mismatch(),
                     DisjunctionFilter(levels.mapNotNull { it.toFilter() })

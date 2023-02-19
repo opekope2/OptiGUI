@@ -21,7 +21,7 @@ fun createSmithingTableFilter(resource: Resource): FilterInfo? {
 
     return FilterInfo(
         PostProcessorFilter(
-            nullSafePreProcessorFilter(
+            PreProcessorFilter.nullGuarded(
                 ::processSmithingTableInteraction,
                 FilterResult.Mismatch(),
                 ConjunctionFilter(filters)

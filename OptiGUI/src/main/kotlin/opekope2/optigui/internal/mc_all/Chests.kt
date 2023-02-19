@@ -26,35 +26,35 @@ internal fun createChestFilter(resource: Resource): FilterInfo? {
     val filters = createGeneralFilters(resource, CONTAINER, texture)
 
     filters.addForProperty(resource, "large", { it.toBoolean() }) { large ->
-        nullSafePreProcessorFilter(
+        PreProcessorFilter.nullGuarded(
             { (it.data as? ChestProperties)?.large },
             Mismatch(),
             EqualityFilter(large)
         )
     }
     filters.addForProperty(resource, "trapped", { it.toBoolean() }) { trapped ->
-        nullSafePreProcessorFilter(
+        PreProcessorFilter.nullGuarded(
             { (it.data as? ChestProperties)?.trapped },
             Mismatch(),
             EqualityFilter(trapped)
         )
     }
     filters.addForProperty(resource, "christmas", { it.toBoolean() }) { christmas ->
-        nullSafePreProcessorFilter(
+        PreProcessorFilter.nullGuarded(
             { (it.data as? ChestProperties)?.christmas },
             Mismatch(),
             EqualityFilter(christmas)
         )
     }
     filters.addForProperty(resource, "ender", { it.toBoolean() }) { ender ->
-        nullSafePreProcessorFilter(
+        PreProcessorFilter.nullGuarded(
             { (it.data as? ChestProperties)?.ender },
             Mismatch(),
             EqualityFilter(ender)
         )
     }
     filters.addForProperty(resource, "_barrel", { it.toBoolean() }) { barrel ->
-        nullSafePreProcessorFilter(
+        PreProcessorFilter.nullGuarded(
             { (it.data as? ChestProperties)?.barrel },
             Mismatch(),
             EqualityFilter(barrel)
@@ -90,4 +90,3 @@ internal fun processChest(chest: BlockEntity): Any? {
 }
 
 private fun isChristmas(): Boolean = LocalDateTime.now().let { it.month == Month.DECEMBER && it.dayOfMonth in 24..26 }
-

@@ -21,7 +21,7 @@ fun createCraftingTableFilter(resource: Resource): FilterInfo? {
 
     return FilterInfo(
         PostProcessorFilter(
-            nullSafePreProcessorFilter(
+            PreProcessorFilter.nullGuarded(
                 ::processCraftingTableInteraction,
                 FilterResult.Mismatch(),
                 ConjunctionFilter(filters)

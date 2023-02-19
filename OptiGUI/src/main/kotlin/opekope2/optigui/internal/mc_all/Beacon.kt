@@ -23,7 +23,7 @@ fun createBeaconFilter(resource: Resource): FilterInfo? {
     val filters = createGeneralFilters(resource, CONTAINER, texture)
 
     filters.addForProperty(resource, "levels", { it.splitIgnoreEmpty(*delimiters) }) { levels ->
-        nullSafePreProcessorFilter(
+        PreProcessorFilter.nullGuarded(
             { (it.data as? BeaconProperties)?.level },
             FilterResult.Mismatch(),
             DisjunctionFilter(levels.mapNotNull { NumberOrRange.parse(it)?.toFilter() })

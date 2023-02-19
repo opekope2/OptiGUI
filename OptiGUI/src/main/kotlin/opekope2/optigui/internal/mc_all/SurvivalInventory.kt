@@ -21,7 +21,7 @@ fun createSurvivalInventoryFilter(resource: Resource): FilterInfo? {
 
     return FilterInfo(
         PostProcessorFilter(
-            nullSafePreProcessorFilter(
+            PreProcessorFilter.nullGuarded(
                 ::processSurvivalInventory,
                 FilterResult.Mismatch(),
                 ConjunctionFilter(filters)

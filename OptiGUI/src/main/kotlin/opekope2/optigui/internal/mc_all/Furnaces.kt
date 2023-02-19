@@ -40,7 +40,7 @@ fun createFurnaceFilter(resource: Resource): FilterInfo? {
         else {
             val foundVariants = variants.splitIgnoreEmpty(*delimiters).mapNotNull(variantMap::get)
 
-            filters += nullSafePreProcessorFilter(
+            filters += PreProcessorFilter.nullGuarded(
                 { (it.data as? FurnaceProperties)?.variant },
                 FilterResult.Mismatch(),
                 ContainingFilter(foundVariants)

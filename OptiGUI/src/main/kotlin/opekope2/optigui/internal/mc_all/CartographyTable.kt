@@ -21,7 +21,7 @@ fun createCartographyTableFilter(resource: Resource): FilterInfo? {
 
     return FilterInfo(
         PostProcessorFilter(
-            nullSafePreProcessorFilter(
+            PreProcessorFilter.nullGuarded(
                 ::processCartographyTableInteraction,
                 FilterResult.Mismatch(),
                 ConjunctionFilter(filters)
