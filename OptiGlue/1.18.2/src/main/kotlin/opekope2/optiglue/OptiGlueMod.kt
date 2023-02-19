@@ -9,6 +9,7 @@ import net.minecraft.resource.ResourceType
 import opekope2.optiglue.mc_1_18_2.RegistryLookupImpl
 import opekope2.optiglue.mc_1_18_2.ResourceResolverImpl
 import opekope2.optigui.EntryPoint
+import opekope2.optigui.InitializerContext
 import opekope2.optigui.internal.glue.OptiGlue
 import opekope2.optigui.provider.RegistryLookup
 import opekope2.optigui.provider.ResourceResolver
@@ -21,7 +22,7 @@ object OptiGlueMod : EntryPoint, OptiGlue {
     internal val logger: Logger = LoggerFactory.getLogger("OptiGlue")
     private val gameVersion = MinecraftVersion.CURRENT.name
 
-    override fun run() {
+    override fun onInitialize(context: InitializerContext) {
         // Needed by OptiGUI
         registerProvider<RegistryLookup>(RegistryLookupImpl())
         registerProvider<ResourceResolver>(ResourceResolverImpl())

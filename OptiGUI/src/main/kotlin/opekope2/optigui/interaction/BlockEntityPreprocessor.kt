@@ -1,13 +1,14 @@
 package opekope2.optigui.interaction
 
 import net.minecraft.block.entity.BlockEntity
+import opekope2.optigui.InitializerContext
 
 /**
  * A block entity preprocessor, which extracts information from a block entity for further processing by filters.
  * This class provides [Interaction.data] (converts a block entity to an object,
  * where properties of the block entity are stored, which will be processed by filters supporting it).
  *
- * Each block entity can have one preprocessor registered with [registerPreprocessor].
+ * Each block entity can have one preprocessor registered with [InitializerContext.registerPreprocessor].
  *
  * If a GUI screen is open, the preprocessor of the interacted block entity runs each tick,
  * so [process] should execute quickly.

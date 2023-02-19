@@ -21,7 +21,8 @@ private val gameVersion = MinecraftVersion.CURRENT.name
 
 @Suppress("unused")
 fun initialize() {
-    registerProvider(ResourceLoader) // Needed by OptiGlue
+    // Needed by OptiGlue
+    registerProvider(ResourceLoader)
 
     opekope2.optigui.internal.mc_all.initialize()
 
@@ -32,21 +33,20 @@ fun initialize() {
     ClientTickEvents.END_WORLD_TICK.register(InteractionHandler)
     ClientPlayConnectionEvents.DISCONNECT.register(InteractionHandler)
 
-    loadOptiGlue()
-
     runEntryPoints()
+
+    // Ensure OptiGlue loaded
+    getProviderOrNull<OptiGlue>() ?: throw RuntimeException("Error loading OptiGlue!")
 
     logger.info("OptiGUI $modVersion initialized in Minecraft $gameVersion.")
 }
 
-private fun loadOptiGlue() {
-    FabricLoader.getInstance().getEntrypoints("optiglue", /* Java moment */ EntryPoint::class.java)
-        .forEach(EntryPoint::run)
+private fun runEntryPoints() {
+    val entrypoints =
+        FabricLoader.getInstance().getEntrypointContainers("optigui", /* Java moment */ EntryPoint::class.java)
 
-    // Ensure OptiGlue loaded
-    getProviderOrNull<OptiGlue>() ?: throw RuntimeException("Error loading OptiGlue!")
+    // Initialize OptiGlue first
+    entrypoints.sortByDescending { it.provider.metadata.id == "optiglue" }
+
+    entrypoints.forEach { it.entrypoint.onInitialize(InitializerContext(it.provider.metadata.id)) }
 }
-
-private fun runEntryPoints() =
-    FabricLoader.getInstance().getEntrypoints("optigui", /* Java moment */ EntryPoint::class.java)
-        .forEach(EntryPoint::run)
