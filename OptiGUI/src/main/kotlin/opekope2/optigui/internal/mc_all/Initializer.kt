@@ -4,77 +4,76 @@ import net.minecraft.block.entity.*
 import net.minecraft.entity.mob.SkeletonHorseEntity
 import net.minecraft.entity.mob.ZombieHorseEntity
 import net.minecraft.entity.passive.*
-import opekope2.filter.registerFilterFactory
-import opekope2.optigui.interaction.registerPreprocessor
+import opekope2.optigui.InitializerContext
 
-internal fun initialize() {
+internal fun initialize(context: InitializerContext) {
     // Register block entity filter factories
-    registerFilterFactory(::createAnvilFilter)
-    registerFilterFactory(::createBrewingStandFilter)
-    registerFilterFactory(::createCraftingTableFilter)
-    registerFilterFactory(::createEnchantingTableFilter)
-    registerFilterFactory(::createFurnaceFilter)
-    registerFilterFactory(::createHopperFilter)
+    context.registerFilterFactory(::createAnvilFilter)
+    context.registerFilterFactory(::createBrewingStandFilter)
+    context.registerFilterFactory(::createCraftingTableFilter)
+    context.registerFilterFactory(::createEnchantingTableFilter)
+    context.registerFilterFactory(::createFurnaceFilter)
+    context.registerFilterFactory(::createHopperFilter)
 
-    registerFilterFactory(::createChestFilter)
-    registerFilterFactory(::createBeaconFilter)
-    registerFilterFactory(::createDispenserFilter)
-    registerFilterFactory(::createShulkerBoxFilter)
+    context.registerFilterFactory(::createChestFilter)
+    context.registerFilterFactory(::createBeaconFilter)
+    context.registerFilterFactory(::createDispenserFilter)
+    context.registerFilterFactory(::createShulkerBoxFilter)
 
-    registerFilterFactory(::createLoomFilter)
-    registerFilterFactory(::createCartographyTableFilter)
-    registerFilterFactory(::createGrindstoneFilter)
-    registerFilterFactory(::createSmithingTableFilter)
-    registerFilterFactory(::createStonecutterFilter)
+    context.registerFilterFactory(::createLoomFilter)
+    context.registerFilterFactory(::createCartographyTableFilter)
+    context.registerFilterFactory(::createGrindstoneFilter)
+    context.registerFilterFactory(::createSmithingTableFilter)
+    context.registerFilterFactory(::createStonecutterFilter)
 
     // Register inventory filter factories
-    registerFilterFactory(::createSurvivalInventoryFilter)
-    registerFilterFactory(::createCreativeInventoryFilter)
+    context.registerFilterFactory(::createSurvivalInventoryFilter)
+    context.registerFilterFactory(::createCreativeInventoryFilter)
 
     // Register entity filter factories
-    registerFilterFactory(::createVillagerFilter)
-    registerFilterFactory(::createHorseFilter)
+    context.registerFilterFactory(::createVillagerFilter)
+    context.registerFilterFactory(::createHorseFilter)
 
     // Register preprocessor for brewing stand
-    registerPreprocessor<BrewingStandBlockEntity>(::processBrewingStand)
+    context.registerPreprocessor<BrewingStandBlockEntity>(::processBrewingStand)
 
     // Register preprocessor for enchanting table
-    registerPreprocessor<EnchantingTableBlockEntity>(::processEnchantingTable)
+    context.registerPreprocessor<EnchantingTableBlockEntity>(::processEnchantingTable)
 
     // Register preprocessor for furnaces
-    registerPreprocessor<FurnaceBlockEntity>(::processFurnace)
-    registerPreprocessor<BlastFurnaceBlockEntity>(::processFurnace)
-    registerPreprocessor<SmokerBlockEntity>(::processFurnace)
+    context.registerPreprocessor<FurnaceBlockEntity>(::processFurnace)
+    context.registerPreprocessor<BlastFurnaceBlockEntity>(::processFurnace)
+    context.registerPreprocessor<SmokerBlockEntity>(::processFurnace)
 
     // Register preprocessor for hopper
-    registerPreprocessor<HopperBlockEntity>(::processHopper)
+    context.registerPreprocessor<HopperBlockEntity>(::processHopper)
 
     // Register preprocessor for chests
-    registerPreprocessor<ChestBlockEntity>(::processChest)
-    registerPreprocessor<TrappedChestBlockEntity>(::processChest)
-    registerPreprocessor<EnderChestBlockEntity>(::processChest)
-    registerPreprocessor<BarrelBlockEntity>(::processChest)
+    context.registerPreprocessor<ChestBlockEntity>(::processChest)
+    context.registerPreprocessor<TrappedChestBlockEntity>(::processChest)
+    context.registerPreprocessor<EnderChestBlockEntity>(::processChest)
+    context.registerPreprocessor<BarrelBlockEntity>(::processChest)
 
     // Register preprocessor for beacon
-    registerPreprocessor<BeaconBlockEntity>(::processBeacon)
+    context.registerPreprocessor<BeaconBlockEntity>(::processBeacon)
 
     // Register preprocessor for villagers
-    registerPreprocessor<VillagerEntity>(::processVillager)
-    registerPreprocessor<WanderingTraderEntity>(::processVillager)
+    context.registerPreprocessor<VillagerEntity>(::processVillager)
+    context.registerPreprocessor<WanderingTraderEntity>(::processVillager)
 
     // Register preprocessor for dispenser & dropper
-    registerPreprocessor<DispenserBlockEntity>(::processDispenser)
-    registerPreprocessor<DropperBlockEntity>(::processDispenser)
+    context.registerPreprocessor<DispenserBlockEntity>(::processDispenser)
+    context.registerPreprocessor<DropperBlockEntity>(::processDispenser)
 
     // Register preprocessor for horses
-    registerPreprocessor<HorseEntity>(::processHorse)
-    registerPreprocessor<DonkeyEntity>(::processHorse)
-    registerPreprocessor<MuleEntity>(::processHorse)
-    registerPreprocessor<LlamaEntity>(::processHorse)
-    registerPreprocessor<TraderLlamaEntity>(::processHorse)
-    registerPreprocessor<ZombieHorseEntity>(::processHorse)
-    registerPreprocessor<SkeletonHorseEntity>(::processHorse)
+    context.registerPreprocessor<HorseEntity>(::processHorse)
+    context.registerPreprocessor<DonkeyEntity>(::processHorse)
+    context.registerPreprocessor<MuleEntity>(::processHorse)
+    context.registerPreprocessor<LlamaEntity>(::processHorse)
+    context.registerPreprocessor<TraderLlamaEntity>(::processHorse)
+    context.registerPreprocessor<ZombieHorseEntity>(::processHorse)
+    context.registerPreprocessor<SkeletonHorseEntity>(::processHorse)
 
     // Register preprocessor for shulker boxes
-    registerPreprocessor<ShulkerBoxBlockEntity>(::processShulkerBox)
+    context.registerPreprocessor<ShulkerBoxBlockEntity>(::processShulkerBox)
 }

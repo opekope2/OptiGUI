@@ -24,7 +24,7 @@ fun initialize() {
     // Needed by OptiGlue
     registerProvider(ResourceLoader)
 
-    opekope2.optigui.internal.mc_all.initialize()
+    opekope2.optigui.internal.mc_all.initialize(InitializerContext("optigui"))
 
     setupDevMessage()
 
