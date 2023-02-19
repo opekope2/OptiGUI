@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier
  * @param data The interaction data returned by the interaction data provider
  *
  * @see BlockEntityPreprocessor
- * @see IEntityPreprocessor
+ * @see EntityPreprocessor
  */
 data class Interaction(
     val texture: Identifier,
