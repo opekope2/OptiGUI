@@ -3,14 +3,16 @@ package opekope2.optigui.internal
 import net.minecraft.util.Identifier
 import opekope2.filter.Filter
 import opekope2.filter.FilterResult
-import opekope2.filter.filterFactories
 import opekope2.optigui.interaction.Interaction
+import opekope2.optigui.internal.filter.IdentifiableFilter
+import opekope2.optigui.internal.interaction.filterFactories
+import opekope2.optigui.internal.service.ResourceLoaderService
 import opekope2.optigui.logger
 import opekope2.optigui.resource.Resource
 import opekope2.util.dump
 
-object ResourceLoader {
-    fun loadResources(resources: Iterable<Resource>) {
+internal object ResourceLoader : ResourceLoaderService {
+    override fun loadResources(resources: Iterable<Resource>) {
         val filters = mutableListOf<Filter<Interaction, Identifier>>()
         val replaceableTextures = mutableSetOf<Identifier>()
 
