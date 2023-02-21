@@ -6,9 +6,9 @@ import net.minecraft.util.Nameable
 import opekope2.filter.*
 import opekope2.optigui.internal.properties.BeaconProperties
 import opekope2.optigui.mixin.BeaconBlockEntityAccessorMixin
-import opekope2.optigui.provider.RegistryLookup
-import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
+import opekope2.optigui.service.RegistryLookupService
+import opekope2.optigui.service.getService
 import opekope2.util.NumberOrRange
 import opekope2.util.TexturePath
 import opekope2.util.splitIgnoreEmpty
@@ -38,7 +38,7 @@ fun createBeaconFilter(resource: Resource): FilterInfo? {
 
 internal fun processBeacon(beacon: BlockEntity): Any? {
     if (beacon !is BeaconBlockEntity) return null
-    val lookup = getProvider<RegistryLookup>()
+    val lookup = getService<RegistryLookupService>()
 
     val world = beacon.world ?: return null
 

@@ -5,9 +5,9 @@ import net.minecraft.block.entity.ShulkerBoxBlockEntity
 import net.minecraft.util.Nameable
 import opekope2.filter.*
 import opekope2.optigui.internal.properties.ShulkerBoxProperties
-import opekope2.optigui.provider.RegistryLookup
-import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
+import opekope2.optigui.service.RegistryLookupService
+import opekope2.optigui.service.getService
 import opekope2.util.TexturePath
 import opekope2.util.splitIgnoreEmpty
 
@@ -36,7 +36,7 @@ internal fun createShulkerBoxFilter(resource: Resource): FilterInfo? {
 
 internal fun processShulkerBox(shulkerBox: BlockEntity): Any? {
     if (shulkerBox !is ShulkerBoxBlockEntity) return null
-    val lookup = getProvider<RegistryLookup>()
+    val lookup = getService<RegistryLookupService>()
 
     val world = shulkerBox.world ?: return null
 

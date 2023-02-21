@@ -5,9 +5,9 @@ import opekope2.filter.*
 import opekope2.filter.FilterResult.Mismatch
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.properties.GeneralProperties
-import opekope2.optigui.provider.ResourceResolver
-import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
+import opekope2.optigui.service.ResourceResolverService
+import opekope2.optigui.service.getService
 import opekope2.util.NumberOrRange
 import opekope2.util.parseWildcardOrRegex
 import opekope2.util.resolvePath
@@ -92,7 +92,7 @@ internal fun createGeneralFilters(
     return filters
 }
 
-private val resourceResolver: ResourceResolver by lazy(::getProvider)
+private val resourceResolver: ResourceResolverService by lazy(::getService)
 internal fun findReplacementTexture(resource: Resource, texturePath: String): Identifier? {
     val resFolder = File(resource.id.path).parent.replace('\\', '/')
 

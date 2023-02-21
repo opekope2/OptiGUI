@@ -4,11 +4,11 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.passive.AbstractHorseEntity
 import net.minecraft.util.Nameable
 import opekope2.filter.*
-import opekope2.optigui.internal.glue.OptiGlue
 import opekope2.optigui.internal.properties.HorseProperties
-import opekope2.optigui.provider.RegistryLookup
-import opekope2.optigui.provider.getProvider
+import opekope2.optigui.internal.service.HorseVariantLookupService
 import opekope2.optigui.resource.Resource
+import opekope2.optigui.service.RegistryLookupService
+import opekope2.optigui.service.getService
 import opekope2.util.TexturePath
 import opekope2.util.splitIgnoreEmpty
 
@@ -38,8 +38,8 @@ fun createHorseFilter(resource: Resource): FilterInfo? {
 // Referenced from glue for 1.19.3+ camel support
 fun processHorse(horse: Entity): Any? {
     if (horse !is AbstractHorseEntity) return null
-    val lookup = getProvider<RegistryLookup>()
-    val optiGlue = getProvider<OptiGlue>()
+    val lookup = getService<RegistryLookupService>()
+    val variantLookup = getService<HorseVariantLookupService>()
 
     val world = horse.world ?: return null
 
@@ -49,6 +49,6 @@ fun processHorse(horse: Entity): Any? {
         name = (horse as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, horse.blockPos),
         height = horse.blockPos.y,
-        variant = optiGlue.getHorseVariant(horse) ?: return null
+        variant = variantLookup.getHorseVariant(horse) ?: return null
     )
 }

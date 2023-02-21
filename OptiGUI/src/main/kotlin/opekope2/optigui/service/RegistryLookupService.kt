@@ -1,4 +1,4 @@
-package opekope2.optigui.provider
+package opekope2.optigui.service
 
 import net.minecraft.block.Block
 import net.minecraft.entity.Entity
@@ -10,7 +10,7 @@ import net.minecraft.world.World
 /**
  * Interface defining Minecraft registry search functions.
  */
-interface RegistryLookup {
+interface RegistryLookupService {
     /**
      * Finds the ID of the given [block] in the registry.
      */

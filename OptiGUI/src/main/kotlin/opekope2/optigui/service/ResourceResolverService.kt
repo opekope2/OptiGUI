@@ -1,4 +1,4 @@
-package opekope2.optigui.provider
+package opekope2.optigui.service
 
 import net.minecraft.util.Identifier
 
@@ -6,7 +6,7 @@ import net.minecraft.util.Identifier
  * An interface defining a resource resolver. A resolver looks for the given resource, and returns it
  * (or possible candidates) when found, or `null`, if not found.
  */
-fun interface ResourceResolver {
+fun interface ResourceResolverService {
     /**
      * Finds the given resource.
      *

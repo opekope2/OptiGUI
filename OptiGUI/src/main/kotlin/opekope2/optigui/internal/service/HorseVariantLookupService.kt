@@ -1,8 +1,7 @@
-package opekope2.optigui.internal.glue
+package opekope2.optigui.internal.service
 
 import net.minecraft.entity.passive.AbstractHorseEntity
 
-interface OptiGlue {
-    val version: String
+interface HorseVariantLookupService {
     fun getHorseVariant(horse: AbstractHorseEntity): String?
 }

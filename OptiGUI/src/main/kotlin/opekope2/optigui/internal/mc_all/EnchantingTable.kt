@@ -7,9 +7,9 @@ import opekope2.filter.ConjunctionFilter
 import opekope2.filter.FilterInfo
 import opekope2.filter.PostProcessorFilter
 import opekope2.optigui.internal.properties.OptiFineProperties
-import opekope2.optigui.provider.RegistryLookup
-import opekope2.optigui.provider.getProvider
 import opekope2.optigui.resource.Resource
+import opekope2.optigui.service.RegistryLookupService
+import opekope2.optigui.service.getService
 import opekope2.util.TexturePath
 
 private const val CONTAINER = "enchantment"
@@ -31,7 +31,7 @@ private typealias EnchantingTableProperties = OptiFineProperties
 
 internal fun processEnchantingTable(enchantingTable: BlockEntity): Any? {
     if (enchantingTable !is EnchantingTableBlockEntity) return null
-    val lookup = getProvider<RegistryLookup>()
+    val lookup = getService<RegistryLookupService>()
 
     val world = enchantingTable.world ?: return null
 
