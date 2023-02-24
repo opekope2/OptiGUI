@@ -18,5 +18,5 @@ internal class ResourceGlue(manager: ResourceManager, id: Identifier) : Resource
         }
     }
 
-    private fun throwResourceNotFound(): Nothing = throw ResourceNotFoundException("Resource '$id' doesn't exist!")
+    private fun throwResourceNotFound(): Nothing = throw ResourceNotFoundException(id)
 }
