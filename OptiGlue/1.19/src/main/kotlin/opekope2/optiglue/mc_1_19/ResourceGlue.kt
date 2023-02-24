@@ -10,7 +10,7 @@ import kotlin.jvm.optionals.getOrNull
 internal class ResourceGlue(manager: ResourceManager, id: Identifier) : Resource(id) {
     private val resource = manager.getResource(id).getOrNull()
 
-    override val exists: Boolean = resource != null
+    override fun exists(): Boolean = resource != null
     override val resourcePack: String = resource?.resourcePackName ?: throwResourceNotFound()
     override val properties: Properties by lazy {
         Properties().apply {
