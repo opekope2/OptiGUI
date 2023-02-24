@@ -42,7 +42,7 @@ class NumberOrRange private constructor(val start: Int?, val end: Int?, val valu
          * Parses a number or range compatible with [OptiFine docs](https://optifine.readthedocs.io/syntax.html#ranges).
          */
         @JvmStatic
-        fun parse(numberRange: String): NumberOrRange? {
+        fun tryParse(numberRange: String): NumberOrRange? {
             val result = regex.matchEntire(numberRange) ?: return null
 
             val start = result.groups["start"]?.value?.trimParentheses()?.toIntOrNull()

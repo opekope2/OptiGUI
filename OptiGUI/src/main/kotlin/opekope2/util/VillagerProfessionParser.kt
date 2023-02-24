@@ -6,7 +6,7 @@ import net.minecraft.util.Identifier
  * Parses a villager profession compatible with [OptiFine docs](https://optifine.readthedocs.io/custom_guis.html#villagers).
  * In fact, it parses a superset (additional features): a namespace is optionally accepted in front.
  */
-fun parseProfession(input: String): Pair<Identifier, Collection<NumberOrRange>>? {
+fun tryParseProfession(input: String): Pair<Identifier, Collection<NumberOrRange>>? {
     val parts = input.split(':')
 
     var namespace = Identifier.DEFAULT_NAMESPACE
@@ -44,4 +44,4 @@ fun parseProfession(input: String): Pair<Identifier, Collection<NumberOrRange>>?
 }
 
 private fun parseRangeList(rangeList: String) =
-        rangeList.splitIgnoreEmpty(',').mapNotNull(NumberOrRange::parse)
+    rangeList.splitIgnoreEmpty(',').mapNotNull(NumberOrRange::tryParse)

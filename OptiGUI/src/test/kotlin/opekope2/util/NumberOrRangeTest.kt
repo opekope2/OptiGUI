@@ -1,23 +1,23 @@
 package opekope2.util
 
 import kotlin.test.*
-import opekope2.util.NumberOrRange.Companion.parse
+import opekope2.util.NumberOrRange.Companion.tryParse
 
 class NumberOrRangeTest {
     @Test
     fun parseMalformedTest() {
-        assertNull(parse("malformed"))
-        assertNull(parse("-"))
-        assertNull(parse("(1-5)"))
-        assertNull(parse("(1)"))
-        assertNull(parse("(-1)"))
-        assertNull(parse("(1-)"))
-        assertNull(parse("(-)"))
+        assertNull(tryParse("malformed"))
+        assertNull(tryParse("-"))
+        assertNull(tryParse("(1-5)"))
+        assertNull(tryParse("(1)"))
+        assertNull(tryParse("(-1)"))
+        assertNull(tryParse("(1-)"))
+        assertNull(tryParse("(-)"))
     }
 
     @Test
     fun parseNumberTest1() {
-        val v = parse("1")
+        val v = tryParse("1")
 
         assertNotNull(v)
 
@@ -31,7 +31,7 @@ class NumberOrRangeTest {
 
     @Test
     fun parseNumberTest2() {
-        val v = parse("-1")
+        val v = tryParse("-1")
 
         assertNotNull(v)
 
@@ -45,7 +45,7 @@ class NumberOrRangeTest {
 
     @Test
     fun parseRangeTest1() {
-        val v = parse("1-5")
+        val v = tryParse("1-5")
 
         assertNotNull(v)
 
@@ -59,7 +59,7 @@ class NumberOrRangeTest {
 
     @Test
     fun parseRangeTest2() {
-        val v = parse("(1)-5")
+        val v = tryParse("(1)-5")
 
         assertNotNull(v)
 
@@ -73,7 +73,7 @@ class NumberOrRangeTest {
 
     @Test
     fun parseRangeTest3() {
-        val v = parse("1-(5)")
+        val v = tryParse("1-(5)")
 
         assertNotNull(v)
 
@@ -87,7 +87,7 @@ class NumberOrRangeTest {
 
     @Test
     fun parseRangeTest4() {
-        val v = parse("(1)-(5)")
+        val v = tryParse("(1)-(5)")
 
         assertNotNull(v)
 
@@ -101,7 +101,7 @@ class NumberOrRangeTest {
 
     @Test
     fun parseRangeTest5() {
-        val v = parse("(-1)-5")
+        val v = tryParse("(-1)-5")
 
         assertNotNull(v)
 
@@ -115,7 +115,7 @@ class NumberOrRangeTest {
 
     @Test
     fun parseRangeTest6() {
-        val v = parse("1-(-5)")
+        val v = tryParse("1-(-5)")
 
         assertNotNull(v)
 
@@ -129,7 +129,7 @@ class NumberOrRangeTest {
 
     @Test
     fun parseRangeTest7() {
-        val v = parse("(-1)-(-5)")
+        val v = tryParse("(-1)-(-5)")
 
         assertNotNull(v)
 

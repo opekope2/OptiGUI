@@ -6,7 +6,7 @@ import kotlin.test.*
 class VillagerProfessionParserKtTest {
     @Test
     fun test1() {
-        val v = parseProfession("cleric")
+        val v = tryParseProfession("cleric")
 
         assertNotNull(v)
         assertEquals(Identifier.DEFAULT_NAMESPACE, v.first.namespace)
@@ -16,7 +16,7 @@ class VillagerProfessionParserKtTest {
 
     @Test
     fun test2() {
-        val v = parseProfession("optigui:worker")
+        val v = tryParseProfession("optigui:worker")
 
         assertNotNull(v)
         assertEquals("optigui", v.first.namespace)
@@ -26,7 +26,7 @@ class VillagerProfessionParserKtTest {
 
     @Test
     fun test3() {
-        val v = parseProfession("cleric:1")
+        val v = tryParseProfession("cleric:1")
 
         assertNotNull(v)
         assertEquals(Identifier.DEFAULT_NAMESPACE, v.first.namespace)
@@ -40,7 +40,7 @@ class VillagerProfessionParserKtTest {
 
     @Test
     fun test4() {
-        val v = parseProfession("cleric:1,3-4")
+        val v = tryParseProfession("cleric:1,3-4")
 
         assertNotNull(v)
         assertEquals(Identifier.DEFAULT_NAMESPACE, v.first.namespace)
@@ -59,7 +59,7 @@ class VillagerProfessionParserKtTest {
 
     @Test
     fun test5() {
-        val v = parseProfession("optigui:tester:1,3-4")
+        val v = tryParseProfession("optigui:tester:1,3-4")
 
         assertNotNull(v)
         assertEquals("optigui", v.first.namespace)
@@ -78,7 +78,7 @@ class VillagerProfessionParserKtTest {
 
     @Test
     fun test6() {
-        val v = parseProfession("optigui:overflow:test:1")
+        val v = tryParseProfession("optigui:overflow:test:1")
         assertNull(v)
     }
 }

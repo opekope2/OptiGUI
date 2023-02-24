@@ -80,7 +80,7 @@ internal fun createGeneralFilters(
     filters.addForProperty(
         resource,
         "heights",
-        { value -> value.splitIgnoreEmpty(*delimiters).mapNotNull { NumberOrRange.parse(it)?.toFilter() } }
+        { value -> value.splitIgnoreEmpty(*delimiters).mapNotNull { NumberOrRange.tryParse(it)?.toFilter() } }
     ) { heights ->
         PreProcessorFilter.nullGuarded(
             { (it.data as? GeneralProperties)?.height },

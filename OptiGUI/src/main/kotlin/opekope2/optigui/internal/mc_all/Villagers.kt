@@ -12,8 +12,8 @@ import opekope2.optigui.resource.Resource
 import opekope2.optigui.service.RegistryLookupService
 import opekope2.optigui.service.getService
 import opekope2.util.TexturePath
-import opekope2.util.parseProfession
 import opekope2.util.splitIgnoreEmpty
+import opekope2.util.tryParseProfession
 
 private const val CONTAINER = "villager"
 private val texture = TexturePath.VILLAGER2
@@ -28,7 +28,7 @@ internal fun createVillagerFilter(resource: Resource): FilterInfo? {
     filters.addForProperty(
         resource,
         "professions",
-        { it.splitIgnoreEmpty(*delimiters).mapNotNull(::parseProfession) }
+        { it.splitIgnoreEmpty(*delimiters).mapNotNull(::tryParseProfession) }
     ) { professions ->
         val professionFilters: Collection<Filter<Interaction, Unit>> = professions.map { (profession, levels) ->
             ConjunctionFilter(

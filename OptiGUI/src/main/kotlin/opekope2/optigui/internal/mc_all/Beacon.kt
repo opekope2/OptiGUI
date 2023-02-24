@@ -26,7 +26,7 @@ fun createBeaconFilter(resource: Resource): FilterInfo? {
         PreProcessorFilter.nullGuarded(
             { (it.data as? BeaconProperties)?.level },
             FilterResult.Mismatch(),
-            DisjunctionFilter(levels.mapNotNull { NumberOrRange.parse(it)?.toFilter() })
+            DisjunctionFilter(levels.mapNotNull { NumberOrRange.tryParse(it)?.toFilter() })
         )
     }
 
