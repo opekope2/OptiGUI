@@ -32,7 +32,7 @@ inline fun <reified T : Any> registerService(service: T) = registerService(T::cl
  * @param T The type of the service
  * @param serviceClass Java moment. The Java class of the service interface
  */
-@Suppress("UNCHECKED_CAST")
+@Suppress("UNCHECKED_CAST") // Java moment
 fun <T> getServiceOrNull(serviceClass: Class<T>): T? = services[serviceClass] as? T
 
 /**

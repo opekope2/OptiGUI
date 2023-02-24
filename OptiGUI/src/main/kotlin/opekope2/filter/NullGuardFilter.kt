@@ -19,5 +19,5 @@ class NullGuardFilter<T, TResult>(
 
     override fun iterator(): Iterator<Filter<T, TResult>> = setOf(filter).iterator()
 
-    override fun toString(): String = "${javaClass.name}, nullResult: $nullResult"
+    override fun toString(): String = "${javaClass.name}, result on null: $nullResult"
 }

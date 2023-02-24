@@ -37,7 +37,7 @@ internal object ResourceLoader : ResourceLoaderService {
         Filter<Interaction, Identifier>, Iterable<Filter<Interaction, Identifier>> {
         override fun evaluate(value: Interaction): FilterResult<out Identifier> {
             filters.forEach { filter ->
-                filter.evaluate(value).let { if (it is FilterResult.Match) return it }
+                filter.evaluate(value).also { if (it is FilterResult.Match) return it }
             }
             return FilterResult.Skip()
         }

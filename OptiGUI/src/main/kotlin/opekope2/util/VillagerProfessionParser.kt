@@ -40,7 +40,7 @@ fun tryParseProfession(input: String): Pair<Identifier, Collection<NumberOrRange
         }
     }
 
-    return Pair(Identifier(namespace, profession), levels ?: listOf())
+    return Identifier(namespace, profession) to (levels ?: listOf())
 }
 
 private fun parseRangeList(rangeList: String) =

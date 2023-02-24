@@ -20,7 +20,7 @@ internal inline fun <T> MutableCollection<Filter<Interaction, Unit>>.addForPrope
     propertyConverter: (String) -> T,
     filterCreator: (T) -> Filter<Interaction, Unit>
 ) {
-    (resource.properties[property] as? String)?.let { propertyConverter(it) }?.let { add(filterCreator(it)) }
+    (resource.properties[property] as? String)?.let { propertyConverter(it) }?.also { add(filterCreator(it)) }
 }
 
 internal inline fun MutableCollection<Filter<Interaction, Unit>>.addForProperty(

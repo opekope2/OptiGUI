@@ -10,5 +10,5 @@ class EqualityFilter<T>(private val expectedValue: T) : Filter<T, Unit> {
     override fun evaluate(value: T): FilterResult<out Unit> =
         if (value == expectedValue) FilterResult.Match(Unit) else FilterResult.Mismatch()
 
-    override fun toString(): String = "${javaClass.name}, expectedValue: $expectedValue"
+    override fun toString(): String = "${javaClass.name}, expected value: $expectedValue"
 }

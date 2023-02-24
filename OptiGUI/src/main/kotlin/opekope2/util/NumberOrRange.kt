@@ -13,12 +13,12 @@ import opekope2.filter.NumberRangeFilter
  */
 class NumberOrRange private constructor(val start: Int?, val end: Int?, val value: Int?) {
     /**
-     * Whether or not this object represents an integer.
+     * Whether this object represents an integer.
      */
     val isNumber = value != null
 
     /**
-     * Whether or not this object represents a range.
+     * Whether this object represents a range.
      */
     val isRange = start != null
 
