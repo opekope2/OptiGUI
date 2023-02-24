@@ -17,10 +17,17 @@ internal object ResourceLoader : ResourceLoaderService {
         val replaceableTextures = mutableSetOf<Identifier>()
 
         for (resource in resources) {
-            filterFactories.forEach {
-                it(resource)?.let {
-                    filters.add(it.filter)
-                    replaceableTextures.addAll(it.replaceableTextures)
+            for ((modId, factories) in filterFactories) {
+                for (factory in factories) {
+                    val filterInfo = try {
+                        factory(resource)
+                    } catch (exception: Exception) {
+                        logger.warn("$modId threw an exception while creating filter for ${resource.id}.", exception)
+                        continue
+                    } ?: continue
+
+                    filters.add(IdentifiableFilter(modId, filterInfo))
+                    replaceableTextures.addAll(filterInfo.replaceableTextures)
                 }
             }
         }
