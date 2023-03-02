@@ -30,9 +30,6 @@ internal object TextureReplacer : InteractionService {
         private var screen: HandledScreen<*>? = null
 
         var riddenEntity: Entity? = null
-            set(value) {
-                if (!interacting) field = value
-            }
 
         private fun refreshInteractionData() {
             data = target?.computeInteractionData() ?: riddenEntity?.let(Preprocessors::preprocessEntity)
