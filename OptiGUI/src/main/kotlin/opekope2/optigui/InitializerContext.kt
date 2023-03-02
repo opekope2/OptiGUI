@@ -6,11 +6,10 @@ import opekope2.filter.FilterInfo
 import opekope2.filter.NullGuardFilter
 import opekope2.filter.PreProcessorFilter
 import opekope2.optigui.interaction.*
-import opekope2.optigui.internal.interaction.blockEntityPreprocessors
-import opekope2.optigui.internal.interaction.entityPreprocessors
 import opekope2.optigui.internal.interaction.filterFactories
 import opekope2.optigui.internal.interaction.IdentifiableBlockEntityPreprocessor
 import opekope2.optigui.internal.interaction.IdentifiableEntityPreprocessor
+import opekope2.optigui.internal.interaction.PreprocessorStore
 import opekope2.optigui.resource.Resource
 
 class InitializerContext internal constructor(private val modId: String) {
@@ -52,12 +51,8 @@ class InitializerContext internal constructor(private val modId: String) {
      * @param processor The block entity preprocessor instance
      * @return `true` if registration is successful, `false` if the given block entity already has a preprocessor registered
      */
-    fun registerPreprocessor(type: Class<out BlockEntity>, processor: BlockEntityPreprocessor): Boolean {
-        if (type in blockEntityPreprocessors) return false
-
-        blockEntityPreprocessors[type] = IdentifiableBlockEntityPreprocessor(modId, processor)
-        return true
-    }
+    fun registerPreprocessor(type: Class<out BlockEntity>, processor: BlockEntityPreprocessor): Boolean =
+        PreprocessorStore.add(type, IdentifiableBlockEntityPreprocessor(modId, processor))
 
     /**
      * Registers the preprocessor for a block entity.
@@ -76,12 +71,8 @@ class InitializerContext internal constructor(private val modId: String) {
      * @param processor The entity preprocessor instance
      * @return `true` if registration is successful, `false` if the given entity already has a preprocessor registered
      */
-    fun registerPreprocessor(type: Class<out Entity>, processor: EntityPreprocessor): Boolean {
-        if (type in entityPreprocessors) return false
-
-        entityPreprocessors[type] = IdentifiableEntityPreprocessor(modId, processor)
-        return true
-    }
+    fun registerPreprocessor(type: Class<out Entity>, processor: EntityPreprocessor): Boolean =
+        PreprocessorStore.add(type, IdentifiableEntityPreprocessor(modId, processor))
 
     /**
      * Registers the preprocessor for an entity.
