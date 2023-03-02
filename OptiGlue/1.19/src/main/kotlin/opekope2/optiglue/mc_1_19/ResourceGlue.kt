@@ -11,12 +11,10 @@ internal class ResourceGlue(manager: ResourceManager, id: Identifier) : Resource
     private val resource = manager.getResource(id).getOrNull()
 
     override fun exists(): Boolean = resource != null
-    override val resourcePack: String = resource?.resourcePackName ?: throwResourceNotFound()
+    override val resourcePack: String = resource?.resourcePackName ?: throw ResourceNotFoundException(id)
     override val properties: Properties by lazy {
         Properties().apply {
-            load(resource?.inputStream ?: throwResourceNotFound())
+            load(resource?.inputStream ?: throw ResourceNotFoundException(id))
         }
     }
-
-    private fun throwResourceNotFound(): Nothing = throw ResourceNotFoundException(id)
 }
