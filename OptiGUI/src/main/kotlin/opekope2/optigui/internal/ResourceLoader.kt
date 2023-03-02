@@ -34,8 +34,8 @@ internal object ResourceLoader : ResourceLoaderService {
 
         val filter = RootFilter(filters)
 
-        InteractionHandler.filter = filter
-        InteractionHandler.replaceableTextures = replaceableTextures
+        TextureReplacer.filter = filter
+        TextureReplacer.replaceableTextures = replaceableTextures
 
         logger.info("Filter chain loaded on resource reload:\n${filter.dump()}")
     }
