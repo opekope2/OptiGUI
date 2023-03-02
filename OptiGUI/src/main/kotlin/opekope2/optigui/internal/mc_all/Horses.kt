@@ -5,7 +5,7 @@ import net.minecraft.entity.passive.AbstractHorseEntity
 import net.minecraft.util.Nameable
 import opekope2.filter.*
 import opekope2.optigui.internal.properties.HorseProperties
-import opekope2.optigui.internal.service.HorseVariantLookupService
+import opekope2.optigui.internal.service.EntityVariantLookupService
 import opekope2.optigui.resource.Resource
 import opekope2.optigui.service.RegistryLookupService
 import opekope2.optigui.service.getService
@@ -39,7 +39,7 @@ fun createHorseFilter(resource: Resource): FilterInfo? {
 fun processHorse(horse: Entity): Any? {
     if (horse !is AbstractHorseEntity) return null
     val lookup = getService<RegistryLookupService>()
-    val variantLookup = getService<HorseVariantLookupService>()
+    val variantLookup = getService<EntityVariantLookupService>()
 
     val world = horse.world ?: return null
 
@@ -49,6 +49,6 @@ fun processHorse(horse: Entity): Any? {
         name = (horse as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, horse.blockPos),
         height = horse.blockPos.y,
-        variant = variantLookup.getHorseVariant(horse) ?: return null
+        variant = variantLookup.getVariant(horse) ?: return null
     )
 }

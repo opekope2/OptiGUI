@@ -2,6 +2,7 @@ package opekope2.optiglue
 
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.minecraft.MinecraftVersion
+import net.minecraft.entity.Entity
 import net.minecraft.entity.mob.SkeletonHorseEntity
 import net.minecraft.entity.mob.ZombieHorseEntity
 import net.minecraft.entity.passive.*
@@ -11,7 +12,7 @@ import opekope2.optiglue.mc_1_19_3.ResourceResolverServiceImpl
 import opekope2.optigui.EntryPoint
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.internal.mc_all.processHorse
-import opekope2.optigui.internal.service.HorseVariantLookupService
+import opekope2.optigui.internal.service.EntityVariantLookupService
 import opekope2.optigui.internal.service.OptiGlueService
 import opekope2.optigui.service.RegistryLookupService
 import opekope2.optigui.service.ResourceResolverService
@@ -20,7 +21,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 @Suppress("unused")
-object OptiGlueMod : EntryPoint, OptiGlueService, HorseVariantLookupService {
+object OptiGlueMod : EntryPoint, OptiGlueService, EntityVariantLookupService {
     internal val logger: Logger = LoggerFactory.getLogger("OptiGlue")
     private val gameVersion = MinecraftVersion.CURRENT.name
 
@@ -29,7 +30,7 @@ object OptiGlueMod : EntryPoint, OptiGlueService, HorseVariantLookupService {
         registerService<RegistryLookupService>(RegistryLookupServiceImpl())
         registerService<ResourceResolverService>(ResourceResolverServiceImpl())
         registerService<OptiGlueService>(this)
-        registerService<HorseVariantLookupService>(this)
+        registerService<EntityVariantLookupService>(this)
 
         // Register preprocessor for camel in 1.19.3+
         // Camel filter factory is just horse filter factory, registered in OptiGUI
@@ -42,8 +43,8 @@ object OptiGlueMod : EntryPoint, OptiGlueService, HorseVariantLookupService {
 
     override val version: String = "@mod_version@"
 
-    override fun getHorseVariant(horse: AbstractHorseEntity): String? =
-        when (horse) {
+    override fun getVariant(entity: Entity): String? =
+        when (entity) {
             is HorseEntity -> "horse"
             is DonkeyEntity -> "donkey"
             is MuleEntity -> "mule"
