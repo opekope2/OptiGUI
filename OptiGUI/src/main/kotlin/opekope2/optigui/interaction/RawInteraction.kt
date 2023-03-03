@@ -13,8 +13,8 @@ import opekope2.optigui.service.InteractionService
  * Only required, when entities and block entities are unavailable (for example, anvils, and many villager job sites).
  * Unavailable for ridden entities.
  *
- * @see [UseBlockCallback.interact]
- * @see [UseEntityCallback.interact]
- * @see [InteractionService.interact]
+ * @see UseBlockCallback.interact
+ * @see UseEntityCallback.interact
+ * @see InteractionService.interact
  */
 data class RawInteraction(val player: PlayerEntity, val world: World, val hand: Hand, val hitResult: HitResult?)
