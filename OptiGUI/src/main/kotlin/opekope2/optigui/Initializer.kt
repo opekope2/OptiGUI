@@ -30,7 +30,7 @@ fun initialize() {
     UseBlockCallback.EVENT.register(InteractionHandler)
     UseEntityCallback.EVENT.register(InteractionHandler)
 
-    opekope2.optigui.internal.mc_all.initialize(InitializerContext("optigui"))
+    opekope2.optigui.internal.optifinecompat.initialize(InitializerContext("optigui"))
 
     runEntryPoints()
 

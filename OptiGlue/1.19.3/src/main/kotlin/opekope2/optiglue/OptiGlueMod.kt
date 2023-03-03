@@ -11,7 +11,7 @@ import opekope2.optiglue.mc_1_19_3.RegistryLookupServiceImpl
 import opekope2.optiglue.mc_1_19_3.ResourceResolverServiceImpl
 import opekope2.optigui.EntryPoint
 import opekope2.optigui.InitializerContext
-import opekope2.optigui.internal.mc_all.processHorse
+import opekope2.optigui.internal.optifinecompat.processHorse
 import opekope2.optigui.internal.service.EntityVariantLookupService
 import opekope2.optigui.internal.service.OptiGlueService
 import opekope2.optigui.service.RegistryLookupService
