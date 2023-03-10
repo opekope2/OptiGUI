@@ -127,9 +127,15 @@ val javadocJar by tasks.registering(Jar::class) {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = project.group.toString()
-            artifactId = base.archivesName.get()
-            version = project.version.toString()
+            if (System.getenv("JITPACK") == "true") {
+                groupId = System.getenv("GROUP")
+                artifactId = System.getenv("ARTIFACT")
+                version = System.getenv("VERSION")
+            } else {
+                groupId = project.group.toString()
+                artifactId = base.archivesName.get()
+                version = project.version.toString()
+            }
 
             artifact(javadocJar.get())
 
