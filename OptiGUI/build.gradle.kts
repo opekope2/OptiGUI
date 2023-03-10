@@ -96,7 +96,6 @@ tasks.withType<DokkaTask>().configureEach {
     dokkaSourceSets.configureEach {
         val dokkaBaseConfiguration = """
             {
-              "customStyleSheets": ["${file("assets/my-styles.css")}"],
               "footerMessage": "&copy; 2022-${LocalDateTime.now().year} opekope2"
             }
         """
