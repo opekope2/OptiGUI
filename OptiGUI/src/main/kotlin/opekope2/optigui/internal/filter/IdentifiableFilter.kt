@@ -5,7 +5,7 @@ import opekope2.filter.Filter
 import opekope2.filter.FilterInfo
 import opekope2.filter.FilterResult
 import opekope2.optigui.interaction.Interaction
-import opekope2.optigui.logger
+import opekope2.optigui.internal.logger
 
 internal class IdentifiableFilter(val modId: String, info: FilterInfo) : Filter<Interaction, Identifier>,
     Iterable<Filter<Interaction, Identifier>> {

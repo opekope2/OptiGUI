@@ -1,4 +1,4 @@
-package opekope2.optigui
+package opekope2.optigui.internal
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.minecraft.text.Text

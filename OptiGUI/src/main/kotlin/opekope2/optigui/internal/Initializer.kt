@@ -1,13 +1,12 @@
-package opekope2.optigui
+package opekope2.optigui.internal
 
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.MinecraftVersion
 import net.minecraft.block.entity.*
-import opekope2.optigui.internal.InteractionHandler
-import opekope2.optigui.internal.ResourceLoader
-import opekope2.optigui.internal.TextureReplacer
+import opekope2.optigui.EntryPoint
+import opekope2.optigui.InitializerContext
 import opekope2.optigui.internal.service.OptiGlueService
 import opekope2.optigui.internal.service.ResourceLoaderService
 import opekope2.optigui.service.InteractionService

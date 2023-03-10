@@ -19,7 +19,7 @@
     "client": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.InitializerKt::initialize"
+        "value": "opekope2.optigui.internal.InitializerKt::initialize"
       }
     ]
   },

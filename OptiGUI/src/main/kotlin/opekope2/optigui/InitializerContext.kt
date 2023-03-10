@@ -5,11 +5,13 @@ import net.minecraft.entity.Entity
 import opekope2.filter.FilterInfo
 import opekope2.filter.NullGuardFilter
 import opekope2.filter.PreProcessorFilter
-import opekope2.optigui.interaction.*
-import opekope2.optigui.internal.interaction.filterFactories
+import opekope2.optigui.interaction.BlockEntityPreprocessor
+import opekope2.optigui.interaction.EntityPreprocessor
+import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.interaction.IdentifiableBlockEntityPreprocessor
 import opekope2.optigui.internal.interaction.IdentifiableEntityPreprocessor
 import opekope2.optigui.internal.interaction.PreprocessorStore
+import opekope2.optigui.internal.interaction.filterFactories
 import opekope2.optigui.resource.Resource
 
 class InitializerContext internal constructor(private val modId: String) {
