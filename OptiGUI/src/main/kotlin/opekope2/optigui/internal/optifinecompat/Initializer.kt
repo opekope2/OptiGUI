@@ -5,6 +5,7 @@ import net.minecraft.entity.mob.SkeletonHorseEntity
 import net.minecraft.entity.mob.ZombieHorseEntity
 import net.minecraft.entity.passive.*
 import net.minecraft.entity.vehicle.ChestMinecartEntity
+import net.minecraft.entity.vehicle.HopperMinecartEntity
 import opekope2.optigui.InitializerContext
 
 internal fun initialize(context: InitializerContext) {
@@ -48,6 +49,7 @@ internal fun initialize(context: InitializerContext) {
 
     // Register preprocessor for hopper
     context.registerPreprocessor<HopperBlockEntity>(::processHopper)
+    context.registerPreprocessor<HopperMinecartEntity>(::processHopperMinecart)
 
     // Register preprocessor for chests
     context.registerPreprocessor<ChestBlockEntity>(::processChest)

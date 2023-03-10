@@ -2,6 +2,8 @@ package opekope2.optigui.internal.optifinecompat
 
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.HopperBlockEntity
+import net.minecraft.entity.Entity
+import net.minecraft.entity.vehicle.HopperMinecartEntity
 import net.minecraft.util.Nameable
 import opekope2.filter.ConjunctionFilter
 import opekope2.filter.FilterInfo
@@ -29,17 +31,32 @@ fun createHopperFilter(resource: Resource): FilterInfo? {
 
 private typealias HopperProperties = OptiFineProperties
 
-internal fun processHopper(blockEntity: BlockEntity): Any? {
-    if (blockEntity !is HopperBlockEntity) return null
+internal fun processHopper(hopper: BlockEntity): Any? {
+    if (hopper !is HopperBlockEntity) return null
     val lookup = getService<RegistryLookupService>()
 
-    val world = blockEntity.world ?: return null
+    val world = hopper.world ?: return null
 
     return HopperProperties(
         container = CONTAINER,
         texture = texture,
-        name = (blockEntity as? Nameable)?.customName?.string,
-        biome = lookup.lookupBiome(world, blockEntity.pos),
-        height = blockEntity.pos.y
+        name = (hopper as? Nameable)?.customName?.string,
+        biome = lookup.lookupBiome(world, hopper.pos),
+        height = hopper.pos.y
+    )
+}
+
+internal fun processHopperMinecart(minecart: Entity): Any? {
+    if (minecart !is HopperMinecartEntity) return null
+    val lookup = getService<RegistryLookupService>()
+
+    val world = minecart.world ?: return null
+
+    return HopperProperties(
+        container = CONTAINER,
+        texture = texture,
+        name = minecart.customName?.string,
+        biome = lookup.lookupBiome(world, minecart.blockPos),
+        height = minecart.blockY
     )
 }
