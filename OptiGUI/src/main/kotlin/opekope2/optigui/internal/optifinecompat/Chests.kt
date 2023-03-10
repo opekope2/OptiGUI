@@ -2,6 +2,8 @@ package opekope2.optigui.internal.optifinecompat
 
 import net.minecraft.block.entity.*
 import net.minecraft.block.enums.ChestType
+import net.minecraft.entity.Entity
+import net.minecraft.entity.vehicle.ChestMinecartEntity
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.Nameable
 import opekope2.filter.*
@@ -85,5 +87,25 @@ internal fun processChest(chest: BlockEntity): Any? {
         christmas = isChristmas(),
         ender = chest is EnderChestBlockEntity,
         barrel = chest is BarrelBlockEntity
+    )
+}
+
+internal fun processChestMinecart(minecart: Entity): Any? {
+    if (minecart !is ChestMinecartEntity) return null
+    val lookup = getService<RegistryLookupService>()
+
+    val world = minecart.world ?: return null
+
+    return ChestProperties(
+        container = CONTAINER,
+        texture = texture,
+        name = minecart.customName?.string,
+        biome = lookup.lookupBiome(world, minecart.blockPos),
+        height = minecart.blockY,
+        large = false,
+        trapped = false,
+        christmas = isChristmas(),
+        ender = false,
+        barrel = false
     )
 }

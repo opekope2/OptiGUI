@@ -4,6 +4,7 @@ import net.minecraft.block.entity.*
 import net.minecraft.entity.mob.SkeletonHorseEntity
 import net.minecraft.entity.mob.ZombieHorseEntity
 import net.minecraft.entity.passive.*
+import net.minecraft.entity.vehicle.ChestMinecartEntity
 import opekope2.optigui.InitializerContext
 
 internal fun initialize(context: InitializerContext) {
@@ -53,6 +54,7 @@ internal fun initialize(context: InitializerContext) {
     context.registerPreprocessor<TrappedChestBlockEntity>(::processChest)
     context.registerPreprocessor<EnderChestBlockEntity>(::processChest)
     context.registerPreprocessor<BarrelBlockEntity>(::processChest)
+    context.registerPreprocessor<ChestMinecartEntity>(::processChestMinecart)
 
     // Register preprocessor for beacon
     context.registerPreprocessor<BeaconBlockEntity>(::processBeacon)
