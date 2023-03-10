@@ -2,6 +2,7 @@ plugins {
     id("fabric-loom")
     kotlin("jvm")
     id("net.kyori.blossom")
+    id("maven-publish")
 }
 
 base { archivesName.set(project.extra["archives_base_name"] as String) }
@@ -20,10 +21,6 @@ dependencies {
     )
 
     implementation(project(":OptiGUI", configuration = "namedElements"))
-}
-
-loom {
-    clientOnlyMinecraftJar()
 }
 
 blossom.replaceToken("@mod_version@", version)
@@ -59,3 +56,15 @@ tasks {
 }
 
 fun File.child(name: String) = File(this, name)
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = project.group.toString()
+            artifactId = base.archivesName.get()
+            version = project.version.toString()
+
+            from(components["java"])
+        }
+    }
+}
