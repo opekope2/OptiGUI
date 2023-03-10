@@ -14,6 +14,12 @@ import opekope2.optigui.internal.interaction.PreprocessorStore
 import opekope2.optigui.internal.interaction.filterFactories
 import opekope2.optigui.resource.Resource
 
+/**
+ * Initialization context for OptiGUI-compatible mods.
+ *
+ * Add an [entrypoint](https://fabricmc.net/wiki/documentation:entrypoint) named `optigui` of type [EntryPoint]
+ * to obtain an instance of initializer context. You can initialize OptiGUI-related behavior in [EntryPoint.onInitialize].
+ */
 class InitializerContext internal constructor(private val modId: String) {
     /**
      * Registers a filter factory.
