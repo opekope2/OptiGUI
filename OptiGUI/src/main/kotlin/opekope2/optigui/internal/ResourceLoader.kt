@@ -36,7 +36,7 @@ internal object ResourceLoader : ResourceLoaderService {
         TextureReplacer.filter = filter
         TextureReplacer.replaceableTextures = replaceableTextures
 
-        logger.info("Filter chain loaded on resource reload:\n${filter.dump()}")
+        logger.debug("Filter chain loaded on resource reload:\n${filter.dump()}")
     }
 
     private class RootFilter(private val filters: Iterable<Filter<Interaction, Identifier>>) :

@@ -48,7 +48,7 @@ fun processHorse(horse: Entity): Any? {
         texture = texture,
         name = (horse as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, horse.blockPos),
-        height = horse.blockPos.y,
+        height = horse.blockY,
         variant = variantLookup.getVariant(horse) ?: return null
     )
 }
