@@ -47,7 +47,7 @@
   "suggests": {
     "animatica": "*"
   },
-  "breaks": {
+  "conflicts": {
     "optifabric": "*"
   }
 }
