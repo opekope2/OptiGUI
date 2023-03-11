@@ -1,7 +1,13 @@
+import org.jetbrains.dokka.gradle.DokkaTask
+import java.time.LocalDateTime
+import java.net.URL as JavaNetUrl
+
 plugins {
     id("fabric-loom")
     kotlin("jvm")
     id("net.kyori.blossom")
+    id("maven-publish")
+    id("org.jetbrains.dokka")
 }
 
 base { archivesName.set(project.extra["archives_base_name"] as String) }
@@ -13,12 +19,7 @@ repositories {}
 
 dependencies {
     minecraft("com.mojang", "minecraft", project.extra["minecraft_version"] as String)
-    mappings(loom.layered {
-        val mappingsDir = rootProject.projectDir.child("mappings").child(project.extra["minecraft_version"] as String)
-
-        mappings(mappingsDir.child("mappings.tiny"))
-        mappingsDir.listFiles { _, name -> name.endsWith(".mapping") }.forEach { mappings(it) { enigmaMappings() } }
-    })
+    mappings("net.fabricmc", "yarn", project.extra["yarn_mappings"] as String, null, "v2")
     modImplementation("net.fabricmc", "fabric-loader", project.extra["loader_version"] as String)
     modImplementation(
         "net.fabricmc",
@@ -49,10 +50,6 @@ dependencies {
     include(implementation("org.apache.commons", "commons-text", "1.10.0"))
 
     testImplementation(kotlin("test"))
-}
-
-loom {
-    clientOnlyMinecraftJar()
 }
 
 blossom.replaceToken("@mod_version@", version)
@@ -95,4 +92,54 @@ tasks.test {
     }
 }
 
-fun File.child(name: String) = File(this, name)
+tasks.withType<DokkaTask>().configureEach {
+    dokkaSourceSets.configureEach {
+        val dokkaBaseConfiguration = """
+            {
+              "footerMessage": "&copy; 2022-${LocalDateTime.now().year} opekope2"
+            }
+        """
+        pluginsMapConfiguration.set(
+            mapOf(
+                // fully qualified plugin name to json configuration
+                "org.jetbrains.dokka.base.DokkaBase" to dokkaBaseConfiguration
+            )
+        )
+
+        sourceLink {
+            localDirectory.set(projectDir.resolve("src"))
+            remoteUrl.set(JavaNetUrl("https://github.com/opekope2/OptiGUI-Next/tree/main/OptiGUI/src"))
+            remoteLineSuffix.set("#L")
+        }
+        perPackageOption {
+            matchingRegex.set("opekope2\\.optigui\\.internal(.*)")
+            suppress.set(true)
+        }
+    }
+}
+
+val javadocJar by tasks.registering(Jar::class) {
+    dependsOn(tasks.dokkaHtml)
+    from(tasks.dokkaHtml.flatMap { it.outputDirectory })
+    archiveClassifier.set("javadoc")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            if (System.getenv("JITPACK") == "true") {
+                groupId = System.getenv("GROUP")
+                artifactId = System.getenv("ARTIFACT")
+                version = System.getenv("VERSION")
+            } else {
+                groupId = project.group.toString()
+                artifactId = base.archivesName.get()
+                version = project.version.toString()
+            }
+
+            artifact(javadocJar.get())
+
+            from(components["java"])
+        }
+    }
+}

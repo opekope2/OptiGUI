@@ -2,30 +2,34 @@ package opekope2.optiglue
 
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.minecraft.MinecraftVersion
+import net.minecraft.entity.Entity
 import net.minecraft.entity.mob.SkeletonHorseEntity
 import net.minecraft.entity.mob.ZombieHorseEntity
 import net.minecraft.entity.passive.*
 import net.minecraft.resource.ResourceType
-import opekope2.optiglue.mc_1_18.RegistryLookupImpl
-import opekope2.optiglue.mc_1_18.ResourceResolverImpl
+import opekope2.optiglue.mc_1_18.RegistryLookupServiceImpl
+import opekope2.optiglue.mc_1_18.ResourceResolverServiceImpl
 import opekope2.optigui.EntryPoint
-import opekope2.optigui.internal.glue.OptiGlue
-import opekope2.optigui.provider.RegistryLookup
-import opekope2.optigui.provider.ResourceResolver
-import opekope2.optigui.provider.registerProvider
+import opekope2.optigui.InitializerContext
+import opekope2.optigui.internal.service.EntityVariantLookupService
+import opekope2.optigui.internal.service.OptiGlueService
+import opekope2.optigui.service.RegistryLookupService
+import opekope2.optigui.service.ResourceResolverService
+import opekope2.optigui.service.registerService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 @Suppress("unused")
-object OptiGlueMod : EntryPoint, OptiGlue {
+object OptiGlueMod : EntryPoint, OptiGlueService, EntityVariantLookupService {
     internal val logger: Logger = LoggerFactory.getLogger("OptiGlue")
     private val gameVersion = MinecraftVersion.CURRENT.name
 
-    override fun run() {
+    override fun onInitialize(context: InitializerContext) {
         // Needed by OptiGUI
-        registerProvider<RegistryLookup>(RegistryLookupImpl())
-        registerProvider<ResourceResolver>(ResourceResolverImpl())
-        registerProvider<OptiGlue>(this)
+        registerService<RegistryLookupService>(RegistryLookupServiceImpl())
+        registerService<ResourceResolverService>(ResourceResolverServiceImpl())
+        registerService<OptiGlueService>(this)
+        registerService<EntityVariantLookupService>(this)
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(ResourceLoader)
 
@@ -34,8 +38,8 @@ object OptiGlueMod : EntryPoint, OptiGlue {
 
     override val version: String = "@mod_version@"
 
-    override fun getHorseVariant(horse: AbstractHorseEntity): String? =
-        when (horse) {
+    override fun getVariant(entity: Entity): String? =
+        when (entity) {
             is HorseEntity -> "horse"
             is DonkeyEntity -> "donkey"
             is MuleEntity -> "mule"

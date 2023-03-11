@@ -2,6 +2,7 @@ plugins {
     id("fabric-loom")
     kotlin("jvm")
     id("net.kyori.blossom")
+    id("maven-publish")
 }
 
 base { archivesName.set(project.extra["archives_base_name"] as String) }
@@ -13,22 +14,13 @@ repositories {}
 
 dependencies {
     minecraft("com.mojang", "minecraft", project.extra["minecraft_version"] as String)
-    mappings(loom.layered {
-        val mappingsDir = rootProject.projectDir.child("mappings").child(project.extra["minecraft_version"] as String)
-
-        mappings(mappingsDir.child("mappings.tiny"))
-        mappingsDir.listFiles { _, name -> name.endsWith(".mapping") }.forEach { mappings(it) { enigmaMappings() } }
-    })
+    mappings("net.fabricmc", "yarn", project.extra["yarn_mappings"] as String, null, "v2")
     modImplementation(fabricApi.module("fabric-resource-loader-v0", project.extra["fabric_version"] as String))
     modImplementation(
         "net.fabricmc", "fabric-language-kotlin", project.extra["fabric_language_kotlin_version"] as String
     )
 
     implementation(project(":OptiGUI", configuration = "namedElements"))
-}
-
-loom {
-    clientOnlyMinecraftJar()
 }
 
 blossom.replaceToken("@mod_version@", version)
@@ -63,4 +55,14 @@ tasks {
     }
 }
 
-fun File.child(name: String) = File(this, name)
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = project.group.toString()
+            artifactId = base.archivesName.get()
+            version = project.version.toString()
+
+            from(components["java"])
+        }
+    }
+}

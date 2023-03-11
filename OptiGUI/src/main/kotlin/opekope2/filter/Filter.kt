@@ -3,6 +3,10 @@ package opekope2.filter
 /**
  * Functional interface for filtering.
  *
+ * This interface can be used as a functional interface, but when dumped with [opekope2.util.dump], it will be ugly.
+ *
+ * If the filter evaluates sub-filters, please implement [Iterable] to show them in the dumped tree.
+ *
  * @param T The type the filter accepts
  * @param TResult The type the filter returns
  */

@@ -16,6 +16,29 @@ package opekope2.filter
 class PreProcessorFilter<TSource, TFilter, TResult>(
     private val transform: (TSource) -> TFilter,
     private val filter: Filter<TFilter, TResult>
-) : Filter<TSource, TResult> {
+) : Filter<TSource, TResult>, Iterable<Filter<TFilter, TResult>> {
     override fun evaluate(value: TSource) = filter.evaluate(transform(value))
+
+    override fun iterator(): Iterator<Filter<TFilter, TResult>> = setOf(filter).iterator()
+
+    override fun toString(): String = javaClass.name
+
+    companion object {
+        /**
+         * Creates a [PreProcessorFilter], which doesn't pass null as an input to [filter].
+         *
+         * @param TSource The type [PreProcessorFilter] filter accepts
+         * @param TFilter The type [filter] accepts
+         * @param TResult the type [filter] returns
+         * @param transform The transform to pass to [PreProcessorFilter.transform]
+         * @param nullResult The result to pass to [NullGuardFilter.nullResult]
+         * @param filter The sub-filter to evaluate
+         */
+        @JvmStatic
+        fun <TSource, TFilter, TResult> nullGuarded(
+            transform: (TSource) -> TFilter?,
+            nullResult: FilterResult<TResult>,
+            filter: Filter<TFilter, TResult>
+        ) = PreProcessorFilter(transform, NullGuardFilter(nullResult, filter))
+    }
 }

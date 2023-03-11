@@ -12,8 +12,12 @@ package opekope2.filter
 class NullGuardFilter<T, TResult>(
     private val nullResult: FilterResult<TResult>,
     private val filter: Filter<T, TResult>
-) : Filter<T?, TResult> {
+) : Filter<T?, TResult>, Iterable<Filter<T, TResult>> {
     override fun evaluate(value: T?): FilterResult<out TResult> =
         if (value == null) nullResult
         else filter.evaluate(value)
+
+    override fun iterator(): Iterator<Filter<T, TResult>> = setOf(filter).iterator()
+
+    override fun toString(): String = "${javaClass.name}, result on null: $nullResult"
 }

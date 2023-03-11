@@ -13,7 +13,7 @@ abstract class Resource(val id: Identifier) {
     /**
      * Returns if the current resource exists.
      */
-    abstract val exists: Boolean
+    abstract fun exists(): Boolean
 
     /**
      * Returns the name of the resource pack the current resource is loaded from.

@@ -11,8 +11,8 @@ import net.minecraft.util.Identifier
  * @param rawInteraction The raw interaction from Minecraft containing the details. See [RawInteraction] documentation
  * @param data The interaction data returned by the interaction data provider
  *
- * @see IBlockEntityPreprocessor
- * @see IEntityPreprocessor
+ * @see BlockEntityPreprocessor
+ * @see EntityPreprocessor
  */
 data class Interaction(
     val texture: Identifier,

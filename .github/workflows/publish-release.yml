@@ -33,9 +33,20 @@ jobs:
           modrinth-id: ${{ vars.MODRINTH_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           modrinth-featured: false
+          modrinth-dependencies: |
+            fabric-api | depends | *
+            fabric-language-kotlin | depends | 1.9.0+kotlin.1.8.0
+            know-my-name | recommends | *
+            animatica | suggests | *
 
           curseforge-id: ${{ vars.CURSEFORGE_ID }}
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          curseforge-dependencies: |
+            306612 | depends | *
+            308769 | depends | 1.9.0+kotlin.1.8.0
+            629673 | recommends | *
+            533006 | suggests | *
+            322385 | conflicts | *
 
           github-token: ${{ secrets.GITHUB_TOKEN }}
           github-files-secondary: dist/*-@(dev|sources|javadoc).jar
@@ -51,6 +62,12 @@ jobs:
             1.19.2
             1.19.1
             1.19
+            1.18.2
+            1.18.1
+            1.18
+          loaders: |
+            fabric
+            quilt
           version-resolver: exact
           java: 17
       - name: Delete build output
