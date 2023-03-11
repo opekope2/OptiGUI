@@ -29,8 +29,6 @@ fun initialize() {
     UseBlockCallback.EVENT.register(InteractionHandler)
     UseEntityCallback.EVENT.register(InteractionHandler)
 
-    opekope2.optigui.internal.optifinecompat.initialize(InitializerContext("optigui"))
-
     runEntryPoints()
 
     // Ensure OptiGlue loaded
@@ -44,7 +42,13 @@ private fun runEntryPoints() {
         FabricLoader.getInstance().getEntrypointContainers("optigui", /* Java moment */ EntryPoint::class.java)
 
     // Initialize OptiGlue first
-    entrypoints.sortByDescending { it.provider.metadata.id == "optiglue" }
+    entrypoints.sortByDescending {
+        when (it.provider.metadata.id) {
+            "optigui" -> 2
+            "optiglue" -> 1
+            else -> 0
+        }
+    }
 
     entrypoints.forEach { it.entrypoint.onInitialize(InitializerContext(it.provider.metadata.id)) }
 }

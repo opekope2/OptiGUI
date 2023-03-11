@@ -8,6 +8,7 @@ import net.minecraft.entity.vehicle.ChestMinecartEntity
 import net.minecraft.entity.vehicle.HopperMinecartEntity
 import opekope2.optigui.InitializerContext
 
+@Suppress("unused")
 internal fun initialize(context: InitializerContext) {
     // Register block entity filter factories
     context.registerFilterFactory(::createAnvilFilter)
