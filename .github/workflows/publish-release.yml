@@ -42,11 +42,11 @@ jobs:
           curseforge-id: ${{ vars.CURSEFORGE_ID }}
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           curseforge-dependencies: |
-            306612 | depends | *
-            308769 | depends | 1.9.0+kotlin.1.8.0
-            629673 | recommends | *
-            533006 | suggests | *
-            322385 | conflicts | *
+            fabric-api | depends | *
+            fabric-language-kotlin | depends | 1.9.0+kotlin.1.8.0
+            know-my-name | recommends | *
+            animatica | suggests | *
+            optifabric | conflicts | *
 
           github-token: ${{ secrets.GITHUB_TOKEN }}
           github-files-secondary: dist/*-@(dev|sources|javadoc).jar
