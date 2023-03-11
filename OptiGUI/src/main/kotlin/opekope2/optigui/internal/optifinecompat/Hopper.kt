@@ -5,14 +5,13 @@ import net.minecraft.block.entity.HopperBlockEntity
 import net.minecraft.entity.Entity
 import net.minecraft.entity.vehicle.HopperMinecartEntity
 import net.minecraft.util.Nameable
-import opekope2.filter.ConjunctionFilter
-import opekope2.filter.FilterInfo
-import opekope2.filter.PostProcessorFilter
-import opekope2.optifinecompat.properties.OptiFineProperties
+import opekope2.filter.*
+import opekope2.optifinecompat.properties.HopperProperties
 import opekope2.optigui.resource.Resource
 import opekope2.optigui.service.RegistryLookupService
 import opekope2.optigui.service.getService
 import opekope2.util.TexturePath
+import opekope2.util.toBoolean
 
 private const val CONTAINER = "hopper"
 private val texture = TexturePath.HOPPER
@@ -23,13 +22,19 @@ fun createHopperFilter(resource: Resource): FilterInfo? {
 
     val filters = createGeneralFilters(resource, CONTAINER, texture)
 
+    filters.addForProperty(resource, "_minecart", { it.toBoolean() }) { minecart ->
+        PreProcessorFilter.nullGuarded(
+            { (it.data as? HopperProperties)?.isMinecart },
+            FilterResult.Mismatch(),
+            EqualityFilter(minecart)
+        )
+    }
+
     return FilterInfo(
         PostProcessorFilter(ConjunctionFilter(filters), replacement),
         setOf(texture)
     )
 }
-
-private typealias HopperProperties = OptiFineProperties
 
 internal fun processHopper(hopper: BlockEntity): Any? {
     if (hopper !is HopperBlockEntity) return null
@@ -42,7 +47,8 @@ internal fun processHopper(hopper: BlockEntity): Any? {
         texture = texture,
         name = (hopper as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, hopper.pos),
-        height = hopper.pos.y
+        height = hopper.pos.y,
+        isMinecart = false
     )
 }
 
@@ -57,6 +63,7 @@ internal fun processHopperMinecart(minecart: Entity): Any? {
         texture = texture,
         name = minecart.customName?.string,
         biome = lookup.lookupBiome(world, minecart.blockPos),
-        height = minecart.blockY
+        height = minecart.blockY,
+        isMinecart = true
     )
 }
