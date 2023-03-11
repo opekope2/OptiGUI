@@ -28,37 +28,44 @@ internal fun createChestFilter(resource: Resource): FilterInfo? {
 
     filters.addForProperty(resource, "large", { it.toBoolean() }) { large ->
         PreProcessorFilter.nullGuarded(
-            { (it.data as? ChestProperties)?.large },
+            { (it.data as? ChestProperties)?.isLarge },
             Mismatch(),
             EqualityFilter(large)
         )
     }
     filters.addForProperty(resource, "trapped", { it.toBoolean() }) { trapped ->
         PreProcessorFilter.nullGuarded(
-            { (it.data as? ChestProperties)?.trapped },
+            { (it.data as? ChestProperties)?.isTrapped },
             Mismatch(),
             EqualityFilter(trapped)
         )
     }
     filters.addForProperty(resource, "christmas", { it.toBoolean() }) { christmas ->
         PreProcessorFilter.nullGuarded(
-            { (it.data as? ChestProperties)?.christmas },
+            { (it.data as? ChestProperties)?.isChristmas },
             Mismatch(),
             EqualityFilter(christmas)
         )
     }
     filters.addForProperty(resource, "ender", { it.toBoolean() }) { ender ->
         PreProcessorFilter.nullGuarded(
-            { (it.data as? ChestProperties)?.ender },
+            { (it.data as? ChestProperties)?.isEnder },
             Mismatch(),
             EqualityFilter(ender)
         )
     }
     filters.addForProperty(resource, "_barrel", { it.toBoolean() }) { barrel ->
         PreProcessorFilter.nullGuarded(
-            { (it.data as? ChestProperties)?.barrel },
+            { (it.data as? ChestProperties)?.isBarrel },
             Mismatch(),
             EqualityFilter(barrel)
+        )
+    }
+    filters.addForProperty(resource, "_minecart", { it.toBoolean() }) { minecart ->
+        PreProcessorFilter.nullGuarded(
+            { (it.data as? ChestProperties)?.isMinecart },
+            Mismatch(),
+            EqualityFilter(minecart)
         )
     }
 
@@ -82,11 +89,12 @@ internal fun processChest(chest: BlockEntity): Any? {
         name = (chest as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, chest.pos),
         height = chest.pos.y,
-        large = type != ChestType.SINGLE,
-        trapped = chest is TrappedChestBlockEntity,
-        christmas = isChristmas(),
-        ender = chest is EnderChestBlockEntity,
-        barrel = chest is BarrelBlockEntity
+        isLarge = type != ChestType.SINGLE,
+        isTrapped = chest is TrappedChestBlockEntity,
+        isChristmas = isChristmas(),
+        isEnder = chest is EnderChestBlockEntity,
+        isBarrel = chest is BarrelBlockEntity,
+        isMinecart = false
     )
 }
 
@@ -102,10 +110,11 @@ internal fun processChestMinecart(minecart: Entity): Any? {
         name = minecart.customName?.string,
         biome = lookup.lookupBiome(world, minecart.blockPos),
         height = minecart.blockY,
-        large = false,
-        trapped = false,
-        christmas = isChristmas(),
-        ender = false,
-        barrel = false
+        isLarge = false,
+        isTrapped = false,
+        isChristmas = isChristmas(),
+        isEnder = false,
+        isBarrel = false,
+        isMinecart = true
     )
 }
