@@ -58,6 +58,7 @@ jobs:
           # Update manually each time fabric.mod.json is edited until a better solution is found,
           # or Kir-Antipov/mc-publish@v4 is released. Copy values from src/main/resources/fabric.mod.json
           game-versions: |
+            1.19.4
             1.19.3
             1.19.2
             1.19.1
