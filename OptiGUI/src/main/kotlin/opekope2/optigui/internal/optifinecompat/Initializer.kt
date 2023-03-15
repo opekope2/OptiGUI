@@ -4,6 +4,7 @@ import net.minecraft.block.entity.*
 import net.minecraft.entity.mob.SkeletonHorseEntity
 import net.minecraft.entity.mob.ZombieHorseEntity
 import net.minecraft.entity.passive.*
+import net.minecraft.entity.vehicle.ChestBoatEntity
 import net.minecraft.entity.vehicle.ChestMinecartEntity
 import net.minecraft.entity.vehicle.HopperMinecartEntity
 import opekope2.optigui.InitializerContext
@@ -36,6 +37,7 @@ internal fun initialize(context: InitializerContext) {
     // Register entity filter factories
     context.registerFilterFactory(::createVillagerFilter)
     context.registerFilterFactory(::createHorseFilter)
+    context.registerFilterFactory(::createChestBoatFilter)
 
     // Register preprocessor for brewing stand
     context.registerPreprocessor<BrewingStandBlockEntity>(::processBrewingStand)
@@ -58,6 +60,9 @@ internal fun initialize(context: InitializerContext) {
     context.registerPreprocessor<EnderChestBlockEntity>(::processChest)
     context.registerPreprocessor<BarrelBlockEntity>(::processChest)
     context.registerPreprocessor<ChestMinecartEntity>(::processChestMinecart)
+
+    // Register preprocessor for chest boats
+    context.registerPreprocessor<ChestBoatEntity>(::processChestBoat)
 
     // Register preprocessor for beacon
     context.registerPreprocessor<BeaconBlockEntity>(::processBeacon)
