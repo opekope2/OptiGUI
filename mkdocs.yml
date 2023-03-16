@@ -6,6 +6,7 @@ theme:
     scheme: slate
   features:
     - navigation.expand
+    - content.code.copy
 nav:
   - Home: index.md
   - Resource packs:
@@ -13,3 +14,12 @@ nav:
     - Replacing GUI textures: format.md
   - API documentation: []
   - API documentation (Java syntax): []
+markdown_extensions: 
+  - admonition
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
