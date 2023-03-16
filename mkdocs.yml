@@ -1,0 +1,15 @@
+site_name: OptiGUI documentation
+repo_url: https://github.com/opekope2/OptiGUI-Next
+theme:
+  name: material
+  palette:
+    scheme: slate
+  features:
+    - navigation.expand
+nav:
+  - Home: index.md
+  - Resource packs:
+    - Basic information & syntax: syntax.md
+    - Replacing GUI textures: format.md
+  - API documentation: []
+  - API documentation (Java syntax): []
