@@ -197,6 +197,9 @@ Use replacement on a chest minecart.
 !!! warning "Note"
     This feature is exclusive to OptiGUI, and is not supported by OptiFine.
 
+!!! tip
+    Available since OptiGUI `2.0.0-alpha.6`.
+
 ### `variants`
 
 !!! info "Type"
