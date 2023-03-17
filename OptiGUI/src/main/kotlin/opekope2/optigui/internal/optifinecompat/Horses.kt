@@ -2,6 +2,7 @@ package opekope2.optigui.internal.optifinecompat
 
 import net.minecraft.entity.Entity
 import net.minecraft.entity.passive.AbstractHorseEntity
+import net.minecraft.entity.passive.LlamaEntity
 import net.minecraft.util.Nameable
 import opekope2.filter.*
 import opekope2.optifinecompat.properties.HorseProperties
@@ -28,6 +29,23 @@ fun createHorseFilter(resource: Resource): FilterInfo? {
             ContainingFilter(variants)
         )
     }
+    filters.addForProperty(resource, "colors", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
+        PreProcessorFilter.nullGuarded(
+            { it.data as? HorseProperties },
+            FilterResult.Mismatch(),
+            DisjunctionFilter(
+                // Ignore if not llama
+                PreProcessorFilter(
+                    { it.variant },
+                    InequalityFilter("llama")
+                ),
+                PreProcessorFilter(
+                    { it.carpetColor },
+                    ContainingFilter(variants)
+                )
+            )
+        )
+    }
 
     return FilterInfo(
         PostProcessorFilter(ConjunctionFilter(filters), replacement),
@@ -49,6 +67,7 @@ fun processHorse(horse: Entity): Any? {
         name = (horse as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, horse.blockPos),
         height = horse.blockY,
-        variant = variantLookup.getVariant(horse) ?: return null
+        variant = variantLookup.getVariant(horse) ?: return null,
+        carpetColor = (horse as? LlamaEntity)?.carpetColor?.getName()
     )
 }
