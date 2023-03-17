@@ -18,7 +18,7 @@ All text files must be encoded in UTF-8. Do not use an ASCII encoding.
 
 ## File structure
 
-Properties files are simple [Java properties](https://en.wikipedia.org/wiki/.properties) text files. Each line is a property, specified as `name=value`.
+Properties files are simple [Java properties](https://en.wikipedia.org/wiki/.properties) text files. Each line is a property, specified as `#!properties name=value`:
 
 ```properties
 # Comments begin with a hashtag
@@ -115,9 +115,9 @@ This section is about matching strings and values using different matching metho
 !!! info "Important"
     Any backslashes must be doubled. Matching backslashes within a regular expression or wildcard must be quadrupled.
 
-    ✅ Correct: `name=regex:\\d+`, `name=regex:\\\\`, `name=/\\/\\`
+    ✅ Correct: `#!properties name=regex:\\d+`, `#!properties name=regex:\\\\`, `#!properties name=/\\/\\`
 
-    ❌ Wrong: `name=regex:\d+`, `name=regex:\\` (for matching \\), `name=/\/\\` (missing a backslash)
+    ❌ Wrong: `#!properties name=regex:\d+`, `#!properties name=regex:\\` (for matching \\), `#!properties name=/\/\\` (missing a backslash)
 
 ### Exact value
 
@@ -199,25 +199,24 @@ Inclusive ranges between numbers are defined with a `-` between those digits. If
 
 Ranges can be combined and intermixed with lists.
 
-For example,
+!!! example
+    ```properties
+    # 1, 2, 3
+    numbers=1-3
 
-```properties
-# 1, 2, 3
-numbers=1-3
+    # Multiple ranges
+    # 1 through 3, or 6, or 8, or 10 through 15
+    # 1, 2, 3, 6, 8, 10, 11, 12, 13, 14, 15
+    numbers=1-3 6 8 10-15
 
-# Multiple ranges
-# 1 through 3, or 6, or 8, or 10 through 15
-# 1, 2, 3, 6, 8, 10, 11, 12, 13, 14, 15
-numbers=1-3 6 8 10-15
+    # Greater than or equal to
+    # 100, or 200, or 5340, or 25902, etc.
+    numbers=100-
 
-# Greater than or equal to
-# 100, or 200, or 5340, or 25902, etc.
-numbers=100-
-
-# Negative number, not a range
-# Only matches negative 100, not -4, -7, or -101
-numbers=-100
-```
+    # Negative number, not a range
+    # Only matches negative 100, not -4, -7, or -101
+    numbers=-100
+    ```
 
 Since 1.18, negative values can also be specified. When used in a range, they must be surrounded by parentheses.
 
@@ -229,15 +228,20 @@ list=(-3)-(-1)
 
 These can be combined to create vast ranges of possible numeric values.
 
+## Booleans
+
+Booleans are case-insensitive.
+
+Possible values: `true`, `false`. Everything else means undefined.
+
 ## Lists
 
 Lists are defined with a space between each item.
 
-For example,
-
-```properties
-numbers=1 2 3 4 5 6
-numbers=10 70 23 -6 210
-numbers=(-100)-200 500 900-
-biomes=ocean deep_ocean river minecraft:beach
-```
+!!! example
+    ```properties
+    numbers=1 2 3 4 5 6
+    numbers=10 70 23 -6 210
+    numbers=(-100)-200 500 900-
+    biomes=ocean deep_ocean river minecraft:beach
+    ```
