@@ -32,7 +32,12 @@ internal object TextureReplacer : InteractionService {
         var riddenEntity: Entity? = null
 
         private fun refreshInteractionData() {
-            data = target?.computeInteractionData() ?: riddenEntity?.let(Preprocessors::preprocessEntity)
+            val newData = target?.computeInteractionData() ?: riddenEntity?.let(Preprocessors::preprocessEntity)
+
+            if (newData != data) {
+                data = newData
+                cache.clear()
+            }
         }
 
         fun prepare(target: InteractionTarget, rawInteraction: RawInteraction): Boolean {
@@ -58,6 +63,8 @@ internal object TextureReplacer : InteractionService {
             data = null
 
             interacting = false
+
+            cache.clear()
         }
 
         fun createInteraction(texture: Identifier): Interaction? {
@@ -78,6 +85,8 @@ internal object TextureReplacer : InteractionService {
         }
     }
 
+    private val cache = mutableMapOf<Identifier, Identifier>()
+
     internal var filter: Filter<Interaction, Identifier> = Filter { FilterResult.Skip() }
     internal var replaceableTextures = mutableSetOf<Identifier>()
 
@@ -92,14 +101,14 @@ internal object TextureReplacer : InteractionService {
     @JvmStatic
     fun replaceTexture(texture: Identifier): Identifier {
         // Don't bother replacing textures if not interacting
-        if (!interactionHolder.interacting) return texture
         val interaction = interactionHolder.createInteraction(texture) ?: return texture
 
         // Only replace predefined textures
         if (texture !in replaceableTextures) return texture
 
-        // TODO caching
-        return filter.evaluate(interaction).let { (it as? FilterResult.Match)?.result ?: texture }
+        return cache.computeIfAbsent(texture) {
+            filter.evaluate(interaction).let { (it as? FilterResult.Match)?.result ?: texture }
+        }
     }
 
     @JvmStatic

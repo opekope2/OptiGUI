@@ -45,7 +45,7 @@ private fun processSurvivalInventory(interaction: Interaction): Interaction? {
         data = SurvivalInventoryProperties(
             container = CONTAINER,
             texture = texture,
-            name = null,
+            name = mc.player?.name?.string,
             biome = lookup.lookupBiome(world, pos),
             height = pos.y
         )
