@@ -1,3 +1,5 @@
+@file: JvmName("VillagerProfessionParser")
+
 package opekope2.util
 
 import net.minecraft.util.Identifier
