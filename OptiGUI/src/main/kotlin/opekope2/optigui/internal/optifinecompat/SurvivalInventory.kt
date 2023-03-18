@@ -1,7 +1,6 @@
 package opekope2.optigui.internal.optifinecompat
 
 import net.minecraft.client.MinecraftClient
-import net.minecraft.util.math.BlockPos
 import opekope2.filter.*
 import opekope2.optifinecompat.properties.OptiFineProperties
 import opekope2.optigui.interaction.Interaction
@@ -39,7 +38,7 @@ private fun processSurvivalInventory(interaction: Interaction): Interaction? {
 
     val mc = MinecraftClient.getInstance()
     val world = mc.world ?: return null
-    val pos = BlockPos(mc.player?.pos ?: return null)
+    val pos = mc.player?.blockPos ?: return null
 
     return interaction.copy(
         data = SurvivalInventoryProperties(
