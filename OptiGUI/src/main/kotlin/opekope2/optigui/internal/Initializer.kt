@@ -3,7 +3,6 @@ package opekope2.optigui.internal
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.MinecraftVersion
 import net.minecraft.block.entity.*
 import opekope2.optigui.EntryPoint
 import opekope2.optigui.InitializerContext
@@ -17,7 +16,6 @@ import org.slf4j.LoggerFactory
 
 internal val logger: Logger = LoggerFactory.getLogger("OptiGUI")
 const val modVersion = "@mod_version@"
-private val gameVersion = MinecraftVersion.CURRENT.name
 
 @Suppress("unused")
 fun initialize() {
@@ -32,9 +30,9 @@ fun initialize() {
     runEntryPoints()
 
     // Ensure OptiGlue loaded
-    getServiceOrNull<OptiGlueService>() ?: throw RuntimeException("Error loading OptiGlue!")
+    val glue = getServiceOrNull<OptiGlueService>() ?: throw RuntimeException("Error loading OptiGlue!")
 
-    logger.info("OptiGUI $modVersion initialized in Minecraft $gameVersion.")
+    logger.info("OptiGUI $modVersion initialized in Minecraft ${glue.minecraftVersion}.")
 }
 
 private fun runEntryPoints() {
