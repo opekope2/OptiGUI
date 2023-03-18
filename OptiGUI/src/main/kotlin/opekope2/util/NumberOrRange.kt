@@ -39,7 +39,7 @@ class NumberOrRange private constructor(val start: Int?, val end: Int?, val valu
         private val regex = Regex("""^(?:(?<start>\d+|\(-?\d+\))-(?<end>\d+|\(-?\d+\))?|(?<value>-?\d+))$""")
 
         /**
-         * Parses a number or range compatible with [OptiFine docs](https://optifine.readthedocs.io/syntax.html#ranges).
+         * Parses a number or range according to the [OptiGUI docs](https://opekope2.github.io/OptiGUI-Next/syntax/#ranges).
          */
         @JvmStatic
         fun tryParse(numberRange: String): NumberOrRange? {

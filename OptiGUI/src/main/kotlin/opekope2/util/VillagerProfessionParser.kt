@@ -5,8 +5,7 @@ package opekope2.util
 import net.minecraft.util.Identifier
 
 /**
- * Parses a villager profession compatible with [OptiFine docs](https://optifine.readthedocs.io/custom_guis.html#villagers).
- * In fact, it parses a superset (additional features): a namespace is optionally accepted in front.
+ * Parses a villager profession according to the [OptiGUI docs](https://opekope2.github.io/OptiGUI-Next/format/#villagers).
  */
 fun tryParseProfession(input: String): Pair<Identifier, Collection<NumberOrRange>>? {
     val parts = input.split(':')
