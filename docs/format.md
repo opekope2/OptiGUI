@@ -1,6 +1,6 @@
 # Replacing GUI textures
 
-You can define a texture replacement for each inventory GUI, and apply them based on different criteria.
+You can define a texture replacement for each inventory GUI, and apply them based on different criteria. The resource pack format is similar to the [OptiFine format](https://optifine.readthedocs.io/custom_guis.html), with extended features.
 
 !!! info "Location"
     `/assets/minecraft/optifine/gui/container/ANY_NAME.properties` ([file naming rules apply](/syntax/#file-naming-rules))
