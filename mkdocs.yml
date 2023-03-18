@@ -12,8 +12,10 @@ nav:
   - Resource packs:
     - Basic information & syntax: syntax.md
     - Replacing GUI textures: format.md
-  - API documentation: []
-  - API documentation (Java syntax): []
+  - API docs:
+    - 2.0.0-beta.1: /kdoc/2.0.0-beta.1
+  - API docs (Java syntax):
+    - 2.0.0-beta.1: /javadoc/2.0.0-beta.1
 markdown_extensions: 
   - admonition
   - pymdownx.details
