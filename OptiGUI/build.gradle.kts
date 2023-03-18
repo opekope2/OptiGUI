@@ -36,11 +36,13 @@ dependencies {
     runtimeOnly(project(":OptiGlue:1.18.2", configuration = "namedElements"))
     runtimeOnly(project(":OptiGlue:1.19", configuration = "namedElements"))
     runtimeOnly(project(":OptiGlue:1.19.3", configuration = "namedElements"))
+    runtimeOnly(project(":OptiGlue:1.19.4", configuration = "namedElements"))
 
     include(project(":OptiGlue:1.18", configuration = "namedElements"))
     include(project(":OptiGlue:1.18.2", configuration = "namedElements"))
     include(project(":OptiGlue:1.19", configuration = "namedElements"))
     include(project(":OptiGlue:1.19.3", configuration = "namedElements"))
+    include(project(":OptiGlue:1.19.4", configuration = "namedElements"))
 
     include(implementation("org.apache.commons", "commons-text", "1.10.0"))
 
