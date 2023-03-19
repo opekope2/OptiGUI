@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory
 @Suppress("unused")
 object OptiGlueMod : EntryPoint, OptiGlueService, EntityVariantLookupService {
     internal val logger: Logger = LoggerFactory.getLogger("OptiGlue")
-    private val gameVersion = MinecraftVersion.CURRENT.name
 
     override fun onInitialize(context: InitializerContext) {
         // Needed by OptiGUI
@@ -33,10 +32,11 @@ object OptiGlueMod : EntryPoint, OptiGlueService, EntityVariantLookupService {
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(ResourceLoader)
 
-        logger.info("OptiGlue $version initialized in Minecraft $gameVersion.")
+        logger.info("OptiGlue $glueVersion initialized in Minecraft $minecraftVersion.")
     }
 
-    override val version: String = "@mod_version@"
+    override val glueVersion: String = "@mod_version@"
+    override val minecraftVersion: String = MinecraftVersion.CURRENT.name
 
     override fun getVariant(entity: Entity): String? =
         when (entity) {

@@ -5,7 +5,7 @@ package opekope2.util
 import org.apache.commons.text.StringEscapeUtils.unescapeJava
 
 /**
- * Parses a wildcard or regex compatible with [OptiFine syntax](https://optifine.readthedocs.io/syntax.html#strings).
+ * Parses a wildcard or regex according to the [OptiGUI syntax](https://opekope2.github.io/OptiGUI-Next/syntax/#strings).
  */
 fun parseWildcardOrRegex(wildcardOrRegex: String): Regex = when {
     wildcardOrRegex.startsWith("pattern:") -> Regex(
