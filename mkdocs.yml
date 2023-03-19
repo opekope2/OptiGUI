@@ -13,10 +13,14 @@ nav:
     - Basic information & syntax: syntax.md
     - Replacing GUI textures: format.md
   - API docs:
+    - Latest: kdoc/latest
+    - 2.0.0-beta.2: kdoc/2.0.0-beta.2
     - 2.0.0-beta.1: kdoc/2.0.0-beta.1
   - API docs (Java syntax):
+    - Latest: javadoc/latest
+    - 2.0.0-beta.2: javadoc/2.0.0-beta.2
     - 2.0.0-beta.1: javadoc/2.0.0-beta.1
-markdown_extensions: 
+markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.highlight:
