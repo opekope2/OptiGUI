@@ -2,7 +2,6 @@ plugins {
     id("fabric-loom")
     kotlin("jvm")
     id("net.kyori.blossom")
-    id("maven-publish")
 }
 
 base { archivesName.set(project.extra["archives_base_name"] as String) }
@@ -86,17 +85,5 @@ tasks.test {
     useJUnitPlatform()
     testLogging {
         events("PASSED", "SKIPPED", "FAILED")
-    }
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = project.group.toString()
-            artifactId = base.archivesName.get()
-            version = project.version.toString()
-
-            from(components["java"])
-        }
     }
 }
