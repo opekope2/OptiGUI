@@ -92,15 +92,9 @@ tasks.test {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            if (System.getenv("JITPACK") == "true") {
-                groupId = System.getenv("GROUP")
-                artifactId = System.getenv("ARTIFACT")
-                version = System.getenv("VERSION")
-            } else {
-                groupId = project.group.toString()
-                artifactId = base.archivesName.get()
-                version = project.version.toString()
-            }
+            groupId = project.group.toString()
+            artifactId = base.archivesName.get()
+            version = project.version.toString()
 
             from(components["java"])
         }
