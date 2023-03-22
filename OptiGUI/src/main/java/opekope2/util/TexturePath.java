@@ -21,6 +21,7 @@ public interface TexturePath {
     Identifier LOOM = new Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/loom.png");
     Identifier SHULKER_BOX = new Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/shulker_box.png");
     Identifier SMITHING_TABLE = new Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/smithing.png");
+    Identifier LEGACY_SMITHING_TABLE = new Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/legacy_smithing.png");
     Identifier SMOKER = new Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/smoker.png");
     Identifier STONECUTTER = new Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/stonecutter.png");
 

@@ -11,13 +11,19 @@ import opekope2.optigui.service.getService
 import opekope2.util.TexturePath
 
 private const val CONTAINER = "_smithing_table"
-private val texture = TexturePath.SMITHING_TABLE
+private val textures = setOf(TexturePath.SMITHING_TABLE, TexturePath.LEGACY_SMITHING_TABLE)
 
 fun createSmithingTableFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filters = createGeneralFilters(resource, CONTAINER)
+
+    filters += PreProcessorFilter(
+        { it.texture },
+        ContainingFilter(textures)
+    )
+
     val filter = ConjunctionFilter(filters)
 
     return FilterInfo(
@@ -32,7 +38,7 @@ fun createSmithingTableFilter(resource: Resource): FilterInfo? {
             ),
             replacement
         ),
-        setOf(texture)
+        textures
     )
 }
 
