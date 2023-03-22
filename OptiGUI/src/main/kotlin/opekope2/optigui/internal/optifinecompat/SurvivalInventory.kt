@@ -17,13 +17,17 @@ fun createSurvivalInventoryFilter(resource: Resource): FilterInfo? {
     val replacement = findReplacementTexture(resource) ?: return null
 
     val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filter = ConjunctionFilter(filters)
 
     return FilterInfo(
         PostProcessorFilter(
-            PreProcessorFilter.nullGuarded(
-                ::processSurvivalInventory,
-                FilterResult.Mismatch(),
-                ConjunctionFilter(filters)
+            DisjunctionFilter(
+                filter,
+                PreProcessorFilter.nullGuarded(
+                    ::processSurvivalInventory,
+                    FilterResult.Mismatch(),
+                    filter
+                )
             ),
             replacement
         ),

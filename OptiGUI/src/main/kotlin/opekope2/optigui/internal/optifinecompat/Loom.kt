@@ -18,13 +18,17 @@ fun createLoomFilter(resource: Resource): FilterInfo? {
     val replacement = findReplacementTexture(resource) ?: return null
 
     val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filter = ConjunctionFilter(filters)
 
     return FilterInfo(
         PostProcessorFilter(
-            PreProcessorFilter.nullGuarded(
-                ::processLoomInteraction,
-                FilterResult.Mismatch(),
-                ConjunctionFilter(filters)
+            DisjunctionFilter(
+                filter,
+                PreProcessorFilter.nullGuarded(
+                    ::processLoomInteraction,
+                    FilterResult.Mismatch(),
+                    filter
+                )
             ),
             replacement
         ),

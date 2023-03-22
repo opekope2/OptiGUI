@@ -17,16 +17,20 @@ fun createAnvilFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = ConjunctionFilter(createGeneralFilters(resource, CONTAINER, texture))
+    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filter = ConjunctionFilter(filters)
 
     return FilterInfo(
-        PreProcessorFilter.nullGuarded(
-            ::processAnvilInteraction,
-            FilterResult.Mismatch(),
-            PostProcessorFilter(
-                filters,
-                replacement
-            )
+        PostProcessorFilter(
+            DisjunctionFilter(
+                filter,
+                PreProcessorFilter.nullGuarded(
+                    ::processAnvilInteraction,
+                    FilterResult.Mismatch(),
+                    filter
+                )
+            ),
+            replacement
         ),
         setOf(texture)
     )

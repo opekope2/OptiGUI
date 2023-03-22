@@ -18,13 +18,17 @@ fun createStonecutterFilter(resource: Resource): FilterInfo? {
     val replacement = findReplacementTexture(resource) ?: return null
 
     val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filter = ConjunctionFilter(filters)
 
     return FilterInfo(
         PostProcessorFilter(
-            PreProcessorFilter.nullGuarded(
-                ::processStonecutterInteraction,
-                FilterResult.Mismatch(),
-                ConjunctionFilter(filters)
+            DisjunctionFilter(
+                filter,
+                PreProcessorFilter.nullGuarded(
+                    ::processStonecutterInteraction,
+                    FilterResult.Mismatch(),
+                    filter
+                )
             ),
             replacement
         ),

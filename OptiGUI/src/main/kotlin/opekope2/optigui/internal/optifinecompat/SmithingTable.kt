@@ -18,13 +18,17 @@ fun createSmithingTableFilter(resource: Resource): FilterInfo? {
     val replacement = findReplacementTexture(resource) ?: return null
 
     val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filter = ConjunctionFilter(filters)
 
     return FilterInfo(
         PostProcessorFilter(
-            PreProcessorFilter.nullGuarded(
-                ::processSmithingTableInteraction,
-                FilterResult.Mismatch(),
-                ConjunctionFilter(filters)
+            DisjunctionFilter(
+                filter,
+                PreProcessorFilter.nullGuarded(
+                    ::processSmithingTableInteraction,
+                    FilterResult.Mismatch(),
+                    filter
+                )
             ),
             replacement
         ),

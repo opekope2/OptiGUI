@@ -18,13 +18,17 @@ fun createCartographyTableFilter(resource: Resource): FilterInfo? {
     val replacement = findReplacementTexture(resource) ?: return null
 
     val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filter = ConjunctionFilter(filters)
 
     return FilterInfo(
         PostProcessorFilter(
-            PreProcessorFilter.nullGuarded(
-                ::processCartographyTableInteraction,
-                FilterResult.Mismatch(),
-                ConjunctionFilter(filters)
+            DisjunctionFilter(
+                filter,
+                PreProcessorFilter.nullGuarded(
+                    ::processCartographyTableInteraction,
+                    FilterResult.Mismatch(),
+                    filter
+                )
             ),
             replacement
         ),

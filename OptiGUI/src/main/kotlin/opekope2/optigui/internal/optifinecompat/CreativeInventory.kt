@@ -36,14 +36,18 @@ fun createCreativeInventoryFilter(resource: Resource): FilterInfo? {
         ContainingFilter(textureMap.keys)
     )
 
+    val filter = ConjunctionFilter(filters)
+
     return FilterInfo(
         PostProcessorFilter(
-            PreProcessorFilter.nullGuarded(
-                ::processCreativeInventory,
-                Mismatch(),
-                ConjunctionFilter(filters)
+            DisjunctionFilter(
+                filter,
+                PreProcessorFilter.nullGuarded(
+                    ::processCreativeInventory,
+                    Mismatch(),
+                    filter
+                )
             )
-
         ) { input, filterResult ->
             filterResult.withResult(textureMap[input.texture] ?: return@PostProcessorFilter Mismatch())
         },
