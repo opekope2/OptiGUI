@@ -85,7 +85,6 @@ internal fun processChest(chest: BlockEntity): Any? {
 
     return ChestProperties(
         container = CONTAINER,
-        texture = texture,
         name = (chest as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, chest.pos),
         height = chest.pos.y,
@@ -106,7 +105,6 @@ internal fun processChestMinecart(minecart: Entity): Any? {
 
     return ChestProperties(
         container = CONTAINER,
-        texture = texture,
         name = minecart.customName?.string,
         biome = lookup.lookupBiome(world, minecart.blockPos),
         height = minecart.blockY,

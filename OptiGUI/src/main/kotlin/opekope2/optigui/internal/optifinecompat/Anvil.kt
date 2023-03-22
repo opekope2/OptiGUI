@@ -47,7 +47,6 @@ private fun processAnvilInteraction(interaction: Interaction): Interaction? {
     return interaction.copy(
         data = AnvilProperties(
             container = CONTAINER,
-            texture = texture,
             name = null,
             biome = lookup.lookupBiome(world, pos),
             height = pos.y

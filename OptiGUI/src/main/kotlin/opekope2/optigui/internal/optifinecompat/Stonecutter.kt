@@ -47,7 +47,6 @@ private fun processStonecutterInteraction(interaction: Interaction): Interaction
     return interaction.copy(
         data = StonecutterProperties(
             container = CONTAINER,
-            texture = texture,
             name = null,
             biome = lookup.lookupBiome(world, pos),
             height = pos.y

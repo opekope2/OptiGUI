@@ -47,7 +47,6 @@ private fun processGrindstoneInteraction(interaction: Interaction): Interaction?
     return interaction.copy(
         data = GrindstoneProperties(
             container = CONTAINER,
-            texture = texture,
             name = null,
             biome = lookup.lookupBiome(world, pos),
             height = pos.y

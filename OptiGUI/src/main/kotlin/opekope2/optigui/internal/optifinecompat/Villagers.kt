@@ -63,7 +63,6 @@ internal fun processVillager(villager: Entity): Any? {
 
     return VillagerProperties(
         container = CONTAINER,
-        texture = texture,
         name = (villager as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, villager.blockPos),
         height = villager.blockY,

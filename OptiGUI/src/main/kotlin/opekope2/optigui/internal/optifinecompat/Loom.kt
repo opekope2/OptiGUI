@@ -47,7 +47,6 @@ private fun processLoomInteraction(interaction: Interaction): Interaction? {
     return interaction.copy(
         data = LoomProperties(
             container = CONTAINER,
-            texture = texture,
             name = null,
             biome = lookup.lookupBiome(world, pos),
             height = pos.y

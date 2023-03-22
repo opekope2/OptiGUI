@@ -63,7 +63,6 @@ fun processHorse(horse: Entity): Any? {
 
     return HorseProperties(
         container = CONTAINER,
-        texture = texture,
         name = (horse as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, horse.blockPos),
         height = horse.blockY,

@@ -48,7 +48,6 @@ internal fun processDispenser(dispenser: BlockEntity): Any? {
 
     return DispenserProperties(
         container = CONTAINER,
-        texture = texture,
         name = (dispenser as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, dispenser.pos),
         height = dispenser.pos.y,

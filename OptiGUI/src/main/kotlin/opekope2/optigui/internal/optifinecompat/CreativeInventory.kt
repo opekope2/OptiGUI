@@ -67,7 +67,6 @@ private fun processCreativeInventory(interaction: Interaction): Interaction? {
     return interaction.copy(
         data = CreativeInventoryProperties(
             container = CONTAINER,
-            texture = interaction.texture,
             name = null,
             biome = lookup.lookupBiome(world, pos),
             height = pos.y

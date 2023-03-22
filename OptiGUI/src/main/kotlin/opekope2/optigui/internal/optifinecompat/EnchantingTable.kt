@@ -37,7 +37,6 @@ internal fun processEnchantingTable(enchantingTable: BlockEntity): Any? {
 
     return EnchantingTableProperties(
         container = CONTAINER,
-        texture = texture,
         name = (enchantingTable as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, enchantingTable.pos),
         height = enchantingTable.pos.y
