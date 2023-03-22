@@ -8,9 +8,8 @@ import net.minecraft.util.Identifier
  * @param isMinecart Whether a hopper is a hopper minecart
  */
 data class HopperProperties(
-    override val container: String,
     override val name: String?,
     override val biome: Identifier?,
     override val height: Int,
     val isMinecart: Boolean
-) : GeneralProperties(container, name, biome, height)
+) : GeneralProperties(name, biome, height)

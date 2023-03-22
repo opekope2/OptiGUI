@@ -31,12 +31,8 @@ internal inline fun MutableCollection<Filter<Interaction, Unit>>.addForProperty(
 
 internal val delimiters = charArrayOf(' ', '\t')
 
-internal fun createGeneralFilters(
-    resource: Resource,
-    container: String,
-    texturePath: Identifier
-): MutableList<Filter<Interaction, Unit>> {
-    val filters = createGeneralFilters(resource, container)
+internal fun createGeneralFilters(resource: Resource, texturePath: Identifier): MutableList<Filter<Interaction, Unit>> {
+    val filters = createGeneralFilters(resource)
 
     filters += PreProcessorFilter(
         { it.texture },
@@ -46,17 +42,8 @@ internal fun createGeneralFilters(
     return filters
 }
 
-internal fun createGeneralFilters(
-    resource: Resource,
-    container: String
-): MutableList<Filter<Interaction, Unit>> {
-    val filters = mutableListOf<Filter<Interaction, Unit>>(
-        PreProcessorFilter.nullGuarded(
-            { (it.data as? GeneralProperties)?.container },
-            Mismatch(),
-            EqualityFilter(container)
-        )
-    )
+internal fun createGeneralFilters(resource: Resource): MutableList<Filter<Interaction, Unit>> {
+    val filters = mutableListOf<Filter<Interaction, Unit>>()
 
     filters.addForProperty(resource, "name") { name ->
         PreProcessorFilter(

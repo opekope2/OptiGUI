@@ -23,7 +23,7 @@ internal fun createVillagerFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filters = createGeneralFilters(resource, texture)
 
     filters.addForProperty(
         resource,
@@ -62,7 +62,6 @@ internal fun processVillager(villager: Entity): Any? {
     val villagerData = (villager as? VillagerEntity)?.villagerData
 
     return VillagerProperties(
-        container = CONTAINER,
         name = (villager as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, villager.blockPos),
         height = villager.blockY,

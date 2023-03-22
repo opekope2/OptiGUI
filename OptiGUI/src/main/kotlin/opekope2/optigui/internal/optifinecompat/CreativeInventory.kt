@@ -16,7 +16,7 @@ private const val CONTAINER = "creative"
 fun createCreativeInventoryFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
 
-    val filters = createGeneralFilters(resource, CONTAINER)
+    val filters = createGeneralFilters(resource)
 
     val textureMap = mutableMapOf<Identifier, Identifier>()
     for ((key, value) in resource.properties) {
@@ -66,7 +66,6 @@ private fun processCreativeInventory(interaction: Interaction): Interaction? {
 
     return interaction.copy(
         data = CreativeInventoryProperties(
-            container = CONTAINER,
             name = null,
             biome = lookup.lookupBiome(world, pos),
             height = pos.y

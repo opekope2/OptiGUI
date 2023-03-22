@@ -19,7 +19,7 @@ fun createEnchantingTableFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filters = createGeneralFilters(resource, texture)
 
     return FilterInfo(
         PostProcessorFilter(ConjunctionFilter(filters), replacement),
@@ -36,7 +36,6 @@ internal fun processEnchantingTable(enchantingTable: BlockEntity): Any? {
     val world = enchantingTable.world ?: return null
 
     return EnchantingTableProperties(
-        container = CONTAINER,
         name = (enchantingTable as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, enchantingTable.pos),
         height = enchantingTable.pos.y

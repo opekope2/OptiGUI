@@ -20,7 +20,7 @@ fun createHopperFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filters = createGeneralFilters(resource, texture)
 
     filters.addForProperty(resource, "_minecart", { it.toBoolean() }) { minecart ->
         PreProcessorFilter.nullGuarded(
@@ -43,7 +43,6 @@ internal fun processHopper(hopper: BlockEntity): Any? {
     val world = hopper.world ?: return null
 
     return HopperProperties(
-        container = CONTAINER,
         name = (hopper as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, hopper.pos),
         height = hopper.pos.y,
@@ -58,7 +57,6 @@ internal fun processHopperMinecart(minecart: Entity): Any? {
     val world = minecart.world ?: return null
 
     return HopperProperties(
-        container = CONTAINER,
         name = minecart.customName?.string,
         biome = lookup.lookupBiome(world, minecart.blockPos),
         height = minecart.blockY,

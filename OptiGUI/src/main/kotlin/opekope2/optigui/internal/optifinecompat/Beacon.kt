@@ -20,7 +20,7 @@ fun createBeaconFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filters = createGeneralFilters(resource, texture)
 
     filters.addForProperty(resource, "levels", { it.splitIgnoreEmpty(*delimiters) }) { levels ->
         PreProcessorFilter.nullGuarded(
@@ -43,7 +43,6 @@ internal fun processBeacon(beacon: BlockEntity): Any? {
     val world = beacon.world ?: return null
 
     return BeaconProperties(
-        container = CONTAINER,
         name = (beacon as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, beacon.pos),
         height = beacon.pos.y,

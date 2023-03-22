@@ -19,7 +19,7 @@ fun createBrewingStandFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filters = createGeneralFilters(resource, texture)
 
     return FilterInfo(
         PostProcessorFilter(ConjunctionFilter(filters), replacement),
@@ -36,7 +36,6 @@ internal fun processBrewingStand(brewingStand: BlockEntity): Any? {
     val world = brewingStand.world ?: return null
 
     return BrewingStandProperties(
-        container = CONTAINER,
         name = (brewingStand as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, brewingStand.pos),
         height = brewingStand.pos.y

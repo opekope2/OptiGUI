@@ -8,9 +8,8 @@ import net.minecraft.util.Identifier
  * @param color The color of the shulker box
  */
 data class ShulkerBoxProperties(
-    override val container: String,
     override val name: String?,
     override val biome: Identifier?,
     override val height: Int,
     val color: String?
-) : GeneralProperties(container, name, biome, height)
+) : GeneralProperties(name, biome, height)

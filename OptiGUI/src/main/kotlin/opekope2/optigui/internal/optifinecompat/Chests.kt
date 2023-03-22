@@ -24,7 +24,7 @@ internal fun createChestFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filters = createGeneralFilters(resource, texture)
 
     filters.addForProperty(resource, "large", { it.toBoolean() }) { large ->
         PreProcessorFilter.nullGuarded(
@@ -84,7 +84,6 @@ internal fun processChest(chest: BlockEntity): Any? {
     val type = state.entries[chestTypeEnum]
 
     return ChestProperties(
-        container = CONTAINER,
         name = (chest as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, chest.pos),
         height = chest.pos.y,
@@ -104,7 +103,6 @@ internal fun processChestMinecart(minecart: Entity): Any? {
     val world = minecart.world ?: return null
 
     return ChestProperties(
-        container = CONTAINER,
         name = minecart.customName?.string,
         biome = lookup.lookupBiome(world, minecart.blockPos),
         height = minecart.blockY,

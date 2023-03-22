@@ -31,7 +31,7 @@ fun createFurnaceFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER)
+    val filters = createGeneralFilters(resource)
 
     val variants = resource.properties["variants"] as? String
     val textures: Set<Identifier> =
@@ -74,7 +74,6 @@ internal fun processFurnace(furnace: BlockEntity): Any? {
     }
 
     return FurnaceProperties(
-        container = CONTAINER,
         name = (furnace as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, furnace.pos),
         height = furnace.pos.y,

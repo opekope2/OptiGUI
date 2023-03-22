@@ -17,7 +17,7 @@ fun createCraftingTableFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filters = createGeneralFilters(resource, texture)
     val filter = ConjunctionFilter(filters)
 
     return FilterInfo(
@@ -46,7 +46,6 @@ private fun processCraftingTableInteraction(interaction: Interaction): Interacti
 
     return interaction.copy(
         data = CraftingTableProperties(
-            container = CONTAINER,
             name = null,
             biome = lookup.lookupBiome(world, pos),
             height = pos.y

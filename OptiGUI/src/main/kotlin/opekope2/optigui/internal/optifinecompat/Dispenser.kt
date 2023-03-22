@@ -19,7 +19,7 @@ fun createDispenserFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filters = createGeneralFilters(resource, texture)
 
     filters.addForProperty(resource, "variants", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
         PreProcessorFilter.nullGuarded(
@@ -47,7 +47,6 @@ internal fun processDispenser(dispenser: BlockEntity): Any? {
     }
 
     return DispenserProperties(
-        container = CONTAINER,
         name = (dispenser as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, dispenser.pos),
         height = dispenser.pos.y,

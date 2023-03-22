@@ -9,10 +9,9 @@ import net.minecraft.util.Identifier
  * @param carpetColor The carpet color of a llama
  */
 data class HorseProperties(
-    override val container: String,
     override val name: String?,
     override val biome: Identifier?,
     override val height: Int,
     val variant: String,
     val carpetColor: String?
-) : GeneralProperties(container, name, biome, height)
+) : GeneralProperties(name, biome, height)

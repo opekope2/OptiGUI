@@ -20,7 +20,7 @@ fun createHorseFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filters = createGeneralFilters(resource, texture)
 
     filters.addForProperty(resource, "variants", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
         PreProcessorFilter.nullGuarded(
@@ -62,7 +62,6 @@ fun processHorse(horse: Entity): Any? {
     val world = horse.world ?: return null
 
     return HorseProperties(
-        container = CONTAINER,
         name = (horse as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, horse.blockPos),
         height = horse.blockY,

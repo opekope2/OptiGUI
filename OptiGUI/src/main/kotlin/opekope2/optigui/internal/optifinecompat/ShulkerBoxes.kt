@@ -18,7 +18,7 @@ internal fun createShulkerBoxFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filters = createGeneralFilters(resource, texture)
 
     filters.addForProperty(resource, "colors", { it.splitIgnoreEmpty(*delimiters) }) { colors ->
         PreProcessorFilter.nullGuarded(
@@ -41,7 +41,6 @@ internal fun processShulkerBox(shulkerBox: BlockEntity): Any? {
     val world = shulkerBox.world ?: return null
 
     return ShulkerBoxProperties(
-        container = CONTAINER,
         name = (shulkerBox as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, shulkerBox.pos),
         height = shulkerBox.pos.y,

@@ -15,7 +15,6 @@ import net.minecraft.util.Identifier
  * @see isChristmas
  */
 data class ChestProperties(
-    override val container: String,
     override val name: String?,
     override val biome: Identifier?,
     override val height: Int,
@@ -25,4 +24,4 @@ data class ChestProperties(
     val isEnder: Boolean,
     val isBarrel: Boolean,
     val isMinecart: Boolean
-) : GeneralProperties(container, name, biome, height)
+) : GeneralProperties(name, biome, height)

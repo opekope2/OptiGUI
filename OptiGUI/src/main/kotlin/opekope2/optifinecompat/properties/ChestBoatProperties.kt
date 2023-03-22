@@ -9,9 +9,8 @@ import net.minecraft.util.Identifier
  * `acacia`, `bamboo`, `birch`, `cherry`, `dark_oak`, `jungle`, `mangrove`, `oak`, `spruce`
  */
 data class ChestBoatProperties(
-    override val container: String,
     override val name: String?,
     override val biome: Identifier?,
     override val height: Int,
     val variant: String
-) : GeneralProperties(container, name, biome, height)
+) : GeneralProperties(name, biome, height)
