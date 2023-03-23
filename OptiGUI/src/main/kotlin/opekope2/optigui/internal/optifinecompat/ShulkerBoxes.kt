@@ -18,18 +18,20 @@ internal fun createShulkerBoxFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, texture)
-
-    filters.addForProperty(resource, "colors", { it.splitIgnoreEmpty(*delimiters) }) { colors ->
-        PreProcessorFilter.nullGuarded(
-            { (it.data as? ShulkerBoxProperties)?.color },
-            FilterResult.Mismatch(),
-            ContainingFilter(colors)
-        )
+    val filter = FilterBuilder.build(resource) {
+        setReplaceableTextures(texture)
+        addGeneralFilters<ShulkerBoxProperties>()
+        addFilterForProperty("colors", { it.splitIgnoreEmpty(*delimiters) }) { colors ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? ShulkerBoxProperties)?.color },
+                FilterResult.Mismatch(),
+                ContainingFilter(colors)
+            )
+        }
     }
 
     return FilterInfo(
-        PostProcessorFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(filter, replacement),
         setOf(texture)
     )
 }

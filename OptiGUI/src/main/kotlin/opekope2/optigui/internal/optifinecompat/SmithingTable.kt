@@ -17,14 +17,10 @@ fun createSmithingTableFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource)
-
-    filters += PreProcessorFilter(
-        { it.texture },
-        ContainingFilter(textures)
-    )
-
-    val filter = ConjunctionFilter(filters)
+    val filter = FilterBuilder.build(resource) {
+        replaceableTextures = textures
+        addGeneralFilters<SmithingTableProperties>()
+    }
 
     return FilterInfo(
         PostProcessorFilter(

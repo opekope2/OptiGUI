@@ -17,8 +17,10 @@ fun createLoomFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, texture)
-    val filter = ConjunctionFilter(filters)
+    val filter = FilterBuilder.build(resource) {
+        setReplaceableTextures(texture)
+        addGeneralFilters<LoomProperties>()
+    }
 
     return FilterInfo(
         PostProcessorFilter(

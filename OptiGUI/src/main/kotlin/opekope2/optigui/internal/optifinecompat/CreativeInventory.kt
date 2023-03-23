@@ -16,8 +16,6 @@ private const val CONTAINER = "creative"
 fun createCreativeInventoryFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
 
-    val filters = createGeneralFilters(resource)
-
     val textureMap = mutableMapOf<Identifier, Identifier>()
     for ((key, value) in resource.properties) {
         if ((key as? String)?.startsWith("texture.") == true) {
@@ -31,12 +29,10 @@ fun createCreativeInventoryFilter(resource: Resource): FilterInfo? {
         }
     }
 
-    filters += PreProcessorFilter(
-        { it.texture },
-        ContainingFilter(textureMap.keys)
-    )
-
-    val filter = ConjunctionFilter(filters)
+    val filter = FilterBuilder.build(resource) {
+        replaceableTextures = textureMap.keys
+        addGeneralFilters<CreativeInventoryProperties>()
+    }
 
     return FilterInfo(
         PostProcessorFilter(

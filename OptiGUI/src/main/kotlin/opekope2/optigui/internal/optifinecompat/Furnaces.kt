@@ -31,7 +31,7 @@ fun createFurnaceFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource)
+    val filterBuilder = FilterBuilder(resource).addGeneralFilters<FurnaceProperties>()
 
     val variants = resource.properties["variants"] as? String
     val textures: Set<Identifier> =
@@ -40,22 +40,21 @@ fun createFurnaceFilter(resource: Resource): FilterInfo? {
         else {
             val foundVariants = variants.splitIgnoreEmpty(*delimiters).mapNotNull(variantMap::get)
 
-            filters += PreProcessorFilter.nullGuarded(
-                { (it.data as? FurnaceProperties)?.variant },
-                FilterResult.Mismatch(),
-                ContainingFilter(foundVariants)
+            filterBuilder.addFilter(
+                PreProcessorFilter.nullGuarded(
+                    { (it.data as? FurnaceProperties)?.variant },
+                    FilterResult.Mismatch(),
+                    ContainingFilter(foundVariants)
+                )
             )
 
             foundVariants.mapNotNull(variantToTextureMap::get).toSet()
         }
 
-    filters += PreProcessorFilter(
-        { it.texture },
-        ContainingFilter(textures)
-    )
+    filterBuilder.replaceableTextures = textures
 
     return FilterInfo(
-        PostProcessorFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(filterBuilder.build(), replacement),
         textures
     )
 }

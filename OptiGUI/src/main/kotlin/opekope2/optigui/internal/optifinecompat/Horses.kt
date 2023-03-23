@@ -20,35 +20,37 @@ fun createHorseFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, texture)
-
-    filters.addForProperty(resource, "variants", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
-        PreProcessorFilter.nullGuarded(
-            { (it.data as? HorseProperties)?.variant },
-            FilterResult.Mismatch(),
-            ContainingFilter(variants)
-        )
-    }
-    filters.addForProperty(resource, "colors", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
-        PreProcessorFilter.nullGuarded(
-            { it.data as? HorseProperties },
-            FilterResult.Mismatch(),
-            DisjunctionFilter(
-                // Ignore if not llama
-                PreProcessorFilter(
-                    { it.variant },
-                    InequalityFilter("llama")
-                ),
-                PreProcessorFilter(
-                    { it.carpetColor },
-                    ContainingFilter(variants)
+    val filter = FilterBuilder.build(resource) {
+        setReplaceableTextures(texture)
+        addGeneralFilters<HorseProperties>()
+        addFilterForProperty("variants", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? HorseProperties)?.variant },
+                FilterResult.Mismatch(),
+                ContainingFilter(variants)
+            )
+        }
+        addFilterForProperty("colors", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
+            PreProcessorFilter.nullGuarded(
+                { it.data as? HorseProperties },
+                FilterResult.Mismatch(),
+                DisjunctionFilter(
+                    // Ignore if not llama
+                    PreProcessorFilter(
+                        { it.variant },
+                        InequalityFilter("llama")
+                    ),
+                    PreProcessorFilter(
+                        { it.carpetColor },
+                        ContainingFilter(variants)
+                    )
                 )
             )
-        )
+        }
     }
 
     return FilterInfo(
-        PostProcessorFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(filter, replacement),
         setOf(texture)
     )
 }

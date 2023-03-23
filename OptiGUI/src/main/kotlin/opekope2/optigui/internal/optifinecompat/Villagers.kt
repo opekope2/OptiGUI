@@ -23,33 +23,34 @@ internal fun createVillagerFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, texture)
-
-    filters.addForProperty(
-        resource,
-        "professions",
-        { it.splitIgnoreEmpty(*delimiters).mapNotNull(::tryParseProfession) }
-    ) { professions ->
-        val professionFilters: Collection<Filter<Interaction, Unit>> = professions.map { (profession, levels) ->
-            ConjunctionFilter(
-                PreProcessorFilter.nullGuarded(
-                    { (it.data as? VillagerProperties)?.profession },
-                    FilterResult.Mismatch(),
-                    EqualityFilter(profession)
-                ),
-                PreProcessorFilter.nullGuarded(
-                    { (it.data as? VillagerProperties)?.level },
-                    FilterResult.Mismatch(),
-                    DisjunctionFilter(levels.mapNotNull { it.toFilter() })
+    val filter = FilterBuilder.build(resource) {
+        setReplaceableTextures(texture)
+        addGeneralFilters<VillagerProperties>()
+        addFilterForProperty(
+            "professions",
+            { it.splitIgnoreEmpty(*delimiters).mapNotNull(::tryParseProfession) }
+        ) { professions ->
+            val professionFilters: Collection<Filter<Interaction, Unit>> = professions.map { (profession, levels) ->
+                ConjunctionFilter(
+                    PreProcessorFilter.nullGuarded(
+                        { (it.data as? VillagerProperties)?.profession },
+                        FilterResult.Mismatch(),
+                        EqualityFilter(profession)
+                    ),
+                    PreProcessorFilter.nullGuarded(
+                        { (it.data as? VillagerProperties)?.level },
+                        FilterResult.Mismatch(),
+                        DisjunctionFilter(levels.mapNotNull { it.toFilter() })
+                    )
                 )
-            )
-        }
+            }
 
-        DisjunctionFilter(professionFilters)
+            DisjunctionFilter(professionFilters)
+        }
     }
 
     return FilterInfo(
-        PostProcessorFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(filter, replacement),
         setOf(texture)
     )
 }

@@ -18,18 +18,20 @@ fun createChestBoatFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, texture)
-
-    filters.addForProperty(resource, "variants", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
+    val filter = FilterBuilder.build(resource) {
+        setReplaceableTextures(texture)
+        addGeneralFilters<ChestBoatProperties>()
+        addFilterForProperty("variants", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
             PreProcessorFilter.nullGuarded(
-            { (it.data as? ChestBoatProperties)?.variant },
-            FilterResult.Mismatch(),
-            ContainingFilter(variants)
-        )
+                { (it.data as? ChestBoatProperties)?.variant },
+                FilterResult.Mismatch(),
+                ContainingFilter(variants)
+            )
+        }
     }
 
     return FilterInfo(
-        PostProcessorFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(filter, replacement),
         setOf(texture)
     )
 }

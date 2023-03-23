@@ -20,18 +20,20 @@ fun createHopperFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, texture)
-
-    filters.addForProperty(resource, "_minecart", { it.toBoolean() }) { minecart ->
-        PreProcessorFilter.nullGuarded(
-            { (it.data as? HopperProperties)?.isMinecart },
-            FilterResult.Mismatch(),
-            EqualityFilter(minecart)
-        )
+    val filter = FilterBuilder.build(resource) {
+        setReplaceableTextures(texture)
+        addGeneralFilters<HopperProperties>()
+        addFilterForProperty("_minecart", { it.toBoolean() }) { minecart ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? HopperProperties)?.isMinecart },
+                FilterResult.Mismatch(),
+                EqualityFilter(minecart)
+            )
+        }
     }
 
     return FilterInfo(
-        PostProcessorFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(filter, replacement),
         setOf(texture)
     )
 }
