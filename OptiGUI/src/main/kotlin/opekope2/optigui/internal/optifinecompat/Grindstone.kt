@@ -17,14 +17,20 @@ fun createGrindstoneFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filter = FilterBuilder.build(resource) {
+        setReplaceableTextures(texture)
+        addGeneralFilters<GrindstoneProperties>()
+    }
 
     return FilterInfo(
         PostProcessorFilter(
-            PreProcessorFilter.nullGuarded(
-                ::processGrindstoneInteraction,
-                FilterResult.Mismatch(),
-                ConjunctionFilter(filters)
+            DisjunctionFilter(
+                filter,
+                PreProcessorFilter.nullGuarded(
+                    ::processGrindstoneInteraction,
+                    FilterResult.Mismatch(),
+                    filter
+                )
             ),
             replacement
         ),
@@ -42,8 +48,6 @@ private fun processGrindstoneInteraction(interaction: Interaction): Interaction?
 
     return interaction.copy(
         data = GrindstoneProperties(
-            container = CONTAINER,
-            texture = texture,
             name = null,
             biome = lookup.lookupBiome(world, pos),
             height = pos.y

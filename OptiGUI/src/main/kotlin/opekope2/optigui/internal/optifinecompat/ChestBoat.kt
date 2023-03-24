@@ -18,18 +18,20 @@ fun createChestBoatFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
-
-    filters.addForProperty(resource, "variants", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
+    val filter = FilterBuilder.build(resource) {
+        setReplaceableTextures(texture)
+        addGeneralFilters<ChestBoatProperties>()
+        addFilterForProperty("variants", { it.splitIgnoreEmpty(*delimiters) }) { variants ->
             PreProcessorFilter.nullGuarded(
-            { (it.data as? ChestBoatProperties)?.variant },
-            FilterResult.Mismatch(),
-            ContainingFilter(variants)
-        )
+                { (it.data as? ChestBoatProperties)?.variant },
+                FilterResult.Mismatch(),
+                ContainingFilter(variants)
+            )
+        }
     }
 
     return FilterInfo(
-        PostProcessorFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(filter, replacement),
         setOf(texture)
     )
 }
@@ -41,8 +43,6 @@ internal fun processChestBoat(chestBoat: Entity): Any? {
     val world = chestBoat.world ?: return null
 
     return ChestBoatProperties(
-        container = CONTAINER,
-        texture = texture,
         name = (chestBoat as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, chestBoat.blockPos),
         height = chestBoat.blockY,

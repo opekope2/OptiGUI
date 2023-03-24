@@ -8,10 +8,8 @@ import net.minecraft.util.Identifier
  * @param variant nothing, `_furnace`, `_blast`, `_blast_furnace`, or `smoker`
  */
 data class FurnaceProperties(
-    override val container: String,
-    override val texture: Identifier,
     override val name: String?,
     override val biome: Identifier?,
     override val height: Int,
     val variant: String
-) : GeneralProperties(container, texture, name, biome, height)
+) : GeneralProperties(name, biome, height)

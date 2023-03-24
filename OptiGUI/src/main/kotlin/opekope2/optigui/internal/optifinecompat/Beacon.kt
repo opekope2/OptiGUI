@@ -20,18 +20,20 @@ fun createBeaconFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
-
-    filters.addForProperty(resource, "levels", { it.splitIgnoreEmpty(*delimiters) }) { levels ->
-        PreProcessorFilter.nullGuarded(
-            { (it.data as? BeaconProperties)?.level },
-            FilterResult.Mismatch(),
-            DisjunctionFilter(levels.mapNotNull { NumberOrRange.tryParse(it)?.toFilter() })
-        )
+    val filter = FilterBuilder.build(resource) {
+        setReplaceableTextures(texture)
+        addGeneralFilters<BeaconProperties>()
+        addFilterForProperty("levels", { it.splitIgnoreEmpty(*delimiters) }) { levels ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? BeaconProperties)?.level },
+                FilterResult.Mismatch(),
+                DisjunctionFilter(levels.mapNotNull { NumberOrRange.tryParse(it)?.toFilter() })
+            )
+        }
     }
 
     return FilterInfo(
-        PostProcessorFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(filter, replacement),
         setOf(texture)
     )
 }
@@ -43,8 +45,6 @@ internal fun processBeacon(beacon: BlockEntity): Any? {
     val world = beacon.world ?: return null
 
     return BeaconProperties(
-        container = CONTAINER,
-        texture = texture,
         name = (beacon as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, beacon.pos),
         height = beacon.pos.y,

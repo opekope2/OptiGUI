@@ -11,24 +11,30 @@ import opekope2.optigui.service.getService
 import opekope2.util.TexturePath
 
 private const val CONTAINER = "_smithing_table"
-private val texture = TexturePath.SMITHING_TABLE
+private val textures = setOf(TexturePath.SMITHING_TABLE, TexturePath.LEGACY_SMITHING_TABLE)
 
 fun createSmithingTableFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filter = FilterBuilder.build(resource) {
+        replaceableTextures = textures
+        addGeneralFilters<SmithingTableProperties>()
+    }
 
     return FilterInfo(
         PostProcessorFilter(
-            PreProcessorFilter.nullGuarded(
-                ::processSmithingTableInteraction,
-                FilterResult.Mismatch(),
-                ConjunctionFilter(filters)
+            DisjunctionFilter(
+                filter,
+                PreProcessorFilter.nullGuarded(
+                    ::processSmithingTableInteraction,
+                    FilterResult.Mismatch(),
+                    filter
+                )
             ),
             replacement
         ),
-        setOf(texture)
+        textures
     )
 }
 
@@ -42,8 +48,6 @@ private fun processSmithingTableInteraction(interaction: Interaction): Interacti
 
     return interaction.copy(
         data = SmithingTableProperties(
-            container = CONTAINER,
-            texture = texture,
             name = null,
             biome = lookup.lookupBiome(world, pos),
             height = pos.y

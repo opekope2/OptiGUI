@@ -17,16 +17,22 @@ fun createAnvilFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = ConjunctionFilter(createGeneralFilters(resource, CONTAINER, texture))
+    val filter = FilterBuilder.build(resource) {
+        setReplaceableTextures(texture)
+        addGeneralFilters<AnvilProperties>()
+    }
 
     return FilterInfo(
-        PreProcessorFilter.nullGuarded(
-            ::processAnvilInteraction,
-            FilterResult.Mismatch(),
-            PostProcessorFilter(
-                filters,
-                replacement
-            )
+        PostProcessorFilter(
+            DisjunctionFilter(
+                filter,
+                PreProcessorFilter.nullGuarded(
+                    ::processAnvilInteraction,
+                    FilterResult.Mismatch(),
+                    filter
+                )
+            ),
+            replacement
         ),
         setOf(texture)
     )
@@ -42,8 +48,6 @@ private fun processAnvilInteraction(interaction: Interaction): Interaction? {
 
     return interaction.copy(
         data = AnvilProperties(
-            container = CONTAINER,
-            texture = texture,
             name = null,
             biome = lookup.lookupBiome(world, pos),
             height = pos.y

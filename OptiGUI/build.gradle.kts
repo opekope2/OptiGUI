@@ -2,7 +2,6 @@ plugins {
     id("fabric-loom")
     kotlin("jvm")
     id("net.kyori.blossom")
-    id("maven-publish")
 }
 
 base { archivesName.set(project.extra["archives_base_name"] as String) }
@@ -86,23 +85,5 @@ tasks.test {
     useJUnitPlatform()
     testLogging {
         events("PASSED", "SKIPPED", "FAILED")
-    }
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            if (System.getenv("JITPACK") == "true") {
-                groupId = System.getenv("GROUP")
-                artifactId = System.getenv("ARTIFACT")
-                version = System.getenv("VERSION")
-            } else {
-                groupId = project.group.toString()
-                artifactId = base.archivesName.get()
-                version = project.version.toString()
-            }
-
-            from(components["java"])
-        }
     }
 }

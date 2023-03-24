@@ -16,14 +16,20 @@ fun createSurvivalInventoryFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filter = FilterBuilder.build(resource) {
+        setReplaceableTextures(texture)
+        addGeneralFilters<SurvivalInventoryProperties>()
+    }
 
     return FilterInfo(
         PostProcessorFilter(
-            PreProcessorFilter.nullGuarded(
-                ::processSurvivalInventory,
-                FilterResult.Mismatch(),
-                ConjunctionFilter(filters)
+            DisjunctionFilter(
+                filter,
+                PreProcessorFilter.nullGuarded(
+                    ::processSurvivalInventory,
+                    FilterResult.Mismatch(),
+                    filter
+                )
             ),
             replacement
         ),
@@ -42,8 +48,6 @@ private fun processSurvivalInventory(interaction: Interaction): Interaction? {
 
     return interaction.copy(
         data = SurvivalInventoryProperties(
-            container = CONTAINER,
-            texture = texture,
             name = mc.player?.name?.string,
             biome = lookup.lookupBiome(world, pos),
             height = pos.y

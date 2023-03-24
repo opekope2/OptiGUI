@@ -17,14 +17,20 @@ fun createCraftingTableFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filter = FilterBuilder.build(resource) {
+        setReplaceableTextures(texture)
+        addGeneralFilters<CraftingTableProperties>()
+    }
 
     return FilterInfo(
         PostProcessorFilter(
-            PreProcessorFilter.nullGuarded(
-                ::processCraftingTableInteraction,
-                FilterResult.Mismatch(),
-                ConjunctionFilter(filters)
+            DisjunctionFilter(
+                filter,
+                PreProcessorFilter.nullGuarded(
+                    ::processCraftingTableInteraction,
+                    FilterResult.Mismatch(),
+                    filter
+                )
             ),
             replacement
         ),
@@ -42,8 +48,6 @@ private fun processCraftingTableInteraction(interaction: Interaction): Interacti
 
     return interaction.copy(
         data = CraftingTableProperties(
-            container = CONTAINER,
-            texture = texture,
             name = null,
             biome = lookup.lookupBiome(world, pos),
             height = pos.y

@@ -3,7 +3,6 @@ package opekope2.optigui.internal.optifinecompat
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BrewingStandBlockEntity
 import net.minecraft.util.Nameable
-import opekope2.filter.ConjunctionFilter
 import opekope2.filter.FilterInfo
 import opekope2.filter.PostProcessorFilter
 import opekope2.optifinecompat.properties.OptiFineProperties
@@ -19,10 +18,13 @@ fun createBrewingStandFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
+    val filter = FilterBuilder.build(resource) {
+        setReplaceableTextures(texture)
+        addGeneralFilters<BrewingStandProperties>()
+    }
 
     return FilterInfo(
-        PostProcessorFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(filter, replacement),
         setOf(texture)
     )
 }
@@ -36,8 +38,6 @@ internal fun processBrewingStand(brewingStand: BlockEntity): Any? {
     val world = brewingStand.world ?: return null
 
     return BrewingStandProperties(
-        container = CONTAINER,
-        texture = texture,
         name = (brewingStand as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, brewingStand.pos),
         height = brewingStand.pos.y

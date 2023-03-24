@@ -1,13 +1,14 @@
 package opekope2.optigui.interaction
 
 import net.minecraft.entity.Entity
+import opekope2.optigui.InitializerContext
 
 /**
  * An entity preprocessor, which extracts information from an entity for further processing by filters.
  * This class provides [Interaction.data] (converts an entity to an object,
  * where properties of the entity are stored, which will be processed by filters supporting it).
  *
- * Each entity can have one preprocessor registered with [registerPreprocessor].
+ * Each entity can have one preprocessor registered with [InitializerContext.registerPreprocessor].
  *
  * If a GUI screen is open, the preprocessor of the interacted entity runs each tick,
  * so [process] should execute quickly.

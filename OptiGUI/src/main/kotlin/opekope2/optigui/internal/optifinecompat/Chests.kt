@@ -24,53 +24,55 @@ internal fun createChestFilter(resource: Resource): FilterInfo? {
     if (resource.properties["container"] != CONTAINER) return null
     val replacement = findReplacementTexture(resource) ?: return null
 
-    val filters = createGeneralFilters(resource, CONTAINER, texture)
-
-    filters.addForProperty(resource, "large", { it.toBoolean() }) { large ->
-        PreProcessorFilter.nullGuarded(
-            { (it.data as? ChestProperties)?.isLarge },
-            Mismatch(),
-            EqualityFilter(large)
-        )
-    }
-    filters.addForProperty(resource, "trapped", { it.toBoolean() }) { trapped ->
-        PreProcessorFilter.nullGuarded(
-            { (it.data as? ChestProperties)?.isTrapped },
-            Mismatch(),
-            EqualityFilter(trapped)
-        )
-    }
-    filters.addForProperty(resource, "christmas", { it.toBoolean() }) { christmas ->
-        PreProcessorFilter.nullGuarded(
-            { (it.data as? ChestProperties)?.isChristmas },
-            Mismatch(),
-            EqualityFilter(christmas)
-        )
-    }
-    filters.addForProperty(resource, "ender", { it.toBoolean() }) { ender ->
-        PreProcessorFilter.nullGuarded(
-            { (it.data as? ChestProperties)?.isEnder },
-            Mismatch(),
-            EqualityFilter(ender)
-        )
-    }
-    filters.addForProperty(resource, "_barrel", { it.toBoolean() }) { barrel ->
-        PreProcessorFilter.nullGuarded(
-            { (it.data as? ChestProperties)?.isBarrel },
-            Mismatch(),
-            EqualityFilter(barrel)
-        )
-    }
-    filters.addForProperty(resource, "_minecart", { it.toBoolean() }) { minecart ->
-        PreProcessorFilter.nullGuarded(
-            { (it.data as? ChestProperties)?.isMinecart },
-            Mismatch(),
-            EqualityFilter(minecart)
-        )
+    val filter = FilterBuilder.build(resource) {
+        setReplaceableTextures(texture)
+        addGeneralFilters<ChestProperties>()
+        addFilterForProperty("large", { it.toBoolean() }) { large ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? ChestProperties)?.isLarge },
+                Mismatch(),
+                EqualityFilter(large)
+            )
+        }
+        addFilterForProperty("trapped", { it.toBoolean() }) { trapped ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? ChestProperties)?.isTrapped },
+                Mismatch(),
+                EqualityFilter(trapped)
+            )
+        }
+        addFilterForProperty("christmas", { it.toBoolean() }) { christmas ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? ChestProperties)?.isChristmas },
+                Mismatch(),
+                EqualityFilter(christmas)
+            )
+        }
+        addFilterForProperty("ender", { it.toBoolean() }) { ender ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? ChestProperties)?.isEnder },
+                Mismatch(),
+                EqualityFilter(ender)
+            )
+        }
+        addFilterForProperty("_barrel", { it.toBoolean() }) { barrel ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? ChestProperties)?.isBarrel },
+                Mismatch(),
+                EqualityFilter(barrel)
+            )
+        }
+        addFilterForProperty("_minecart", { it.toBoolean() }) { minecart ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? ChestProperties)?.isMinecart },
+                Mismatch(),
+                EqualityFilter(minecart)
+            )
+        }
     }
 
     return FilterInfo(
-        PostProcessorFilter(ConjunctionFilter(filters), replacement),
+        PostProcessorFilter(filter, replacement),
         setOf(texture)
     )
 }
@@ -84,8 +86,6 @@ internal fun processChest(chest: BlockEntity): Any? {
     val type = state.entries[chestTypeEnum]
 
     return ChestProperties(
-        container = CONTAINER,
-        texture = texture,
         name = (chest as? Nameable)?.customName?.string,
         biome = lookup.lookupBiome(world, chest.pos),
         height = chest.pos.y,
@@ -105,8 +105,6 @@ internal fun processChestMinecart(minecart: Entity): Any? {
     val world = minecart.world ?: return null
 
     return ChestProperties(
-        container = CONTAINER,
-        texture = texture,
         name = minecart.customName?.string,
         biome = lookup.lookupBiome(world, minecart.blockPos),
         height = minecart.blockY,
