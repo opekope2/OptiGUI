@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.vehicle.ChestBoatEntity
 import net.minecraft.util.Nameable
 import opekope2.filter.*
+import opekope2.optifinecompat.FilterBuilder
 import opekope2.optifinecompat.properties.ChestBoatProperties
 import opekope2.optigui.resource.Resource
 import opekope2.optigui.service.RegistryLookupService

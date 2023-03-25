@@ -2,6 +2,7 @@ package opekope2.optigui.internal.optifinecompat
 
 import net.minecraft.client.MinecraftClient
 import opekope2.filter.*
+import opekope2.optifinecompat.FilterBuilder
 import opekope2.optifinecompat.properties.OptiFineProperties
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.resource.Resource

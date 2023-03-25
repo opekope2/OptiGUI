@@ -8,6 +8,7 @@ import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.Nameable
 import opekope2.filter.*
 import opekope2.filter.FilterResult.Mismatch
+import opekope2.optifinecompat.FilterBuilder
 import opekope2.optifinecompat.properties.ChestProperties
 import opekope2.optigui.resource.Resource
 import opekope2.optigui.service.RegistryLookupService

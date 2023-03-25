@@ -4,6 +4,7 @@ import net.minecraft.block.entity.*
 import net.minecraft.util.Identifier
 import net.minecraft.util.Nameable
 import opekope2.filter.*
+import opekope2.optifinecompat.FilterBuilder
 import opekope2.optifinecompat.properties.FurnaceProperties
 import opekope2.optigui.resource.Resource
 import opekope2.optigui.service.RegistryLookupService

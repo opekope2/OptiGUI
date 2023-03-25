@@ -5,6 +5,7 @@ import net.minecraft.entity.passive.AbstractHorseEntity
 import net.minecraft.entity.passive.LlamaEntity
 import net.minecraft.util.Nameable
 import opekope2.filter.*
+import opekope2.optifinecompat.FilterBuilder
 import opekope2.optifinecompat.properties.HorseProperties
 import opekope2.optigui.internal.service.EntityVariantLookupService
 import opekope2.optigui.resource.Resource

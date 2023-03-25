@@ -3,6 +3,7 @@ package opekope2.optigui.internal.optifinecompat
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import opekope2.filter.*
+import opekope2.optifinecompat.FilterBuilder
 import opekope2.optifinecompat.properties.OptiFineProperties
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.resource.Resource

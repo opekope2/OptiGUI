@@ -6,6 +6,7 @@ import net.minecraft.entity.passive.WanderingTraderEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.Nameable
 import opekope2.filter.*
+import opekope2.optifinecompat.FilterBuilder
 import opekope2.optifinecompat.properties.VillagerProperties
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.resource.Resource

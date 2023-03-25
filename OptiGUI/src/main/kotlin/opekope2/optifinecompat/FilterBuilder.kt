@@ -1,9 +1,10 @@
-package opekope2.optigui.internal.optifinecompat
+package opekope2.optifinecompat
 
 import net.minecraft.util.Identifier
 import opekope2.filter.*
 import opekope2.optifinecompat.properties.GeneralProperties
 import opekope2.optigui.interaction.Interaction
+import opekope2.optigui.internal.optifinecompat.delimiters
 import opekope2.optigui.resource.Resource
 import opekope2.util.NumberOrRange
 import opekope2.util.parseWildcardOrRegex

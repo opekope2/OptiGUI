@@ -5,6 +5,7 @@ import net.minecraft.block.entity.EnchantingTableBlockEntity
 import net.minecraft.util.Nameable
 import opekope2.filter.FilterInfo
 import opekope2.filter.PostProcessorFilter
+import opekope2.optifinecompat.FilterBuilder
 import opekope2.optifinecompat.properties.OptiFineProperties
 import opekope2.optigui.resource.Resource
 import opekope2.optigui.service.RegistryLookupService

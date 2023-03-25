@@ -4,6 +4,7 @@ import net.minecraft.block.entity.BeaconBlockEntity
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.util.Nameable
 import opekope2.filter.*
+import opekope2.optifinecompat.FilterBuilder
 import opekope2.optifinecompat.properties.BeaconProperties
 import opekope2.optigui.mixin.BeaconBlockEntityAccessorMixin
 import opekope2.optigui.resource.Resource

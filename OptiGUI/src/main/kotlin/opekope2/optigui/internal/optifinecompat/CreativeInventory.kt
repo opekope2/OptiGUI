@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.util.Identifier
 import opekope2.filter.*
 import opekope2.filter.FilterResult.Mismatch
+import opekope2.optifinecompat.FilterBuilder
 import opekope2.optifinecompat.properties.OptiFineProperties
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.resource.Resource
