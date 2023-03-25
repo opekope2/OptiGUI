@@ -3,7 +3,7 @@ package opekope2.util
 import net.minecraft.util.Identifier
 import kotlin.test.*
 
-class VillagerProfessionParserKtTest {
+class VillagerProfessionParserTest {
     @Test
     fun test1() {
         val v = tryParseProfession("cleric")
