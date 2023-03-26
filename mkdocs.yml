@@ -1,7 +1,10 @@
 site_name: OptiGUI documentation
 repo_url: https://github.com/opekope2/OptiGUI-Next
+copyright: © 2022-2023 opekope2
 theme:
   name: material
+  icon:
+    repo: fontawesome/brands/github
   palette:
     scheme: slate
   features:
@@ -12,6 +15,8 @@ nav:
   - Resource packs:
     - Basic information & syntax: syntax.md
     - Replacing GUI textures: format.md
+  - For developers:
+    - Using OptiGUI in a mod: usage.md
   - API docs:
     - Latest: kdoc/latest
     - 2.0.0-beta.3: kdoc/2.0.0-beta.3
@@ -31,4 +36,5 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.caret
   - tables
