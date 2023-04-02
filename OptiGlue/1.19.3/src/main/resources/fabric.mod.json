@@ -27,5 +27,14 @@
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
     "minecraft": ">=1.19.3 <1.19.4",
     "java": ">=${java}"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [
+        "library"
+      ],
+      "parent": "optigui",
+      "update_checker": false
+    }
   }
 }
