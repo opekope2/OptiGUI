@@ -2,23 +2,21 @@ package opekope2.optigui.resource
 
 import net.minecraft.util.Identifier
 import opekope2.optigui.exception.ResourceNotFoundException
+import java.io.InputStream
+import java.util.*
 
 /**
- * A base class for resources.
+ * A base class for reading resources.
  *
  * @param id The identifier of the resource
  */
-abstract class Resource(val id: Identifier) {
-    /**
-     * Returns if the current resource exists.
-     */
-    abstract fun exists(): Boolean
+abstract class ResourceReader(id: Identifier) : Resource(id) {
 
     /**
-     * Returns the name of the resource pack the current resource is loaded from.
+     * Returns the input steam of the resource.
      *
      * @throws ResourceNotFoundException If the resource doesn't exist
      */
     @get: Throws(ResourceNotFoundException::class)
-    abstract val resourcePack: String
+    abstract val inputStream: InputStream
 }

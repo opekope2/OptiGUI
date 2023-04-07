@@ -7,11 +7,11 @@ import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.filter.IdentifiableFilter
 import opekope2.optigui.internal.interaction.filterFactories
 import opekope2.optigui.internal.service.ResourceLoaderService
-import opekope2.optigui.resource.Resource
+import opekope2.optigui.resource.ResourceReader
 import opekope2.util.dump
 
 internal object ResourceLoader : ResourceLoaderService {
-    override fun loadResources(resources: Iterable<Resource>) {
+    override fun loadResources(resources: Iterable<ResourceReader>) {
         val filters = mutableListOf<Filter<Interaction, Identifier>>()
         val replaceableTextures = mutableSetOf<Identifier>()
 
