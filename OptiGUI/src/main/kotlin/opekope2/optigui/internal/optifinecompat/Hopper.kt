@@ -47,7 +47,7 @@ internal fun processHopper(hopper: BlockEntity): Any? {
 
     return HopperProperties(
         name = (hopper as? Nameable)?.customName?.string,
-        biome = lookup.lookupBiome(world, hopper.pos),
+        biome = lookup.lookupBiomeId(world, hopper.pos),
         height = hopper.pos.y,
         isMinecart = false
     )
@@ -61,7 +61,7 @@ internal fun processHopperMinecart(minecart: Entity): Any? {
 
     return HopperProperties(
         name = minecart.customName?.string,
-        biome = lookup.lookupBiome(world, minecart.blockPos),
+        biome = lookup.lookupBiomeId(world, minecart.blockPos),
         height = minecart.blockY,
         isMinecart = true
     )

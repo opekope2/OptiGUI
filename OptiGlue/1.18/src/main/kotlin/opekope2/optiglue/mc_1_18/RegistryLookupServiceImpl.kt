@@ -14,7 +14,7 @@ internal class RegistryLookupServiceImpl : RegistryLookupService {
     override fun lookupBlockId(block: Block): Identifier = Registry.BLOCK.getId(block)
     override fun lookupEntityId(entity: Entity): Identifier = Registry.ENTITY_TYPE.getId(entity.type)
 
-    override fun lookupBiome(world: World, pos: BlockPos): Identifier =
+    override fun lookupBiomeId(world: World, pos: BlockPos): Identifier =
         world.getBiomeKey(pos).getOrNull()?.value ?: throw RuntimeException("Cannot load biome at $pos (world=$world)!")
 
     override fun lookupVillagerProfessionId(profession: VillagerProfession): Identifier =

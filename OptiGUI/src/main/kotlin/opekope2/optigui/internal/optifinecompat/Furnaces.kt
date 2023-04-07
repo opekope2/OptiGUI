@@ -75,7 +75,7 @@ internal fun processFurnace(furnace: BlockEntity): Any? {
 
     return FurnaceProperties(
         name = (furnace as? Nameable)?.customName?.string,
-        biome = lookup.lookupBiome(world, furnace.pos),
+        biome = lookup.lookupBiomeId(world, furnace.pos),
         height = furnace.pos.y,
         variant = variant
     )

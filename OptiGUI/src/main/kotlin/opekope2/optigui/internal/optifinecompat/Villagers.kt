@@ -65,7 +65,7 @@ internal fun processVillager(villager: Entity): Any? {
 
     return VillagerProperties(
         name = (villager as? Nameable)?.customName?.string,
-        biome = lookup.lookupBiome(world, villager.blockPos),
+        biome = lookup.lookupBiomeId(world, villager.blockPos),
         height = villager.blockY,
         profession = villagerData?.profession?.let { lookup.lookupVillagerProfessionId(it) }
             ?: wanderingTraderProfession,

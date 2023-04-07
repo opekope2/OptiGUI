@@ -45,7 +45,7 @@ internal fun processShulkerBox(shulkerBox: BlockEntity): Any? {
 
     return ShulkerBoxProperties(
         name = (shulkerBox as? Nameable)?.customName?.string,
-        biome = lookup.lookupBiome(world, shulkerBox.pos),
+        biome = lookup.lookupBiomeId(world, shulkerBox.pos),
         height = shulkerBox.pos.y,
         color = shulkerBox.color?.getName() // Because we need Color.name, and not Enum.name
     )

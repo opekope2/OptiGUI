@@ -50,7 +50,7 @@ private fun processSmithingTableInteraction(interaction: Interaction): Interacti
     return interaction.copy(
         data = SmithingTableProperties(
             name = null,
-            biome = lookup.lookupBiome(world, pos),
+            biome = lookup.lookupBiomeId(world, pos),
             height = pos.y
         )
     )

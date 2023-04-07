@@ -47,7 +47,7 @@ internal fun processBeacon(beacon: BlockEntity): Any? {
 
     return BeaconProperties(
         name = (beacon as? Nameable)?.customName?.string,
-        biome = lookup.lookupBiome(world, beacon.pos),
+        biome = lookup.lookupBiomeId(world, beacon.pos),
         height = beacon.pos.y,
         level = (beacon as BeaconBlockEntityAccessorMixin).level
     )

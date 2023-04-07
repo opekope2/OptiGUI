@@ -50,7 +50,7 @@ private fun processSurvivalInventory(interaction: Interaction): Interaction? {
     return interaction.copy(
         data = SurvivalInventoryProperties(
             name = mc.player?.name?.string,
-            biome = lookup.lookupBiome(world, pos),
+            biome = lookup.lookupBiomeId(world, pos),
             height = pos.y
         )
     )

@@ -88,7 +88,7 @@ internal fun processChest(chest: BlockEntity): Any? {
 
     return ChestProperties(
         name = (chest as? Nameable)?.customName?.string,
-        biome = lookup.lookupBiome(world, chest.pos),
+        biome = lookup.lookupBiomeId(world, chest.pos),
         height = chest.pos.y,
         isLarge = type != ChestType.SINGLE,
         isTrapped = chest is TrappedChestBlockEntity,
@@ -107,7 +107,7 @@ internal fun processChestMinecart(minecart: Entity): Any? {
 
     return ChestProperties(
         name = minecart.customName?.string,
-        biome = lookup.lookupBiome(world, minecart.blockPos),
+        biome = lookup.lookupBiomeId(world, minecart.blockPos),
         height = minecart.blockY,
         isLarge = false,
         isTrapped = false,

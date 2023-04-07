@@ -45,7 +45,7 @@ internal fun processChestBoat(chestBoat: Entity): Any? {
 
     return ChestBoatProperties(
         name = (chestBoat as? Nameable)?.customName?.string,
-        biome = lookup.lookupBiome(world, chestBoat.blockPos),
+        biome = lookup.lookupBiomeId(world, chestBoat.blockPos),
         height = chestBoat.blockY,
         variant = chestBoat.variant.getName()
     )

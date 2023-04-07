@@ -64,7 +64,7 @@ private fun processCreativeInventory(interaction: Interaction): Interaction? {
     return interaction.copy(
         data = CreativeInventoryProperties(
             name = null,
-            biome = lookup.lookupBiome(world, pos),
+            biome = lookup.lookupBiomeId(world, pos),
             height = pos.y
         )
     )

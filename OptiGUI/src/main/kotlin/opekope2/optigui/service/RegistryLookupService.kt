@@ -27,7 +27,7 @@ interface RegistryLookupService {
      * @param world The world to look in
      * @param pos The position to lookup biome
      */
-    fun lookupBiome(world: World, pos: BlockPos): Identifier
+    fun lookupBiomeId(world: World, pos: BlockPos): Identifier
 
     /**
      * Finds the ID of the given villager [profession] in the registry.

@@ -50,7 +50,7 @@ private fun processCartographyTableInteraction(interaction: Interaction): Intera
     return interaction.copy(
         data = CartographyTableProperties(
             name = null,
-            biome = lookup.lookupBiome(world, pos),
+            biome = lookup.lookupBiomeId(world, pos),
             height = pos.y
         )
     )

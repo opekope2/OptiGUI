@@ -66,7 +66,7 @@ fun processHorse(horse: Entity): Any? {
 
     return HorseProperties(
         name = (horse as? Nameable)?.customName?.string,
-        biome = lookup.lookupBiome(world, horse.blockPos),
+        biome = lookup.lookupBiomeId(world, horse.blockPos),
         height = horse.blockY,
         variant = variantLookup.getVariant(horse) ?: return null,
         carpetColor = (horse as? LlamaEntity)?.carpetColor?.getName()

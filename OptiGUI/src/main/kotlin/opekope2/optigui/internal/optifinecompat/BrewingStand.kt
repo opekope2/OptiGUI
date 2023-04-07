@@ -40,7 +40,7 @@ internal fun processBrewingStand(brewingStand: BlockEntity): Any? {
 
     return BrewingStandProperties(
         name = (brewingStand as? Nameable)?.customName?.string,
-        biome = lookup.lookupBiome(world, brewingStand.pos),
+        biome = lookup.lookupBiomeId(world, brewingStand.pos),
         height = brewingStand.pos.y
     )
 }

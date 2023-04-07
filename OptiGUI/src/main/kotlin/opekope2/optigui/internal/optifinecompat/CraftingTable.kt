@@ -50,7 +50,7 @@ private fun processCraftingTableInteraction(interaction: Interaction): Interacti
     return interaction.copy(
         data = CraftingTableProperties(
             name = null,
-            biome = lookup.lookupBiome(world, pos),
+            biome = lookup.lookupBiomeId(world, pos),
             height = pos.y
         )
     )
