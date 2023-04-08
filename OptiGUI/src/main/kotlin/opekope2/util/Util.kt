@@ -20,7 +20,9 @@ internal inline fun <T> catchAll(function: () -> T): T? = try {
  * - `false`, if the string is "false" (case-insensitive)
  * - `null` otherwise
  */
-internal fun String.toBoolean(): Boolean? = lowercase().toBooleanStrictOrNull()
+internal fun String?.toBoolean(): Boolean? {
+    return (this ?: return null).lowercase().toBooleanStrictOrNull()
+}
 
 /**
  * If the current [FilterResult] is [FilterResult.Match], change its result to the given one.
