@@ -12,7 +12,7 @@ import opekope2.optigui.internal.interaction.IdentifiableBlockEntityPreprocessor
 import opekope2.optigui.internal.interaction.IdentifiableEntityPreprocessor
 import opekope2.optigui.internal.interaction.PreprocessorStore
 import opekope2.optigui.internal.interaction.filterFactories
-import opekope2.optigui.resource.Resource
+import opekope2.optigui.resource.OptiGuiResource
 
 /**
  * Initialization context for OptiGUI-compatible mods.
@@ -45,7 +45,7 @@ class InitializerContext internal constructor(private val modId: String) {
      *
      * @param factory The filter factory to register
      */
-    fun registerFilterFactory(factory: (Resource) -> FilterInfo?) {
+    fun registerFilterFactory(factory: (OptiGuiResource) -> FilterInfo?) {
         if (modId !in filterFactories) {
             filterFactories[modId] = mutableSetOf()
         }
