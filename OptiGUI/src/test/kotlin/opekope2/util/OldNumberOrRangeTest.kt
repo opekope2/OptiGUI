@@ -1,9 +1,9 @@
 package opekope2.util
 
 import kotlin.test.*
-import opekope2.util.NumberOrRange.Companion.tryParse
+import opekope2.util.OldNumberOrRange.Companion.tryParse
 
-class NumberOrRangeTest {
+class OldNumberOrRangeTest {
     @Test
     fun parseMalformedTest() {
         assertNull(tryParse("malformed"))

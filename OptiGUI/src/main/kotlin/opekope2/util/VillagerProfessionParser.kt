@@ -12,7 +12,7 @@ fun tryParseProfession(input: String): Pair<Identifier, Collection<NumberOrRange
 
     var namespace = Identifier.DEFAULT_NAMESPACE
     val profession: String
-    var levels: Collection<NumberOrRange>? = null
+    var levels: Collection<OldNumberOrRange>? = null
 
     when (parts.size) {
         1 -> {
@@ -45,4 +45,4 @@ fun tryParseProfession(input: String): Pair<Identifier, Collection<NumberOrRange
 }
 
 private fun parseRangeList(rangeList: String) =
-    rangeList.splitIgnoreEmpty(',').mapNotNull(NumberOrRange::tryParse)
+    rangeList.splitIgnoreEmpty(',').mapNotNull(OldNumberOrRange::tryParse)
