@@ -5,7 +5,7 @@ import opekope2.filter.Filter
 import opekope2.filter.FilterResult
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.filter.IdentifiableFilter
-import opekope2.optigui.internal.interaction.filterFactories
+import opekope2.optigui.internal.interaction.FilterFactoryStore.filterFactories
 import opekope2.optigui.internal.service.ResourceLoaderService
 import opekope2.optigui.resource.ResourceReader
 import opekope2.util.dump

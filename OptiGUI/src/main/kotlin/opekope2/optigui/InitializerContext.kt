@@ -8,10 +8,10 @@ import opekope2.filter.PreProcessorFilter
 import opekope2.optigui.interaction.BlockEntityPreprocessor
 import opekope2.optigui.interaction.EntityPreprocessor
 import opekope2.optigui.interaction.Interaction
+import opekope2.optigui.internal.interaction.FilterFactoryStore
 import opekope2.optigui.internal.interaction.IdentifiableBlockEntityPreprocessor
 import opekope2.optigui.internal.interaction.IdentifiableEntityPreprocessor
 import opekope2.optigui.internal.interaction.PreprocessorStore
-import opekope2.optigui.internal.interaction.filterFactories
 import opekope2.optigui.resource.OptiGuiResource
 
 /**
@@ -45,12 +45,7 @@ class InitializerContext internal constructor(private val modId: String) {
      *
      * @param factory The filter factory to register
      */
-    fun registerFilterFactory(factory: (OptiGuiResource) -> FilterInfo?) {
-        if (modId !in filterFactories) {
-            filterFactories[modId] = mutableSetOf()
-        }
-        filterFactories[modId]!!.add(factory)
-    }
+    fun registerFilterFactory(factory: (OptiGuiResource) -> FilterInfo?) = FilterFactoryStore.add(modId, factory)
 
     /**
      * Registers the preprocessor for a block entity.
