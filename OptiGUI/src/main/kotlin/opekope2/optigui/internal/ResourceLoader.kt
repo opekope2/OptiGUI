@@ -2,7 +2,7 @@ package opekope2.optigui.internal
 
 import net.minecraft.util.Identifier
 import opekope2.filter.Filter
-import opekope2.filter.FilterResult
+import opekope2.filter.FirstMatchFilter
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.filter.IdentifiableFilter
 import opekope2.optigui.internal.interaction.FilterFactoryStore.filterFactories
@@ -31,25 +31,11 @@ internal object ResourceLoader : ResourceLoaderService {
             }
         }
 
-        val filter = RootFilter(filters)
+        val filter = FirstMatchFilter(filters)
 
         TextureReplacer.filter = filter
         TextureReplacer.replaceableTextures = replaceableTextures
 
         logger.debug("Filter chain loaded on resource reload:\n${filter.dump()}")
-    }
-
-    private class RootFilter(private val filters: Iterable<Filter<Interaction, Identifier>>) :
-        Filter<Interaction, Identifier>, Iterable<Filter<Interaction, Identifier>> {
-        override fun evaluate(value: Interaction): FilterResult<out Identifier> {
-            filters.forEach { filter ->
-                filter.evaluate(value).also { if (it is FilterResult.Match) return it }
-            }
-            return FilterResult.Skip()
-        }
-
-        override fun iterator(): Iterator<Filter<Interaction, Identifier>> = filters.iterator()
-
-        override fun toString(): String = "OptiGUI Root Filter"
     }
 }
