@@ -126,8 +126,8 @@ private val converters = mapOf<String, (Options, Ini) -> Unit>(
             }
         toReplace.forEachIndexed { index, (original, replacement) ->
             ini.add("#optifine:creative/$index").also { section ->
-                props["interaction.texture"] = original
-                props["texture"] = replacement
+                section["interaction.texture"] = original
+                section["texture"] = replacement
                 props.copyTo(section, "biomes" to "biomes", "heights" to "heights")
             }
         }
