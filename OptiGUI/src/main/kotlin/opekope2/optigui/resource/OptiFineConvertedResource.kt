@@ -117,10 +117,21 @@ private val converters = mapOf<String, (Options, Ini) -> Unit>(
             props.copyTo(section, *generalProperties)
         }
     },
-    /*"creative" to { props, ini ->
-        props.copyTo(ini.add(""), *generalProperties)
-        TODO()
-    },*/
+    "creative" to { props, ini ->
+        val toReplace = props
+            .entries
+            .mapNotNull { (key, value) ->
+                if (key.startsWith("texture.")) key.substring("texture.".length) to value
+                else null
+            }
+        toReplace.forEachIndexed { index, (original, replacement) ->
+            ini.add("#$index").also { section ->
+                props["interaction.texture"] = original
+                props["texture"] = replacement
+                props.copyTo(section, "biomes" to "biomes", "heights" to "heights")
+            }
+        }
+    },
     "inventory" to createSimpleConverter("optigui:inventory", *generalPropertiesNoName) // TODO
 )
 
