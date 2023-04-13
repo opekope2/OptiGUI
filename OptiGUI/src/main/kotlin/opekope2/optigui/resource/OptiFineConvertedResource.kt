@@ -125,14 +125,14 @@ private val converters = mapOf<String, (Options, Ini) -> Unit>(
                 else null
             }
         toReplace.forEachIndexed { index, (original, replacement) ->
-            ini.add("#$index").also { section ->
+            ini.add("#optifine:creative/$index").also { section ->
                 props["interaction.texture"] = original
                 props["texture"] = replacement
                 props.copyTo(section, "biomes" to "biomes", "heights" to "heights")
             }
         }
     },
-    "inventory" to createSimpleConverter("optigui:inventory", *generalPropertiesNoName) // TODO
+    "inventory" to createSimpleConverter("#optifine:inventory", *generalPropertiesNoName)
 )
 
 private fun createSimpleConverter(container: String, vararg copyProps: Pair<String, String> = generalProperties) =
