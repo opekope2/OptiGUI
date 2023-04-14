@@ -3,7 +3,7 @@ package opekope2.optiglue
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
-import opekope2.optiglue.mc_1_19.ResourceGlue
+import opekope2.optiglue.mc_1_19.GlueResource
 import opekope2.optigui.internal.service.ResourceLoaderService
 import opekope2.optigui.service.getService
 
@@ -15,7 +15,7 @@ internal object ResourceLoader : SimpleSynchronousResourceReloadListener {
     override fun reload(manager: ResourceManager) {
         val resources =
             manager.findResources("optifine/gui/container") { it.path.endsWith(".properties") }
-                .map { ResourceGlue(manager, it.key) }
+                .map { GlueResource(it.key) }
 
         resourceLoader.loadResources(resources)
     }

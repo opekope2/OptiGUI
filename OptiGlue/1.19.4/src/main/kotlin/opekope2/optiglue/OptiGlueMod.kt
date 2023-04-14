@@ -7,15 +7,14 @@ import net.minecraft.entity.mob.SkeletonHorseEntity
 import net.minecraft.entity.mob.ZombieHorseEntity
 import net.minecraft.entity.passive.*
 import net.minecraft.resource.ResourceType
+import opekope2.optiglue.mc_1_19_4.GlueResource
 import opekope2.optiglue.mc_1_19_4.RegistryLookupServiceImpl
-import opekope2.optiglue.mc_1_19_4.ResourceResolverServiceImpl
 import opekope2.optigui.EntryPoint
 import opekope2.optigui.InitializerContext
-import opekope2.optigui.internal.optifinecompat.processHorse
 import opekope2.optigui.internal.service.EntityVariantLookupService
 import opekope2.optigui.internal.service.OptiGlueService
 import opekope2.optigui.service.RegistryLookupService
-import opekope2.optigui.service.ResourceResolverService
+import opekope2.optigui.service.ResourceAccessService
 import opekope2.optigui.service.registerService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -27,13 +26,13 @@ object OptiGlueMod : EntryPoint, OptiGlueService, EntityVariantLookupService {
     override fun onInitialize(context: InitializerContext) {
         // Needed by OptiGUI
         registerService<RegistryLookupService>(RegistryLookupServiceImpl())
-        registerService<ResourceResolverService>(ResourceResolverServiceImpl())
+        registerService<ResourceAccessService>(GlueResource.Companion)
         registerService<OptiGlueService>(this)
         registerService<EntityVariantLookupService>(this)
 
         // Register preprocessor for camel in 1.19.3+
         // Camel filter factory is just horse filter factory, registered in OptiGUI
-        context.registerPreprocessor<CamelEntity>(::processHorse)
+        //context.registerPreprocessor<CamelEntity>(::processHorse)
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(ResourceLoader)
 
