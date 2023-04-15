@@ -134,7 +134,7 @@ class FilterTests {
 
     @Test
     fun numberRangeTest1() {
-        val filter = NumberRangeFilter.atLeast(5)
+        val filter = RangeFilter.atLeast(5)
 
         assertIs<Match<*>>(filter.evaluate(10))
         assertIs<Mismatch<*>>(filter.evaluate(0))
@@ -142,7 +142,7 @@ class FilterTests {
 
     @Test
     fun numberRangeTest2() {
-        val filter = NumberRangeFilter.atMost(5)
+        val filter = RangeFilter.atMost(5)
 
         assertIs<Match<*>>(filter.evaluate(0))
         assertIs<Mismatch<*>>(filter.evaluate(10))
@@ -150,7 +150,7 @@ class FilterTests {
 
     @Test
     fun numberRangeTest3() {
-        val filter = NumberRangeFilter.between(1, 10)
+        val filter = RangeFilter.between(1, 10)
 
         assertIs<Match<*>>(filter.evaluate(5))
         assertIs<Mismatch<*>>(filter.evaluate(0))

@@ -2,7 +2,7 @@ package opekope2.util
 
 import opekope2.filter.EqualityFilter
 import opekope2.filter.Filter
-import opekope2.filter.NumberRangeFilter
+import opekope2.filter.RangeFilter
 
 /**
  * Represents an integer, or a start- and stop-inclusive integer range.
@@ -31,8 +31,8 @@ sealed class NumberOrRange {
      */
     class Range(val start: Int, val end: Int?) : NumberOrRange() {
         override fun toFilter(): Filter<Int, Unit> =
-            if (end == null) NumberRangeFilter.atLeast(start)
-            else NumberRangeFilter.between(start, end)
+            if (end == null) RangeFilter.atLeast(start)
+            else RangeFilter.between(start, end)
 
         override fun toString(): String = "($start)-($end)"
     }

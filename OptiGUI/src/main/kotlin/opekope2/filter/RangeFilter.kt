@@ -3,11 +3,11 @@ package opekope2.filter
 /**
  * A filter, which yields a successful result only when the input number is within the defined range, and never skips.
  *
- * @see NumberRangeFilter.atLeast
- * @see NumberRangeFilter.atMost
- * @see NumberRangeFilter.between
+ * @see RangeFilter.atLeast
+ * @see RangeFilter.atMost
+ * @see RangeFilter.between
  */
-class NumberRangeFilter private constructor(private val min: Int, private val max: Int) : Filter<Int, Unit> {
+class RangeFilter private constructor(private val min: Int, private val max: Int) : Filter<Int, Unit> {
     override fun evaluate(value: Int): FilterResult<out Unit> =
         if (value in min..max) FilterResult.Match(Unit) else FilterResult.Mismatch()
 
@@ -20,7 +20,7 @@ class NumberRangeFilter private constructor(private val min: Int, private val ma
          * @param min The inclusive lower bound of the range
          */
         @JvmStatic
-        fun atLeast(min: Int) = NumberRangeFilter(min, Int.MAX_VALUE)
+        fun atLeast(min: Int) = RangeFilter(min, Int.MAX_VALUE)
 
         /**
          * Creates a filter, which yields a successful result when the input number <= [max]
@@ -28,7 +28,7 @@ class NumberRangeFilter private constructor(private val min: Int, private val ma
          * @param max The inclusive upper bound of the range
          */
         @JvmStatic
-        fun atMost(max: Int) = NumberRangeFilter(Int.MIN_VALUE, max)
+        fun atMost(max: Int) = RangeFilter(Int.MIN_VALUE, max)
 
         /**
          * Creates a filter, which yields a successful result when [min] <= input number <= [max]
@@ -37,6 +37,6 @@ class NumberRangeFilter private constructor(private val min: Int, private val ma
          * @param max The inclusive upper bound of the range
          */
         @JvmStatic
-        fun between(min: Int, max: Int) = NumberRangeFilter(min, max)
+        fun between(min: Int, max: Int) = RangeFilter(min, max)
     }
 }
