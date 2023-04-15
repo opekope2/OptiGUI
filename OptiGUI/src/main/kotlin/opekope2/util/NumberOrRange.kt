@@ -34,7 +34,15 @@ sealed class NumberOrRange {
             if (end == null) RangeFilter.atLeast(start)
             else RangeFilter.between(start, end)
 
-        override fun toString(): String = "($start)-($end)"
+        override fun toString(): String {
+            val startString = if (start < 0) "($start)" else "$start"
+            val endString = when {
+                end == null -> ""
+                end < 0 -> "($end)"
+                else -> "$end"
+            }
+            return "$startString-$endString"
+        }
     }
 
     companion object {
