@@ -13,8 +13,10 @@ internal class GlueResource(id: Identifier) : ResourceReader(id) {
     private val resource = manager.getResource(id).getOrNull()
 
     override fun exists(): Boolean = resource != null
-    override val resourcePack: String = resource?.resourcePackName ?: throw ResourceNotFoundException(id)
-    override val inputStream: InputStream = resource?.inputStream ?: throw ResourceNotFoundException(id)
+    override val resourcePack: String
+        get() = resource?.resourcePackName ?: throw ResourceNotFoundException(id)
+    override val inputStream: InputStream
+        get() = resource?.inputStream ?: throw ResourceNotFoundException(id)
 
     companion object : ResourceAccessService {
         private val manager: ResourceManager by lazy { MinecraftClient.getInstance().resourceManager }
