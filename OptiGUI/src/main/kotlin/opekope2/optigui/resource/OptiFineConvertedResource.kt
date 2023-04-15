@@ -1,32 +1,38 @@
 package opekope2.optigui.resource
 
 import net.minecraft.util.DyeColor
+import net.minecraft.util.Identifier
 import opekope2.optigui.internal.optifinecompat.delimiters
+import opekope2.optigui.service.ResourceAccessService
+import opekope2.optigui.service.getService
 import opekope2.util.NumberOrRange
+import opekope2.util.resolvePath
 import opekope2.util.splitIgnoreEmpty
 import opekope2.util.toBoolean
 import org.ini4j.Ini
 import org.ini4j.Options
-import org.ini4j.Profile
+import org.ini4j.Profile.Section
+import java.io.File
 
 /**
  * Represents an OptiFine .properties file converted to the OptiGUI-compatible INI format.
  */
-class OptiFineConvertedResource(private val wrappedResource: ResourceReader) :
-    OptiGuiResource(wrappedResource) {
-    override val ini: Ini by lazy { convert(Options().apply { load(wrappedResource.inputStream) }) ?: Ini() }
+class OptiFineConvertedResource(private val wrappedResource: ResourceReader) : OptiGuiResource(wrappedResource) {
+    override val ini: Ini by lazy {
+        convert(Options().apply { load(wrappedResource.inputStream) }, wrappedResource.id) ?: Ini()
+    }
 }
 
-private fun convert(properties: Options): Ini? {
+private fun convert(properties: Options, path: Identifier): Ini? {
     if (properties["optigui.ignore"].toBoolean() == true) return null
 
     return Ini().also { ini ->
-        (converters[properties["container"] ?: return null] ?: return null)(properties, ini)
+        ini.comment = path.toString()
+        (converters[properties["container"] ?: return null] ?: return null)(properties, ini, path)
     }
 }
 
 private val generalPropertiesNoName = arrayOf(
-    "texture" to "texture",
     "biomes" to "biomes",
     "heights" to "heights"
 )
@@ -38,51 +44,57 @@ private val generalProperties = arrayOf(
 private val dispenserVariants = setOf("dispenser", "dropper")
 private val horseVariants = setOf("horse", "donkey", "mule", "llama")
 
-private val converters = mapOf<String, (Options, Ini) -> Unit>(
+private val converters = mapOf<String, (Options, Ini, Identifier) -> Unit>(
     "anvil" to createSimpleConverter("anvil chipped_anvil damaged_anvil", *generalPropertiesNoName),
     "beacon" to createSimpleConverter("beacon", *generalProperties, "levels" to "beacon.levels"),
     "brewing_stand" to createSimpleConverter("brewing_stand"),
-    "chest" to { props, ini ->
+    "chest" to { props, ini, path ->
         val chestVariants =
             if (props["trapped"].toBoolean() == true) "chest trapped_chest"
             else "chest"
         ini.add(chestVariants).also { section ->
+            props.resolveAndCopyReplacementTextureTo(section, path)
             props.copyTo(section, *generalProperties, "large" to "chest.large", "christmas" to "chest.christmas")
         }
         if (props["ender"].toBoolean() == true) {
             ini.add("ender_chest").also { section ->
+                props.resolveAndCopyReplacementTextureTo(section, path)
                 props.copyTo(section, *generalProperties)
             }
         }
     },
     "crafting" to createSimpleConverter("crafting_table", *generalPropertiesNoName),
-    "dispenser" to { props, ini ->
+    "dispenser" to { props, ini, path ->
         val blocks = props["variants"]
             ?.splitIgnoreEmpty(*delimiters)
             ?.toSet()
             ?.filter { it in dispenserVariants }
             ?: listOf("dispenser")
-        blocks.map(ini::add).forEach {
-            props.copyTo(it, *generalProperties)
+        blocks.map(ini::add).forEach { section ->
+            props.resolveAndCopyReplacementTextureTo(section, path)
+            props.copyTo(section, *generalProperties)
         }
     },
     "enchantment" to createSimpleConverter("enchanting_table"),
     "furnace" to createSimpleConverter("furnace"),
     "hopper" to createSimpleConverter("hopper"),
-    "horse" to { props, ini ->
+    "horse" to { props, ini, path ->
         val entities = props["variants"]
             ?.splitIgnoreEmpty(*delimiters)
             ?.filter { it in horseVariants }
             ?.toMutableSet()
             ?: horseVariants.toMutableSet()
         if (entities.remove("llama")) {
-            props.copyTo(ini.add("llama"), *generalProperties, "colors" to "llama.colors")
+            val section = ini.add("llama")
+            props.resolveAndCopyReplacementTextureTo(section, path)
+            props.copyTo(section, *generalProperties, "colors" to "llama.colors")
         }
         entities.map(ini::add).forEach { section ->
+            props.resolveAndCopyReplacementTextureTo(section, path)
             props.copyTo(section, *generalProperties)
         }
     },
-    "villager" to { props, ini ->
+    "villager" to { props, ini, path ->
         val professions = sequence {
             props["professions"]
                 ?.splitIgnoreEmpty(*delimiters)
@@ -100,13 +112,14 @@ private val converters = mapOf<String, (Options, Ini) -> Unit>(
                 }
         }.toSet()
         ini.add("villager").also { section ->
+            props.resolveAndCopyReplacementTextureTo(section, path)
             props.copyTo(section, *generalProperties)
             if (professions.isNotEmpty()) {
                 section["villager.professions"] = professions.joinToString(" ")
             }
         }
     },
-    "shulker_box" to { props, ini ->
+    "shulker_box" to { props, ini, path ->
         val blocks = props["colors"]
             ?.splitIgnoreEmpty(*delimiters)
             ?.toSet()
@@ -114,10 +127,11 @@ private val converters = mapOf<String, (Options, Ini) -> Unit>(
             ?.map { "${it}_shulker_box" }
             ?: listOf("shulker_box")
         blocks.map(ini::add).forEach { section ->
+            props.resolveAndCopyReplacementTextureTo(section, path)
             props.copyTo(section, *generalProperties)
         }
     },
-    "creative" to { props, ini ->
+    "creative" to { props, ini, path ->
         val toReplace = props
             .entries
             .mapNotNull { (key, value) ->
@@ -126,9 +140,11 @@ private val converters = mapOf<String, (Options, Ini) -> Unit>(
             }
         toReplace.forEachIndexed { index, (original, replacement) ->
             ini.add("#optifine:creative/$index").also { section ->
-                section["interaction.texture"] = original
-                section["texture"] = replacement
-                props.copyTo(section, "biomes" to "biomes", "heights" to "heights")
+                section["interaction.texture"] =
+                    if (original.endsWith(".png")) original
+                    else "$original.png" // Workaround
+                section["replacement"] = resolveReplacementTexture(replacement, path)
+                props.copyTo(section, *generalPropertiesNoName)
             }
         }
     },
@@ -136,12 +152,33 @@ private val converters = mapOf<String, (Options, Ini) -> Unit>(
 )
 
 private fun createSimpleConverter(container: String, vararg copyProps: Pair<String, String> = generalProperties) =
-    { props: Options, ini: Ini ->
-        props.copyTo(ini.add(container), *copyProps)
+    { props: Options, ini: Ini, path: Identifier ->
+        val section = ini.add(container)
+        props.resolveAndCopyReplacementTextureTo(section, path)
+        props.copyTo(section, *copyProps)
     }
 
-private fun Options.copyTo(section: Profile.Section, vararg keyMap: Pair<String, String>) {
-    for ((sourceKey, targetKey) in keyMap) {
-        section[targetKey] = this[sourceKey] ?: continue
+private val resourceAccess: ResourceAccessService by lazy(::getService)
+
+private fun resolveReplacementTexture(texture: String, resourcePath: Identifier): String? {
+    val resourceFolder = File(resourcePath.path).parent.replace('\\', '/')
+    var texturePath = resolvePath(resourceFolder, texture) ?: return null
+
+    if (!resourceAccess.getResource(texturePath).exists()) {
+        texturePath = Identifier(texturePath.namespace, "${texturePath.path}.png")
+
+        if (!resourceAccess.getResource(texturePath).exists()) return null
     }
+
+    return texturePath.toString()
+}
+
+private fun Options.copyTo(target: Section, vararg keyMap: Pair<String, String>) {
+    for ((sourceKey, targetKey) in keyMap) {
+        target[targetKey] = this[sourceKey] ?: continue
+    }
+}
+
+private fun Options.resolveAndCopyReplacementTextureTo(target: Section, resourcePath: Identifier) {
+    this["texture"]?.let { resolveReplacementTexture(it, resourcePath) }?.let { target["replacement"] = it }
 }
