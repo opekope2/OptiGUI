@@ -50,12 +50,19 @@ class InitializerContext internal constructor(private val modId: String) {
     /**
      * Registers the preprocessor for a block entity.
      *
+     * @param T The block entity type the preprocessor processes
      * @param type Java moment. The block entity type the preprocessor processes
      * @param processor The block entity preprocessor instance
      * @return `true` if registration is successful, `false` if the given block entity already has a preprocessor registered
      */
-    fun registerPreprocessor(type: Class<out BlockEntity>, processor: BlockEntityPreprocessor): Boolean =
-        PreprocessorStore.add(type, IdentifiableBlockEntityPreprocessor(modId, processor))
+    @Suppress("UNCHECKED_CAST")
+    fun <T : BlockEntity> registerPreprocessor(
+        type: Class<out BlockEntity>,
+        processor: BlockEntityPreprocessor<T>
+    ): Boolean = PreprocessorStore.add(
+        type,
+        IdentifiableBlockEntityPreprocessor(modId, processor) as IdentifiableBlockEntityPreprocessor<BlockEntity>
+    )
 
     /**
      * Registers the preprocessor for a block entity.
@@ -64,18 +71,23 @@ class InitializerContext internal constructor(private val modId: String) {
      * @param processor The block entity preprocessor instance
      * @return `true` if registration is successful, `false` if the given block entity already has a preprocessor registered
      */
-    inline fun <reified T : BlockEntity> registerPreprocessor(processor: BlockEntityPreprocessor) =
+    inline fun <reified T : BlockEntity> registerPreprocessor(processor: BlockEntityPreprocessor<T>) =
         registerPreprocessor(T::class.java, processor)
 
     /**
      * Registers the preprocessor for an entity.
      *
+     * @param T The entity type the preprocessor processes
      * @param type Java moment. The entity type the preprocessor processes
      * @param processor The entity preprocessor instance
      * @return `true` if registration is successful, `false` if the given entity already has a preprocessor registered
      */
-    fun registerPreprocessor(type: Class<out Entity>, processor: EntityPreprocessor): Boolean =
-        PreprocessorStore.add(type, IdentifiableEntityPreprocessor(modId, processor))
+    @Suppress("UNCHECKED_CAST")
+    fun <T : Entity> registerPreprocessor(type: Class<out Entity>, processor: EntityPreprocessor<T>): Boolean =
+        PreprocessorStore.add(
+            type,
+            IdentifiableEntityPreprocessor(modId, processor) as IdentifiableEntityPreprocessor<Entity>
+        )
 
     /**
      * Registers the preprocessor for an entity.
@@ -84,6 +96,6 @@ class InitializerContext internal constructor(private val modId: String) {
      * @param processor The entity preprocessor instance
      * @return `true` if registration is successful, `false` if the given entity already has a preprocessor registered
      */
-    inline fun <reified T : Entity> registerPreprocessor(processor: EntityPreprocessor) =
+    inline fun <reified T : Entity> registerPreprocessor(processor: EntityPreprocessor<T>) =
         registerPreprocessor(T::class.java, processor)
 }
