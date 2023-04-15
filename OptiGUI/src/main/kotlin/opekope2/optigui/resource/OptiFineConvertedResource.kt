@@ -2,7 +2,7 @@ package opekope2.optigui.resource
 
 import net.minecraft.util.DyeColor
 import net.minecraft.util.Identifier
-import opekope2.optigui.internal.optifinecompat.delimiters
+import opekope2.util.delimiters
 import opekope2.optigui.service.ResourceAccessService
 import opekope2.optigui.service.getService
 import opekope2.util.NumberOrRange

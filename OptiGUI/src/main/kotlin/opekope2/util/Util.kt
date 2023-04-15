@@ -34,6 +34,13 @@ fun <TOld, TNew> FilterResult<TOld>.withResult(result: TNew): FilterResult<TNew>
 fun String.trimParentheses() = trimStart('(').trimEnd(')')
 
 /**
+ * Default delimiters of lists in OptiGUI and OptiFine resources.
+ *
+ * @see splitIgnoreEmpty
+ */
+val delimiters = charArrayOf(' ', '\t')
+
+/**
  * Splits a string at the given delimiters and returns every substring, which is not empty.
  */
 fun CharSequence.splitIgnoreEmpty(vararg delimiters: Char) =
