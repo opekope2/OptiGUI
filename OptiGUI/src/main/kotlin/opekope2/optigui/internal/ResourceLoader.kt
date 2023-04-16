@@ -25,7 +25,7 @@ internal object ResourceLoader : ResourceLoaderService {
                         continue
                     } ?: continue
 
-                    filters.add(IdentifiableFilter(modId, filterInfo))
+                    filters.add(IdentifiableFilter(modId, filterInfo, resource))
                     replaceableTextures.addAll(filterInfo.replaceableTextures)
                 }
             }
