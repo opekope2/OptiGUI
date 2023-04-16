@@ -25,7 +25,7 @@
     "optigui": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.optifinecompat.InitializerKt::initialize"
+        "value": "opekope2.optigui.internal.BuiltinFilterFactoriesKt::initialize"
       }
     ]
   },
