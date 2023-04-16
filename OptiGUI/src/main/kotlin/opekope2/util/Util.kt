@@ -1,5 +1,6 @@
 package opekope2.util
 
+import net.minecraft.util.Identifier
 import opekope2.filter.FilterResult
 import java.time.LocalDateTime
 import java.time.Month
@@ -50,3 +51,17 @@ fun CharSequence.splitIgnoreEmpty(vararg delimiters: Char) =
  * Check whether now is Christmas.
  */
 fun isChristmas(): Boolean = LocalDateTime.now().let { it.month == Month.DECEMBER && it.dayOfMonth in 24..26 }
+
+/**
+ * [Identifier] deconstruction helper, which returns the namespace.
+ *
+ * @see Identifier.namespace
+ */
+operator fun Identifier.component1(): String = namespace
+
+/**
+ * [Identifier] deconstruction helper, which returns the path.
+ *
+ * @see Identifier.path
+ */
+operator fun Identifier.component2(): String = path
