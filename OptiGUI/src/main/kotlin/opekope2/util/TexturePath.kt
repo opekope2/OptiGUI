@@ -9,147 +9,147 @@ import net.minecraft.util.Identifier
  */
 object TexturePath {
     @JvmField
-    val ANVIL = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/anvil.png")
+    val ANVIL = Identifier("textures/gui/container/anvil.png")
 
     @JvmField
-    val BEACON = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/beacon.png")
+    val BEACON = Identifier("textures/gui/container/beacon.png")
 
     @JvmField
-    val BLAST_FURNACE = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/blast_furnace.png")
+    val BLAST_FURNACE = Identifier("textures/gui/container/blast_furnace.png")
 
     @JvmField
-    val BREWING_STAND = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/brewing_stand.png")
+    val BREWING_STAND = Identifier("textures/gui/container/brewing_stand.png")
 
     @JvmField
-    val CARTOGRAPHY_TABLE = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/cartography_table.png")
+    val CARTOGRAPHY_TABLE = Identifier("textures/gui/container/cartography_table.png")
 
     @JvmField
-    val GENERIC_54 = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/generic_54.png")
+    val GENERIC_54 = Identifier("textures/gui/container/generic_54.png")
 
     @JvmField
-    val CRAFTING_TABLE = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/crafting_table.png")
+    val CRAFTING_TABLE = Identifier("textures/gui/container/crafting_table.png")
 
     @JvmField
-    val DISPENSER = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/dispenser.png")
+    val DISPENSER = Identifier("textures/gui/container/dispenser.png")
 
     @JvmField
-    val ENCHANTING_TABLE = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/enchanting_table.png")
+    val ENCHANTING_TABLE = Identifier("textures/gui/container/enchanting_table.png")
 
     @JvmField
-    val FURNACE = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/furnace.png")
+    val FURNACE = Identifier("textures/gui/container/furnace.png")
 
     @JvmField
-    val GRINDSTONE = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/grindstone.png")
+    val GRINDSTONE = Identifier("textures/gui/container/grindstone.png")
 
     @JvmField
-    val HOPPER = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/hopper.png")
+    val HOPPER = Identifier("textures/gui/container/hopper.png")
 
     @JvmField
-    val LOOM = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/loom.png")
+    val LOOM = Identifier("textures/gui/container/loom.png")
 
     @JvmField
-    val SHULKER_BOX = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/shulker_box.png")
+    val SHULKER_BOX = Identifier("textures/gui/container/shulker_box.png")
 
     @JvmField
-    val SMITHING_TABLE = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/smithing.png")
+    val SMITHING_TABLE = Identifier("textures/gui/container/smithing.png")
 
     @JvmField
-    val LEGACY_SMITHING_TABLE = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/legacy_smithing.png")
+    val LEGACY_SMITHING_TABLE = Identifier("textures/gui/container/legacy_smithing.png")
 
     @JvmField
-    val SMOKER = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/smoker.png")
+    val SMOKER = Identifier("textures/gui/container/smoker.png")
 
     @JvmField
-    val STONECUTTER = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/stonecutter.png")
+    val STONECUTTER = Identifier("textures/gui/container/stonecutter.png")
 
     @JvmField
-    val HORSE = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/horse.png")
+    val HORSE = Identifier("textures/gui/container/horse.png")
 
     @JvmField
-    val VILLAGER2 = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/villager2.png")
+    val VILLAGER2 = Identifier("textures/gui/container/villager2.png")
 
     @JvmField
-    val INVENTORY = Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/container/inventory.png")
+    val INVENTORY = Identifier("textures/gui/container/inventory.png")
 
     private val containerTextures = mapOf(
-        "anvil" to ANVIL,
-        "chipped_anvil" to ANVIL,
-        "damaged_anvil" to ANVIL,
+        Identifier("anvil") to ANVIL,
+        Identifier("chipped_anvil") to ANVIL,
+        Identifier("damaged_anvil") to ANVIL,
 
-        "barrel" to GENERIC_54,
+        Identifier("barrel") to GENERIC_54,
 
-        "beacon" to BEACON,
+        Identifier("beacon") to BEACON,
 
-        "brewing_stand" to BREWING_STAND,
+        Identifier("brewing_stand") to BREWING_STAND,
 
-        "cartography_table" to CARTOGRAPHY_TABLE,
+        Identifier("cartography_table") to CARTOGRAPHY_TABLE,
 
-        "chest" to GENERIC_54,
-        "ender_chest" to GENERIC_54,
-        "trapped_chest" to GENERIC_54,
+        Identifier("chest") to GENERIC_54,
+        Identifier("ender_chest") to GENERIC_54,
+        Identifier("trapped_chest") to GENERIC_54,
 
-        "acacia_chest_boat" to GENERIC_54,
-        "bamboo_chest_boat" to GENERIC_54,
-        "birch_chest_boat" to GENERIC_54,
-        "cherry_chest_boat" to GENERIC_54,
-        "dark_oak_chest_boat" to GENERIC_54,
-        "jungle_chest_boat" to GENERIC_54,
-        "mangrove_chest_boat" to GENERIC_54,
-        "oak_chest_boat" to GENERIC_54,
-        "spruce_chest_boat" to GENERIC_54,
+        Identifier("acacia_chest_boat") to GENERIC_54,
+        Identifier("bamboo_chest_boat") to GENERIC_54,
+        Identifier("birch_chest_boat") to GENERIC_54,
+        Identifier("cherry_chest_boat") to GENERIC_54,
+        Identifier("dark_oak_chest_boat") to GENERIC_54,
+        Identifier("jungle_chest_boat") to GENERIC_54,
+        Identifier("mangrove_chest_boat") to GENERIC_54,
+        Identifier("oak_chest_boat") to GENERIC_54,
+        Identifier("spruce_chest_boat") to GENERIC_54,
 
-        "chest_minecart" to GENERIC_54,
+        Identifier("chest_minecart") to GENERIC_54,
 
-        "crafting_table" to CRAFTING_TABLE,
+        Identifier("crafting_table") to CRAFTING_TABLE,
 
-        "dispenser" to DISPENSER,
-        "dropper" to DISPENSER,
+        Identifier("dispenser") to DISPENSER,
+        Identifier("dropper") to DISPENSER,
 
-        "enchanting_table" to ENCHANTING_TABLE,
+        Identifier("enchanting_table") to ENCHANTING_TABLE,
 
-        "furnace" to FURNACE,
-        "blast_furnace" to BLAST_FURNACE,
-        "smoker" to SMOKER,
+        Identifier("furnace") to FURNACE,
+        Identifier("blast_furnace") to BLAST_FURNACE,
+        Identifier("smoker") to SMOKER,
 
-        "grindstone" to GRINDSTONE,
+        Identifier("grindstone") to GRINDSTONE,
 
-        "hopper" to HOPPER,
-        "hopper_minecart" to HOPPER,
+        Identifier("hopper") to HOPPER,
+        Identifier("hopper_minecart") to HOPPER,
 
-        "horse" to HORSE,
-        "camel" to HORSE,
-        "donkey" to HORSE,
-        "llama" to HORSE,
-        "mule" to HORSE,
-        "skeleton_horse" to HORSE,
-        "zombie_horse" to HORSE,
+        Identifier("horse") to HORSE,
+        Identifier("camel") to HORSE,
+        Identifier("donkey") to HORSE,
+        Identifier("llama") to HORSE,
+        Identifier("mule") to HORSE,
+        Identifier("skeleton_horse") to HORSE,
+        Identifier("zombie_horse") to HORSE,
 
-        "loom" to LOOM,
+        Identifier("loom") to LOOM,
 
-        "shulker_box" to SHULKER_BOX,
-        "black_shulker_box" to SHULKER_BOX,
-        "blue_shulker_box" to SHULKER_BOX,
-        "brown_shulker_box" to SHULKER_BOX,
-        "cyan_shulker_box" to SHULKER_BOX,
-        "gray_shulker_box" to SHULKER_BOX,
-        "green_shulker_box" to SHULKER_BOX,
-        "light_blue_shulker_box" to SHULKER_BOX,
-        "light_gray_shulker_box" to SHULKER_BOX,
-        "lime_shulker_box" to SHULKER_BOX,
-        "magenta_shulker_box" to SHULKER_BOX,
-        "orange_shulker_box" to SHULKER_BOX,
-        "pink_shulker_box" to SHULKER_BOX,
-        "purple_shulker_box" to SHULKER_BOX,
-        "red_shulker_box" to SHULKER_BOX,
-        "white_shulker_box" to SHULKER_BOX,
-        "yellow_shulker_box" to SHULKER_BOX,
+        Identifier("shulker_box") to SHULKER_BOX,
+        Identifier("black_shulker_box") to SHULKER_BOX,
+        Identifier("blue_shulker_box") to SHULKER_BOX,
+        Identifier("brown_shulker_box") to SHULKER_BOX,
+        Identifier("cyan_shulker_box") to SHULKER_BOX,
+        Identifier("gray_shulker_box") to SHULKER_BOX,
+        Identifier("green_shulker_box") to SHULKER_BOX,
+        Identifier("light_blue_shulker_box") to SHULKER_BOX,
+        Identifier("light_gray_shulker_box") to SHULKER_BOX,
+        Identifier("lime_shulker_box") to SHULKER_BOX,
+        Identifier("magenta_shulker_box") to SHULKER_BOX,
+        Identifier("orange_shulker_box") to SHULKER_BOX,
+        Identifier("pink_shulker_box") to SHULKER_BOX,
+        Identifier("purple_shulker_box") to SHULKER_BOX,
+        Identifier("red_shulker_box") to SHULKER_BOX,
+        Identifier("white_shulker_box") to SHULKER_BOX,
+        Identifier("yellow_shulker_box") to SHULKER_BOX,
 
-        "smithing_table" to SMITHING_TABLE,
+        Identifier("smithing_table") to SMITHING_TABLE,
 
-        "stonecutter" to STONECUTTER,
+        Identifier("stonecutter") to STONECUTTER,
 
-        "villager" to VILLAGER2,
-        "wandering_trader" to VILLAGER2,
+        Identifier("villager") to VILLAGER2,
+        Identifier("wandering_trader") to VILLAGER2,
     )
 
     /**
@@ -158,5 +158,5 @@ object TexturePath {
      * @param container The id of the entity or block entity to get its GUI texture
      */
     @JvmStatic
-    fun ofContainer(container: String) = containerTextures[container]
+    fun ofContainer(container: Identifier) = containerTextures[container]
 }
