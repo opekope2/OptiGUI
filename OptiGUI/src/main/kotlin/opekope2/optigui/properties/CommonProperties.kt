@@ -11,7 +11,7 @@ interface CommonProperties {
     /**
      * The identifier of the container. Same as in the `/summon` or `/setblock` commands
      */
-    val container: String
+    val container: Identifier
 
     /**
      * Custom entity or block entity name (renamed in an anvil or with a name tag)

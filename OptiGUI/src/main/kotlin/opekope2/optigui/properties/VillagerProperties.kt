@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier
  * @param level The level of a villager
  */
 data class VillagerProperties(
-    override val container: String,
+    override val container: Identifier,
     override val name: String?,
     override val biome: Identifier?,
     override val height: Int,
