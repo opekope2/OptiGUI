@@ -27,19 +27,19 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback {
                 if (blockEntity != null) InteractionTarget.BlockEntity(blockEntity)
                 else getBlockInteractionTarget(world, hitResult.blockPos)
 
-            interactor.interact(player, world, hand, target, hitResult)
+            if (target != null) interactor.interact(player, world, hand, target, hitResult)
         }
 
         return ActionResult.PASS
     }
 
-    private fun getBlockInteractionTarget(world: World, target: BlockPos): InteractionTarget {
+    private fun getBlockInteractionTarget(world: World, target: BlockPos): InteractionTarget? {
         val lookup = getService<RegistryLookupService>()
 
         val container = lookup.lookupBlockId(world.getBlockState(target).block)
         if (TexturePath.ofContainer(container) == null) {
             // Unknown/modded container
-            return InteractionTarget.None
+            return null
         }
 
         return InteractionTarget.Preprocessed(

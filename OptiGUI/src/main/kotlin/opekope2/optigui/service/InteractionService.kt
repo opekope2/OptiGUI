@@ -14,10 +14,11 @@ interface InteractionService {
      * Signals the texture replacer that an interaction has begun. Should be called before opening a GUI.
      *
      * @param player The interacting player
-     * @param world The world the interaction happens in
+     * @param world The world the interaction happens in. Must be client-side
      * @param hand The hand of the player that triggered the interaction
      * @param target The target the player is interacting with
      * @param hitResult The hit result from Minecraft
+     * @return `true` if the parameters are valid, and a GUI is not open, otherwise `false`
      */
     fun interact(player: PlayerEntity, world: World, hand: Hand, target: InteractionTarget, hitResult: HitResult?): Boolean
 }
