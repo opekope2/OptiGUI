@@ -1,6 +1,7 @@
-package opekope2.filter
+package opekope2.filter.factory
 
 import net.minecraft.util.Identifier
+import opekope2.filter.Filter
 import opekope2.optigui.interaction.Interaction
 
 /**
@@ -9,7 +10,7 @@ import opekope2.optigui.interaction.Interaction
  * @param filter The filter, which does the replacing
  * @param replaceableTextures The textures [filter] can replace
  */
-class FilterInfo(
+data class FilterFactoryResult(
     val filter: Filter<Interaction, Identifier>,
     val replaceableTextures: Set<Identifier>
 )
