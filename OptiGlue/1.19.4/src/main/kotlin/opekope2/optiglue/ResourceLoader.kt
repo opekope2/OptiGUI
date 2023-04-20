@@ -16,12 +16,12 @@ internal object ResourceLoader : SimpleSynchronousResourceReloadListener {
 
     override fun reload(manager: ResourceManager) {
         val resources =
-            manager.findResources("optifine/gui/container")
-            { (ns, path) -> ns == Identifier.DEFAULT_NAMESPACE && path.endsWith(".properties") }
-                .map { (key) -> GlueResource(key) } union
-                    manager.findResources("")
-                    { (ns, path) -> ns == "optigui" && path.endsWith(".ini") }
-                        .map { (key) -> GlueResource(key) }
+            manager.findResources("optifine/gui/container") { (ns, path) ->
+                ns == Identifier.DEFAULT_NAMESPACE && path.endsWith(".properties")
+            }.map { (key) -> GlueResource(key) } union
+                    manager.findResources("") { (ns, path) ->
+                        ns == "optigui" && path.endsWith(".ini")
+                    }.map { (key) -> GlueResource(key) }
 
         resourceLoader.loadResources(resources)
     }
