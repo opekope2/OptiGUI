@@ -7,6 +7,7 @@ import opekope2.filter.factory.FilterFactoryContext
 import opekope2.filter.factory.FilterFactoryResult
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.interaction.Interaction
+import opekope2.optigui.internal.service.OptiGlueService
 import opekope2.optigui.properties.*
 import opekope2.optigui.service.ResourceAccessService
 import opekope2.optigui.service.getService
@@ -18,6 +19,8 @@ internal fun initializeFilterFactories(context: InitializerContext) {
 }
 
 private val resourceAccess: ResourceAccessService by lazy(::getService)
+private val minecraft_1_19_4: Boolean by lazy { getService<OptiGlueService>().minecraftVersion == "1.19.4" }
+private val smithingTable = Identifier("smithing_table")
 
 private fun createFilter(context: FilterFactoryContext): FilterFactoryResult? {
     val filters = mutableListOf<Filter<Interaction, out Identifier>>()
@@ -53,10 +56,15 @@ private fun createFilter(context: FilterFactoryContext): FilterFactoryResult? {
             result.withResult(replacement)
         }
 
-        section["interaction.texture"]?.let(Identifier::tryParse)?.also(replaceableTextures::add)
-            ?: replaceableTextures.addAll(
+        section["interaction.texture"]?.let(Identifier::tryParse)?.also(replaceableTextures::add) ?: run {
+            replaceableTextures.addAll(
                 containers.mapNotNull(TexturePath::ofContainer)
             )
+            // Because Mojang
+            if (minecraft_1_19_4 && smithingTable in containers) {
+                replaceableTextures += TexturePath.LEGACY_SMITHING_TABLE
+            }
+        }
     }
 
     return when {
