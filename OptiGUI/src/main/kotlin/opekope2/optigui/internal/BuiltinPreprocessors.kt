@@ -55,7 +55,7 @@ internal fun initializePreprocessors(context: InitializerContext) {
     context.registerPreprocessor<ShulkerBoxBlockEntity>(::processCommon)
 }
 
-private val lookup: RegistryLookupService = getService()
+private val lookup: RegistryLookupService by lazy(::getService)
 
 fun processCommon(blockEntity: BlockEntity): Any? {
     val world = blockEntity.world ?: return null
