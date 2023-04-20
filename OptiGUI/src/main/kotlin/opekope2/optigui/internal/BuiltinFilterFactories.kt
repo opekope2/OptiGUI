@@ -13,7 +13,7 @@ import opekope2.optigui.service.getService
 import opekope2.util.*
 
 @Suppress("unused")
-internal fun initialize(context: InitializerContext) {
+internal fun initializeFilterFactories(context: InitializerContext) {
     context.registerFilterFactory(::createFilter)
 }
 

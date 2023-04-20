@@ -6,11 +6,13 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.mob.SkeletonHorseEntity
 import net.minecraft.entity.mob.ZombieHorseEntity
 import net.minecraft.entity.passive.*
+import net.minecraft.entity.vehicle.ChestBoatEntity
 import net.minecraft.resource.ResourceType
 import opekope2.optiglue.mc_1_19_4.GlueResource
 import opekope2.optiglue.mc_1_19_4.RegistryLookupServiceImpl
 import opekope2.optigui.EntryPoint
 import opekope2.optigui.InitializerContext
+import opekope2.optigui.internal.processCommon
 import opekope2.optigui.internal.service.EntityVariantLookupService
 import opekope2.optigui.internal.service.OptiGlueService
 import opekope2.optigui.service.RegistryLookupService
@@ -30,9 +32,8 @@ object OptiGlueMod : EntryPoint, OptiGlueService, EntityVariantLookupService {
         registerService<OptiGlueService>(this)
         registerService<EntityVariantLookupService>(this)
 
-        // Register preprocessor for camel in 1.19.3+
-        // Camel filter factory is just horse filter factory, registered in OptiGUI
-        //context.registerPreprocessor<CamelEntity>(::processHorse)
+        context.registerPreprocessor<ChestBoatEntity>(::processCommon)
+        context.registerPreprocessor<CamelEntity>(::processCommon)
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(ResourceLoader)
 

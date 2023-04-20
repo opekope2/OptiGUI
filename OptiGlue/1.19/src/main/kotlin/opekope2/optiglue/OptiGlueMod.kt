@@ -6,11 +6,13 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.mob.SkeletonHorseEntity
 import net.minecraft.entity.mob.ZombieHorseEntity
 import net.minecraft.entity.passive.*
+import net.minecraft.entity.vehicle.ChestBoatEntity
 import net.minecraft.resource.ResourceType
 import opekope2.optiglue.mc_1_19.GlueResource
 import opekope2.optiglue.mc_1_19.RegistryLookupServiceImpl
 import opekope2.optigui.EntryPoint
 import opekope2.optigui.InitializerContext
+import opekope2.optigui.internal.processCommon
 import opekope2.optigui.internal.service.EntityVariantLookupService
 import opekope2.optigui.internal.service.OptiGlueService
 import opekope2.optigui.service.RegistryLookupService
@@ -29,6 +31,8 @@ object OptiGlueMod : EntryPoint, OptiGlueService, EntityVariantLookupService {
         registerService<ResourceAccessService>(GlueResource.Companion)
         registerService<OptiGlueService>(this)
         registerService<EntityVariantLookupService>(this)
+
+        context.registerPreprocessor<ChestBoatEntity>(::processCommon)
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(ResourceLoader)
 

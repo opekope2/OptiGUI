@@ -25,7 +25,11 @@
     "optigui": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.BuiltinFilterFactoriesKt::initialize"
+        "value": "opekope2.optigui.internal.BuiltinFilterFactoriesKt::initializeFilterFactories"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.BuiltinPreprocessorsKt::initializePreprocessors"
       }
     ]
   },
