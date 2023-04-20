@@ -42,6 +42,39 @@ class FilterTests {
 
 
     @Test
+    fun firstMatchSkipTest() {
+        assertIs<Skip<*>>(FirstMatchFilter(testSkipFilter).evaluate(1))
+        assertIs<Skip<*>>(FirstMatchFilter(testSkipFilter, testSkipFilter).evaluate(1))
+    }
+
+    @Test
+    fun firstMatchMismatchTest() {
+        assertIs<Mismatch<*>>(FirstMatchFilter(testMismatchFilter).evaluate(1))
+        assertIs<Mismatch<*>>(FirstMatchFilter(testSkipFilter, testMismatchFilter).evaluate(1))
+    }
+
+    @Test
+    fun firstMatchMatchTest1() {
+        assertIs<Match<*>>(FirstMatchFilter(testMatchFilter).evaluate(1))
+        assertIs<Match<*>>(FirstMatchFilter(testSkipFilter, testMismatchFilter, testMatchFilter).evaluate(1))
+    }
+
+    @Test
+    fun firstMatchMatchTest2() {
+        val matchFilter = Filter<Int, String> { Match((-it).toString()) }
+        var res = FirstMatchFilter(testMatchFilter, matchFilter).evaluate(1)
+
+        assertIs<Match<*>>(res)
+        assertEquals("1", res.result)
+
+        res = FirstMatchFilter(matchFilter, testMatchFilter).evaluate(1)
+
+        assertIs<Match<*>>(res)
+        assertEquals("-1", res.result)
+    }
+
+
+    @Test
     fun containingTest() {
         val filter = ContainingFilter((1..5).toSet())
 
