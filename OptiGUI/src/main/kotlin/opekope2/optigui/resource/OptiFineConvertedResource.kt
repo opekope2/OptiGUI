@@ -2,10 +2,10 @@ package opekope2.optigui.resource
 
 import net.minecraft.util.DyeColor
 import net.minecraft.util.Identifier
-import opekope2.util.delimiters
 import opekope2.optigui.service.ResourceAccessService
 import opekope2.optigui.service.getService
 import opekope2.util.NumberOrRange
+import opekope2.util.delimiters
 import opekope2.util.splitIgnoreEmpty
 import opekope2.util.toBoolean
 import org.ini4j.Ini
@@ -147,6 +147,7 @@ private val converters = mapOf<String, (Options, Ini, Identifier) -> Unit>(
                 props.copyTo(section, *generalPropertiesNoName)
             }
         }
+        ini.remove("#optifine:creative") // Gets added automatically and shows a phantom warning later
     },
     "inventory" to createSimpleConverter("#optifine:inventory", *generalPropertiesNoName)
 )
@@ -164,13 +165,12 @@ private fun resolveReplacementTexture(texture: String, resourcePath: Identifier)
     val resourceFolder = File(resourcePath.path).parent.replace('\\', '/')
     var texturePath = resolvePath(resourceFolder, texture) ?: return null
 
-    if (!resourceAccess.getResource(texturePath).exists()) {
-        texturePath = Identifier(texturePath.namespace, "${texturePath.path}.png")
+    if (resourceAccess.getResource(texturePath).exists()) return texturePath.toString()
 
-        if (!resourceAccess.getResource(texturePath).exists()) return null
-    }
+    texturePath = texturePath.run { Identifier(namespace, "$path.png") }
 
-    return texturePath.toString()
+    return if (resourceAccess.getResource(texturePath).exists()) texturePath.toString()
+    else null
 }
 
 private fun resolvePath(resourcePath: String, path: String): Identifier? {
@@ -226,5 +226,5 @@ private fun Options.copyTo(target: Section, vararg keyMap: Pair<String, String>)
 }
 
 private fun Options.resolveAndCopyReplacementTextureTo(target: Section, resourcePath: Identifier) {
-    this["texture"]?.let { resolveReplacementTexture(it, resourcePath) }?.let { target["replacement"] = it }
+    target["replacement"] = this["texture"]?.let { resolveReplacementTexture(it, resourcePath) ?: it }
 }
