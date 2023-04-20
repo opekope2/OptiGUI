@@ -11,6 +11,7 @@ import opekope2.optigui.internal.service.ResourceLoaderService
 import opekope2.optigui.resource.OptiFineConvertedResource
 import opekope2.optigui.resource.OptiGuiResource
 import opekope2.optigui.resource.ResourceReader
+import opekope2.util.OPTIGUI_NAMESPACE
 import opekope2.util.dump
 
 internal object ResourceLoader : ResourceLoaderService {
@@ -59,4 +60,4 @@ private val ResourceReader.isOptiFine
     get() = id.namespace == Identifier.DEFAULT_NAMESPACE && id.path.endsWith(".properties")
 
 private val ResourceReader.isOptiGUI
-    get() = id.namespace == "optigui" && id.path.endsWith(".ini")
+    get() = id.namespace == OPTIGUI_NAMESPACE && id.path.endsWith(".ini")
