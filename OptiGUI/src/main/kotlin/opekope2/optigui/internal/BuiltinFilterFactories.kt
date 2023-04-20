@@ -126,6 +126,16 @@ private val filterCreators = mapOf(
             EqualityFilter(large)
         )
     },
+    "chest_boat.variants" to createFilterFromProperty(
+        { it.splitIgnoreEmpty(*delimiters).ifEmpty { null } },
+        { variants ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? ChestBoatProperties)?.variant },
+                Mismatch(),
+                ContainingFilter(variants)
+            )
+        }
+    ),
     "chest.christmas" to createFilterFromProperty(String?::toBoolean) { christmas ->
         PreProcessorFilter.nullGuarded(
             { (it.data as? ChestProperties)?.isChristmas },

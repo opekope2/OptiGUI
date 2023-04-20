@@ -57,7 +57,7 @@ internal fun initializePreprocessors(context: InitializerContext) {
 
 private val lookup: RegistryLookupService by lazy(::getService)
 
-fun processCommon(blockEntity: BlockEntity): Any? {
+private fun processCommon(blockEntity: BlockEntity): Any? {
     val world = blockEntity.world ?: return null
 
     return DefaultProperties(

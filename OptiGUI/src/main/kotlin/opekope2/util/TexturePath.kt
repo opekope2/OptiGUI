@@ -88,15 +88,7 @@ object TexturePath {
         Identifier("ender_chest") to GENERIC_54,
         Identifier("trapped_chest") to GENERIC_54,
 
-        Identifier("acacia_chest_boat") to GENERIC_54,
-        Identifier("bamboo_chest_boat") to GENERIC_54,
-        Identifier("birch_chest_boat") to GENERIC_54,
-        Identifier("cherry_chest_boat") to GENERIC_54,
-        Identifier("dark_oak_chest_boat") to GENERIC_54,
-        Identifier("jungle_chest_boat") to GENERIC_54,
-        Identifier("mangrove_chest_boat") to GENERIC_54,
-        Identifier("oak_chest_boat") to GENERIC_54,
-        Identifier("spruce_chest_boat") to GENERIC_54,
+        Identifier("chest_boat") to GENERIC_54,
 
         Identifier("chest_minecart") to GENERIC_54,
 
