@@ -84,7 +84,7 @@ private fun processBeacon(beacon: BeaconBlockEntity): Any? {
 
     return BeaconProperties(
         container = lookup.lookupBlockId(world.getBlockState(beacon.pos).block),
-        name = beacon.customName?.string,
+        name = (beacon as? Nameable)?.customName?.string,
         biome = lookup.lookupBiomeId(world, beacon.pos),
         height = beacon.pos.y,
         level = (beacon as BeaconBlockEntityAccessorMixin).level
