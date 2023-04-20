@@ -168,7 +168,7 @@ private fun createSimpleConverter(container: String, vararg copyProps: Pair<Stri
 private val resourceAccess: ResourceAccessService by lazy(::getService)
 
 private fun resolveReplacementTexture(texture: String, resourcePath: Identifier): String? {
-    var texturePath = resolvePath(texture, resourcePath, "assets/minecraft/optifine") ?: return null
+    var texturePath = resolvePath(texture, resourcePath, OPTIFINE_TILDE_PATH) ?: return null
 
     if (resourceAccess.getResource(texturePath).exists()) return texturePath.toString()
 
