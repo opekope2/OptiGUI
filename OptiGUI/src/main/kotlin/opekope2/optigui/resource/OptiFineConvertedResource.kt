@@ -8,7 +8,6 @@ import opekope2.util.*
 import org.ini4j.Ini
 import org.ini4j.Options
 import org.ini4j.Profile.Section
-import java.io.File
 
 /**
  * Represents an OptiFine .properties file converted to the OptiGUI-compatible INI format.

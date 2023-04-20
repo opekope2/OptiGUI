@@ -73,7 +73,7 @@ fun processCommon(entity: Entity): Any? {
 
     return DefaultProperties(
         container = lookup.lookupEntityId(entity),
-        name = (entity as? Nameable)?.customName?.string,
+        name = entity.customName?.string,
         biome = lookup.lookupBiomeId(world, entity.blockPos),
         height = entity.blockY
     )
