@@ -4,15 +4,11 @@ import net.minecraft.util.DyeColor
 import net.minecraft.util.Identifier
 import opekope2.optigui.service.ResourceAccessService
 import opekope2.optigui.service.getService
-import opekope2.util.NumberOrRange
-import opekope2.util.delimiters
-import opekope2.util.splitIgnoreEmpty
-import opekope2.util.toBoolean
+import opekope2.util.*
 import org.ini4j.Ini
 import org.ini4j.Options
 import org.ini4j.Profile.Section
 import java.io.File
-import java.util.*
 
 /**
  * Represents an OptiFine .properties file converted to the OptiGUI-compatible INI format.
@@ -172,8 +168,7 @@ private fun createSimpleConverter(container: String, vararg copyProps: Pair<Stri
 private val resourceAccess: ResourceAccessService by lazy(::getService)
 
 private fun resolveReplacementTexture(texture: String, resourcePath: Identifier): String? {
-    val resourceFolder = File(resourcePath.path).parent.replace('\\', '/')
-    var texturePath = resolvePath(resourceFolder, texture) ?: return null
+    var texturePath = resolvePath(texture, resourcePath, "assets/minecraft/optifine") ?: return null
 
     if (resourceAccess.getResource(texturePath).exists()) return texturePath.toString()
 
@@ -181,52 +176,6 @@ private fun resolveReplacementTexture(texture: String, resourcePath: Identifier)
 
     return if (resourceAccess.getResource(texturePath).exists()) texturePath.toString()
     else null
-}
-
-private fun resolvePath(resourcePath: String, path: String): Identifier? {
-    val pathStack: Deque<String> = ArrayDeque()
-    var tokenizer = StringTokenizer(resourcePath, "/")
-    while (tokenizer.hasMoreTokens()) {
-        pathStack.push(tokenizer.nextToken())
-    }
-
-    // Because there was a resource pack with two dangling tab characters after the resource name
-    tokenizer = StringTokenizer(path.trim(), ":/", true)
-    var namespace = Identifier.DEFAULT_NAMESPACE
-    var nToken = -1
-
-    while (tokenizer.hasMoreTokens()) {
-        val token = tokenizer.nextToken()
-        nToken++
-
-        if (nToken == 0 && "~" == token) {
-            pathStack.clear()
-            pathStack.push("optifine")
-            continue
-        } else if (":" == token) {
-            if (nToken == 1) {
-                namespace = pathStack.pop()
-                pathStack.clear()
-            }
-        } else if (".." == token) {
-            if (pathStack.isEmpty()) return null
-
-            pathStack.pop()
-        } else if ("/" != token && "." != token) {
-            pathStack.push(token)
-        }
-    }
-
-    val pathBuilder = StringBuilder()
-    var first = true
-
-    while (!pathStack.isEmpty()) {
-        if (first) first = false
-        else pathBuilder.append("/")
-        pathBuilder.append(pathStack.removeLast())
-    }
-
-    return Identifier(namespace, pathBuilder.toString())
 }
 
 private fun Options.copyTo(target: Section, vararg keyMap: Pair<String, String>) {

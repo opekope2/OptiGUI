@@ -26,7 +26,7 @@ private fun createFilter(context: FilterFactoryContext): FilterFactoryResult? {
     for ((sectionName, section) in context.resource.ini) {
         val replacement = (section["replacement"].also {
             if (it == null) context.warn("Ignoring section [$sectionName], because it is missing a replacement texture.")
-        } ?: continue).let(Identifier::tryParse).also {
+        } ?: continue).let { replace -> resolvePath(replace, context.resource.id) }.also {
             if (it == null) context.warn("Ignoring section [$sectionName], because replacement texture is malformed.")
         } ?: continue
         if (!resourceAccess.getResource(replacement).exists()) {
