@@ -49,17 +49,27 @@ private val converters = mapOf<String, (Options, Ini, Identifier) -> Unit>(
     "beacon" to createSimpleConverter("beacon", *generalProperties, "levels" to "beacon.levels"),
     "brewing_stand" to createSimpleConverter("brewing_stand"),
     "chest" to { props, ini, path ->
-        val chestVariants =
-            if (props["trapped"].toBoolean() == true) "chest trapped_chest"
-            else "chest"
-        ini.add(chestVariants).also { section ->
-            props.resolveAndCopyReplacementTextureTo(section, path)
-            props.copyTo(section, *generalProperties, "large" to "chest.large", "christmas" to "chest.christmas")
+        // Lots of pain and suffering from this retarded syntax, thanks OptiFine
+        val large = props["large"].toBoolean()
+        val trapped = props["trapped"].toBoolean()
+        val ender = props["ender"].toBoolean()
+
+        if (ender != true) {
+            val chestVariants = when (trapped) {
+                true -> "trapped_chest"
+                false -> "chest"
+                else -> "chest trapped_chest"
+            }
+            ini.add(chestVariants).also { section ->
+                props.resolveAndCopyReplacementTextureTo(section, path)
+                props.copyTo(section, *generalProperties, "large" to "chest.large", "christmas" to "chest.christmas")
+            }
         }
-        if (props["ender"].toBoolean() == true) {
+        // Ender chests can't be large, trapped, and can't be named
+        if (ender != false && large != true && trapped != true && props["name"].isNullOrEmpty()) {
             ini.add("ender_chest").also { section ->
                 props.resolveAndCopyReplacementTextureTo(section, path)
-                props.copyTo(section, *generalProperties)
+                props.copyTo(section, *generalPropertiesNoName)
             }
         }
     },
