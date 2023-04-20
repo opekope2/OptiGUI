@@ -3,10 +3,13 @@ package opekope2.optigui.internal
 import net.minecraft.util.Identifier
 import opekope2.filter.*
 import opekope2.filter.FilterResult.Mismatch
+import opekope2.filter.factory.FilterFactoryContext
+import opekope2.filter.factory.FilterFactoryResult
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.properties.*
-import opekope2.optigui.resource.OptiGuiResource
+import opekope2.optigui.service.ResourceAccessService
+import opekope2.optigui.service.getService
 import opekope2.util.*
 
 @Suppress("unused")
@@ -14,13 +17,24 @@ internal fun initialize(context: InitializerContext) {
     context.registerFilterFactory(::createFilter)
 }
 
-private fun createFilter(resource: OptiGuiResource): FilterInfo {
+private val resourceAccess: ResourceAccessService by lazy(::getService)
+
+private fun createFilter(context: FilterFactoryContext): FilterFactoryResult? {
     val filters = mutableListOf<Filter<Interaction, out Identifier>>()
     val replaceableTextures = mutableSetOf<Identifier>()
 
-    for ((name, section) in resource.ini) {
-        val replacement = Identifier.tryParse(section["replacement"] ?: continue) ?: continue
-        val containers = name.split(*delimiters).filter { !it.startsWith('#') }
+    for ((sectionName, section) in context.resource.ini) {
+        val replacement = (section["replacement"].also {
+            if (it == null) context.warn("Ignoring section [$sectionName], because it is missing a replacement texture.")
+        } ?: continue).let(Identifier::tryParse).also {
+            if (it == null) context.warn("Ignoring section [$sectionName], because replacement texture is malformed.")
+        } ?: continue
+        if (!resourceAccess.getResource(replacement).exists()) {
+            context.warn("Ignoring section [$sectionName], because replacement texture doesn't exist.")
+            continue
+        }
+
+        val containers = sectionName.split(*delimiters).filter { !it.startsWith('#') }.mapNotNull(Identifier::tryParse)
         val sectionFilters = mutableListOf<Filter<Interaction, Unit>>()
 
         if (containers.any()) {
@@ -38,9 +52,26 @@ private fun createFilter(resource: OptiGuiResource): FilterInfo {
         filters += PostProcessorFilter(ConjunctionFilter(sectionFilters)) { _, result ->
             result.withResult(replacement)
         }
+
+        section["interaction.texture"]?.let(Identifier::tryParse)?.also(replaceableTextures::add)
+            ?: replaceableTextures.addAll(
+                containers.mapNotNull(TexturePath::ofContainer)
+            )
     }
 
-    return FilterInfo(FirstMatchFilter(filters), replaceableTextures)
+    return when {
+        filters.isEmpty() -> {
+            context.warn("Ignoring resource, because no filters could be created.")
+            null
+        }
+
+        replaceableTextures.isEmpty() -> {
+            context.warn("Ignoring resource, because no replaceable textures were specified or could be guessed.")
+            null
+        }
+
+        else -> FilterFactoryResult(FirstMatchFilter(filters), replaceableTextures)
+    }
 }
 
 private val filterCreators = mapOf(
