@@ -261,7 +261,7 @@ private val monthUnmapping = arrayOf(
     JULY to arrayOf("jul", "july", "7"),
     AUGUST to arrayOf("aug", "augustus", "8"),
     SEPTEMBER to arrayOf("sep", "september", "9"),
-    OCTOBER to arrayOf("oct", "october", "10"),
+    OCTOBER to arrayOf("oct", "october", "spooktober", "10"),
     NOVEMBER to arrayOf("nov", "november", "11"),
     DECEMBER to arrayOf("dec", "december", "12")
 )
