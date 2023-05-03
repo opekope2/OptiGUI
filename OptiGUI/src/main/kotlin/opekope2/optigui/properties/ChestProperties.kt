@@ -7,7 +7,6 @@ import java.time.LocalDate
  * Properties for chests and trapped chests.
  *
  * @param isLarge Whether a chest is large
- * @param isChristmas Whether it's Christmastime
  */
 data class ChestProperties @JvmOverloads constructor(
     override val container: Identifier,
@@ -16,5 +15,4 @@ data class ChestProperties @JvmOverloads constructor(
     override val height: Int,
     val isLarge: Boolean,
     override val date: LocalDate = LocalDate.now(),
-    val isChristmas: Boolean = opekope2.util.isChristmas(),
 ) : CommonProperties

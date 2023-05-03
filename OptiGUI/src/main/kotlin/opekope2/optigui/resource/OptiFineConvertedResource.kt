@@ -46,6 +46,7 @@ private val converters = mapOf<String, Converter>(
         val large = props["large"].toBoolean()
         val trapped = props["trapped"].toBoolean()
         val ender = props["ender"].toBoolean()
+        val christmas = props["christmas"].toBoolean()
 
         if (ender != true) {
             val chestVariants = when (trapped) {
@@ -55,8 +56,13 @@ private val converters = mapOf<String, Converter>(
             }
             ini.add(chestVariants).also { section ->
                 props.resolveAndCopyReplacementTextureTo(section, path)
-                props.copyTo(section, *generalProperties, "large" to "chest.large", "christmas" to "chest.christmas")
+                props.copyTo(section, *generalProperties, "large" to "chest.large")
                 props.copyNameTo(section)
+                when (christmas) {
+                    true -> section["date"] = "dec@24-26"
+                    false -> section["date"] = "1 2 3 4 5 6 7 8 9 spooktober 11 dec@1-23 dec@27-31"
+                    null -> {}
+                }
             }
         }
         // Ender chests can't be large, trapped, and can't be named

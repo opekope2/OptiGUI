@@ -2,8 +2,6 @@ package opekope2.util
 
 import net.minecraft.util.Identifier
 import opekope2.filter.FilterResult
-import java.time.LocalDateTime
-import java.time.Month
 
 /**
  * Converts the given string to a boolean:
@@ -46,11 +44,6 @@ val delimiters = charArrayOf(' ', '\t')
  */
 fun CharSequence.splitIgnoreEmpty(vararg delimiters: Char) =
     this.split(*delimiters).filter { it.isNotEmpty() }
-
-/**
- * Check whether now is Christmas.
- */
-fun isChristmas(): Boolean = LocalDateTime.now().let { it.month == Month.DECEMBER && it.dayOfMonth in 24..26 }
 
 /**
  * [Identifier] deconstruction helper, which returns the namespace.
