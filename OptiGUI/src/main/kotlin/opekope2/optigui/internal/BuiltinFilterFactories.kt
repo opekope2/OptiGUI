@@ -84,36 +84,26 @@ private fun createFilter(context: FilterFactoryContext): FilterFactoryResult? {
 }
 
 private val filterCreators = mapOf(
-    "name" to createFilterFromProperty({ it }) { name ->
-        PreProcessorFilter(
-            { (it.data as? CommonProperties)?.name ?: it.screenTitle.string },
-            EqualityFilter(name)
-        )
-    },
-    "name.wildcard" to createFilterFromProperty(Regex::fromUnescapedWildcard) { name ->
-        PreProcessorFilter(
-            { (it.data as? CommonProperties)?.name ?: it.screenTitle.string },
-            RegularExpressionFilter(name)
-        )
-    },
-    "name.wildcard.ignore_case" to createFilterFromProperty(Regex::fromUnescapedWildcardIgnoreCase) { name ->
-        PreProcessorFilter(
-            { (it.data as? CommonProperties)?.name ?: it.screenTitle.string },
-            RegularExpressionFilter(name)
-        )
-    },
-    "name.regex" to createFilterFromProperty({ Regex(unescapeJava(it)) }) { name ->
-        PreProcessorFilter(
-            { (it.data as? CommonProperties)?.name ?: it.screenTitle.string },
-            RegularExpressionFilter(name)
-        )
-    },
-    "name.regex.ignore_case" to createFilterFromProperty({ Regex(unescapeJava(it), RegexOption.IGNORE_CASE) }) { name ->
-        PreProcessorFilter(
-            { (it.data as? CommonProperties)?.name ?: it.screenTitle.string },
-            RegularExpressionFilter(name)
-        )
-    },
+    "name" to createFilterFromProperty(
+        { name -> Regex(name, RegexOption.LITERAL) },
+        ::createFilterFromName
+    ),
+    "name.wildcard" to createFilterFromProperty(
+        { wildcard -> Regex(wildcardToRegex(unescapeJava(wildcard))) },
+        ::createFilterFromName
+    ),
+    "name.wildcard.ignore_case" to createFilterFromProperty(
+        { wildcard -> Regex(wildcardToRegex(unescapeJava(wildcard)), RegexOption.IGNORE_CASE) },
+        ::createFilterFromName
+    ),
+    "name.regex" to createFilterFromProperty(
+        { regex -> Regex(unescapeJava(regex)) },
+        ::createFilterFromName
+    ),
+    "name.regex.ignore_case" to createFilterFromProperty(
+        { regex -> Regex(unescapeJava(regex), RegexOption.IGNORE_CASE) },
+        ::createFilterFromName
+    ),
     "biomes" to createFilterFromProperty(
         { it.splitIgnoreEmpty(*delimiters).mapNotNull(Identifier::tryParse).ifEmpty { null } },
         { biomes ->
@@ -208,11 +198,6 @@ private val filterCreators = mapOf(
     }
 )
 
-private fun Regex.Companion.fromUnescapedWildcard(wildcard: String) = Regex(wildcardToRegex(unescapeJava(wildcard)))
-
-private fun Regex.Companion.fromUnescapedWildcardIgnoreCase(wildcard: String) =
-    Regex(wildcardToRegex(unescapeJava(wildcard)), RegexOption.IGNORE_CASE)
-
 private fun wildcardToRegex(wildcard: String): String = buildString {
     append('^')
 
@@ -258,3 +243,10 @@ private fun <T : Any> createFilterFromProperty(
     propertyConverter: (String) -> T?,
     filterCreator: (T) -> Filter<Interaction, Unit>
 ): (String) -> Filter<Interaction, Unit>? = lambda@{ filterCreator(propertyConverter(it) ?: return@lambda null) }
+
+private fun createFilterFromName(name: Regex): Filter<Interaction, Unit> {
+    return PreProcessorFilter(
+        { (it.data as? CommonProperties)?.name ?: it.screenTitle.string },
+        RegularExpressionFilter(name)
+    )
+}
