@@ -15,7 +15,6 @@ import opekope2.optigui.mixin.BeaconBlockEntityAccessorMixin
 import opekope2.optigui.properties.*
 import opekope2.optigui.service.RegistryLookupService
 import opekope2.optigui.service.getService
-import opekope2.util.isChristmas
 
 @Suppress("unused")
 internal fun initializePreprocessors(context: InitializerContext) {
@@ -103,8 +102,7 @@ private fun processChest(chest: ChestBlockEntity): Any? {
         name = chest.customName?.string,
         biome = lookup.lookupBiomeId(world, chest.pos),
         height = chest.pos.y,
-        isLarge = type != ChestType.SINGLE,
-        isChristmas = isChristmas()
+        isLarge = type != ChestType.SINGLE
     )
 }
 

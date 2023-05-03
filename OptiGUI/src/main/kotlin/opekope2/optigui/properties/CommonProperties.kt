@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier
  *
  * @see DefaultProperties
  */
-interface CommonProperties {
+interface CommonProperties : IndependentProperties {
     /**
      * The identifier of the container. Same as in the `/summon` or `/setblock` commands
      */
