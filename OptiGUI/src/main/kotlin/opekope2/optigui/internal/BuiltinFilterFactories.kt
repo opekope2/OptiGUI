@@ -183,6 +183,40 @@ private val filterCreators = mapOf(
     }
 )
 
+private fun Regex.Companion.fromUnescapedWildcard(wildcard: String) = Regex(wildcardToRegex(unescapeJava(wildcard)))
+
+private fun Regex.Companion.fromUnescapedWildcardIgnoreCase(wildcard: String) =
+    Regex(wildcardToRegex(unescapeJava(wildcard)), RegexOption.IGNORE_CASE)
+
+private fun wildcardToRegex(wildcard: String): String = buildString {
+    append('^')
+
+    for (char in wildcard) {
+        append(
+            when (char) {
+                '*' -> ".+"
+                '?' -> ".*"
+                '.' -> "\\."
+                '\\' -> "\\\\"
+                '+' -> "\\+"
+                '^' -> "\\^"
+                '$' -> "\\$"
+                '[' -> "\\["
+                ']' -> "\\]"
+                '{' -> "\\{"
+                '}' -> "\\}"
+                '(' -> "\\("
+                ')' -> "\\)"
+                '|' -> "\\|"
+                '/' -> "\\/"
+                else -> char.toString()
+            }
+        )
+    }
+
+    append('$')
+}
+
 private fun convertVillagerProfession(professions: String) = sequence {
     for (profession in professions.splitIgnoreEmpty(*delimiters)) {
         val parts = profession.split('@')
