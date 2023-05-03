@@ -12,6 +12,7 @@ import opekope2.optigui.properties.*
 import opekope2.optigui.service.ResourceAccessService
 import opekope2.optigui.service.getService
 import opekope2.util.*
+import org.apache.commons.text.StringEscapeUtils.unescapeJava
 
 @Suppress("unused")
 internal fun initializeFilterFactories(context: InitializerContext) {
@@ -83,7 +84,31 @@ private fun createFilter(context: FilterFactoryContext): FilterFactoryResult? {
 }
 
 private val filterCreators = mapOf(
-    "name" to createFilterFromProperty(::parseWildcardOrRegex) { name ->
+    "name" to createFilterFromProperty({ it }) { name ->
+        PreProcessorFilter(
+            { (it.data as? CommonProperties)?.name ?: it.screenTitle.string },
+            EqualityFilter(name)
+        )
+    },
+    "name.wildcard" to createFilterFromProperty(Regex::fromUnescapedWildcard) { name ->
+        PreProcessorFilter(
+            { (it.data as? CommonProperties)?.name ?: it.screenTitle.string },
+            RegularExpressionFilter(name)
+        )
+    },
+    "name.wildcard.ignore_case" to createFilterFromProperty(Regex::fromUnescapedWildcardIgnoreCase) { name ->
+        PreProcessorFilter(
+            { (it.data as? CommonProperties)?.name ?: it.screenTitle.string },
+            RegularExpressionFilter(name)
+        )
+    },
+    "name.regex" to createFilterFromProperty({ Regex(unescapeJava(it)) }) { name ->
+        PreProcessorFilter(
+            { (it.data as? CommonProperties)?.name ?: it.screenTitle.string },
+            RegularExpressionFilter(name)
+        )
+    },
+    "name.regex.ignore_case" to createFilterFromProperty({ Regex(unescapeJava(it), RegexOption.IGNORE_CASE) }) { name ->
         PreProcessorFilter(
             { (it.data as? CommonProperties)?.name ?: it.screenTitle.string },
             RegularExpressionFilter(name)
