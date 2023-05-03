@@ -13,6 +13,8 @@ import opekope2.optigui.service.ResourceAccessService
 import opekope2.optigui.service.getService
 import opekope2.util.*
 import org.apache.commons.text.StringEscapeUtils.unescapeJava
+import java.time.Month
+import java.time.Month.*
 
 @Suppress("unused")
 internal fun initializeFilterFactories(context: InitializerContext) {
@@ -124,6 +126,28 @@ private val filterCreators = mapOf(
             )
         }
     ),
+    "date" to createFilterFromProperty(::convertDate) { dates ->
+        DisjunctionFilter(
+            dates.map { (month, day) ->
+                val monthFilter = PreProcessorFilter.nullGuarded<Interaction, Month, Unit>(
+                    { (it.data as? IndependentProperties)?.date?.month },
+                    Mismatch(),
+                    EqualityFilter(month)
+                )
+                val dayFilter = day?.toFilter()
+
+                if (dayFilter == null) monthFilter
+                else ConjunctionFilter(
+                    monthFilter,
+                    PreProcessorFilter.nullGuarded(
+                        { (it.data as? IndependentProperties)?.date?.dayOfMonth },
+                        Mismatch(),
+                        dayFilter
+                    )
+                )
+            }
+        )
+    },
     "beacon.levels" to createFilterFromProperty(
         { it.splitIgnoreEmpty(*delimiters).ifEmpty { null } },
         { levels ->
@@ -226,6 +250,34 @@ private fun wildcardToRegex(wildcard: String): String = buildString {
 
     append('$')
 }
+
+private val monthUnmapping = arrayOf(
+    JANUARY to arrayOf("jan", "january", "1"),
+    FEBRUARY to arrayOf("feb", "february", "2"),
+    MARCH to arrayOf("mar", "march", "3"),
+    APRIL to arrayOf("apr", "april", "4"),
+    MAY to arrayOf("may", "5"),
+    JUNE to arrayOf("jun", "june", "6"),
+    JULY to arrayOf("jul", "july", "7"),
+    AUGUST to arrayOf("aug", "augustus", "8"),
+    SEPTEMBER to arrayOf("sep", "september", "9"),
+    OCTOBER to arrayOf("oct", "october", "10"),
+    NOVEMBER to arrayOf("nov", "november", "11"),
+    DECEMBER to arrayOf("dec", "december", "12")
+)
+
+private fun convertDate(dates: String) = sequence {
+    for (date in dates.splitIgnoreEmpty(*delimiters)) {
+        val parts = date.split('@')
+        if (parts.size > 2) continue
+
+        val monthName = parts.getOrNull(0) ?: continue
+        val (month, _) = monthUnmapping.firstOrNull { (_, aliases) -> monthName in aliases } ?: continue
+        val day = NumberOrRange.tryParse(parts.getOrNull(1) ?: continue)
+
+        yield(month to day)
+    }
+}.toList().ifEmpty { null }
 
 private fun convertVillagerProfession(professions: String) = sequence {
     for (profession in professions.splitIgnoreEmpty(*delimiters)) {
