@@ -2,6 +2,7 @@ package opekope2.util
 
 import net.minecraft.util.Identifier
 import opekope2.filter.FilterResult
+import java.io.StringWriter
 
 /**
  * Converts the given string to a boolean:
@@ -58,3 +59,10 @@ operator fun Identifier.component1(): String = namespace
  * @see Identifier.path
  */
 operator fun Identifier.component2(): String = path
+
+/**
+ * Same as [kotlin.text.buildString], but with [StringWriter].
+ */
+inline fun buildString(builderAction: StringWriter.() -> Unit): String {
+    return StringWriter().apply(builderAction).toString()
+}

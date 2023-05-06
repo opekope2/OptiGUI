@@ -22,7 +22,14 @@ private fun convert(properties: Options, path: Identifier): Ini? {
     if (properties["optigui.ignore"].toBoolean() == true) return null
 
     return Ini().also { ini ->
-        ini.comment = path.toString()
+        ini.comment = buildString {
+            appendLine("This resource has been converted from the OptiFine format.")
+            appendLine("Resource path: $path")
+            appendLine("Original OptiFine resource (parsed):")
+            appendLine()
+
+            properties.store(this)
+        }
         (converters[properties["container"] ?: return null] ?: return null)(properties, ini, path)
         texturePathConverter(properties, ini, path)
     }
