@@ -24,6 +24,7 @@ private fun convert(properties: Options, path: Identifier): Ini? {
     return Ini().also { ini ->
         ini.comment = path.toString()
         (converters[properties["container"] ?: return null] ?: return null)(properties, ini, path)
+        texturePathConverter(properties, ini, path)
     }
 }
 
@@ -36,6 +37,24 @@ private val dispenserVariants = setOf("dispenser", "dropper")
 private val horseVariants = setOf("horse", "donkey", "mule", "llama")
 
 private typealias Converter = (Options, Ini, Identifier) -> Unit
+
+private val texturePathConverter: Converter = { props, ini, path ->
+    val toReplace = props
+        .entries
+        .mapNotNull { (key, value) ->
+            if (key.startsWith("texture.")) key.substring("texture.".length) to value
+            else null
+        }
+    toReplace.forEachIndexed { index, (original, replacement) ->
+        ini.add("#optifine:texture_path_$index").also { section ->
+            section["interaction.texture"] = "minecraft:textures/gui/" +
+                    if (original.endsWith(".png")) original
+                    else "$original.png" // Workaround
+            section["replacement"] = resolveReplacementTexture(replacement, path)
+            props.copyTo(section, *generalProperties)
+        }
+    }
+}
 
 private val converters = mapOf<String, Converter>(
     "anvil" to SimpleConverter("anvil chipped_anvil damaged_anvil", copyName = false, *generalProperties),
@@ -146,25 +165,13 @@ private val converters = mapOf<String, Converter>(
             props.copyNameTo(section)
         }
     },
-    "creative" to { props, ini, path ->
-        val toReplace = props
-            .entries
-            .mapNotNull { (key, value) ->
-                if (key.startsWith("texture.")) key.substring("texture.".length) to value
-                else null
-            }
-        toReplace.forEachIndexed { index, (original, replacement) ->
-            ini.add("#optifine:creative/$index").also { section ->
-                section["interaction.texture"] =
-                    if (original.endsWith(".png")) original
-                    else "$original.png" // Workaround
-                section["replacement"] = resolveReplacementTexture(replacement, path)
-                props.copyTo(section, *generalProperties)
-            }
+    "inventory" to { props, ini, path ->
+        ini.add("#optifine:inventory").also { section ->
+            section["interaction.texture"] = TexturePath.INVENTORY.toString()
+            props.resolveAndCopyReplacementTextureTo(section, path)
+            props.copyTo(section, *generalProperties)
         }
-        ini.remove("#optifine:creative") // Gets added automatically and shows a phantom warning later
-    },
-    "inventory" to SimpleConverter("#optifine:inventory", copyName = false, *generalProperties)
+    }
 )
 
 private class SimpleConverter(
