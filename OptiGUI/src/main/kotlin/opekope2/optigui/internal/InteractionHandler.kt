@@ -2,10 +2,13 @@ package opekope2.optigui.internal
 
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
+import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
@@ -18,7 +21,8 @@ import opekope2.optigui.service.getService
 import opekope2.util.TexturePath
 
 internal object InteractionHandler : UseBlockCallback, UseEntityCallback {
-    private val interactor = getService<InteractionService>()
+    private val interactor: InteractionService by lazy(::getService)
+    private val lookup: RegistryLookupService by lazy(::getService)
 
     override fun interact(player: PlayerEntity, world: World, hand: Hand, hitResult: BlockHitResult): ActionResult {
         if (world.isClient) {
@@ -60,5 +64,28 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback {
         }
 
         return ActionResult.PASS
+    }
+
+    @JvmStatic
+    fun interact(player: PlayerEntity, world: World, currentScreen: Screen) {
+        val container = Identifier(
+            if (currentScreen is AbstractInventoryScreen<*>) "player"
+            else return
+        )
+
+        interactor.interact(
+            player,
+            world,
+            Hand.MAIN_HAND,
+            InteractionTarget.Preprocessed(
+                DefaultProperties(
+                    container,
+                    player.name.string,
+                    lookup.lookupBiomeId(world, player.blockPos),
+                    player.blockY
+                )
+            ),
+            null
+        )
     }
 }
