@@ -42,6 +42,39 @@ class FilterTests {
 
 
     @Test
+    fun firstMatchSkipTest() {
+        assertIs<Skip<*>>(FirstMatchFilter(testSkipFilter).evaluate(1))
+        assertIs<Skip<*>>(FirstMatchFilter(testSkipFilter, testSkipFilter).evaluate(1))
+    }
+
+    @Test
+    fun firstMatchMismatchTest() {
+        assertIs<Mismatch<*>>(FirstMatchFilter(testMismatchFilter).evaluate(1))
+        assertIs<Mismatch<*>>(FirstMatchFilter(testSkipFilter, testMismatchFilter).evaluate(1))
+    }
+
+    @Test
+    fun firstMatchMatchTest1() {
+        assertIs<Match<*>>(FirstMatchFilter(testMatchFilter).evaluate(1))
+        assertIs<Match<*>>(FirstMatchFilter(testSkipFilter, testMismatchFilter, testMatchFilter).evaluate(1))
+    }
+
+    @Test
+    fun firstMatchMatchTest2() {
+        val matchFilter = Filter<Int, String> { Match((-it).toString()) }
+        var res = FirstMatchFilter(testMatchFilter, matchFilter).evaluate(1)
+
+        assertIs<Match<*>>(res)
+        assertEquals("1", res.result)
+
+        res = FirstMatchFilter(matchFilter, testMatchFilter).evaluate(1)
+
+        assertIs<Match<*>>(res)
+        assertEquals("-1", res.result)
+    }
+
+
+    @Test
     fun containingTest() {
         val filter = ContainingFilter((1..5).toSet())
 
@@ -134,7 +167,7 @@ class FilterTests {
 
     @Test
     fun numberRangeTest1() {
-        val filter = NumberRangeFilter.atLeast(5)
+        val filter = RangeFilter.atLeast(5)
 
         assertIs<Match<*>>(filter.evaluate(10))
         assertIs<Mismatch<*>>(filter.evaluate(0))
@@ -142,7 +175,7 @@ class FilterTests {
 
     @Test
     fun numberRangeTest2() {
-        val filter = NumberRangeFilter.atMost(5)
+        val filter = RangeFilter.atMost(5)
 
         assertIs<Match<*>>(filter.evaluate(0))
         assertIs<Mismatch<*>>(filter.evaluate(10))
@@ -150,7 +183,7 @@ class FilterTests {
 
     @Test
     fun numberRangeTest3() {
-        val filter = NumberRangeFilter.between(1, 10)
+        val filter = RangeFilter.between(1, 10)
 
         assertIs<Match<*>>(filter.evaluate(5))
         assertIs<Mismatch<*>>(filter.evaluate(0))

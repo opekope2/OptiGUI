@@ -1,18 +1,8 @@
 package opekope2.util
 
+import net.minecraft.util.Identifier
 import opekope2.filter.FilterResult
-import java.time.LocalDateTime
-import java.time.Month
-
-/**
- * Runs a code block and returns its result.
- * If it raises and exception, suppresses it exceptions, and returns `null`
- */
-internal inline fun <T> catchAll(function: () -> T): T? = try {
-    function()
-} catch (_: Exception) {
-    null
-}
+import java.io.StringWriter
 
 /**
  * Converts the given string to a boolean:
@@ -20,7 +10,9 @@ internal inline fun <T> catchAll(function: () -> T): T? = try {
  * - `false`, if the string is "false" (case-insensitive)
  * - `null` otherwise
  */
-internal fun String.toBoolean(): Boolean? = lowercase().toBooleanStrictOrNull()
+internal fun String?.toBoolean(): Boolean? {
+    return (this ?: return null).lowercase().toBooleanStrictOrNull()
+}
 
 /**
  * If the current [FilterResult] is [FilterResult.Match], change its result to the given one.
@@ -42,12 +34,35 @@ fun <TOld, TNew> FilterResult<TOld>.withResult(result: TNew): FilterResult<TNew>
 fun String.trimParentheses() = trimStart('(').trimEnd(')')
 
 /**
+ * Default delimiters of lists in OptiGUI and OptiFine resources.
+ *
+ * @see splitIgnoreEmpty
+ */
+val delimiters = charArrayOf(' ', '\t')
+
+/**
  * Splits a string at the given delimiters and returns every substring, which is not empty.
  */
 fun CharSequence.splitIgnoreEmpty(vararg delimiters: Char) =
     this.split(*delimiters).filter { it.isNotEmpty() }
 
 /**
- * Check whether now is Christmas.
+ * [Identifier] deconstruction helper, which returns the namespace.
+ *
+ * @see Identifier.namespace
  */
-fun isChristmas(): Boolean = LocalDateTime.now().let { it.month == Month.DECEMBER && it.dayOfMonth in 24..26 }
+operator fun Identifier.component1(): String = namespace
+
+/**
+ * [Identifier] deconstruction helper, which returns the path.
+ *
+ * @see Identifier.path
+ */
+operator fun Identifier.component2(): String = path
+
+/**
+ * Same as [kotlin.text.buildString], but with [StringWriter].
+ */
+inline fun buildString(builderAction: StringWriter.() -> Unit): String {
+    return StringWriter().apply(builderAction).toString()
+}

@@ -3,61 +3,41 @@
 package opekope2.util
 
 import net.minecraft.util.Identifier
-import java.util.*
+import net.minecraft.util.InvalidIdentifierException
+import java.nio.file.Path
 
 /**
- * Resolves a texture path starting at [resourcePath] if it's relative. Ported from v1 codebase.
- * Legacy code, if it works, then don't touch it.
+ * Resolves the absolute path of the given resource to resolve.
  *
- * @param resourcePath The starting path
- * @param path The path to expand to an absolute path
- * @return The absolute path to the resource or `null` if it escapes the root with `..`
+ * @param pathToResolve The path to resolve
+ * @param resource The resource file to start resolving at
+ * @param tildePath The path `~` represents, or `null` to disable this feature
+ * @return The found resource or `null`, if the path is malformed
  */
-fun resolvePath(resourcePath: String, path: String): Identifier? {
-    val pathStack: Deque<String> = ArrayDeque()
-    var tokenizer = StringTokenizer(resourcePath, "/")
-    while (tokenizer.hasMoreTokens()) {
-        pathStack.push(tokenizer.nextToken())
-    }
+@JvmOverloads
+fun resolvePath(pathToResolve: String, resource: Identifier, tildePath: String? = null): Identifier? {
+    val root = Path.of(
+        if (tildePath != null && pathToResolve.startsWith("~/")) tildePath
+        else resource.path
+    )
+    val toResolve =
+        if (tildePath != null && pathToResolve.startsWith("~/")) pathToResolve.substring(2)
+        else pathToResolve
 
-    // Because there was a resource pack with two dangling tab characters after the resource name
-    tokenizer = StringTokenizer(path.trim(), ":/", true)
-    var namespace = Identifier.DEFAULT_NAMESPACE
-    var nToken = -1
+    if (toResolve.startsWith('/')) return null
 
-    while (tokenizer.hasMoreTokens()) {
-        val token = tokenizer.nextToken()
-        nToken++
+    return when (toResolve.count { it == ':' }) {
+        0 -> try {
+            val path = root.resolveSibling(toResolve).normalize().toString().replace('\\', '/')
 
-        if (nToken == 0 && "~" == token) {
-            pathStack.clear()
-            pathStack.push("optifine")
-            continue
-        } else if (":" == token) {
-            if (nToken == 1) {
-                namespace = pathStack.pop()
-                pathStack.clear()
-            }
-        } else if (".." == token) {
-            if (pathStack.isEmpty()) return null
-
-            pathStack.pop()
-        } else if ("/" != token && "." != token) {
-            pathStack.push(token)
+            if (path.contains("..")) null
+            else Identifier(resource.namespace, path)
+        } catch (_: InvalidIdentifierException) {
+            null
         }
+
+        1 -> Identifier.tryParse(toResolve)
+
+        else -> return null
     }
-
-    val pathBuilder = StringBuilder()
-    var first = true
-
-    while (!pathStack.isEmpty()) {
-        if (first) {
-            first = false
-        } else {
-            pathBuilder.append("/")
-        }
-        pathBuilder.append(pathStack.removeLast())
-    }
-
-    return Identifier(namespace, pathBuilder.toString())
 }

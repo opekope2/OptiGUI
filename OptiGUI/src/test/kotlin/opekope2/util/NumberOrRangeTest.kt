@@ -21,11 +21,9 @@ class NumberOrRangeTest {
 
         assertNotNull(v)
 
-        assertTrue(v.isNumber)
-        assertFalse(v.isRange)
+        assertIs<NumberOrRange.Number>(v)
+        assertIsNot<NumberOrRange.Range>(v)
 
-        assertNull(v.start)
-        assertNull(v.end)
         assertEquals(1, v.value)
     }
 
@@ -35,11 +33,9 @@ class NumberOrRangeTest {
 
         assertNotNull(v)
 
-        assertTrue(v.isNumber)
-        assertFalse(v.isRange)
+        assertIs<NumberOrRange.Number>(v)
+        assertIsNot<NumberOrRange.Range>(v)
 
-        assertNull(v.start)
-        assertNull(v.end)
         assertEquals(-1, v.value)
     }
 
@@ -49,12 +45,11 @@ class NumberOrRangeTest {
 
         assertNotNull(v)
 
-        assertFalse(v.isNumber)
-        assertTrue(v.isRange)
+        assertIsNot<NumberOrRange.Number>(v)
+        assertIs<NumberOrRange.Range>(v)
 
         assertEquals(1, v.start)
         assertEquals(5, v.end)
-        assertNull(v.value)
     }
 
     @Test
@@ -63,12 +58,11 @@ class NumberOrRangeTest {
 
         assertNotNull(v)
 
-        assertFalse(v.isNumber)
-        assertTrue(v.isRange)
+        assertIsNot<NumberOrRange.Number>(v)
+        assertIs<NumberOrRange.Range>(v)
 
         assertEquals(1, v.start)
         assertEquals(5, v.end)
-        assertNull(v.value)
     }
 
     @Test
@@ -77,12 +71,11 @@ class NumberOrRangeTest {
 
         assertNotNull(v)
 
-        assertFalse(v.isNumber)
-        assertTrue(v.isRange)
+        assertIsNot<NumberOrRange.Number>(v)
+        assertIs<NumberOrRange.Range>(v)
 
         assertEquals(1, v.start)
         assertEquals(5, v.end)
-        assertNull(v.value)
     }
 
     @Test
@@ -91,12 +84,11 @@ class NumberOrRangeTest {
 
         assertNotNull(v)
 
-        assertFalse(v.isNumber)
-        assertTrue(v.isRange)
+        assertIsNot<NumberOrRange.Number>(v)
+        assertIs<NumberOrRange.Range>(v)
 
         assertEquals(1, v.start)
         assertEquals(5, v.end)
-        assertNull(v.value)
     }
 
     @Test
@@ -105,12 +97,11 @@ class NumberOrRangeTest {
 
         assertNotNull(v)
 
-        assertFalse(v.isNumber)
-        assertTrue(v.isRange)
+        assertIsNot<NumberOrRange.Number>(v)
+        assertIs<NumberOrRange.Range>(v)
 
         assertEquals(-1, v.start)
         assertEquals(5, v.end)
-        assertNull(v.value)
     }
 
     @Test
@@ -119,12 +110,11 @@ class NumberOrRangeTest {
 
         assertNotNull(v)
 
-        assertFalse(v.isNumber)
-        assertTrue(v.isRange)
+        assertIsNot<NumberOrRange.Number>(v)
+        assertIs<NumberOrRange.Range>(v)
 
         assertEquals(1, v.start)
         assertEquals(-5, v.end)
-        assertNull(v.value)
     }
 
     @Test
@@ -133,11 +123,10 @@ class NumberOrRangeTest {
 
         assertNotNull(v)
 
-        assertFalse(v.isNumber)
-        assertTrue(v.isRange)
+        assertIsNot<NumberOrRange.Number>(v)
+        assertIs<NumberOrRange.Range>(v)
 
         assertEquals(-1, v.start)
         assertEquals(-5, v.end)
-        assertNull(v.value)
     }
 }
