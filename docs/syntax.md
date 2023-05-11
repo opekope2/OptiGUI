@@ -1,232 +1,108 @@
 # Basic information & syntax
 
-OptiGUI supports a syntax very similar to the [OptiFine syntax](https://optifine.readthedocs.io/syntax.html). This page has some corrections. Unused syntax was removed.
+OptiGUI supports two syntaxes:
+
+* OptiGUI syntax ^OptiGUI\ 2.1.0-beta.1\ or\ later^
+* [OptiFine syntax](https://optifine.readthedocs.io/syntax.html).
+
+OptiGUI syntax is only supported for OptiGUI files, and the OptiFine syntax is only supported for OptiFine files. Do not mix them.
+
+This page describes the OptiGUI syntax. For the OptiFine syntax, visit the link above.
 
 ## File naming rules
 
-For any file in a resource pack to be visible to the game, it must follow a set of rules:
-
-* Must be entirely lowercase
-* Must not contain spaces
-* Must only contain characters `a-z 0-9 _`
-
-> It must match the regular expression `^[a-z0-9_]+$`
-
-Textures must be in [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) format with the `.png` extension.
-
-All text files must be encoded in UTF-8. Do not use an ASCII encoding.
+!!! info
+    Same as [OptiFine file naming rules](https://optifine.readthedocs.io/syntax.html#file-naming-rules).
 
 ## File structure
 
-Properties files are simple [Java properties](https://en.wikipedia.org/wiki/.properties) text files. Each line is a property, specified as `#!properties name=value`:
+!!! info
+    Different from [OptiFine file structure](https://optifine.readthedocs.io/syntax.html#file-structure), even if they look similar.
 
-```properties
-# Comments begin with a hashtag
-property1=value
-property2=some_other_value
+OptiGUI uses [INI](https://en.wikipedia.org/wiki/INI_file) files, kind of like OptiFine, but uses more features of it.
 
-# Blank lines are allowed
-property3=yet_another_value
+```ini
+# Comments start with a hashtag
+; or a semicolon
 ```
 
-All property names are case-sensitive: `renderpass` is not the same as `renderPass`. The order of properties within the file does not matter. Many properties have default values, and can be omitted.
+All property names are case-sensitive: `name` is not the same as `Name`. The order of properties within the file or within a group does not matter.
+
+### Groups
+
+Groups start [square bracketed] identifiers. Place the identifier of the container to replace the GUI.
+
+!!! tip
+    Go to the [Minecraft Wiki](https://minecraft.fandom.com). Select a container (for example, a chest, horse, crafting table, etc.), scroll down to `Data values/ID/Java Edition`, and copy the text from the `Identifier` column. This identifier is used by the `/give` and `/summon` commands.
+
+```ini
+[chest]
+# Properties here apply to minecraft:chest
+# If namespace is omitted, the default is minecraft
+property=value
+
+[minecraft:barrel]
+# Properties here apply to minecraft:barrel
+property=value_for_barrel
+
+[horse minecraft:llama]
+# Properties here apply to both horses and llamas
+# Namespaces and the lack of them can be mixed
+white_spaces = are_trimmed
+# Is the same as
+white_spaces=are_trimmed
+
+[chest #2]
+# [chest] is not allowed again
+# Anything specified after a hashtag is ignored
+# Useful when want to replace the GUI of the same container, but with different properties
+
+[#3 chest]
+# Hashtags can be anywhere between the square brackets
+# Remember, the group accepts a list of identifiers, a hashtag's scope lasts until the next whitespace
+# Here, only #3 is ignored, but not chest
+```
 
 ## Paths
 
-The folder structure within a resource pack is deeply nested, so OptiGUI has some shortcuts to make paths easier to write. Any of these options can be used to specify the same path.
-
-Always use forward slashes (`/`) to separate folders.
+!!! info
+    Different from [OptiFine paths](https://optifine.readthedocs.io/syntax.html#paths), even if they look similar.
 
 !!! warning "Caution"
+    Always use forward slashes (`/`) to separate folders.
+
     Regardless of operating system (*Windows, Mac, \*nix*), do not use backslashes (`\`), or the game will not properly recognize the path.
 
-The table below summarises path shortcuts:
+OptiGUI paths can be specified in two ways: relative and absolute.
 
-Symbol       | Resolves to
--------------|-----------------------------------------------------------
-`./`         | Relative to the directory the properties file is in
-`../`        | Relative to the parent directory the properties file is in
-`~`          | `/assets/minecraft/optifine/`
-`namespace:` | `/assets/namespace/`
+```ini
+# Relative path (relative to the folder the INI file is in)
+path=texture.png
+path=subfolder/texture.png
 
-### Bare filename
-
-Bare filenames with no slashes will refer to the current directory, just like `./`.
-
-!!! warning "Note"
-    This behavior is different from the one described in the OptiFine documentation. Please use `./` or `~` explicitly.
-
-```properties
-texture=texture.png
-```
-
-### Dot and dot-dot
-
-You can use `./` to denote the current directory, regardless of location. `..` can be used to travel up a folder, into the parent directory.
-
-```properties
-texture=./texture.png
-texture=../texture.png
-texture=../../subfolder/texture.png
-```
-
-### Tildes
-
-The tilde character (`~`) can be used to refer to `/assets/minecraft/optifine/`.
-
-```properties
-texture=~/texture.png
-texture=~/subfolder/texture.png
-```
-
-### Namespaces
-
-An optional namespace prefix can be added. This example refers to `/assets/minecraft/textures/entity/creeper/creeper.png`:
-
-```properties
-texture=minecraft:textures/entity/creeper/creeper.png
-```
-
-For textures used by other mods, the namespace will be something other than `minecraft:`
-
-```properties
-texture=MODID:subfolder/texture.png
-```
-
-This refers to `/assets/MODID/subfolder/texture.png`, not to `/assets/minecraft/MODID/subfolder/texure.png`.
-
-Namespaces can also apply to blocks, items, and biome IDs.
-
-!!! tip
-    In OptiGUI, namespaces can also apply to villager professions.
-
-## Biomes
-
-For features that call for a list of biomes, use [this page](https://minecraft.gamepedia.com/Biome#Biome_IDs). Biomes added by mods can also be used.
-
-```properties
-biomes=ocean deep_ocean river minecraft:beach
+# Absolute (namespace prefix)
+path=minecraft:textures/gui/container/crafting_table.png
 ```
 
 ## Strings
 
-This section is about matching strings and values using different matching methods. Strings can be matched in several ways.
+!!! info
+    Different from [OptiFine strings](https://optifine.readthedocs.io/syntax.html#strings)
 
-!!! info "Important"
-    Any backslashes must be doubled. Matching backslashes within a regular expression or wildcard must be quadrupled.
-
-    ✅ Correct: `#!properties name=regex:\\d+`, `#!properties name=regex:\\\\`, `#!properties name=/\\/\\`
-
-    ❌ Wrong: `#!properties name=regex:\d+`, `#!properties name=regex:\\` (for matching \\), `#!properties name=/\/\\` (missing a backslash)
-
-### Exact value
-
-For strings, you may either type the string directly: `Letter to Herobrine` matches the exact string `Letter to Herobrine` and nothing else.
-
-!!! warning "Note"
-    OptiGUI doens't support the [raw syntax](https://optifine.readthedocs.io/syntax.html#raw).
-
-### Wildcards
-
-Wildcards are shorter versions of regular expressions, in that they only support two unique constructs:
-
-* The symbol `*` matches any text, as long as it exists.
-* The symbol `?` matches any text, regardless of its presence.
-
-The wildcard `*` is equivalent to the regular expression `.+` ([RegExr](https://regexr.com/7a982)). The wildcard `?` is equivalent to the regular expression `.*` ([RegExr](https://regexr.com/744fh)).
-
-Wildcard patterns must start with either `pattern:` or `ipattern:`.
-
-=== "pattern"
-    `pattern` is case-sensitive.
-
-    Example: `pattern:?Letter to *`
-
-    ✅ Matches: `Letter to Herobrine`, `Letter to a creeper`, `My Letter to John`
-
-    ❌ Does not match: `letter to Herobrine` (case sensitivity), `Letter from Herobrine` (doesn’t match "to")
-
-=== "ipattern"
-    `ipattern` is case-insensitive, meaning that “ABC” and “abc” are viewed the same.
-
-    Example: `ipattern:Letter to *`
-
-    ✅ Matches: `Letter to Herobrine`, `Letter to a creeper`, `letter to Herobrine`, `letter to STEVE`
-
-    ❌ Does not match: `A letter to CJ` ("A" does not match the beginning), `Letter from Herobrine` (doesn’t match "to")
-
-### Regular expressions
-
-[Regular expressions](https://en.wikipedia.org/wiki/Regular_expression) are strings that create patterns that other strings can be matched against. Patterns can be as simple as `.`, to IP address validation. OptiGUI supports two types of regular expressions, depending on the case-sensitivity.
-
-!!! warning "Note"
-    OptiGUI does not support [regular expression flags](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#advanced_searching_with_flags).
-
-The syntax understood by OptiGUI is the [Java syntax](https://docs.oracle.com/javase/tutorial/essential/regex/). OptiGUI regular expressions are not multiline and are not global.
-
-Regular expressions must start with either `regex:` or `iregex:`.
-
-=== "regex"
-    A regular expression.
-
-    Example: `regex:Letter (to|from) .*`
-
-    ✅ Matches: `Letter to Herobrine`, `Letter from Herobrine`
-
-    ❌ Does not match: `letter to Herobrine` (letter case), `A Letter to Herobrine` ("A" is not in expression)
-
-=== "iregex"
-    `iregex` is similar to `regex`, except that it is case-insensitive.
-
-    Pattern: `iregex`
-
-    Example: `iregex:Letter (to|from) .*`
-
-    ✅ Matches: `Letter to Herobrine`, `Letter from Herobrine`, `letter to Herobrine`, `LETTER TO HEROBRINE`
-
-    ❌ Does not match: `A Letter to Herobrine` ("A" is not in expression), `LETTER TOFROM HEROBRINE` ("TOFROM" does not match neither "to", nor "from"; can’t match both)
+OptiGUI supports exact values, and case-sensitive and case-insensitive variants of wildcards and regexes. However, these are not prefixed with `regex:`, `iregex:`, `pattern:`, or `ipattern:`. The accepted type (wildcard, regex, ...) is always noted explicitly.
 
 ## Numbers
 
-Numbers can be matched simply by typing the number. Additionally, you can match more than one number as well as a range of numbers with lists and ranges.
+!!! info
+    Same as [OptiFine numbers](https://optifine.readthedocs.io/syntax.html#numbers).
 
 ### Ranges
 
-!!! info "Important"
-    There is no range for less than or equal to, specify the lower bound explicitly: `0-100` instead of `-100`.
+!!! info
+    Same as [OptiFine ranges](https://optifine.readthedocs.io/syntax.html#ranges), but the `range:` prefix is **not** supported.
 
-Inclusive ranges between numbers are defined with a `-` between those digits. If there is no number present on the right side of the `-`, the range will match to positive infinity.
-
-Ranges can be combined and intermixed with lists.
-
-!!! example
-    ```properties
-    # 1, 2, 3
-    numbers=1-3
-
-    # Multiple ranges
-    # 1 through 3, or 6, or 8, or 10 through 15
-    # 1, 2, 3, 6, 8, 10, 11, 12, 13, 14, 15
-    numbers=1-3 6 8 10-15
-
-    # Greater than or equal to
-    # 100, or 200, or 5340, or 25902, etc.
-    numbers=100-
-
-    # Negative number, not a range
-    # Only matches negative 100, not -4, -7, or -101
-    numbers=-100
-    ```
-
-Since 1.18, negative values can also be specified. When used in a range, they must be surrounded by parentheses.
-
-To use negative numbers in a range, parentheses must be around those negative numbers.
-
-```properties
-list=(-3)-(-1)
-```
-
-These can be combined to create vast ranges of possible numeric values.
+!!! tip
+    In OptiGUI, ranges are always parsed as a [list](#lists) of ranges.
 
 ## Booleans
 
@@ -236,12 +112,5 @@ Possible values: `true`, `false`. Everything else means undefined.
 
 ## Lists
 
-Lists are defined with a space between each item.
-
-!!! example
-    ```properties
-    numbers=1 2 3 4 5 6
-    numbers=10 70 23 -6 210
-    numbers=(-100)-200 500 900-
-    biomes=ocean deep_ocean river minecraft:beach
-    ```
+!!! info
+    Same as [OptiFine lists](https://optifine.readthedocs.io/syntax.html#lists), but lists can hold any types, including [strings](#strings) (white space automatically starts a new list item) or [booleans](#booleans).
