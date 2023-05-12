@@ -1,58 +1,27 @@
 # Replacing GUI textures
 
-You can define a texture replacement for each inventory GUI, and apply them based on different criteria. The resource pack format is similar to the [OptiFine format](https://optifine.readthedocs.io/custom_guis.html), with extended features.
+This page describes the usage of OptiGUI INI files ^OptiGUI\ 2.1.0-beta.1\ or\ later^. [The OptiFine custom GUI documentation is available here](https://optifine.readthedocs.io/custom_guis.html).
+
+!!! warning
+    OptiGUI 2.1.0-beta.1 removed all OptiFine extensions from OptiFine files: `_cartography_table`, `_chest_boat`, `_grindstone`, `_loom`, `_smithing_table`, `_stonecutter`, `_barrel`, `_minecart`, `_furnace`, `_blast`, `_blast_furnace`, `_smoker`, `_camel`, `_zombie_horse`, `_skeleton_horse`, `_wandering_trader`
+
+You can define a texture replacement for each inventory GUI, and apply them based on different criteria.
 
 !!! info "Location"
-    `/assets/minecraft/optifine/gui/container/ANY_NAME.properties` ([file naming rules apply](/syntax/#file-naming-rules))
+    `/assets/minecraft/optigui/gui/ANY_NAME.properties` ([file naming rules apply](/syntax/#file-naming-rules))
 
-For each container GUI texture to replace, create a `.properties` file in `/assets/minecraft/optifine/gui/container` folder of the resource pack. Properties files can be organized into subfolders of any depth, as long as everything is within the top-level `/assets/minecraft/optifine/gui/container` folder.
+For each container GUI texture to replace, create a `.ini` file in `/assets/minecraft/optigui/gui/` folder of the resource pack. INI files can be organized into subfolders of any depth, as long as everything is within the top-level `/assets/minecraft/optigui/gui/` folder.
 
 !!! note
-    Every property is optinal, unless noted otherwise. Properties unspecified in a properties file will not be taken into account while replacing GUI textures (unless noted otherwise).
+    Every property is optinal, unless noted otherwise. Properties unspecified in a properties file will not be taken into account while replacing GUI textures.
 
 ## General properties
 
 These properties may be specified for all container types.
 
-### `container`
+### `replacement`
 
-!!! note "Required"
-    `container` decides which GUI texture to replace, and which additional properties may apply.
-
-!!! info "Type"
-    String
-
-The type of the inventory to repace the texture of. One of:
-
-* `anvil`
-* `beacon`
-* `brewing_stand`
-* `chest`
-* `crafting`
-* `dispenser`
-* `enchantment`
-* `furnace`
-* `hopper`
-* `horse`
-* `inventory`
-* `shulker_box`
-* `villager`
-* `creative`
-
-!!! warning "Note"
-    The following containers are exclusive to OptiGUI, and are not supported by OptiFine.
-
-* `_cartography_table`
-* `_chest_boat`
-* `_grindstone`
-* `_loom`
-* `_smithing_table`
-* `_stonecutter`
-
-### `texture`
-
-!!! note "Required"
-    `texture` defines the replacement texture.
+!!! info "Required"
 
 !!! info "Type"
     [Path](/syntax/#paths) to a texture
@@ -62,16 +31,52 @@ Replacement texture for the default GUI texture of the container.
 ### `name`
 
 !!! info "Type"
-    [String](/syntax/#strings)
+    [String](/syntax/#strings) (exact value)
 
 Custom entity or block entity name.
 
-Apply texture only when the container's name matches this rule. See [strings](/syntax/#strings) for possibilities.
+Apply texture only when the container's name is equal to the specified string.
+
+### `name.wildcard`
+
+!!! info "Type"
+    [String](/syntax/#strings) (case-sensitive wildcard)
+
+Custom entity or block entity name.
+
+Apply texture only when the container's name matches the specified wildcard.
+
+### `name.wildcard.ignore_case`
+
+!!! info "Type"
+    [String](/syntax/#strings) (case-insensitive wildcard)
+
+Custom entity or block entity name.
+
+Apply texture only when the container's name matches the specified wildcard.
+
+### `name.regex`
+
+!!! info "Type"
+    [String](/syntax/#strings) (case-sensitive regex)
+
+Custom entity or block entity name.
+
+Apply texture only when the container's name matches the specified regex.
+
+### `name.regex.ignore_case`
+
+!!! info "Type"
+    [String](/syntax/#strings) (case-insensitive regex)
+
+Custom entity or block entity name.
+
+Apply texture only when the container's name matches the specified regex.
 
 ### `biomes`
 
 !!! info "Type"
-    [List](/syntax/#lists) of [biomes](/syntax/#biomes)
+    [List](/syntax/#lists) of biome identifiers
 
 Biomes of the entity or block entity, where this replacement applies.
 
@@ -85,23 +90,55 @@ Heights (Y coordiantes) of the entity or block entity, where this replacement ap
 !!! note
     Since Minecraft 1.18, negative values may be specified for height. When used in a range, they have to be put in parenthesis `( )`.
 
-## Anvil
+### `date`
 
-!!! note "Container"
-    Requires `#!properties container=anvil`
+!!! info "Type"
+    [Date](/syntax/#dates)
+
+The dates in a year, when the texture should be replaced.
+
+### `interaction.texture`
+
+!!! info "Type"
+    [Path](/syntax/#paths) to a texture
+
+!!! abstract "Default"
+    When left empty, OptiGUI looks up the default texture of the specified containers.
+
+The original texture path of a container.
+
+## Anvil
 
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/anvil.png`
 
-## Beacon
+!!! example
+    ```ini
+    [anvil chipped_anvil damaged_anvil]
+    ```
 
-!!! note "Container"
-    Requires `#!properties container=beacon`
+## Barrel
+
+!!! abstract "Texture path"
+    `minecraft:textures/gui/container/generic_54.png`
+
+!!! example
+    ```ini
+    [barrel]
+    ```
+
+## Beacon
 
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/beacon.png`
 
-### `levels`
+!!! example
+    ```ini
+    [beacon]
+    beacon.levels = 1 3-5
+    ```
+
+### `beacon.levels`
 
 !!! info "Type"
     [Integer](/syntax/#ranges), or [range](/syntax/#numbers) of integers
@@ -110,97 +147,64 @@ What levels of beacon power to apply to (how many bases of blocks).
 
 ## Brewing stand
 
-!!! note "Container"
-    Requires `#!properties container=brewing_stand`
-
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/brewing_stand.png`
 
-## Cartography table
+!!! example
+    ```ini
+    [brewing_stand]
+    ```
 
-!!! note "Container"
-    Requires `#!properties container=_cartography_table`
+## Cartography table
 
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/cartography_table.png`
 
-!!! warning "Note"
-    This feature is exclusive to OptiGUI, and is not supported by OptiFine.
+!!! example
+    ```ini
+    [cartography_tabe]
+    ```
 
-## Chests & barrel
-
-!!! note "Container"
-    Requires `#!properties container=chest`
+## Chest & trapped chest
 
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/generic_54.png`
 
-### `large`
+!!! example
+    ```ini
+    [chest trapped_chest]
+    chest.large = true
+    ```
+
+### `chest.large`
 
 !!! info "Type"
     [Boolean](/syntax/#booleans)
 
-Use replacement on a large chest.
+Use replacement on a double chest.
 
-### `trapped`
+## Ender chest
 
-!!! info "Type"
-    [Boolean](/syntax/#booleans)
+!!! abstract "Texture path"
+    `minecraft:textures/gui/container/generic_54.png`
 
-Use replacement on a trapped chest.
-
-### `christmas`
-
-!!! info "Type"
-    [Boolean](/syntax/#booleans)
-
-Use replacement on any chest during Christmas.
-
-### `ender`
-
-!!! info "Type"
-    [Boolean](/syntax/#booleans)
-
-Use replacement on an Ender Chest.
-
-### `_barrel`
-
-!!! info "Type"
-    [Boolean](/syntax/#booleans)
-
-!!! warning "Note"
-    This feature is exclusive to OptiGUI, and is not supported by OptiFine.
-
-Use replacement on a barrel.
-
-### `_minecart`
-
-!!! info "Type"
-    [Boolean](/syntax/#booleans)
-
-!!! warning "Note"
-    This feature is exclusive to OptiGUI, and is not supported by OptiFine.
-
-!!! tip
-    Available since OptiGUI `2.0.0-alpha.5`.
-
-Use replacement on a chest minecart.
+!!! example
+    ```ini
+    [ender_chest]
+    ```
 
 ## Chest boats
 
-!!! note "Container"
-    Requires `#!properties container=_chest_boat`
-
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/generic_54.png`
 
-!!! warning "Note"
-    This feature is exclusive to OptiGUI, and is not supported by OptiFine.
+!!! example
+    ```ini
+    [chest_boat]
+    chest_boat.variants = oak spruce
+    ```
 
-!!! tip
-    Available since OptiGUI `2.0.0-alpha.6`.
-
-### `variants`
+### `chest_boat.variants`
 
 !!! info "Type"
     [List](/syntax/#lists) of strings
@@ -208,148 +212,170 @@ Use replacement on a chest minecart.
 The wood type of the chest boat. Possible vaues:
 
 * `acacia`
-* `bamboo`
+* `bamboo` ^Minecraft\ 1.19.3\ or\ later^
 * `birch`
-* `cherry`
+* `cherry` ^Minecraft\ 1.19.4\ or\ later^
 * `dark_oak`
 * `jungle`
 * `mangrove`
 * `oak`
 * `spruce`
 
-## Crafting table
+## Chest minecart
 
-!!! note "Container"
-    Requires `#!properties container=crafting`
+!!! abstract "Texture path"
+    `mniecraft:textures/gui/container/generic_54.png`
+
+!!! example
+    ```ini
+    [chest_minecart]
+    ```
+
+## Crafting table
 
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/crafting_table.png`
 
-## Dispenser & dropper
+!!! example
+    ```ini
+    [crafting_table]
+    ```
 
-!!! note "Container"
-    Requires `#!properties container=dispenser`
+## Dispenser
 
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/dispenser.png`
 
-### `variants`
+!!! example
+    ```ini
+    [dispenser]
+    ```
 
-!!! info "Type"
-    [List](/syntax/#lists) of strings
+## Dropper
 
-Which dispenser variant to apply to. Possible values:
+!!! abstract "Texture path"
+    `minecraft:textures/gui/container/dispenser.png`
 
-* `dispenser`
-* `dropper`
+!!! example
+    ```ini
+    [dropper]
+    ```
 
 ## Enchanting table
-
-!!! note "Container"
-    Requires `#!properties container=enchantment`
 
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/enchanting_table.png`
 
-## Furnaces
+!!! example
+    ```ini
+    [enchanting_table]
+    ```
 
-!!! note "Container"
-    Requires `#!properties container=furnace`
+## Furnace
 
 !!! abstract "Texture path"
-    Furnace: `minecraft:textures/gui/container/furnace.png`
+    `minecraft:textures/gui/container/furnace.png`
 
-    Blast furnace: `minecraft:textures/gui/container/blast_furnace.png`
+!!! example
+    ```ini
+    [furnace]
+    ```
 
-    Smoker: `minecraft:textures/gui/container/smoker.png`
+## Blast furnace
 
-### `variants`
+!!! abstract "Texture path"
+    `minecraft:textures/gui/container/blast_furnace.png`
 
-!!! info "Type"
-    [List](/syntax/#lists) of strings
+!!! example
+    ```ini
+    [blast_furnace]
+    ```
 
-!!! warning "Note"
-    This feature is exclusive to OptiGUI, and is not supported by OptiFine.
+## Smoker
 
-!!! info "Default"
-    When unspecified, only furnace's texture will be replaced (equivalent to `#!properties variants=_furnace`).
+!!! abstract "Texture path"
+    `minecraft:textures/gui/container/smoker.png`
 
-Which furnace variant to apply to. Possible values:
-
-* `_furnace`
-* `_blast` (alias for `_blast_furnace`)
-* `_blast_furnace`
-* `_smoker`
+!!! example
+    ```ini
+    [smoker]
+    ```
 
 ## Grindstone
-
-!!! note "Container"
-    Requires `#!properties container=_grindstone`
 
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/grindstone.png`
 
-!!! warning "Note"
-    This feature is exclusive to OptiGUI, and is not supported by OptiFine.
+!!! example
+    ```ini
+    [grindstone]
+    ```
 
 ## Hopper
-
-!!! note "Container"
-    Requires `#!properties container=hopper`
 
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/hopper.png`
 
-### `_minecart`
+!!! example
+    ```ini
+    [hopper]
+    ```
 
-!!! info "Type"
-    [Boolean](/syntax/#booleans)
+## Hopper minecart
 
-!!! warning "Note"
-    This feature is exclusive to OptiGUI, and is not supported by OptiFine.
+!!! abstract "Texture path"
+    `minecraft:textures/gui/container/hopper.png`
 
-!!! tip
-    Available since OptiGUI `2.0.0-alpha.5`.
+!!! example
+    ```ini
+    [hopper_minecart]
+    ```
 
-Use replacement on a hopper minecart.
-
-## Horses
-
-!!! note "Container"
-    Requires `#!properties container=horse`
+## Horse
 
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/horse.png`
 
-### `variants`
+!!! example
+    ```ini
+    [horse]
+    ```
+
+## Donkey
+
+!!! abstract "Texture path"
+    `minecraft:textures/gui/container/horse.png`
+
+!!! example
+    ```ini
+    [donkey]
+    ```
+
+## Mule
+
+!!! abstract "Texture path"
+    `minecraft:textures/gui/container/horse.png`
+
+!!! example
+    ```ini
+    [mule]
+    ```
+
+## Llama & trader llama
+
+!!! abstract "Texture path"
+    `minecraft:textures/gui/container/horse.png`
+
+!!! example
+    ```ini
+    [llama trader_llama]
+    llama.colors = red green blue
+    ```
+
+### `llama.colors`
 
 !!! info "Type"
     [List](/syntax/#lists) of strings
-
-What horse variant to apply to. Possible values:
-
-* `horse`
-* `donkey`
-* `mule`
-* `llama`
-
-!!! warning "Note"
-    The following variants are exclusive to OptiGUI, and are not supported by OptiFine.
-
-* `_camel`
-* `_zombie_horse`
-* `_skeleton_horse`
-
-### `colors`
-
-!!! info "Type"
-    [List](/syntax/#lists) of strings
-
-!!! note
-    `colors` is ignored for horse variants other than llama.
-
-!!! tip
-    Available since OptiGUI `2.0.0-beta.1`.
 
 Llama carpet color. Possible values:
 
@@ -370,162 +396,121 @@ Llama carpet color. Possible values:
 * `red`
 * `black`
 
-## Loom
+## Zombie horse
 
-!!! note "Container"
-    Requires `#!properties container=_loom`
+!!! abstract "Texture path"
+    `minecraft:textures/gui/container/horse.png`
+
+!!! example
+    ```ini
+    [zombie_horse]
+    ```
+
+## Skeleton horse
+
+!!! abstract "Texture path"
+    `minecraft:textures/gui/container/horse.png`
+
+!!! example
+    ```ini
+    [skeleton_horse]
+    ```
+
+## Camel
+
+!!! abstract "Texture path"
+    `minecraft:textures/gui/container/horse.png`
+
+!!! example
+    ```ini
+    [camel]
+    ```
+
+## Loom
 
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/loom.png`
 
-!!! warning "Note"
-    This feature is exclusive to OptiGUI, and is not supported by OptiFine.
+!!! example
+    ```ini
+    [loom]
+    ```
 
 ## Shulker boxes
-
-!!! note
-    Implies `#!properties container=shulker_box`
 
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/shulker_box.png`
 
-### `colors`
-
-!!! info "Type"
-    [List](/syntax/#lists) of strings
-
-Shulker box color. Possible values:
-
-* `white`
-* `orange`
-* `magenta`
-* `light_blue`
-* `yellow`
-* `lime`
-* `pink`
-* `gray`
-* `light_gray`
-* `cyan`
-* `purple`
-* `blue`
-* `brown`
-* `green`
-* `red`
-* `black`
+!!! example
+    ```ini
+    [shulker_box]
+    [white_shulker_box]
+    [orange_shulker_box]
+    [magenta_shulker_box]
+    [light_blue_shulker_box]
+    [yellow_shulker_box]
+    [lime_shulker_box]
+    [pink_shulker_box]
+    [gray_shulker_box]
+    [light_gray_shulker_box]
+    [cyan_shulker_box]
+    [purple_shulker_box]
+    [blue_shulker_box]
+    [brown_shulker_box]
+    [green_shulker_box]
+    [red_shulker_box]
+    [black_shulker_box]
+    ```
 
 ## Smithing table
-
-!!! note "Container"
-    Requires `#!properties container=_smithing_table`
 
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/smithing.png`
 
-!!! warning "Note"
-    This feature is exclusive to OptiGUI, and is not supported by OptiFine.
+!!! example
+    ```ini
+    [smithing_table]
+    ```
 
 ## Stonecutter
-
-!!! note "Container"
-    Requires `#!properties container=_stonecutter`
 
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/stonecutter.png`
 
-!!! warning "Note"
-    This feature is exclusive to OptiGUI, and is not supported by OptiFine.
-
-## Survival inventory
-
-!!! note "Container"
-    Requires `#!properties container=inventory`
-
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/inventory.png`
-
-### `name`
-
-!!! info "Type"
-    [String](/syntax/#strings)
-
-!!! tip
-    Available since OptiGUI `2.0.0-beta.1`.
-
-The name of the player.
-
-### `biomes`
-
-!!! info "Type"
-    [List](/syntax/#lists) of [biomes](/syntax/#biomes)
-
-The biome the player is in.
-
-### `heights`
-
-!!! info "Type"
-    [Integer](/syntax/#ranges), or [range](/syntax/#numbers) of integers
-
-The Y coordinate of the player.
+!!! example
+    ```ini
+    [stonecutter]
+    ```
 
 ## Villagers
-
-!!! note "Container"
-    Requires `#!properties container=villager`
 
 !!! abstract "Texture path"
     `minecraft:textures/gui/container/villager2.png`
 
-### `professions`
+!!! example
+    ```ini
+    [villager]
+    ```
+
+### `villager.professions`
 
 !!! info "Type"
     [List](/syntax/#lists) of profesions
 
 List of villager professions with optional levels.
 
-#### Profession format: `profession`
+The profession syntax is similar to the [date syntax](/syntax/#dates), but it accepts and optional namespace.
 
-!!! example "Professions fisher, shepard, nitwit"
-    ```properties
-    professions=fisherman shepherd nitwit
+!!! example "Cleric (any levels) or fisherman (any levels)"
+    ```ini
+    [villager]
+    villager.professions = cleric minecraft:fisherman
     ```
 
-#### Profession format: `profession:levels`
-
-!!! note
-    Only applies, when `levels` starts with a digit.
-
-!!! warning "Caution"
-    `levels` can't contain spaces, because it is the list separator character.
-
-!!! example "Professions farmer (all levels) or librarian (levels 1, 3, 4)"
-    ```properties
-    professions=farmer librarian:1,3-4
-    ```
-
-#### Profession format: `namespace:profession`
-
-!!! warning "Note"
-    This format is exclusive to OptiGUI, and is not supported by OptiFine.
-
-!!! note
-    Only applies, when `profession` doesn't start with a digit.
-
-!!! example "Profession cleric"
-    ```properties
-    professions=minecraft:cleric
-    ```
-
-#### Profession format: `namespace:profession:levels`
-
-!!! warning "Note"
-    This format is exclusive to OptiGUI, and is not supported by OptiFine.
-
-!!! warning "Caution"
-    `levels` can't contain spaces, because it is the list separator character.
-
-!!! example "Profession fletcher (leves 1, 3, 4)"
-    ```properties
-    professions=minecraft:fletcher:1,3-4
+!!! example "Fletcher (levels 1, 3, 4)"
+    ```ini
+    [villager]
+    villager.professions = fletcher@1 minecraft:fletcher@3-4
     ```
 
 #### Professions
@@ -545,47 +530,58 @@ List of villager professions with optional levels.
 * `toolsmith`
 * `weaponsmith`
 
-!!! warning "Note"
-    OptiGUI doens't support the `#!properties profession=none`.
-
 !!! tip
     OptiGUI supports professions from other mods, if prefixed with a namespace.
 
-!!! tip
-    OptiGUI supports wandering trader with `#!properties profession=_wandering_trader`. It is always level 1.
+## Wandering trader
+
+!!! abstract "Texture path"
+    `minecraft:textures/gui/container/villager2.png`
+
+!!! example
+    ```ini
+    [wandering_trader]
+    ```
+
+## Survival inventory
+
+!!! abstract "Texture path"
+    `minecraft:textures/gui/container/inventory.png`
+
+!!! example
+    ```ini
+    [player]
+    interaction.texture = minecraft:textures/gui/container/inventory.png
+    ```
+
+General properties are supported, however, since there is no interaction, those apply to the player instead of the interacted container, because it is not applicable.
 
 ## Creative inventory & everything else
 
-!!! note "Container"
-    Requires `#!properties container=creative`
-
-!!! abstract "Texture path"
-    See example
-
-### `texture`
-
 !!! note
-    The creative inventory GUI does not have a default texture, so it has to specify the path of the texture to replace. Use [`texture.<path>`](/format/#texturepath).
-
-### `texture.<path>`
-
-!!! note "Required"
-    At least one `texture.<path>` is required.
-
-Replacement for any GUI texture.
-
-`<path>` is relative to `/assets/minecraft/textures/gui/`.
-
-The creative inventory GUI does not have a default texture, so it has to use path textures.
+    GUIs not having a default texture need to be fitered with [`interaction.texture`](#interactiontexture).
 
 !!! example "Example for creative inventory"
-    In `/assets/minecraft/optifine/gui/container/creative/creative_desert.properties`:
+    This is the equivalent syntax of [OptiFine's `texture.<path>` example in the table](https://optifine.readthedocs.io/custom_guis.html#general-properties). In `/assets/minecraft/optigui/gui/creative_desert.ini`:
 
-    ```properties
-    container=creative
-    biomes=desert
-    texture.container/creative_inventory/tab_inventory=tab_inventory_desert
-    texture.container/creative_inventory/tabs=tabs_desert
-    texture.container/creative_inventory/tab_items=tab_items_desert
-    texture.container/creative_inventory/tab_item_search=tab_item_search_desert
+    ```ini
+    [player #1]
+    biomes = desert
+    interaction.texture = minecraft:textures/gui/container/creative_inventory/tab_inventory.png
+    replacement = tab_inventory_desert.png
+
+    [player #2]
+    biomes = desert
+    interaction.texture = minecraft:textures/gui/container/creative_inventory/tabs.png
+    replacement = tabs_desert.png
+
+    [player #3]
+    biomes = desert
+    interaction.texture = minecraft:textures/gui/container/creative_inventory/tab_items.png
+    replacement = tab_items_desert.png
+
+    [player #4]
+    biomes = desert
+    interaction.texture = minecraft:textures/gui/container/creative_inventory/tab_item_search.png
+    replacement = tab_item_search_desert.png
     ```
