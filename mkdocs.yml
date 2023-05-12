@@ -15,6 +15,7 @@ nav:
   - Resource packs:
     - Basic information & syntax: syntax.md
     - Replacing GUI textures: format.md
+    - Migration guide: migrate.md
   - For developers:
     - Using OptiGUI in a mod: usage.md
   - API docs:
