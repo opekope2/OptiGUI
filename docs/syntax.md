@@ -114,3 +114,45 @@ Possible values: `true`, `false`. Everything else means undefined.
 
 !!! info
     Same as [OptiFine lists](https://optifine.readthedocs.io/syntax.html#lists), but lists can hold any types, including [strings](#strings) (white space automatically starts a new list item) or [booleans](#booleans).
+
+## Dates
+
+Dates can be specified by the name, the first 3 characters of its name, or number of the month, and an optional day [number](#numbers) or day [range](#ranges) separated with a `@` character:
+
+!!! example
+    ```ini
+    # January
+    date = january
+    date = jan
+    date = 1
+    # These are all equivalent to:
+    date = jan@1-31
+
+    # October 1-5, 11-15, 21-25
+    date = oct@1-5 10@11-15 october@21-25
+    # The following is not valid:
+    invalid_date = october@1-5,11-15,21-25
+
+    # Christmas
+    christmas = dec@24-26
+
+    # Not Christmas
+    not_christmas = 1 2 3 4 5 6 7 8 9 spooktober 11 dec@1-23 dec@27-31
+    ```
+
+### Supported month abbreviations
+
+| Month     | Abbreviations                        |
+|-----------|--------------------------------------|
+| January   | `1`, `jan`, `january`                |
+| February  | `2`, `feb`, `february`               |
+| March     | `3`, `mar`, `march`                  |
+| April     | `4`, `apr`, `april`                  |
+| May       | `5`, `may`                           |
+| June      | `6`, `jun`, `june`                   |
+| July      | `7`, `jul`, `july`                   |
+| August    | `8`, `aug`, `augustus`               |
+| September | `9`, `sep`, `september`              |
+| October   | `10`, `oct`, `october`, `spooktober` |
+| November  | `11`, `nov`, `november`              |
+| December  | `12`, `dec`, `december`              |
