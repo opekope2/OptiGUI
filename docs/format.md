@@ -1,6 +1,6 @@
 # Replacing GUI textures
 
-This page describes the usage of OptiGUI INI files ^OptiGUI\ 2.1.0-beta.1\ or\ later^. [The OptiFine custom GUI documentation is available here](https://optifine.readthedocs.io/custom_guis.html).
+This page describes the usage of OptiGUI INI files^OptiGUI\ 2.1.0-beta.1\ or\ later^. [The OptiFine custom GUI documentation is available here](https://optifine.readthedocs.io/custom_guis.html).
 
 !!! warning
     OptiGUI 2.1.0-beta.1 removed all OptiFine extensions from OptiFine files: `_cartography_table`, `_chest_boat`, `_grindstone`, `_loom`, `_smithing_table`, `_stonecutter`, `_barrel`, `_minecart`, `_furnace`, `_blast`, `_blast_furnace`, `_smoker`, `_camel`, `_zombie_horse`, `_skeleton_horse`, `_wandering_trader`.
@@ -15,7 +15,7 @@ You can define a texture replacement for each inventory GUI, and apply them base
 For each container GUI texture to replace, create a `.ini` file in `/assets/minecraft/optigui/gui/` folder of the resource pack. INI files can be organized into subfolders of any depth, as long as everything is within the top-level `/assets/minecraft/optigui/gui/` folder.
 
 !!! note
-    Every property is optinal, unless noted otherwise. Properties unspecified in a properties file will not be taken into account while replacing GUI textures.
+    Every property is optional, unless noted otherwise. Properties unspecified in a properties file will not be taken into account while replacing GUI textures.
 
 ## General properties
 

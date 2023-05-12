@@ -33,7 +33,7 @@ All property names are case-sensitive: `name` is not the same as `Name`. The ord
 Groups start [square bracketed] identifiers. Place the identifier of the container to replace the GUI.
 
 !!! tip
-    Go to the [Minecraft Wiki](https://minecraft.fandom.com). Select a container (for example, a chest, horse, crafting table, etc.), scroll down to `Data values/ID/Java Edition`, and copy the text from the `Identifier` column. This identifier is used by the `/give` and `/summon` commands.
+    Go to the [Minecraft Wiki](https://minecraft.fandom.com). Select a container (for example, a chest, horse, crafting table, etc.), scroll down to **Data values/ID/Java Edition**, and copy the text from the **Identifier** column. This identifier is used by the `/give` and `/summon` commands.
 
 ```ini
 [chest]
@@ -87,7 +87,7 @@ path=minecraft:textures/gui/container/crafting_table.png
 ## Strings
 
 !!! info
-    Different from [OptiFine strings](https://optifine.readthedocs.io/syntax.html#strings)
+    Same as [OptiFine strings](https://optifine.readthedocs.io/syntax.html#strings) with the following exception:
 
 OptiGUI supports exact values, and case-sensitive and case-insensitive variants of wildcards and regexes. However, these are not prefixed with `regex:`, `iregex:`, `pattern:`, or `ipattern:`. The accepted type (wildcard, regex, ...) is always noted explicitly.
 
