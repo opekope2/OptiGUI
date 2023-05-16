@@ -3,6 +3,7 @@ package opekope2.filter
 import kotlin.test.*
 import opekope2.filter.FilterResult.*
 import opekope2.util.withResult
+import java.util.*
 
 class FilterTests {
     private val testMatchFilter = Filter<Int, String> { Match(it.toString()) }
@@ -187,6 +188,15 @@ class FilterTests {
 
         assertIs<Match<*>>(filter.evaluate(5))
         assertIs<Mismatch<*>>(filter.evaluate(0))
+    }
+
+
+    @Test
+    fun optionalTest() {
+        val filter = OptionalFilter(Mismatch(), testMatchFilter)
+
+        assertIs<Mismatch<*>>(filter.evaluate(Optional.empty()))
+        assertIs<Match<*>>(filter.evaluate(Optional.of(1)))
     }
 
 
