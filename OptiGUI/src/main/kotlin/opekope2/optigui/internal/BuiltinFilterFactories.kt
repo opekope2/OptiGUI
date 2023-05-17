@@ -271,7 +271,7 @@ private fun convertDate(dates: String) = sequence {
 
         val monthName = parts.getOrNull(0) ?: continue
         val (month, _) = monthUnmapping.firstOrNull { (_, aliases) -> monthName in aliases } ?: continue
-        val day = NumberOrRange.tryParse(parts.getOrNull(1) ?: continue)
+        val day = parts.getOrNull(1)?.let(NumberOrRange::tryParse)
 
         yield(month to day)
     }
