@@ -1,0 +1,41 @@
+name: Bug report
+description: Open an issue about OptiGUI behaving differently then described in the documentation, or differently from OptiFine
+title: "[BUG] <title>"
+labels: [ bug ]
+body:
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the bug you encountered.
+      options:
+        - label: I have searched the existing issues
+          required: true
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: Describe what would be the correct behavior
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps To Reproduce
+      description: Describe what is the current behavior, and how to reproduce it
+    validations:
+      required: true
+  - type: dropdown
+    id: version
+    attributes:
+      label: Behavior difference
+      description: Which of these does OptiGUI work differently from?
+      options:
+        - OptiGUI documentation
+        - OptiFine
+        - Both
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Anything else
+      description: Any additional information should be written here (optional)
+    validations:
+      required: false

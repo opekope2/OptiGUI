@@ -8,7 +8,7 @@
     "opekope2"
   ],
   "contact": {
-    "homepage": "https://github.com/opekope2/OptiGUI-Next",
+    "homepage": "https://opekope2.github.io/OptiGUI-Next/optiglue",
     "sources": "https://github.com/opekope2/OptiGUI-Next",
     "issues": "https://github.com/opekope2/OptiGUI-Next/issues"
   },
@@ -27,5 +27,14 @@
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
     "minecraft": ">=1.19 <1.19.3",
     "java": ">=${java}"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [
+        "library"
+      ],
+      "parent": "optigui",
+      "update_checker": false
+    }
   }
 }

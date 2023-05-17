@@ -2,37 +2,48 @@ package opekope2.util
 
 import opekope2.filter.EqualityFilter
 import opekope2.filter.Filter
-import opekope2.filter.NumberRangeFilter
+import opekope2.filter.RangeFilter
 
 /**
  * Represents an integer, or a start- and stop-inclusive integer range.
- *
- * @param start The inclusive lower bound of the range or `null`, if this is a number
- * @param end The inclusive upper bound of the range or `null`, if not specified or this is a number
- * @param value The integer value or `null`, if this is a range
  */
-class NumberOrRange private constructor(val start: Int?, val end: Int?, val value: Int?) {
+sealed class NumberOrRange {
     /**
-     * Whether this object represents an integer.
+     * Converts the current number or range to a filter.
      */
-    val isNumber = value != null
+    abstract fun toFilter(): Filter<Int, Unit>
 
     /**
-     * Whether this object represents a range.
+     * Represents an integral number.
+     *
+     * @param value The integral value
      */
-    val isRange = start != null
+    class Number(val value: Int) : NumberOrRange() {
+        override fun toFilter(): Filter<Int, Unit> = EqualityFilter(value)
+        override fun toString(): String = value.toString()
+    }
 
     /**
-     * Converts the current object to a filter.
+     * Represents a start- and stop-inclusive integer range.
+     *
+     * @param start The inclusive lower bound of the range
+     * @param end The inclusive upper bound of the range or `null`, if there is no upper bound
      */
-    fun toFilter(): Filter<Int, Unit>? =
-        if (isRange) {
-            if (end == null) NumberRangeFilter.atLeast(start!!) else NumberRangeFilter.between(start!!, end)
-        } else if (isNumber) {
-            EqualityFilter(value!!)
-        } else {
-            null
+    class Range(val start: Int, val end: Int?) : NumberOrRange() {
+        override fun toFilter(): Filter<Int, Unit> =
+            if (end == null) RangeFilter.atLeast(start)
+            else RangeFilter.between(start, end)
+
+        override fun toString(): String {
+            val startString = if (start < 0) "($start)" else "$start"
+            val endString = when {
+                end == null -> ""
+                end < 0 -> "($end)"
+                else -> "$end"
+            }
+            return "$startString-$endString"
         }
+    }
 
     companion object {
         @JvmStatic
@@ -49,7 +60,7 @@ class NumberOrRange private constructor(val start: Int?, val end: Int?, val valu
             val end = result.groups["end"]?.value?.trimParentheses()?.toIntOrNull()
             val value = result.groups["value"]?.value?.toIntOrNull()
 
-            return NumberOrRange(start, end, value)
+            return if (value == null) Range(start!!, end) else Number(value)
         }
     }
 }

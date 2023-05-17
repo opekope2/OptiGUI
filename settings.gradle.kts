@@ -17,5 +17,6 @@ include(
     "OptiGlue:1.18.2",
     "OptiGlue:1.19",
     "OptiGlue:1.19.3",
-    "OptiGlue:1.19.4"
+    "OptiGlue:1.19.4",
+    "ApidocGenerator"
 )

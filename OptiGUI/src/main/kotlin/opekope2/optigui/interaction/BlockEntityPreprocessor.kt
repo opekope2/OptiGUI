@@ -16,13 +16,15 @@ import opekope2.optigui.InitializerContext
  * The result class of [process] should override the [Object.equals] method,
  * because filters will only be evaluated, if the preprocessor returns a different object,
  * because the block entity was changed (for example, moved to a different biome).
+ *
+ * @param T The block entity type the preprocessor accepts
  */
-fun interface BlockEntityPreprocessor {
+fun interface BlockEntityPreprocessor<T : BlockEntity> {
     /**
      * Processes a block entity.
      *
      * @param blockEntity The source block entity
      * @return An object, which will be included in [Interaction.data], and processed by [opekope2.filter.Filter.evaluate]
      */
-    fun process(blockEntity: BlockEntity): Any?
+    fun process(blockEntity: T): Any?
 }

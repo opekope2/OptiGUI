@@ -124,5 +124,8 @@ internal object TextureReplacer : InteractionService {
 
     override fun interact(
         player: PlayerEntity, world: World, hand: Hand, target: InteractionTarget, hitResult: HitResult?
-    ): Boolean = interactionHolder.prepare(target, RawInteraction(player, world, hand, hitResult))
+    ): Boolean {
+        if (!world.isClient) return false
+        return interactionHolder.prepare(target, RawInteraction(player, world, hand, hitResult))
+    }
 }

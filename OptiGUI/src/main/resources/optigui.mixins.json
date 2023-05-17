@@ -6,9 +6,10 @@
     "defaultRequire": 1
   },
   "client": [
+    "BeaconBlockEntityAccessorMixin",
     "ClientPlayerEntityMixin",
     "MinecraftClientMixin",
-    "RenderSystemMixin",
-    "BeaconBlockEntityAccessorMixin"
+    "MinecraftClientMixin2",
+    "RenderSystemMixin"
   ]
 }

@@ -1,0 +1,23 @@
+name: Crash report
+description: Open an issue about OptiGUI crashing
+title: "[CRASH] <title>"
+labels: [ crash ]
+body:
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Describe what you were doing before OptiGUI crashed
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Game logs
+      description: Paste the game logs or a link to the uploaded logs here
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Anything else
+      description: Any additional information should be written here (optional)
+    validations:
+      required: false
