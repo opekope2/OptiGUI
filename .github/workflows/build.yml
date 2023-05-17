@@ -29,10 +29,10 @@ jobs:
           java-version: 17
           distribution: temurin
       - name: Build project
-        run: ./gradlew build
+        run: ./gradlew :OptiGUI:build
       - name: Test project
         if: inputs.test-project
-        run: ./gradlew test
+        run: ./gradlew :OptiGUI:test
       - name: Upload build output
         if: matrix.os == 'ubuntu-latest' && inputs.upload-output
         uses: actions/upload-artifact@v3

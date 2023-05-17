@@ -1,0 +1,75 @@
+{
+  "moduleName": "OptiGUI",
+  "moduleVersion": "$VERSION",
+  "outputDir": "../docs/kdoc/$VERSION",
+  "sourceSets": [
+    {
+      "displayName": "jvm",
+      "sourceSetID": {
+        "scopeId": "OptiGUI",
+        "sourceSetName": "main"
+      },
+      "sourceRoots": [
+        "$PROJECT_DIR/OptiGUI/src/main/kotlin/",
+        "$PROJECT_DIR/OptiGUI/src/main/java/"
+      ],
+      "classpath": [
+        "$HOME/.gradle/caches/fabric-loom/1.19.4/net.fabricmc.yarn.1_19_4.1.19.4+build.1-v2/minecraft-merged-named.jar",
+        "$PROJECT_DIR/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_19_4_1_19_4_build_1_v2/net/fabricmc/fabric-api/fabric-events-interaction-v0/0.4.42+a1ccd7bff4/fabric-events-interaction-v0-0.4.42+a1ccd7bff4.jar",
+        "$PROJECT_DIR/ApidocGenerator/bin/dokka/kotlin-stdlib-1.8.10.jar"
+      ]
+    }
+  ],
+  "sourceLinks": [
+    {
+      "localDirectory": "$PROJECT_DIR/OptiGUI/src/main/kotlin/",
+      "remoteUrl": "https://github.com/opekope2/OptiGUI-Next/tree/$VERSION/OptiGUI/src/main/kotlin",
+      "remoteLineSuffix": "#L"
+    }
+  ],
+  "externalDocumentationLinks": [
+    {
+      "url": "https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/",
+      "packageListUrl": "https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/element-list"
+    },
+    {
+      "url": "https://maven.fabricmc.net/docs/fabric-api-0.76.0+1.19.4/",
+      "packageListUrl": "https://maven.fabricmc.net/docs/fabric-api-0.76.0+1.19.4/element-list"
+    },
+    {
+      "url": "https://docs.oracle.com/javase/8/docs/api/",
+      "packageListUrl": "https://docs.oracle.com/javase/8/docs/api/package-list"
+    },
+    {
+      "url": "https://kotlinlang.org/api/latest/jvm/stdlib/",
+      "packageListUrl": "https://kotlinlang.org/api/latest/jvm/stdlib/package-list"
+    }
+  ],
+  "perPackageOptions": [
+    {
+      "matchingRegex": "opekope2\\.optigui\\.internal(.*)",
+      "suppress": true,
+      "documentedVisibilities": []
+    },
+    {
+      "matchingRegex": "opekope2\\.optigui\\.mixin",
+      "suppress": true,
+      "documentedVisibilities": []
+    }
+  ],
+  "pluginsClasspath": [
+    "bin/dokka/dokka-base-1.8.10.jar",
+    "bin/dokka/kotlinx-html-jvm-0.8.0.jar",
+    "bin/dokka/dokka-analysis-1.8.10.jar",
+    "bin/dokka/kotlin-analysis-intellij-1.8.10.jar",
+    "bin/dokka/kotlin-analysis-compiler-1.8.10.jar",
+    "bin/dokka/freemarker-2.3.31.jar"
+  ],
+  "pluginsConfiguration": [
+    {
+      "fqPluginName": "org.jetbrains.dokka.base.DokkaBase",
+      "serializationFormat": "JSON",
+      "values": "{\"footerMessage\":\"© 2022-2023 opekope2\",\"customAssets\":[\"logo-icon.svg\"]}"
+    }
+  ]
+}
