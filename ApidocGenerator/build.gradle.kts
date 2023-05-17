@@ -14,9 +14,11 @@ dependencies {
     download("org.jetbrains.dokka", "dokka-analysis", "1.8.10")
     download("org.jetbrains.dokka", "kotlin-analysis-compiler", "1.8.10")
     download("org.jetbrains.dokka", "kotlin-analysis-intellij", "1.8.10")
-    download("org.jetbrains.kotlinx", "kotlinx-html-jvm", "0.8.0")
-    download("org.freemarker", "freemarker", "2.3.31")
+    download("org.jetbrains.kotlinx", "kotlinx-html-jvm", "0.8.1")
+    download("org.freemarker", "freemarker", "2.3.32")
     download("org.jetbrains.dokka", "kotlin-as-java-plugin", "1.8.10")
+    download("org.jetbrains.kotlin", "kotlin-stdlib", System.getProperty("kotlin_version"))
+    download("org.ini4j", "ini4j", "0.5.4")
 }
 
 val downloadDokka by tasks.registering(Copy::class) {
