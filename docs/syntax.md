@@ -35,6 +35,8 @@ Groups start [square bracketed] identifiers. Place the identifier of the contain
 !!! tip
     Go to the [Minecraft Wiki](https://minecraft.fandom.com). Select a container (for example, a chest, horse, crafting table, etc.), scroll down to **Data values/ID/Java Edition**, and copy the text from the **Identifier** column. This identifier is used by the `/give` and `/summon` commands.
 
+If multiple properties are specified in a group, they **all must match** in order to apply the replacement texture. If incompatible properties are specified (for example, `llama.colors` to `[chest]`, it will **never** match).
+
 ```ini
 [chest]
 # Properties here apply to minecraft:chest
@@ -84,6 +86,9 @@ path=subfolder/texture.png
 path=minecraft:textures/gui/container/crafting_table.png
 ```
 
+!!! warning "Caution"
+    Contrary to OptiFine, OptiGUI **requires** the file extension (`.png` here) to be specified. If it is not specified, OptiGUI will not find the texture!
+
 ## Strings
 
 !!! info
@@ -114,6 +119,8 @@ Possible values: `true`, `false`. Everything else means undefined.
 
 !!! info
     Same as [OptiFine lists](https://optifine.readthedocs.io/syntax.html#lists), but lists can hold any types, including [strings](#strings) (white space automatically starts a new list item) or [booleans](#booleans).
+
+If multiple items are specified in a list, **any of them** can match in order to replace a texture.
 
 ## Dates
 

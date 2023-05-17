@@ -2,6 +2,8 @@
 
 This page describes the usage of OptiGUI INI files^OptiGUI\ 2.1.0-beta.1\ or\ later^. [The OptiFine custom GUI documentation is available here](https://optifine.readthedocs.io/custom_guis.html).
 
+This page assumes you to be familiar with the [OptiGUI syntax](/syntax/).
+
 !!! warning
     OptiGUI 2.1.0-beta.1 removed all OptiFine extensions from OptiFine files: `_cartography_table`, `_chest_boat`, `_grindstone`, `_loom`, `_smithing_table`, `_stonecutter`, `_barrel`, `_minecart`, `_furnace`, `_blast`, `_blast_furnace`, `_smoker`, `_camel`, `_zombie_horse`, `_skeleton_horse`, `_wandering_trader`.
 
@@ -16,6 +18,9 @@ For each container GUI texture to replace, create a `.ini` file in `/assets/mine
 
 !!! note
     Every property is optional, unless noted otherwise. Properties unspecified in a properties file will not be taken into account while replacing GUI textures.
+
+!!! warning "Caution"
+    When specifying texture paths, **do not** forget file extensions, because OptiGUI will not find the resources!
 
 ## General properties
 
