@@ -71,6 +71,11 @@ private fun createFilter(context: FilterFactoryContext): FilterFactoryResult? {
     }
 
     return when {
+        filters.isEmpty() && replaceableTextures.isEmpty() -> {
+            context.warn("Ignoring resource, because it seems to be empty.")
+            null
+        }
+
         filters.isEmpty() -> {
             context.warn("Ignoring resource, because no filters could be created.")
             null
