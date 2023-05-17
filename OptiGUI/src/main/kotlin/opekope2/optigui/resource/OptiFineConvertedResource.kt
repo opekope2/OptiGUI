@@ -172,6 +172,7 @@ private val converters = mapOf<String, Converter>(
             props.copyNameTo(section)
         }
     },
+    "creative" to { _, _, _ -> },
     "inventory" to { props, ini, path ->
         ini.add("#optifine:inventory").also { section ->
             section["interaction.texture"] = TexturePath.INVENTORY.toString()
