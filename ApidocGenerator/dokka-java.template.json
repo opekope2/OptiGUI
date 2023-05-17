@@ -14,9 +14,10 @@
         "$PROJECT_DIR/OptiGUI/src/main/java/"
       ],
       "classpath": [
-        "$HOME/.gradle/caches/fabric-loom/1.19.4/net.fabricmc.yarn.1_19_4.1.19.4+build.1-v2/minecraft-merged-named.jar",
-        "$PROJECT_DIR/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_19_4_1_19_4_build_1_v2/net/fabricmc/fabric-api/fabric-events-interaction-v0/0.4.42+a1ccd7bff4/fabric-events-interaction-v0-0.4.42+a1ccd7bff4.jar",
-        "$PROJECT_DIR/ApidocGenerator/bin/dokka/kotlin-stdlib-1.8.10.jar"
+        "$GRADLE_USER_HOME/caches/fabric-loom/1.19.4/net.fabricmc.yarn.1_19_4.1.19.4+build.2-v2/minecraft-merged-named.jar",
+        "$PROJECT_DIR/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_19_4_1_19_4_build_2_v2/net/fabricmc/fabric-api/fabric-events-interaction-v0/0.5.1+76ba65ebf4/fabric-events-interaction-v0-0.5.1+76ba65ebf4.jar",
+        "$PROJECT_DIR/ApidocGenerator/bin/dokka/kotlin-stdlib-1.8.21.jar",
+        "$PROJECT_DIR/ApidocGenerator/bin/dokka/ini4j-0.5.4.jar"
       ]
     }
   ],
@@ -29,12 +30,16 @@
   ],
   "externalDocumentationLinks": [
     {
-      "url": "https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/",
-      "packageListUrl": "https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/element-list"
+      "url": "https://maven.fabricmc.net/docs/yarn-1.19.4+build.2/",
+      "packageListUrl": "https://maven.fabricmc.net/docs/yarn-1.19.4+build.2/element-list"
     },
     {
       "url": "https://maven.fabricmc.net/docs/fabric-api-0.76.0+1.19.4/",
       "packageListUrl": "https://maven.fabricmc.net/docs/fabric-api-0.76.0+1.19.4/element-list"
+    },
+    {
+      "url": "https://ini4j.sourceforge.net/apidocs/",
+      "packageListUrl": "https://ini4j.sourceforge.net/apidocs/package-list"
     },
     {
       "url": "https://docs.oracle.com/javase/8/docs/api/",
@@ -59,12 +64,12 @@
   ],
   "pluginsClasspath": [
     "bin/dokka/dokka-base-1.8.10.jar",
-    "bin/dokka/kotlinx-html-jvm-0.8.0.jar",
+    "bin/dokka/kotlinx-html-jvm-0.8.1.jar",
     "bin/dokka/kotlin-as-java-plugin-1.8.10.jar",
     "bin/dokka/dokka-analysis-1.8.10.jar",
     "bin/dokka/kotlin-analysis-intellij-1.8.10.jar",
     "bin/dokka/kotlin-analysis-compiler-1.8.10.jar",
-    "bin/dokka/freemarker-2.3.31.jar"
+    "bin/dokka/freemarker-2.3.32.jar"
   ],
   "pluginsConfiguration": [
     {
