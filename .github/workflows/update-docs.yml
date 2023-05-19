@@ -1,0 +1,114 @@
+name: Update documentation
+
+on:
+  push:
+    tags: [ '*' ]
+
+jobs:
+  generate-kdoc:
+    name: Generate Kotlin API documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Fetch release tag
+        run: git fetch origin $GITHUB_REF:$GITHUB_REF -f
+      - name: Validate gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: JDK setup
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+      - name: Generate documentation
+        run: ./gradlew :ApidocGenerator:generateKdoc
+      - name: Upload documentation
+        uses: actions/upload-artifact@v3
+        with:
+          name: kdoc
+          path: docs/kdoc/${{ github.ref_name }}
+  generate-javadoc:
+    name: Generate Java API documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Fetch release tag
+        run: git fetch origin $GITHUB_REF:$GITHUB_REF -f
+      - name: Validate gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: JDK setup
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+      - name: Generate documentation
+        run: ./gradlew :ApidocGenerator:generateJavadoc
+      - name: Upload documentation
+        uses: actions/upload-artifact@v3
+        with:
+          name: javadoc
+          path: docs/javadoc/${{ github.ref_name }}
+  update-docs:
+    name: Update documentation
+    runs-on: ubuntu-latest
+    needs:
+      - generate-kdoc
+      - generate-javadoc
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Configure git
+        run: |
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+      - name: Download Kotlin documentation
+        uses: actions/download-artifact@v3
+        with:
+          name: kdoc
+          path: docs/kdoc/${{ github.ref_name }}
+      - name: Download Java documentation
+        uses: actions/download-artifact@v3
+        with:
+          name: javadoc
+          path: docs/javadoc/${{ github.ref_name }}
+      - name: Update latest documentation folder (Kotlin)
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          cd docs/kdoc
+          unlink latest
+          ln -s $VERSION latest
+      - name: Update latest documentation folder (Java)
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          cd docs/javadoc
+          unlink latest
+          ln -s $VERSION latest
+      - name: Update links
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          sed -i "s|#CI_KDOC_PLACEHOLDER|#CI_KDOC_PLACEHOLDER\n    - $VERSION: kdoc/$VERSION|g" mkdocs.yml
+          sed -i "s|#CI_JAVADOC_PLACEHOLDER|#CI_JAVADOC_PLACEHOLDER\n    - $VERSION: javadoc/$VERSION|g" mkdocs.yml
+      - name: Commit documentation
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          git add docs
+          git commit -a -m "Add documentation for $VERSION"
+      - name: Push documentation
+        uses: ad-m/github-push-action@master
+        with:
+          branch: ${{ github.ref }}
+      - name: Delete documentation artifacts
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: |
+            kdoc
+            javadoc
+          useGlob: false
+          failOnError: false
