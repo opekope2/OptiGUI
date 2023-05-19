@@ -44,7 +44,7 @@ dependencies {
     include(project(":OptiGlue:1.19.4", configuration = "namedElements"))
 
     include(implementation("org.apache.commons", "commons-text", "1.10.0"))
-    include(implementation("org.ini4j", "ini4j", "0.5.4"))
+    include(implementation("org.ini4j", "ini4j", project.extra["ini4j_version"] as String))
 
     testImplementation(kotlin("test"))
 }
