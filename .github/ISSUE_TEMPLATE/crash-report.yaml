@@ -1,7 +1,8 @@
-name: Crash report
+name: Report a crash
 description: Open an issue about OptiGUI crashing
 title: "[CRASH] <title>"
-labels: [ crash ]
+labels:
+  - crash
 body:
   - type: textarea
     attributes:
