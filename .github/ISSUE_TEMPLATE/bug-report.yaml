@@ -1,7 +1,8 @@
-name: Bug report
+name: Report a bug
 description: Open an issue about OptiGUI behaving differently then described in the documentation, or differently from OptiFine
 title: "[BUG] <title>"
-labels: [ bug ]
+labels:
+  - bug
 body:
   - type: checkboxes
     attributes:
