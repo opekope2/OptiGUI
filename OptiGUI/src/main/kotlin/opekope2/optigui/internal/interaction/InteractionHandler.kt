@@ -1,4 +1,4 @@
-package opekope2.optigui.internal
+package opekope2.optigui.internal.interaction
 
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
@@ -38,8 +38,6 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback {
     }
 
     private fun getBlockInteractionTarget(world: World, target: BlockPos): InteractionTarget? {
-        val lookup = getService<RegistryLookupService>()
-
         val container = lookup.lookupBlockId(world.getBlockState(target).block)
         if (TexturePath.ofContainer(container) == null) {
             // Unknown/modded container
