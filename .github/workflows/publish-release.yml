@@ -27,50 +27,32 @@ jobs:
         run: git fetch origin $GITHUB_REF:$GITHUB_REF -f
       - name: Load changelog
         run: git for-each-ref $GITHUB_REF --format '%(contents)' > CHANGELOG.g.md
+      - name: Load versions
+        id: load-versions
+        run: |
+          FLK_VERSION=$(grep fabric_language_kotlin_version gradle.properties | sed "s|fabric_language_kotlin_version=||g")
+          echo "FLK_VERSION=$FLK_VERSION" >> $GITHUB_OUTPUT
+          JAVA_VERSION=$(grep java_version gradle.properties | sed "s|java_version=||g")
+          echo "JAVA_VERSION=$JAVA_VERSION"
       - name: Publish to GitHub, Modrinth, and CurseForge
-        uses: Kir-Antipov/mc-publish@v3.2
+        uses: Kir-Antipov/mc-publish@v3.3
         with:
           modrinth-id: ${{ vars.MODRINTH_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           modrinth-featured: false
-          modrinth-dependencies: |
-            fabric-api | depends | *
-            fabric-language-kotlin | depends | 1.9.0+kotlin.1.8.0
-            know-my-name | recommends | *
-            animatica | suggests | *
 
           curseforge-id: ${{ vars.CURSEFORGE_ID }}
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-          curseforge-dependencies: |
-            fabric-api | depends | *
-            fabric-language-kotlin | depends | 1.9.0+kotlin.1.8.0
-            know-my-name | recommends | *
-            animatica | suggests | *
-            optifabric | conflicts | *
 
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          github-files-secondary: dist/*-@(dev|sources|javadoc).jar
 
           name: OptiGUI ${{ github.ref_name }}
-          files-primary: dist/!(*-@(dev|sources|javadoc)).jar
-          files-secondary: ''
+          files: |
+            dist/!(*-@(dev|sources|javadoc)).jar
+            dist/*-@(dev|sources|javadoc).jar
           changelog-file: CHANGELOG.g.md
-          # Update manually each time fabric.mod.json is edited until a better solution is found,
-          # or Kir-Antipov/mc-publish@v4 is released. Copy values from src/main/resources/fabric.mod.json
-          game-versions: |
-            1.19.4
-            1.19.3
-            1.19.2
-            1.19.1
-            1.19
-            1.18.2
-            1.18.1
-            1.18
-          loaders: |
-            fabric
-            quilt
-          version-resolver: exact
-          java: 17
+          game-version-filter: releases
+          java: ${{ steps.load-versions.outputs.JAVA_VERSION }}
       - name: Delete build output
         uses: geekyeggo/delete-artifact@v2
         with:
