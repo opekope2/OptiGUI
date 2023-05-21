@@ -29,7 +29,7 @@ jobs:
           java-version: 17
           distribution: temurin
       - name: Build project
-        run: ./gradlew :OptiGUI:build
+        run: ./gradlew buildOptiGlue :OptiGUI:build
       - name: Test project
         if: inputs.test-project
         run: ./gradlew :OptiGUI:test

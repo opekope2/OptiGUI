@@ -55,14 +55,6 @@ tasks {
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = project.group.toString()
-            artifactId = base.archivesName.get()
-            version = project.version.toString()
-
-            from(components["java"])
-        }
-    }
+val buildOptiGlue by tasks.creating {
+    dependsOn(tasks["build"])
 }

@@ -42,16 +42,21 @@
     "fabric-networking-api-v1": "*",
     "fabric-events-interaction-v0": "*",
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
-    "minecraft": ">=1.18",
+    "minecraft": ">=1.18 <1.19.5",
     "java": ">=${java}"
   },
   "recommends": {
-    "knowmyname": "*"
-  },
-  "suggests": {
     "animatica": "*"
   },
-  "conflicts": {
-    "optifabric": "*"
+  "custom": {
+    "mc-publish": {
+      "loaders": [
+        "fabric",
+        "quilt"
+      ],
+      "dependencies": [
+        "fabric-api(required)"
+      ]
+    }
   }
 }
