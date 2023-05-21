@@ -60,6 +60,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ref: docs
       - name: Configure git
         run: |
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
