@@ -54,4 +54,6 @@ tasks {
     }
 }
 
-fun File.child(name: String) = File(this, name)
+val buildOptiGlue by tasks.creating {
+    dependsOn(tasks["build"])
+}
