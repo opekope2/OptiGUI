@@ -33,7 +33,9 @@ dependencies {
         modImplementation(fabricApi.module("fabric-events-interaction-v0", fabricVersion))
     }
 
-    modLocalRuntime(project(":OptiGlue:1.19.4", configuration = "namedElements"))
+    if (!project.hasProperty("noModLocalRuntime")) {
+        modLocalRuntime(project(":OptiGlue:1.19.4", configuration = "namedElements"))
+    }
 
     include(implementation("org.apache.commons", "commons-text", "1.10.0"))
     include(implementation("org.ini4j", "ini4j", "0.5.4"))
