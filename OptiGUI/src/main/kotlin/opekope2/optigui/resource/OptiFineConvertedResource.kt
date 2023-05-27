@@ -30,7 +30,13 @@ private fun convert(properties: Options, path: Identifier): Ini? {
 
             properties.store(this)
         }
-        (converters[properties["container"] ?: return null] ?: return null)(properties, ini, path)
+
+        if (properties["texture"] != null) {
+            // If texture is not specified, texture.<path> may be.
+            // If it isn't either, OptiGUI will show a "resource pack empty" warning.
+            (converters[properties["container"] ?: return null] ?: return null)(properties, ini, path)
+        }
+
         texturePathConverter(properties, ini, path)
     }
 }
