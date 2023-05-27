@@ -25,26 +25,10 @@ dependencies {
         modImplementation(fabricApi.module("fabric-lifecycle-events-v1", fabricVersion))
         modImplementation(fabricApi.module("fabric-networking-api-v1", fabricVersion))
         modImplementation(fabricApi.module("fabric-events-interaction-v0", fabricVersion))
-
-        // OptiGlue transitive dependency.
-        // Declare explicitly, otherwise fabric loader will not find it.
-        modRuntimeOnly(fabricApi.module("fabric-resource-loader-v0", fabricVersion))
     }
 
-    runtimeOnly(project(":OptiGlue:1.18", configuration = "namedElements"))
-    runtimeOnly(project(":OptiGlue:1.18.2", configuration = "namedElements"))
-    runtimeOnly(project(":OptiGlue:1.19", configuration = "namedElements"))
-    runtimeOnly(project(":OptiGlue:1.19.3", configuration = "namedElements"))
-    runtimeOnly(project(":OptiGlue:1.19.4", configuration = "namedElements"))
-
-    include(project(":OptiGlue:1.18", configuration = "namedElements"))
-    include(project(":OptiGlue:1.18.2", configuration = "namedElements"))
-    include(project(":OptiGlue:1.19", configuration = "namedElements"))
-    include(project(":OptiGlue:1.19.3", configuration = "namedElements"))
-    include(project(":OptiGlue:1.19.4", configuration = "namedElements"))
-
     include(implementation("org.apache.commons", "commons-text", "1.10.0"))
-    include(implementation("org.ini4j", "ini4j", project.extra["ini4j_version"] as String))
+    include(implementation("org.ini4j", "ini4j", "0.5.4"))
 
     testImplementation(kotlin("test"))
 }
@@ -80,11 +64,20 @@ tasks {
         targetCompatibility = javaVersion
         withSourcesJar()
     }
+    test {
+        useJUnitPlatform()
+        testLogging {
+            events("PASSED", "SKIPPED", "FAILED")
+        }
+    }
 }
 
-tasks.test {
-    useJUnitPlatform()
-    testLogging {
-        events("PASSED", "SKIPPED", "FAILED")
+afterEvaluate {
+    tasks.remapJar {
+        nestedJars.from(project(":OptiGlue:1.18").outputJar)
+        nestedJars.from(project(":OptiGlue:1.18.2").outputJar)
+        nestedJars.from(project(":OptiGlue:1.19").outputJar)
+        nestedJars.from(project(":OptiGlue:1.19.3").outputJar)
+        nestedJars.from(project(":OptiGlue:1.19.4").outputJar)
     }
 }

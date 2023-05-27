@@ -54,7 +54,3 @@ tasks {
         withSourcesJar()
     }
 }
-
-val buildOptiGlue by tasks.creating {
-    dependsOn(tasks["build"])
-}
