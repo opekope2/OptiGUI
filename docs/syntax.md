@@ -5,6 +5,11 @@ OptiGUI supports two syntaxes:
 * OptiGUI syntax ^OptiGUI\ 2.1.0-beta.1\ or\ later^
 * [OptiFine syntax](https://optifine.readthedocs.io/syntax.html).
 
+!!! tip
+    To prevent loading an OptiFine `.properties` file on OptiGUI, add `#!properties optigui.ignore=true` into it.
+
+    OptiGUI files support [conditional loading](/conditional/).
+
 OptiGUI syntax is only supported for OptiGUI files, and the OptiFine syntax is only supported for OptiFine files. Do not mix them.
 
 This page describes the OptiGUI syntax. For the OptiFine syntax, visit the link above.
@@ -67,8 +72,7 @@ white_spaces=are_trimmed
 
 ## Paths
 
-!!! info
-    Different from [OptiFine paths](https://optifine.readthedocs.io/syntax.html#paths), even if they look similar.
+Similar to [OptiFine paths](https://optifine.readthedocs.io/syntax.html#paths). Tildes (`~`) are not supported by OptiGUI.
 
 !!! warning "Caution"
     Always use forward slashes (`/`) to separate folders.
@@ -81,6 +85,10 @@ OptiGUI paths can be specified in two ways: relative and absolute.
 # Relative path (relative to the folder the INI file is in)
 path=texture.png
 path=subfolder/texture.png
+
+# You can use current and parent directory
+path=./texture.png
+path=../other/texture.png
 
 # Absolute (namespace prefix)
 path=minecraft:textures/gui/container/crafting_table.png

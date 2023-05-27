@@ -16,7 +16,9 @@ nav:
     - Basic information & syntax: syntax.md
     - Replacing GUI textures: format.md
     - Migration guide: migrate.md
+    - Conditional loading: conditional.md
   - For developers:
+    - Develop OptiGUI: develop.md
     - Using OptiGUI in a mod: usage.md
   - API docs:
     - Latest: kdoc/latest
