@@ -1,5 +1,8 @@
 package opekope2.optigui.internal
 
+import net.fabricmc.loader.api.SemanticVersion
+import net.fabricmc.loader.api.Version
+import net.fabricmc.loader.api.VersionParsingException
 import net.minecraft.util.Identifier
 import opekope2.filter.*
 import opekope2.filter.FilterResult.Mismatch
@@ -24,12 +27,30 @@ internal fun initializeFilterFactories(context: InitializerContext) {
 private val resourceAccess: ResourceAccessService by lazy(::getService)
 private val minecraft_1_19_4: Boolean by lazy { getService<OptiGlueService>().minecraftVersion == "1.19.4" }
 private val smithingTable = Identifier("smithing_table")
+private val modSemver = SemanticVersion.parse(modVersion)
 
 private fun createFilter(context: FilterFactoryContext): FilterFactoryResult? {
     val filters = mutableListOf<Filter<Interaction, out Identifier>>()
     val replaceableTextures = mutableSetOf<Identifier>()
 
     for ((sectionName, section) in context.resource.ini) {
+        // TODO: in a next version, replace with better, more extensible ifs
+        if (section["if"].toBoolean() == false) {
+            context.warn("Ignoring section [$sectionName], because if=false.")
+            continue
+        }
+        val requiredVersion: Version? = section["if.mod.optigui.version.at_least"]?.let {
+            try {
+                SemanticVersion.parse(it)
+            } catch (_: VersionParsingException) {
+                null
+            }
+        }
+        if (requiredVersion != null && requiredVersion > modSemver) {
+            context.warn("Ignoring section [$sectionName], because OptiGUI $modVersion<$requiredVersion")
+            continue
+        }
+
         val replacement = (section["replacement"].also {
             if (it == null) context.warn("Ignoring section [$sectionName], because it is missing a replacement texture.")
         } ?: continue).let { replace -> resolvePath(replace, context.resource.id) }.also {

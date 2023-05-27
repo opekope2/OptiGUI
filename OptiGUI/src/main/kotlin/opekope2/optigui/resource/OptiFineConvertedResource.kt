@@ -13,31 +13,31 @@ import org.ini4j.Profile.Section
  * Represents an OptiFine .properties file converted to the OptiGUI-compatible INI format.
  */
 class OptiFineConvertedResource(private val wrappedResource: ResourceReader) : OptiGuiResource(wrappedResource) {
-    override val ini: Ini by lazy {
-        convert(Options().apply { load(wrappedResource.inputStream) }, wrappedResource.id) ?: Ini()
-    }
+    override val ini by lazy { convert(Options().apply { load(wrappedResource.inputStream) }, wrappedResource.id) }
 }
 
-private fun convert(properties: Options, path: Identifier): Ini? {
-    if (properties["optigui.ignore"].toBoolean() == true) return null
+private fun convert(properties: Options, path: Identifier) = Ini().also { ini ->
+    ini.comment = buildString {
+        appendLine("This resource has been converted from the OptiFine format.")
+        appendLine("Resource path: $path")
+        appendLine("Original OptiFine resource (parsed):")
+        appendLine()
 
-    return Ini().also { ini ->
-        ini.comment = buildString {
-            appendLine("This resource has been converted from the OptiFine format.")
-            appendLine("Resource path: $path")
-            appendLine("Original OptiFine resource (parsed):")
-            appendLine()
+        properties.store(this)
+    }
 
-            properties.store(this)
+    if (properties["texture"] != null) {
+        // If texture is not specified, texture.<path> may be.
+        // If it isn't either, OptiGUI will show a "resource pack empty" warning.
+        (converters[properties["container"] ?: return@also] ?: return@also)(properties, ini, path)
+    }
+
+    texturePathConverter(properties, ini, path)
+
+    if (properties["optigui.ignore"].toBoolean() == true) {
+        ini.entries.forEach { (_, section) ->
+            section["if"] = "false"
         }
-
-        if (properties["texture"] != null) {
-            // If texture is not specified, texture.<path> may be.
-            // If it isn't either, OptiGUI will show a "resource pack empty" warning.
-            (converters[properties["container"] ?: return null] ?: return null)(properties, ini, path)
-        }
-
-        texturePathConverter(properties, ini, path)
     }
 }
 
