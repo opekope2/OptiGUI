@@ -2,7 +2,8 @@ name: Publish Documentation
 
 on:
   push:
-    branches: [ 'docs' ]
+    branches:
+      - docs
 
 jobs:
   deploy-docs:
