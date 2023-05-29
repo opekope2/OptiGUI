@@ -131,7 +131,7 @@ tasks.dokkaHtml {
 
         sourceLink {
             localDirectory.set(projectDir.resolve("src/main/kotlin"))
-            remoteUrl.set(URL("https://github.com/opekope2/OptiGUI-Next/tree/$version/OptiGUI/src/main/kotlin"))
+            remoteUrl.set(URL("https://github.com/opekope2/OptiGUI/tree/$version/OptiGUI/src/main/kotlin"))
             remoteLineSuffix.set("#L")
         }
 

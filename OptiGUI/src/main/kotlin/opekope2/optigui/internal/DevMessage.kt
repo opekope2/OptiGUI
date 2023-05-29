@@ -22,7 +22,7 @@ fun setupDevMessage() {
                             "underlined": true,
                             "clickEvent": {
                                 "action": "open_url",
-                                "value": "https://github.com/opekope2/OptiGUI-Next/issues"
+                                "value": "https://github.com/opekope2/OptiGUI/issues"
                             },
                             "text": "GitHub"
                         },

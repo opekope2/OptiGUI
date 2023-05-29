@@ -1,11 +1,11 @@
 # OptiGUI
 
-[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/opekope2/OptiGUI-Next?include_prereleases&label=Download+from+GitHub&logo=github)](https://github.com/opekope2/OptiGUI-Next/releases)
+[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/opekope2/OptiGUI?include_prereleases&label=Download+from+GitHub&logo=github)](https://github.com/opekope2/OptiGUI/releases)
 [![Modrinth Version](https://img.shields.io/modrinth/v/optigui?label=Download+from+Modrinth&logo=modrinth)](https://modrinth.com/mod/optigui/versions)
 [![CurseForge Download](https://img.shields.io/badge/Download_from_CurseForge-uhh..._latest_I_guess%3F-E04E14?logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/optigui/files)
-[![GitHub Repo stars](https://img.shields.io/github/stars/opekope2/OptiGUI-Next?label=⭐+GitHub+stars&color=ffff00)](https://github.com/opekope2/OptiGUI-Next/stargazers)
-![GitHub top language](https://img.shields.io/github/languages/top/opekope2/OptiGUI-Next?color=7F52FF&logo=kotlin)
-[![Documentation](https://img.shields.io/badge/Read%20the-documentation-8CA1AF?logo=readthedocs)](https://opekope2.github.io/OptiGUI-Next)
+[![GitHub Repo stars](https://img.shields.io/github/stars/opekope2/OptiGUI?label=⭐+GitHub+stars&color=ffff00)](https://github.com/opekope2/OptiGUI/stargazers)
+![GitHub top language](https://img.shields.io/github/languages/top/opekope2/OptiGUI?color=7F52FF&logo=kotlin)
+[![Documentation](https://img.shields.io/badge/Read%20the-documentation-8CA1AF?logo=readthedocs)](https://opekope2.github.io/OptiGUI)
 [![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffe-Ko--fi-f16061?logo=ko-fi)](https://ko-fi.com/opekope2)
 
 A client side mod to customize the texture of in-game GUIs with resource packs. Now rewritten from scratch in Kotlin for cleaner code, better performance, more features, and extensibility.
