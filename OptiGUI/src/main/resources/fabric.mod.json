@@ -43,7 +43,14 @@
     "fabric-events-interaction-v0": "*",
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
     "minecraft": ">=1.18 <1.19.5",
-    "java": ">=${java}"
+    "java": ">=${java}",
+    "optiglue": [
+      "=${version}-mc.1.18",
+      "=${version}-mc.1.18.2",
+      "=${version}-mc.1.19",
+      "=${version}-mc.1.19.3",
+      "=${version}-mc.1.19.4"
+    ]
   },
   "recommends": {
     "animatica": "*"

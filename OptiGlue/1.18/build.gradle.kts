@@ -40,7 +40,8 @@ tasks {
                 mutableMapOf(
                     "version" to version,
                     "fabric_language_kotlin" to project.extra["fabric_language_kotlin_version"] as String,
-                    "java" to project.extra["java_version"] as String
+                    "java" to project.extra["java_version"] as String,
+                    "optigui_version" to project.extra["mod_version"] as String
                 )
             )
         }
@@ -52,8 +53,4 @@ tasks {
         targetCompatibility = javaVersion
         withSourcesJar()
     }
-}
-
-val buildOptiGlue by tasks.creating {
-    dependsOn(tasks["build"])
 }

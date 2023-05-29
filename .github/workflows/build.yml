@@ -3,7 +3,11 @@ name: Build project
 on:
   workflow_call:
     inputs:
+      build-project:
+        type: boolean
       test-project:
+        type: boolean
+      build-docs:
         type: boolean
       upload-output:
         type: boolean
@@ -13,10 +17,9 @@ jobs:
     name: Build project
     strategy:
       matrix:
-        os: [
-          ubuntu-latest,
-          windows-latest
-        ]
+        os:
+          - ubuntu-latest
+          - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
@@ -29,14 +32,35 @@ jobs:
           java-version: 17
           distribution: temurin
       - name: Build project
-        run: ./gradlew buildOptiGlue :OptiGUI:build
+        if: inputs.build-project
+        run: ./gradlew build -PnoModLocalRuntime
       - name: Test project
         if: inputs.test-project
-        run: ./gradlew :OptiGUI:test
+        run: ./gradlew test -PnoModLocalRuntime
+      - name: Build documentation
+        if: inputs.build-docs
+        run: ./gradlew :OptiGUI:dokkaHtml -PnoModLocalRuntime
+      - name: Build documentation (Java syntax)
+        if: inputs.build-docs
+        run: ./gradlew :OptiGUI:dokkaHtml -PjavaSyntax -PnoModLocalRuntime
       - name: Upload build output
-        if: matrix.os == 'ubuntu-latest' && inputs.upload-output
+        if: inputs.build-project && inputs.upload-output && matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v3
         with:
           name: jars
           path: OptiGUI/build/libs/*.jar
+          if-no-files-found: error
+      - name: Upload documentation output
+        if: inputs.build-docs && inputs.upload-output && matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          name: kdoc
+          path: OptiGUI/build/dokka/kotlinHtml
+          if-no-files-found: error
+      - name: Upload documentation output (Java syntax)
+        if: inputs.build-docs && inputs.upload-output && matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          name: javadoc
+          path: OptiGUI/build/dokka/javaHtml
           if-no-files-found: error

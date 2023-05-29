@@ -21,6 +21,8 @@ internal object ResourceLoader : ResourceLoaderService {
 
         val context = ReusableFilterFactoryContext()
         for (resource in resources) {
+            logger.info("Loading ${resource.id} from ${resource.resourcePack}")
+
             context.resource = when {
                 resource.isOptiFine -> OptiFineConvertedResource(resource)
                 resource.isOptiGUI -> OptiGuiResource(resource)
