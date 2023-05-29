@@ -28,15 +28,12 @@ jobs:
           path: dist
       - name: Fetch release tag
         run: git fetch origin $GITHUB_REF:$GITHUB_REF -f
-      - name: Load changelog
-        run: git for-each-ref $GITHUB_REF --format '%(contents)' > CHANGELOG.g.md
-      - name: Load versions
+      - name: Load publish information
         id: load-versions
         run: |
-          FLK_VERSION=$(grep fabric_language_kotlin_version gradle.properties | sed "s|fabric_language_kotlin_version=||g")
-          echo "FLK_VERSION=$FLK_VERSION" >> $GITHUB_OUTPUT
+          git for-each-ref $GITHUB_REF --format '%(contents)' > CHANGELOG.g.md
           JAVA_VERSION=$(grep java_version gradle.properties | sed "s|java_version=||g")
-          echo "JAVA_VERSION=$JAVA_VERSION"
+          echo "JAVA_VERSION=$JAVA_VERSION" >> $GITHUB_OUTPUT
       - name: Publish to GitHub, Modrinth, and CurseForge
         uses: Kir-Antipov/mc-publish@v3.3
         with:
@@ -110,7 +107,7 @@ jobs:
       - name: Push documentation
         uses: ad-m/github-push-action@master
         with:
-          branch: ${{ github.ref }}
+          branch: docs
       - name: Delete documentation artifacts
         uses: geekyeggo/delete-artifact@v2
         with:
