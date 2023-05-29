@@ -12,7 +12,5 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
       - name: Deploy documentation
         uses: mhausenblas/mkdocs-deploy-gh-pages@master
