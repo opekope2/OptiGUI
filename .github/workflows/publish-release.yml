@@ -108,6 +108,7 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           branch: docs
+          github_token: ${{ secrets.GH_DOCS_PUSH_TOKEN }}
       - name: Delete documentation artifacts
         uses: geekyeggo/delete-artifact@v2
         with:
