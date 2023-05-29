@@ -8,7 +8,7 @@
 [![Documentation](https://img.shields.io/badge/Read%20the-documentation-8CA1AF?logo=readthedocs)](https://opekope2.github.io/OptiGUI-Next)
 [![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffe-Ko--fi-f16061?logo=ko-fi)](https://ko-fi.com/opekope2)
 
-A client side drop-in replacement for OptiFine custom GUIs. Now rewritten from scratch in Kotlin for cleaner code, better performance, more features, and extensibility.
+A client side mod to customize the texture of in-game GUIs with resource packs. Now rewritten from scratch in Kotlin for cleaner code, better performance, more features, and extensibility.
 Other mods' developers can add their custom containers and customization options. See documentation link above.
 
 [Supports most OptiFine GUI resource packs](#supported-resource-packs). If a resource pack does not work or works differently than using OptiFine, please open an issue (select the **Report a bug** template).
@@ -70,6 +70,13 @@ Nothing to configure.
 ### Sodium?
 
 Yes.
+
+### OptiFine?
+
+Actually, OptiGUI and OptiFine (with OptiFabric) **can** be loaded simultaneously.
+I have observed that OptiGUI mixins will be placed before OptiFine ones, so you can turn off custom GUIs in OptiFine to save performance.
+
+However, I can't assist you with this.
 
 ### Supported loaders?
 
