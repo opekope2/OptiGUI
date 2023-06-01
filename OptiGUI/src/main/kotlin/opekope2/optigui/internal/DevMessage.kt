@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.minecraft.text.Text
 
 fun setupDevMessage() {
-    if ("alpha" !in modVersion) return
+    if ("alpha" !in modVersion.friendlyString) return
 
     var shown = false
 

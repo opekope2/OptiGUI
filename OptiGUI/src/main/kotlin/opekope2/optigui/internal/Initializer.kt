@@ -10,9 +10,13 @@ import opekope2.optigui.internal.service.ResourceLoaderService
 import opekope2.optigui.service.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import kotlin.jvm.optionals.getOrNull
 
 internal val logger: Logger = LoggerFactory.getLogger("OptiGUI")
-const val modVersion = "@mod_version@"
+val modVersion =
+    FabricLoader.getInstance().getModContainer("optigui").getOrNull()?.metadata?.version
+        ?: throw RuntimeException("OptiGUI is not loaded with id 'optigui'!")
+
 
 @Suppress("unused")
 fun initialize() {

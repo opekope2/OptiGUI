@@ -31,7 +31,6 @@ private val minecraft_1_19_4: Boolean by lazy {
         .getOrNull()?.metadata?.version?.friendlyString?.contains("1.19.4") ?: false
 }
 private val smithingTable = Identifier("smithing_table")
-private val modSemver = SemanticVersion.parse(modVersion)
 
 private fun createFilter(context: FilterFactoryContext): FilterFactoryResult? {
     val filters = mutableListOf<Filter<Interaction, out Identifier>>()
@@ -50,7 +49,7 @@ private fun createFilter(context: FilterFactoryContext): FilterFactoryResult? {
                 null
             }
         }
-        if (requiredVersion != null && requiredVersion > modSemver) {
+        if (requiredVersion != null && requiredVersion > modVersion) {
             context.warn("Ignoring section [$sectionName], because OptiGUI $modVersion<$requiredVersion")
             continue
         }
