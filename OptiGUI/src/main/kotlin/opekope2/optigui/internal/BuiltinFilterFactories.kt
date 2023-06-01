@@ -1,5 +1,6 @@
 package opekope2.optigui.internal
 
+import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.SemanticVersion
 import net.fabricmc.loader.api.Version
 import net.fabricmc.loader.api.VersionParsingException
@@ -10,7 +11,6 @@ import opekope2.filter.factory.FilterFactoryContext
 import opekope2.filter.factory.FilterFactoryResult
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.interaction.Interaction
-import opekope2.optigui.internal.service.OptiGlueService
 import opekope2.optigui.properties.*
 import opekope2.optigui.service.ResourceAccessService
 import opekope2.optigui.service.getService
@@ -18,6 +18,7 @@ import opekope2.util.*
 import org.apache.commons.text.StringEscapeUtils.unescapeJava
 import java.time.Month
 import java.time.Month.*
+import kotlin.jvm.optionals.getOrNull
 
 @Suppress("unused")
 internal fun initializeFilterFactories(context: InitializerContext) {
@@ -25,7 +26,10 @@ internal fun initializeFilterFactories(context: InitializerContext) {
 }
 
 private val resourceAccess: ResourceAccessService by lazy(::getService)
-private val minecraft_1_19_4: Boolean by lazy { getService<OptiGlueService>().minecraftVersion == "1.19.4" }
+private val minecraft_1_19_4: Boolean by lazy {
+    FabricLoader.getInstance().getModContainer("minecraft")
+        .getOrNull()?.metadata?.version?.friendlyString?.contains("1.19.4") ?: false
+}
 private val smithingTable = Identifier("smithing_table")
 private val modSemver = SemanticVersion.parse(modVersion)
 
