@@ -48,8 +48,7 @@
       "=${version}-mc.1.18",
       "=${version}-mc.1.18.2",
       "=${version}-mc.1.19",
-      "=${version}-mc.1.19.3",
-      "=${version}-mc.1.19.4"
+      "=${version}-mc.1.19.3"
     ]
   },
   "recommends": {

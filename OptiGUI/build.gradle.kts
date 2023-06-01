@@ -34,7 +34,7 @@ dependencies {
     }
 
     if (!project.hasProperty("noModLocalRuntime")) {
-        modLocalRuntime(project(":OptiGlue:1.19.4", configuration = "namedElements"))
+        modLocalRuntime(project(":OptiGlue:1.19.3", configuration = "namedElements"))
     }
 
     include(implementation("org.apache.commons", "commons-text", "1.10.0"))
@@ -90,7 +90,6 @@ evaluationDependsOn(":OptiGlue:1.18")
 evaluationDependsOn(":OptiGlue:1.18.2")
 evaluationDependsOn(":OptiGlue:1.19")
 evaluationDependsOn(":OptiGlue:1.19.3")
-evaluationDependsOn(":OptiGlue:1.19.4")
 
 afterEvaluate {
     tasks.remapJar {
@@ -98,7 +97,6 @@ afterEvaluate {
         nestedJars.from(project(":OptiGlue:1.18.2").outputJar)
         nestedJars.from(project(":OptiGlue:1.19").outputJar)
         nestedJars.from(project(":OptiGlue:1.19.3").outputJar)
-        nestedJars.from(project(":OptiGlue:1.19.4").outputJar)
     }
 }
 
