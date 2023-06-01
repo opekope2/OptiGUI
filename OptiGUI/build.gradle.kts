@@ -21,9 +21,7 @@ dependencies {
     mappings("net.fabricmc", "yarn", project.extra["yarn_mappings"] as String, null, "v2")
     modImplementation("net.fabricmc", "fabric-loader", project.extra["loader_version"] as String)
     modImplementation(
-        "net.fabricmc",
-        "fabric-language-kotlin",
-        project.extra["fabric_language_kotlin_version"] as String
+        "net.fabricmc", "fabric-language-kotlin", project.extra["fabric_language_kotlin_version"] as String
     )
 
     (project.extra["fabric_version"] as String).also { fabricVersion ->
