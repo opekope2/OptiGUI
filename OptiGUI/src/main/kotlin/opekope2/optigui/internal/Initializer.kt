@@ -23,8 +23,6 @@ fun initialize() {
     registerService<ResourceLoaderService>(ResourceLoader) // Needed by OptiGlue
     registerService<InteractionService>(TextureReplacer)
 
-    setupDevMessage()
-
     UseBlockCallback.EVENT.register(InteractionHandler)
     UseEntityCallback.EVENT.register(InteractionHandler)
 
