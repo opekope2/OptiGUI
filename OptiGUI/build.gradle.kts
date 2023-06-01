@@ -6,7 +6,6 @@ import java.net.URL
 plugins {
     id("fabric-loom")
     kotlin("jvm")
-    id("net.kyori.blossom")
     id("org.jetbrains.dokka")
 }
 
@@ -46,8 +45,6 @@ dependencies {
         dokkaPlugin("org.jetbrains.dokka", "kotlin-as-java-plugin", "1.8.10")
     }
 }
-
-blossom.replaceToken("@mod_version@", version)
 
 tasks {
     val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
