@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.network.ClientPlayNetworkHandler
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
@@ -19,7 +18,9 @@ import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.interaction.InteractionTarget
 import opekope2.optigui.interaction.Preprocessors
 import opekope2.optigui.interaction.RawInteraction
+import opekope2.optigui.internal.service.RetexturableScreensRegistryService
 import opekope2.optigui.service.InteractionService
+import opekope2.optigui.service.getService
 
 internal object TextureReplacer : InteractionService {
     private object InteractionHolder : ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Disconnect {
@@ -32,7 +33,7 @@ internal object TextureReplacer : InteractionService {
 
         private var raw: RawInteraction? = null
         private var data: Any? = null
-        private var screen: HandledScreen<*>? = null
+        private var screen: Screen? = null
 
         var riddenEntity: Entity? = null
 
@@ -54,7 +55,7 @@ internal object TextureReplacer : InteractionService {
             return true
         }
 
-        fun begin(screen: HandledScreen<*>) {
+        fun begin(screen: Screen) {
             this.screen = screen
 
             interacting = true
@@ -90,6 +91,8 @@ internal object TextureReplacer : InteractionService {
         }
     }
 
+    private val retexturableScreens: RetexturableScreensRegistryService by lazy(::getService)
+
     internal var filter: Filter<Interaction, Identifier> = Filter { FilterResult.Skip() }
     internal var replaceableTextures = mutableSetOf<Identifier>()
 
@@ -116,12 +119,10 @@ internal object TextureReplacer : InteractionService {
 
     @JvmStatic
     fun handleScreenChange(screen: Screen?) {
-        (screen as? HandledScreen<*>).let {
-            if (it != null) {
-                InteractionHolder.begin(it)
-            } else {
-                InteractionHolder.end()
-            }
+        when {
+            screen == null -> InteractionHolder.end()
+            retexturableScreens.isScreenRetexturable(screen) -> InteractionHolder.begin(screen)
+            else -> InteractionHolder.end()
         }
     }
 

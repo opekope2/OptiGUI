@@ -3,10 +3,12 @@ package opekope2.optigui.internal
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.client.gui.screen.ingame.HandledScreen
 import opekope2.optigui.EntryPoint
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.internal.interaction.InteractionHandler
 import opekope2.optigui.internal.service.ResourceLoaderService
+import opekope2.optigui.internal.service.RetexturableScreensRegistryService
 import opekope2.optigui.service.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -22,6 +24,12 @@ val modVersion =
 fun initialize() {
     registerService<ResourceLoaderService>(ResourceLoader) // Needed by OptiGlue
     registerService<InteractionService>(TextureReplacer)
+
+    RetexturableScreensRegistry().apply {
+        registerService<RetexturableScreensRegistryService>(this)
+
+        addRetexturableScreen(HandledScreen::class.java)
+    }
 
     UseBlockCallback.EVENT.register(InteractionHandler)
     UseEntityCallback.EVENT.register(InteractionHandler)
