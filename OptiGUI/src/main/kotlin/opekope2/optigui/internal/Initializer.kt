@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.gui.screen.ingame.HandledScreen
+import net.minecraft.client.gui.screen.ingame.LecternScreen
 import opekope2.optigui.EntryPoint
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.internal.interaction.InteractionHandler
@@ -29,6 +30,7 @@ fun initialize() {
         registerService<RetexturableScreensRegistryService>(this)
 
         addRetexturableScreen(HandledScreen::class.java)
+        addRetexturableScreen(LecternScreen::class.java)
     }
 
     UseBlockCallback.EVENT.register(InteractionHandler)

@@ -52,6 +52,8 @@ internal fun initializePreprocessors(context: InitializerContext) {
     context.registerPreprocessor<SkeletonHorseEntity>(::processCommon)
 
     context.registerPreprocessor<ShulkerBoxBlockEntity>(::processCommon)
+
+    context.registerPreprocessor<LecternBlockEntity>(::processCommon)
 }
 
 private val lookup: RegistryLookupService by lazy(::getService)
