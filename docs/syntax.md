@@ -2,7 +2,7 @@
 
 OptiGUI supports two syntaxes:
 
-* OptiGUI syntax ^OptiGUI\ 2.1.0-beta.1\ or\ later^
+* OptiGUI syntax ^2.1.0-beta.1+^
 * [OptiFine syntax](https://optifine.readthedocs.io/syntax.html).
 
 !!! tip
@@ -16,13 +16,15 @@ This page describes the OptiGUI syntax. For the OptiFine syntax, visit the link 
 
 ## File naming rules
 
-!!! info
-    Same as [OptiFine file naming rules](https://optifine.readthedocs.io/syntax.html#file-naming-rules).
+Each file in a resource pack must only contain characters `a-z 0-9 _`. All lowercase, no whitespace. Otherwise, the game will not recognize it.
+
+> Each file name must match the regular expression `^[a-z0-9_]+$`
+
+Textures must be [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) images with `.png` extension.
+
+All text files must be encoded in UTF-8. Do not use an ASCII encoding.
 
 ## File structure
-
-!!! info
-    Different from [OptiFine file structure](https://optifine.readthedocs.io/syntax.html#file-structure), even if they look similar.
 
 OptiGUI uses [INI](https://en.wikipedia.org/wiki/INI_file) files, kind of like OptiFine, but uses more features of it.
 
@@ -31,30 +33,32 @@ OptiGUI uses [INI](https://en.wikipedia.org/wiki/INI_file) files, kind of like O
 ; or a semicolon
 ```
 
-All property names are case-sensitive: `name` is not the same as `Name`. The order of properties within the file or within a group does not matter.
+All selectors are case-sensitive: `name` is not the same as `Name`. The order of selectors within the file or within a group does not matter.
 
 ### Groups
 
-Groups start [square bracketed] identifiers. Place the identifier of the container to replace the GUI.
+Groups start with `#!ini [square bracketed]` identifiers. Place the identifier of the container to replace the GUI.
 
 !!! tip
     Go to the [Minecraft Wiki](https://minecraft.fandom.com). Select a container (for example, a chest, horse, crafting table, etc.), scroll down to **Data values/ID/Java Edition**, and copy the text from the **Identifier** column. This identifier is used by the `/give` and `/summon` commands.
 
-If multiple properties are specified in a group, they **all must match** in order to apply the replacement texture. If incompatible properties are specified (for example, `llama.colors` to `[chest]`, it will **never** match).
+If multiple selectors are specified in a group, they **all must match** in order to apply the replacement texture. If incompatible selectors are specified (for example, `llama.colors` to `[chest]`, it will **never** match).
 
 ```ini
 [chest]
-# Properties here apply to minecraft:chest
+# Selectors here apply to minecraft:chest
 # If namespace is omitted, the default is minecraft
-property=value
+selector=value
 
 [minecraft:barrel]
-# Properties here apply to minecraft:barrel
-property=value_for_barrel
+# Starts a new group
+# Selectors here apply to minecraft:barrel
+selector=value_for_barrel
 
 [horse minecraft:llama]
-# Properties here apply to both horses and llamas
+# Selectors here apply to both horses and llamas
 # Namespaces and the lack of them can be mixed
+# The default namespace is minecraft
 white_spaces = are_trimmed
 # Is the same as
 white_spaces=are_trimmed
@@ -62,7 +66,7 @@ white_spaces=are_trimmed
 [chest #2]
 # [chest] is not allowed again
 # Anything specified after a hashtag is ignored
-# Useful when want to replace the GUI of the same container, but with different properties
+# Useful when want to replace the GUI of the same container, but with different selectors
 
 [#3 chest]
 # Hashtags can be anywhere between the square brackets
@@ -72,12 +76,10 @@ white_spaces=are_trimmed
 
 ## Paths
 
-Similar to [OptiFine paths](https://optifine.readthedocs.io/syntax.html#paths). Tildes (`~`) are not supported by OptiGUI.
-
 !!! warning "Caution"
     Always use forward slashes (`/`) to separate folders.
 
-    Regardless of operating system (*Windows, Mac, \*nix*), do not use backslashes (`\`), or the game will not properly recognize the path.
+    Regardless of operating system (*Windows, Mac, \*nix*), do **not** use backslashes (`\`), or the game will not properly recognize the path.
 
 OptiGUI paths can be specified in two ways: relative and absolute.
 
@@ -95,40 +97,98 @@ path=minecraft:textures/gui/container/crafting_table.png
 ```
 
 !!! warning "Caution"
-    Contrary to OptiFine, OptiGUI **requires** the file extension (`.png` here) to be specified. If it is not specified, OptiGUI will not find the texture!
+    Contrary to OptiFine, OptiGUI **requires** the file extension (`.png` here) to be specified. If it is not specified, OptiGUI will **not** find the texture!
+
+!!! note
+    Tildes (`~`) are **not** supported by OptiGUI. When loading OptiFine `.properties`, OptiGUI will expand them.
 
 ## Strings
 
-!!! info
-    Same as [OptiFine strings](https://optifine.readthedocs.io/syntax.html#strings) with the following exception:
+OptiGUI supports exact values, and case-sensitive and case-insensitive variants of wildcards and regexes. However, these are not prefixed with `regex:`, `iregex:`, `pattern:`, or `ipattern:`. The accepted type (wildcard, regex, ...) depends on the selector, and always noted explicitly.
 
-OptiGUI supports exact values, and case-sensitive and case-insensitive variants of wildcards and regexes. However, these are not prefixed with `regex:`, `iregex:`, `pattern:`, or `ipattern:`. The accepted type (wildcard, regex, ...) is always noted explicitly.
+!!! note
+    Any backslashes must be doubled. Matching backslashes within a regular expression or wildcard must be quadrupled.
+
+    ✅ Correct: `name=regex:\\d+`, `name=regex:\\\\`, `nbt.display.name=/\\/\\`
+
+    ❌ Wrong: `name=regex:\d+`, `name=regex:\\` (for matching \), `name=/\/\\` (missing a backslash)
+
+### Exact value
+
+`Letter to Herobrine` matches `Letter to Herobrine`, and nothing else.
+
+### Wildcard
+
+You may use the following characters to match other characters:
+
+| Character | Regex equivalent | Meaning                      |
+|-----------|------------------|------------------------------|
+| `*`       | `.+`             | Matches 1 or more characters |
+| `?`       | `.*`             | Matches 0 or more characters |
+
+### Regex
+
+[Regular expressions](https://en.wikipedia.org/wiki/Regular_expression) "patterns" other strings can be matched against.
+
+OptiGUI understands the [Java syntax](https://docs.oracle.com/javase/tutorial/essential/regex/). [Expression flags](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#advanced_searching_with_flags) are **not** supported.
+
+You can use the [RegExr](https://regexr.com/) tool to create and test your regexes. When pasting into az OptiGUI INI file, make sure to duplicate all backslashes (`\`), as OptiGUI will unescape any escape sequences Java supports (like hexadecimals, line breaks, and unicode codepoints).
 
 ## Numbers
 
-!!! info
-    Same as [OptiFine numbers](https://optifine.readthedocs.io/syntax.html#numbers).
+Numbers can be specified as a signed or unsigned integer.
+
+!!! example
+    ```ini
+    number = 1
+    ```
 
 ### Ranges
 
-!!! info
-    Same as [OptiFine ranges](https://optifine.readthedocs.io/syntax.html#ranges), but the `range:` prefix is **not** supported.
+Inclusive ranges between numbers are defined with a `-` between the minimum and the maximum number. The right side is optional: if it is omitted, the upper bound will be positive infinity.
 
 !!! tip
-    In OptiGUI, ranges are always parsed as a [list](#lists) of ranges.
+    OptiGUI usually allows specifying ranges as [lists](#lists)
+
+!!! example
+    ```ini
+    # 1, 2, 3
+    numbers = 1-3
+
+    # Multiple ranges
+    # 1 through 3, or 6, or 8, or 10 through 15
+    # 1, 2, 3, 6, 8, 10, 11, 12, 13, 14, 15
+    numbers = 1-3 6 8 10-15
+
+    # Greater than or equal to
+    # 100, or 200, or 5340, or 25902, etc.
+    numbers = 100-
+
+    # Negative number, not a range
+    # Only matches negative 100, not -4, -7, or -101
+    numbers = -100
+
+    # Negative numbers must be surrounded with parenthesis
+    numbers = (-1)-(-3)
+    ```
+
+!!! note
+    There is **no** range to specify `≤` relation, you need to specify the lower bound: `0-100`. `-100` is a number, and will only match `-100`.
+
+!!! note
+    The `range:` prefix is **not supported** by OptiGUI and will be ignored when loading OptiFine `.properties`.
 
 ## Booleans
 
 Booleans are case-insensitive.
 
-Possible values: `true`, `false`. Everything else means undefined.
+Possible values: `true`, `false`. Everything else is ignored.
 
 ## Lists
 
-!!! info
-    Same as [OptiFine lists](https://optifine.readthedocs.io/syntax.html#lists), but lists can hold any types, including [strings](#strings) (white space automatically starts a new list item) or [booleans](#booleans).
+Lists can hold multiple elements separated with a whitespace. The element type is specified by the selector, it can be any type, like numbers or booleans. Strings are also supported, however, whitespaces within a string will start a new list element (and therefore, cannot be specified in strings inside lists).
 
-If multiple items are specified in a list, **any of them** can match in order to replace a texture.
+If multiple elements are specified in a list, **any of them** can match in order to replace a texture.
 
 ## Dates
 
