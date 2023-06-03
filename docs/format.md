@@ -1,123 +1,115 @@
 # Replacing GUI textures
 
-This page describes the usage of OptiGUI INI files^OptiGUI\ 2.1.0-beta.1\ or\ later^. [The OptiFine custom GUI documentation is available here](https://optifine.readthedocs.io/custom_guis.html).
+This page describes the usage of OptiGUI ^2.1.0-beta.1+^ INI files. [The OptiFine custom GUI documentation is available here](https://optifine.readthedocs.io/custom_guis.html).
 
 This page assumes you to be familiar with the [OptiGUI syntax](/syntax/).
 
 !!! warning
     OptiGUI 2.1.0-beta.1 removed all OptiFine extensions from OptiFine files: `_cartography_table`, `_chest_boat`, `_grindstone`, `_loom`, `_smithing_table`, `_stonecutter`, `_barrel`, `_minecart`, `_furnace`, `_blast`, `_blast_furnace`, `_smoker`, `_camel`, `_zombie_horse`, `_skeleton_horse`, `_wandering_trader`.
 
-    See the migration guide [here](/migrate/).
+    See the [migration guide](/migrate/) to learn how to convert your resource pack.
 
 You can define a texture replacement for each inventory GUI, and apply them based on different criteria.
 
-!!! info "Location"
-    `/assets/minecraft/optigui/gui/ANY_NAME.properties` ([file naming rules apply](/syntax/#file-naming-rules))
-
-For each container GUI texture to replace, create a `.ini` file in `/assets/minecraft/optigui/gui/` folder of the resource pack. INI files can be organized into subfolders of any depth, as long as everything is within the top-level `/assets/minecraft/optigui/gui/` folder.
+For each container GUI texture to replace, create a `.ini` file in `/assets/optigui/gui/` folder (or any of its subfolders in any depth) of the resource pack.
 
 !!! note
-    Every property is optional, unless noted otherwise. Properties unspecified in a properties file will not be taken into account while replacing GUI textures.
+    When specifying texture paths, **do not** forget file extensions, otherwise OptiGUI **will not** find the resources!
 
-!!! warning "Caution"
-    When specifying texture paths, **do not** forget file extensions, because OptiGUI will not find the resources!
-
-## General properties
-
-These properties may be specified for all container types.
+## Common selectors
 
 ### `replacement`
 
-!!! info "Required"
+**Required**{.chip-darkblue}
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
 
-!!! info "Type"
-    [Path](/syntax/#paths) to a texture
-
-Replacement texture for the default GUI texture of the container.
+[Path](/syntax/#paths) to the replacement texture for the default GUI texture of the container. This is not really a selector, as it is not used to match against an interaction, but specifies the replacement if all other selectors match.
 
 ### `name`
 
-!!! info "Type"
-    [String](/syntax/#strings) (exact value)
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
 
-Custom entity or block entity name.
-
-Apply texture only when the container's name is equal to the specified string.
+A [String](/syntax/#strings) specifying the exact value of the name of the entity or block entity.
 
 ### `name.wildcard`
 
-!!! info "Type"
-    [String](/syntax/#strings) (case-sensitive wildcard)
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
 
-Custom entity or block entity name.
-
-Apply texture only when the container's name matches the specified wildcard.
+A [String](/syntax/#strings) specifying the case-sensitive [wildcard](/syntax/#wildcard) to match against the name of the entity or block entity.
 
 ### `name.wildcard.ignore_case`
 
-!!! info "Type"
-    [String](/syntax/#strings) (case-insensitive wildcard)
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
 
-Custom entity or block entity name.
-
-Apply texture only when the container's name matches the specified wildcard.
+A [String](/syntax/#strings) specifying the case-insensitive [wildcard](/syntax/#wildcard) to match against the name of the entity or block entity.
 
 ### `name.regex`
 
-!!! info "Type"
-    [String](/syntax/#strings) (case-sensitive regex)
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
 
-Custom entity or block entity name.
-
-Apply texture only when the container's name matches the specified regex.
+A [String](/syntax/#strings) specifying the case-sensitive [regex](/syntax/#regex) to match against the name of the entity or block entity.
 
 ### `name.regex.ignore_case`
 
-!!! info "Type"
-    [String](/syntax/#strings) (case-insensitive regex)
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
 
-Custom entity or block entity name.
-
-Apply texture only when the container's name matches the specified regex.
+A [String](/syntax/#strings) specifying the case-insensitive [regex](/syntax/#regex) to match against the name of the entity or block entity.
 
 ### `biomes`
 
-!!! info "Type"
-    [List](/syntax/#lists) of biome identifiers
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
 
-Biomes of the entity or block entity, where this replacement applies.
+A [list](/syntax/#lists) of biome identifiers specifying the biomes of the entity or block entity where this replacement applies.
 
 ### `heights`
 
-!!! info "Type"
-    [Integer](/syntax/#ranges), or [range](/syntax/#numbers) of integers
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
 
-Heights (Y coordiantes) of the entity or block entity, where this replacement applies.
+A [list](/syntax/#lists) of [integers](/syntax/#numbers) and [ranges](/syntax/#ranges) specifying the heights (Y coordiantes) of the entity or block entity, where this replacement applies.
 
-!!! note
-    Since Minecraft 1.18, negative values may be specified for height. When used in a range, they have to be put in parenthesis `( )`.
-
-### `date`
-
-!!! info "Type"
-    [Date](/syntax/#dates)
-
-The dates in a year, when the texture should be replaced.
+## Interaction selectors
 
 ### `interaction.texture`
 
-!!! info "Type"
-    [Path](/syntax/#paths) to a texture
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
 
-!!! abstract "Default"
-    When left empty, OptiGUI looks up the default texture of the specified containers.
+[Path](/syntax/#paths) to the texture to replace (the default texture of the container). When left empty, OptiGUI looks up the default texture of the specified containers.
 
-The original texture path of a container.
+## Independent selectors
+
+### `date`
+
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+A [list](/syntax/#lists) of [dates](/syntax/#dates) specifying when the texture should be replaced.
 
 ## Anvil
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/anvil.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/anvil.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -126,8 +118,12 @@ The original texture path of a container.
 
 ## Barrel
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/generic_54.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/generic_54.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -136,8 +132,12 @@ The original texture path of a container.
 
 ## Beacon
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/beacon.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/beacon.png`
+
+Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -147,15 +147,20 @@ The original texture path of a container.
 
 ### `beacon.levels`
 
-!!! info "Type"
-    [Integer](/syntax/#ranges), or [range](/syntax/#numbers) of integers
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
 
-What levels of beacon power to apply to (how many bases of blocks).
+A [list](/syntax/#lists) [integers](/syntax/#numbers) and [ranges](/syntax/#ranges) specifying the levels of beacon power to apply to (how many bases of blocks).
 
 ## Brewing stand
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/brewing_stand.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/brewing_stand.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -164,8 +169,12 @@ What levels of beacon power to apply to (how many bases of blocks).
 
 ## Cartography table
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/cartography_table.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/cartography_table.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -174,8 +183,12 @@ What levels of beacon power to apply to (how many bases of blocks).
 
 ## Chest & trapped chest
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/generic_54.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/generic_54.png`
+
+Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -185,15 +198,20 @@ What levels of beacon power to apply to (how many bases of blocks).
 
 ### `chest.large`
 
-!!! info "Type"
-    [Boolean](/syntax/#booleans)
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
 
-Use replacement on a double chest.
+A single [boolean](/syntax/#booleans) specifying if the texture of a double chest should be replaced.
 
 ## Ender chest
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/generic_54.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/generic_54.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -202,8 +220,12 @@ Use replacement on a double chest.
 
 ## Chest boats
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/generic_54.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.19+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/generic_54.png`
+
+Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -213,15 +235,16 @@ Use replacement on a double chest.
 
 ### `chest_boat.variants`
 
-!!! info "Type"
-    [List](/syntax/#lists) of strings
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.19+**{.chip-lightgreen}
 
-The wood type of the chest boat. Possible vaues:
+A [list](/syntax/#lists) of strings specifying the wood type of the chest boat. Possible values:
 
 * `acacia`
-* `bamboo` ^Minecraft\ 1.19.3\ or\ later^
+* `bamboo` **Minecraft 1.20+**{.chip-lightgreen} **Minecraft 1.19.3+ with 1.20 experiments**{.chip-lightgreen}
 * `birch`
-* `cherry` ^Minecraft\ 1.19.4\ or\ later^
+* `cherry` **Minecraft 1.20+**{.chip-lightgreen} **Minecraft 1.19.4+ with 1.20 experiments**{.chip-lightgreen}
 * `dark_oak`
 * `jungle`
 * `mangrove`
@@ -230,8 +253,12 @@ The wood type of the chest boat. Possible vaues:
 
 ## Chest minecart
 
-!!! abstract "Texture path"
-    `mniecraft:textures/gui/container/generic_54.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `mniecraft:textures/gui/container/generic_54.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -240,8 +267,12 @@ The wood type of the chest boat. Possible vaues:
 
 ## Crafting table
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/crafting_table.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/crafting_table.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -250,8 +281,12 @@ The wood type of the chest boat. Possible vaues:
 
 ## Dispenser
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/dispenser.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/dispenser.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -260,8 +295,12 @@ The wood type of the chest boat. Possible vaues:
 
 ## Dropper
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/dispenser.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/dispenser.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -270,8 +309,12 @@ The wood type of the chest boat. Possible vaues:
 
 ## Enchanting table
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/enchanting_table.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/enchanting_table.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -280,8 +323,12 @@ The wood type of the chest boat. Possible vaues:
 
 ## Furnace
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/furnace.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/furnace.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -290,8 +337,12 @@ The wood type of the chest boat. Possible vaues:
 
 ## Blast furnace
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/blast_furnace.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/blast_furnace.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -300,8 +351,12 @@ The wood type of the chest boat. Possible vaues:
 
 ## Smoker
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/smoker.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/smoker.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -310,8 +365,12 @@ The wood type of the chest boat. Possible vaues:
 
 ## Grindstone
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/grindstone.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/grindstone.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -320,8 +379,12 @@ The wood type of the chest boat. Possible vaues:
 
 ## Hopper
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/hopper.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/hopper.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -330,8 +393,12 @@ The wood type of the chest boat. Possible vaues:
 
 ## Hopper minecart
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/hopper.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/hopper.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -340,8 +407,12 @@ The wood type of the chest boat. Possible vaues:
 
 ## Horse
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/horse.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/horse.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -350,8 +421,12 @@ The wood type of the chest boat. Possible vaues:
 
 ## Donkey
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/horse.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/horse.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -360,8 +435,12 @@ The wood type of the chest boat. Possible vaues:
 
 ## Mule
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/horse.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/horse.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -370,8 +449,12 @@ The wood type of the chest boat. Possible vaues:
 
 ## Llama & trader llama
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/horse.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/horse.png`
+
+Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -381,10 +464,11 @@ The wood type of the chest boat. Possible vaues:
 
 ### `llama.colors`
 
-!!! info "Type"
-    [List](/syntax/#lists) of strings
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
 
-Llama carpet color. Possible values:
+A [list](/syntax/#lists) of strings specifying the llama's carpet color. Possible values:
 
 * `white`
 * `orange`
@@ -405,8 +489,12 @@ Llama carpet color. Possible values:
 
 ## Zombie horse
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/horse.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/horse.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -415,8 +503,12 @@ Llama carpet color. Possible values:
 
 ## Skeleton horse
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/horse.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/horse.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -425,18 +517,41 @@ Llama carpet color. Possible values:
 
 ## Camel
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/horse.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.20+**{.chip-lightgreen}
+**Minecraft 1.19.3+ with 1.20 experiments**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/horse.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
     [camel]
     ```
 
+## Lectern
+
+**OptiGUI 2.1.0+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/horse.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+
+!!! example
+    ```ini
+    [lectern]
+    ```
+
 ## Loom
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/loom.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/loom.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -445,8 +560,12 @@ Llama carpet color. Possible values:
 
 ## Shulker boxes
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/shulker_box.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/shulker_box.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -471,8 +590,12 @@ Llama carpet color. Possible values:
 
 ## Smithing table
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/smithing.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/smithing.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -481,8 +604,12 @@ Llama carpet color. Possible values:
 
 ## Stonecutter
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/stonecutter.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/stonecutter.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -491,8 +618,12 @@ Llama carpet color. Possible values:
 
 ## Villagers
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/villager2.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/villager2.png`
+
+Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -501,10 +632,11 @@ Llama carpet color. Possible values:
 
 ### `villager.professions`
 
-!!! info "Type"
-    [List](/syntax/#lists) of profesions
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
 
-List of villager professions with optional levels.
+A [list](/syntax/#lists) specifying villager professions with optional levels.
 
 The profession syntax is similar to the [date syntax](/syntax/#dates), but it accepts and optional namespace.
 
@@ -542,8 +674,12 @@ The profession syntax is similar to the [date syntax](/syntax/#dates), but it ac
 
 ## Wandering trader
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/villager2.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/villager2.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
@@ -552,8 +688,15 @@ The profession syntax is similar to the [date syntax](/syntax/#dates), but it ac
 
 ## Survival inventory
 
-!!! abstract "Texture path"
-    `minecraft:textures/gui/container/inventory.png`
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/inventory.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+
+!!! note
+    Common selectors apply to the player instead of the interacted container, because there is no interaction with another entity or block entity.
 
 !!! example
     ```ini
@@ -561,15 +704,16 @@ The profession syntax is similar to the [date syntax](/syntax/#dates), but it ac
     interaction.texture = minecraft:textures/gui/container/inventory.png
     ```
 
-General properties are supported, however, since there is no interaction, those apply to the player instead of the interacted container, because it is not applicable.
-
 ## Creative inventory & everything else
 
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
 !!! note
-    GUIs not having a default texture need to be fitered with [`interaction.texture`](#interactiontexture).
+    GUIs not having a default texture must to be fitered with [`interaction.texture`](#interactiontexture).
 
 !!! example "Example for creative inventory"
-    This is the equivalent syntax of [OptiFine's `texture.<path>` example in the table](https://optifine.readthedocs.io/custom_guis.html#general-properties). In `/assets/minecraft/optigui/gui/creative_desert.ini`:
+    This is the equivalent syntax of [OptiFine's `texture.<path>` example in the table](https://optifine.readthedocs.io/custom_guis.html#general-properties). In `/assets/optigui/gui/creative_desert.ini`:
 
     ```ini
     [player #1]

@@ -1,14 +1,14 @@
 # Conditional loading
 
-OptiGUI starting at 2.1.0-beta.3 supports conditionally loading OptiGUI resources.
+OptiGUI ^2.1.0-beta.3+^ supports conditionally loading OptiGUI resources.
 These conditions should be added to [groups](/syntax/#groups) to specify when (not) to load the group.
 
 ## `if`
 
-!!! abstract "OptiGUI 2.1.0-beta.3+"
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.3+**{.chip-darkgreen}
 
-!!! info "Type"
-    [Boolean](/syntax/#booleans)
+A single [boolean](/syntax/#booleans) specifying if the property should be loaded. Set to `false` to prevent the group from loading.
 
 !!! example
     ```ini
@@ -16,19 +16,15 @@ These conditions should be added to [groups](/syntax/#groups) to specify when (n
     if = false
     ```
 
-Set to `false` to prevent the group from loading.
+## `if.mod.optigui.version.at_least`
 
-## `id.mod.optigui.version.at_least`
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.3+**{.chip-darkgreen}
 
-!!! abstract "OptiGUI 2.1.0-beta.3+"
-
-!!! info "Type"
-    [Semantic version](https://semver.org)
+A [semantic version](https://semver.org) specifying the minimum version of OptiGUI required to load the group. Useful to prevent loading on old versions, which don't support some features.
 
 !!! example
     ```ini
     [container]
     if.mod.optigui.version.at_least = 2.1.0-beta.3
     ```
-
-Set the minimum version of OptiGUI required to load the group. Useful to prevent loading on old versions, which don't support some features

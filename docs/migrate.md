@@ -21,17 +21,17 @@ This page contains resources to migrate OptiFine extensions to the new OptiGUI i
 
 Extension properties usually become their own groups. See the table to migrate each extension property:
 
-| OptiFine extension property | OptiGUI replacement                                                             |
-|-----------------------------|---------------------------------------------------------------------------------|
-| `_barrel`                   | `#!ini [barrel]` (if `true`)                                                    |
-| `_minecart`                 | `#!ini [chest_minecart]` or `#!ini [hopper_minecart]` (if `true`)               |
-| `_furnace`                  | `#!properties variants` have been removed from `#!properties container=furnace` |
-| `_blast`, `_blast_furnace`  | `#!ini [blast_furnace]`                                                         |
-| `_smoker`                   | `#!ini [smoker]`                                                                |
-| `_camel`                    | `#!ini [camel]` (if `true`)                                                     |
-| `_zombie_horse`             | `#!ini [zombie_horse]` (if `true`)                                              |
-| `_skeleton_horse`           | `#!ini [skeleton_horse]` (if `true`)                                            |
-| `_wandering_trader`         | `#!ini [wandering_trader]`                                                      |
+| OptiFine extension property                          | OptiGUI replacement                                                                                |
+|------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| `#!properties _barrel=true`                          | `#!ini [barrel]`                                                                                   |
+| `#!properties _minecart=true`                        | `#!ini [chest_minecart]` or `#!ini [hopper_minecart]`                                              |
+| `#!properties _furnace`                              | `#!ini [furnace]`. `#!properties variants` have been removed from `#!properties container=furnace` |
+| `#!properties _blast`, `#!properties _blast_furnace` | `#!ini [blast_furnace]`                                                                            |
+| `#!properties _smoker`                               | `#!ini [smoker]`                                                                                   |
+| `#!properties _camel=true`                           | `#!ini [camel]`                                                                                    |
+| `#!properties _zombie_horse=true`                    | `#!ini [zombie_horse]`                                                                             |
+| `#!properties _skeleton_horse=true`                  | `#!ini [skeleton_horse]`                                                                           |
+| `#!properties _wandering_trader=true`                | `#!ini [wandering_trader]`                                                                         |
 
 ## OptiFine equivalents
 
@@ -39,13 +39,14 @@ Extension properties usually become their own groups. See the table to migrate e
 
 `#!properties container=something` becomes `#!ini [the_identifier_of_something]`.
 
-Go to the [Minecraft Wiki](https://minecraft.fandom.com). Select the container, scroll down to **Data values/ID/Java Edition**, and copy the text from the **Identifier** column. This identifier is used by the `/give` and `/summon` commands.
+!!! tip
+    Go to the [Minecraft Wiki](https://minecraft.fandom.com). Select the container, scroll down to **Data values/ID/Java Edition**, and copy the text from the **Identifier** column. This identifier is used by the `/give` and `/summon` commands.
 
 ### texture
 
 `#!properties texture=replacement.png` becomes `#!ini replacement=replacement.png`.
 
-Please note, than path shortcut support in OptiGUI is limited to `namespace:`. Anything else is relative to the folder of the INI file. These paths may need to be rewritten.
+Paths may need to be rewritten. Please refer to [paths](/syntax/#paths).
 
 !!! note
     OptiGUI requires the file extension to be specified, otherwise it won't find the resource.
@@ -73,19 +74,19 @@ Replace the `pattern`, `ipattern`, `regex`, and `iregex` prefixes with name post
 name = Name
 # becomes
 name = Name
-###################################
+
 name = pattern:Name
 # becomes
 name.wildcard = Name
-###################################
+
 name = ipattern:Name
 # becomes
 name.wildcard.ignore_case = Name
-###################################
+
 name = regex:Name
 # becomes
 name.regex = Name
-###################################
+
 name = iregex:Name
 # becomes
 name.regex.ignore_case = Name
@@ -135,25 +136,25 @@ Becomes [`villager.professions`](/format/#villagerprofessions). See the followin
 professions = profession
 # becomes
 villager.professions = profession
-###################################
+
 professions = profession1 profession2
 # becomes
 villager.professions = profession1 profession2
-###################################
+
 professions = profession:1
 # becomes
 villager.professions = profession@1
-###################################
+
 professions = profession:2-3
 # becomes
 villager.professions = profession@2-3
-###################################
+
 professions = profession:1,2-3
 # becomes
 villager.professions = profession@1 profesions@2-3
 ```
 
-`#!properties profession=none` is not supported.
+`#!properties profession=none` is **not supported**.
 
 ### variants
 
@@ -163,7 +164,7 @@ Becomes a group in the INI file.
 variants = variant
 # beacomes
 [variant]
-###################################
+
 variants = variant1 variant2
 # becomes
 [variant1 variant2]
@@ -172,4 +173,4 @@ variants = variant1 variant2
 ### colors
 
 * For llamas, it becomes [`#!ini llama.colors`](/format/#llamacolors)
-* For shulker boxes, add the color in front of the shulker box like this: `<color>_shulker_box`
+* For shulker boxes, add the color in front of the shulker box like this: `<color>_shulker_box`, and it becomes a group
