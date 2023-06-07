@@ -75,14 +75,14 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback {
             player,
             world,
             Hand.MAIN_HAND,
-            InteractionTarget.Preprocessed(
+            InteractionTarget.Computed {
                 DefaultProperties(
                     container,
                     player.name.string,
                     lookup.lookupBiomeId(world, player.blockPos),
                     player.blockY
                 )
-            ),
+            },
             null
         )
     }
