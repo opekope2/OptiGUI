@@ -74,7 +74,7 @@ jobs:
           ref: docs
       - name: Configure git
         run: |
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+github-actions@users.noreply.github.com"
           git config user.name "github-actions[bot]"
       - name: Download Kotlin documentation
         uses: actions/download-artifact@v3
