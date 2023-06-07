@@ -1,4 +1,4 @@
-package opekope2.optiglue.mc_1_19
+package opekope2.optiglue_1_19
 
 import net.minecraft.block.Block
 import net.minecraft.entity.Entity
