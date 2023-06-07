@@ -1,4 +1,4 @@
-package opekope2.optiglue.mc_1_18_2
+package opekope2.optiglue_1_18_2
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.resource.Resource

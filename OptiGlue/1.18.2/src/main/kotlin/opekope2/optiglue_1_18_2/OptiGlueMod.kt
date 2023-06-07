@@ -1,9 +1,7 @@
-package opekope2.optiglue
+package opekope2.optiglue_1_18_2
 
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.minecraft.resource.ResourceType
-import opekope2.optiglue.mc_1_18_2.GlueResource
-import opekope2.optiglue.mc_1_18_2.RegistryLookupServiceImpl
 import opekope2.optigui.EntryPoint
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.service.RegistryLookupService
