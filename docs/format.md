@@ -92,6 +92,14 @@ A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](synt
 
 [Path](syntax.html#paths) to the texture to replace (the default texture of the container). When left empty, OptiGUI looks up the default texture of the specified containers.
 
+### `interaction.hand`
+
+**Upcoming**{.chip-purple}
+
+### `interaction.screen_title`
+
+**Upcoming**{.chip-purple}
+
 ## Independent selectors
 
 ### `date`
