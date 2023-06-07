@@ -108,7 +108,7 @@ Becomes [`#!ini chest.large`](format.html#chestlarge).
 
 ### trapped
 
-See [Chest & trapped chest](format.html#chest-trapped-chest).
+See [Trapped chest](format.html#trapped-chest).
 
 ### christmas
 

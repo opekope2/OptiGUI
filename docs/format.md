@@ -181,7 +181,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
     [cartography_tabe]
     ```
 
-## Chest & trapped chest
+## Chest
 
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
@@ -192,7 +192,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 
 !!! example
     ```ini
-    [chest trapped_chest]
+    [chest]
     chest.large = true
     ```
 
@@ -203,6 +203,21 @@ Supports the following additional selectors: [common selectors](#common-selector
 **Minecraft 1.18+**{.chip-lightgreen}
 
 A single [boolean](syntax.html#booleans) specifying if the texture of a double chest should be replaced.
+
+## Trapped chest
+
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/generic_54.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [`chest.large`](#chestlarge)
+
+!!! example
+    ```ini
+    [trapped_chest]
+    chest.large = true
+    ```
 
 ## Ender chest
 
@@ -447,7 +462,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
     [mule]
     ```
 
-## Llama & trader llama
+## Llama
 
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
@@ -486,6 +501,21 @@ A [list](syntax.html#lists) of strings specifying the llama's carpet color. Poss
 * `green`
 * `red`
 * `black`
+
+## Trader llama
+
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/horse.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [`llama.colors`](#llamacolors)
+
+!!! example
+    ```ini
+    [llama trader_llama]
+    llama.colors = red green blue
+    ```
 
 ## Zombie horse
 
