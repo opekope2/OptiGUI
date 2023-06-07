@@ -2,7 +2,8 @@
 .chip-lightgreen,
 .chip-darkblue,
 .chip-lightblue,
-.chip-pink {
+.chip-pink,
+.chip-purple {
     display: inline-block;
     color: white;
     padding: 0px 16px;
@@ -27,4 +28,8 @@
 
 .chip-pink {
     background: deeppink;
+}
+
+.chip-purple {
+    background-color: darkviolet;
 }

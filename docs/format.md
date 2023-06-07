@@ -102,6 +102,46 @@ A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](synt
 
 A [list](syntax.html#lists) of [dates](syntax.html#dates) specifying when the texture should be replaced.
 
+## Player selectors
+
+**Upcoming**{.chip-purple}
+
+[#7](https://github.com/opekope2/OptiGUI/issues/7)
+
+### `player.name`
+
+**Upcoming**{.chip-purple}
+
+### `player.name.wildcard`
+
+**Upcoming**{.chip-purple}
+
+### `player.name.wildcard.ignore_case`
+
+**Upcoming**{.chip-purple}
+
+### `player.name.regex`
+
+**Upcoming**{.chip-purple}
+
+### `player.name.regex.ignore_case`
+
+**Upcoming**{.chip-purple}
+
+### `player.biomes`
+
+**Upcoming**{.chip-purple}
+
+### `player.heights`
+
+**Upcoming**{.chip-purple}
+
+## Comparator selectors
+
+### `comparator.output`
+
+**Upcoming**{.chip-purple}
+
 ## Anvil
 
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
@@ -123,7 +163,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 **Texture path:** `minecraft:textures/gui/container/generic_54.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors)
 
 !!! example
     ```ini
@@ -153,6 +193,22 @@ Supports the following additional selectors: [common selectors](#common-selector
 
 A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](syntax.html#ranges) specifying the levels of beacon power to apply to (how many bases of blocks).
 
+## Book
+
+**Upcoming**{.chip-purple}
+
+### `book.page.current`
+
+**Upcoming**{.chip-purple}
+
+### `book.page.count`
+
+**Upcoming**{.chip-purple}
+
+## Book and Quill
+
+**Upcoming**{.chip-purple}
+
 ## Brewing stand
 
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
@@ -160,7 +216,7 @@ A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](synt
 
 **Texture path:** `minecraft:textures/gui/container/brewing_stand.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors)
 
 !!! example
     ```ini
@@ -188,7 +244,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 **Texture path:** `minecraft:textures/gui/container/generic_54.png`
 
-Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors)
 
 !!! example
     ```ini
@@ -211,7 +267,7 @@ A single [boolean](syntax.html#booleans) specifying if the texture of a double c
 
 **Texture path:** `minecraft:textures/gui/container/generic_54.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [`chest.large`](#chestlarge)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors), [`chest.large`](#chestlarge)
 
 !!! example
     ```ini
@@ -273,7 +329,7 @@ A [list](syntax.html#lists) of strings specifying the wood type of the chest boa
 
 **Texture path:** `mniecraft:textures/gui/container/generic_54.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors)
 
 !!! example
     ```ini
@@ -301,7 +357,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 **Texture path:** `minecraft:textures/gui/container/dispenser.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors)
 
 !!! example
     ```ini
@@ -315,7 +371,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 **Texture path:** `minecraft:textures/gui/container/dispenser.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors)
 
 !!! example
     ```ini
@@ -343,7 +399,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 **Texture path:** `minecraft:textures/gui/container/furnace.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors)
 
 !!! example
     ```ini
@@ -357,7 +413,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 **Texture path:** `minecraft:textures/gui/container/blast_furnace.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors)
 
 !!! example
     ```ini
@@ -371,7 +427,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 **Texture path:** `minecraft:textures/gui/container/smoker.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors)
 
 !!! example
     ```ini
@@ -399,7 +455,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 **Texture path:** `minecraft:textures/gui/container/hopper.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors)
 
 !!! example
     ```ini
@@ -413,7 +469,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 **Texture path:** `minecraft:textures/gui/container/hopper.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors)
 
 !!! example
     ```ini
@@ -441,12 +497,18 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 **Texture path:** `minecraft:textures/gui/container/horse.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
 
 !!! example
     ```ini
     [donkey]
     ```
+
+### `donkey.has_chest`
+
+**Upcoming**{.chip-purple}
+
+[#26](https://github.com/opekope2/OptiGUI/issues/26)
 
 ## Mule
 
@@ -455,7 +517,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 **Texture path:** `minecraft:textures/gui/container/horse.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [`donkey.has_chest`](#donkeyhas_chest)
 
 !!! example
     ```ini
@@ -469,7 +531,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 **Texture path:** `minecraft:textures/gui/container/horse.png`
 
-Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [`donkey.has_chest`](#donkeyhas_chest)
 
 !!! example
     ```ini
@@ -509,26 +571,12 @@ A [list](syntax.html#lists) of strings specifying the llama's carpet color. Poss
 
 **Texture path:** `minecraft:textures/gui/container/horse.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [`llama.colors`](#llamacolors)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [`llama.colors`](#llamacolors), [`donkey.has_chest`](#donkeyhas_chest)
 
 !!! example
     ```ini
     [llama trader_llama]
     llama.colors = red green blue
-    ```
-
-## Zombie horse
-
-**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
-**Minecraft 1.18+**{.chip-lightgreen}
-
-**Texture path:** `minecraft:textures/gui/container/horse.png`
-
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
-
-!!! example
-    ```ini
-    [zombie_horse]
     ```
 
 ## Skeleton horse
@@ -543,6 +591,20 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 !!! example
     ```ini
     [skeleton_horse]
+    ```
+
+## Zombie horse
+
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/container/horse.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+
+!!! example
+    ```ini
+    [zombie_horse]
     ```
 
 ## Camel
@@ -567,7 +629,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 **Texture path:** `minecraft:textures/gui/container/horse.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors), [`book.page.current`](#bookpagecurrent), [`book.page.count`](#bookpagecount)
 
 !!! example
     ```ini
@@ -595,7 +657,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 **Texture path:** `minecraft:textures/gui/container/shulker_box.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors)
 
 !!! example
     ```ini
