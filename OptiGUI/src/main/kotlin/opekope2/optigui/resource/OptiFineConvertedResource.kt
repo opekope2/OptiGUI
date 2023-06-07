@@ -13,7 +13,7 @@ import org.ini4j.Profile.Section
  * Represents an OptiFine .properties file converted to the OptiGUI-compatible INI format.
  */
 class OptiFineConvertedResource(private val wrappedResource: ResourceReader) : OptiGuiResource(wrappedResource) {
-    override val ini by lazy { convert(Options().apply { load(wrappedResource.inputStream) }, wrappedResource.id) }
+    override val ini = convert(Options().apply { load(wrappedResource.inputStream) }, wrappedResource.id)
 }
 
 private fun convert(properties: Options, path: Identifier) = Ini().also { ini ->
