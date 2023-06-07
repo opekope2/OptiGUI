@@ -10,7 +10,7 @@ import java.util.*
  *
  * @param id The identifier of the resource
  */
-abstract class ResourceReader(id: Identifier) : Resource(id) {
+abstract class ResourceReader(id: Identifier) : Resource(id), AutoCloseable {
 
     /**
      * Returns the input steam of the resource.
