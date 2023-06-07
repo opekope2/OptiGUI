@@ -35,7 +35,7 @@ object OptiGlueMod : EntryPoint {
     }
 
     private fun processChestBoat(chestBoat: ChestBoatEntity): Any? {
-        val world = chestBoat.world ?: return null
+        val world = chestBoat.entityWorld ?: return null
 
         return ChestBoatProperties(
             container = lookup.lookupEntityId(chestBoat),

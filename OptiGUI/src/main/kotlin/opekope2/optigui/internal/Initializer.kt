@@ -39,8 +39,10 @@ fun initialize() {
     runEntryPoints()
 
     // Ensure OptiGlue loaded
-    getServiceOrNull<RegistryLookupService>() ?: throw RuntimeException("RegistryLookupService not registered!")
-    getServiceOrNull<ResourceAccessService>() ?: throw RuntimeException("ResourceAccessService not registered!")
+    getServiceOrNull<RegistryLookupService>()
+        ?: throw RuntimeException("RegistryLookupService hasn't been registered by OptiGlue!")
+    getServiceOrNull<ResourceAccessService>()
+        ?: throw RuntimeException("ResourceAccessService hasn't been registered by OptiGlue!")
 
     logger.info("OptiGUI initialized.")
 }
