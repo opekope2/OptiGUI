@@ -1,12 +1,10 @@
-package opekope2.optiglue
+package opekope2.optiglue_1_19_3
 
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.minecraft.entity.passive.CamelEntity
 import net.minecraft.entity.vehicle.ChestBoatEntity
 import net.minecraft.resource.ResourceType
 import net.minecraft.util.Nameable
-import opekope2.optiglue.mc_1_19_3.GlueResource
-import opekope2.optiglue.mc_1_19_3.RegistryLookupServiceImpl
 import opekope2.optigui.EntryPoint
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.internal.processCommon

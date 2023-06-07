@@ -18,7 +18,7 @@
     "optigui": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.optiglue.OptiGlueMod"
+        "value": "opekope2.optiglue_1_19_3.OptiGlueMod"
       }
     ]
   },
