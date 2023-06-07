@@ -1,11 +1,10 @@
-package opekope2.optiglue
+package opekope2.optiglue_1_18
 
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.util.Identifier
 import net.minecraft.util.profiler.Profiler
-import opekope2.optiglue.mc_1_18.GlueResource
 import opekope2.optigui.internal.service.ResourceLoaderService
 import opekope2.optigui.resource.OptiFineConvertedResource
 import opekope2.optigui.resource.OptiGuiResource
