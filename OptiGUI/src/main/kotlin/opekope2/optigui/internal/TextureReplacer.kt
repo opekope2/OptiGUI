@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.network.ClientPlayNetworkHandler
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
@@ -15,11 +14,18 @@ import net.minecraft.util.hit.HitResult
 import net.minecraft.world.World
 import opekope2.filter.Filter
 import opekope2.filter.FilterResult
-import opekope2.optigui.interaction.*
+import opekope2.optigui.interaction.Interaction
+import opekope2.optigui.interaction.InteractionTarget
+import opekope2.optigui.interaction.Preprocessors
+import opekope2.optigui.interaction.RawInteraction
+import opekope2.optigui.internal.service.RetexturableScreensRegistryService
 import opekope2.optigui.service.InteractionService
+import opekope2.optigui.service.getService
 
 internal object TextureReplacer : InteractionService {
-    private val interactionHolder = object : ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Disconnect {
+    private object InteractionHolder : ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Disconnect {
+        val replacementCache = mutableMapOf<Identifier, Identifier>()
+
         var interacting: Boolean = false
             private set
 
@@ -27,7 +33,7 @@ internal object TextureReplacer : InteractionService {
 
         private var raw: RawInteraction? = null
         private var data: Any? = null
-        private var screen: HandledScreen<*>? = null
+        private var screen: Screen? = null
 
         var riddenEntity: Entity? = null
 
@@ -36,7 +42,7 @@ internal object TextureReplacer : InteractionService {
 
             if (newData != data) {
                 data = newData
-                cache.clear()
+                replacementCache.clear()
             }
         }
 
@@ -49,7 +55,7 @@ internal object TextureReplacer : InteractionService {
             return true
         }
 
-        fun begin(screen: HandledScreen<*>) {
+        fun begin(screen: Screen) {
             this.screen = screen
 
             interacting = true
@@ -64,7 +70,7 @@ internal object TextureReplacer : InteractionService {
 
             interacting = false
 
-            cache.clear()
+            replacementCache.clear()
         }
 
         fun createInteraction(texture: Identifier): Interaction? {
@@ -85,40 +91,38 @@ internal object TextureReplacer : InteractionService {
         }
     }
 
-    private val cache = mutableMapOf<Identifier, Identifier>()
+    private val retexturableScreens: RetexturableScreensRegistryService by lazy(::getService)
 
     internal var filter: Filter<Interaction, Identifier> = Filter { FilterResult.Skip() }
     internal var replaceableTextures = mutableSetOf<Identifier>()
 
     @JvmStatic
-    var riddenEntity: Entity? by interactionHolder::riddenEntity
+    var riddenEntity: Entity? by InteractionHolder::riddenEntity
 
     init {
-        ClientTickEvents.END_WORLD_TICK.register(interactionHolder)
-        ClientPlayConnectionEvents.DISCONNECT.register(interactionHolder)
+        ClientTickEvents.END_WORLD_TICK.register(InteractionHolder)
+        ClientPlayConnectionEvents.DISCONNECT.register(InteractionHolder)
     }
 
     @JvmStatic
     fun replaceTexture(texture: Identifier): Identifier {
         // Don't bother replacing textures if not interacting
-        val interaction = interactionHolder.createInteraction(texture) ?: return texture
+        val interaction = InteractionHolder.createInteraction(texture) ?: return texture
 
         // Only replace predefined textures
         if (texture !in replaceableTextures) return texture
 
-        return cache.computeIfAbsent(texture) {
-            filter.evaluate(interaction).let { (it as? FilterResult.Match)?.result ?: texture }
+        return InteractionHolder.replacementCache.computeIfAbsent(texture) {
+            filter.evaluate(interaction).let { (it as? FilterResult.Match)?.result } ?: texture
         }
     }
 
     @JvmStatic
     fun handleScreenChange(screen: Screen?) {
-        (screen as? HandledScreen<*>).let {
-            if (it != null) {
-                interactionHolder.begin(it)
-            } else {
-                interactionHolder.end()
-            }
+        when {
+            screen == null -> InteractionHolder.end()
+            retexturableScreens.isScreenRetexturable(screen) -> InteractionHolder.begin(screen)
+            else -> InteractionHolder.end()
         }
     }
 
@@ -126,6 +130,6 @@ internal object TextureReplacer : InteractionService {
         player: PlayerEntity, world: World, hand: Hand, target: InteractionTarget, hitResult: HitResult?
     ): Boolean {
         if (!world.isClient) return false
-        return interactionHolder.prepare(target, RawInteraction(player, world, hand, hitResult))
+        return InteractionHolder.prepare(target, RawInteraction(player, world, hand, hitResult))
     }
 }

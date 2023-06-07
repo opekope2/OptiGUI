@@ -34,6 +34,16 @@ sealed interface InteractionTarget {
     }
 
     /**
+     * An interaction target, which gets computed on each game tick,
+     * so be sure to write optimized code in order to avoid performance issues.
+     *
+     * @param compute The implementation of [computeInteractionData]
+     */
+    class Computed(val compute: () -> Any?) : InteractionTarget {
+        override fun computeInteractionData(): Any? = compute()
+    }
+
+    /**
      * Represents an interaction without a target.
      * The interaction data returned by [computeInteractionData] will always be `null` as preprocessors are unavailable.
      */

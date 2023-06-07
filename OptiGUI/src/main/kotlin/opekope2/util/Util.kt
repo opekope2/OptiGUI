@@ -66,3 +66,8 @@ operator fun Identifier.component2(): String = path
 inline fun buildString(builderAction: StringWriter.() -> Unit): String {
     return StringWriter().apply(builderAction).toString()
 }
+
+/**
+ * Checks if the receiver of the function is a superclass or superinterface of [obj].
+ */
+fun Class<*>.isSuperOf(obj: Any) = isAssignableFrom(obj.javaClass)

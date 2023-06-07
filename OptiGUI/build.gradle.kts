@@ -6,7 +6,6 @@ import java.net.URL
 plugins {
     id("fabric-loom")
     kotlin("jvm")
-    id("net.kyori.blossom")
     id("org.jetbrains.dokka")
 }
 
@@ -22,9 +21,7 @@ dependencies {
     mappings("net.fabricmc", "yarn", project.extra["yarn_mappings"] as String, null, "v2")
     modImplementation("net.fabricmc", "fabric-loader", project.extra["loader_version"] as String)
     modImplementation(
-        "net.fabricmc",
-        "fabric-language-kotlin",
-        project.extra["fabric_language_kotlin_version"] as String
+        "net.fabricmc", "fabric-language-kotlin", project.extra["fabric_language_kotlin_version"] as String
     )
 
     (project.extra["fabric_version"] as String).also { fabricVersion ->
@@ -34,7 +31,7 @@ dependencies {
     }
 
     if (!project.hasProperty("noModLocalRuntime")) {
-        modLocalRuntime(project(":OptiGlue:1.19.4", configuration = "namedElements"))
+        modLocalRuntime(project(":OptiGlue:1.19.3", configuration = "namedElements"))
     }
 
     include(implementation("org.apache.commons", "commons-text", "1.10.0"))
@@ -46,8 +43,6 @@ dependencies {
         dokkaPlugin("org.jetbrains.dokka", "kotlin-as-java-plugin", "1.8.10")
     }
 }
-
-blossom.replaceToken("@mod_version@", version)
 
 tasks {
     val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
@@ -90,7 +85,6 @@ evaluationDependsOn(":OptiGlue:1.18")
 evaluationDependsOn(":OptiGlue:1.18.2")
 evaluationDependsOn(":OptiGlue:1.19")
 evaluationDependsOn(":OptiGlue:1.19.3")
-evaluationDependsOn(":OptiGlue:1.19.4")
 
 afterEvaluate {
     tasks.remapJar {
@@ -98,7 +92,6 @@ afterEvaluate {
         nestedJars.from(project(":OptiGlue:1.18.2").outputJar)
         nestedJars.from(project(":OptiGlue:1.19").outputJar)
         nestedJars.from(project(":OptiGlue:1.19.3").outputJar)
-        nestedJars.from(project(":OptiGlue:1.19.4").outputJar)
     }
 }
 
@@ -131,7 +124,7 @@ tasks.dokkaHtml {
 
         sourceLink {
             localDirectory.set(projectDir.resolve("src/main/kotlin"))
-            remoteUrl.set(URL("https://github.com/opekope2/OptiGUI-Next/tree/$version/OptiGUI/src/main/kotlin"))
+            remoteUrl.set(URL("https://github.com/opekope2/OptiGUI/tree/$version/OptiGUI/src/main/kotlin"))
             remoteLineSuffix.set("#L")
         }
 

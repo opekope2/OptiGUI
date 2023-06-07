@@ -8,9 +8,9 @@
     "opekope2"
   ],
   "contact": {
-    "homepage": "https://opekope2.github.io/OptiGUI-Next/optiglue",
-    "sources": "https://github.com/opekope2/OptiGUI-Next",
-    "issues": "https://github.com/opekope2/OptiGUI-Next/issues"
+    "homepage": "https://opekope2.github.io/OptiGUI/optiglue",
+    "sources": "https://github.com/opekope2/OptiGUI",
+    "issues": "https://github.com/opekope2/OptiGUI/issues"
   },
   "license": "MIT",
   "environment": "client",
@@ -18,7 +18,7 @@
     "optigui": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.optiglue.OptiGlueMod"
+        "value": "opekope2.optiglue_1_19.OptiGlueMod"
       }
     ]
   },

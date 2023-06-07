@@ -18,6 +18,9 @@ object TexturePath {
     val BLAST_FURNACE = Identifier("textures/gui/container/blast_furnace.png")
 
     @JvmField
+    val BOOK = Identifier("textures/gui/book.png")
+
+    @JvmField
     val BREWING_STAND = Identifier("textures/gui/container/brewing_stand.png")
 
     @JvmField
@@ -115,6 +118,8 @@ object TexturePath {
         Identifier("mule") to HORSE,
         Identifier("skeleton_horse") to HORSE,
         Identifier("zombie_horse") to HORSE,
+
+        Identifier("lectern") to BOOK,
 
         Identifier("loom") to LOOM,
 

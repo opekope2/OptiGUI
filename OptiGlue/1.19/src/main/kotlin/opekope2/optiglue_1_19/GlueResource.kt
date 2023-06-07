@@ -1,4 +1,4 @@
-package opekope2.optiglue.mc_1_19_3
+package opekope2.optiglue_1_19
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.resource.ResourceManager
@@ -17,6 +17,10 @@ internal class GlueResource(id: Identifier) : ResourceReader(id) {
         get() = resource?.resourcePackName ?: throw ResourceNotFoundException(id)
     override val inputStream: InputStream
         get() = resource?.inputStream ?: throw ResourceNotFoundException(id)
+
+    override fun close() {
+        resource?.inputStream?.close()
+    }
 
     companion object : ResourceAccessService {
         private val manager: ResourceManager by lazy { MinecraftClient.getInstance().resourceManager }

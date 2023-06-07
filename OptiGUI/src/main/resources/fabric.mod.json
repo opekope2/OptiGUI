@@ -8,9 +8,9 @@
     "opekope2"
   ],
   "contact": {
-    "homepage": "https://opekope2.github.io/OptiGUI-Next",
-    "sources": "https://github.com/opekope2/OptiGUI-Next",
-    "issues": "https://github.com/opekope2/OptiGUI-Next/issues"
+    "homepage": "https://opekope2.github.io/OptiGUI",
+    "sources": "https://github.com/opekope2/OptiGUI",
+    "issues": "https://github.com/opekope2/OptiGUI/issues"
   },
   "license": "MIT",
   "icon": "assets/optigui/icon.png",
@@ -42,14 +42,13 @@
     "fabric-networking-api-v1": "*",
     "fabric-events-interaction-v0": "*",
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
-    "minecraft": ">=1.18 <1.19.5",
+    "minecraft": ">=1.18 <=1.20",
     "java": ">=${java}",
     "optiglue": [
       "=${version}-mc.1.18",
       "=${version}-mc.1.18.2",
       "=${version}-mc.1.19",
-      "=${version}-mc.1.19.3",
-      "=${version}-mc.1.19.4"
+      "=${version}-mc.1.19.3"
     ]
   },
   "recommends": {

@@ -52,6 +52,8 @@ internal fun initializePreprocessors(context: InitializerContext) {
     context.registerPreprocessor<SkeletonHorseEntity>(::processCommon)
 
     context.registerPreprocessor<ShulkerBoxBlockEntity>(::processCommon)
+
+    context.registerPreprocessor<LecternBlockEntity>(::processCommon)
 }
 
 private val lookup: RegistryLookupService by lazy(::getService)
@@ -68,7 +70,7 @@ private fun processCommon(blockEntity: BlockEntity): Any? {
 }
 
 fun processCommon(entity: Entity): Any? {
-    val world = entity.world ?: return null
+    val world = entity.entityWorld ?: return null
 
     return DefaultProperties(
         container = lookup.lookupEntityId(entity),
@@ -107,7 +109,7 @@ private fun processChest(chest: ChestBlockEntity): Any? {
 }
 
 private fun processLlama(llama: LlamaEntity): Any? {
-    val world = llama.world ?: return null
+    val world = llama.entityWorld ?: return null
 
     return LlamaProperties(
         container = lookup.lookupEntityId(llama),
@@ -119,7 +121,7 @@ private fun processLlama(llama: LlamaEntity): Any? {
 }
 
 private fun processVillager(villager: VillagerEntity): Any? {
-    val world = villager.world ?: return null
+    val world = villager.entityWorld ?: return null
 
     return VillagerProperties(
         container = lookup.lookupEntityId(villager),

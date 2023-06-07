@@ -3,26 +3,35 @@ package opekope2.optigui.internal
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.client.gui.screen.ingame.HandledScreen
+import net.minecraft.client.gui.screen.ingame.LecternScreen
 import opekope2.optigui.EntryPoint
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.internal.interaction.InteractionHandler
-import opekope2.optigui.internal.service.OptiGlueService
 import opekope2.optigui.internal.service.ResourceLoaderService
-import opekope2.optigui.service.InteractionService
-import opekope2.optigui.service.getServiceOrNull
-import opekope2.optigui.service.registerService
+import opekope2.optigui.internal.service.RetexturableScreensRegistryService
+import opekope2.optigui.service.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import kotlin.jvm.optionals.getOrNull
 
 internal val logger: Logger = LoggerFactory.getLogger("OptiGUI")
-const val modVersion = "@mod_version@"
+val modVersion =
+    FabricLoader.getInstance().getModContainer("optigui").getOrNull()?.metadata?.version
+        ?: throw RuntimeException("OptiGUI is not loaded with id 'optigui'!")
+
 
 @Suppress("unused")
 fun initialize() {
     registerService<ResourceLoaderService>(ResourceLoader) // Needed by OptiGlue
     registerService<InteractionService>(TextureReplacer)
 
-    setupDevMessage()
+    RetexturableScreensRegistry().apply {
+        registerService<RetexturableScreensRegistryService>(this)
+
+        addRetexturableScreen(HandledScreen::class.java)
+        addRetexturableScreen(LecternScreen::class.java)
+    }
 
     UseBlockCallback.EVENT.register(InteractionHandler)
     UseEntityCallback.EVENT.register(InteractionHandler)
@@ -30,9 +39,12 @@ fun initialize() {
     runEntryPoints()
 
     // Ensure OptiGlue loaded
-    val glue = getServiceOrNull<OptiGlueService>() ?: throw RuntimeException("Error loading OptiGlue!")
+    getServiceOrNull<RegistryLookupService>()
+        ?: throw RuntimeException("RegistryLookupService hasn't been registered by OptiGlue!")
+    getServiceOrNull<ResourceAccessService>()
+        ?: throw RuntimeException("ResourceAccessService hasn't been registered by OptiGlue!")
 
-    logger.info("OptiGUI $modVersion initialized in Minecraft ${glue.minecraftVersion}.")
+    logger.info("OptiGUI initialized.")
 }
 
 private fun runEntryPoints() {

@@ -6,9 +6,14 @@ package opekope2.util
 const val OPTIGUI_NAMESPACE = "optigui"
 
 /**
- * Root folder to look for ini resources.
+ * Root folder to look for OptiGUI custom GUI ini resources.
  */
 const val OPTIGUI_RESOURCES_ROOT = "gui"
+
+/**
+ * Root folder to look for OptiFine custom GUI properties.
+ */
+const val OPTIFINE_RESOURCES_ROOT = "optifine/gui/container"
 
 /**
  * The resource path `~` points to in OptiFine.

@@ -1,7 +1,6 @@
 plugins {
     id("fabric-loom")
     kotlin("jvm")
-    id("net.kyori.blossom")
 }
 
 base { archivesName.set(project.extra["archives_base_name"] as String) }
@@ -21,8 +20,6 @@ dependencies {
 
     implementation(project(":OptiGUI", configuration = "namedElements"))
 }
-
-blossom.replaceToken("@mod_version@", version)
 
 tasks {
     val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
