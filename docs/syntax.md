@@ -8,7 +8,7 @@ OptiGUI supports two syntaxes:
 !!! tip
     To prevent loading an OptiFine `.properties` file on OptiGUI, add `#!properties optigui.ignore=true` into it.
 
-    OptiGUI files support [conditional loading](/conditional/).
+    OptiGUI files support [conditional loading](conditional.html).
 
 OptiGUI syntax is only supported for OptiGUI files, and the OptiFine syntax is only supported for OptiFine files. Do not mix them.
 

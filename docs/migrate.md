@@ -46,7 +46,7 @@ Extension properties usually become their own groups. See the table to migrate e
 
 `#!properties texture=replacement.png` becomes `#!ini replacement=replacement.png`.
 
-Paths may need to be rewritten. Please refer to [paths](/syntax/#paths).
+Paths may need to be rewritten. Please refer to [paths](syntax.html#paths).
 
 !!! note
     OptiGUI requires the file extension to be specified, otherwise it won't find the resource.
@@ -104,11 +104,11 @@ Keep it as-is.
 
 ### large
 
-Becomes [`#!ini chest.large`](/format/#chestlarge).
+Becomes [`#!ini chest.large`](format.html#chestlarge).
 
 ### trapped
 
-See [Chest & trapped chest](/format/#chest-trapped-chest).
+See [Chest & trapped chest](format.html#chest-trapped-chest).
 
 ### christmas
 
@@ -126,11 +126,11 @@ Becomes `#!ini [ender_chest]`
 
 ### levels
 
-Becomes [`#!ini beacon.levels`](/format/#beaconlevels).
+Becomes [`#!ini beacon.levels`](format.html#beaconlevels).
 
 ### professions
 
-Becomes [`villager.professions`](/format/#villagerprofessions). See the following example for rewriting rules:
+Becomes [`villager.professions`](format.html#villagerprofessions). See the following example for rewriting rules:
 
 ```ini
 professions = profession
@@ -172,5 +172,5 @@ variants = variant1 variant2
 
 ### colors
 
-* For llamas, it becomes [`#!ini llama.colors`](/format/#llamacolors)
+* For llamas, it becomes [`#!ini llama.colors`](format.html#llamacolors)
 * For shulker boxes, add the color in front of the shulker box like this: `<color>_shulker_box`, and it becomes a group

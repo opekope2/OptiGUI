@@ -6,7 +6,7 @@ After cloning the repository (and before opening in an IDE or doing anything), m
 
 ```
 A problem occurred configuring project ':OptiGUI'.
-> Failed to read metadata from .../OptiGlue/1.19.4/build/devlibs/optiglue-2.1.0-beta.3-mc.1.19.4-dev.jar
+> Failed to read metadata from .../OptiGlue/1.19.4/build/devlibs/optiglue-2.1.0-mc.1.19.3-dev.jar
 ```
 
 ## Build OptiGUI

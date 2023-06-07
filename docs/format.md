@@ -2,12 +2,12 @@
 
 This page describes the usage of OptiGUI ^2.1.0-beta.1+^ INI files. [The OptiFine custom GUI documentation is available here](https://optifine.readthedocs.io/custom_guis.html).
 
-This page assumes you to be familiar with the [OptiGUI syntax](/syntax/).
+This page assumes you to be familiar with the [OptiGUI syntax](syntax.html).
 
 !!! warning
     OptiGUI 2.1.0-beta.1 removed all OptiFine extensions from OptiFine files: `_cartography_table`, `_chest_boat`, `_grindstone`, `_loom`, `_smithing_table`, `_stonecutter`, `_barrel`, `_minecart`, `_furnace`, `_blast`, `_blast_furnace`, `_smoker`, `_camel`, `_zombie_horse`, `_skeleton_horse`, `_wandering_trader`.
 
-    See the [migration guide](/migrate/) to learn how to convert your resource pack.
+    See the [migration guide](migrate.html) to learn how to convert your resource pack.
 
 You can define a texture replacement for each inventory GUI, and apply them based on different criteria.
 
@@ -24,7 +24,7 @@ For each container GUI texture to replace, create a `.ini` file in `/assets/opti
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-[Path](/syntax/#paths) to the replacement texture for the default GUI texture of the container. This is not really a selector, as it is not used to match against an interaction, but specifies the replacement if all other selectors match.
+[Path](syntax.html#paths) to the replacement texture for the default GUI texture of the container. This is not really a selector, as it is not used to match against an interaction, but specifies the replacement if all other selectors match.
 
 ### `name`
 
@@ -32,7 +32,7 @@ For each container GUI texture to replace, create a `.ini` file in `/assets/opti
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [String](/syntax/#strings) specifying the exact value of the name of the entity or block entity.
+A [String](syntax.html#strings) specifying the exact value of the name of the entity or block entity.
 
 ### `name.wildcard`
 
@@ -40,7 +40,7 @@ A [String](/syntax/#strings) specifying the exact value of the name of the entit
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [String](/syntax/#strings) specifying the case-sensitive [wildcard](/syntax/#wildcard) to match against the name of the entity or block entity.
+A [String](syntax.html#strings) specifying the case-sensitive [wildcard](syntax.html#wildcard) to match against the name of the entity or block entity.
 
 ### `name.wildcard.ignore_case`
 
@@ -48,7 +48,7 @@ A [String](/syntax/#strings) specifying the case-sensitive [wildcard](/syntax/#w
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [String](/syntax/#strings) specifying the case-insensitive [wildcard](/syntax/#wildcard) to match against the name of the entity or block entity.
+A [String](syntax.html#strings) specifying the case-insensitive [wildcard](syntax.html#wildcard) to match against the name of the entity or block entity.
 
 ### `name.regex`
 
@@ -56,7 +56,7 @@ A [String](/syntax/#strings) specifying the case-insensitive [wildcard](/syntax/
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [String](/syntax/#strings) specifying the case-sensitive [regex](/syntax/#regex) to match against the name of the entity or block entity.
+A [String](syntax.html#strings) specifying the case-sensitive [regex](syntax.html#regex) to match against the name of the entity or block entity.
 
 ### `name.regex.ignore_case`
 
@@ -64,7 +64,7 @@ A [String](/syntax/#strings) specifying the case-sensitive [regex](/syntax/#rege
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [String](/syntax/#strings) specifying the case-insensitive [regex](/syntax/#regex) to match against the name of the entity or block entity.
+A [String](syntax.html#strings) specifying the case-insensitive [regex](syntax.html#regex) to match against the name of the entity or block entity.
 
 ### `biomes`
 
@@ -72,7 +72,7 @@ A [String](/syntax/#strings) specifying the case-insensitive [regex](/syntax/#re
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](/syntax/#lists) of biome identifiers specifying the biomes of the entity or block entity where this replacement applies.
+A [list](syntax.html#lists) of biome identifiers specifying the biomes of the entity or block entity where this replacement applies.
 
 ### `heights`
 
@@ -80,7 +80,7 @@ A [list](/syntax/#lists) of biome identifiers specifying the biomes of the entit
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](/syntax/#lists) of [integers](/syntax/#numbers) and [ranges](/syntax/#ranges) specifying the heights (Y coordiantes) of the entity or block entity, where this replacement applies.
+A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](syntax.html#ranges) specifying the heights (Y coordiantes) of the entity or block entity, where this replacement applies.
 
 ## Interaction selectors
 
@@ -90,7 +90,7 @@ A [list](/syntax/#lists) of [integers](/syntax/#numbers) and [ranges](/syntax/#r
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-[Path](/syntax/#paths) to the texture to replace (the default texture of the container). When left empty, OptiGUI looks up the default texture of the specified containers.
+[Path](syntax.html#paths) to the texture to replace (the default texture of the container). When left empty, OptiGUI looks up the default texture of the specified containers.
 
 ## Independent selectors
 
@@ -100,7 +100,7 @@ A [list](/syntax/#lists) of [integers](/syntax/#numbers) and [ranges](/syntax/#r
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](/syntax/#lists) of [dates](/syntax/#dates) specifying when the texture should be replaced.
+A [list](syntax.html#lists) of [dates](syntax.html#dates) specifying when the texture should be replaced.
 
 ## Anvil
 
@@ -151,7 +151,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](/syntax/#lists) [integers](/syntax/#numbers) and [ranges](/syntax/#ranges) specifying the levels of beacon power to apply to (how many bases of blocks).
+A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](syntax.html#ranges) specifying the levels of beacon power to apply to (how many bases of blocks).
 
 ## Brewing stand
 
@@ -202,7 +202,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A single [boolean](/syntax/#booleans) specifying if the texture of a double chest should be replaced.
+A single [boolean](syntax.html#booleans) specifying if the texture of a double chest should be replaced.
 
 ## Ender chest
 
@@ -239,7 +239,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.19+**{.chip-lightgreen}
 
-A [list](/syntax/#lists) of strings specifying the wood type of the chest boat. Possible values:
+A [list](syntax.html#lists) of strings specifying the wood type of the chest boat. Possible values:
 
 * `acacia`
 * `bamboo` **Minecraft 1.20+**{.chip-lightgreen} **Minecraft 1.19.3+ with 1.20 experiments**{.chip-lightgreen}
@@ -468,7 +468,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](/syntax/#lists) of strings specifying the llama's carpet color. Possible values:
+A [list](syntax.html#lists) of strings specifying the llama's carpet color. Possible values:
 
 * `white`
 * `orange`
@@ -636,9 +636,9 @@ Supports the following additional selectors: [common selectors](#common-selector
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](/syntax/#lists) specifying villager professions with optional levels.
+A [list](syntax.html#lists) specifying villager professions with optional levels.
 
-The profession syntax is similar to the [date syntax](/syntax/#dates), but it accepts and optional namespace.
+The profession syntax is similar to the [date syntax](syntax.html#dates), but it accepts and optional namespace.
 
 !!! example "Cleric (any levels) or fisherman (any levels)"
     ```ini
@@ -713,7 +713,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
     GUIs not having a default texture must to be fitered with [`interaction.texture`](#interactiontexture).
 
 !!! example "Example for creative inventory"
-    This is the equivalent syntax of [OptiFine's `texture.<path>` example in the table](https://optifine.readthedocs.io/custom_guis.html#general-properties). In `/assets/optigui/gui/creative_desert.ini`:
+    This is the equivalent syntax of [OptiFine's `texture.PATH` example in the table](https://optifine.readthedocs.io/custom_guis.html#texture-texture-path). In `/assets/optigui/gui/creative_desert.ini`:
 
     ```ini
     [player #1]

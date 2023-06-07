@@ -8,7 +8,7 @@ OptiGUI doesn't have a maven repository. You can install it from [Modrinth Maven
 
 1. Add OptiGUI to your `build.gradle(.kts)` as described in one of the above links
 2. Download OptiGUI dependencies to your local mods folder (usually `${PROJECT_DIR}/run/mods`, where `${PROJECT_DIR}` is your project directory)
-3. Extract `commons-text-*.jar` and the appropriate `optiglue-*.jar` from the OptiGUI jar's `META-INF/jars` folder to your local mods folder, otherwise you'll get a juicy `RuntimeException` (because Loom removes the `jars` key from `fabric.mod.json` for some reason). Starting at OptiGUI 2.1.0-beta.3, it won't even load if no appropriate version of OptiGlue is found.
+3. Extract `commons-text-*.jar`, `ini4j-*.jar`, and the appropriate `optiglue-*.jar` from the OptiGUI jar's `META-INF/jars` folder to your local mods folder, otherwise you'll get a juicy `RuntimeException` (because Loom removes the `jars` key from `fabric.mod.json` for some reason). Starting at OptiGUI 2.1.0-beta.3, it won't even load if no appropriate version of OptiGlue is found.
 
 ## Entry point
 
