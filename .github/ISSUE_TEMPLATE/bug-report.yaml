@@ -19,21 +19,37 @@ body:
       required: true
   - type: textarea
     attributes:
+      label: Actual Behavior
+      description: Describe what actually happened
+    validations:
+      required: true
+  - type: textarea
+    attributes:
       label: Steps To Reproduce
       description: Describe what is the current behavior, and how to reproduce it
     validations:
       required: true
-  - type: dropdown
-    id: version
+  - type: input
+    attributes:
+      label: Loader and its version
+      description: Enter the loader and its version you are using
+      placeholder: ex. Fabric loader 0.14.21
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: OptiGUI version
+      description: Enter the version of OptiGUI you are using
+    validations:
+      required: true
+  - type: checkboxes
     attributes:
       label: Behavior difference
       description: Which of these does OptiGUI work differently from?
       options:
-        - OptiGUI documentation
-        - OptiFine
-        - Both
-    validations:
-      required: true
+        - label: Behavior is different from OptiGUI documentation
+        - label: Behavior is different from OptiFine
+        - label: Behavior is different from expected (or straight up doesn't work)
   - type: textarea
     attributes:
       label: Anything else

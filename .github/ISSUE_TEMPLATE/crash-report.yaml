@@ -4,6 +4,19 @@ title: "[CRASH] <title>"
 labels:
   - crash
 body:
+  - type: input
+    attributes:
+      label: Loader and its version
+      description: Enter the loader and its version you are using
+      placeholder: ex. Fabric loader 0.14.21
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: OptiGUI version
+      description: Enter the version of OptiGUI you are using
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: Steps to reproduce
