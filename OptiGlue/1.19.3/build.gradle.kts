@@ -23,14 +23,26 @@ dependencies {
 
 tasks {
     val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
+
     withType<JavaCompile> {
         options.encoding = "UTF-8"
         sourceCompatibility = javaVersion.toString()
         targetCompatibility = javaVersion.toString()
         options.release.set(javaVersion.toString().toInt())
     }
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { kotlinOptions { jvmTarget = javaVersion.toString() } }
-    jar { from("LICENSE") { rename { "${it}_${base.archivesName.get()}" } } }
+
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = javaVersion.toString()
+        }
+    }
+
+    jar {
+        from("LICENSE") {
+            rename { "${it}_${base.archivesName.get()}" }
+        }
+    }
+
     processResources {
         filesMatching("fabric.mod.json") {
             expand(
@@ -42,10 +54,15 @@ tasks {
                 )
             )
         }
-        filesMatching("*.mixins.json") { expand(mutableMapOf("java" to project.extra["java_version"] as String)) }
+        filesMatching("*.mixins.json") {
+            expand(mutableMapOf("java" to project.extra["java_version"] as String))
+        }
     }
+
     java {
-        toolchain { languageVersion.set(JavaLanguageVersion.of(javaVersion.toString())) }
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(javaVersion.toString()))
+        }
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
         withSourcesJar()

@@ -3,7 +3,7 @@
   "id": "optigui",
   "version": "${version}",
   "name": "OptiGUI",
-  "description": "A client side drop-in replacement for OptiFine custom GUIs",
+  "description": "Custom inventory GUIs on Fabric&Quilt with OptiFine resource pack support&many more features",
   "authors": [
     "opekope2"
   ],
@@ -37,7 +37,7 @@
     "optigui.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=${fabricloader}",
+    "fabricloader": ">=0.14.19",
     "fabric-lifecycle-events-v1": "*",
     "fabric-networking-api-v1": "*",
     "fabric-events-interaction-v0": "*",

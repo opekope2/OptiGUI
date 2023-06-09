@@ -26,7 +26,7 @@ This mod supports a superset of OptiFine features, see documentation link above.
 
 ## Supported resource packs
 
-Excluding vanilla resource packs (which don't container OptiFine or OptiGUI-specific files)
+Excluding vanilla resource packs (which don't contain OptiFine or OptiGUI-specific files)
 
 * [Colourful Containers](https://www.planetminecraft.com/texture-pack/colourful-containers-gui/)
 * [Colourful Containers Add-On](https://www.planetminecraft.com/texture-pack/updated-colourful-containers-light-mode-gui-optifine-required/)

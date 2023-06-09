@@ -52,8 +52,10 @@ internal object ResourceLoader : IdentifiableResourceReloadListener {
     private fun findOptiGuiResources(manager: ResourceManager) =
         manager.findResources(OPTIGUI_RESOURCES_ROOT) { name -> name.endsWith(".ini") }
             .filter { (ns) -> ns == OPTIGUI_NAMESPACE }
+            .toSet()
 
     private fun findOptiFineResources(manager: ResourceManager) =
         manager.findResources(OPTIFINE_RESOURCES_ROOT) { name -> name.endsWith(".properties") }
             .filter { (ns) -> ns == Identifier.DEFAULT_NAMESPACE }
+            .toSet()
 }
