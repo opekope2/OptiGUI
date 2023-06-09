@@ -2,6 +2,7 @@ import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import java.net.URL
+import java.time.Year
 
 plugins {
     id("fabric-loom")
@@ -46,14 +47,26 @@ dependencies {
 
 tasks {
     val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
+
     withType<JavaCompile> {
         options.encoding = "UTF-8"
         sourceCompatibility = javaVersion.toString()
         targetCompatibility = javaVersion.toString()
         options.release.set(javaVersion.toString().toInt())
     }
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { kotlinOptions { jvmTarget = javaVersion.toString() } }
-    jar { from("LICENSE") { rename { "${it}_${base.archivesName.get()}" } } }
+
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = javaVersion.toString()
+        }
+    }
+
+    jar {
+        from("LICENSE") {
+            rename { "${it}_${base.archivesName.get()}" }
+        }
+    }
+
     processResources {
         filesMatching("fabric.mod.json") {
             expand(
@@ -65,18 +78,87 @@ tasks {
                 )
             )
         }
-        filesMatching("*.mixins.json") { expand(mutableMapOf("java" to project.extra["java_version"] as String)) }
+        filesMatching("*.mixins.json") {
+            expand(mutableMapOf("java" to project.extra["java_version"] as String))
+        }
     }
+
     java {
-        toolchain { languageVersion.set(JavaLanguageVersion.of(javaVersion.toString())) }
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(javaVersion.toString()))
+        }
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
         withSourcesJar()
     }
+
     test {
         useJUnitPlatform()
         testLogging {
             events("PASSED", "SKIPPED", "FAILED")
+        }
+    }
+
+    dokkaHtml {
+        moduleName.set("OptiGUI")
+        moduleVersion.set(version as String)
+        outputDirectory.set(
+            buildDir.resolve(
+                if (project.hasProperty("javaSyntax")) "dokka/javaHtml"
+                else "dokka/kotlinHtml"
+            )
+        )
+
+        pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
+            footerMessage = "© 2022-${Year.now().value} opekope2"
+            customAssets = listOf(projectDir.resolve("logo-icon.svg"))
+            separateInheritedMembers = true
+        }
+
+        dokkaSourceSets.configureEach {
+            documentedVisibilities.set(
+                setOf(
+                    DokkaConfiguration.Visibility.PUBLIC,
+                    DokkaConfiguration.Visibility.PROTECTED
+                )
+            )
+
+            sourceLink {
+                localDirectory.set(projectDir.resolve("src/main/kotlin"))
+                remoteUrl.set(URL("https://github.com/opekope2/OptiGUI/tree/$version/OptiGUI/src/main/kotlin"))
+                remoteLineSuffix.set("#L")
+            }
+
+            externalDocumentationLink {
+                val mappingsVersion = project.extra["yarn_mappings"]
+                url.set(URL("https://maven.fabricmc.net/docs/yarn-$mappingsVersion/"))
+                packageListUrl.set(URL("https://maven.fabricmc.net/docs/yarn-$mappingsVersion/element-list"))
+            }
+            externalDocumentationLink {
+                val fabricVersion = project.extra["fabric_version"]
+                url.set(URL("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/"))
+                packageListUrl.set(URL("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/element-list"))
+            }
+            externalDocumentationLink {
+                url.set(URL("https://ini4j.sourceforge.net/apidocs/"))
+                packageListUrl.set(URL("https://ini4j.sourceforge.net/apidocs/package-list"))
+            }
+
+            perPackageOption {
+                matchingRegex.set("""opekope2\.optigui\.internal(.*)""")
+                suppress.set(true)
+                documentedVisibilities.set(setOf())
+            }
+            perPackageOption {
+                matchingRegex.set("""opekope2\.optigui\.mixin""")
+                suppress.set(true)
+                documentedVisibilities.set(setOf())
+            }
+
+            // Apply these last, otherwise the other options get ignored
+            // You don't want to know how many hours I spent on this...
+            jdkVersion.set(project.extra["java_version"] as Int)
+            languageVersion.set(System.getProperty("kotlin_version"))
         }
     }
 }
@@ -97,66 +179,3 @@ afterEvaluate {
 
 val Project.outputJar
     get() = tasks["remapJar"].outputs.files.firstOrNull()
-
-tasks.dokkaHtml {
-    moduleName.set("OptiGUI")
-    moduleVersion.set(version as String)
-    outputDirectory.set(
-        buildDir.resolve(
-            if (project.hasProperty("javaSyntax")) "dokka/javaHtml"
-            else "dokka/kotlinHtml"
-        )
-    )
-
-    pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
-        footerMessage = "© 2022-2023 opekope2"
-        customAssets = listOf(projectDir.resolve("logo-icon.svg"))
-        separateInheritedMembers = true
-    }
-
-    dokkaSourceSets.configureEach {
-        documentedVisibilities.set(
-            setOf(
-                DokkaConfiguration.Visibility.PUBLIC,
-                DokkaConfiguration.Visibility.PROTECTED
-            )
-        )
-
-        sourceLink {
-            localDirectory.set(projectDir.resolve("src/main/kotlin"))
-            remoteUrl.set(URL("https://github.com/opekope2/OptiGUI/tree/$version/OptiGUI/src/main/kotlin"))
-            remoteLineSuffix.set("#L")
-        }
-
-        externalDocumentationLink {
-            val mappingsVersion = project.extra["yarn_mappings"]
-            url.set(URL("https://maven.fabricmc.net/docs/yarn-$mappingsVersion/"))
-            packageListUrl.set(URL("https://maven.fabricmc.net/docs/yarn-$mappingsVersion/element-list"))
-        }
-        externalDocumentationLink {
-            val fabricVersion = project.extra["fabric_version"]
-            url.set(URL("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/"))
-            packageListUrl.set(URL("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/element-list"))
-        }
-        externalDocumentationLink {
-            url.set(URL("https://ini4j.sourceforge.net/apidocs/"))
-            packageListUrl.set(URL("https://ini4j.sourceforge.net/apidocs/package-list"))
-        }
-
-        perPackageOption {
-            matchingRegex.set("""opekope2\.optigui\.internal(.*)""")
-            suppress.set(true)
-            documentedVisibilities.set(setOf())
-        }
-        perPackageOption {
-            matchingRegex.set("""opekope2\.optigui\.mixin""")
-            suppress.set(true)
-            documentedVisibilities.set(setOf())
-        }
-
-        // Apply these last, otherwise the other options get ignored
-        // You don't want to know how many hours I spent on this...
-        jdkVersion.set(project.extra["java_version"] as Int)
-        languageVersion.set(System.getProperty("kotlin_version"))
-    }
-}
