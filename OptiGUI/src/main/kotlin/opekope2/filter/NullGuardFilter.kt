@@ -6,7 +6,7 @@ package opekope2.filter
  *
  * @param T The type the given [filter] accepts. This filter accepts its nullable form
  * @param TResult The type [filter] returns
- * @param nullResult The result when the input is null
+ * @param nullResult The result when the input is `null`
  * @param filter The filter to evaluate
  */
 class NullGuardFilter<T, TResult>(
