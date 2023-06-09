@@ -37,7 +37,7 @@
     "optigui.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.19",
+    "fabricloader": ">=${fabricloader}",
     "fabric-lifecycle-events-v1": "*",
     "fabric-networking-api-v1": "*",
     "fabric-events-interaction-v0": "*",
