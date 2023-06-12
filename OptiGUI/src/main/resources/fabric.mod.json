@@ -42,7 +42,7 @@
     "fabric-networking-api-v1": "*",
     "fabric-events-interaction-v0": "*",
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
-    "minecraft": ">=1.18 <=1.20",
+    "minecraft": ">=1.18 <=1.20.1",
     "java": ">=${java}",
     "optiglue": [
       "=${version}-mc.1.18",
