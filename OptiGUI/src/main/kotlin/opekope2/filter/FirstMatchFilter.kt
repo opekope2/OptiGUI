@@ -16,8 +16,7 @@ class FirstMatchFilter<T, TResult>(private val filters: Iterable<Filter<T, out T
     constructor(vararg filters: Filter<T, out TResult>) : this(filters.toList())
 
     override fun evaluate(value: T): FilterResult<out TResult> = filters.map { it.evaluate(value) }.let { results ->
-        val allSkip = results.all { it is FilterResult.Skip }
-        if (allSkip) FilterResult.Skip()
+        if (results.all { it is FilterResult.Skip }) FilterResult.Skip()
         else results.firstOrNull { it is FilterResult.Match } ?: FilterResult.Mismatch()
     }
 

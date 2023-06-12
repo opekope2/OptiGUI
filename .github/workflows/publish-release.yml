@@ -128,3 +128,5 @@ jobs:
           ref: docs
       - name: Publish documentation
         uses: mhausenblas/mkdocs-deploy-gh-pages@master
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
