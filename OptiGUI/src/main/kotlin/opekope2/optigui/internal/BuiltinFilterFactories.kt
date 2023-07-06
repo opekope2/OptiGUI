@@ -241,6 +241,13 @@ private val filterCreators = mapOf(
             { it.texture },
             EqualityFilter(texture)
         )
+    },
+    "donkey.has_chest" to createFilterFromProperty(String?::toBoolean) { hasChest ->
+        PreProcessorFilter.nullGuarded(
+            { (it.data as? DonkeyBaseProperties)?.hasChest },
+            Mismatch(),
+            EqualityFilter(hasChest)
+        )
     }
 )
 

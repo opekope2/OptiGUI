@@ -44,10 +44,10 @@ internal fun initializePreprocessors(context: InitializerContext) {
     context.registerPreprocessor<DropperBlockEntity>(::processCommon)
 
     context.registerPreprocessor<HorseEntity>(::processCommon)
-    context.registerPreprocessor<DonkeyEntity>(::processCommon)
-    context.registerPreprocessor<MuleEntity>(::processCommon)
+    context.registerPreprocessor<DonkeyEntity>(::processDonkey)
+    context.registerPreprocessor<MuleEntity>(::processDonkey)
     context.registerPreprocessor<LlamaEntity>(::processLlama)
-    context.registerPreprocessor<TraderLlamaEntity>(::processCommon)
+    context.registerPreprocessor<TraderLlamaEntity>(::processLlama)
     context.registerPreprocessor<ZombieHorseEntity>(::processCommon)
     context.registerPreprocessor<SkeletonHorseEntity>(::processCommon)
 
@@ -108,6 +108,18 @@ private fun processChest(chest: ChestBlockEntity): Any? {
     )
 }
 
+private fun processDonkey(donkey: AbstractDonkeyEntity): Any? {
+    val world = donkey.entityWorld ?: return null
+
+    return DonkeyProperties(
+        container = lookup.lookupEntityId(donkey),
+        name = donkey.customName?.string,
+        biome = lookup.lookupBiomeId(world, donkey.blockPos),
+        height = donkey.blockY,
+        hasChest = donkey.hasChest()
+    )
+}
+
 private fun processLlama(llama: LlamaEntity): Any? {
     val world = llama.entityWorld ?: return null
 
@@ -116,7 +128,8 @@ private fun processLlama(llama: LlamaEntity): Any? {
         name = llama.customName?.string,
         biome = lookup.lookupBiomeId(world, llama.blockPos),
         height = llama.blockY,
-        carpetColor = llama.carpetColor?.getName()
+        carpetColor = llama.carpetColor?.getName(),
+        hasChest = llama.hasChest()
     )
 }
 

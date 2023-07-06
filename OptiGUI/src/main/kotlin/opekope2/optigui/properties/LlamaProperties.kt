@@ -14,5 +14,6 @@ data class LlamaProperties @JvmOverloads constructor(
     override val biome: Identifier?,
     override val height: Int,
     val carpetColor: String?,
-    override val date: LocalDate = LocalDate.now()
-) : CommonProperties
+    override val date: LocalDate = LocalDate.now(),
+    override val hasChest: Boolean = false
+) : CommonProperties, DonkeyBaseProperties
