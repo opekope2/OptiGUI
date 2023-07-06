@@ -1,6 +1,7 @@
 package opekope2.optiglue_1_19_3
 
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
+import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
 import net.minecraft.entity.passive.CamelEntity
 import net.minecraft.entity.vehicle.ChestBoatEntity
 import net.minecraft.resource.ResourceType
@@ -8,6 +9,7 @@ import net.minecraft.util.Nameable
 import opekope2.optigui.EntryPoint
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.internal.processCommon
+import opekope2.optigui.internal.service.RetexturableScreensRegistryService
 import opekope2.optigui.properties.ChestBoatProperties
 import opekope2.optigui.service.RegistryLookupService
 import opekope2.optigui.service.ResourceAccessService
@@ -25,6 +27,8 @@ object OptiGlueMod : EntryPoint {
         // Needed by OptiGUI
         registerService<RegistryLookupService>(RegistryLookupServiceImpl())
         registerService<ResourceAccessService>(GlueResource.Companion)
+
+        getService<RetexturableScreensRegistryService>().addRetexturableScreen(HangingSignEditScreen::class.java)
 
         context.registerPreprocessor<ChestBoatEntity>(::processChestBoat)
         context.registerPreprocessor<CamelEntity>(::processCommon)

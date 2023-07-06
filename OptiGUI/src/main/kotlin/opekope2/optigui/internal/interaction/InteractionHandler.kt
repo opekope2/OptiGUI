@@ -2,8 +2,10 @@ package opekope2.optigui.internal.interaction
 
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
+import net.minecraft.block.entity.SignBlockEntity
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
+import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ActionResult
@@ -14,6 +16,7 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import opekope2.optigui.interaction.InteractionTarget
+import opekope2.optigui.mixin.AbstractSignEditScreenAccessorMixin
 import opekope2.optigui.properties.DefaultProperties
 import opekope2.optigui.service.InteractionService
 import opekope2.optigui.service.RegistryLookupService
@@ -66,10 +69,13 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback {
 
     @JvmStatic
     fun interact(player: PlayerEntity, world: World, currentScreen: Screen) {
-        val container = Identifier(
-            if (currentScreen is AbstractInventoryScreen<*>) "player"
-            else return
-        )
+        fun getHangingSignBlockId(sign: SignBlockEntity) = lookup.lookupBlockId(world.getBlockState(sign.pos).block)
+
+        val container = when (currentScreen) {
+            is AbstractInventoryScreen<*> -> Identifier("player")
+            is HangingSignEditScreen -> getHangingSignBlockId((currentScreen as AbstractSignEditScreenAccessorMixin).blockEntity)
+            else -> return
+        }
 
         interactor.interact(
             player,

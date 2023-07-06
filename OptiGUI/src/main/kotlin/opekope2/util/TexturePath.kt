@@ -65,14 +65,51 @@ object TexturePath {
     @JvmField
     val STONECUTTER = Identifier("textures/gui/container/stonecutter.png")
 
+
+    @JvmField
+    val ACACIA_HANGING_SIGN = Identifier("textures/gui/hanging_signs/acacia.png")
+
+    @JvmField
+    val BAMBOO_HANGING_SIGN = Identifier("textures/gui/hanging_signs/bamboo.png")
+
+    @JvmField
+    val BIRCH_HANGING_SIGN = Identifier("textures/gui/hanging_signs/birch.png")
+
+    @JvmField
+    val CHERRY_HANGING_SIGN = Identifier("textures/gui/hanging_signs/cherry.png")
+
+    @JvmField
+    val CRIMSON_HANGING_SIGN = Identifier("textures/gui/hanging_signs/crimson.png")
+
+    @JvmField
+    val DARK_OAK_HANGING_SIGN = Identifier("textures/gui/hanging_signs/dark_oak.png")
+
+    @JvmField
+    val JUNGLE_HANGING_SIGN = Identifier("textures/gui/hanging_signs/jungle.png")
+
+    @JvmField
+    val MANGROVE_HANGING_SIGN = Identifier("textures/gui/hanging_signs/mangrove.png")
+
+    @JvmField
+    val OAK_HANGING_SIGN = Identifier("textures/gui/hanging_signs/oak.png")
+
+    @JvmField
+    val SPRUCE_HANGING_SIGN = Identifier("textures/gui/hanging_signs/spruce.png")
+
+    @JvmField
+    val WARPED_HANGING_SIGN = Identifier("textures/gui/hanging_signs/warped.png")
+
+
     @JvmField
     val HORSE = Identifier("textures/gui/container/horse.png")
 
     @JvmField
     val VILLAGER2 = Identifier("textures/gui/container/villager2.png")
 
+
     @JvmField
     val INVENTORY = Identifier("textures/gui/container/inventory.png")
+
 
     private val containerTextures = mapOf(
         Identifier("anvil") to ANVIL,
@@ -107,6 +144,29 @@ object TexturePath {
         Identifier("smoker") to SMOKER,
 
         Identifier("grindstone") to GRINDSTONE,
+
+        Identifier("acacia_hanging_sign") to ACACIA_HANGING_SIGN,
+        Identifier("acacia_wall_hanging_sign") to ACACIA_HANGING_SIGN,
+        Identifier("bamboo_hanging_sign") to BAMBOO_HANGING_SIGN,
+        Identifier("bamboo_wall_hanging_sign") to BAMBOO_HANGING_SIGN,
+        Identifier("birch_hanging_sign") to BIRCH_HANGING_SIGN,
+        Identifier("birch_wall_hanging_sign") to BIRCH_HANGING_SIGN,
+        Identifier("cherry_hanging_sign") to CHERRY_HANGING_SIGN,
+        Identifier("cherry_wall_hanging_sign") to CHERRY_HANGING_SIGN,
+        Identifier("crimson_hanging_sign") to CRIMSON_HANGING_SIGN,
+        Identifier("crimson_wall_hanging_sign") to CRIMSON_HANGING_SIGN,
+        Identifier("dark_oak_hanging_sign") to DARK_OAK_HANGING_SIGN,
+        Identifier("dark_oak_wall_hanging_sign") to DARK_OAK_HANGING_SIGN,
+        Identifier("jungle_hanging_sign") to JUNGLE_HANGING_SIGN,
+        Identifier("jungle_wall_hanging_sign") to JUNGLE_HANGING_SIGN,
+        Identifier("mangrove_hanging_sign") to MANGROVE_HANGING_SIGN,
+        Identifier("mangrove_wall_hanging_sign") to MANGROVE_HANGING_SIGN,
+        Identifier("oak_hanging_sign") to OAK_HANGING_SIGN,
+        Identifier("oak_wall_hanging_sign") to OAK_HANGING_SIGN,
+        Identifier("spruce_hanging_sign") to SPRUCE_HANGING_SIGN,
+        Identifier("spruce_wall_hanging_sign") to SPRUCE_HANGING_SIGN,
+        Identifier("warped_hanging_sign") to WARPED_HANGING_SIGN,
+        Identifier("warped_wall_hanging_sign") to WARPED_HANGING_SIGN,
 
         Identifier("hopper") to HOPPER,
         Identifier("hopper_minecart") to HOPPER,
