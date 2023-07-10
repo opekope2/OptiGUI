@@ -6,6 +6,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.village.VillagerProfession
+import net.minecraft.village.VillagerType
 import net.minecraft.world.World
 import opekope2.optigui.service.RegistryLookupService
 import kotlin.jvm.optionals.getOrNull
@@ -19,4 +20,7 @@ internal class RegistryLookupServiceImpl : RegistryLookupService {
 
     override fun lookupVillagerProfessionId(profession: VillagerProfession): Identifier =
         Registries.VILLAGER_PROFESSION.getId(profession)
+
+    override fun lookupVillagerTypeId(type: VillagerType): Identifier =
+        Registries.VILLAGER_TYPE.getId(type)
 }
