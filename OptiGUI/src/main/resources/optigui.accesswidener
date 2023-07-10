@@ -30,8 +30,5 @@ accessible  field   net/minecraft/screen/Generic3x3ContainerScreenHandler       
 # HopperScreenHandler
 accessible  field   net/minecraft/screen/HopperScreenHandler                        inventory       Lnet/minecraft/inventory/Inventory;
 
-# LecternScreenHandler
-accessible  field   net/minecraft/screen/LecternScreenHandler                       inventory       Lnet/minecraft/inventory/Inventory;
-
 # ShulkerBoxScreenHandler
 accessible  field   net/minecraft/screen/ShulkerBoxScreenHandler                    inventory       Lnet/minecraft/inventory/Inventory;

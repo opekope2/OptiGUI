@@ -3,6 +3,9 @@ package opekope2.optigui.internal
 import net.minecraft.block.entity.*
 import net.minecraft.block.enums.ChestType
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.screen.ingame.BookScreen
+import net.minecraft.client.gui.screen.ingame.HandledScreen
+import net.minecraft.client.gui.screen.ingame.LecternScreen
 import net.minecraft.entity.Entity
 import net.minecraft.entity.mob.SkeletonHorseEntity
 import net.minecraft.entity.mob.ZombieHorseEntity
@@ -12,38 +15,38 @@ import net.minecraft.entity.vehicle.HopperMinecartEntity
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.Nameable
 import opekope2.optigui.InitializerContext
-import opekope2.optigui.mixin.BeaconBlockEntityAccessorMixin
-import opekope2.optigui.mixin.IBookScreenMixin
 import opekope2.optigui.properties.*
 import opekope2.optigui.service.RegistryLookupService
 import opekope2.optigui.service.getService
+import opekope2.util.comparatorOutputWorkaround
+import opekope2.util.getComparatorOutputWorkaround
 
 @Suppress("unused")
 internal fun initializePreprocessors(context: InitializerContext) {
-    context.registerPreprocessor<BrewingStandBlockEntity>(::processCommon)
+    context.registerPreprocessor<BrewingStandBlockEntity>(::processCommonComparable)
 
     context.registerPreprocessor<EnchantingTableBlockEntity>(::processCommon)
 
-    context.registerPreprocessor<FurnaceBlockEntity>(::processCommon)
-    context.registerPreprocessor<BlastFurnaceBlockEntity>(::processCommon)
-    context.registerPreprocessor<SmokerBlockEntity>(::processCommon)
+    context.registerPreprocessor<FurnaceBlockEntity>(::processCommonComparable)
+    context.registerPreprocessor<BlastFurnaceBlockEntity>(::processCommonComparable)
+    context.registerPreprocessor<SmokerBlockEntity>(::processCommonComparable)
 
-    context.registerPreprocessor<HopperBlockEntity>(::processCommon)
-    context.registerPreprocessor<HopperMinecartEntity>(::processCommon)
+    context.registerPreprocessor<HopperBlockEntity>(::processCommonComparable)
+    context.registerPreprocessor<HopperMinecartEntity>(::processCommonComparable)
 
     context.registerPreprocessor<ChestBlockEntity>(::processChest)
     context.registerPreprocessor<TrappedChestBlockEntity>(::processChest)
     context.registerPreprocessor<EnderChestBlockEntity>(::processCommon)
-    context.registerPreprocessor<BarrelBlockEntity>(::processCommon)
-    context.registerPreprocessor<ChestMinecartEntity>(::processCommon)
+    context.registerPreprocessor<BarrelBlockEntity>(::processCommonComparable)
+    context.registerPreprocessor<ChestMinecartEntity>(::processCommonComparable)
 
     context.registerPreprocessor<BeaconBlockEntity>(::processBeacon)
 
     context.registerPreprocessor<VillagerEntity>(::processVillager)
     context.registerPreprocessor<WanderingTraderEntity>(::processCommon)
 
-    context.registerPreprocessor<DispenserBlockEntity>(::processCommon)
-    context.registerPreprocessor<DropperBlockEntity>(::processCommon)
+    context.registerPreprocessor<DispenserBlockEntity>(::processCommonComparable)
+    context.registerPreprocessor<DropperBlockEntity>(::processCommonComparable)
 
     context.registerPreprocessor<HorseEntity>(::processCommon)
     context.registerPreprocessor<DonkeyEntity>(::processDonkey)
@@ -53,7 +56,7 @@ internal fun initializePreprocessors(context: InitializerContext) {
     context.registerPreprocessor<ZombieHorseEntity>(::processCommon)
     context.registerPreprocessor<SkeletonHorseEntity>(::processCommon)
 
-    context.registerPreprocessor<ShulkerBoxBlockEntity>(::processCommon)
+    context.registerPreprocessor<ShulkerBoxBlockEntity>(::processCommonComparable)
 
     context.registerPreprocessor<LecternBlockEntity>(::processLectern)
 
@@ -73,6 +76,19 @@ private fun processCommon(blockEntity: BlockEntity): Any? {
     )
 }
 
+private fun processCommonComparable(blockEntity: BlockEntity): Any? {
+    val world = blockEntity.world ?: return null
+    val screen = MinecraftClient.getInstance().currentScreen
+
+    return CommonComparatorProperties(
+        container = lookup.lookupBlockId(world.getBlockState(blockEntity.pos).block),
+        name = (blockEntity as? Nameable)?.customName?.string,
+        biome = lookup.lookupBiomeId(world, blockEntity.pos),
+        height = blockEntity.pos.y,
+        comparatorOutput = (screen as? HandledScreen<*>)?.screenHandler?.getComparatorOutputWorkaround() ?: 0
+    )
+}
+
 fun processCommon(entity: Entity): Any? {
     val world = entity.entityWorld ?: return null
 
@@ -81,6 +97,19 @@ fun processCommon(entity: Entity): Any? {
         name = entity.customName?.string,
         biome = lookup.lookupBiomeId(world, entity.blockPos),
         height = entity.blockY
+    )
+}
+
+private fun processCommonComparable(entity: Entity): Any? {
+    val world = entity.world ?: return null
+    val screen = MinecraftClient.getInstance().currentScreen
+
+    return CommonComparatorProperties(
+        container = lookup.lookupEntityId(entity),
+        name = entity.customName?.string,
+        biome = lookup.lookupBiomeId(world, entity.blockPos),
+        height = entity.blockY,
+        comparatorOutput = (screen as? HandledScreen<*>)?.screenHandler?.getComparatorOutputWorkaround() ?: 0
     )
 }
 
@@ -102,13 +131,15 @@ private fun processChest(chest: ChestBlockEntity): Any? {
     val world = chest.world ?: return null
     val state = world.getBlockState(chest.pos)
     val type = state.entries[chestTypeEnum]
+    val screen = MinecraftClient.getInstance().currentScreen
 
     return ChestProperties(
         container = lookup.lookupBlockId(world.getBlockState(chest.pos).block),
         name = chest.customName?.string,
         biome = lookup.lookupBiomeId(world, chest.pos),
         height = chest.pos.y,
-        isLarge = type != ChestType.SINGLE
+        isLarge = type != ChestType.SINGLE,
+        comparatorOutput = (screen as? HandledScreen<*>)?.screenHandler?.getComparatorOutputWorkaround() ?: 0
     )
 }
 
@@ -165,14 +196,15 @@ private fun processHangingSign(sign: HangingSignBlockEntity): Any? {
 private fun processLectern(lectern: LecternBlockEntity): Any? {
     val world = lectern.world ?: return null
     // Workaround, because LecternBlockEntity doesn't sync
-    val currentScreen = MinecraftClient.getInstance().currentScreen
+    val screen = MinecraftClient.getInstance().currentScreen
 
     return LecternProperties(
         container = lookup.lookupBlockId(world.getBlockState(lectern.pos).block),
         name = null,
         biome = lookup.lookupBiomeId(world, lectern.pos),
         height = lectern.pos.y,
-        currentPage = (currentScreen as? BookScreen)?.pageIndex?.plus(1) ?: return null,
-        pageCount = (currentScreen as? BookScreen)?.pageCount ?: return null
+        currentPage = (screen as? BookScreen)?.pageIndex?.plus(1) ?: return null,
+        pageCount = (screen as? BookScreen)?.pageCount ?: return null,
+        comparatorOutput = (screen as? LecternScreen)?.comparatorOutputWorkaround ?: 0
     )
 }

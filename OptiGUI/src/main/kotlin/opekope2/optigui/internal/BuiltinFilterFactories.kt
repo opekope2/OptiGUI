@@ -177,6 +177,16 @@ private val filterCreators = mapOf(
             }
         )
     },
+    "comparator.output" to createFilterFromProperty(
+        { it.splitIgnoreEmpty(*delimiters).mapNotNull(NumberOrRange::tryParse).ifEmpty { null } },
+        { outputs ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? ComparatorProperties)?.comparatorOutput },
+                Mismatch(),
+                DisjunctionFilter(outputs.map { it.toFilter() })
+            )
+        }
+    ),
     "beacon.levels" to createFilterFromProperty(
         { it.splitIgnoreEmpty(*delimiters).mapNotNull(NumberOrRange::tryParse).ifEmpty { null } },
         { levels ->

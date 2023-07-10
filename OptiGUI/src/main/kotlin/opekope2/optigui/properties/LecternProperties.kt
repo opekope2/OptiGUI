@@ -13,5 +13,6 @@ data class LecternProperties(
     override val height: Int,
     override val currentPage: Int,
     override val pageCount: Int,
-    override val date: LocalDate = LocalDate.now()
-) : CommonProperties, BookBaseProperties
+    override val date: LocalDate = LocalDate.now(),
+    override val comparatorOutput: Int
+) : CommonProperties, BookBaseProperties, ComparatorProperties
