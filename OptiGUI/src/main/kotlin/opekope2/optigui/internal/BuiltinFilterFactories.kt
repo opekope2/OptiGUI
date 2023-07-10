@@ -236,6 +236,16 @@ private val filterCreators = mapOf(
             }
         )
     },
+    "villager.type" to createFilterFromProperty(
+        { it.splitIgnoreEmpty(*delimiters).mapNotNull(Identifier::tryParse).ifEmpty { null } },
+        { types ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? VillagerProperties)?.type },
+                Mismatch(),
+                ContainingFilter(types)
+            )
+        }
+    ),
     "interaction.texture" to createFilterFromProperty(Identifier::tryParse) { texture ->
         PreProcessorFilter(
             { it.texture },

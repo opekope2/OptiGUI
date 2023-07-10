@@ -146,7 +146,8 @@ private fun processVillager(villager: VillagerEntity): Any? {
         biome = lookup.lookupBiomeId(world, villager.blockPos),
         height = villager.blockY,
         level = villager.villagerData.level,
-        profession = lookup.lookupVillagerProfessionId(villager.villagerData.profession)
+        profession = lookup.lookupVillagerProfessionId(villager.villagerData.profession),
+        type = lookup.lookupVillagerTypeId(villager.villagerData.type)
     )
 }
 
