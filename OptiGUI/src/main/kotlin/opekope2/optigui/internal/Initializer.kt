@@ -1,10 +1,9 @@
 package opekope2.optigui.internal
 
-import net.fabricmc.fabric.api.event.player.UseBlockCallback
-import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.client.gui.screen.ingame.BookEditScreen
+import net.minecraft.client.gui.screen.ingame.BookScreen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
-import net.minecraft.client.gui.screen.ingame.LecternScreen
 import opekope2.optigui.EntryPoint
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.internal.interaction.InteractionHandler
@@ -30,11 +29,11 @@ fun initialize() {
         registerService<RetexturableScreensRegistryService>(this)
 
         addRetexturableScreen(HandledScreen::class.java)
-        addRetexturableScreen(LecternScreen::class.java)
+        addRetexturableScreen(BookScreen::class.java)
+        addRetexturableScreen(BookEditScreen::class.java)
     }
 
-    UseBlockCallback.EVENT.register(InteractionHandler)
-    UseEntityCallback.EVENT.register(InteractionHandler)
+    InteractionHandler
 
     runEntryPoints()
 

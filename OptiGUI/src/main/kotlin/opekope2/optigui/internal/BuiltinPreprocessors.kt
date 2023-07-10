@@ -2,6 +2,7 @@ package opekope2.optigui.internal
 
 import net.minecraft.block.entity.*
 import net.minecraft.block.enums.ChestType
+import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.Entity
 import net.minecraft.entity.mob.SkeletonHorseEntity
 import net.minecraft.entity.mob.ZombieHorseEntity
@@ -12,6 +13,7 @@ import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.Nameable
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.mixin.BeaconBlockEntityAccessorMixin
+import opekope2.optigui.mixin.IBookScreenMixin
 import opekope2.optigui.properties.*
 import opekope2.optigui.service.RegistryLookupService
 import opekope2.optigui.service.getService
@@ -53,7 +55,7 @@ internal fun initializePreprocessors(context: InitializerContext) {
 
     context.registerPreprocessor<ShulkerBoxBlockEntity>(::processCommon)
 
-    context.registerPreprocessor<LecternBlockEntity>(::processCommon)
+    context.registerPreprocessor<LecternBlockEntity>(::processLectern)
 
     context.registerPreprocessor<HangingSignBlockEntity>(::processHangingSign)
 }
@@ -156,5 +158,20 @@ private fun processHangingSign(sign: HangingSignBlockEntity): Any? {
         name = null,
         biome = lookup.lookupBiomeId(world, sign.pos),
         height = sign.pos.y
+    )
+}
+
+private fun processLectern(lectern: LecternBlockEntity): Any? {
+    val world = lectern.world ?: return null
+    // Workaround, because LecternBlockEntity doesn't sync
+    val currentScreen = MinecraftClient.getInstance().currentScreen
+
+    return LecternProperties(
+        container = lookup.lookupBlockId(world.getBlockState(lectern.pos).block),
+        name = null,
+        biome = lookup.lookupBiomeId(world, lectern.pos),
+        height = lectern.pos.y,
+        currentPage = (currentScreen as? IBookScreenMixin)?.pageIndex?.plus(1) ?: return null,
+        pageCount = (currentScreen as? IBookScreenMixin)?.invokeGetPageCount() ?: return null
     )
 }

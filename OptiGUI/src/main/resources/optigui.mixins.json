@@ -8,7 +8,11 @@
   "client": [
     "AbstractSignEditScreenAccessorMixin",
     "BeaconBlockEntityAccessorMixin",
+    "BookEditScreenMixin",
+    "BookScreenMixin",
     "ClientPlayerEntityMixin",
+    "IBookEditScreenMixin",
+    "IBookScreenMixin",
     "MinecraftClientMixin",
     "MinecraftClientMixin2",
     "RenderSystemMixin"

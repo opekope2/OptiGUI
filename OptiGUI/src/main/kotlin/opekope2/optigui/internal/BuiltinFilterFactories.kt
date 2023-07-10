@@ -248,7 +248,27 @@ private val filterCreators = mapOf(
             Mismatch(),
             EqualityFilter(hasChest)
         )
-    }
+    },
+    "book.page.current" to createFilterFromProperty(
+        { it.splitIgnoreEmpty(*delimiters).mapNotNull(NumberOrRange::tryParse).ifEmpty { null } },
+        { pages ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? BookBaseProperties)?.currentPage },
+                Mismatch(),
+                DisjunctionFilter(pages.map { it.toFilter() })
+            )
+        }
+    ),
+    "book.page.count" to createFilterFromProperty(
+        { it.splitIgnoreEmpty(*delimiters).mapNotNull(NumberOrRange::tryParse).ifEmpty { null } },
+        { pages ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? BookBaseProperties)?.pageCount },
+                Mismatch(),
+                DisjunctionFilter(pages.map { it.toFilter() })
+            )
+        }
+    )
 )
 
 private fun wildcardToRegex(wildcard: String): String = buildString {

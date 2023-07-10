@@ -207,6 +207,9 @@ object TexturePath {
 
         Identifier("villager") to VILLAGER2,
         Identifier("wandering_trader") to VILLAGER2,
+
+        Identifier("writable_book") to BOOK,
+        Identifier("written_book") to BOOK
     )
 
     /**
