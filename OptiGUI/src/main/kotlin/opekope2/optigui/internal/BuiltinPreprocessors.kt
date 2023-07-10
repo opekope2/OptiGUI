@@ -92,7 +92,7 @@ private fun processBeacon(beacon: BeaconBlockEntity): Any? {
         name = (beacon as? Nameable)?.customName?.string,
         biome = lookup.lookupBiomeId(world, beacon.pos),
         height = beacon.pos.y,
-        level = (beacon as BeaconBlockEntityAccessorMixin).level
+        level = beacon.level
     )
 }
 
@@ -172,7 +172,7 @@ private fun processLectern(lectern: LecternBlockEntity): Any? {
         name = null,
         biome = lookup.lookupBiomeId(world, lectern.pos),
         height = lectern.pos.y,
-        currentPage = (currentScreen as? IBookScreenMixin)?.pageIndex?.plus(1) ?: return null,
-        pageCount = (currentScreen as? IBookScreenMixin)?.invokeGetPageCount() ?: return null
+        currentPage = (currentScreen as? BookScreen)?.pageIndex?.plus(1) ?: return null,
+        pageCount = (currentScreen as? BookScreen)?.pageCount ?: return null
     )
 }

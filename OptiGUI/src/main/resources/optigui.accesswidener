@@ -1,0 +1,37 @@
+accessWidener v1 named
+# As you have guessed, I ain't creating that many @Accessor mixins
+
+# AbstractSignEditScreen
+accessible  field   net/minecraft/client/gui/screen/ingame/AbstractSignEditScreen   blockEntity     Lnet/minecraft/block/entity/SignBlockEntity;
+
+# BeaconBlockEntity
+accessible  field   net/minecraft/block/entity/BeaconBlockEntity                    level           I
+
+# BookEditScreen
+accessible  field   net/minecraft/client/gui/screen/ingame/BookEditScreen           currentPage     I
+accessible  method  net/minecraft/client/gui/screen/ingame/BookEditScreen           countPages      ()I
+
+# BookScreen
+accessible  field   net/minecraft/client/gui/screen/ingame/BookScreen               pageIndex       I
+accessible  method  net/minecraft/client/gui/screen/ingame/BookScreen               getPageCount    ()I
+
+# BrewingStandScreenHandler
+accessible  field   net/minecraft/screen/BrewingStandScreenHandler                  inventory       Lnet/minecraft/inventory/Inventory;
+
+# AbstractFurnaceScreenHandler
+accessible  field   net/minecraft/screen/AbstractFurnaceScreenHandler               inventory       Lnet/minecraft/inventory/Inventory;
+
+# GenericContainerScreenHandler
+accessible  field   net/minecraft/screen/GenericContainerScreenHandler              inventory       Lnet/minecraft/inventory/Inventory;
+
+# Generic3x3ContainerScreenHandler
+accessible  field   net/minecraft/screen/Generic3x3ContainerScreenHandler           inventory       Lnet/minecraft/inventory/Inventory;
+
+# HopperScreenHandler
+accessible  field   net/minecraft/screen/HopperScreenHandler                        inventory       Lnet/minecraft/inventory/Inventory;
+
+# LecternScreenHandler
+accessible  field   net/minecraft/screen/LecternScreenHandler                       inventory       Lnet/minecraft/inventory/Inventory;
+
+# ShulkerBoxScreenHandler
+accessible  field   net/minecraft/screen/ShulkerBoxScreenHandler                    inventory       Lnet/minecraft/inventory/Inventory;

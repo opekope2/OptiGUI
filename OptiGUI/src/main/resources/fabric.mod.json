@@ -36,6 +36,7 @@
   "mixins": [
     "optigui.mixins.json"
   ],
+  "accessWidener": "optigui.accesswidener",
   "depends": {
     "fabricloader": ">=${fabricloader}",
     "fabric-lifecycle-events-v1": "*",

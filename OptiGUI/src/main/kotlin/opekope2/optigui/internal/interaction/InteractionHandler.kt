@@ -6,8 +6,7 @@ import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.minecraft.block.entity.SignBlockEntity
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
-import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
+import net.minecraft.client.gui.screen.ingame.*
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -21,9 +20,6 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import opekope2.optigui.interaction.InteractionTarget
-import opekope2.optigui.mixin.AbstractSignEditScreenAccessorMixin
-import opekope2.optigui.mixin.IBookEditScreenMixin
-import opekope2.optigui.mixin.IBookScreenMixin
 import opekope2.optigui.properties.BookProperties
 import opekope2.optigui.properties.DefaultProperties
 import opekope2.optigui.service.InteractionService
@@ -95,9 +91,8 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
                     name = stack.name.string,
                     biome = lookup.lookupBiomeId(world, player.blockPos),
                     height = player.blockY,
-                    currentPage = (currentScreen as? IBookEditScreenMixin)?.currentPage?.plus(1)
-                        ?: return@Computed null,
-                    pageCount = (currentScreen as? IBookEditScreenMixin)?.invokeCountPages() ?: return@Computed null
+                    currentPage = (currentScreen as? BookEditScreen)?.currentPage?.plus(1) ?: return@Computed null,
+                    pageCount = (currentScreen as? BookEditScreen)?.countPages() ?: return@Computed null
                 )
             }
 
@@ -108,8 +103,8 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
                     name = stack.name.string,
                     biome = lookup.lookupBiomeId(world, player.blockPos),
                     height = player.blockY,
-                    currentPage = (currentScreen as? IBookScreenMixin)?.pageIndex?.plus(1) ?: return@Computed null,
-                    pageCount = (currentScreen as? IBookScreenMixin)?.invokeGetPageCount() ?: return@Computed null
+                    currentPage = (currentScreen as? BookScreen)?.pageIndex?.plus(1) ?: return@Computed null,
+                    pageCount = (currentScreen as? BookScreen)?.pageCount ?: return@Computed null
                 )
             }
 
@@ -127,7 +122,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
 
         val container = when (currentScreen) {
             is AbstractInventoryScreen<*> -> Identifier("player")
-            is HangingSignEditScreen -> getHangingSignBlockId((currentScreen as AbstractSignEditScreenAccessorMixin).blockEntity)
+            is HangingSignEditScreen -> getHangingSignBlockId((currentScreen as AbstractSignEditScreen).blockEntity)
             else -> return
         }
 
