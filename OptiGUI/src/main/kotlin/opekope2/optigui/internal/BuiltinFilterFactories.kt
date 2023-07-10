@@ -178,12 +178,12 @@ private val filterCreators = mapOf(
         )
     },
     "beacon.levels" to createFilterFromProperty(
-        { it.splitIgnoreEmpty(*delimiters).ifEmpty { null } },
+        { it.splitIgnoreEmpty(*delimiters).mapNotNull(NumberOrRange::tryParse).ifEmpty { null } },
         { levels ->
             PreProcessorFilter.nullGuarded(
                 { (it.data as? BeaconProperties)?.level },
                 Mismatch(),
-                DisjunctionFilter(levels.mapNotNull { NumberOrRange.tryParse(it)?.toFilter() })
+                DisjunctionFilter(levels.map { it.toFilter() })
             )
         }
     ),
