@@ -148,7 +148,10 @@ A [list](syntax.html#lists) of [dates](syntax.html#dates) specifying when the te
 
 ### `comparator.output`
 
-**Upcoming**{.chip-purple}
+**OptiGUI 2.1.3+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](syntax.html#ranges) specifying the redstone comparator output of the entity or block entity, where this replacement applies.
 
 ## Anvil
 
