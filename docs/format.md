@@ -545,9 +545,10 @@ Supports the following additional selectors: [common selectors](#common-selector
 
 ### `donkey.has_chest`
 
-**Upcoming**{.chip-purple}
+**OptiGUI 2.1.3+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
 
-[#26](https://github.com/opekope2/OptiGUI/issues/26)
+A single [boolean](syntax.html#booleans) specifying if the entity needs to have or not have a chest.
 
 ## Mule
 
