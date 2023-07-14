@@ -206,19 +206,47 @@ A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](synt
 
 ## Book
 
-**Upcoming**{.chip-purple}
+**OptiGUI 2.1.3+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/book.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+
+!!! example
+    ```ini
+    [written_book]
+    book.page.current = 1 3-4
+    book.page.count = 5 10-15
+    ```
+
+**OptiGUI 2.1.3+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
 
 ### `book.page.current`
 
-**Upcoming**{.chip-purple}
+A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](syntax.html#ranges) specifying the the current page of the book, where this replacement applies.
 
 ### `book.page.count`
 
-**Upcoming**{.chip-purple}
+**OptiGUI 2.1.3+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](syntax.html#ranges) specifying the the page count of the book, where this replacement applies.
 
 ## Book and Quill
 
-**Upcoming**{.chip-purple}
+**OptiGUI 2.1.3+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/book.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [book selectors](#book)
+
+!!! example
+    ```ini
+    [writable_book]
+    ```
 
 ## Brewing stand
 
@@ -640,7 +668,7 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 **Texture path:** `minecraft:textures/gui/container/horse.png`
 
-Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors), [`book.page.current`](#bookpagecurrent), [`book.page.count`](#bookpagecount)
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [comparator selectors](#comparator-selectors), [book selectors](#book)
 
 !!! example
     ```ini
