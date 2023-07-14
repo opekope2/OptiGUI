@@ -720,6 +720,37 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
     [black_shulker_box]
     ```
 
+## Sign
+
+**Not supported**{.chip-red}
+
+Sign edit GUI renders a block model of the sign block, it doesn't have a texture.
+
+## Hanging sign
+
+**OptiGUI 2.1.3+**{.chip-darkgreen}
+**Minecraft 1.20+**{.chip-lightgreen}
+**Minecraft 1.19.3+ with 1.20 experiments**{.chip-lightgreen}
+
+**Texture path:** `minecraft:textures/gui/hanging_signs/*.png`
+
+Supports the following selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+
+!!! example
+    ```ini
+    [acacia_hanging_sign acacia_wall_hanging_sign]
+    [bamboo_hanging_sign bamboo_wall_hanging_sign]
+    [birch_hanging_sign birch_wall_hanging_sign]
+    [cherry_hanging_sign cherry_wall_hanging_sign]
+    [crimson_hanging_sign crimson_wall_hanging_sign]
+    [dark_oak_hanging_sign dark_oak_wall_hanging_sign]
+    [jungle_hanging_sign jungle_wall_hanging_sign]
+    [mangrove_hanging_sign mangrove_wall_hanging_sign]
+    [oak_hanging_sign oak_wall_hanging_sign]
+    [spruce_hanging_sign spruce_wall_hanging_sign]
+    [warped_hanging_sign warped_wall_hanging_sign]
+    ```
+
 ## Smithing table
 
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
