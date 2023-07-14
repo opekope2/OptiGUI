@@ -177,13 +177,23 @@ private val filterCreators = mapOf(
             }
         )
     },
+    "comparator.output" to createFilterFromProperty(
+        { it.splitIgnoreEmpty(*delimiters).mapNotNull(NumberOrRange::tryParse).ifEmpty { null } },
+        { outputs ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? ComparatorProperties)?.comparatorOutput },
+                Mismatch(),
+                DisjunctionFilter(outputs.map { it.toFilter() })
+            )
+        }
+    ),
     "beacon.levels" to createFilterFromProperty(
-        { it.splitIgnoreEmpty(*delimiters).ifEmpty { null } },
+        { it.splitIgnoreEmpty(*delimiters).mapNotNull(NumberOrRange::tryParse).ifEmpty { null } },
         { levels ->
             PreProcessorFilter.nullGuarded(
                 { (it.data as? BeaconProperties)?.level },
                 Mismatch(),
-                DisjunctionFilter(levels.mapNotNull { NumberOrRange.tryParse(it)?.toFilter() })
+                DisjunctionFilter(levels.map { it.toFilter() })
             )
         }
     ),
@@ -236,12 +246,49 @@ private val filterCreators = mapOf(
             }
         )
     },
+    "villager.type" to createFilterFromProperty(
+        { it.splitIgnoreEmpty(*delimiters).mapNotNull(Identifier::tryParse).ifEmpty { null } },
+        { types ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? VillagerProperties)?.type },
+                Mismatch(),
+                ContainingFilter(types)
+            )
+        }
+    ),
     "interaction.texture" to createFilterFromProperty(Identifier::tryParse) { texture ->
         PreProcessorFilter(
             { it.texture },
             EqualityFilter(texture)
         )
-    }
+    },
+    "donkey.has_chest" to createFilterFromProperty(String?::toBoolean) { hasChest ->
+        PreProcessorFilter.nullGuarded(
+            { (it.data as? DonkeyBaseProperties)?.hasChest },
+            Mismatch(),
+            EqualityFilter(hasChest)
+        )
+    },
+    "book.page.current" to createFilterFromProperty(
+        { it.splitIgnoreEmpty(*delimiters).mapNotNull(NumberOrRange::tryParse).ifEmpty { null } },
+        { pages ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? BookBaseProperties)?.currentPage },
+                Mismatch(),
+                DisjunctionFilter(pages.map { it.toFilter() })
+            )
+        }
+    ),
+    "book.page.count" to createFilterFromProperty(
+        { it.splitIgnoreEmpty(*delimiters).mapNotNull(NumberOrRange::tryParse).ifEmpty { null } },
+        { pages ->
+            PreProcessorFilter.nullGuarded(
+                { (it.data as? BookBaseProperties)?.pageCount },
+                Mismatch(),
+                DisjunctionFilter(pages.map { it.toFilter() })
+            )
+        }
+    )
 )
 
 private fun wildcardToRegex(wildcard: String): String = buildString {

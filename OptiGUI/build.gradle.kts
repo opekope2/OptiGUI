@@ -45,6 +45,10 @@ dependencies {
     }
 }
 
+loom {
+    accessWidenerPath.set(file("src/main/resources/optigui.accesswidener"))
+}
+
 tasks {
     val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
 

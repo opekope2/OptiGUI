@@ -21,6 +21,13 @@ class FilterTests {
 
 
     @Test
+    fun conditionalTest() {
+        assertIs<Mismatch<*>>(ConditionalFilter({ false }, Mismatch(), testMatchFilter).evaluate(0))
+        assertIs<Match<*>>(ConditionalFilter({ true }, Mismatch(), testMatchFilter).evaluate(0))
+    }
+
+
+    @Test
     fun conjunctionMatchTest() {
         assertIs<Match<*>>(ConjunctionFilter(testMatchFilter).evaluate(0))
         assertIs<Match<*>>(ConjunctionFilter(testMatchFilter, testSkipFilter).evaluate(0))

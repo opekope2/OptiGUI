@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.village.VillagerProfession
+import net.minecraft.village.VillagerType
 import net.minecraft.world.World
 
 /**
@@ -33,4 +34,9 @@ interface RegistryLookupService {
      * Finds the ID of the given villager [profession] in the registry.
      */
     fun lookupVillagerProfessionId(profession: VillagerProfession): Identifier
+
+    /**
+     * Finds the ID of the given villager [type] in the registry.
+     */
+    fun lookupVillagerTypeId(type: VillagerType): Identifier
 }

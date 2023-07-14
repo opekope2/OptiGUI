@@ -37,7 +37,7 @@ internal object TextureReplacer : InteractionService {
 
         var riddenEntity: Entity? = null
 
-        private fun refreshInteractionData() {
+        fun refreshInteractionData() {
             val newData = target?.computeInteractionData() ?: riddenEntity?.let(Preprocessors::preprocessEntity)
 
             if (newData != data) {
@@ -132,4 +132,7 @@ internal object TextureReplacer : InteractionService {
         if (!world.isClient) return false
         return InteractionHolder.prepare(target, RawInteraction(player, world, hand, hitResult))
     }
+
+    @JvmStatic
+    fun forceTick() = InteractionHolder.refreshInteractionData()
 }
