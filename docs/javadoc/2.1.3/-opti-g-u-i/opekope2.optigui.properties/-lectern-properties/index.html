@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>LecternProperties</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../images/logo-icon.svg">
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>OptiGUI</span>
+            </a>
+    </div>
+    <div>
+2.1.3    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":OptiGUI:dokkaHtml/main">jvm</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="OptiGUI::opekope2.optigui.properties/LecternProperties///PointingToDeclaration//631721658">
+  <div class="breadcrumbs"><a href="../../../index.html">OptiGUI</a><span class="delimiter">/</span><a href="../index.html">opekope2.optigui.properties</a><span class="delimiter">/</span><span class="current">LecternProperties</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Lectern</span><wbr></wbr><span><span>Properties</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span class="token keyword">class </span><a href="index.html">LecternProperties</a><span class="token keyword"> implements </span><a href="../-common-properties/index.html">CommonProperties</a><span class="token punctuation">, </span><a href="../-book-base-properties/index.html">BookBaseProperties</a><span class="token punctuation">, </span><a href="../-comparator-properties/index.html">ComparatorProperties</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/opekope2/OptiGUI/tree/2.1.3/OptiGUI/src/main/kotlin/opekope2/optigui/properties/LecternProperties.kt#L9">source</a>)</span></span></div><p class="paragraph">Properties for lecterns.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,FUNCTION,PROPERTY">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="1063743379%2FConstructors%2F631721658" anchor-label="LecternProperties" id="1063743379%2FConstructors%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-lectern-properties.html"><span>Lectern</span><wbr></wbr><span><span>Properties</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1063743379%2FConstructors%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="index.html">LecternProperties</a> <a href="-lectern-properties.html"><span class="token function">LecternProperties</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.1+build.1/net/minecraft/util/Identifier.html">Identifier</a> container<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> name<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.1+build.1/net/minecraft/util/Identifier.html">Identifier</a> biome<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html">Integer</a> height<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html">Integer</a> currentPage<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html">Integer</a> pageCount<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html">LocalDate</a> date<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html">Integer</a> comparatorOutput</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="1046129564%2FProperties%2F631721658" anchor-label="biome" id="1046129564%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1046129564%2FProperties%2F631721658"><span><span>biome</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1046129564%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.1+build.1/net/minecraft/util/Identifier.html">Identifier</a> <a href="index.html#1046129564%2FProperties%2F631721658">biome</a></div><div class="brief "><p class="paragraph">Biome of a block entity or entity</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1828414393%2FProperties%2F631721658" anchor-label="comparatorOutput" id="-1828414393%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1828414393%2FProperties%2F631721658"><span>comparator</span><wbr></wbr><span><span>Output</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1828414393%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html">Integer</a> <a href="index.html#-1828414393%2FProperties%2F631721658">comparatorOutput</a></div><div class="brief "><p class="paragraph">Gets the comparator output of the object.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-960045221%2FProperties%2F631721658" anchor-label="container" id="-960045221%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-960045221%2FProperties%2F631721658"><span><span>container</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-960045221%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.1+build.1/net/minecraft/util/Identifier.html">Identifier</a> <a href="index.html#-960045221%2FProperties%2F631721658">container</a></div><div class="brief "><p class="paragraph">The identifier of the container. Same as in the <code class="lang-kotlin">/summon</code> or <code class="lang-kotlin">/setblock</code> commands</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1609579948%2FProperties%2F631721658" anchor-label="currentPage" id="-1609579948%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1609579948%2FProperties%2F631721658"><span>current</span><wbr></wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1609579948%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html">Integer</a> <a href="index.html#-1609579948%2FProperties%2F631721658">currentPage</a></div><div class="brief "><p class="paragraph">Current page of the book.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="499682160%2FProperties%2F631721658" anchor-label="date" id="499682160%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#499682160%2FProperties%2F631721658"><span><span>date</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="499682160%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html">LocalDate</a> <a href="index.html#499682160%2FProperties%2F631721658">date</a></div><div class="brief "><p class="paragraph">The current date</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1981738967%2FProperties%2F631721658" anchor-label="height" id="1981738967%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1981738967%2FProperties%2F631721658"><span><span>height</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1981738967%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html">Integer</a> <a href="index.html#1981738967%2FProperties%2F631721658">height</a></div><div class="brief "><p class="paragraph">Y-coordinate of a block entity or entity</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="699401011%2FProperties%2F631721658" anchor-label="name" id="699401011%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#699401011%2FProperties%2F631721658"><span><span>name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="699401011%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> <a href="index.html#699401011%2FProperties%2F631721658">name</a></div><div class="brief "><p class="paragraph">Custom entity or block entity name (renamed in an anvil or with a name tag)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1920417540%2FProperties%2F631721658" anchor-label="pageCount" id="-1920417540%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1920417540%2FProperties%2F631721658"><span>page</span><wbr></wbr><span><span>Count</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1920417540%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html">Integer</a> <a href="index.html#-1920417540%2FProperties%2F631721658">pageCount</a></div><div class="brief "><p class="paragraph">Page count of the book.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1747783476%2FFunctions%2F631721658" anchor-label="getBiome" id="1747783476%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-biome.html"><span>get</span><wbr></wbr><span><span>Biome</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1747783476%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.1+build.1/net/minecraft/util/Identifier.html">Identifier</a> <a href="get-biome.html"><span class="token function">getBiome</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Biome of a block entity or entity</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1235187281%2FFunctions%2F631721658" anchor-label="getComparatorOutput" id="-1235187281%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-comparator-output.html"><span>get</span><wbr></wbr><span>Comparator</span><wbr></wbr><span><span>Output</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1235187281%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html">Integer</a> <a href="get-comparator-output.html"><span class="token function">getComparatorOutput</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Gets the comparator output of the object.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="856536819%2FFunctions%2F631721658" anchor-label="getContainer" id="856536819%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-container.html"><span>get</span><wbr></wbr><span><span>Container</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="856536819%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.1+build.1/net/minecraft/util/Identifier.html">Identifier</a> <a href="get-container.html"><span class="token function">getContainer</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">The identifier of the container. Same as in the <code class="lang-kotlin">/summon</code> or <code class="lang-kotlin">/setblock</code> commands</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="369038316%2FFunctions%2F631721658" anchor-label="getCurrentPage" id="369038316%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-current-page.html"><span>get</span><wbr></wbr><span>Current</span><wbr></wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="369038316%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html">Integer</a> <a href="get-current-page.html"><span class="token function">getCurrentPage</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Current page of the book.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-724609832%2FFunctions%2F631721658" anchor-label="getDate" id="-724609832%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-date.html"><span>get</span><wbr></wbr><span><span>Date</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-724609832%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html">LocalDate</a> <a href="get-date.html"><span class="token function">getDate</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">The current date</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2036793537%2FFunctions%2F631721658" anchor-label="getHeight" id="-2036793537%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-height.html"><span>get</span><wbr></wbr><span><span>Height</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2036793537%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html">Integer</a> <a href="get-height.html"><span class="token function">getHeight</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Y-coordinate of a block entity or entity</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-524890981%2FFunctions%2F631721658" anchor-label="getName" id="-524890981%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-name.html"><span>get</span><wbr></wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-524890981%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> <a href="get-name.html"><span class="token function">getName</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Custom entity or block entity name (renamed in an anvil or with a name tag)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-103835500%2FFunctions%2F631721658" anchor-label="getPageCount" id="-103835500%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-page-count.html"><span>get</span><wbr></wbr><span>Page</span><wbr></wbr><span><span>Count</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-103835500%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html">Integer</a> <a href="get-page-count.html"><span class="token function">getPageCount</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Page count of the book.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022-2023 opekope2</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
