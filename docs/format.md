@@ -148,6 +148,7 @@ A [list](syntax.html#lists) of [dates](syntax.html#dates) specifying when the te
 
 ### `comparator.output`
 
+**Optional**{.chip-lightblue}
 **OptiGUI 2.1.3+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
@@ -225,10 +226,15 @@ Supports the following selectors: [common selectors](#common-selectors), [intera
 
 ### `book.page.current`
 
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.3+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
 A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](syntax.html#ranges) specifying the the current page of the book, where this replacement applies.
 
 ### `book.page.count`
 
+**Optional**{.chip-lightblue}
 **OptiGUI 2.1.3+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
@@ -545,6 +551,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 
 ### `donkey.has_chest`
 
+**Optional**{.chip-lightblue}
 **OptiGUI 2.1.3+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
