@@ -842,6 +842,24 @@ The profession syntax is similar to the [date syntax](syntax.html#dates), but it
 !!! tip
     OptiGUI supports professions from other mods, if prefixed with a namespace.
 
+### `villager.type`
+
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.3+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+A [list](syntax.html#lists) specifying villager types (which biome was it born in). This is how its clothing looks like.
+
+#### Types
+
+* `desert`
+* `jungle`
+* `plains`
+* `savanna`
+* `snow`
+* `swamp`
+* `taiga`
+
 ## Wandering trader
 
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
