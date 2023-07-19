@@ -59,8 +59,6 @@ internal fun initializePreprocessors(context: InitializerContext) {
     context.registerPreprocessor<ShulkerBoxBlockEntity>(::processCommonComparable)
 
     context.registerPreprocessor<LecternBlockEntity>(::processLectern)
-
-    context.registerPreprocessor<HangingSignBlockEntity>(::processHangingSign)
 }
 
 private val lookup: RegistryLookupService by lazy(::getService)
@@ -179,17 +177,6 @@ private fun processVillager(villager: VillagerEntity): Any? {
         level = villager.villagerData.level,
         profession = lookup.lookupVillagerProfessionId(villager.villagerData.profession),
         type = lookup.lookupVillagerTypeId(villager.villagerData.type)
-    )
-}
-
-private fun processHangingSign(sign: HangingSignBlockEntity): Any? {
-    val world = sign.world ?: return null
-
-    return DefaultProperties(
-        container = lookup.lookupBlockId(world.getBlockState(sign.pos).block),
-        name = null,
-        biome = lookup.lookupBiomeId(world, sign.pos),
-        height = sign.pos.y
     )
 }
 

@@ -1,6 +1,7 @@
 package opekope2.optiglue_1_19_3
 
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
+import net.minecraft.block.entity.HangingSignBlockEntity
 import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
 import net.minecraft.entity.passive.CamelEntity
 import net.minecraft.entity.vehicle.ChestBoatEntity
@@ -11,6 +12,7 @@ import opekope2.optigui.InitializerContext
 import opekope2.optigui.internal.processCommon
 import opekope2.optigui.internal.service.RetexturableScreensRegistryService
 import opekope2.optigui.properties.ChestBoatProperties
+import opekope2.optigui.properties.DefaultProperties
 import opekope2.optigui.service.RegistryLookupService
 import opekope2.optigui.service.ResourceAccessService
 import opekope2.optigui.service.getService
@@ -33,6 +35,8 @@ object OptiGlueMod : EntryPoint {
         context.registerPreprocessor<ChestBoatEntity>(::processChestBoat)
         context.registerPreprocessor<CamelEntity>(::processCommon)
 
+        context.registerPreprocessor<HangingSignBlockEntity>(::processHangingSign)
+
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(ResourceLoader)
 
         logger.info("OptiGlue initialized.")
@@ -47,6 +51,18 @@ object OptiGlueMod : EntryPoint {
             biome = lookup.lookupBiomeId(world, chestBoat.blockPos),
             height = chestBoat.blockY,
             variant = chestBoat.variant.getName()
+        )
+    }
+
+
+    private fun processHangingSign(sign: HangingSignBlockEntity): Any? {
+        val world = sign.world ?: return null
+
+        return DefaultProperties(
+            container = lookup.lookupBlockId(world.getBlockState(sign.pos).block),
+            name = null,
+            biome = lookup.lookupBiomeId(world, sign.pos),
+            height = sign.pos.y
         )
     }
 }
