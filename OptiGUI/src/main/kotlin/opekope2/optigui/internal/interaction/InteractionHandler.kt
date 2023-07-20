@@ -3,10 +3,15 @@ package opekope2.optigui.internal.interaction
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
+import net.fabricmc.loader.api.FabricLoader
+import net.fabricmc.loader.api.Version
 import net.minecraft.block.entity.SignBlockEntity
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.gui.screen.ingame.*
+import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
+import net.minecraft.client.gui.screen.ingame.BookEditScreen
+import net.minecraft.client.gui.screen.ingame.BookScreen
+import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -116,15 +121,17 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
         return result
     }
 
+    private val mc_1_29_3 =
+        FabricLoader.getInstance().getModContainer("minecraft").get().metadata.version >= Version.parse("1.19.3")
+
     @JvmStatic
     fun interact(player: PlayerEntity, world: World, currentScreen: Screen) {
         fun getHangingSignBlockId(sign: SignBlockEntity) = lookup.lookupBlockId(world.getBlockState(sign.pos).block)
 
-        val container = when (currentScreen) {
-            is AbstractInventoryScreen<*> -> Identifier("player")
-            is HangingSignEditScreen -> getHangingSignBlockId((currentScreen as AbstractSignEditScreen).blockEntity)
-            else -> return
-        }
+        val container =
+            if (currentScreen is AbstractInventoryScreen<*>) Identifier("player")
+            else if (mc_1_29_3 && currentScreen is HangingSignEditScreen) getHangingSignBlockId(currentScreen.blockEntity)
+            else return
 
         interactor.interact(
             player,
