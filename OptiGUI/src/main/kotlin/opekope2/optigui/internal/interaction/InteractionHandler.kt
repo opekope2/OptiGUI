@@ -3,10 +3,15 @@ package opekope2.optigui.internal.interaction
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
+import net.fabricmc.loader.api.FabricLoader
+import net.fabricmc.loader.api.Version
 import net.minecraft.block.entity.SignBlockEntity
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.gui.screen.ingame.*
+import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
+import net.minecraft.client.gui.screen.ingame.BookEditScreen
+import net.minecraft.client.gui.screen.ingame.BookScreen
+import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
