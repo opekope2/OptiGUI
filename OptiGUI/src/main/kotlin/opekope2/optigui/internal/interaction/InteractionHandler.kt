@@ -116,15 +116,17 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
         return result
     }
 
+    private val mc_1_29_3 =
+        FabricLoader.getInstance().getModContainer("minecraft").get().metadata.version >= Version.parse("1.19.3")
+
     @JvmStatic
     fun interact(player: PlayerEntity, world: World, currentScreen: Screen) {
         fun getHangingSignBlockId(sign: SignBlockEntity) = lookup.lookupBlockId(world.getBlockState(sign.pos).block)
 
-        val container = when (currentScreen) {
-            is AbstractInventoryScreen<*> -> Identifier("player")
-            is HangingSignEditScreen -> getHangingSignBlockId((currentScreen as AbstractSignEditScreen).blockEntity)
-            else -> return
-        }
+        val container =
+            if (currentScreen is AbstractInventoryScreen<*>) Identifier("player")
+            else if (mc_1_29_3 && currentScreen is HangingSignEditScreen) getHangingSignBlockId(currentScreen.blockEntity)
+            else return
 
         interactor.interact(
             player,
