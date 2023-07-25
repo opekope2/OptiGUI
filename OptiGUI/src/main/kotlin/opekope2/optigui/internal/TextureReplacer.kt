@@ -14,6 +14,8 @@ import net.minecraft.util.hit.HitResult
 import net.minecraft.world.World
 import opekope2.filter.Filter
 import opekope2.filter.FilterResult
+import opekope2.lilac.api.tick.ITickHandler
+import opekope2.lilac.api.tick.ITickNotifier
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.interaction.InteractionTarget
 import opekope2.optigui.interaction.Preprocessors
@@ -23,7 +25,7 @@ import opekope2.optigui.service.InteractionService
 import opekope2.optigui.service.getService
 
 internal object TextureReplacer : InteractionService {
-    private object InteractionHolder : ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Disconnect {
+    private object InteractionHolder : ClientPlayConnectionEvents.Disconnect, ITickHandler {
         val replacementCache = mutableMapOf<Identifier, Identifier>()
 
         var interacting: Boolean = false
@@ -78,16 +80,20 @@ internal object TextureReplacer : InteractionService {
             else Interaction(texture, screen?.title ?: return null, raw, data)
         }
 
-        override fun onEndTick(world: ClientWorld?) {
-            if (interacting) {
-                refreshInteractionData()
-            }
-        }
-
         override fun onPlayDisconnect(handler: ClientPlayNetworkHandler?, client: MinecraftClient?) {
             // Clean up, don't leak memory. Just to be safe.
             end()
             riddenEntity = null
+        }
+
+        override fun onTick(world: ClientWorld) {
+            onForcedTick()
+        }
+
+        override fun onForcedTick() {
+            if (interacting) {
+                refreshInteractionData()
+            }
         }
     }
 
@@ -100,8 +106,8 @@ internal object TextureReplacer : InteractionService {
     var riddenEntity: Entity? by InteractionHolder::riddenEntity
 
     init {
-        ClientTickEvents.END_WORLD_TICK.register(InteractionHolder)
         ClientPlayConnectionEvents.DISCONNECT.register(InteractionHolder)
+        ITickNotifier.getInstance() += InteractionHolder
     }
 
     @JvmStatic
@@ -132,7 +138,4 @@ internal object TextureReplacer : InteractionService {
         if (!world.isClient) return false
         return InteractionHolder.prepare(target, RawInteraction(player, world, hand, hitResult))
     }
-
-    @JvmStatic
-    fun forceTick() = InteractionHolder.refreshInteractionData()
 }
