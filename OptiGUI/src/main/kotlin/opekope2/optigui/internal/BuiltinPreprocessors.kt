@@ -14,10 +14,9 @@ import net.minecraft.entity.vehicle.ChestMinecartEntity
 import net.minecraft.entity.vehicle.HopperMinecartEntity
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.Nameable
+import opekope2.lilac.api.ILilacApi
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.properties.*
-import opekope2.optigui.service.RegistryLookupService
-import opekope2.optigui.service.getService
 import opekope2.util.comparatorOutputWorkaround
 import opekope2.util.getComparatorOutputWorkaround
 
@@ -63,7 +62,7 @@ internal fun initializePreprocessors(context: InitializerContext) {
     context.registerPreprocessor<HangingSignBlockEntity>(::processHangingSign)
 }
 
-private val lookup: RegistryLookupService by lazy(::getService)
+private val lookup = ILilacApi.getImplementation().registryLookup
 
 private fun processCommon(blockEntity: BlockEntity): Any? {
     val world = blockEntity.world ?: return null

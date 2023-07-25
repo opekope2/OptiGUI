@@ -9,11 +9,10 @@ import opekope2.filter.*
 import opekope2.filter.FilterResult.Mismatch
 import opekope2.filter.factory.FilterFactoryContext
 import opekope2.filter.factory.FilterFactoryResult
+import opekope2.lilac.api.ILilacApi
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.properties.*
-import opekope2.optigui.service.ResourceAccessService
-import opekope2.optigui.service.getService
 import opekope2.util.*
 import org.apache.commons.text.StringEscapeUtils.unescapeJava
 import java.time.Month
@@ -25,7 +24,7 @@ internal fun initializeFilterFactories(context: InitializerContext) {
     context.registerFilterFactory(::createFilter)
 }
 
-private val resourceAccess: ResourceAccessService by lazy(::getService)
+private val resourceAccess = ILilacApi.getImplementation().resourceAccess
 private val minecraft_1_19_4: Boolean by lazy {
     FabricLoader.getInstance().getModContainer("minecraft")
         .getOrNull()?.metadata?.version?.friendlyString?.contains("1.19.4") ?: false

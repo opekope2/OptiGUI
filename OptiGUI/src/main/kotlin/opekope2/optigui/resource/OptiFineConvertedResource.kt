@@ -2,8 +2,7 @@ package opekope2.optigui.resource
 
 import net.minecraft.util.DyeColor
 import net.minecraft.util.Identifier
-import opekope2.optigui.service.ResourceAccessService
-import opekope2.optigui.service.getService
+import opekope2.lilac.api.ILilacApi
 import opekope2.util.*
 import org.ini4j.Ini
 import org.ini4j.Options
@@ -201,7 +200,7 @@ private class SimpleConverter(
     }
 }
 
-private val resourceAccess: ResourceAccessService by lazy(::getService)
+private val resourceAccess = ILilacApi.getImplementation().resourceAccess
 
 private fun resolveReplacementTexture(texture: String, resourcePath: Identifier): String? {
     var texturePath = resolvePath(texture, resourcePath, OPTIFINE_TILDE_PATH) ?: return null
