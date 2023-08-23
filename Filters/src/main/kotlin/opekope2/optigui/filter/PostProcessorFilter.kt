@@ -1,6 +1,4 @@
-package opekope2.filter
-
-import opekope2.util.withResult
+package opekope2.optigui.filter
 
 /**
  * A post-processor filter, which enables the output of the given sub-filter to be changed.
@@ -19,7 +17,7 @@ import opekope2.util.withResult
 class PostProcessorFilter<T, TFilterResult, TResult>(
     private val filter: Filter<T, out TFilterResult>,
     private val transform: (input: T, result: FilterResult<out TFilterResult>) -> FilterResult<out TResult>
-) : Filter<T, TResult>, Iterable<Filter<T, out TFilterResult>> {
+) : Filter<T, TResult>(), Iterable<Filter<T, out TFilterResult>> {
     /**
      * Creates a new post-processor filter by specifying [FilterResult.Match.result].
      *
@@ -28,7 +26,14 @@ class PostProcessorFilter<T, TFilterResult, TResult>(
      */
     constructor(filter: Filter<T, out TFilterResult>, result: TResult) : this(
         filter,
-        { _, filterResult -> filterResult.withResult(result) }
+        { _, filterResult ->
+            when (filterResult) {
+                is FilterResult.Skip -> FilterResult.Skip()
+                is FilterResult.Mismatch -> FilterResult.Mismatch()
+                is FilterResult.Match -> FilterResult.Match(result)
+                else -> throw RuntimeException("The returned filter result is invalid: ${filterResult.javaClass}") // Java moment
+            }
+        }
     )
 
     override fun evaluate(value: T): FilterResult<out TResult> = transform(value, filter.evaluate(value))

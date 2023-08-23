@@ -1,4 +1,4 @@
-package opekope2.filter
+package opekope2.optigui.filter
 
 /**
  * A filter, which yields a successful result only when the input number is within the defined range, and never skips.
@@ -7,7 +7,7 @@ package opekope2.filter
  * @see RangeFilter.atMost
  * @see RangeFilter.between
  */
-class RangeFilter private constructor(private val min: Int, private val max: Int) : Filter<Int, Unit> {
+class RangeFilter private constructor(private val min: Int, private val max: Int) : Filter<Int, Unit>() {
     override fun evaluate(value: Int): FilterResult<out Unit> =
         if (value in min..max) FilterResult.Match(Unit) else FilterResult.Mismatch()
 

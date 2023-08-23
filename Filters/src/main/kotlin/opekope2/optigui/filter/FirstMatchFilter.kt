@@ -1,4 +1,4 @@
-package opekope2.filter
+package opekope2.optigui.filter
 
 /**
  * A filter, which returns the first [FilterResult.Match] result from [filters].
@@ -9,7 +9,7 @@ package opekope2.filter
  * @param filters The sub-filters to evaluate
  */
 class FirstMatchFilter<T, TResult>(private val filters: Iterable<Filter<T, out TResult>>) :
-    Filter<T, TResult>, Iterable<Filter<T, out TResult>> {
+    Filter<T, TResult>(), Iterable<Filter<T, out TResult>> {
     /**
      * Alternative constructor with variable arguments
      */

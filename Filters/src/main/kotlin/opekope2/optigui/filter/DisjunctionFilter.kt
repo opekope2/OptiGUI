@@ -1,13 +1,13 @@
-package opekope2.filter
+package opekope2.optigui.filter
 
 /**
- * A filter, which applies the logical AND operation between the given filters and returns the result.
- * Only skips if all sub-filters skip, and only yields match if no sub-filters yield mismatch.
+ * A filter, which applies the logical OR operation between the given filters and returns the result.
+ * Only skips if all sub-filters skip, and only yields mismatch if no sub-filters yield match.
  *
  * @param T The type the filter accepts
  * @param filters The sub-filters to evaluate
  */
-class ConjunctionFilter<T>(private val filters: Iterable<Filter<T, out Any>>) : Filter<T, Unit>,
+class DisjunctionFilter<T>(private val filters: Iterable<Filter<T, out Any>>) : Filter<T, Unit>(),
     Iterable<Filter<T, out Any>> {
     /**
      * Alternative constructor with variable arguments
@@ -15,9 +15,9 @@ class ConjunctionFilter<T>(private val filters: Iterable<Filter<T, out Any>>) : 
     constructor(vararg filters: Filter<T, out Any>) : this(filters.toList())
 
     override fun evaluate(value: T): FilterResult<Unit> = filters.map { it.evaluate(value) }.let { result ->
-        if (result.any { it is FilterResult.Mismatch }) FilterResult.Mismatch()
+        if (result.any { it is FilterResult.Match }) FilterResult.Match(Unit)
         else if (result.all { it is FilterResult.Skip }) FilterResult.Skip()
-        else FilterResult.Match(Unit)
+        else FilterResult.Mismatch()
     }
 
     override fun iterator(): Iterator<Filter<T, out Any>> = filters.iterator()

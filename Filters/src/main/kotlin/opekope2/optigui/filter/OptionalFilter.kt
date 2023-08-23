@@ -1,4 +1,4 @@
-package opekope2.filter
+package opekope2.optigui.filter
 
 import java.util.*
 
@@ -13,7 +13,7 @@ import java.util.*
 class OptionalFilter<T, TResult>(
     private val nullResult: FilterResult<TResult>,
     private val filter: Filter<T, TResult>
-) : Filter<Optional<T>, TResult>, Iterable<Filter<T, TResult>> {
+) : Filter<Optional<T>, TResult>(), Iterable<Filter<T, TResult>> {
     override fun evaluate(value: Optional<T>): FilterResult<out TResult> =
         if (!value.isPresent) nullResult
         else filter.evaluate(value.get())

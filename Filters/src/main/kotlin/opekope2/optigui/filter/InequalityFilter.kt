@@ -1,4 +1,4 @@
-package opekope2.filter
+package opekope2.optigui.filter
 
 /**
  * A filter, which fails when the given value is [unexpectedValue], succeeds otherwise, and never skips.
@@ -6,7 +6,7 @@ package opekope2.filter
  * @param T The type the filter accepts
  * @param unexpectedValue The value the filter should fail for
  */
-class InequalityFilter<T>(private val unexpectedValue: T) : Filter<T, Unit> {
+class InequalityFilter<T>(private val unexpectedValue: T) : Filter<T, Unit>() {
     override fun evaluate(value: T): FilterResult<out Unit> =
         if (value != unexpectedValue) FilterResult.Match(Unit) else FilterResult.Mismatch()
 

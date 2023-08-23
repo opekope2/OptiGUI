@@ -1,4 +1,4 @@
-package opekope2.filter
+package opekope2.optigui.filter
 
 /**
  * A filter, which only yields a matching result if the given [collection] contains the input.
@@ -7,7 +7,7 @@ package opekope2.filter
  * @param T The type the filter accepts
  * @param collection The collection to check for the input
  */
-class ContainingFilter<T>(private val collection: Collection<T>) : Filter<T, Unit>, Iterable<T> {
+class ContainingFilter<T>(private val collection: Collection<T>) : Filter<T, Unit>(), Iterable<T> {
     override fun evaluate(value: T): FilterResult<out Unit> =
         if (value in collection) FilterResult.Match(Unit) else FilterResult.Mismatch()
 
