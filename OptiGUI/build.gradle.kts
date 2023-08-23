@@ -1,13 +1,6 @@
-import org.jetbrains.dokka.DokkaConfiguration
-import org.jetbrains.dokka.base.DokkaBase
-import org.jetbrains.dokka.base.DokkaBaseConfiguration
-import java.net.URL
-import java.time.Year
-
 plugins {
     id("fabric-loom")
     kotlin("jvm")
-    id("org.jetbrains.dokka")
 }
 
 base { archivesName.set(project.extra["archives_base_name"] as String) }
@@ -39,10 +32,6 @@ dependencies {
     include(implementation("org.ini4j", "ini4j", "0.5.4"))
 
     testImplementation(kotlin("test"))
-
-    if (project.hasProperty("javaSyntax")) {
-        dokkaPlugin("org.jetbrains.dokka", "kotlin-as-java-plugin", "1.8.10")
-    }
 }
 
 loom {
@@ -102,84 +91,4 @@ tasks {
             events("PASSED", "SKIPPED", "FAILED")
         }
     }
-
-    dokkaHtml {
-        moduleName.set("OptiGUI")
-        moduleVersion.set(version as String)
-        outputDirectory.set(
-            buildDir.resolve(
-                if (project.hasProperty("javaSyntax")) "dokka/javaHtml"
-                else "dokka/kotlinHtml"
-            )
-        )
-
-        pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
-            footerMessage = "© 2022-${Year.now().value} opekope2"
-            customAssets = listOf(projectDir.resolve("logo-icon.svg"))
-            separateInheritedMembers = true
-        }
-
-        dokkaSourceSets.configureEach {
-            documentedVisibilities.set(
-                setOf(
-                    DokkaConfiguration.Visibility.PUBLIC,
-                    DokkaConfiguration.Visibility.PROTECTED
-                )
-            )
-
-            sourceLink {
-                localDirectory.set(projectDir.resolve("src/main/kotlin"))
-                remoteUrl.set(URL("https://github.com/opekope2/OptiGUI/tree/$version/OptiGUI/src/main/kotlin"))
-                remoteLineSuffix.set("#L")
-            }
-
-            externalDocumentationLink {
-                val mappingsVersion = project.extra["yarn_mappings"]
-                url.set(URL("https://maven.fabricmc.net/docs/yarn-$mappingsVersion/"))
-                packageListUrl.set(URL("https://maven.fabricmc.net/docs/yarn-$mappingsVersion/element-list"))
-            }
-            externalDocumentationLink {
-                val fabricVersion = project.extra["fabric_version"]
-                url.set(URL("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/"))
-                packageListUrl.set(URL("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/element-list"))
-            }
-            externalDocumentationLink {
-                url.set(URL("https://ini4j.sourceforge.net/apidocs/"))
-                packageListUrl.set(URL("https://ini4j.sourceforge.net/apidocs/package-list"))
-            }
-
-            perPackageOption {
-                matchingRegex.set("""opekope2\.optigui\.internal(.*)""")
-                suppress.set(true)
-                documentedVisibilities.set(setOf())
-            }
-            perPackageOption {
-                matchingRegex.set("""opekope2\.optigui\.mixin""")
-                suppress.set(true)
-                documentedVisibilities.set(setOf())
-            }
-
-            // Apply these last, otherwise the other options get ignored
-            // You don't want to know how many hours I spent on this...
-            jdkVersion.set(project.extra["java_version"] as Int)
-            languageVersion.set(System.getProperty("kotlin_version"))
-        }
-    }
 }
-
-evaluationDependsOn(":OptiGlue:1.18")
-evaluationDependsOn(":OptiGlue:1.18.2")
-evaluationDependsOn(":OptiGlue:1.19")
-evaluationDependsOn(":OptiGlue:1.19.3")
-
-afterEvaluate {
-    tasks.remapJar {
-        nestedJars.from(project(":OptiGlue:1.18").outputJar)
-        nestedJars.from(project(":OptiGlue:1.18.2").outputJar)
-        nestedJars.from(project(":OptiGlue:1.19").outputJar)
-        nestedJars.from(project(":OptiGlue:1.19.3").outputJar)
-    }
-}
-
-val Project.outputJar
-    get() = tasks["remapJar"].outputs.files.firstOrNull()
