@@ -39,7 +39,6 @@
   "accessWidener": "optigui.accesswidener",
   "depends": {
     "fabricloader": ">=${fabricloader}",
-    "fabric-lifecycle-events-v1": "*",
     "fabric-networking-api-v1": "*",
     "fabric-events-interaction-v0": "*",
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
