@@ -45,12 +45,7 @@
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
     "minecraft": ">=1.18 <=1.20.1",
     "java": ">=${java}",
-    "optiglue": [
-      "=${version}-mc.1.18",
-      "=${version}-mc.1.18.2",
-      "=${version}-mc.1.19",
-      "=${version}-mc.1.19.3"
-    ]
+    "lilac": ">=1.0.0-alpha.1 <1.1.0"
   },
   "recommends": {
     "animatica": "*"

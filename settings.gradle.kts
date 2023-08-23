@@ -13,8 +13,4 @@ pluginManagement {
 
 include(
     "OptiGUI",
-    "OptiGlue:1.18",
-    "OptiGlue:1.18.2",
-    "OptiGlue:1.19",
-    "OptiGlue:1.19.3"
 )
