@@ -14,4 +14,5 @@ pluginManagement {
 include(
     "OptiGUI",
     "Api",
+    "Filters",
 )
