@@ -108,3 +108,19 @@ tasks {
         }
     }
 }
+
+if (project.hasProperty("distribution")) {
+    val distribution: String by project.properties
+
+    tasks {
+        jar {
+            manifest {
+                attributes["Distribution"] = distribution
+            }
+        }
+
+        remapJar {
+            destinationDirectory.set(buildDir.resolve("libs/$distribution}"))
+        }
+    }
+}
