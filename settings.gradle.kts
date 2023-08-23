@@ -15,4 +15,5 @@ include(
     "OptiGUI",
     "Api",
     "Filters",
+    "Properties",
 )
