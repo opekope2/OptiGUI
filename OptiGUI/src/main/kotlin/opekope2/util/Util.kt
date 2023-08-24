@@ -53,15 +53,16 @@ fun Class<*>.isSuperOf(obj: Any) = isAssignableFrom(obj.javaClass)
 /**
  * Computes the comparator output based on the screen's inventory.
  */
-fun ScreenHandler.getComparatorOutputWorkaround(): Int = when (this) {
-    is BrewingStandScreenHandler -> ScreenHandler.calculateComparatorOutput(inventory)
-    is AbstractFurnaceScreenHandler -> ScreenHandler.calculateComparatorOutput(inventory)
-    is GenericContainerScreenHandler -> ScreenHandler.calculateComparatorOutput(inventory)
-    is Generic3x3ContainerScreenHandler -> ScreenHandler.calculateComparatorOutput(inventory)
-    is HopperScreenHandler -> ScreenHandler.calculateComparatorOutput(inventory)
-    is ShulkerBoxScreenHandler -> ScreenHandler.calculateComparatorOutput(inventory)
-    else -> 0
-}
+val ScreenHandler.comparatorOutputWorkaround: Int
+    get() = when (this) {
+        is BrewingStandScreenHandler -> ScreenHandler.calculateComparatorOutput(inventory)
+        is AbstractFurnaceScreenHandler -> ScreenHandler.calculateComparatorOutput(inventory)
+        is GenericContainerScreenHandler -> ScreenHandler.calculateComparatorOutput(inventory)
+        is Generic3x3ContainerScreenHandler -> ScreenHandler.calculateComparatorOutput(inventory)
+        is HopperScreenHandler -> ScreenHandler.calculateComparatorOutput(inventory)
+        is ShulkerBoxScreenHandler -> ScreenHandler.calculateComparatorOutput(inventory)
+        else -> 0
+    }
 
 /**
  * Computes the comparator output of a lectern based on its screen.
