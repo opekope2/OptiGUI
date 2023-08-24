@@ -4,6 +4,9 @@
   "version": "${version}",
   "name": "OptiGUI",
   "description": "Custom inventory GUIs on Fabric&Quilt with OptiFine resource pack support&many more features",
+  "provides": [
+    "optigui-api"
+  ],
   "authors": [
     "opekope2"
   ],
