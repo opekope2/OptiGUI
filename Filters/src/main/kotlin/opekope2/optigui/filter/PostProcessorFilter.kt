@@ -31,7 +31,7 @@ class PostProcessorFilter<T, TFilterResult, TResult>(
                 is FilterResult.Skip -> FilterResult.Skip()
                 is FilterResult.Mismatch -> FilterResult.Mismatch()
                 is FilterResult.Match -> FilterResult.Match(result)
-                else -> throw RuntimeException("The returned filter result is invalid: ${filterResult.javaClass}") // Java moment
+                else -> throw RuntimeException("Invalid filter result: ${filterResult.javaClass}") // Java moment
             }
         }
     )
