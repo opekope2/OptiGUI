@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 abstract class MinecraftClientMixin2 {
     @Inject(method = "setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("TAIL"))
     private void setScreenMixin(Screen screen, CallbackInfo ci) {
+        @SuppressWarnings("DataFlowIssue")
         MinecraftClient thiz = (MinecraftClient) (Object) this;
         ClientPlayerEntity player = thiz.player;
         if (player != null) {
