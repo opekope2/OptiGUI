@@ -118,11 +118,9 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
 
     @JvmStatic
     fun interact(player: PlayerEntity, world: World, currentScreen: Screen) {
-        fun getHangingSignBlockId(sign: SignBlockEntity) = lookup.lookupBlockId(world.getBlockState(sign.pos).block)
-
         val container = when (currentScreen) {
             is AbstractInventoryScreen<*> -> Identifier("player")
-            is HangingSignEditScreen -> getHangingSignBlockId((currentScreen as AbstractSignEditScreen).blockEntity)
+            is IHangingSignEditScreenMixin -> lookup.lookupBlockId(world.getBlockState(currentScreen.blockEntity.pos).block)
             else -> return
         }
 
