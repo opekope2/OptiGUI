@@ -22,7 +22,7 @@ val delimiters = charArrayOf(' ', '\t')
  * Splits a string at the given delimiters and returns every substring, which is not empty.
  */
 fun CharSequence.splitIgnoreEmpty(vararg delimiters: Char) =
-    this.split(*delimiters).filter { it.isNotEmpty() }
+    this.split(*delimiters).filter { it.isNotEmpty() }.ifEmpty { null }
 
 /**
  * [Identifier] deconstruction helper, which returns the namespace.
