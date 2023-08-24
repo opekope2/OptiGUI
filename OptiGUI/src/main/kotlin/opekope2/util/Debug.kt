@@ -1,6 +1,6 @@
 package opekope2.util
 
-import opekope2.filter.Filter
+import opekope2.optigui.filter.Filter
 import java.util.*
 
 /**

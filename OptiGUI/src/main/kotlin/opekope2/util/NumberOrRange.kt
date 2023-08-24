@@ -1,8 +1,8 @@
 package opekope2.util
 
-import opekope2.filter.EqualityFilter
-import opekope2.filter.Filter
-import opekope2.filter.RangeFilter
+import opekope2.optigui.filter.EqualityFilter
+import opekope2.optigui.filter.Filter
+import opekope2.optigui.filter.RangeFilter
 
 /**
  * Represents an integer, or a start- and stop-inclusive integer range.
