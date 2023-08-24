@@ -124,13 +124,9 @@ internal object TextureReplacer : InteractionService {
     }
 
     @JvmStatic
-    fun handleScreenChange(screen: Screen?) {
-        when {
-            screen == null -> InteractionHolder.end()
-            retexturableScreens.isScreenRetexturable(screen) -> InteractionHolder.begin(screen)
-            else -> InteractionHolder.end()
-        }
-    }
+    fun handleScreenChange(screen: Screen?) =
+        if (screen?.isRetexturable == true) InteractionHolder.begin(screen)
+        else InteractionHolder.end()
 
     override fun interact(
         player: PlayerEntity, world: World, hand: Hand, target: InteractionTarget, hitResult: HitResult?
