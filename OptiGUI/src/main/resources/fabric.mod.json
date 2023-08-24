@@ -20,6 +20,26 @@
       {
         "adapter": "kotlin",
         "value": "opekope2.optigui.internal.InitializerKt::initialize"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.TextureReplacer"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.interaction.InteractionHandler"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.InitializerKt::runEntrypoints"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.interaction.Processors::loadEntityProcessors"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.interaction.Processors::loadBlockEntityProcessors"
       }
     ],
     "optigui-entityprocessor": [
