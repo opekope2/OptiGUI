@@ -45,13 +45,13 @@ class OptiGuiResourceLoader(private val optigui: IOptiGuiSessionExtension) : IRe
             } ?: continue).let { replace -> resolvePath(replace, resource) }.also {
                 if (it == null) optigui.warn(
                     resource,
-                    "[$sectionName] Failed to parse `replacement=${section["replacement"]}`, because: Resource path cannot be resolved"
+                    "[$sectionName] Failed to parse `replacement=${section["replacement"]}`: Resource path cannot be resolved"
                 )
             } ?: continue
             if (!resourceAccess.getResource(replacement).exists()) {
                 optigui.warn(
                     resource,
-                    "[$sectionName]: Failed to parse `replacement=${section["replacement"]}`, because: Texture doesn't exist"
+                    "[$sectionName]: Failed to parse `replacement=${section["replacement"]}`: Texture doesn't exist"
                 )
                 continue
             }

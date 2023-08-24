@@ -33,7 +33,7 @@ class OptiFineResourceLoader(private val optigui: IOptiGuiSessionExtension) : IR
         val (resId, props) = resource as Pair<Identifier, Options>
 
         if (props["optigui.ignore"] == "true") {
-            optigui.warn(resId, "Ignoring resource, because `optigui.ignore=true`")
+            optigui.warn(resId, "Ignoring resource: `optigui.ignore=true`")
         } else {
             loadProps(resId, props)
         }
