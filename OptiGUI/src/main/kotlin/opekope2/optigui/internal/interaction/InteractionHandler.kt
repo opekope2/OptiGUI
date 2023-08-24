@@ -1,12 +1,14 @@
 package opekope2.optigui.internal.interaction
 
+import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
-import net.minecraft.block.entity.SignBlockEntity
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.gui.screen.ingame.*
+import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
+import net.minecraft.client.gui.screen.ingame.BookEditScreen
+import net.minecraft.client.gui.screen.ingame.BookScreen
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -19,19 +21,22 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import opekope2.lilac.api.ILilacApi
-import opekope2.optigui.interaction.InteractionTarget
-import opekope2.optigui.properties.BookProperties
-import opekope2.optigui.properties.DefaultProperties
-import opekope2.optigui.service.InteractionService
-import opekope2.optigui.service.getService
+import opekope2.lilac.api.registry.IRegistryLookup
+import opekope2.optigui.api.interaction.IInteractionTarget
+import opekope2.optigui.api.interaction.IInteractor
+import opekope2.optigui.mixin.IHangingSignEditScreenMixin
+import opekope2.optigui.properties.impl.BookProperties
+import opekope2.optigui.properties.impl.CommonProperties
+import opekope2.optigui.properties.impl.GeneralProperties
+import opekope2.optigui.properties.impl.IndependentProperties
 import opekope2.util.TexturePath
+import java.time.LocalDate
 
-internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseItemCallback {
-    private val interactor: InteractionService by lazy(::getService)
-    private val lookup = ILilacApi.getImplementation().registryLookup
+internal object InteractionHandler : ClientModInitializer, UseBlockCallback, UseEntityCallback, UseItemCallback {
+    private val interactor = IInteractor.getInstance()
+    private val lookup = IRegistryLookup.getInstance()
 
-    init {
+    override fun onInitializeClient() {
         UseBlockCallback.EVENT.register(this)
         UseEntityCallback.EVENT.register(this)
         UseItemCallback.EVENT.register(this)
@@ -41,7 +46,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
         if (world.isClient) {
             val blockEntity = world.getBlockEntity(hitResult.blockPos)
             val target =
-                if (blockEntity != null) InteractionTarget.BlockEntity(blockEntity)
+                if (blockEntity?.hasProcessor == true) IInteractionTarget.BlockEntityTarget(blockEntity)
                 else getBlockInteractionTarget(world, hitResult.blockPos)
 
             if (target != null) interactor.interact(player, world, hand, target, hitResult)
@@ -50,19 +55,24 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
         return ActionResult.PASS
     }
 
-    private fun getBlockInteractionTarget(world: World, target: BlockPos): InteractionTarget? {
+    private fun getBlockInteractionTarget(world: World, target: BlockPos): IInteractionTarget? {
         val container = lookup.lookupBlockId(world.getBlockState(target).block)
         if (TexturePath.ofContainer(container) == null) {
             // Unknown/modded container
             return null
         }
 
-        return InteractionTarget.Preprocessed(
-            DefaultProperties(
-                container = container,
-                name = null,
-                biome = lookup.lookupBiomeId(world, target),
-                height = target.y
+        return IInteractionTarget.ComputedTarget(
+            CommonProperties(
+                GeneralProperties(
+                    container = container,
+                    name = null,
+                    biome = lookup.lookupBiomeId(world, target),
+                    height = target.y
+                ),
+                IndependentProperties(
+                    date = LocalDate.now()
+                )
             )
         )
     }
@@ -70,8 +80,8 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
     override fun interact(
         player: PlayerEntity, world: World, hand: Hand, entity: Entity, hitResult: EntityHitResult?
     ): ActionResult {
-        if (world.isClient) {
-            interactor.interact(player, world, hand, InteractionTarget.Entity(entity), hitResult)
+        if (world.isClient && entity.hasProcessor) {
+            interactor.interact(player, world, hand, IInteractionTarget.EntityTarget(entity), hitResult)
         }
 
         return ActionResult.PASS
@@ -84,27 +94,45 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
         if (!world.isClient) return result
 
         val target = when (stack.item) {
-            Items.WRITABLE_BOOK -> InteractionTarget.Computed {
-                val currentScreen = MinecraftClient.getInstance().currentScreen
+            Items.WRITABLE_BOOK -> IInteractionTarget.ComputedTarget {
+                val bookScreen = MinecraftClient.getInstance().currentScreen as? BookEditScreen
+                    ?: return@ComputedTarget null
+
                 BookProperties(
-                    container = Identifier("writable_book"),
-                    name = stack.name.string,
-                    biome = lookup.lookupBiomeId(world, player.blockPos),
-                    height = player.blockY,
-                    currentPage = (currentScreen as? BookEditScreen)?.currentPage?.plus(1) ?: return@Computed null,
-                    pageCount = (currentScreen as? BookEditScreen)?.countPages() ?: return@Computed null
+                    CommonProperties(
+                        GeneralProperties(
+                            container = Identifier("writable_book"),
+                            name = stack.name.string,
+                            biome = lookup.lookupBiomeId(world, player.blockPos),
+                            height = player.blockY
+                        ),
+                        IndependentProperties(
+                            date = LocalDate.now()
+                        )
+                    ),
+                    currentPage = bookScreen.currentPage + 1,
+                    pageCount = bookScreen.countPages()
                 )
             }
 
-            Items.WRITTEN_BOOK -> InteractionTarget.Computed {
-                val currentScreen = MinecraftClient.getInstance().currentScreen
+            Items.WRITTEN_BOOK -> IInteractionTarget.ComputedTarget {
+                val bookScreen = MinecraftClient.getInstance().currentScreen as? BookScreen
+                    ?: return@ComputedTarget null
+
                 BookProperties(
-                    container = Identifier("written_book"),
-                    name = stack.name.string,
-                    biome = lookup.lookupBiomeId(world, player.blockPos),
-                    height = player.blockY,
-                    currentPage = (currentScreen as? BookScreen)?.pageIndex?.plus(1) ?: return@Computed null,
-                    pageCount = (currentScreen as? BookScreen)?.pageCount ?: return@Computed null
+                    CommonProperties(
+                        GeneralProperties(
+                            container = Identifier("written_book"),
+                            name = stack.name.string,
+                            biome = lookup.lookupBiomeId(world, player.blockPos),
+                            height = player.blockY
+                        ),
+                        IndependentProperties(
+                            date = LocalDate.now()
+                        )
+                    ),
+                    currentPage = bookScreen.pageIndex + 1,
+                    pageCount = bookScreen.pageCount
                 )
             }
 
@@ -128,12 +156,17 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
             player,
             world,
             Hand.MAIN_HAND,
-            InteractionTarget.Computed {
-                DefaultProperties(
-                    container,
-                    player.name.string,
-                    lookup.lookupBiomeId(world, player.blockPos),
-                    player.blockY
+            IInteractionTarget.ComputedTarget {
+                CommonProperties(
+                    GeneralProperties(
+                        container = container,
+                        name = player.name.string,
+                        biome = lookup.lookupBiomeId(world, player.blockPos),
+                        height = player.blockY
+                    ),
+                    IndependentProperties(
+                        date = LocalDate.now()
+                    )
                 )
             },
             null
