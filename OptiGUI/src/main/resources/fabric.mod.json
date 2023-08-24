@@ -78,6 +78,10 @@
       {
         "adapter": "kotlin",
         "value": "opekope2.optigui.internal.lilac_resource_loader.OptiGuiResourceLoader\u0024Plugin"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.lilac_resource_loader.OptiFineResourceLoader\u0024Plugin"
       }
     ]
   },
