@@ -73,6 +73,12 @@
         "adapter": "kotlin",
         "value": "opekope2.optigui.internal.LecternProcessor"
       }
+    ],
+    "lilac-plugin-resourceloader": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.lilac_resource_loader.OptiGuiResourceLoader\u0024Plugin"
+      }
     ]
   },
   "mixins": [
