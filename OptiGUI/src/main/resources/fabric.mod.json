@@ -83,6 +83,18 @@
         "adapter": "kotlin",
         "value": "opekope2.optigui.internal.lilac_resource_loader.OptiFineResourceLoader\u0024Plugin"
       }
+    ],
+    "lilac-plugin-resourceloadingsessionextensionfactory": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.lilac_resource_loader.OptiGuiResourceLoadingSession\u0024ExtensionFactoryPlugin"
+      }
+    ],
+    "lilac-plugin-resourceloadingsessionlifecyclelistener": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.lilac_resource_loader.OptiGuiResourceLoadingSession\u0024ExtensionFactoryPlugin"
+      }
     ]
   },
   "mixins": [
