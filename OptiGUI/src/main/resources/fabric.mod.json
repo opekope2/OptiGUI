@@ -22,14 +22,56 @@
         "value": "opekope2.optigui.internal.InitializerKt::initialize"
       }
     ],
-    "optigui": [
+    "optigui-entityprocessor": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.BuiltinFilterFactoriesKt::initializeFilterFactories"
+        "value": "opekope2.optigui.internal.GenericEntityProcessor"
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.BuiltinPreprocessorsKt::initializePreprocessors"
+        "value": "opekope2.optigui.internal.ComparableEntityProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.ChestBoatProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.HorseProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.DonkeyProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.LlamaProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.VillagerProcessor"
+      }
+    ],
+    "optigui-blockentityprocessor": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.GenericBlockEntityProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.ComparableBlockEntityProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.BeaconProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.ChestProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.LecternProcessor"
       }
     ]
   },
