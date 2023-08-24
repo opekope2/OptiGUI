@@ -1,8 +1,5 @@
-accessWidener v1 named
+accessWidener v2 named
 # As you have guessed, I ain't creating that many @Accessor mixins
-
-# AbstractSignEditScreen
-accessible  field   net/minecraft/client/gui/screen/ingame/AbstractSignEditScreen   blockEntity     Lnet/minecraft/block/entity/SignBlockEntity;
 
 # BeaconBlockEntity
 accessible  field   net/minecraft/block/entity/BeaconBlockEntity                    level           I
@@ -20,9 +17,6 @@ accessible  field   net/minecraft/screen/BrewingStandScreenHandler              
 
 # AbstractFurnaceScreenHandler
 accessible  field   net/minecraft/screen/AbstractFurnaceScreenHandler               inventory       Lnet/minecraft/inventory/Inventory;
-
-# GenericContainerScreenHandler
-accessible  field   net/minecraft/screen/GenericContainerScreenHandler              inventory       Lnet/minecraft/inventory/Inventory;
 
 # Generic3x3ContainerScreenHandler
 accessible  field   net/minecraft/screen/Generic3x3ContainerScreenHandler           inventory       Lnet/minecraft/inventory/Inventory;
