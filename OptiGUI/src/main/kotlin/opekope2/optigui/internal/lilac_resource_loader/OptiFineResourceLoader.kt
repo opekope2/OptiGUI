@@ -141,8 +141,7 @@ private open class FilterCreator(private val containers: Set<Identifier>) :
             ?.let { biomes ->
                 val foundBiomes = biomes.split<Identifier, String> { notFound ->
                     throwParseException("biomes", properties::getValue, "Invalid biomes: ${joinNotFound(notFound)}")
-                }
-                assert(foundBiomes.isNotEmpty())
+                }.assertNotEmpty()
 
                 filters += PreProcessorFilter.nullGuarded(
                     { (it.data as? IGeneralProperties)?.biome },
@@ -159,8 +158,7 @@ private open class FilterCreator(private val containers: Set<Identifier>) :
             ?.let { heights ->
                 val foundHeights = heights.split<NumberOrRange, String> { notFound ->
                     throwParseException("heights", properties::getValue, "Invalid heights: ${joinNotFound(notFound)}")
-                }
-                assert(foundHeights.isNotEmpty())
+                }.assertNotEmpty()
 
                 filters += PreProcessorFilter.nullGuarded(
                     { (it.data as? IGeneralProperties)?.height },
@@ -225,8 +223,8 @@ private val containerFilterCreators = mapOf(
                 ?.split<NumberOrRange, String> { notFound ->
                     throwParseException("levels", properties::getValue, "Invalid levels: ${joinNotFound(notFound)}")
                 }
+                ?.assertNotEmpty()
                 ?: return super.createFilters(properties, warn)
-            assert(levels.isNotEmpty())
 
             val filters = super.createFilters(properties, warn)
 
@@ -358,7 +356,7 @@ private val containerFilterCreators = mapOf(
                 }
                 ?: throwParseException("variants", properties::getValue, "No horse variants were specified")
             variants = variants.toMutableList()
-            assert(variants.isNotEmpty())
+            variants.assertNotEmpty()
 
             if (variants.remove("llama")) {
                 val filters = createFilters(properties, optigui.bindWarnTo(resource))
@@ -385,8 +383,7 @@ private val containerFilterCreators = mapOf(
                             properties::getValue,
                             "Invalid carpet colors: ${joinNotFound(notFound)}"
                         )
-                    }
-                    assert(foundColors.isNotEmpty())
+                    }.assertNotEmpty()
 
                     filters += PreProcessorFilter.nullGuarded(
                         { (it.data as? ILlamaProperties)?.carpetColor },
@@ -440,8 +437,8 @@ private val containerFilterCreators = mapOf(
                         "Invalid professions: ${joinNotFound(notFound)}"
                     )
                 }
+                ?.assertNotEmpty()
                 ?: return super.createFilters(properties, warn)
-            assert(professions.isNotEmpty())
 
             val filters = super.createFilters(properties, warn)
 
@@ -485,8 +482,8 @@ private val containerFilterCreators = mapOf(
                         "Invalid shulker box colors: ${joinNotFound(notFound)}"
                     )
                 }
+                ?.assertNotEmpty()
                 ?: return super.createFilters(properties, warn)
-            assert(colors.isNotEmpty())
 
             val blocks = colors.map { color -> "${color}_shulker_box" }
             val filters = super.createFilters(properties, warn)
