@@ -24,6 +24,6 @@ object OptiGuiApi : IOptiGuiApi {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : BlockEntity> getBlockEntityProcessor(type: Class<T>): IBlockEntityProcessor<T>? {
-        return blockEntityProcessors[type] as IBlockEntityProcessor<T>
+        return blockEntityProcessors[type] as IBlockEntityProcessor<T>?
     }
 }
