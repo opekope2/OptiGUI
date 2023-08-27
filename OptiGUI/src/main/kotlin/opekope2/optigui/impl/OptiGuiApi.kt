@@ -27,6 +27,10 @@ object OptiGuiApi : IOptiGuiApi, ClientModInitializer {
 
     override fun getInteractor(): IInteractor = TextureReplacer
 
+    override fun getContainerTexture(container: Identifier): Identifier? {
+        return containerTextureMap[container]
+    }
+
     @Suppress("UNCHECKED_CAST")
     override fun <T : Entity> getEntityProcessor(type: Class<T>): IEntityProcessor<T>? {
         return entityProcessors[type] as IEntityProcessor<T>?

@@ -2,6 +2,7 @@ package opekope2.optigui.api;
 
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.Identifier;
 import opekope2.optigui.annotation.RequiresImplementation;
 import opekope2.optigui.api.interaction.IBlockEntityProcessor;
 import opekope2.optigui.api.interaction.IEntityProcessor;
@@ -34,6 +35,15 @@ public interface IOptiGuiApi {
     @NotNull
     @RequiresImplementation
     IInteractor getInteractor();
+
+    /**
+     * Returns the container's inventory screen texture.
+     *
+     * @param container The container to find the screen texture of
+     */
+    @Nullable
+    @RequiresImplementation
+    Identifier getContainerTexture(@NotNull Identifier container);
 
     /**
      * Finds the registered entity processor for the given entity class.
@@ -89,6 +99,12 @@ final class IOptiGuiApi$Instance implements IOptiGuiApi {
     @Override
     @NotNull
     public IInteractor getInteractor() {
+        throw new UnsupportedOperationException("OptiGUI implementation is not available.");
+    }
+
+    @Override
+    @Nullable
+    public Identifier getContainerTexture(@NotNull Identifier container) {
         throw new UnsupportedOperationException("OptiGUI implementation is not available.");
     }
 
