@@ -1,35 +1,30 @@
 package opekope2.optigui.internal
 
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
+import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.network.ClientPlayNetworkHandler
-import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.hit.HitResult
 import net.minecraft.world.World
-import opekope2.filter.Filter
-import opekope2.filter.FilterResult
-import opekope2.optigui.interaction.Interaction
-import opekope2.optigui.interaction.InteractionTarget
-import opekope2.optigui.interaction.Preprocessors
-import opekope2.optigui.interaction.RawInteraction
-import opekope2.optigui.internal.service.RetexturableScreensRegistryService
-import opekope2.optigui.service.InteractionService
-import opekope2.optigui.service.getService
+import opekope2.lilac.api.tick.ITickHandler
+import opekope2.lilac.api.tick.ITickNotifier
+import opekope2.optigui.api.interaction.*
+import opekope2.optigui.filter.Filter
+import opekope2.optigui.filter.FilterResult
 
-internal object TextureReplacer : InteractionService {
-    private object InteractionHolder : ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Disconnect {
+internal object TextureReplacer : ClientModInitializer, IInteractor {
+    private object InteractionHolder : ClientPlayConnectionEvents.Disconnect, ITickHandler {
         val replacementCache = mutableMapOf<Identifier, Identifier>()
 
         var interacting: Boolean = false
             private set
 
-        private var target: InteractionTarget? = null
+        private var target: IInteractionTarget? = null
 
         private var raw: RawInteraction? = null
         private var data: Any? = null
@@ -38,7 +33,9 @@ internal object TextureReplacer : InteractionService {
         var riddenEntity: Entity? = null
 
         fun refreshInteractionData() {
-            val newData = target?.computeInteractionData() ?: riddenEntity?.let(Preprocessors::preprocessEntity)
+            val newData = target?.computeInteractionData() ?: riddenEntity?.let {
+                IEntityProcessor.ofClass(it.javaClass)?.apply(it)
+            }
 
             if (newData != data) {
                 data = newData
@@ -46,7 +43,7 @@ internal object TextureReplacer : InteractionService {
             }
         }
 
-        fun prepare(target: InteractionTarget, rawInteraction: RawInteraction): Boolean {
+        fun prepare(target: IInteractionTarget, rawInteraction: RawInteraction): Boolean {
             if (interacting) return false
 
             this.target = target
@@ -78,30 +75,30 @@ internal object TextureReplacer : InteractionService {
             else Interaction(texture, screen?.title ?: return null, raw, data)
         }
 
-        override fun onEndTick(world: ClientWorld?) {
-            if (interacting) {
-                refreshInteractionData()
-            }
-        }
-
-        override fun onPlayDisconnect(handler: ClientPlayNetworkHandler?, client: MinecraftClient?) {
+        override fun onPlayDisconnect(handler: ClientPlayNetworkHandler, client: MinecraftClient) {
             // Clean up, don't leak memory. Just to be safe.
             end()
             riddenEntity = null
         }
+
+        override fun onTick(world: World, real: Boolean) {
+            if (interacting && world.isClient) {
+                refreshInteractionData()
+            }
+        }
     }
 
-    private val retexturableScreens: RetexturableScreensRegistryService by lazy(::getService)
-
-    internal var filter: Filter<Interaction, Identifier> = Filter { FilterResult.Skip() }
-    internal var replaceableTextures = mutableSetOf<Identifier>()
+    internal var filter: Filter<Interaction, Identifier> = object : Filter<Interaction, Identifier>() {
+        override fun evaluate(value: Interaction?): FilterResult<out Identifier> = FilterResult.Skip()
+    }
+    internal var replaceableTextures = setOf<Identifier>()
 
     @JvmStatic
     var riddenEntity: Entity? by InteractionHolder::riddenEntity
 
-    init {
-        ClientTickEvents.END_WORLD_TICK.register(InteractionHolder)
+    override fun onInitializeClient() {
         ClientPlayConnectionEvents.DISCONNECT.register(InteractionHolder)
+        ITickNotifier.getInstance() += InteractionHolder
     }
 
     @JvmStatic
@@ -118,21 +115,14 @@ internal object TextureReplacer : InteractionService {
     }
 
     @JvmStatic
-    fun handleScreenChange(screen: Screen?) {
-        when {
-            screen == null -> InteractionHolder.end()
-            retexturableScreens.isScreenRetexturable(screen) -> InteractionHolder.begin(screen)
-            else -> InteractionHolder.end()
-        }
-    }
+    fun handleScreenChange(screen: Screen?) =
+        if (screen?.isRetexturable == true) InteractionHolder.begin(screen)
+        else InteractionHolder.end()
 
     override fun interact(
-        player: PlayerEntity, world: World, hand: Hand, target: InteractionTarget, hitResult: HitResult?
+        player: PlayerEntity, world: World, hand: Hand, target: IInteractionTarget, hitResult: HitResult?
     ): Boolean {
         if (!world.isClient) return false
         return InteractionHolder.prepare(target, RawInteraction(player, world, hand, hitResult))
     }
-
-    @JvmStatic
-    fun forceTick() = InteractionHolder.refreshInteractionData()
 }

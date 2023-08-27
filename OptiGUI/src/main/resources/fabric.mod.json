@@ -4,6 +4,9 @@
   "version": "${version}",
   "name": "OptiGUI",
   "description": "Custom inventory GUIs on Fabric&Quilt with OptiFine resource pack support&many more features",
+  "provides": [
+    "optigui-api"
+  ],
   "authors": [
     "opekope2"
   ],
@@ -20,16 +23,100 @@
       {
         "adapter": "kotlin",
         "value": "opekope2.optigui.internal.InitializerKt::initialize"
-      }
-    ],
-    "optigui": [
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.BuiltinFilterFactoriesKt::initializeFilterFactories"
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.BuiltinPreprocessorsKt::initializePreprocessors"
+        "value": "opekope2.optigui.internal.TextureReplacer"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.interaction.InteractionHandler"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.InitializerKt::runEntrypoints"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.interaction.Processors::loadEntityProcessors"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.interaction.Processors::loadBlockEntityProcessors"
+      }
+    ],
+    "optigui-entityprocessor": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.GenericEntityProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.ComparableEntityProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.ChestBoatProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.HorseProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.DonkeyProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.LlamaProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.VillagerProcessor"
+      }
+    ],
+    "optigui-blockentityprocessor": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.GenericBlockEntityProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.ComparableBlockEntityProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.BeaconProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.ChestProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.LecternProcessor"
+      }
+    ],
+    "lilac-plugin-resourceloader": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.lilac_resource_loader.OptiGuiResourceLoader\u0024Plugin"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.lilac_resource_loader.OptiFineResourceLoader\u0024Plugin"
+      }
+    ],
+    "lilac-plugin-resourceloadingsessionextensionfactory": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.lilac_resource_loader.OptiGuiResourceLoadingSession\u0024ExtensionFactoryPlugin"
+      }
+    ],
+    "lilac-plugin-resourceloadingsessionlifecyclelistener": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.lilac_resource_loader.OptiGuiResourceLoadingSession\u0024ExtensionFactoryPlugin"
       }
     ]
   },
@@ -39,18 +126,12 @@
   "accessWidener": "optigui.accesswidener",
   "depends": {
     "fabricloader": ">=${fabricloader}",
-    "fabric-lifecycle-events-v1": "*",
     "fabric-networking-api-v1": "*",
     "fabric-events-interaction-v0": "*",
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
     "minecraft": ">=1.18 <=1.20.1",
     "java": ">=${java}",
-    "optiglue": [
-      "=${version}-mc.1.18",
-      "=${version}-mc.1.18.2",
-      "=${version}-mc.1.19",
-      "=${version}-mc.1.19.3"
-    ]
+    "lilac": ">=1.0.0-alpha.1 <1.1.0"
   },
   "recommends": {
     "animatica": "*"

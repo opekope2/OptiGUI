@@ -1,6 +1,6 @@
 package opekope2.util
 
-import opekope2.filter.Filter
+import opekope2.optigui.filter.Filter
 import java.util.*
 
 /**
@@ -63,20 +63,18 @@ class TreeFormatter {
 fun Filter<*, *>.dump() = dump(TreeFormatter(), last = true)
 
 private fun Filter<*, *>.dump(writer: TreeFormatter, last: Boolean): String {
-    writer.indent()
-    writer.append(toString(), lastChild = last)
+    writer.indent {
+        append(toString(), lastChild = last)
 
-    if (this is Iterable<*>) {
-        val it = iterator()
-        while (it.hasNext()) {
-            val next = it.next()
-            if (next is Filter<*, *>) next.dump(writer, !it.hasNext())
-            else writer.indent { append(next.toString(), lastChild = !it.hasNext()) }
+        if (this@dump is Iterable<*>) {
+            val it = iterator()
+            while (it.hasNext()) {
+                val next = it.next()
+                if (next is Filter<*, *>) next.dump(this, !it.hasNext())
+                else indent { append(next.toString(), lastChild = !it.hasNext()) }
+            }
         }
     }
 
-    writer.unindent()
-
     return writer.toString()
 }
-
