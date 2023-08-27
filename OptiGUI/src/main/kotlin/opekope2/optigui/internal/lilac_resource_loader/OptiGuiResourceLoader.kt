@@ -9,6 +9,7 @@ import opekope2.lilac.api.resource.IResourceReader
 import opekope2.lilac.api.resource.loading.IResourceLoader
 import opekope2.lilac.api.resource.loading.IResourceLoaderPlugin
 import opekope2.lilac.api.resource.loading.IResourceLoadingSession
+import opekope2.optigui.api.IOptiGuiApi
 import opekope2.optigui.api.interaction.Interaction
 import opekope2.optigui.api.lilac_resource_loading.IOptiGuiSessionExtension
 import opekope2.optigui.filter.*
@@ -66,12 +67,12 @@ class OptiGuiResourceLoader(private val optigui: IOptiGuiSessionExtension) : IRe
             for (container in containers) {
                 val replaceableTextures = mutableSetOf(
                     section["interaction.texture"]?.let(Identifier::tryParse)
-                        ?: TexturePath.ofContainer(container)
+                        ?: optiguiApi.getContainerTexture(container)
                         ?: continue
                 )
                 // Because Mojang
                 if (minecraft_1_19_4 && container == smithingTable) {
-                    replaceableTextures += TexturePath.LEGACY_SMITHING_TABLE
+                    replaceableTextures += Identifier("textures/gui/container/legacy_smithing.png")
                 }
 
                 val filters = mutableListOf<Filter<Interaction, Unit>>(
@@ -109,6 +110,7 @@ class OptiGuiResourceLoader(private val optigui: IOptiGuiSessionExtension) : IRe
 }
 
 
+private val optiguiApi = IOptiGuiApi.getImplementation()
 private val resourceAccess = IResourceAccess.getInstance()
 private val minecraft_1_19_4 = Util.checkModVersion("minecraft") { v -> "1.19.4" in v.friendlyString }
 private val smithingTable = Identifier("smithing_table")

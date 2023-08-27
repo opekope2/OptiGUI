@@ -7,6 +7,7 @@ import opekope2.lilac.api.resource.IResourceReader
 import opekope2.lilac.api.resource.loading.IResourceLoader
 import opekope2.lilac.api.resource.loading.IResourceLoaderPlugin
 import opekope2.lilac.api.resource.loading.IResourceLoadingSession
+import opekope2.optigui.api.IOptiGuiApi
 import opekope2.optigui.api.interaction.Interaction
 import opekope2.optigui.api.lilac_resource_loading.IOptiGuiSessionExtension
 import opekope2.optigui.filter.*
@@ -83,7 +84,7 @@ private open class FilterCreator(private val containers: Set<Identifier>) :
                 ConjunctionFilter(createFilters(properties, optigui.bindWarnTo(resource))),
                 replacement
             ),
-            containers.mapNotNull(TexturePath::ofContainer).toSet()
+            containers.mapNotNull(optiguiApi::getContainerTexture).toSet()
         )
     }
 
@@ -97,7 +98,7 @@ private open class FilterCreator(private val containers: Set<Identifier>) :
         )
         filters += PreProcessorFilter(
             { it.texture },
-            ContainingFilter(containers.mapNotNull(TexturePath::ofContainer))
+            ContainingFilter(containers.mapNotNull(optiguiApi::getContainerTexture))
         )
 
         if ("name" in properties) {
@@ -203,9 +204,14 @@ private object DirectFilterCreator : FilterCreator() {
     }
 }
 
+private val optiguiApi = IOptiGuiApi.getImplementation()
 private val resourceAccess = IResourceAccess.getInstance()
 private val horseVariants = setOf("horse", "donkey", "mule", "llama")
 private val dispenserVariants = setOf("dispenser", "dropper")
+
+private val TEXTURE_GENERIC_54 = Identifier("textures/gui/container/generic_54.png")
+private val TEXTURE_HORSE = Identifier("textures/gui/container/horse.png")
+private val TEXTURE_INVENTORY = Identifier("textures/gui/container/inventory.png")
 
 private val containerFilterCreators = mapOf(
     "anvil" to FilterCreator(Identifier("anvil"), Identifier("chipped_anvil"), Identifier("damaged_anvil")),
@@ -284,7 +290,7 @@ private val containerFilterCreators = mapOf(
                 optigui.addFilter(
                     resource,
                     PostProcessorFilter(ConjunctionFilter(filters), replacement),
-                    setOf(TexturePath.GENERIC_54)
+                    setOf(TEXTURE_GENERIC_54)
                 )
             }
             // Ender chests can't be large, trapped, and can't be named
@@ -299,7 +305,7 @@ private val containerFilterCreators = mapOf(
                 optigui.addFilter(
                     resource,
                     PostProcessorFilter(ConjunctionFilter(filters), replacement),
-                    setOf(TexturePath.GENERIC_54)
+                    setOf(TEXTURE_GENERIC_54)
                 )
             }
         }
@@ -319,7 +325,7 @@ private val containerFilterCreators = mapOf(
                     )
                 }
                 ?: listOf("dispenser")
-            assert(variants.isNotEmpty())
+            variants.assertNotEmpty()
 
             val containers = variants.map(::Identifier)
             val filters = super.createFilters(properties, warn)
@@ -370,7 +376,7 @@ private val containerFilterCreators = mapOf(
                     optigui.addFilter(
                         resource,
                         PostProcessorFilter(ConjunctionFilter(filters), replacement),
-                        setOf(TexturePath.HORSE)
+                        setOf(TEXTURE_HORSE)
                     )
                 } else {
                     val foundColors = colors.split<String, String> { notFound ->
@@ -391,7 +397,7 @@ private val containerFilterCreators = mapOf(
                     optigui.addFilter(
                         resource,
                         PostProcessorFilter(ConjunctionFilter(filters), replacement),
-                        setOf(TexturePath.HORSE)
+                        setOf(TEXTURE_HORSE)
                     )
                 }
             }
@@ -406,7 +412,7 @@ private val containerFilterCreators = mapOf(
             optigui.addFilter(
                 resource,
                 PostProcessorFilter(ConjunctionFilter(filters), replacement),
-                setOf(TexturePath.HORSE)
+                setOf(TEXTURE_HORSE)
             )
         }
     },
@@ -507,7 +513,7 @@ private val containerFilterCreators = mapOf(
                     ConjunctionFilter(createFilters(properties, optigui.bindWarnTo(resource))),
                     replacement
                 ),
-                setOf(TexturePath.INVENTORY)
+                setOf(TEXTURE_INVENTORY)
             )
         }
 
@@ -516,7 +522,7 @@ private val containerFilterCreators = mapOf(
 
             filters[1] = PreProcessorFilter(
                 { it.texture },
-                EqualityFilter(TexturePath.INVENTORY)
+                EqualityFilter(TEXTURE_INVENTORY)
             )
 
             return filters

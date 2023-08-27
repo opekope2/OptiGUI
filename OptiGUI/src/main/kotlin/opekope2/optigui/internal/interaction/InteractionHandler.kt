@@ -22,6 +22,7 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import opekope2.lilac.api.registry.IRegistryLookup
+import opekope2.optigui.api.IOptiGuiApi
 import opekope2.optigui.api.interaction.IInteractionTarget
 import opekope2.optigui.api.interaction.IInteractor
 import opekope2.optigui.mixin.IHangingSignEditScreenMixin
@@ -29,10 +30,10 @@ import opekope2.optigui.properties.impl.BookProperties
 import opekope2.optigui.properties.impl.CommonProperties
 import opekope2.optigui.properties.impl.GeneralProperties
 import opekope2.optigui.properties.impl.IndependentProperties
-import opekope2.util.TexturePath
 import java.time.LocalDate
 
 internal object InteractionHandler : ClientModInitializer, UseBlockCallback, UseEntityCallback, UseItemCallback {
+    private val optigui = IOptiGuiApi.getImplementation()
     private val interactor = IInteractor.getInstance()
     private val lookup = IRegistryLookup.getInstance()
 
@@ -57,7 +58,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
 
     private fun getBlockInteractionTarget(world: World, target: BlockPos): IInteractionTarget? {
         val container = lookup.lookupBlockId(world.getBlockState(target).block)
-        if (TexturePath.ofContainer(container) == null) {
+        if (optigui.getContainerTexture(container) == null) {
             // Unknown/modded container
             return null
         }
