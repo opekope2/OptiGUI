@@ -30,7 +30,7 @@ internal val BlockEntity.hasProcessor
 @Suppress("unused")
 fun loadEntityProcessors() {
     if (::entityProcessors.isInitialized) {
-        logger.info("Not initializing entity processors, because they are already initialized.")
+        logger.info("Not initializing entity processors, because they are already initialized")
         return
     }
 
@@ -45,7 +45,7 @@ fun loadEntityProcessors() {
 @Suppress("unused")
 fun loadBlockEntityProcessors() {
     if (::blockEntityProcessors.isInitialized) {
-        logger.info("Not initializing block entity processors, because they are already initialized.")
+        logger.info("Not initializing block entity processors, because they are already initialized")
         return
     }
 
@@ -72,8 +72,7 @@ private inline fun <reified TEntrypoint : Any, reified TAnnotation : Annotation,
                         processorFactory(processor.provider.metadata.id, processor.entrypoint)
                     )
                 } else {
-                    processors[processorClass] =
-                        processorFactory(processor.provider.metadata.id, processor.entrypoint)
+                    processors[processorClass] = processorFactory(processor.provider.metadata.id, processor.entrypoint)
                 }
             } catch (e: TypeNotPresentException) {
                 logger.warn("Ignoring `$annotation`: $e", e)
