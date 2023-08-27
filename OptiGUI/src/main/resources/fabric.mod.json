@@ -26,6 +26,10 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.optigui.impl.OptiGuiApi"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.TextureReplacer"
       },
       {
