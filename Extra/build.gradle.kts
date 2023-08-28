@@ -22,6 +22,12 @@ repositories {
             includeGroup("maven.modrinth")
         }
     }
+    maven("https://cursemaven.com") {
+        name = "CurseForge"
+        content {
+            includeGroup("curse.maven")
+        }
+    }
 }
 
 val extractNestedJars by configurations.creating
@@ -46,6 +52,7 @@ dependencies {
     implementation(project(":Properties", configuration = "namedElements"))
 
     extractNestedJars(modImplementation("maven.modrinth", "quickshulker", "1.4.0-1.20"))
+    modImplementation("curse.maven", "more-chest-variants-lieonlion-858032", "4723273")
 
     localRuntime("org.apache.commons", "commons-text", "1.10.0")
     localRuntime("org.ini4j", "ini4j", "0.5.4")

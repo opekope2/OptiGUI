@@ -18,6 +18,12 @@
   "entrypoints": {
     "client": [
       "opekope2.optigui.extra.quickshulker.QuickShulkerCompat"
+    ],
+    "optigui-blockentityprocessor": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.extra.more_chest_variants.McvCompat"
+      }
     ]
   },
   "mixins": [
@@ -30,5 +36,21 @@
     "minecraft": ">=1.18 <=1.20.1",
     "java": ">=${java}",
     "optigui": "=${version}"
+  },
+  "custom": {
+    "optigui": {
+      "containerTextures": {
+        "lolmcv:acacia_chest": "textures/gui/container/generic_54.png",
+        "lolmcv:bamboo_chest": "textures/gui/container/generic_54.png",
+        "lolmcv:birch_chest": "textures/gui/container/generic_54.png",
+        "lolmcv:cherry_chest": "textures/gui/container/generic_54.png",
+        "lolmcv:dark_oak_chest": "textures/gui/container/generic_54.png",
+        "lolmcv:jungle_chest": "textures/gui/container/generic_54.png",
+        "lolmcv:mangrove_chest": "textures/gui/container/generic_54.png",
+        "lolmcv:spruce_chest": "textures/gui/container/generic_54.png",
+        "lolmcv:crimson_chest": "textures/gui/container/generic_54.png",
+        "lolmcv:warped_chest": "textures/gui/container/generic_54.png"
+      }
+    }
   }
 }
