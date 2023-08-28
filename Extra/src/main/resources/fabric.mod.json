@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "optigui-extra",
+  "version": "${version}",
+  "name": "OptiGUI Extra",
+  "description": "OptiGUI Compatibility mod for other mods",
+  "authors": [
+    "opekope2"
+  ],
+  "contact": {
+    "homepage": "https://opekope2.github.io/OptiGUI",
+    "sources": "https://github.com/opekope2/OptiGUI",
+    "issues": "https://github.com/opekope2/OptiGUI/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/optigui-extra/icon.png",
+  "environment": "client",
+  "depends": {
+    "fabricloader": ">=${fabricloader}",
+    "fabric-events-interaction-v0": "*",
+    "fabric-language-kotlin": ">=${fabric_language_kotlin}",
+    "minecraft": ">=1.18 <=1.20.1",
+    "java": ">=${java}",
+    "optigui": "=${version}"
+  }
+}
