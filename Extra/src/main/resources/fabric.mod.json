@@ -15,6 +15,14 @@
   "license": "MIT",
   "icon": "assets/optigui-extra/icon.png",
   "environment": "client",
+  "entrypoints": {
+    "client": [
+      "opekope2.optigui.extra.quickshulker.QuickShulkerRightClickHandler"
+    ]
+  },
+  "mixins": [
+    "optigui-extra.quickshulker.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=${fabricloader}",
     "fabric-events-interaction-v0": "*",
