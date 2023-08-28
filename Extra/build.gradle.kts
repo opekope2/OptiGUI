@@ -16,6 +16,9 @@ repositories {
     mavenLocal()
 }
 
+val extractNestedJars by configurations.creating
+val nestedJarsDir = buildDir.resolve("nestedJars")
+
 dependencies {
     minecraft("com.mojang", "minecraft", project.extra["minecraft_version"] as String)
     mappings("net.fabricmc", "yarn", project.extra["yarn_mappings"] as String, classifier = "v2")
@@ -39,6 +42,8 @@ dependencies {
     modLocalRuntime(files(rootDir.resolve("lib/kyrptconfig-1.5.4-1.20.jar")))
     localRuntime("org.apache.commons", "commons-text", "1.10.0")
     localRuntime("org.ini4j", "ini4j", "0.5.4")
+
+    modLocalRuntime(fileTree(nestedJarsDir))
 }
 
 tasks {
@@ -88,3 +93,22 @@ tasks {
         withSourcesJar()
     }
 }
+
+val prepareClientRun by tasks.creating {
+    nestedJarsDir.mkdirs()
+    outputs.dir(nestedJarsDir)
+
+    doLast {
+        val jars = extractNestedJars.files
+
+        jars.forEach { jar ->
+            zipTree(jar).visit {
+                if (path.startsWith("META-INF/jars/")) {
+                    copyTo(nestedJarsDir.resolve(name))
+                }
+            }
+        }
+    }
+}
+
+tasks["generateRemapClasspath"].dependsOn(prepareClientRun)
