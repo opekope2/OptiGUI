@@ -24,6 +24,7 @@ dependencies {
 
     modImplementation(fabricApi.module("fabric-networking-api-v1", project.extra["fabric_version"] as String))
     modImplementation(fabricApi.module("fabric-events-interaction-v0", project.extra["fabric_version"] as String))
+    modLocalRuntime("net.fabricmc.fabric-api", "fabric-api", project.extra["fabric_version"] as String)
 
     modImplementation(files(rootDir.resolve("lib/lilac-api-1.0.0-alpha.1-dev.jar")))
     modLocalRuntime(files(rootDir.resolve("lib/lilac-1.0.0-alpha.1-dev.jar")))
