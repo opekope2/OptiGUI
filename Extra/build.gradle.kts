@@ -14,6 +14,14 @@ group = project.extra["maven_group"] as String
 
 repositories {
     mavenLocal()
+    exclusiveContent {
+        forRepository {
+            maven("https://api.modrinth.com/maven") { name = "Modrinth" }
+        }
+        filter {
+            includeGroup("maven.modrinth")
+        }
+    }
 }
 
 val extractNestedJars by configurations.creating
@@ -37,9 +45,8 @@ dependencies {
     implementation(project(":Api", configuration = "namedElements"))
     implementation(project(":Properties", configuration = "namedElements"))
 
-    modImplementation(files(rootDir.resolve("lib/quickshulker-1.4.0-1.20.jar")))
-    modLocalRuntime(files(rootDir.resolve("lib/shulkerutils-1.0.4-1.19.jar")))
-    modLocalRuntime(files(rootDir.resolve("lib/kyrptconfig-1.5.4-1.20.jar")))
+    extractNestedJars(modImplementation("maven.modrinth", "quickshulker", "1.4.0-1.20"))
+
     localRuntime("org.apache.commons", "commons-text", "1.10.0")
     localRuntime("org.ini4j", "ini4j", "0.5.4")
 
