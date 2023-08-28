@@ -17,8 +17,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Map;
 import java.util.Objects;
 
-import static opekope2.optigui.extra.quickshulker.QuickShulkerRightClickHandler.triggerInteraction;
-import static opekope2.optigui.extra.quickshulker.QuickShulkerRightClickHandler.waitForScreen;
+import static opekope2.optigui.extra.quickshulker.QuickShulkerCompat.triggerInteraction;
+import static opekope2.optigui.extra.quickshulker.QuickShulkerCompat.waitForScreen;
 
 @Mixin(ClientUtil.class)
 public abstract class ClientUtilMixin {

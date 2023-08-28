@@ -2,7 +2,7 @@ package opekope2.optigui.extra.quickshulker.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import opekope2.optigui.extra.quickshulker.QuickShulkerRightClickHandler;
+import opekope2.optigui.extra.quickshulker.QuickShulkerCompat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,7 +13,7 @@ abstract class MinecraftClientMixin {
     @Inject(method = "setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("TAIL"))
     private void setScreenMixin(Screen screen, CallbackInfo ci) {
         if (screen != null) {
-            QuickShulkerRightClickHandler.onScreenChanged(screen);
+            QuickShulkerCompat.onScreenChanged(screen);
         }
     }
 }

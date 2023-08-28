@@ -17,7 +17,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "opekope2.optigui.extra.quickshulker.QuickShulkerRightClickHandler"
+      "opekope2.optigui.extra.quickshulker.QuickShulkerCompat"
     ]
   },
   "mixins": [

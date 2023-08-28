@@ -23,10 +23,10 @@ import opekope2.optigui.properties.impl.IndependentProperties;
 import java.time.LocalDate;
 import java.util.function.Consumer;
 
-public class QuickShulkerRightClickHandler implements ClientModInitializer, UseItemCallback {
+public class QuickShulkerCompat implements ClientModInitializer, UseItemCallback {
     private static final IInteractor interactor = IOptiGuiApi.getImplementation().getInteractor();
     private static final IRegistryLookup lookup = IRegistryLookup.getInstance();
-    private static Consumer<Screen> screenChangeHandler = QuickShulkerRightClickHandler::dummyScreenConsumer;
+    private static Consumer<Screen> screenChangeHandler = QuickShulkerCompat::dummyScreenConsumer;
 
     @Override
     public void onInitializeClient() {
@@ -51,7 +51,7 @@ public class QuickShulkerRightClickHandler implements ClientModInitializer, UseI
 
     public static void onScreenChanged(Screen screen) {
         screenChangeHandler.accept(screen);
-        screenChangeHandler = QuickShulkerRightClickHandler::dummyScreenConsumer;
+        screenChangeHandler = QuickShulkerCompat::dummyScreenConsumer;
     }
 
     private static void dummyScreenConsumer(Screen screen) {
