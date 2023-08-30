@@ -2,6 +2,7 @@ package opekope2.optigui.extra.quickshulker;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
+import net.fabricmc.loader.api.FabricLoader;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.quickshulker.api.Util;
 import net.minecraft.client.gui.screen.Screen;
@@ -30,6 +31,8 @@ public class QuickShulkerCompat implements ClientModInitializer, UseItemCallback
 
     @Override
     public void onInitializeClient() {
+        if (!FabricLoader.getInstance().isModLoaded("quickshulker")) return;
+
         UseItemCallback.EVENT.register(this);
     }
 
