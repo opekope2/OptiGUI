@@ -49,7 +49,17 @@
         "lolmcv:mangrove_chest": "textures/gui/container/generic_54.png",
         "lolmcv:spruce_chest": "textures/gui/container/generic_54.png",
         "lolmcv:crimson_chest": "textures/gui/container/generic_54.png",
-        "lolmcv:warped_chest": "textures/gui/container/generic_54.png"
+        "lolmcv:warped_chest": "textures/gui/container/generic_54.png",
+        "variantbarrels:acacia_barrel": "textures/gui/container/generic_54.png",
+        "variantbarrels:bamboo_barrel": "textures/gui/container/generic_54.png",
+        "variantbarrels:birch_barrel": "textures/gui/container/generic_54.png",
+        "variantbarrels:cherry_barrel": "textures/gui/container/generic_54.png",
+        "variantbarrels:crimson_barrel": "textures/gui/container/generic_54.png",
+        "variantbarrels:dark_oak_barrel": "textures/gui/container/generic_54.png",
+        "variantbarrels:jungle_barrel": "textures/gui/container/generic_54.png",
+        "variantbarrels:mangrove_barrel": "textures/gui/container/generic_54.png",
+        "variantbarrels:oak_barrel": "textures/gui/container/generic_54.png",
+        "variantbarrels:warped_barrel": "textures/gui/container/generic_54.png"
       }
     }
   }

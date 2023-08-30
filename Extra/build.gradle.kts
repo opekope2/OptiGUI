@@ -53,6 +53,7 @@ dependencies {
 
     extractNestedJars(modImplementation("maven.modrinth", "quickshulker", "1.4.0-1.20"))
     modImplementation("curse.maven", "more-chest-variants-lieonlion-858032", "4723273")
+    modImplementation("curse.maven", "variant-barrels-fabric-576766", "4623658")
 
     // Gradle has skill issue and doesn't pull transitive deps.
     // But it pulls a newer version of DFU through mavenLocal, which crashes Minecraft.
