@@ -59,7 +59,17 @@
         "variantbarrels:jungle_barrel": "textures/gui/container/generic_54.png",
         "variantbarrels:mangrove_barrel": "textures/gui/container/generic_54.png",
         "variantbarrels:oak_barrel": "textures/gui/container/generic_54.png",
-        "variantbarrels:warped_barrel": "textures/gui/container/generic_54.png"
+        "variantbarrels:warped_barrel": "textures/gui/container/generic_54.png",
+        "variantcraftingtables:acacia_crafting_table": "textures/gui/container/crafting_table.png",
+        "variantcraftingtables:bamboo_crafting_table": "textures/gui/container/crafting_table.png",
+        "variantcraftingtables:birch_crafting_table": "textures/gui/container/crafting_table.png",
+        "variantcraftingtables:cherry_crafting_table": "textures/gui/container/crafting_table.png",
+        "variantcraftingtables:crimson_crafting_table": "textures/gui/container/crafting_table.png",
+        "variantcraftingtables:dark_oak_crafting_table": "textures/gui/container/crafting_table.png",
+        "variantcraftingtables:jungle_crafting_table": "textures/gui/container/crafting_table.png",
+        "variantcraftingtables:mangrove_crafting_table": "textures/gui/container/crafting_table.png",
+        "variantcraftingtables:spruce_crafting_table": "textures/gui/container/crafting_table.png",
+        "variantcraftingtables:warped_crafting_table": "textures/gui/container/crafting_table.png"
       }
     }
   }
