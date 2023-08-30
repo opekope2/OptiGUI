@@ -52,10 +52,10 @@ dependencies {
     implementation(project(":Properties", configuration = "namedElements"))
 
     extractNestedJars(modImplementation("maven.modrinth", "quickshulker", "1.4.0-1.20"))
-    modImplementation("curse.maven", "more-chest-variants-lieonlion-858032", "4723273")
-    modImplementation("curse.maven", "variant-barrels-fabric-576766", "4623658")
-    modImplementation("curse.maven", "variant-crafting-tables-fabric-575271", "4723634")
-    extractNestedJars(modImplementation("curse.maven", "variant-vanilla-blocks-866509", "4723107"))
+    modImplementation("maven.modrinth", "more-chest-variants-lieonlion", "1.2.1-1.20.1-Fabric")
+    modLocalRuntime("curse.maven", "variant-barrels-fabric-576766", "4623658")
+    modLocalRuntime("curse.maven", "variant-crafting-tables-fabric-575271", "4723634")
+    extractNestedJars(modLocalRuntime("curse.maven", "variant-vanilla-blocks-866509", "4723107"))
 
     // Gradle has skill issue and doesn't pull transitive deps.
     // But it pulls a newer version of DFU through mavenLocal, which crashes Minecraft.
