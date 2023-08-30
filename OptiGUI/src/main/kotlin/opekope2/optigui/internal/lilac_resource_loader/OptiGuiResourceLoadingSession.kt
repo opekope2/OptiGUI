@@ -48,7 +48,7 @@ class OptiGuiResourceLoadingSession private constructor(private val session: IRe
 
     private fun applyFiltersAndClose() {
         ensureNotClosed()
-        filters.sortBy { filter -> filter.priority }
+        filters.sortByDescending { filter -> filter.priority }
 
         val filter = FirstMatchFilter(filters)
         TextureReplacer.filter = filter
