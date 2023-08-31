@@ -33,7 +33,7 @@ import opekope2.optigui.properties.impl.IndependentProperties
 import java.time.LocalDate
 
 internal object InteractionHandler : ClientModInitializer, UseBlockCallback, UseEntityCallback, UseItemCallback {
-    private val optigui = IOptiGuiApi.getImplementation()
+    private val optiguiApi = IOptiGuiApi.getImplementation()
     private val interactor = IInteractor.getInstance()
     private val lookup = IRegistryLookup.getInstance()
 
@@ -58,7 +58,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
 
     private fun getBlockInteractionTarget(world: World, target: BlockPos): IInteractionTarget? {
         val container = lookup.lookupBlockId(world.getBlockState(target).block)
-        if (optigui.getContainerTexture(container) == null) {
+        if (optiguiApi.getContainerTexture(container) == null) {
             // Unknown/modded container
             return null
         }
