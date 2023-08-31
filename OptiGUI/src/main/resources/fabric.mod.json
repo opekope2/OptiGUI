@@ -38,10 +38,6 @@
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.InitializerKt::runEntrypoints"
-      },
-      {
-        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.interaction.Processors::loadEntityProcessors"
       },
       {

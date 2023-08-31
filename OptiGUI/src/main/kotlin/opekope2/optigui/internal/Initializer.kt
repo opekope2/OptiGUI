@@ -7,7 +7,6 @@ import net.minecraft.client.gui.screen.ingame.BookScreen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
 import opekope2.lilac.api.Util
-import opekope2.optigui.api.IEntrypoint
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import kotlin.jvm.optionals.getOrNull
@@ -26,11 +25,4 @@ fun initialize() {
     if (Util.checkModVersion("minecraft") { v -> v >= Version.parse("1.19.3") }) {
         addRetexturableScreen(HangingSignEditScreen::class.java)
     }
-}
-
-@Suppress("unused")
-fun runEntrypoints() {
-    val entrypoints = Util.getEntrypointContainers(IEntrypoint::class.java)
-
-    entrypoints.forEach { it.entrypoint.initialize(DummyInitializationContext()) }
 }
