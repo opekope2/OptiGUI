@@ -13,6 +13,7 @@ import net.minecraft.util.hit.HitResult
 import net.minecraft.world.World
 import opekope2.lilac.api.tick.ITickHandler
 import opekope2.lilac.api.tick.ITickNotifier
+import opekope2.optigui.api.IOptiGuiApi
 import opekope2.optigui.api.interaction.*
 import opekope2.optigui.filter.Filter
 import opekope2.optigui.filter.FilterResult
@@ -113,6 +114,9 @@ internal object TextureReplacer : ClientModInitializer, IInteractor {
             filter.evaluate(interaction).let { (it as? FilterResult.Match)?.result } ?: texture
         }
     }
+
+    private inline val Screen.isRetexturable: Boolean
+        get() = IOptiGuiApi.getImplementation().isScreenRetexturable(this)
 
     @JvmStatic
     fun handleScreenChange(screen: Screen?) =

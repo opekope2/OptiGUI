@@ -3,6 +3,7 @@ package opekope2.optigui.impl
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.client.gui.screen.Screen
 import net.minecraft.entity.Entity
 import net.minecraft.util.Identifier
 import opekope2.lilac.api.ILilacApi
@@ -15,11 +16,13 @@ import opekope2.optigui.internal.fabric.mod_json.metadata.ProcessableCustomMetad
 import opekope2.optigui.internal.interaction.blockEntityProcessors
 import opekope2.optigui.internal.interaction.entityProcessors
 import opekope2.util.TreeFormatter
+import opekope2.util.isSuperOf
 import org.slf4j.LoggerFactory
 
 object OptiGuiApi : IOptiGuiApi, ClientModInitializer {
     private val logger = LoggerFactory.getLogger("OptiGUI/MetadataLoader")
     private lateinit var containerTextureMap: Map<Identifier, Identifier>
+    private val retexturableScreens = mutableSetOf<Class<out Screen>>()
 
     override fun isAvailable(): Boolean = true
 
@@ -39,6 +42,14 @@ object OptiGuiApi : IOptiGuiApi, ClientModInitializer {
     @Suppress("UNCHECKED_CAST")
     override fun <T : BlockEntity> getBlockEntityProcessor(type: Class<T>): IBlockEntityProcessor<T>? {
         return blockEntityProcessors[type] as IBlockEntityProcessor<T>?
+    }
+
+    override fun addRetexturableScreen(screenClass: Class<out Screen>) {
+        retexturableScreens += screenClass
+    }
+
+    override fun isScreenRetexturable(screen: Screen): Boolean {
+        return retexturableScreens.any { it.isSuperOf(screen) }
     }
 
     override fun onInitializeClient() {

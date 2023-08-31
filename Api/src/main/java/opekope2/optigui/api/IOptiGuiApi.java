@@ -1,6 +1,7 @@
 package opekope2.optigui.api;
 
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import opekope2.optigui.annotation.RequiresImplementation;
@@ -68,6 +69,27 @@ public interface IOptiGuiApi {
     <T extends BlockEntity> IBlockEntityProcessor<@NotNull T> getBlockEntityProcessor(@NotNull Class<@NotNull T> type);
 
     /**
+     * Marks the given class and all of its subclasses as retexturable.
+     * That is, OptiGUI is allowed to replace its texture.
+     * <br>
+     * Only add screens your mod created, and avoid adding {@link Screen} for performance reasons.
+     *
+     * @param screenClass The screen class to mark as retexturable
+     * @see #isScreenRetexturable(Screen)
+     */
+    @RequiresImplementation
+    void addRetexturableScreen(@NotNull Class<? extends Screen> screenClass);
+
+    /**
+     * Returns if the screen's texture is allowed to be changed.
+     *
+     * @param screen The screen instance to check
+     * @see #addRetexturableScreen(Class)
+     */
+    @RequiresImplementation
+    boolean isScreenRetexturable(@NotNull Screen screen);
+
+    /**
      * Returns the implementation of {@link IOptiGuiApi}.
      */
     @NotNull
@@ -117,6 +139,16 @@ final class IOptiGuiApi$Instance implements IOptiGuiApi {
     @Override
     @Nullable
     public <T extends BlockEntity> IBlockEntityProcessor<@NotNull T> getBlockEntityProcessor(@NotNull Class<@NotNull T> type) {
+        throw new UnsupportedOperationException("OptiGUI implementation is not available.");
+    }
+
+    @Override
+    public void addRetexturableScreen(@NotNull Class<? extends Screen> screenClass) {
+        throw new UnsupportedOperationException("OptiGUI implementation is not available.");
+    }
+
+    @Override
+    public boolean isScreenRetexturable(@NotNull Screen screen) {
         throw new UnsupportedOperationException("OptiGUI implementation is not available.");
     }
 
