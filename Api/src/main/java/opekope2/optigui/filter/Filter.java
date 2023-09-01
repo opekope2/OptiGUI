@@ -1,6 +1,9 @@
 package opekope2.optigui.filter;
 
+import opekope2.lilac.util.Tree;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.BiConsumer;
 
 /**
  * Base class for filtering.
@@ -21,4 +24,26 @@ public abstract class Filter<T, TResult> {
      */
     @NotNull
     public abstract FilterResult<? extends TResult> evaluate(/* I didn't forget to annotate */ T value);
+
+    @NotNull
+    public final Tree.Node createTree() {
+        BiConsumer<Iterable<?>, Tree.Node> iterableTreeFactory = new BiConsumer<>() {
+            @Override
+            public void accept(Iterable<?> iterable, Tree.Node parent) {
+                for (Object next : iterable) {
+                    Tree.Node child = parent.appendChild(next.toString());
+
+                    if (next instanceof Iterable<?>) {
+                        accept((Iterable<?>) next, child);
+                    }
+                }
+            }
+        };
+
+        Tree.Node node = new Tree.Node(toString());
+        if (this instanceof Iterable<?>) {
+            iterableTreeFactory.accept((Iterable<?>) this, node);
+        }
+        return node;
+    }
 }

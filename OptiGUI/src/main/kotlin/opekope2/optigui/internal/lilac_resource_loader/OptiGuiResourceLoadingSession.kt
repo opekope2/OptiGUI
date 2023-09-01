@@ -54,7 +54,7 @@ class OptiGuiResourceLoadingSession private constructor(private val session: IRe
         TextureReplacer.filter = filter
         TextureReplacer.replaceableTextures = filters.flatMap { it.replaceableTextures }.toSet()
 
-        logger.debug("Loaded filter chain:\n{}", filter)
+        logger.debug("Loaded filter chain:\n{}", filter.createTree())
 
         closed = true
     }

@@ -5,7 +5,6 @@ import opekope2.lilac.api.resource.IResource
 import opekope2.optigui.api.interaction.Interaction
 import opekope2.optigui.filter.Filter
 import opekope2.optigui.filter.FilterResult
-import opekope2.util.dump
 import org.slf4j.LoggerFactory
 
 internal class IdentifiablePriorityFilter(
@@ -23,9 +22,12 @@ internal class IdentifiablePriorityFilter(
     } catch (exception: Exception) {
         logger.warn("Error processing `$filter` by `$modId`: $exception", exception)
         logger.debug(
-            "Error processing `$filter` by `$modId`: $exception\n" +
-                    "Interaction: $value\n" +
-                    filter.dump(), exception
+            """
+                Error processing `$filter` by `$modId`: $exception
+                Interaction: $value
+                ${filter.createTree()}
+            """.trimIndent(),
+            exception
         )
         FilterResult.Skip()
     }
