@@ -15,7 +15,7 @@ import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.internal.fabric.mod_json.metadata.ProcessableCustomMetadata
 import opekope2.optigui.internal.interaction.blockEntityProcessors
 import opekope2.optigui.internal.interaction.entityProcessors
-import opekope2.util.TreeFormatter
+import opekope2.util.ConflictHandlingMap
 import opekope2.util.isSuperOf
 import org.slf4j.LoggerFactory
 
@@ -58,36 +58,34 @@ object OptiGuiApi : IOptiGuiApi, ClientModInitializer {
             return
         }
 
-        val metadata = FabricLoader.getInstance().allMods.mapNotNull { mod -> mod.metadata.getCustomValue("optigui") }
+        val mods = FabricLoader.getInstance().allMods
         val serializer = ILilacApi.getImplementation().customMetadataSerializer
         val exception = SetOnce<Exception>()
-        val parsed = metadata.mapNotNull { customValue ->
+        val parsed = mods.mapNotNull { mod ->
+            val customValue = mod.metadata.getCustomValue("optigui") ?: return@mapNotNull null
+            val modId = mod.metadata.id
+
             try {
-                serializer.deserialize(ProcessableCustomMetadata.CODEC, customValue).process()
+                modId to serializer.deserialize(ProcessableCustomMetadata.CODEC, customValue).process()
             } catch (e: Exception) {
                 if (exception.isSet()) exception.value.addSuppressed(e)
-                else exception.set(RuntimeException("Failed to parse `fabric.mod.json` metadata", e))
+                else exception.set(RuntimeException("Failed to parse `fabric.mod.json` metadata of `$modId`", e))
                 null
             }
         }
 
         if (exception.isSet()) throw exception.value
 
-        val containerTextureMap = mutableMapOf<Identifier, Identifier>()
-        val conflicts = mutableMapOf<Identifier, MutableSet<Identifier>>()
+        val containerTextureMap = ConflictHandlingMap<Identifier, Identifier>()
 
-        for (meta in parsed) {
+        for ((modId, meta) in parsed) {
             for ((container, texture) in meta.containerTextures) {
-                if (container in containerTextureMap) {
-                    conflicts.getOrPut(container) { mutableSetOf(containerTextureMap[container]!!) }.add(texture)
-                } else {
-                    containerTextureMap[container] = texture
-                }
+                containerTextureMap.put(container, modId, texture)
             }
         }
 
-        if (conflicts.isNotEmpty()) {
-            val conflictTree = dumpConflicts(conflicts)
+        if (containerTextureMap.conflicts) {
+            val conflictTree = containerTextureMap.createConflictTree("Container texture conflicts").toString()
 
             logger.error("Multiple textures were found for one or more container:\n$conflictTree")
             throw RuntimeException(
@@ -95,34 +93,7 @@ object OptiGuiApi : IOptiGuiApi, ClientModInitializer {
             )
         }
 
-        this.containerTextureMap = containerTextureMap
-    }
-
-    private fun dumpConflicts(conflicts: Map<Identifier, MutableSet<*>>): String {
-        val writer = TreeFormatter()
-
-        writer.indent {
-            append("Container texture conflicts", lastChild = true)
-
-            dumpConflicts(conflicts.asIterable(), this)
-        }
-
-        return writer.toString()
-
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    private fun dumpConflicts(iterable: Iterable<*>, writer: TreeFormatter) {
-        writer.indent {
-            val it = iterable.iterator()
-            while (it.hasNext()) {
-                val next = it.next()
-                val (id, set) = next as Map.Entry<Identifier, MutableSet<*>>
-                append(id.toString(), !it.hasNext())
-
-                dumpConflicts(set, writer)
-            }
-        }
+        this.containerTextureMap = containerTextureMap.toMap()
     }
 
     private class SetOnce<T : Any> {
