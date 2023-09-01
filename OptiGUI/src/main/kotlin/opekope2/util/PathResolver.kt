@@ -18,7 +18,7 @@ import java.nio.file.Path
 fun resolvePath(pathToResolve: String, resource: Identifier, tildePath: String? = null): Identifier? {
     val tildeValid = tildePath != null && pathToResolve.startsWith("~/")
     val root = Path.of(
-        if (tildeValid) tildePath!!
+        if (tildeValid) "$tildePath/."
         else resource.path
     )
     val toResolve =
