@@ -6,7 +6,7 @@ import net.minecraft.client.gui.screen.ingame.BookEditScreen
 import net.minecraft.client.gui.screen.ingame.BookScreen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
-import opekope2.lilac.api.Util
+import opekope2.lilac.util.Util
 import opekope2.optigui.api.IOptiGuiApi
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

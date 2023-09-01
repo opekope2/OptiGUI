@@ -5,7 +5,6 @@ import net.minecraft.util.Identifier
 import opekope2.lilac.api.resource.IResourceAccess
 import opekope2.lilac.api.resource.IResourceReader
 import opekope2.lilac.api.resource.loading.IResourceLoader
-import opekope2.lilac.api.resource.loading.IResourceLoaderPlugin
 import opekope2.lilac.api.resource.loading.IResourceLoadingSession
 import opekope2.optigui.api.IOptiGuiApi
 import opekope2.optigui.api.interaction.Interaction
@@ -61,7 +60,7 @@ class OptiFineResourceLoader(private val optigui: IOptiGuiSessionExtension) : IR
         optigui.close()
     }
 
-    class Plugin : IResourceLoaderPlugin {
+    companion object Factory : IResourceLoader.IFactory {
         override fun createResourceLoader(session: IResourceLoadingSession): IResourceLoader =
             OptiFineResourceLoader(session["optigui"] as IOptiGuiSessionExtension)
     }

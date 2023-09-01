@@ -2,7 +2,7 @@ package opekope2.optigui.internal.lilac_resource_loader
 
 import net.minecraft.util.Identifier
 import opekope2.lilac.api.resource.IResourceAccess
-import opekope2.lilac.api.resource.loading.IResourceLoaderPlugin
+import opekope2.lilac.api.resource.loading.IResourceLoader
 import opekope2.lilac.api.resource.loading.IResourceLoadingSession
 import opekope2.optigui.api.interaction.Interaction
 import opekope2.optigui.api.lilac_resource_loading.IOptiGuiSessionExtension
@@ -86,11 +86,11 @@ class OptiGuiResourceLoadingSession private constructor(private val session: IRe
         }
     }
 
-    class ExtensionFactoryPlugin : IResourceLoadingSession.IExtensionFactoryPlugin,
+    class ExtensionFactory : IResourceLoadingSession.IExtensionFactory,
         IResourceLoadingSession.ILifecycleListener {
         override fun createSessionExtension(
             modId: String,
-            plugin: IResourceLoaderPlugin,
+            factory: IResourceLoader.IFactory,
             session: IResourceLoadingSession
         ): Any {
             assert(IResourceLoadingSession.getProperties(session).stage == IResourceLoadingSession.Stage.INIT)

@@ -2,7 +2,6 @@ package opekope2.optigui.api.lilac_resource_loading;
 
 import net.minecraft.util.Identifier;
 import opekope2.lilac.api.resource.loading.IResourceLoader;
-import opekope2.lilac.api.resource.loading.IResourceLoaderPlugin;
 import opekope2.lilac.api.resource.loading.IResourceLoadingSession;
 import opekope2.optigui.api.interaction.Interaction;
 import opekope2.optigui.filter.Filter;
@@ -14,7 +13,7 @@ import java.util.Set;
  * OptiGUI extension for {@link IResourceLoadingSession}.
  * Can be obtained with {@link IResourceLoadingSession#getExtension(String)}, where {@code modId} is {@code optigui}.
  * <br>
- * Recommended way of obtaining an instance is in {@link IResourceLoaderPlugin#createResourceLoader(IResourceLoadingSession)},
+ * Recommended way of obtaining an instance is in {@link IResourceLoader.IFactory#createResourceLoader(IResourceLoadingSession)},
  * and the session extension instance should be passed to the created {@link IResourceLoader}.
  *
  * @apiNote Must be closed (for example, in {@link IResourceLoader#close()}), otherwise OptiGUI will not finish loading resources.

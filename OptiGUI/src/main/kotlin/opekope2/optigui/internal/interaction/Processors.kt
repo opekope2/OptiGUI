@@ -5,8 +5,8 @@ package opekope2.optigui.internal.interaction
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.Entity
-import opekope2.lilac.api.Util
 import opekope2.lilac.exception.EntrypointException
+import opekope2.lilac.util.Util
 import opekope2.optigui.annotation.BlockEntityProcessor
 import opekope2.optigui.annotation.EntityProcessor
 import opekope2.optigui.api.interaction.IBlockEntityProcessor

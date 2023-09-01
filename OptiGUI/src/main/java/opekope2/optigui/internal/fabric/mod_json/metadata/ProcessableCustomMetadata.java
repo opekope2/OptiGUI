@@ -4,7 +4,7 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.Identifier;
-import opekope2.lilac.api.Util;
+import opekope2.lilac.util.Util;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
