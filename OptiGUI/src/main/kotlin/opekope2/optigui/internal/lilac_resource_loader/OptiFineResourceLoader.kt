@@ -135,34 +135,30 @@ private open class FilterCreator(private val containers: Set<Identifier>) :
         properties["biomes"]
             ?.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
-            ?.map { biome -> Identifier.tryParse(biome) ?: biome }
-            ?.groupBy { it is Identifier }
+            ?.map({ biome -> Identifier.tryParse(biome) }) {
+                throwParseException("biomes", properties::getValue, "Invalid biomes: ${joinNotFound(it)}")
+            }
+            ?.assertNotEmpty()
             ?.let { biomes ->
-                val foundBiomes = biomes.split<Identifier, String> { notFound ->
-                    throwParseException("biomes", properties::getValue, "Invalid biomes: ${joinNotFound(notFound)}")
-                }.assertNotEmpty()
-
                 filters += PreProcessorFilter.nullGuarded(
                     { (it.data as? IGeneralProperties)?.biome },
                     Mismatch(),
-                    ContainingFilter(foundBiomes)
+                    ContainingFilter(biomes)
                 )
             }
 
         properties["heights"]
             ?.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
-            ?.map { height -> NumberOrRange.tryParse(height) ?: height }
-            ?.groupBy { it is NumberOrRange }
+            ?.map({ height -> NumberOrRange.tryParse(height) }) {
+                throwParseException("heights", properties::getValue, "Invalid heights: ${joinNotFound(it)}")
+            }
+            ?.assertNotEmpty()
             ?.let { heights ->
-                val foundHeights = heights.split<NumberOrRange, String> { notFound ->
-                    throwParseException("heights", properties::getValue, "Invalid heights: ${joinNotFound(notFound)}")
-                }.assertNotEmpty()
-
                 filters += PreProcessorFilter.nullGuarded(
                     { (it.data as? IGeneralProperties)?.height },
                     Mismatch(),
-                    DisjunctionFilter(foundHeights.map { it.toFilter() })
+                    DisjunctionFilter(heights.map { it.toFilter() })
                 )
             }
 
@@ -217,10 +213,8 @@ private val containerFilterCreators = mapOf(
             val levels = properties["levels"]
                 ?.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.map { level -> NumberOrRange.tryParse(level) ?: level }
-                ?.groupBy { it is NumberOrRange }
-                ?.split<NumberOrRange, String> { notFound ->
-                    throwParseException("levels", properties::getValue, "Invalid levels: ${joinNotFound(notFound)}")
+                ?.map({ level -> NumberOrRange.tryParse(level) }) {
+                    throwParseException("levels", properties::getValue, "Invalid levels: ${joinNotFound(it)}")
                 }
                 ?.assertNotEmpty()
                 ?: return super.createFilters(properties, warn)
@@ -313,12 +307,11 @@ private val containerFilterCreators = mapOf(
             val variants = properties["variants"]
                 ?.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.groupBy { it in dispenserVariants }
-                ?.split { notFound ->
+                ?.map({ it.takeIf { it in dispenserVariants } }) {
                     throwParseException(
                         "variants",
                         properties::getValue,
-                        "Invalid dispenser variants: ${joinNotFound(notFound)}"
+                        "Invalid dispenser variants: ${joinNotFound(it)}"
                     )
                 }
                 ?: listOf("dispenser")
@@ -345,13 +338,8 @@ private val containerFilterCreators = mapOf(
             var variants = properties["variants"]
                 ?.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.groupBy { it in horseVariants }
-                ?.split<String, String> { notFound ->
-                    throwParseException(
-                        "variants",
-                        properties::getValue,
-                        "Invalid horse variants: ${joinNotFound(notFound)}"
-                    )
+                ?.map({ it.takeIf { it in horseVariants } }) {
+                    throwParseException("variants", properties::getValue, "Invalid horse variants: ${joinNotFound(it)}")
                 }
                 ?: throwParseException("variants", properties::getValue, "No horse variants were specified")
             variants = variants.toMutableList()
@@ -365,10 +353,9 @@ private val containerFilterCreators = mapOf(
                     EqualityFilter(Identifier("llama"))
                 )
 
-                val colors = properties["colors"]
+                var colors = properties["colors"]
                     ?.splitIgnoreEmpty(*delimiters)
                     ?.assertNotEmpty()
-                    ?.groupBy { DyeColor.byName(it, null) != null }
                 if (colors == null) {
                     optigui.addFilter(
                         resource,
@@ -376,18 +363,18 @@ private val containerFilterCreators = mapOf(
                         setOf(TEXTURE_HORSE)
                     )
                 } else {
-                    val foundColors = colors.split<String, String> { notFound ->
+                    colors = colors.map({ it.takeIf { DyeColor.byName(it, null) != null } }) {
                         throwParseException(
                             "colors",
                             properties::getValue,
-                            "Invalid carpet colors: ${joinNotFound(notFound)}"
+                            "Invalid carpet colors: ${joinNotFound(it)}"
                         )
                     }.assertNotEmpty()
 
                     filters += PreProcessorFilter.nullGuarded(
                         { (it.data as? ILlamaProperties)?.carpetColor },
                         Mismatch(), // A carpet is required
-                        ContainingFilter(foundColors)
+                        ContainingFilter(colors)
                     )
 
                     optigui.addFilter(
@@ -417,24 +404,18 @@ private val containerFilterCreators = mapOf(
             val professions = properties["professions"]
                 ?.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.map { prof ->
+                ?.map({ prof ->
                     if (':' in prof) {
-                        if (prof.count { it == ':' } > 2) return@map prof
+                        if (prof.count { it == ':' } > 2) return@map null
                         val (profName, profLevels) = prof.split(':')
-                        val profId = Identifier.tryParse(profName) ?: return@map prof
+                        val profId = Identifier.tryParse(profName) ?: return@map null
                         profId to profLevels.split(',')
-                            .map unused@{ level -> NumberOrRange.tryParse(level) ?: return@map prof }
+                            .map unused@{ level -> NumberOrRange.tryParse(level) ?: return@map null }
                     } else {
-                        (Identifier.tryParse(prof) ?: return@map prof) to null
+                        (Identifier.tryParse(prof) ?: return@map null) to null
                     }
-                }
-                ?.groupBy { it is Pair<*, *> }
-                ?.split<Pair<Identifier, List<NumberOrRange>?>, String> { notFound ->
-                    throwParseException(
-                        "professions",
-                        properties::getValue,
-                        "Invalid professions: ${joinNotFound(notFound)}"
-                    )
+                }) {
+                    throwParseException("professions", properties::getValue, "Invalid professions: ${joinNotFound(it)}")
                 }
                 ?.assertNotEmpty()
                 ?: return super.createFilters(properties, warn)
@@ -473,12 +454,11 @@ private val containerFilterCreators = mapOf(
             val colors = properties["colors"]
                 ?.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.groupBy { DyeColor.byName(it, null) != null }
-                ?.split<String, String> { notFound ->
+                ?.map({ it.takeIf { DyeColor.byName(it, null) != null } }) {
                     throwParseException(
                         "colors",
                         properties::getValue,
-                        "Invalid shulker box colors: ${joinNotFound(notFound)}"
+                        "Invalid shulker box colors: ${joinNotFound(it)}"
                     )
                 }
                 ?.assertNotEmpty()

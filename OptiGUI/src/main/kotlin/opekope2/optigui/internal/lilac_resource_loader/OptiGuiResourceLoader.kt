@@ -167,9 +167,9 @@ private val filterCreators: Map<String, SelectorFilterCreator<*>> = mapOf(
         { biomes ->
             biomes.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.map { biome -> Identifier.tryParse(biome) ?: biome }
-                ?.groupBy { it is Identifier }
-                ?.split<Identifier, String> { throw RuntimeException("Invalid biomes: ${joinNotFound(it)}") }
+                ?.map({ biome -> Identifier.tryParse(biome) }) {
+                    throw RuntimeException("Invalid biomes: ${joinNotFound(it)}")
+                }
                 ?.assertNotEmpty()
         },
         { biomes ->
@@ -184,9 +184,9 @@ private val filterCreators: Map<String, SelectorFilterCreator<*>> = mapOf(
         { heights ->
             heights.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.map { height -> NumberOrRange.tryParse(height) ?: height }
-                ?.groupBy { it is NumberOrRange }
-                ?.split<NumberOrRange, String> { throw RuntimeException("Invalid heights: ${joinNotFound(it)}") }
+                ?.map({ height -> NumberOrRange.tryParse(height) }) {
+                    throw RuntimeException("Invalid heights: ${joinNotFound(it)}")
+                }
                 ?.assertNotEmpty()
         },
         { heights ->
@@ -201,20 +201,18 @@ private val filterCreators: Map<String, SelectorFilterCreator<*>> = mapOf(
         { dates ->
             dates.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.map { date ->
+                ?.map({ date ->
                     if ('@' in date) {
-                        if (date.count { it == '@' } > 2) return@map date
+                        if (date.count { it == '@' } > 2) return@map null
                         val (monthName, day) = date.split('@')
                         val (month) = monthUnmapping.firstOrNull { (_, aliases) -> monthName in aliases }
-                            ?: return@map date
-                        month to (NumberOrRange.tryParse(day) ?: return@map date)
+                            ?: return@map null
+                        month to (NumberOrRange.tryParse(day) ?: return@map null)
                     } else {
-                        val (month) = monthUnmapping.firstOrNull { (_, aliases) -> date in aliases } ?: return@map date
+                        val (month) = monthUnmapping.firstOrNull { (_, aliases) -> date in aliases } ?: return@map null
                         month to null
                     }
-                }
-                ?.groupBy { it is Pair<*, *> }
-                ?.split<Pair<Month, NumberOrRange?>, String> { throw RuntimeException("Invalid dates: ${joinNotFound(it)}") }
+                }) { throw RuntimeException("Invalid dates: ${joinNotFound(it)}") }
                 ?.assertNotEmpty()
         },
         { dates ->
@@ -243,9 +241,9 @@ private val filterCreators: Map<String, SelectorFilterCreator<*>> = mapOf(
         { outputs ->
             outputs.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.map { output -> NumberOrRange.tryParse(output) ?: output }
-                ?.groupBy { it is NumberOrRange }
-                ?.split<NumberOrRange, String> { throw RuntimeException("Invalid values: ${joinNotFound(it)}") }
+                ?.map({ output -> NumberOrRange.tryParse(output) }) {
+                    throw RuntimeException("Invalid values: ${joinNotFound(it)}")
+                }
                 ?.assertNotEmpty()
         },
         { outputs ->
@@ -260,9 +258,9 @@ private val filterCreators: Map<String, SelectorFilterCreator<*>> = mapOf(
         { levels ->
             levels.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.map { level -> NumberOrRange.tryParse(level) ?: level }
-                ?.groupBy { it is NumberOrRange }
-                ?.split<NumberOrRange, String> { throw RuntimeException("Invalid levels: ${joinNotFound(it)}") }
+                ?.map({ level -> NumberOrRange.tryParse(level) }) {
+                    throw RuntimeException("Invalid levels: ${joinNotFound(it)}")
+                }
                 ?.assertNotEmpty()
         },
         { levels ->
@@ -287,8 +285,9 @@ private val filterCreators: Map<String, SelectorFilterCreator<*>> = mapOf(
         { variants ->
             variants.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.groupBy { variant -> BoatEntity.Type.CODEC.byId(variant) != null }
-                ?.split<String, String> { throw RuntimeException("Invalid chest boat variants: ${joinNotFound(it)}") }
+                ?.map({ variant -> variant.takeIf { BoatEntity.Type.CODEC.byId(variant) != null } }) {
+                    throw RuntimeException("Invalid chest boat variants: ${joinNotFound(it)}")
+                }
                 ?.assertNotEmpty()
         },
         { variants ->
@@ -303,8 +302,9 @@ private val filterCreators: Map<String, SelectorFilterCreator<*>> = mapOf(
         { colors ->
             colors.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.groupBy { color -> DyeColor.byName(color, null) != null }
-                ?.split<String, String> { throw RuntimeException("Invalid colors: ${joinNotFound(it)}") }
+                ?.map({ color -> color.takeIf { DyeColor.byName(color, null) != null } }) {
+                    throw RuntimeException("Invalid colors: ${joinNotFound(it)}")
+                }
                 ?.assertNotEmpty()
         },
         { variants ->
@@ -319,21 +319,17 @@ private val filterCreators: Map<String, SelectorFilterCreator<*>> = mapOf(
         { professions ->
             professions.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.map { profession ->
+                ?.map({ profession ->
                     if ('@' in profession) {
-                        if (profession.count { it == '@' } > 2) return@map profession
+                        if (profession.count { it == '@' } > 2) return@map null
                         val (profId, profLevel) = profession.split('@')
-                        val id = Identifier.tryParse(profId) ?: return@map profession
-                        val level = NumberOrRange.tryParse(profLevel) ?: return@map profession
+                        val id = Identifier.tryParse(profId) ?: return@map null
+                        val level = NumberOrRange.tryParse(profLevel) ?: return@map null
                         id to level
                     } else {
-                        (Identifier.tryParse(profession) ?: return@map profession) to null
+                        (Identifier.tryParse(profession) ?: return@map null) to null
                     }
-                }
-                ?.groupBy { it is Pair<*, *> }
-                ?.split<Pair<Identifier, NumberOrRange?>, String> {
-                    throw RuntimeException("Invalid professions: ${joinNotFound(it)}")
-                }
+                }) { throw RuntimeException("Invalid professions: ${joinNotFound(it)}") }
                 ?.assertNotEmpty()
         },
         { professions ->
@@ -362,9 +358,9 @@ private val filterCreators: Map<String, SelectorFilterCreator<*>> = mapOf(
         { types ->
             types.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.map { type -> Identifier.tryParse(type) ?: type }
-                ?.groupBy { it is Identifier }
-                ?.split<Identifier, String> { throw RuntimeException("Invalid villager types: ${joinNotFound(it)}") }
+                ?.map({ type -> Identifier.tryParse(type) }) {
+                    throw RuntimeException("Invalid villager types: ${joinNotFound(it)}")
+                }
                 ?.assertNotEmpty()
         },
         { types ->
@@ -398,9 +394,9 @@ private val filterCreators: Map<String, SelectorFilterCreator<*>> = mapOf(
         { currentPage ->
             currentPage.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.map { page -> NumberOrRange.tryParse(page) ?: page }
-                ?.groupBy { it is NumberOrRange }
-                ?.split<NumberOrRange, String> { throw RuntimeException("Invalid page numbers: ${joinNotFound(it)}") }
+                ?.map({ page -> NumberOrRange.tryParse(page) }) {
+                    throw RuntimeException("Invalid page numbers: ${joinNotFound(it)}")
+                }
                 ?.assertNotEmpty()
         },
         { pages ->
@@ -415,9 +411,9 @@ private val filterCreators: Map<String, SelectorFilterCreator<*>> = mapOf(
         { pageCount ->
             pageCount.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.map { page -> NumberOrRange.tryParse(page) ?: page }
-                ?.groupBy { it is NumberOrRange }
-                ?.split<NumberOrRange, String> { throw RuntimeException("Invalid page count: ${joinNotFound(it)}") }
+                ?.map({ page -> NumberOrRange.tryParse(page) }) {
+                    throw RuntimeException("Invalid page count: ${joinNotFound(it)}")
+                }
                 ?.assertNotEmpty()
         },
         { pages ->

@@ -6,15 +6,27 @@ internal inline fun <T> Collection<T>.assertNotEmpty(): Collection<T> {
     return this
 }
 
-@Suppress("UNCHECKED_CAST")
-internal inline fun <TFound, TNotFound> Map<Boolean, List<*>>.split(notFoundAction: (List<TNotFound>) -> Nothing): List<TFound> {
-    if (false in this) {
-        notFoundAction(this[false] as List<TNotFound>)
+internal inline fun <T, TResult> Collection<T>.map(
+    transform: (T) -> TResult?,
+    whenNotTransformed: (Collection<T>) -> Nothing
+): Collection<TResult> {
+    val result = mutableListOf<TResult>()
+    val notTransformed = mutableListOf<T>()
+
+    for (item in this) {
+        val transformed = transform(item)
+        if (transformed != null) result += transformed
+        else notTransformed += item
     }
-    return this.getOrDefault(true, emptyList<TFound>()) as List<TFound>
+
+    if (notTransformed.isNotEmpty()) {
+        whenNotTransformed(notTransformed)
+    }
+
+    return result
 }
 
-internal fun joinNotFound(strings: List<String>) = strings.joinToString(", ", prefix = "`", postfix = "`")
+internal fun joinNotFound(strings: Collection<String>) = strings.joinToString(", ", prefix = "`", postfix = "`")
 
 internal fun wildcardToRegex(wildcard: String): String = opekope2.util.buildString {
     append('^')
