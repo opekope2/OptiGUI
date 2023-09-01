@@ -8,7 +8,7 @@ import opekope2.lilac.api.resource.loading.IResourceLoader
 import opekope2.lilac.api.resource.loading.IResourceLoadingSession
 import opekope2.optigui.api.IOptiGuiApi
 import opekope2.optigui.api.interaction.Interaction
-import opekope2.optigui.api.lilac_resource_loading.IOptiGuiSessionExtension
+import opekope2.optigui.api.lilac_resource_loading.IOptiGuiExtension
 import opekope2.optigui.filter.*
 import opekope2.optigui.filter.FilterResult.Mismatch
 import opekope2.optigui.properties.*
@@ -18,7 +18,7 @@ import org.ini4j.Options
 import java.time.Month
 
 @Suppress("unused")
-class OptiFineResourceLoader(private val optigui: IOptiGuiSessionExtension) : IResourceLoader {
+class OptiFineResourceLoader(private val optigui: IOptiGuiExtension) : IResourceLoader {
     override fun getStartingPath(): String = OPTIFINE_RESOURCES_ROOT
 
     override fun canLoad(resourceName: String): Boolean = resourceName.endsWith(".properties")
@@ -62,7 +62,7 @@ class OptiFineResourceLoader(private val optigui: IOptiGuiSessionExtension) : IR
 
     companion object Factory : IResourceLoader.IFactory {
         override fun createResourceLoader(session: IResourceLoadingSession): IResourceLoader =
-            OptiFineResourceLoader(session["optigui"] as IOptiGuiSessionExtension)
+            OptiFineResourceLoader(session["optigui"] as IOptiGuiExtension)
     }
 }
 
@@ -71,10 +71,10 @@ private typealias WarnFunction = (String) -> Unit
 
 
 private open class FilterCreator(private val containers: Set<Identifier>) :
-        (Identifier, Options, IOptiGuiSessionExtension) -> Unit {
+        (Identifier, Options, IOptiGuiExtension) -> Unit {
     constructor(vararg containers: Identifier) : this(setOf(*containers))
 
-    override fun invoke(resource: Identifier, properties: Options, optigui: IOptiGuiSessionExtension) {
+    override fun invoke(resource: Identifier, properties: Options, optigui: IOptiGuiExtension) {
         val replacement = resolveReplacementTexture(properties::getValue, resource)
 
         optigui.addFilter(
@@ -172,7 +172,7 @@ private open class FilterCreator(private val containers: Set<Identifier>) :
 
 // For texture.PATH, but naming is hard.
 private object DirectFilterCreator : FilterCreator() {
-    override fun invoke(resource: Identifier, properties: Options, optigui: IOptiGuiSessionExtension) {
+    override fun invoke(resource: Identifier, properties: Options, optigui: IOptiGuiExtension) {
         properties.mapNotNull { (key, value) ->
             if (key.startsWith("texture.")) key.substring("texture.".length) to value
             else null
@@ -238,7 +238,7 @@ private val containerFilterCreators = mapOf(
     },
     "brewing_stand" to FilterCreator(Identifier("brewing_stand")),
     "chest" to object : FilterCreator(Identifier("chest")) {
-        override fun invoke(resource: Identifier, properties: Options, optigui: IOptiGuiSessionExtension) {
+        override fun invoke(resource: Identifier, properties: Options, optigui: IOptiGuiExtension) {
             fun String?.parseBoolean() = this?.lowercase()?.trim()?.toBooleanStrict()
 
             val replacement = resolveReplacementTexture(properties::getValue, resource)
@@ -340,7 +340,7 @@ private val containerFilterCreators = mapOf(
     "furnace" to FilterCreator(Identifier("furnace")),
     "hopper" to FilterCreator(Identifier("hopper")),
     "horse" to object : FilterCreator(Identifier("horse")) {
-        override fun invoke(resource: Identifier, properties: Options, optigui: IOptiGuiSessionExtension) {
+        override fun invoke(resource: Identifier, properties: Options, optigui: IOptiGuiExtension) {
             val replacement = resolveReplacementTexture(properties::getValue, resource)
             var variants = properties["variants"]
                 ?.splitIgnoreEmpty(*delimiters)
@@ -496,11 +496,11 @@ private val containerFilterCreators = mapOf(
             return filters
         }
     },
-    "creative" to fun(_: Identifier, _: Options, _: IOptiGuiSessionExtension) {
+    "creative" to fun(_: Identifier, _: Options, _: IOptiGuiExtension) {
         // We're going to pretend that this doesn't exist
     },
     "inventory" to object : FilterCreator(Identifier("player")) {
-        override fun invoke(resource: Identifier, properties: Options, optigui: IOptiGuiSessionExtension) {
+        override fun invoke(resource: Identifier, properties: Options, optigui: IOptiGuiExtension) {
             val replacement = resolveReplacementTexture(properties::getValue, resource)
 
             optigui.addFilter(
@@ -527,7 +527,7 @@ private val containerFilterCreators = mapOf(
 )
 
 
-private fun IOptiGuiSessionExtension.bindWarnTo(resource: Identifier): WarnFunction =
+private fun IOptiGuiExtension.bindWarnTo(resource: Identifier): WarnFunction =
     { message -> warn(resource, message) }
 
 private fun <T> wrapParseException(key: String, valueGetter: (String) -> String, block: () -> T): T = try {

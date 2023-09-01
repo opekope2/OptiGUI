@@ -10,7 +10,7 @@ import opekope2.lilac.api.resource.loading.IResourceLoadingSession
 import opekope2.lilac.util.Util
 import opekope2.optigui.api.IOptiGuiApi
 import opekope2.optigui.api.interaction.Interaction
-import opekope2.optigui.api.lilac_resource_loading.IOptiGuiSessionExtension
+import opekope2.optigui.api.lilac_resource_loading.IOptiGuiExtension
 import opekope2.optigui.filter.*
 import opekope2.optigui.properties.*
 import opekope2.util.*
@@ -19,7 +19,7 @@ import org.ini4j.Ini
 import java.time.Month
 
 @Suppress("unused")
-class OptiGuiResourceLoader(private val optigui: IOptiGuiSessionExtension) : IResourceLoader {
+class OptiGuiResourceLoader(private val optigui: IOptiGuiExtension) : IResourceLoader {
     override fun getStartingPath(): String = OPTIGUI_RESOURCES_ROOT
 
     override fun canLoad(resourceName: String): Boolean = resourceName.endsWith(".ini")
@@ -104,7 +104,7 @@ class OptiGuiResourceLoader(private val optigui: IOptiGuiSessionExtension) : IRe
 
     companion object Factory : IResourceLoader.IFactory {
         override fun createResourceLoader(session: IResourceLoadingSession): IResourceLoader =
-            OptiGuiResourceLoader(session["optigui"] as IOptiGuiSessionExtension)
+            OptiGuiResourceLoader(session["optigui"] as IOptiGuiExtension)
     }
 }
 
@@ -123,7 +123,7 @@ private abstract class SelectorFilterCreator<T> {
         resource: Identifier,
         selectorName: String,
         selectorValue: String,
-        optigui: IOptiGuiSessionExtension
+        optigui: IOptiGuiExtension
     ): Filter<Interaction, Unit>? {
         return try {
             createFilter(prepareSelector(selectorValue) ?: return null)

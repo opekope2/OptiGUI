@@ -18,7 +18,7 @@ import java.util.Set;
  *
  * @apiNote Must be closed (for example, in {@link IResourceLoader#close()}), otherwise OptiGUI will not finish loading resources.
  */
-public interface IOptiGuiSessionExtension extends AutoCloseable {
+public interface IOptiGuiExtension extends AutoCloseable {
     /**
      * Adds a filter to the OptiGUI filter chain.
      *

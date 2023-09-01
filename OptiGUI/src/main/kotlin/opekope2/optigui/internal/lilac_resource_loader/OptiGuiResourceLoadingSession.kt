@@ -5,7 +5,7 @@ import opekope2.lilac.api.resource.IResourceAccess
 import opekope2.lilac.api.resource.loading.IResourceLoader
 import opekope2.lilac.api.resource.loading.IResourceLoadingSession
 import opekope2.optigui.api.interaction.Interaction
-import opekope2.optigui.api.lilac_resource_loading.IOptiGuiSessionExtension
+import opekope2.optigui.api.lilac_resource_loading.IOptiGuiExtension
 import opekope2.optigui.filter.Filter
 import opekope2.optigui.filter.FirstMatchFilter
 import opekope2.optigui.internal.TextureReplacer
@@ -65,7 +65,7 @@ class OptiGuiResourceLoadingSession private constructor(private val session: IRe
         private val sessions = mutableMapOf<IResourceLoadingSession, OptiGuiResourceLoadingSession>()
     }
 
-    private inner class Handle(private val modId: String) : IOptiGuiSessionExtension {
+    private inner class Handle(private val modId: String) : IOptiGuiExtension {
         private var closed = false
 
         override fun addFilter(
