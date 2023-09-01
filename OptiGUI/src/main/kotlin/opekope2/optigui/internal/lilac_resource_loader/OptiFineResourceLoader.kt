@@ -385,6 +385,8 @@ private val containerFilterCreators = mapOf(
                 }
             }
 
+            if (variants.isEmpty()) return
+
             val filters = createFilters(properties, optigui.bindWarnTo(resource))
             filters[0] = PreProcessorFilter.nullGuarded(
                 { (it.data as? IGeneralProperties)?.container },
