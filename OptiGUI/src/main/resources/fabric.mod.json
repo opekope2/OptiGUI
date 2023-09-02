@@ -129,6 +129,10 @@
       {
         "adapter": "kotlin",
         "value": "opekope2.optigui.internal.selector.HeightSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.DateSelector"
       }
     ],
     "lilac-resourceloader-factory": [
