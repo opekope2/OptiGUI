@@ -90,7 +90,7 @@ internal object TextureReplacer : ClientModInitializer, IInteractor {
     }
 
     internal var filter: Filter<Interaction, Identifier> = object : Filter<Interaction, Identifier>() {
-        override fun evaluate(value: Interaction?): FilterResult<out Identifier> = FilterResult.Skip()
+        override fun evaluate(value: Interaction?): FilterResult<out Identifier> = FilterResult.skip()
     }
     internal var replaceableTextures = setOf<Identifier>()
 
