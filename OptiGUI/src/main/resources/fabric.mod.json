@@ -108,6 +108,14 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.BookPageSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.BookPageCountSelector"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.selector.NameSelector"
       },
       {
