@@ -9,13 +9,13 @@ import kotlin.test.assertIs
 
 class FilterTests {
     private val testMatchFilter = object : Filter<Int, String>() {
-        override fun evaluate(value: Int): FilterResult<out String> = Match(value.toString())
+        override fun evaluate(value: Int): FilterResult<out String> = match(value.toString())
     }
     private val testMismatchFilter = object : Filter<Int, String>() {
-        override fun evaluate(value: Int): FilterResult<out String> = Mismatch()
+        override fun evaluate(value: Int): FilterResult<out String> = mismatch()
     }
     private val testSkipFilter = object : Filter<Int, String>() {
-        override fun evaluate(value: Int): FilterResult<out String> = Skip()
+        override fun evaluate(value: Int): FilterResult<out String> = skip()
     }
 
 
@@ -30,8 +30,8 @@ class FilterTests {
 
     @Test
     fun conditionalTest() {
-        assertIs<Mismatch<*>>(ConditionalFilter({ false }, Mismatch(), testMatchFilter).evaluate(0))
-        assertIs<Match<*>>(ConditionalFilter({ true }, Mismatch(), testMatchFilter).evaluate(0))
+        assertIs<Mismatch<*>>(ConditionalFilter({ false }, mismatch(), testMatchFilter).evaluate(0))
+        assertIs<Match<*>>(ConditionalFilter({ true }, mismatch(), testMatchFilter).evaluate(0))
     }
 
 
@@ -78,7 +78,7 @@ class FilterTests {
     @Test
     fun firstMatchMatchTest2() {
         val matchFilter = object : Filter<Int, String>() {
-            override fun evaluate(value: Int): FilterResult<out String> = Match((-value).toString())
+            override fun evaluate(value: Int): FilterResult<out String> = match((-value).toString())
         }
         var res = FirstMatchFilter(testMatchFilter, matchFilter).evaluate(1)
 
@@ -165,7 +165,7 @@ class FilterTests {
 
     @Test
     fun nullGuardTest1() {
-        val filter = NullGuardFilter(Mismatch(), testMatchFilter)
+        val filter = NullGuardFilter(mismatch(), testMatchFilter)
 
         assertIs<Mismatch<*>>(filter.evaluate(null))
 
@@ -176,7 +176,7 @@ class FilterTests {
 
     @Test
     fun nullGuardTest2() {
-        val filter = NullGuardFilter(Skip(), testMismatchFilter)
+        val filter = NullGuardFilter(skip(), testMismatchFilter)
 
         assertIs<Skip<*>>(filter.evaluate(null))
         assertIs<Mismatch<*>>(filter.evaluate(1))
@@ -210,7 +210,7 @@ class FilterTests {
 
     @Test
     fun optionalTest() {
-        val filter = OptionalFilter(Mismatch(), testMatchFilter)
+        val filter = OptionalFilter(mismatch(), testMatchFilter)
 
         assertIs<Mismatch<*>>(filter.evaluate(Optional.empty()))
         assertIs<Match<*>>(filter.evaluate(Optional.of(1)))
@@ -220,7 +220,7 @@ class FilterTests {
     @Test
     fun preprocessorTest() {
         val control = object : Filter<String, String>() {
-            override fun evaluate(value: String): FilterResult<out String> = Match(value)
+            override fun evaluate(value: String): FilterResult<out String> = match(value)
         }
         val filter = PreProcessorFilter(Int::toString, control)
 
@@ -230,9 +230,9 @@ class FilterTests {
     @Test
     fun nullGuardedPreprocessorTest() {
         val control = object : Filter<String, String>() {
-            override fun evaluate(value: String): FilterResult<out String> = Match(value)
+            override fun evaluate(value: String): FilterResult<out String> = match(value)
         }
-        val filter = PreProcessorFilter.nullGuarded<Int?, String, String>({ it?.toString() }, Skip(), control)
+        val filter = PreProcessorFilter.nullGuarded<Int?, String, String>({ it?.toString() }, skip(), control)
 
         assertIs<Skip<*>>(filter.evaluate(null))
 
@@ -245,10 +245,10 @@ class FilterTests {
     @Test
     fun postprocessorTest() {
         val control = object : Filter<Int, Int>() {
-            override fun evaluate(value: Int): FilterResult<out Int> = Match(value)
+            override fun evaluate(value: Int): FilterResult<out Int> = match(value)
         }
         val filter =
-            PostProcessorFilter(control) { input, result -> Match(input to (result as Match).result.toString()) }
+            PostProcessorFilter(control) { input, result -> match(input to (result as Match).result.toString()) }
 
         val result = filter.evaluate(1)
         assertIs<Match<*>>(result)
