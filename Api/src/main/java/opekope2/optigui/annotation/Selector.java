@@ -9,7 +9,8 @@ import java.lang.annotation.Target;
  * Registers the annotated class as an OptiGUI INI selector for the key specified in {@link #value()}.
  * The annotated class must implement {@link opekope2.optigui.api.selector.ISelector},
  * and must be a registered entrypoint in {@code fabric.mod.json} in order to be recognized.
- * The name of the entrypoint is {@code optigui-selector}.
+ * The name of the entrypoint is {@code optigui-selector} for selectors,
+ * and {@code optigui-load-selector} for load time selectors.
  *
  * @apiNote Only Java/Kotlin classes and Kotlin (companion) objects are supported.
  * Function and field references will not be recognized.
