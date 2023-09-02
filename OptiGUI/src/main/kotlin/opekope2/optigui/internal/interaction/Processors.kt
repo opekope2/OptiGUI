@@ -15,6 +15,7 @@ import opekope2.util.ConflictHandlingMap
 import org.slf4j.LoggerFactory
 
 private val logger = LoggerFactory.getLogger("OptiGUI/ProcessorLoader")
+private val mapper = FabricLoader.getInstance().mappingResolver
 
 internal lateinit var entityProcessors: Map<Class<out Entity>, IdentifiableEntityProcessor<out Entity>>
     private set
@@ -36,7 +37,7 @@ fun loadEntityProcessors() {
 
     entityProcessors =
         loadProcessors<IEntityProcessor<Entity>, EntityProcessor, Entity, IdentifiableEntityProcessor<*>>(
-            { annotation -> annotation.value.java },
+            { annotation -> ClassNameUnmapper(annotation.value.java) },
             ::IdentifiableEntityProcessor
         )
 }
@@ -51,16 +52,16 @@ fun loadBlockEntityProcessors() {
 
     blockEntityProcessors =
         loadProcessors<IBlockEntityProcessor<BlockEntity>, BlockEntityProcessor, BlockEntity, IdentifiableBlockEntityProcessor<*>>(
-            { annotation -> annotation.value.java },
+            { annotation -> ClassNameUnmapper(annotation.value.java) },
             ::IdentifiableBlockEntityProcessor
         )
 }
 
 private inline fun <reified TEntrypoint : Any, reified TAnnotation : Annotation, reified TProcessorClass, TProcessor> loadProcessors(
-    annotationTransformer: (TAnnotation) -> Class<out TProcessorClass>,
+    annotationTransformer: (TAnnotation) -> ClassNameUnmapper<out TProcessorClass>,
     processorFactory: (String, TEntrypoint) -> TProcessor
 ): Map<Class<out TProcessorClass>, TProcessor> {
-    val processors = ConflictHandlingMap<Class<out TProcessorClass>, TProcessor>()
+    val processors = ConflictHandlingMap<ClassNameUnmapper<out TProcessorClass>, TProcessor>()
 
     Util.getEntrypointContainers(TEntrypoint::class.java).forEach { processor ->
         processor.entrypoint.javaClass.getAnnotationsByType(TAnnotation::class.java).forEach { annotation ->
@@ -77,7 +78,6 @@ private inline fun <reified TEntrypoint : Any, reified TAnnotation : Annotation,
     }
 
     if (processors.conflicts) {
-        val mapper = FabricLoader.getInstance().mappingResolver
         val processorClassName = mapper.unmapClassName("named", TProcessorClass::class.java.name).split('.').last()
 
         val conflictTree = processors.createConflictTree("$processorClassName processor conflicts").toString()
@@ -88,5 +88,9 @@ private inline fun <reified TEntrypoint : Any, reified TAnnotation : Annotation,
         )
     }
 
-    return processors.toMap()
+    return processors.mapKeys { (key) -> key.klass }
+}
+
+private class ClassNameUnmapper<T>(val klass: Class<out T>) {
+    override fun toString(): String = mapper.unmapClassName("named", klass.name)
 }
