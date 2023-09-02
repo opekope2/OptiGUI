@@ -116,6 +116,10 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.ChestBoatVariantSelector"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.selector.NameSelector"
       },
       {
