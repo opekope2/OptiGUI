@@ -169,6 +169,14 @@
       {
         "adapter": "kotlin",
         "value": "opekope2.optigui.internal.selector.RedstoneComparatorOutputSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.VillagerProfessionSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.VillagerTypeSelector"
       }
     ],
     "lilac-resourceloader-factory": [
