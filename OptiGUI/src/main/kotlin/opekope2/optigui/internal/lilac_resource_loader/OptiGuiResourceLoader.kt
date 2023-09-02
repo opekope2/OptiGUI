@@ -51,7 +51,7 @@ class OptiGuiResourceLoader(private val optigui: IOptiGuiExtension) : IResourceL
             if (!resourceAccess.getResource(replacement).exists()) {
                 optigui.warn(
                     resource,
-                    "[$sectionName]: Failed to parse `replacement=${section["replacement"]}`: Texture doesn't exist"
+                    "[$sectionName] Failed to parse `replacement=${section["replacement"]}`: Texture doesn't exist"
                 )
                 continue
             }
@@ -63,7 +63,7 @@ class OptiGuiResourceLoader(private val optigui: IOptiGuiExtension) : IResourceL
                 try {
                     selectors[key]?.createFilter(value)
                 } catch (e: Exception) {
-                    optigui.warn(resource, "Failed to parse selector `$key=$value`: ${e.message ?: e}")
+                    optigui.warn(resource, "[$sectionName] Failed to parse selector `$key=$value`: ${e.message ?: e}")
                     null
                 }
             }
