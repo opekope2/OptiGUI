@@ -101,6 +101,36 @@
         "value": "opekope2.optigui.internal.LecternProcessor"
       }
     ],
+    "optigui-selector": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.NameSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.WildcardNameSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.CaseInsensitiveWildcardNameSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.RegexNameSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.CaseInsensitiveRegexNameSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.BiomeSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.HeightSelector"
+      }
+    ],
     "lilac-resourceloader-factory": [
       {
         "adapter": "kotlin",
