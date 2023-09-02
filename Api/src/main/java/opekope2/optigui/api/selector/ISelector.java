@@ -2,7 +2,7 @@ package opekope2.optigui.api.selector;
 
 import opekope2.lilac.annotation.EntrypointName;
 import opekope2.optigui.api.interaction.Interaction;
-import opekope2.optigui.filter.Filter;
+import opekope2.optigui.filter.IFilter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,5 +25,5 @@ public interface ISelector {
      * @apiNote Any exception thrown will be caught by OptiGUI, and its message will be logged
      */
     @Nullable
-    Filter<Interaction, ?> createFilter(@NotNull String selector);
+    IFilter<Interaction, ?> createFilter(@NotNull String selector);
 }

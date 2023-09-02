@@ -7,9 +7,9 @@ package opekope2.optigui.filter
  * @param T The type the filter accepts
  * @param collection The collection to check for the input
  */
-class ContainingFilter<T>(private val collection: Collection<T>) : Filter<T, Unit>(), Iterable<T> {
-    override fun evaluate(value: T): FilterResult<out Unit> =
-        if (value in collection) FilterResult.match(Unit) else FilterResult.mismatch()
+class ContainingFilter<T>(private val collection: Collection<T>) : IFilter<T, Unit>, Iterable<T> {
+    override fun evaluate(value: T): IFilter.Result<out Unit> =
+        if (value in collection) IFilter.Result.match(Unit) else IFilter.Result.mismatch()
 
     override fun iterator(): Iterator<T> = collection.iterator()
 

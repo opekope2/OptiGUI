@@ -10,7 +10,7 @@ import opekope2.optigui.api.IOptiGuiApi
 import opekope2.optigui.api.interaction.Interaction
 import opekope2.optigui.api.lilac_resource_loading.IOptiGuiExtension
 import opekope2.optigui.filter.*
-import opekope2.optigui.filter.FilterResult.mismatch
+import opekope2.optigui.filter.IFilter.Result.mismatch
 import opekope2.optigui.properties.*
 import opekope2.util.*
 import org.apache.commons.text.StringEscapeUtils.unescapeJava
@@ -87,8 +87,8 @@ private open class FilterCreator(private val containers: Set<Identifier>) :
         )
     }
 
-    protected open fun createFilters(properties: Options, warn: WarnFunction): MutableList<Filter<Interaction, *>> {
-        val filters = mutableListOf<Filter<Interaction, *>>()
+    protected open fun createFilters(properties: Options, warn: WarnFunction): MutableList<IFilter<Interaction, *>> {
+        val filters = mutableListOf<IFilter<Interaction, *>>()
 
         filters += PreProcessorFilter.nullGuarded(
             { (it.data as? IGeneralProperties)?.container },
@@ -209,7 +209,7 @@ private val TEXTURE_INVENTORY = Identifier("textures/gui/container/inventory.png
 private val containerFilterCreators = mapOf(
     "anvil" to FilterCreator(Identifier("anvil"), Identifier("chipped_anvil"), Identifier("damaged_anvil")),
     "beacon" to object : FilterCreator(Identifier("beacon")) {
-        override fun createFilters(properties: Options, warn: WarnFunction): MutableList<Filter<Interaction, *>> {
+        override fun createFilters(properties: Options, warn: WarnFunction): MutableList<IFilter<Interaction, *>> {
             val levels = properties["levels"]
                 ?.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
@@ -303,7 +303,7 @@ private val containerFilterCreators = mapOf(
     },
     "crafting" to FilterCreator(Identifier("crafting_table")),
     "dispenser" to object : FilterCreator(Identifier("dispenser")) {
-        override fun createFilters(properties: Options, warn: WarnFunction): MutableList<Filter<Interaction, *>> {
+        override fun createFilters(properties: Options, warn: WarnFunction): MutableList<IFilter<Interaction, *>> {
             val variants = properties["variants"]
                 ?.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
@@ -402,7 +402,7 @@ private val containerFilterCreators = mapOf(
         }
     },
     "villager" to object : FilterCreator(Identifier("villager")) {
-        override fun createFilters(properties: Options, warn: WarnFunction): MutableList<Filter<Interaction, *>> {
+        override fun createFilters(properties: Options, warn: WarnFunction): MutableList<IFilter<Interaction, *>> {
             val professions = properties["professions"]
                 ?.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
@@ -424,7 +424,7 @@ private val containerFilterCreators = mapOf(
 
             val filters = super.createFilters(properties, warn)
 
-            val profFilters: List<Filter<Interaction, Unit>> = professions.map { (profession, levels) ->
+            val profFilters: List<IFilter<Interaction, Unit>> = professions.map { (profession, levels) ->
                 if (levels == null) {
                     PreProcessorFilter.nullGuarded(
                         { (it.data as? IVillagerProperties)?.profession },
@@ -452,7 +452,7 @@ private val containerFilterCreators = mapOf(
         }
     },
     "shulker_box" to object : FilterCreator(Identifier("shulker_box")) {
-        override fun createFilters(properties: Options, warn: WarnFunction): MutableList<Filter<Interaction, *>> {
+        override fun createFilters(properties: Options, warn: WarnFunction): MutableList<IFilter<Interaction, *>> {
             val colors = properties["colors"]
                 ?.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
@@ -495,7 +495,7 @@ private val containerFilterCreators = mapOf(
             )
         }
 
-        override fun createFilters(properties: Options, warn: WarnFunction): MutableList<Filter<Interaction, *>> {
+        override fun createFilters(properties: Options, warn: WarnFunction): MutableList<IFilter<Interaction, *>> {
             val filters = super.createFilters(properties, warn)
 
             filters[1] = PreProcessorFilter(

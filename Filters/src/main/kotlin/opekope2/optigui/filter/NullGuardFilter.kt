@@ -10,14 +10,14 @@ package opekope2.optigui.filter
  * @param filter The filter to evaluate
  */
 class NullGuardFilter<T, TResult>(
-    private val nullResult: FilterResult<TResult>,
-    private val filter: Filter<T, TResult>
-) : Filter<T?, TResult>(), Iterable<Filter<T, TResult>> {
-    override fun evaluate(value: T?): FilterResult<out TResult> =
+    private val nullResult: IFilter.Result<TResult>,
+    private val filter: IFilter<T, TResult>
+) : IFilter<T?, TResult>, Iterable<IFilter<T, TResult>> {
+    override fun evaluate(value: T?): IFilter.Result<out TResult> =
         if (value == null) nullResult
         else filter.evaluate(value)
 
-    override fun iterator(): Iterator<Filter<T, TResult>> = setOf(filter).iterator()
+    override fun iterator(): Iterator<IFilter<T, TResult>> = setOf(filter).iterator()
 
     override fun toString(): String = "${javaClass.name}, result on null: $nullResult"
 }

@@ -12,37 +12,37 @@ import org.apache.commons.text.StringEscapeUtils.unescapeJava
 
 @Selector("name")
 class NameSelector : ISelector {
-    override fun createFilter(selector: String): Filter<Interaction, *> =
+    override fun createFilter(selector: String): IFilter<Interaction, *> =
         createFilterFromName(Regex.fromLiteral(selector))
 }
 
 @Selector("name.wildcard")
 class WildcardNameSelector : ISelector {
-    override fun createFilter(selector: String): Filter<Interaction, *> =
+    override fun createFilter(selector: String): IFilter<Interaction, *> =
         createFilterFromName(Regex(wildcardToRegex(unescapeJava(selector))))
 }
 
 @Selector("name.wildcard.ignore_case")
 class CaseInsensitiveWildcardNameSelector : ISelector {
-    override fun createFilter(selector: String): Filter<Interaction, *> =
+    override fun createFilter(selector: String): IFilter<Interaction, *> =
         createFilterFromName(Regex(wildcardToRegex(unescapeJava(selector)), RegexOption.IGNORE_CASE))
 }
 
 @Selector("name.regex")
 class RegexNameSelector : ISelector {
-    override fun createFilter(selector: String): Filter<Interaction, *> =
+    override fun createFilter(selector: String): IFilter<Interaction, *> =
         createFilterFromName(Regex(unescapeJava(selector)))
 }
 
 @Selector("name.regex.ignore_case")
 class CaseInsensitiveRegexNameSelector : ISelector {
-    override fun createFilter(selector: String): Filter<Interaction, *> =
+    override fun createFilter(selector: String): IFilter<Interaction, *> =
         createFilterFromName(Regex(unescapeJava(selector), RegexOption.IGNORE_CASE))
 }
 
 @Selector("biomes")
 class BiomeSelector : ISelector {
-    override fun createFilter(selector: String): Filter<Interaction, *>? =
+    override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
             ?.map(Identifier::tryParse) {
@@ -52,7 +52,7 @@ class BiomeSelector : ISelector {
             ?.let { biomes ->
                 PreProcessorFilter.nullGuarded(
                     { (it.data as? IGeneralProperties)?.biome },
-                    FilterResult.mismatch(),
+                    IFilter.Result.mismatch(),
                     ContainingFilter(biomes)
                 )
             }
@@ -60,7 +60,7 @@ class BiomeSelector : ISelector {
 
 @Selector("heights")
 class HeightSelector : ISelector {
-    override fun createFilter(selector: String): Filter<Interaction, *>? =
+    override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
             ?.map(NumberOrRange::tryParse) {
@@ -70,13 +70,13 @@ class HeightSelector : ISelector {
             ?.let { heights ->
                 PreProcessorFilter.nullGuarded(
                     { (it.data as? IGeneralProperties)?.height },
-                    FilterResult.mismatch(),
+                    IFilter.Result.mismatch(),
                     DisjunctionFilter(heights.map { it.toFilter() })
                 )
             }
 }
 
-private fun createFilterFromName(name: Regex): Filter<Interaction, Unit> = PreProcessorFilter(
+private fun createFilterFromName(name: Regex): IFilter<Interaction, Unit> = PreProcessorFilter(
     { (it.data as? IGeneralProperties)?.name ?: it.screenTitle.string },
     RegularExpressionFilter(name)
 )

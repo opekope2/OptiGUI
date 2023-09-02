@@ -21,7 +21,8 @@ public @interface Selector {
      * The name of the selector (the key to look for inside the INI file).
      *
      * @apiNote If the selector starts with {@code if.}, then it will be evaluated when loading the INI file,
-     * and the current section of the INI file will only be loaded, if the filter returns a {@link opekope2.optigui.filter.FilterResult.Match}
+     * and the current section of the INI file will only be loaded, if the filter returns a
+     * {@link opekope2.optigui.filter.IFilter.Result.Match match}.
      */
     String value();
 }

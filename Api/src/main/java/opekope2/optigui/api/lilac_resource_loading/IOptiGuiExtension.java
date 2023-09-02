@@ -4,7 +4,7 @@ import net.minecraft.util.Identifier;
 import opekope2.lilac.api.resource.loading.IResourceLoader;
 import opekope2.lilac.api.resource.loading.IResourceLoadingSession;
 import opekope2.optigui.api.interaction.Interaction;
-import opekope2.optigui.filter.Filter;
+import opekope2.optigui.filter.IFilter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -29,7 +29,7 @@ public interface IOptiGuiExtension extends AutoCloseable {
      */
     void addFilter(
             @NotNull Identifier resource,
-            @NotNull Filter<Interaction, Identifier> filter,
+            @NotNull IFilter<Interaction, Identifier> filter,
             @NotNull Set<Identifier> replaceableTextures,
             int priority
     );
@@ -40,11 +40,11 @@ public interface IOptiGuiExtension extends AutoCloseable {
      * @param resource            The resource the filter was created from, useful for OptiGUI or resource pack debugging
      * @param filter              The filter to add
      * @param replaceableTextures The textures the filter can replace
-     * @see #addFilter(Identifier, Filter, Set, int)
+     * @see #addFilter(Identifier, IFilter, Set, int)
      */
     default void addFilter(
             @NotNull Identifier resource,
-            @NotNull Filter<Interaction, Identifier> filter,
+            @NotNull IFilter<Interaction, Identifier> filter,
             @NotNull Set<Identifier> replaceableTextures
     ) {
         addFilter(resource, filter, replaceableTextures, 0);

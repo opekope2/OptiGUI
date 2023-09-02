@@ -7,19 +7,19 @@ package opekope2.optigui.filter
  * @param T The type the filter accepts
  * @param filters The sub-filters to evaluate
  */
-class DisjunctionFilter<T>(private val filters: Iterable<Filter<T, *>>) : Filter<T, Unit>(), Iterable<Filter<T, *>> {
+class DisjunctionFilter<T>(private val filters: Iterable<IFilter<T, *>>) : IFilter<T, Unit>, Iterable<IFilter<T, *>> {
     /**
      * Alternative constructor with variable arguments
      */
-    constructor(vararg filters: Filter<T, *>) : this(filters.toList())
+    constructor(vararg filters: IFilter<T, *>) : this(filters.toList())
 
-    override fun evaluate(value: T): FilterResult<Unit> = filters.map { it.evaluate(value) }.let { result ->
-        if (result.any { it is FilterResult.Match }) FilterResult.match(Unit)
-        else if (result.all { it is FilterResult.Skip }) FilterResult.skip()
-        else FilterResult.mismatch()
+    override fun evaluate(value: T): IFilter.Result<Unit> = filters.map { it.evaluate(value) }.let { result ->
+        if (result.any { it is IFilter.Result.Match }) IFilter.Result.match(Unit)
+        else if (result.all { it is IFilter.Result.Skip }) IFilter.Result.skip()
+        else IFilter.Result.mismatch()
     }
 
-    override fun iterator(): Iterator<Filter<T, *>> = filters.iterator()
+    override fun iterator(): Iterator<IFilter<T, *>> = filters.iterator()
 
     override fun toString(): String = javaClass.name
 }

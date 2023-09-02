@@ -1,7 +1,7 @@
 package opekope2.util
 
 import opekope2.optigui.filter.EqualityFilter
-import opekope2.optigui.filter.Filter
+import opekope2.optigui.filter.IFilter
 import opekope2.optigui.filter.RangeFilter
 
 /**
@@ -11,7 +11,7 @@ sealed class NumberOrRange {
     /**
      * Converts the current number or range to a filter.
      */
-    abstract fun toFilter(): Filter<Int, Unit>
+    abstract fun toFilter(): IFilter<Int, Unit>
 
     /**
      * Represents an integral number.
@@ -19,7 +19,7 @@ sealed class NumberOrRange {
      * @param value The integral value
      */
     class Number(val value: Int) : NumberOrRange() {
-        override fun toFilter(): Filter<Int, Unit> = EqualityFilter(value)
+        override fun toFilter(): IFilter<Int, Unit> = EqualityFilter(value)
         override fun toString(): String = value.toString()
     }
 
@@ -30,7 +30,7 @@ sealed class NumberOrRange {
      * @param end The inclusive upper bound of the range or `null`, if there is no upper bound
      */
     class Range(val start: Int, val end: Int?) : NumberOrRange() {
-        override fun toFilter(): Filter<Int, Unit> =
+        override fun toFilter(): IFilter<Int, Unit> =
             if (end == null) RangeFilter.atLeast(start)
             else RangeFilter.between(start, end)
 

@@ -15,11 +15,11 @@ package opekope2.optigui.filter
  */
 class PreProcessorFilter<TSource, TFilter, TResult>(
     private val transform: (TSource) -> TFilter,
-    private val filter: Filter<TFilter, TResult>
-) : Filter<TSource, TResult>(), Iterable<Filter<TFilter, TResult>> {
+    private val filter: IFilter<TFilter, TResult>
+) : IFilter<TSource, TResult>, Iterable<IFilter<TFilter, TResult>> {
     override fun evaluate(value: TSource) = filter.evaluate(transform(value))
 
-    override fun iterator(): Iterator<Filter<TFilter, TResult>> = setOf(filter).iterator()
+    override fun iterator(): Iterator<IFilter<TFilter, TResult>> = setOf(filter).iterator()
 
     override fun toString(): String = javaClass.name
 
@@ -37,8 +37,8 @@ class PreProcessorFilter<TSource, TFilter, TResult>(
         @JvmStatic
         fun <TSource, TFilter, TResult> nullGuarded(
             transform: (TSource) -> TFilter?,
-            nullResult: FilterResult<TResult>,
-            filter: Filter<TFilter, TResult>
+            nullResult: IFilter.Result<TResult>,
+            filter: IFilter<TFilter, TResult>
         ) = PreProcessorFilter(transform, NullGuardFilter(nullResult, filter))
     }
 }

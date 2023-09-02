@@ -1,22 +1,16 @@
 package opekope2.filter
 
 import opekope2.optigui.filter.*
-import opekope2.optigui.filter.FilterResult.*
+import opekope2.optigui.filter.IFilter.Result.*
 import java.util.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 class FilterTests {
-    private val testMatchFilter = object : Filter<Int, String>() {
-        override fun evaluate(value: Int): FilterResult<out String> = match(value.toString())
-    }
-    private val testMismatchFilter = object : Filter<Int, String>() {
-        override fun evaluate(value: Int): FilterResult<out String> = mismatch()
-    }
-    private val testSkipFilter = object : Filter<Int, String>() {
-        override fun evaluate(value: Int): FilterResult<out String> = skip()
-    }
+    private val testMatchFilter = IFilter<Int, String> { value -> match(value.toString()) }
+    private val testMismatchFilter = IFilter<Int, String> { mismatch() }
+    private val testSkipFilter = IFilter<Int, String> { skip() }
 
 
     @Test
@@ -77,9 +71,7 @@ class FilterTests {
 
     @Test
     fun firstMatchMatchTest2() {
-        val matchFilter = object : Filter<Int, String>() {
-            override fun evaluate(value: Int): FilterResult<out String> = match((-value).toString())
-        }
+        val matchFilter = IFilter<Int, String> { value -> match((-value).toString()) }
         var res = FirstMatchFilter(testMatchFilter, matchFilter).evaluate(1)
 
         assertIs<Match<*>>(res)
@@ -219,9 +211,7 @@ class FilterTests {
 
     @Test
     fun preprocessorTest() {
-        val control = object : Filter<String, String>() {
-            override fun evaluate(value: String): FilterResult<out String> = match(value)
-        }
+        val control = IFilter<String, String> { value -> match(value) }
         val filter = PreProcessorFilter(Int::toString, control)
 
         assertEquals("1", (filter.evaluate(1) as Match).result)
@@ -229,9 +219,7 @@ class FilterTests {
 
     @Test
     fun nullGuardedPreprocessorTest() {
-        val control = object : Filter<String, String>() {
-            override fun evaluate(value: String): FilterResult<out String> = match(value)
-        }
+        val control = IFilter<String, String> { value -> match(value) }
         val filter = PreProcessorFilter.nullGuarded<Int?, String, String>({ it?.toString() }, skip(), control)
 
         assertIs<Skip<*>>(filter.evaluate(null))
@@ -244,9 +232,7 @@ class FilterTests {
 
     @Test
     fun postprocessorTest() {
-        val control = object : Filter<Int, Int>() {
-            override fun evaluate(value: Int): FilterResult<out Int> = match(value)
-        }
+        val control = IFilter<Int, Int> { value -> match(value) }
         val filter =
             PostProcessorFilter(control) { input, result -> match(input to (result as Match).result.toString()) }
 

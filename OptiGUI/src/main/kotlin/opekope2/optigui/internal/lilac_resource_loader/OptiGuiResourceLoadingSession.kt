@@ -6,7 +6,7 @@ import opekope2.lilac.api.resource.loading.IResourceLoader
 import opekope2.lilac.api.resource.loading.IResourceLoadingSession
 import opekope2.optigui.api.interaction.Interaction
 import opekope2.optigui.api.lilac_resource_loading.IOptiGuiExtension
-import opekope2.optigui.filter.Filter
+import opekope2.optigui.filter.IFilter
 import opekope2.optigui.filter.FirstMatchFilter
 import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.internal.filter.IdentifiablePriorityFilter
@@ -27,7 +27,7 @@ class OptiGuiResourceLoadingSession private constructor(private val session: IRe
     private fun addFilter(
         modId: String,
         resource: Identifier,
-        filter: Filter<Interaction, Identifier>,
+        filter: IFilter<Interaction, Identifier>,
         replaceableTextures: MutableSet<Identifier>,
         priority: Int
     ) {
@@ -70,7 +70,7 @@ class OptiGuiResourceLoadingSession private constructor(private val session: IRe
 
         override fun addFilter(
             resource: Identifier,
-            filter: Filter<Interaction, Identifier>,
+            filter: IFilter<Interaction, Identifier>,
             replaceableTextures: MutableSet<Identifier>,
             priority: Int
         ) = addFilter(modId, resource, filter, replaceableTextures, priority)

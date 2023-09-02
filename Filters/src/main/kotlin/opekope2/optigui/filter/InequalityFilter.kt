@@ -6,9 +6,9 @@ package opekope2.optigui.filter
  * @param T The type the filter accepts
  * @param unexpectedValue The value the filter should fail for
  */
-class InequalityFilter<T>(private val unexpectedValue: T) : Filter<T, Unit>() {
-    override fun evaluate(value: T): FilterResult<out Unit> =
-        if (value != unexpectedValue) FilterResult.match(Unit) else FilterResult.mismatch()
+class InequalityFilter<T>(private val unexpectedValue: T) : IFilter<T, Unit> {
+    override fun evaluate(value: T): IFilter.Result<out Unit> =
+        if (value != unexpectedValue) IFilter.Result.match(Unit) else IFilter.Result.mismatch()
 
     override fun toString(): String = "${javaClass.name}, unexpected value: $unexpectedValue"
 }

@@ -4,8 +4,7 @@ import opekope2.optigui.annotation.Selector
 import opekope2.optigui.api.interaction.Interaction
 import opekope2.optigui.api.selector.ISelector
 import opekope2.optigui.filter.DisjunctionFilter
-import opekope2.optigui.filter.Filter
-import opekope2.optigui.filter.FilterResult
+import opekope2.optigui.filter.IFilter
 import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.properties.IRedstoneComparatorProperties
 import opekope2.util.*
@@ -13,7 +12,7 @@ import opekope2.util.*
 
 @Selector("comparator.output")
 class RedstoneComparatorOutputSelector : ISelector {
-    override fun createFilter(selector: String): Filter<Interaction, *>? =
+    override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
             ?.map(NumberOrRange::tryParse) {
@@ -23,7 +22,7 @@ class RedstoneComparatorOutputSelector : ISelector {
             ?.let { outputs ->
                 PreProcessorFilter.nullGuarded(
                     { (it.data as? IRedstoneComparatorProperties)?.comparatorOutput },
-                    FilterResult.mismatch(),
+                    IFilter.Result.mismatch(),
                     DisjunctionFilter(outputs.map { it.toFilter() })
                 )
             }

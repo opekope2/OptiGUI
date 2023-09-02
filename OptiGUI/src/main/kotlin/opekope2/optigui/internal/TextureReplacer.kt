@@ -15,8 +15,7 @@ import opekope2.lilac.api.tick.ITickHandler
 import opekope2.lilac.api.tick.ITickNotifier
 import opekope2.optigui.api.IOptiGuiApi
 import opekope2.optigui.api.interaction.*
-import opekope2.optigui.filter.Filter
-import opekope2.optigui.filter.FilterResult
+import opekope2.optigui.filter.IFilter
 
 internal object TextureReplacer : ClientModInitializer, IInteractor {
     private object InteractionHolder : ClientPlayConnectionEvents.Disconnect, ITickHandler {
@@ -89,9 +88,7 @@ internal object TextureReplacer : ClientModInitializer, IInteractor {
         }
     }
 
-    internal var filter: Filter<Interaction, Identifier> = object : Filter<Interaction, Identifier>() {
-        override fun evaluate(value: Interaction?): FilterResult<out Identifier> = FilterResult.skip()
-    }
+    internal var filter: IFilter<Interaction, Identifier> = IFilter<Interaction, Identifier> { IFilter.Result.skip() }
     internal var replaceableTextures = setOf<Identifier>()
 
     @JvmStatic
@@ -111,7 +108,7 @@ internal object TextureReplacer : ClientModInitializer, IInteractor {
         val interaction = InteractionHolder.createInteraction(texture) ?: return texture
 
         return InteractionHolder.replacementCache.computeIfAbsent(texture) {
-            filter.evaluate(interaction).let { (it as? FilterResult.Match)?.result } ?: texture
+            filter.evaluate(interaction).let { (it as? IFilter.Result.Match)?.result } ?: texture
         }
     }
 

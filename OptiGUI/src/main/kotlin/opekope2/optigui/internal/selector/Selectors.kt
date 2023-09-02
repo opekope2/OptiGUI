@@ -7,7 +7,7 @@ import opekope2.lilac.util.Util
 import opekope2.optigui.annotation.Selector
 import opekope2.optigui.api.interaction.Interaction
 import opekope2.optigui.api.selector.ISelector
-import opekope2.optigui.filter.Filter
+import opekope2.optigui.filter.IFilter
 import opekope2.util.ConflictHandlingMap
 import org.slf4j.LoggerFactory
 
@@ -56,7 +56,7 @@ private fun ConflictHandlingMap<String, ISelector>.reserveIfNeeded(selector: Str
 }
 
 private object Reserved : ISelector {
-    override fun createFilter(selector: String): Filter<Interaction, *>? = null
+    override fun createFilter(selector: String): IFilter<Interaction, *>? = null
 
     override fun toString(): String = "Reserved"
 }

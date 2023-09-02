@@ -4,8 +4,7 @@ import opekope2.optigui.annotation.Selector
 import opekope2.optigui.api.interaction.Interaction
 import opekope2.optigui.api.selector.ISelector
 import opekope2.optigui.filter.DisjunctionFilter
-import opekope2.optigui.filter.Filter
-import opekope2.optigui.filter.FilterResult
+import opekope2.optigui.filter.IFilter
 import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.properties.IBookProperties
 import opekope2.util.*
@@ -13,7 +12,7 @@ import opekope2.util.*
 
 @Selector("book.page.current")
 class BookPageSelector : ISelector {
-    override fun createFilter(selector: String): Filter<Interaction, *>? =
+    override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
             ?.map(NumberOrRange::tryParse) {
@@ -23,7 +22,7 @@ class BookPageSelector : ISelector {
             ?.let { pages ->
                 PreProcessorFilter.nullGuarded(
                     { (it.data as? IBookProperties)?.currentPage },
-                    FilterResult.mismatch(),
+                    IFilter.Result.mismatch(),
                     DisjunctionFilter(pages.map { it.toFilter() })
                 )
             }
@@ -31,7 +30,7 @@ class BookPageSelector : ISelector {
 
 @Selector("book.page.count")
 class BookPageCountSelector : ISelector {
-    override fun createFilter(selector: String): Filter<Interaction, *>? =
+    override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
             ?.map(NumberOrRange::tryParse) {
@@ -41,7 +40,7 @@ class BookPageCountSelector : ISelector {
             ?.let { pages ->
                 PreProcessorFilter.nullGuarded(
                     { (it.data as? IBookProperties)?.pageCount },
-                    FilterResult.mismatch(),
+                    IFilter.Result.mismatch(),
                     DisjunctionFilter(pages.map { it.toFilter() })
                 )
             }

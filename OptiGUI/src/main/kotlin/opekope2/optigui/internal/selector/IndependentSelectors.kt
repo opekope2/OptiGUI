@@ -11,7 +11,7 @@ import java.time.Month
 
 @Selector("date")
 class DateSelector : ISelector {
-    override fun createFilter(selector: String): Filter<Interaction, *>? {
+    override fun createFilter(selector: String): IFilter<Interaction, *>? {
         return selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
             ?.map({ date ->
@@ -32,7 +32,7 @@ class DateSelector : ISelector {
                     dates.map { (month, day) ->
                         val monthFilter = PreProcessorFilter.nullGuarded<Interaction, Month, Unit>(
                             { (it.data as? IIndependentProperties)?.date?.month },
-                            FilterResult.mismatch(),
+                            IFilter.Result.mismatch(),
                             EqualityFilter(month)
                         )
                         val dayFilter = day?.toFilter()
@@ -42,7 +42,7 @@ class DateSelector : ISelector {
                             monthFilter,
                             PreProcessorFilter.nullGuarded(
                                 { (it.data as? IIndependentProperties)?.date?.dayOfMonth },
-                                FilterResult.mismatch(),
+                                IFilter.Result.mismatch(),
                                 dayFilter
                             )
                         )

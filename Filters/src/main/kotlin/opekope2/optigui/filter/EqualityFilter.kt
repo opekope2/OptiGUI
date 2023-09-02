@@ -6,9 +6,9 @@ package opekope2.optigui.filter
  * @param T The type the filter accepts
  * @param expectedValue The value the filter should succeed for
  */
-class EqualityFilter<T>(private val expectedValue: T) : Filter<T, Unit>() {
-    override fun evaluate(value: T): FilterResult<out Unit> =
-        if (value == expectedValue) FilterResult.match(Unit) else FilterResult.mismatch()
+class EqualityFilter<T>(private val expectedValue: T) : IFilter<T, Unit> {
+    override fun evaluate(value: T): IFilter.Result<out Unit> =
+        if (value == expectedValue) IFilter.Result.match(Unit) else IFilter.Result.mismatch()
 
     override fun toString(): String = "${javaClass.name}, expected value: $expectedValue"
 }

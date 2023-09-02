@@ -79,15 +79,15 @@ class OptiGuiResourceLoader(private val optigui: IOptiGuiExtension) : IResourceL
                     replaceableTextures += Identifier("textures/gui/container/legacy_smithing.png")
                 }
 
-                val filters = mutableListOf<Filter<Interaction, *>>(
+                val filters = mutableListOf<IFilter<Interaction, *>>(
                     PreProcessorFilter.nullGuarded(
                         { (it.data as? IGeneralProperties)?.container },
-                        FilterResult.mismatch(),
+                        IFilter.Result.mismatch(),
                         EqualityFilter(container)
                     ),
                     PreProcessorFilter.nullGuarded(
                         { it.texture },
-                        FilterResult.mismatch(),
+                        IFilter.Result.mismatch(),
                         ContainingFilter(replaceableTextures)
                     ),
                 )

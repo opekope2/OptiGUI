@@ -11,7 +11,7 @@ import opekope2.util.*
 
 @Selector("villager.profession")
 class VillagerProfessionSelector : ISelector {
-    override fun createFilter(selector: String): Filter<Interaction, *>? =
+    override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
             ?.map({ profession ->
@@ -31,7 +31,7 @@ class VillagerProfessionSelector : ISelector {
                     professions.map { (profession, level) ->
                         val profFilter = PreProcessorFilter.nullGuarded<Interaction, Identifier, Unit>(
                             { (it.data as? IVillagerProperties)?.profession },
-                            FilterResult.mismatch(),
+                            IFilter.Result.mismatch(),
                             EqualityFilter(profession)
                         )
                         val levelFilter = level?.toFilter()
@@ -41,7 +41,7 @@ class VillagerProfessionSelector : ISelector {
                             profFilter,
                             PreProcessorFilter.nullGuarded(
                                 { (it.data as? IVillagerProperties)?.level },
-                                FilterResult.mismatch(),
+                                IFilter.Result.mismatch(),
                                 levelFilter
                             )
                         )
@@ -52,7 +52,7 @@ class VillagerProfessionSelector : ISelector {
 
 @Selector("villager.type")
 class VillagerTypeSelector : ISelector {
-    override fun createFilter(selector: String): Filter<Interaction, *>? =
+    override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
             ?.map(Identifier::tryParse) {
@@ -62,7 +62,7 @@ class VillagerTypeSelector : ISelector {
             ?.let { types ->
                 PreProcessorFilter.nullGuarded(
                     { (it.data as? IVillagerProperties)?.type },
-                    FilterResult.mismatch(),
+                    IFilter.Result.mismatch(),
                     ContainingFilter(types)
                 )
             }
