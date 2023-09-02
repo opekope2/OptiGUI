@@ -9,7 +9,7 @@ package opekope2.optigui.filter
  */
 class ContainingFilter<T>(private val collection: Collection<T>) : Filter<T, Unit>(), Iterable<T> {
     override fun evaluate(value: T): FilterResult<out Unit> =
-        if (value in collection) FilterResult.Match(Unit) else FilterResult.Mismatch()
+        if (value in collection) FilterResult.match(Unit) else FilterResult.mismatch()
 
     override fun iterator(): Iterator<T> = collection.iterator()
 

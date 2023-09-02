@@ -9,7 +9,7 @@ package opekope2.optigui.filter
  */
 class RangeFilter private constructor(private val min: Int, private val max: Int) : Filter<Int, Unit>() {
     override fun evaluate(value: Int): FilterResult<out Unit> =
-        if (value in min..max) FilterResult.Match(Unit) else FilterResult.Mismatch()
+        if (value in min..max) FilterResult.match(Unit) else FilterResult.mismatch()
 
     override fun toString(): String = "${javaClass.name}, $min..$max"
 

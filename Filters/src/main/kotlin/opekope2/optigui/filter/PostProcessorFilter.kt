@@ -14,7 +14,7 @@ package opekope2.optigui.filter
  *
  * @see PreProcessorFilter
  */
-class PostProcessorFilter<T, TFilterResult, TResult>(
+class PostProcessorFilter<T, TFilterResult, TResult : Any>(
     private val filter: Filter<T, out TFilterResult>,
     private val transform: (input: T, result: FilterResult<out TFilterResult>) -> FilterResult<out TResult>
 ) : Filter<T, TResult>(), Iterable<Filter<T, out TFilterResult>> {
@@ -26,14 +26,7 @@ class PostProcessorFilter<T, TFilterResult, TResult>(
      */
     constructor(filter: Filter<T, out TFilterResult>, result: TResult) : this(
         filter,
-        { _, filterResult ->
-            when (filterResult) {
-                is FilterResult.Skip -> FilterResult.Skip()
-                is FilterResult.Mismatch -> FilterResult.Mismatch()
-                is FilterResult.Match -> FilterResult.Match(result)
-                else -> throw RuntimeException("Invalid filter result: ${filterResult.javaClass}") // Java moment
-            }
-        }
+        { _, filterResult -> filterResult.withResult(result) }
     )
 
     override fun evaluate(value: T): FilterResult<out TResult> = transform(value, filter.evaluate(value))

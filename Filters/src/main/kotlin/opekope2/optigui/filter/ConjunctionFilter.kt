@@ -14,9 +14,9 @@ class ConjunctionFilter<T>(private val filters: Iterable<Filter<T, *>>) : Filter
     constructor(vararg filters: Filter<T, *>) : this(filters.toList())
 
     override fun evaluate(value: T): FilterResult<Unit> = filters.map { it.evaluate(value) }.let { result ->
-        if (result.any { it is FilterResult.Mismatch }) FilterResult.Mismatch()
-        else if (result.all { it is FilterResult.Skip }) FilterResult.Skip()
-        else FilterResult.Match(Unit)
+        if (result.any { it is FilterResult.Mismatch }) FilterResult.mismatch()
+        else if (result.all { it is FilterResult.Skip }) FilterResult.skip()
+        else FilterResult.match(Unit)
     }
 
     override fun iterator(): Iterator<Filter<T, *>> = filters.iterator()

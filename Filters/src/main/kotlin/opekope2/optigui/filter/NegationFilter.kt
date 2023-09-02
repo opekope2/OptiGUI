@@ -11,11 +11,11 @@ package opekope2.optigui.filter
  */
 class NegationFilter<T>(private val filter: Filter<T, *>) : Filter<T, Unit>(), Iterable<Filter<T, *>> {
     override fun evaluate(value: T): FilterResult<out Unit> = filter.evaluate(value).let {
+        @Suppress("UNCHECKED_CAST")
         when (it) {
-            is FilterResult.Match -> FilterResult.Mismatch()
-            is FilterResult.Mismatch -> FilterResult.Match(Unit)
-            is FilterResult.Skip -> FilterResult.Skip()
-            else -> throw RuntimeException("Invalid filter result: `${it.javaClass}`") // Java moment
+            is FilterResult.Match -> FilterResult.mismatch()
+            is FilterResult.Mismatch -> FilterResult.match(Unit)
+            else -> it as FilterResult<Unit>
         }
     }
 

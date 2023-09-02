@@ -8,7 +8,7 @@ package opekope2.optigui.filter
  * @param TResult The type the filter returns
  * @param filters The sub-filters to evaluate
  */
-class FirstMatchFilter<T, TResult>(private val filters: Iterable<Filter<T, out TResult>>) :
+class FirstMatchFilter<T, TResult : Any>(private val filters: Iterable<Filter<T, out TResult>>) :
     Filter<T, TResult>(), Iterable<Filter<T, out TResult>> {
     /**
      * Alternative constructor with variable arguments
@@ -16,8 +16,8 @@ class FirstMatchFilter<T, TResult>(private val filters: Iterable<Filter<T, out T
     constructor(vararg filters: Filter<T, out TResult>) : this(filters.toList())
 
     override fun evaluate(value: T): FilterResult<out TResult> = filters.map { it.evaluate(value) }.let { results ->
-        if (results.all { it is FilterResult.Skip }) FilterResult.Skip()
-        else results.firstOrNull { it is FilterResult.Match } ?: FilterResult.Mismatch()
+        if (results.all { it is FilterResult.Skip }) FilterResult.skip()
+        else results.firstOrNull { it is FilterResult.Match } ?: FilterResult.mismatch()
     }
 
     override fun iterator(): Iterator<Filter<T, out TResult>> = filters.iterator()
