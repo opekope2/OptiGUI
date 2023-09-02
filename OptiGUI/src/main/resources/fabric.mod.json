@@ -152,6 +152,14 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.DonkeyChestSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.LlamaColorSelector"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.selector.DateSelector"
       }
     ],
