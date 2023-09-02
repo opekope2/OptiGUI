@@ -12,6 +12,7 @@ import opekope2.optigui.api.IOptiGuiApi
 import opekope2.optigui.api.interaction.Interaction
 import opekope2.optigui.api.lilac_resource_loading.IOptiGuiExtension
 import opekope2.optigui.filter.*
+import opekope2.optigui.internal.selector.selectors
 import opekope2.optigui.properties.*
 import opekope2.util.*
 import org.apache.commons.text.StringEscapeUtils
@@ -59,8 +60,13 @@ class OptiGuiResourceLoader(private val optigui: IOptiGuiExtension) : IResourceL
             val containers =
                 sectionName.split(*delimiters).filter { !it.startsWith('#') }.mapNotNull(Identifier::tryParse)
 
-            val sectionFilters = filterCreators.mapNotNull { (name, createFilter) ->
-                section[name]?.let { value -> createFilter.createFilter(resource, name, value, optigui) }
+            val sectionFilters = section.mapNotNull { (key, value) ->
+                try {
+                    selectors[key]?.createFilter(value)
+                } catch (e: Exception) {
+                    optigui.warn(resource, "Failed to parse selector `$key=$value`: ${e.message ?: e}")
+                    null
+                }
             }
 
             for (container in containers) {
@@ -74,7 +80,7 @@ class OptiGuiResourceLoader(private val optigui: IOptiGuiExtension) : IResourceL
                     replaceableTextures += Identifier("textures/gui/container/legacy_smithing.png")
                 }
 
-                val filters = mutableListOf<Filter<Interaction, Unit>>(
+                val filters = mutableListOf<Filter<Interaction, *>>(
                     PreProcessorFilter.nullGuarded(
                         { (it.data as? IGeneralProperties)?.container },
                         FilterResult.Mismatch(),
