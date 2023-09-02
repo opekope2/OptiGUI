@@ -82,12 +82,12 @@ class OptiGuiResourceLoader(private val optigui: IOptiGuiExtension) : IResourceL
                 val filters = mutableListOf<Filter<Interaction, *>>(
                     PreProcessorFilter.nullGuarded(
                         { (it.data as? IGeneralProperties)?.container },
-                        FilterResult.Mismatch(),
+                        FilterResult.mismatch(),
                         EqualityFilter(container)
                     ),
                     PreProcessorFilter.nullGuarded(
                         { it.texture },
-                        FilterResult.Mismatch(),
+                        FilterResult.mismatch(),
                         ContainingFilter(replaceableTextures)
                     ),
                 )
