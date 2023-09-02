@@ -28,7 +28,7 @@ class BookPageSelector : ISelector {
             ?.let { pages ->
                 PreProcessorFilter.nullGuarded(
                     { (it.data as? IBookProperties)?.currentPage },
-                    FilterResult.Mismatch(),
+                    FilterResult.mismatch(),
                     DisjunctionFilter(pages.map { it.toFilter() })
                 )
             }
@@ -46,7 +46,7 @@ class BookPageCountSelector : ISelector {
             ?.let { pages ->
                 PreProcessorFilter.nullGuarded(
                     { (it.data as? IBookProperties)?.pageCount },
-                    FilterResult.Mismatch(),
+                    FilterResult.mismatch(),
                     DisjunctionFilter(pages.map { it.toFilter() })
                 )
             }

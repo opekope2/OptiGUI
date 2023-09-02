@@ -28,7 +28,7 @@ class ChestBoatVariantSelector : ISelector {
             ?.let { variants ->
                 PreProcessorFilter.nullGuarded(
                     { (it.data as? IChestBoatProperties)?.variant },
-                    FilterResult.Mismatch(),
+                    FilterResult.mismatch(),
                     ContainingFilter(variants)
                 )
             }

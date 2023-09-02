@@ -58,7 +58,7 @@ class BiomeSelector : ISelector {
             ?.let { biomes ->
                 PreProcessorFilter.nullGuarded(
                     { (it.data as? IGeneralProperties)?.biome },
-                    FilterResult.Mismatch(),
+                    FilterResult.mismatch(),
                     ContainingFilter(biomes)
                 )
             }
@@ -76,7 +76,7 @@ class HeightSelector : ISelector {
             ?.let { heights ->
                 PreProcessorFilter.nullGuarded(
                     { (it.data as? IGeneralProperties)?.height },
-                    FilterResult.Mismatch(),
+                    FilterResult.mismatch(),
                     DisjunctionFilter(heights.map { it.toFilter() })
                 )
             }

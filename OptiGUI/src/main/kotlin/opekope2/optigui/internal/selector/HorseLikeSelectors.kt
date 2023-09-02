@@ -19,7 +19,7 @@ class DonkeyChestSelector : ISelector {
     override fun createFilter(selector: String): Filter<Interaction, *> =
         PreProcessorFilter.nullGuarded(
             { (it.data as? IDonkeyProperties)?.hasChest },
-            FilterResult.Mismatch(),
+            FilterResult.mismatch(),
             EqualityFilter(selector.toBooleanStrict())
         )
 }
@@ -36,7 +36,7 @@ class LlamaColorSelector : ISelector {
             ?.let { variants ->
                 PreProcessorFilter.nullGuarded(
                     { (it.data as? ILlamaProperties)?.carpetColor },
-                    FilterResult.Mismatch(), // No carpet is mismatch, because at this point, a carpet is required
+                    FilterResult.mismatch(), // No carpet is mismatch, because at this point, a carpet is required
                     ContainingFilter(variants)
                 )
             }

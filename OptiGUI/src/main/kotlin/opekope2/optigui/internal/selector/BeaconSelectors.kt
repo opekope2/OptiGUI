@@ -28,7 +28,7 @@ class BeaconLevelSelector : ISelector {
             ?.let { levels ->
                 PreProcessorFilter.nullGuarded(
                     { (it.data as? IBeaconProperties)?.level },
-                    FilterResult.Mismatch(),
+                    FilterResult.mismatch(),
                     DisjunctionFilter(levels.map { it.toFilter() })
                 )
             }

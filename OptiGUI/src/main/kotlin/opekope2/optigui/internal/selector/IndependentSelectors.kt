@@ -37,7 +37,7 @@ class DateSelector : ISelector {
                     dates.map { (month, day) ->
                         val monthFilter = PreProcessorFilter.nullGuarded<Interaction, Month, Unit>(
                             { (it.data as? IIndependentProperties)?.date?.month },
-                            FilterResult.Mismatch(),
+                            FilterResult.mismatch(),
                             EqualityFilter(month)
                         )
                         val dayFilter = day?.toFilter()
@@ -47,7 +47,7 @@ class DateSelector : ISelector {
                             monthFilter,
                             PreProcessorFilter.nullGuarded(
                                 { (it.data as? IIndependentProperties)?.date?.dayOfMonth },
-                                FilterResult.Mismatch(),
+                                FilterResult.mismatch(),
                                 dayFilter
                             )
                         )

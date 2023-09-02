@@ -15,7 +15,7 @@ class LargeChestSelector : ISelector {
     override fun createFilter(selector: String): Filter<Interaction, *> =
         PreProcessorFilter.nullGuarded(
             { (it.data as? IChestProperties)?.isLarge },
-            FilterResult.Mismatch(),
+            FilterResult.mismatch(),
             EqualityFilter(selector.toBooleanStrict())
         )
 }

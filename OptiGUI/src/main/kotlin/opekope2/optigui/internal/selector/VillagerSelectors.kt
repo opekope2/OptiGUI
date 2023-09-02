@@ -36,7 +36,7 @@ class VillagerProfessionSelector : ISelector {
                     professions.map { (profession, level) ->
                         val profFilter = PreProcessorFilter.nullGuarded<Interaction, Identifier, Unit>(
                             { (it.data as? IVillagerProperties)?.profession },
-                            FilterResult.Mismatch(),
+                            FilterResult.mismatch(),
                             EqualityFilter(profession)
                         )
                         val levelFilter = level?.toFilter()
@@ -46,7 +46,7 @@ class VillagerProfessionSelector : ISelector {
                             profFilter,
                             PreProcessorFilter.nullGuarded(
                                 { (it.data as? IVillagerProperties)?.level },
-                                FilterResult.Mismatch(),
+                                FilterResult.mismatch(),
                                 levelFilter
                             )
                         )
@@ -67,7 +67,7 @@ class VillagerTypeSelector : ISelector {
             ?.let { types ->
                 PreProcessorFilter.nullGuarded(
                     { (it.data as? IVillagerProperties)?.type },
-                    FilterResult.Mismatch(),
+                    FilterResult.mismatch(),
                     ContainingFilter(types)
                 )
             }

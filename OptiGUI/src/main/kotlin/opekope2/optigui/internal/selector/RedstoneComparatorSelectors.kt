@@ -28,7 +28,7 @@ class RedstoneComparatorOutputSelector : ISelector {
             ?.let { outputs ->
                 PreProcessorFilter.nullGuarded(
                     { (it.data as? IRedstoneComparatorProperties)?.comparatorOutput },
-                    FilterResult.Mismatch(),
+                    FilterResult.mismatch(),
                     DisjunctionFilter(outputs.map { it.toFilter() })
                 )
             }
