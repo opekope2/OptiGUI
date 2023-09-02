@@ -104,6 +104,10 @@
     "optigui-selector": [
       {
         "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.BeaconLevelSelector"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.selector.NameSelector"
       },
       {
