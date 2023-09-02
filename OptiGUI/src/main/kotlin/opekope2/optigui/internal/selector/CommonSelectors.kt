@@ -5,14 +5,8 @@ import opekope2.optigui.annotation.Selector
 import opekope2.optigui.api.interaction.Interaction
 import opekope2.optigui.api.selector.ISelector
 import opekope2.optigui.filter.*
-import opekope2.util.assertNotEmpty
-import opekope2.util.joinNotFound
-import opekope2.util.map
-import opekope2.util.wildcardToRegex
 import opekope2.optigui.properties.IGeneralProperties
-import opekope2.util.NumberOrRange
-import opekope2.util.delimiters
-import opekope2.util.splitIgnoreEmpty
+import opekope2.util.*
 import org.apache.commons.text.StringEscapeUtils.unescapeJava
 
 

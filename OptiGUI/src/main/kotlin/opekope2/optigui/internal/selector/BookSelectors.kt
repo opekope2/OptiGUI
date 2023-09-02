@@ -7,13 +7,8 @@ import opekope2.optigui.filter.DisjunctionFilter
 import opekope2.optigui.filter.Filter
 import opekope2.optigui.filter.FilterResult
 import opekope2.optigui.filter.PreProcessorFilter
-import opekope2.util.assertNotEmpty
-import opekope2.util.joinNotFound
-import opekope2.util.map
 import opekope2.optigui.properties.IBookProperties
-import opekope2.util.NumberOrRange
-import opekope2.util.delimiters
-import opekope2.util.splitIgnoreEmpty
+import opekope2.util.*
 
 
 @Selector("book.page.current")
