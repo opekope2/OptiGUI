@@ -202,8 +202,8 @@ private val resourceAccess = IResourceAccess.getInstance()
 private val horseVariants = setOf("horse", "donkey", "mule", "llama")
 private val dispenserVariants = setOf("dispenser", "dropper")
 
-private val TEXTURE_GENERIC_54 = Identifier("textures/gui/container/generic_54.png")
-private val TEXTURE_HORSE = Identifier("textures/gui/container/horse.png")
+private val TEXTURE_GENERIC_54 = optiguiApi.getContainerTexture(Identifier("chest"))!!
+private val TEXTURE_HORSE = optiguiApi.getContainerTexture(Identifier("horse"))!!
 private val TEXTURE_INVENTORY = Identifier("textures/gui/container/inventory.png")
 
 private val containerFilterCreators = mapOf(
