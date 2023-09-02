@@ -26,9 +26,10 @@ internal class ConflictHandlingMap<TKey, TValue> : Map<TKey, TValue> {
     var conflicts = false
         private set
 
-    private fun ensureNoConflicts() {
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun ensureNoConflicts() {
         if (conflicts) {
-            throw IllegalStateException()
+            throw IllegalStateException("The map has conflicting entries")
         }
     }
 
