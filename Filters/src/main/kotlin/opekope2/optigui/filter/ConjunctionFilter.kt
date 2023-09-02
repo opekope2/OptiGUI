@@ -7,12 +7,11 @@ package opekope2.optigui.filter
  * @param T The type the filter accepts
  * @param filters The sub-filters to evaluate
  */
-class ConjunctionFilter<T>(private val filters: Iterable<Filter<T, out Any>>) : Filter<T, Unit>(),
-    Iterable<Filter<T, out Any>> {
+class ConjunctionFilter<T>(private val filters: Iterable<Filter<T, *>>) : Filter<T, Unit>(), Iterable<Filter<T, *>> {
     /**
      * Alternative constructor with variable arguments
      */
-    constructor(vararg filters: Filter<T, out Any>) : this(filters.toList())
+    constructor(vararg filters: Filter<T, *>) : this(filters.toList())
 
     override fun evaluate(value: T): FilterResult<Unit> = filters.map { it.evaluate(value) }.let { result ->
         if (result.any { it is FilterResult.Mismatch }) FilterResult.Mismatch()
@@ -20,7 +19,7 @@ class ConjunctionFilter<T>(private val filters: Iterable<Filter<T, out Any>>) : 
         else FilterResult.Match(Unit)
     }
 
-    override fun iterator(): Iterator<Filter<T, out Any>> = filters.iterator()
+    override fun iterator(): Iterator<Filter<T, *>> = filters.iterator()
 
     override fun toString(): String = javaClass.name
 }

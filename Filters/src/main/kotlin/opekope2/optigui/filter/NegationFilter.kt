@@ -9,7 +9,7 @@ package opekope2.optigui.filter
  * @param T The type the filter accepts
  * @param filter The filter to negate
  */
-class NegationFilter<T>(private val filter: Filter<T, out Any>) : Filter<T, Unit>(), Iterable<Filter<T, out Any>> {
+class NegationFilter<T>(private val filter: Filter<T, *>) : Filter<T, Unit>(), Iterable<Filter<T, *>> {
     override fun evaluate(value: T): FilterResult<out Unit> = filter.evaluate(value).let {
         when (it) {
             is FilterResult.Match -> FilterResult.Mismatch()
