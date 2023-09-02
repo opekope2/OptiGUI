@@ -168,6 +168,10 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.InteractionHandSelector"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.selector.RedstoneComparatorOutputSelector"
       },
       {
