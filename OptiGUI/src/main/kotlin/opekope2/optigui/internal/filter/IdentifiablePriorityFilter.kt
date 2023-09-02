@@ -29,7 +29,7 @@ internal class IdentifiablePriorityFilter(
             """.trimIndent(),
             exception
         )
-        FilterResult.Skip()
+        FilterResult.skip()
     }
 
     override fun iterator(): Iterator<Filter<Interaction, Identifier>> = setOf(filter).iterator()
