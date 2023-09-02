@@ -161,6 +161,10 @@
       {
         "adapter": "kotlin",
         "value": "opekope2.optigui.internal.selector.DateSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.InteractionTextureSelector"
       }
     ],
     "lilac-resourceloader-factory": [
