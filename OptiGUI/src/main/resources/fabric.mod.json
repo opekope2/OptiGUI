@@ -120,6 +120,10 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.LargeChestSelector"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.selector.NameSelector"
       },
       {
