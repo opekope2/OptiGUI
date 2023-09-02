@@ -72,3 +72,60 @@ val LecternScreen.comparatorOutputWorkaround: Int
         val f = if (this.pageCount > 1) this.pageIndex.toFloat() / (this.pageCount.toFloat() - 1.0f) else 1.0f
         return MathHelper.floor(f * 14.0f) + 1
     }
+
+@Suppress("NOTHING_TO_INLINE")
+internal inline fun <T> Collection<T>.assertNotEmpty(): Collection<T> {
+    assert(isNotEmpty())
+    return this
+}
+
+internal inline fun <T, TResult> Collection<T>.map(
+    transform: (T) -> TResult?,
+    whenNotTransformed: (Collection<T>) -> Nothing
+): Collection<TResult> {
+    val result = mutableListOf<TResult>()
+    val notTransformed = mutableListOf<T>()
+
+    for (item in this) {
+        val transformed = transform(item)
+        if (transformed != null) result += transformed
+        else notTransformed += item
+    }
+
+    if (notTransformed.isNotEmpty()) {
+        whenNotTransformed(notTransformed)
+    }
+
+    return result
+}
+
+internal fun joinNotFound(strings: Collection<String>) = strings.joinToString(", ", prefix = "`", postfix = "`")
+
+internal fun wildcardToRegex(wildcard: String): String = buildString {
+    append('^')
+
+    for (char in wildcard) {
+        append(
+            when (char) {
+                '*' -> ".+"
+                '?' -> ".*"
+                '.' -> "\\."
+                '\\' -> "\\\\"
+                '+' -> "\\+"
+                '^' -> "\\^"
+                '$' -> "\\$"
+                '[' -> "\\["
+                ']' -> "\\]"
+                '{' -> "\\{"
+                '}' -> "\\}"
+                '(' -> "\\("
+                ')' -> "\\)"
+                '|' -> "\\|"
+                '/' -> "\\/"
+                else -> char.toString()
+            }
+        )
+    }
+
+    append('$')
+}
