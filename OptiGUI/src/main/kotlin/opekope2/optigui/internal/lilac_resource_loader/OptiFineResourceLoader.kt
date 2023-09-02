@@ -10,7 +10,7 @@ import opekope2.optigui.api.IOptiGuiApi
 import opekope2.optigui.api.interaction.Interaction
 import opekope2.optigui.api.lilac_resource_loading.IOptiGuiExtension
 import opekope2.optigui.filter.*
-import opekope2.optigui.filter.FilterResult.Mismatch
+import opekope2.optigui.filter.FilterResult.mismatch
 import opekope2.optigui.properties.*
 import opekope2.util.*
 import org.apache.commons.text.StringEscapeUtils.unescapeJava
@@ -92,7 +92,7 @@ private open class FilterCreator(private val containers: Set<Identifier>) :
 
         filters += PreProcessorFilter.nullGuarded(
             { (it.data as? IGeneralProperties)?.container },
-            Mismatch(),
+            mismatch(),
             ContainingFilter(containers)
         )
         filters += PreProcessorFilter(
@@ -142,7 +142,7 @@ private open class FilterCreator(private val containers: Set<Identifier>) :
             ?.let { biomes ->
                 filters += PreProcessorFilter.nullGuarded(
                     { (it.data as? IGeneralProperties)?.biome },
-                    Mismatch(),
+                    mismatch(),
                     ContainingFilter(biomes)
                 )
             }
@@ -157,7 +157,7 @@ private open class FilterCreator(private val containers: Set<Identifier>) :
             ?.let { heights ->
                 filters += PreProcessorFilter.nullGuarded(
                     { (it.data as? IGeneralProperties)?.height },
-                    Mismatch(),
+                    mismatch(),
                     DisjunctionFilter(heights.map { it.toFilter() })
                 )
             }
@@ -223,7 +223,7 @@ private val containerFilterCreators = mapOf(
 
             filters += PreProcessorFilter.nullGuarded(
                 { (it.data as? IBeaconProperties)?.level },
-                Mismatch(),
+                mismatch(),
                 DisjunctionFilter(levels.map { it.toFilter() })
             )
 
@@ -251,14 +251,14 @@ private val containerFilterCreators = mapOf(
                 }
                 filters[0] = PreProcessorFilter.nullGuarded(
                     { (it.data as? IGeneralProperties)?.container },
-                    Mismatch(),
+                    mismatch(),
                     ContainingFilter(containers)
                 )
 
                 if (large != null) {
                     filters += PreProcessorFilter.nullGuarded(
                         { (it.data as? IChestProperties)?.isLarge },
-                        Mismatch(),
+                        mismatch(),
                         EqualityFilter(large)
                     )
                 }
@@ -266,12 +266,12 @@ private val containerFilterCreators = mapOf(
                 val christmasFilter = ConjunctionFilter<Interaction>(
                     PreProcessorFilter.nullGuarded(
                         { (it.data as? IIndependentProperties)?.date?.month },
-                        Mismatch(),
+                        mismatch(),
                         EqualityFilter(Month.DECEMBER)
                     ),
                     PreProcessorFilter.nullGuarded(
                         { (it.data as? IIndependentProperties)?.date?.dayOfMonth },
-                        Mismatch(),
+                        mismatch(),
                         RangeFilter.between(24, 26)
                     )
                 )
@@ -289,7 +289,7 @@ private val containerFilterCreators = mapOf(
                 val filters = createFilters(properties, optigui.bindWarnTo(resource))
                 filters[0] = PreProcessorFilter.nullGuarded(
                     { (it.data as? IGeneralProperties)?.container },
-                    Mismatch(),
+                    mismatch(),
                     EqualityFilter(Identifier("ender_chest"))
                 )
 
@@ -322,7 +322,7 @@ private val containerFilterCreators = mapOf(
 
             filters[0] = PreProcessorFilter.nullGuarded(
                 { (it.data as? IGeneralProperties)?.container },
-                Mismatch(),
+                mismatch(),
                 ContainingFilter(containers)
             )
 
@@ -349,7 +349,7 @@ private val containerFilterCreators = mapOf(
                 val filters = createFilters(properties, optigui.bindWarnTo(resource))
                 filters[0] = PreProcessorFilter.nullGuarded(
                     { (it.data as? IGeneralProperties)?.container },
-                    Mismatch(),
+                    mismatch(),
                     EqualityFilter(Identifier("llama"))
                 )
 
@@ -373,7 +373,7 @@ private val containerFilterCreators = mapOf(
 
                     filters += PreProcessorFilter.nullGuarded(
                         { (it.data as? ILlamaProperties)?.carpetColor },
-                        Mismatch(), // A carpet is required
+                        mismatch(), // A carpet is required
                         ContainingFilter(colors)
                     )
 
@@ -390,7 +390,7 @@ private val containerFilterCreators = mapOf(
             val filters = createFilters(properties, optigui.bindWarnTo(resource))
             filters[0] = PreProcessorFilter.nullGuarded(
                 { (it.data as? IGeneralProperties)?.container },
-                Mismatch(),
+                mismatch(),
                 ContainingFilter(variants.map(::Identifier))
             )
 
@@ -428,19 +428,19 @@ private val containerFilterCreators = mapOf(
                 if (levels == null) {
                     PreProcessorFilter.nullGuarded(
                         { (it.data as? IVillagerProperties)?.profession },
-                        Mismatch(),
+                        mismatch(),
                         EqualityFilter(profession)
                     )
                 } else {
                     ConjunctionFilter(
                         PreProcessorFilter.nullGuarded(
                             { (it.data as? IVillagerProperties)?.profession },
-                            Mismatch(),
+                            mismatch(),
                             EqualityFilter(profession)
                         ),
                         PreProcessorFilter.nullGuarded(
                             { (it.data as? IVillagerProperties)?.level },
-                            Mismatch(),
+                            mismatch(),
                             DisjunctionFilter(levels.map { it.toFilter() })
                         )
                     )
@@ -471,7 +471,7 @@ private val containerFilterCreators = mapOf(
 
             filters[0] = PreProcessorFilter.nullGuarded(
                 { (it.data as? IGeneralProperties)?.container },
-                Mismatch(),
+                mismatch(),
                 ContainingFilter(blocks.map(::Identifier))
             )
 
