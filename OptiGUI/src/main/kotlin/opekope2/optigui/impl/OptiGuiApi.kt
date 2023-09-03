@@ -61,7 +61,7 @@ object OptiGuiApi : IOptiGuiApi, ClientModInitializer {
 
         val mods = FabricLoader.getInstance().allMods
         val serializer = ILilacApi.getImplementation().customMetadataSerializer
-        val exception = SetOnce<Exception>()
+        var exception: Exception? = null
         val parsed = mods.mapNotNull { mod ->
             val customValue = mod.metadata.getCustomValue("optigui") ?: return@mapNotNull null
             val modId = mod.metadata.id
@@ -69,13 +69,13 @@ object OptiGuiApi : IOptiGuiApi, ClientModInitializer {
             try {
                 modId to serializer.deserialize(ProcessableCustomMetadata.CODEC, customValue).process()
             } catch (e: Exception) {
-                if (exception.isSet()) exception.value.addSuppressed(e)
-                else exception.set(RuntimeException("Failed to parse `fabric.mod.json` metadata of `$modId`", e))
+                if (exception != null) exception!!.addSuppressed(e)
+                else exception = RuntimeException("Failed to parse `fabric.mod.json` metadata of `$modId`", e)
                 null
             }
         }
 
-        if (exception.isSet()) throw exception.value
+        if (exception != null) throw exception!!
 
         val containerTextureMap = ConflictHandlingMap<Identifier, IdentifiableIdentifier>()
 
@@ -98,16 +98,4 @@ object OptiGuiApi : IOptiGuiApi, ClientModInitializer {
     }
 
     private class IdentifiableIdentifier(override val id: String, val identifier: Identifier) : IIdentifiable
-
-    private class SetOnce<T : Any> {
-        lateinit var value: T
-            private set
-
-        fun isSet() = ::value.isInitialized
-
-        fun set(value: T) {
-            if (isSet()) throw IllegalStateException()
-            this.value = value
-        }
-    }
 }
