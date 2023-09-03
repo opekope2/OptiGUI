@@ -6,15 +6,20 @@ import opekope2.lilac.exception.EntrypointException
 import opekope2.lilac.util.Util
 import opekope2.optigui.annotation.Selector
 import opekope2.optigui.api.interaction.Interaction
+import opekope2.optigui.api.selector.ILoadTimeSelector
 import opekope2.optigui.api.selector.ISelector
 import opekope2.optigui.filter.IFilter
 import opekope2.util.ConflictHandlingMap
+import opekope2.util.IIdentifiable
 import org.slf4j.LoggerFactory
 
 
 private val logger = LoggerFactory.getLogger("OptiGUI/SelectorLoader")
 
-internal lateinit var selectors: Map<String, ISelector>
+internal lateinit var selectors: Map<String, IdentifiableSelector>
+    private set
+
+internal lateinit var loadTimeSelectors: Map<String, IdentifiableLoadTimeSelector>
     private set
 
 @Suppress("unused")
@@ -24,39 +29,71 @@ fun loadSelectors() {
         return
     }
 
-    val loadingSelectors = ConflictHandlingMap<String, ISelector>()
+    selectors = loadSelectorsOfType<ISelector, IdentifiableSelector>(::IdentifiableSelector) { selector ->
+        if (selector in this) return@loadSelectorsOfType
 
-    Util.getEntrypointContainers(ISelector::class.java).forEach { selector ->
-        val annotation = selector.entrypoint.javaClass.getAnnotation(Selector::class.java) ?: return@forEach
-        loadingSelectors.reserveIfNeeded(annotation.value)
-        loadingSelectors.put(annotation.value, selector.provider.metadata.id, selector.entrypoint)
+        if (selector == "replacement" ||
+            selector == "load.priority" ||
+            selector.startsWith("if.")
+        ) {
+            put(selector, IdentifiableSelector("optigui", Reserved))
+        }
+    }
+}
+
+@Suppress("unused")
+fun loadLoadTimeSelectors() {
+    if (::loadTimeSelectors.isInitialized) {
+        logger.info("Not initializing load time selectors, because they are already initialized")
+        return
     }
 
-    if (loadingSelectors.conflicts) {
-        val conflictTree = loadingSelectors.createConflictTree("Selector conflicts")
+    loadTimeSelectors =
+        loadSelectorsOfType<ILoadTimeSelector, IdentifiableLoadTimeSelector>(::IdentifiableLoadTimeSelector) { selector ->
+            if (selector in this) return@loadSelectorsOfType
 
-        logger.error("Multiple selectors were found for one or more key:\n$conflictTree")
+            if (!selector.startsWith("if.") ||
+                selector.startsWith("if.config.")
+            ) {
+                put(selector, IdentifiableLoadTimeSelector("optigui", Reserved))
+            }
+        }
+}
+
+private inline fun <reified TEntryPoint : Any, reified TSelector : IIdentifiable> loadSelectorsOfType(
+    convertSelector: (String, TEntryPoint) -> TSelector,
+    reserveIfNeeded: ConflictHandlingMap<String, TSelector>.(String) -> Unit
+): Map<String, TSelector> {
+    val selectors = ConflictHandlingMap<String, TSelector>()
+
+    Util.getEntrypointContainers(TEntryPoint::class.java).forEach { selector ->
+        val annotation = selector.entrypoint.javaClass.getAnnotation(Selector::class.java) ?: return@forEach
+        selectors.reserveIfNeeded(annotation.value)
+        selectors[annotation.value] = convertSelector(selector.provider.metadata.id, selector.entrypoint)
+    }
+
+    if (selectors.conflicts) {
+        val selectorType = TSelector::class.java.name
+        val conflictTree = selectors.createConflictTree("$selectorType conflicts")
+
+        logger.error("Multiple ${selectorType}s were found for one or more key:\n$conflictTree")
         throw EntrypointException(
-            "Multiple selectors were found for one or more key. This is not an OptiGUI bug. Some of the mods are incompatible with each other. See log for details"
+            "Multiple ${selectorType}s were found for one or more key. This is not an OptiGUI bug. Some of the mods are incompatible with each other. See log for details"
         )
     }
 
-    selectors = loadingSelectors.toMap()
+    return selectors.toMap()
 }
 
-private fun ConflictHandlingMap<String, ISelector>.reserveIfNeeded(selector: String) {
-    if (selector in this) return
+internal class IdentifiableSelector(override val id: String, selector: ISelector) : ISelector by selector, IIdentifiable
 
-    if (selector == "replacement" ||
-        selector == "load.priority" ||
-        selector.startsWith("if.config.")
-    ) {
-        put(selector, "optigui", Reserved)
-    }
-}
+internal class IdentifiableLoadTimeSelector(override val id: String, selector: ILoadTimeSelector) :
+    ILoadTimeSelector by selector, IIdentifiable
 
-private object Reserved : ISelector {
+private object Reserved : ISelector, ILoadTimeSelector {
     override fun createFilter(selector: String): IFilter<Interaction, *>? = null
+
+    override fun evaluate(value: String?): IFilter.Result<out Any> = IFilter.Result.match(Unit)
 
     override fun toString(): String = "Reserved"
 }

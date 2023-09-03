@@ -47,6 +47,10 @@
       {
         "adapter": "kotlin",
         "value": "opekope2.optigui.internal.selector.Selectors::loadSelectors"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.Selectors::loadLoadTimeSelectors"
       }
     ],
     "optigui-entityprocessor": [
