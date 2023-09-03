@@ -2,10 +2,12 @@ package opekope2.optigui.internal.interaction
 
 import net.minecraft.block.entity.BlockEntity
 import opekope2.optigui.api.interaction.IBlockEntityProcessor
+import opekope2.util.IIdentifiable
+
 
 internal class IdentifiableBlockEntityProcessor<T : BlockEntity>(
-    val modId: String,
+    override val id: String,
     val processor: IBlockEntityProcessor<T>
-) : IBlockEntityProcessor<T> {
+) : IBlockEntityProcessor<T>, IIdentifiable {
     override fun apply(obj: T): Any? = processor.apply(obj)
 }

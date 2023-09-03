@@ -16,6 +16,7 @@ import opekope2.optigui.internal.fabric.mod_json.metadata.ProcessableCustomMetad
 import opekope2.optigui.internal.interaction.blockEntityProcessors
 import opekope2.optigui.internal.interaction.entityProcessors
 import opekope2.util.ConflictHandlingMap
+import opekope2.util.IIdentifiable
 import opekope2.util.isSuperOf
 import org.slf4j.LoggerFactory
 
@@ -76,11 +77,11 @@ object OptiGuiApi : IOptiGuiApi, ClientModInitializer {
 
         if (exception.isSet()) throw exception.value
 
-        val containerTextureMap = ConflictHandlingMap<Identifier, Identifier>()
+        val containerTextureMap = ConflictHandlingMap<Identifier, IdentifiableIdentifier>()
 
         for ((modId, meta) in parsed) {
             for ((container, texture) in meta.containerTextures) {
-                containerTextureMap.put(container, modId, texture)
+                containerTextureMap[container] = IdentifiableIdentifier(modId, texture)
             }
         }
 
@@ -93,8 +94,10 @@ object OptiGuiApi : IOptiGuiApi, ClientModInitializer {
             )
         }
 
-        this.containerTextureMap = containerTextureMap.toMap()
+        this.containerTextureMap = containerTextureMap.mapValues { (_, value) -> value.identifier }
     }
+
+    private class IdentifiableIdentifier(override val id: String, val identifier: Identifier) : IIdentifiable
 
     private class SetOnce<T : Any> {
         lateinit var value: T

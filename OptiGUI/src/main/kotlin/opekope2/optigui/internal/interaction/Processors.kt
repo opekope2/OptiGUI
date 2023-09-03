@@ -12,6 +12,7 @@ import opekope2.optigui.annotation.EntityProcessor
 import opekope2.optigui.api.interaction.IBlockEntityProcessor
 import opekope2.optigui.api.interaction.IEntityProcessor
 import opekope2.util.ConflictHandlingMap
+import opekope2.util.IIdentifiable
 import org.slf4j.LoggerFactory
 
 private val logger = LoggerFactory.getLogger("OptiGUI/ProcessorLoader")
@@ -42,7 +43,6 @@ fun loadEntityProcessors() {
         )
 }
 
-
 @Suppress("unused")
 fun loadBlockEntityProcessors() {
     if (::blockEntityProcessors.isInitialized) {
@@ -57,7 +57,7 @@ fun loadBlockEntityProcessors() {
         )
 }
 
-private inline fun <reified TEntrypoint : Any, reified TAnnotation : Annotation, reified TProcessorClass, TProcessor> loadProcessors(
+private inline fun <reified TEntrypoint : Any, reified TAnnotation : Annotation, reified TProcessorClass, TProcessor : IIdentifiable> loadProcessors(
     annotationTransformer: (TAnnotation) -> ClassNameUnmapper<out TProcessorClass>,
     processorFactory: (String, TEntrypoint) -> TProcessor
 ): Map<Class<out TProcessorClass>, TProcessor> {
@@ -66,11 +66,8 @@ private inline fun <reified TEntrypoint : Any, reified TAnnotation : Annotation,
     Util.getEntrypointContainers(TEntrypoint::class.java).forEach { processor ->
         processor.entrypoint.javaClass.getAnnotationsByType(TAnnotation::class.java).forEach { annotation ->
             try {
-                processors.put(
-                    annotationTransformer(annotation),
-                    processor.provider.metadata.id,
+                processors[annotationTransformer(annotation)] =
                     processorFactory(processor.provider.metadata.id, processor.entrypoint)
-                )
             } catch (e: TypeNotPresentException) {
                 logger.warn("Ignoring `$annotation`: $e", e)
             }
