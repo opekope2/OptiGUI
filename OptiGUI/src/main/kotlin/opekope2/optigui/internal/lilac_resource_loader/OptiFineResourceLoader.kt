@@ -1,5 +1,6 @@
 package opekope2.optigui.internal.lilac_resource_loader
 
+import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.util.DyeColor
 import net.minecraft.util.Identifier
 import opekope2.lilac.api.resource.IResourceAccess
@@ -204,7 +205,7 @@ private val dispenserVariants = setOf("dispenser", "dropper")
 
 private val TEXTURE_GENERIC_54 = optiguiApi.getContainerTexture(Identifier("chest"))!!
 private val TEXTURE_HORSE = optiguiApi.getContainerTexture(Identifier("horse"))!!
-private val TEXTURE_INVENTORY = Identifier("textures/gui/container/inventory.png")
+private val TEXTURE_INVENTORY = HandledScreen.BACKGROUND_TEXTURE
 
 private val containerFilterCreators = mapOf(
     "anvil" to FilterCreator(Identifier("anvil"), Identifier("chipped_anvil"), Identifier("damaged_anvil")),
