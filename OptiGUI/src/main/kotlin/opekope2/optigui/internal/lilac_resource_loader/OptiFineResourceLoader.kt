@@ -136,7 +136,7 @@ private open class FilterCreator(private val containers: Set<Identifier>) :
         properties["biomes"]
             ?.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
-            ?.map({ biome -> Identifier.tryParse(biome) }) {
+            ?.map(Identifier::tryParse) {
                 throwParseException("biomes", properties::getValue, "Invalid biomes: ${joinNotFound(it)}")
             }
             ?.assertNotEmpty()
@@ -151,7 +151,7 @@ private open class FilterCreator(private val containers: Set<Identifier>) :
         properties["heights"]
             ?.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
-            ?.map({ height -> NumberOrRange.tryParse(height) }) {
+            ?.map(NumberOrRange::tryParse) {
                 throwParseException("heights", properties::getValue, "Invalid heights: ${joinNotFound(it)}")
             }
             ?.assertNotEmpty()
@@ -214,7 +214,7 @@ private val containerFilterCreators = mapOf(
             val levels = properties["levels"]
                 ?.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.map({ level -> NumberOrRange.tryParse(level) }) {
+                ?.map(NumberOrRange::tryParse) {
                     throwParseException("levels", properties::getValue, "Invalid levels: ${joinNotFound(it)}")
                 }
                 ?.assertNotEmpty()
