@@ -190,6 +190,14 @@
     "optigui-load-selector": [
       {
         "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.ConditionalLoadSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.ModLoadSelector"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.selector.LegacyOptiGuiVersionLoadSelector"
       }
     ],

@@ -34,6 +34,7 @@ fun loadSelectors() {
 
         if (selector == "replacement" ||
             selector == "load.priority" ||
+            selector == "if" ||
             selector.startsWith("if.")
         ) {
             put(selector, IdentifiableSelector("optigui", Reserved))
@@ -52,7 +53,9 @@ fun loadLoadTimeSelectors() {
         loadSelectorsOfType<ILoadTimeSelector, IdentifiableLoadTimeSelector>(::IdentifiableLoadTimeSelector) { selector ->
             if (selector in this) return@loadSelectorsOfType
 
-            if (!selector.startsWith("if.") ||
+            if (selector == "if") {
+                // Allow load time selector `if`
+            } else if (!selector.startsWith("if.") ||
                 selector.startsWith("if.config.")
             ) {
                 put(selector, IdentifiableLoadTimeSelector("optigui", Reserved))
