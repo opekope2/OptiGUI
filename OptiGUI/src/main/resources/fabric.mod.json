@@ -160,6 +160,14 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.HorseVariantSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.HorseMarkingSelector"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.selector.LlamaColorSelector"
       },
       {
