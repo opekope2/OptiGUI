@@ -10,21 +10,11 @@ import opekope2.util.*
 
 
 @Selector("villager.profession")
-class VillagerProfessionSelector : ISelector {
+object VillagerProfessionSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
-            ?.map({ profession ->
-                if ('@' in profession) {
-                    if (profession.count { it == '@' } > 2) return@map null
-                    val (profId, profLevel) = profession.split('@')
-                    val id = Identifier.tryParse(profId) ?: return@map null
-                    val level = NumberOrRange.tryParse(profLevel) ?: return@map null
-                    id to level
-                } else {
-                    (Identifier.tryParse(profession) ?: return@map null) to null
-                }
-            }) { throw RuntimeException("Invalid professions: ${joinNotFound(it)}") }
+            ?.map(::tryParseProfession) { throw RuntimeException("Invalid villager professions: ${joinNotFound(it)}") }
             ?.assertNotEmpty()
             ?.let { professions ->
                 DisjunctionFilter(
@@ -48,6 +38,18 @@ class VillagerProfessionSelector : ISelector {
                     }
                 )
             }
+
+    private fun tryParseProfession(profession: String): Pair<Identifier, NumberOrRange?>? {
+        return if ('@' in profession) {
+            if (profession.count { it == '@' } > 2) return null
+            val (profId, profLevel) = profession.split('@')
+            val id = Identifier.tryParse(profId) ?: return null
+            val level = NumberOrRange.tryParse(profLevel) ?: return null
+            id to level
+        } else {
+            (Identifier.tryParse(profession) ?: return null) to null
+        }
+    }
 }
 
 @Selector("villager.type")
