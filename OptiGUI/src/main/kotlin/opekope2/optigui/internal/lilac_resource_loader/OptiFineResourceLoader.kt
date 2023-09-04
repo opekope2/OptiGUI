@@ -407,17 +407,7 @@ private val containerFilterCreators = mapOf(
             val professions = properties["professions"]
                 ?.splitIgnoreEmpty(*delimiters)
                 ?.assertNotEmpty()
-                ?.map({ prof ->
-                    if (':' in prof) {
-                        if (prof.count { it == ':' } > 2) return@map null
-                        val (profName, profLevels) = prof.split(':')
-                        val profId = Identifier.tryParse(profName) ?: return@map null
-                        profId to profLevels.split(',')
-                            .map unused@{ level -> NumberOrRange.tryParse(level) ?: return@map null }
-                    } else {
-                        (Identifier.tryParse(prof) ?: return@map null) to null
-                    }
-                }) {
+                ?.map(::tryParseVillagerProfession) {
                     throwParseException("professions", properties::getValue, "Invalid professions: ${joinNotFound(it)}")
                 }
                 ?.assertNotEmpty()
@@ -509,6 +499,19 @@ private val containerFilterCreators = mapOf(
     }
 )
 
+
+private fun tryParseVillagerProfession(prof: String): Pair<Identifier, List<NumberOrRange>?>? {
+    return if (':' in prof) {
+        if (prof.count { it == ':' } > 2) return null
+        val (profName, profLevels) = prof.split(':')
+        val profId = Identifier.tryParse(profName) ?: return null
+        profId to profLevels.split(',')
+            .map unused@{ level -> NumberOrRange.tryParse(level) ?: return null }
+    } else {
+        (Identifier.tryParse(prof) ?: return null) to null
+    }
+
+}
 
 private fun IOptiGuiExtension.bindWarnTo(resource: Identifier): WarnFunction =
     { message -> warn(resource, message) }
