@@ -53,7 +53,7 @@ object VillagerProfessionSelector : ISelector {
 }
 
 @Selector("villager.type")
-class VillagerTypeSelector : ISelector {
+object VillagerTypeSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()

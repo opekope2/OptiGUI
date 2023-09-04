@@ -11,7 +11,7 @@ import opekope2.util.*
 
 
 @Selector("book.page.current")
-class BookPageSelector : ISelector {
+object BookPageSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
@@ -29,7 +29,7 @@ class BookPageSelector : ISelector {
 }
 
 @Selector("book.page.count")
-class BookPageCountSelector : ISelector {
+object BookPageCountSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()

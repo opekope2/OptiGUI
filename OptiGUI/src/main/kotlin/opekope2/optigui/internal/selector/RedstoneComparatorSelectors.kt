@@ -11,7 +11,7 @@ import opekope2.util.*
 
 
 @Selector("comparator.output")
-class RedstoneComparatorOutputSelector : ISelector {
+object RedstoneComparatorOutputSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()

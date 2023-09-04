@@ -12,7 +12,7 @@ import opekope2.util.*
 
 
 @Selector("chest_boat.variants")
-class ChestBoatVariantSelector : ISelector {
+object ChestBoatVariantSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()

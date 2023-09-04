@@ -14,7 +14,7 @@ import opekope2.util.*
 
 
 @Selector("donkey.has_chest")
-class DonkeyChestSelector : ISelector {
+object DonkeyChestSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *> =
         PreProcessorFilter.nullGuarded(
             { (it.data as? IDonkeyProperties)?.hasChest },
@@ -24,7 +24,7 @@ class DonkeyChestSelector : ISelector {
 }
 
 @Selector("horse.variants")
-class HorseVariantSelector : ISelector {
+object HorseVariantSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
@@ -42,7 +42,7 @@ class HorseVariantSelector : ISelector {
 }
 
 @Selector("horse.markings")
-class HorseMarkingSelector : ISelector {
+object HorseMarkingSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
@@ -60,7 +60,7 @@ class HorseMarkingSelector : ISelector {
 }
 
 @Selector("llama.colors")
-class LlamaColorSelector : ISelector {
+object LlamaColorSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()

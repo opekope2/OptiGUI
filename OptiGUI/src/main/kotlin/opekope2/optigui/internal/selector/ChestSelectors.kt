@@ -10,7 +10,7 @@ import opekope2.optigui.properties.IChestProperties
 
 
 @Selector("chest.large")
-class LargeChestSelector : ISelector {
+object LargeChestSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *> =
         PreProcessorFilter.nullGuarded(
             { (it.data as? IChestProperties)?.isLarge },

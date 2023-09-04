@@ -11,7 +11,7 @@ import opekope2.util.*
 
 
 @Selector("beacon.levels")
-class BeaconLevelSelector : ISelector {
+object BeaconLevelSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()

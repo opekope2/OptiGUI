@@ -12,7 +12,7 @@ import opekope2.util.*
 
 
 @Selector("if")
-class ConditionalLoadSelector : ILoadTimeSelector {
+object ConditionalLoadSelector : ILoadTimeSelector {
     override fun evaluate(value: String): IFilter.Result<out Any> =
         when (value.toBooleanStrictOrNull()) {
             true -> IFilter.Result.match(Unit)
@@ -22,7 +22,7 @@ class ConditionalLoadSelector : ILoadTimeSelector {
 }
 
 @Selector("if.mods")
-class ModLoadSelector : ILoadTimeSelector {
+object ModLoadSelector : ILoadTimeSelector {
     override fun evaluate(value: String): IFilter.Result<out Any> {
         val modCheckResults = value.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
@@ -56,7 +56,7 @@ class ModLoadSelector : ILoadTimeSelector {
 
 @Selector("if.mod.optigui.version.at_least")
 @Deprecated("For backwards compatibility only")
-class LegacyOptiGuiVersionLoadSelector : ILoadTimeSelector {
+object LegacyOptiGuiVersionLoadSelector : ILoadTimeSelector {
     override fun evaluate(value: String): IFilter.Result<out Any> {
         val requiredVersion = SemanticVersion.parse(value)
         return if (Util.checkModVersion("optigui") { v -> v >= requiredVersion }) IFilter.Result.match(Unit)

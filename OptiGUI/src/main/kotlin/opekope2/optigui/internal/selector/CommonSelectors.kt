@@ -11,37 +11,37 @@ import org.apache.commons.text.StringEscapeUtils.unescapeJava
 
 
 @Selector("name")
-class NameSelector : ISelector {
+object NameSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *> =
         createFilterFromName(Regex.fromLiteral(selector))
 }
 
 @Selector("name.wildcard")
-class WildcardNameSelector : ISelector {
+object WildcardNameSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *> =
         createFilterFromName(Regex(wildcardToRegex(unescapeJava(selector))))
 }
 
 @Selector("name.wildcard.ignore_case")
-class CaseInsensitiveWildcardNameSelector : ISelector {
+object CaseInsensitiveWildcardNameSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *> =
         createFilterFromName(Regex(wildcardToRegex(unescapeJava(selector)), RegexOption.IGNORE_CASE))
 }
 
 @Selector("name.regex")
-class RegexNameSelector : ISelector {
+object RegexNameSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *> =
         createFilterFromName(Regex(unescapeJava(selector)))
 }
 
 @Selector("name.regex.ignore_case")
-class CaseInsensitiveRegexNameSelector : ISelector {
+object CaseInsensitiveRegexNameSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *> =
         createFilterFromName(Regex(unescapeJava(selector), RegexOption.IGNORE_CASE))
 }
 
 @Selector("biomes")
-class BiomeSelector : ISelector {
+object BiomeSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
@@ -59,7 +59,7 @@ class BiomeSelector : ISelector {
 }
 
 @Selector("heights")
-class HeightSelector : ISelector {
+object HeightSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *>? =
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()

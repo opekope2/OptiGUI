@@ -13,7 +13,7 @@ import opekope2.util.*
 
 
 @Selector("interaction.texture")
-class InteractionTextureSelector : ISelector {
+object InteractionTextureSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *> =
         PreProcessorFilter(
             { it.texture },
