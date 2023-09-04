@@ -76,3 +76,23 @@ object LlamaColorSelector : ISelector {
                 )
             }
 }
+
+typealias LlamaVariant = net.minecraft.entity.passive.LlamaEntity.Variant
+
+@Selector("llama.variants")
+object LlamaVariantSelector : ISelector {
+    override fun createFilter(selector: String): IFilter<Interaction, *>? =
+        selector.splitIgnoreEmpty(*delimiters)
+            ?.assertNotEmpty()
+            ?.map({ variant -> variant.takeIf { LlamaVariant.values().any { it.name.lowercase() == variant } } }) {
+                throw RuntimeException("Invalid llama variants: ${joinNotFound(it)}")
+            }
+            ?.assertNotEmpty()
+            ?.let { colors ->
+                PreProcessorFilter.nullGuarded(
+                    { (it.data as? ILlamaProperties)?.variant },
+                    IFilter.Result.mismatch(),
+                    ContainingFilter(colors)
+                )
+            }
+}

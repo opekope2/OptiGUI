@@ -13,4 +13,11 @@ interface ILlamaProperties : IDonkeyProperties {
      * @see net.minecraft.entity.passive.LlamaEntity.getCarpetColor
      */
     val carpetColor: String?
+
+    /**
+     * The variant of the llama.
+     *
+     * @see net.minecraft.entity.passive.LlamaEntity.getVariant
+     */
+    val variant: String
 }

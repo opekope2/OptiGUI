@@ -181,6 +181,7 @@ object LlamaProcessor : IEntityProcessor<LlamaEntity> {
                 hasChest = llama.hasChest()
             ),
             carpetColor = llama.carpetColor?.getName(),
+            variant = llama.variant.asString()
         )
     }
 }

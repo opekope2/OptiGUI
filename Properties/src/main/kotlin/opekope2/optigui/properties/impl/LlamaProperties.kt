@@ -11,7 +11,8 @@ class LlamaProperties(
     val commonProperties: ICommonProperties,
     val donkeyProperties: IDonkeyProperties,
     override val carpetColor: String?,
+    override val variant: String,
 ) : ICommonProperties by commonProperties, IDonkeyProperties by donkeyProperties, ILlamaProperties {
-    constructor(donkeyProperties: DonkeyProperties, carpetColor: String?)
-            : this(donkeyProperties, donkeyProperties, carpetColor)
+    constructor(donkeyProperties: DonkeyProperties, carpetColor: String?, variant: String)
+            : this(donkeyProperties, donkeyProperties, carpetColor, variant)
 }

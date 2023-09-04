@@ -172,6 +172,10 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.LlamaVariantSelector"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.selector.DateSelector"
       },
       {
