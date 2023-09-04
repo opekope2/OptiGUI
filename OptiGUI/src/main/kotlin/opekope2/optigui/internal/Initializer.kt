@@ -7,10 +7,6 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
 import opekope2.lilac.util.Util
 import opekope2.optigui.api.IOptiGuiApi
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-
-internal val logger: Logger = LoggerFactory.getLogger("OptiGUI")
 
 
 @Suppress("unused")

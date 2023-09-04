@@ -6,7 +6,10 @@ import net.minecraft.util.DyeColor
 import opekope2.optigui.annotation.Selector
 import opekope2.optigui.api.interaction.Interaction
 import opekope2.optigui.api.selector.ISelector
-import opekope2.optigui.filter.*
+import opekope2.optigui.filter.ContainingFilter
+import opekope2.optigui.filter.EqualityFilter
+import opekope2.optigui.filter.IFilter
+import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.properties.IDonkeyProperties
 import opekope2.optigui.properties.IHorseProperties
 import opekope2.optigui.properties.ILlamaProperties

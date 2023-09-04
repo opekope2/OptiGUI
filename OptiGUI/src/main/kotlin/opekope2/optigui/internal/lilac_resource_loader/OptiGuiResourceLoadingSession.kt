@@ -6,8 +6,8 @@ import opekope2.lilac.api.resource.loading.IResourceLoader
 import opekope2.lilac.api.resource.loading.IResourceLoadingSession
 import opekope2.optigui.api.interaction.Interaction
 import opekope2.optigui.api.lilac_resource_loading.IOptiGuiExtension
-import opekope2.optigui.filter.IFilter
 import opekope2.optigui.filter.FirstMatchFilter
+import opekope2.optigui.filter.IFilter
 import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.internal.filter.IdentifiablePriorityFilter
 import org.slf4j.LoggerFactory
