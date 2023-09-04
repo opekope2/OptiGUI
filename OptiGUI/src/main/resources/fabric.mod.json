@@ -312,6 +312,7 @@
         "minecraft:camel": "minecraft:textures/gui/container/horse.png",
         "minecraft:donkey": "minecraft:textures/gui/container/horse.png",
         "minecraft:llama": "minecraft:textures/gui/container/horse.png",
+        "minecraft:trader_llama": "minecraft:textures/gui/container/horse.png",
         "minecraft:mule": "minecraft:textures/gui/container/horse.png",
         "minecraft:skeleton_horse": "minecraft:textures/gui/container/horse.png",
         "minecraft:zombie_horse": "minecraft:textures/gui/container/horse.png",
