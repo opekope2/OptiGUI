@@ -187,6 +187,12 @@
         "value": "opekope2.optigui.internal.selector.VillagerTypeSelector"
       }
     ],
+    "optigui-load-selector": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.LegacyOptiGuiVersionLoadSelector"
+      }
+    ],
     "lilac-resourceloader-factory": [
       {
         "adapter": "kotlin",

@@ -1,6 +1,5 @@
 package opekope2.optigui.internal
 
-import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.Version
 import net.minecraft.client.gui.screen.ingame.BookEditScreen
 import net.minecraft.client.gui.screen.ingame.BookScreen
@@ -10,12 +9,8 @@ import opekope2.lilac.util.Util
 import opekope2.optigui.api.IOptiGuiApi
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import kotlin.jvm.optionals.getOrNull
 
 internal val logger: Logger = LoggerFactory.getLogger("OptiGUI")
-val modVersion =
-    FabricLoader.getInstance().getModContainer("optigui").getOrNull()?.metadata?.version
-        ?: throw RuntimeException("OptiGUI is not loaded with id 'optigui'!")
 
 
 @Suppress("unused")
