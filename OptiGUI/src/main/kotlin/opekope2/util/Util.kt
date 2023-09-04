@@ -99,7 +99,7 @@ internal inline fun <T, TResult> Collection<T>.map(
     return result
 }
 
-internal fun joinNotFound(strings: Collection<String>) = strings.joinToString(", ", prefix = "`", postfix = "`")
+internal fun joinNotFound(strings: Collection<String>) = strings.joinToString { "`$it`" }
 
 internal fun wildcardToRegex(wildcard: String): String = buildString {
     append('^')
