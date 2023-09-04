@@ -16,7 +16,7 @@ class BeaconLevelSelector : ISelector {
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
             ?.map(NumberOrRange::tryParse) {
-                throw RuntimeException("Invalid levels: ${joinNotFound(it)}")
+                throw RuntimeException("Invalid beacon levels: ${joinNotFound(it)}")
             }
             ?.assertNotEmpty()
             ?.let { levels ->

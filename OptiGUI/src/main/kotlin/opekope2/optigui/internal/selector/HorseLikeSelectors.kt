@@ -65,7 +65,7 @@ class LlamaColorSelector : ISelector {
         selector.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
             ?.map({ color -> color.takeIf { DyeColor.byName(color, null) != null } }) {
-                throw RuntimeException("Invalid colors: ${joinNotFound(it)}")
+                throw RuntimeException("Invalid llama colors: ${joinNotFound(it)}")
             }
             ?.assertNotEmpty()
             ?.let { variants ->
