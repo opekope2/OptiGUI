@@ -10,6 +10,7 @@ import opekope2.optigui.api.IOptiGuiApi
 import opekope2.optigui.api.interaction.Interaction
 import opekope2.optigui.api.lilac_resource_loading.IOptiGuiExtension
 import opekope2.optigui.filter.*
+import opekope2.optigui.internal.selector.loadTimeSelectors
 import opekope2.optigui.internal.selector.selectors
 import opekope2.optigui.properties.IGeneralProperties
 import opekope2.util.OPTIGUI_NAMESPACE
@@ -37,6 +38,19 @@ class OptiGuiResourceLoader(private val optigui: IOptiGuiExtension) : IResourceL
 
     private fun processIni(resource: Identifier, ini: Ini) {
         for ((sectionName, section) in ini) {
+            val allMatch = section.all { (key, value) ->
+                try {
+                    loadTimeSelectors[key]?.evaluate(value) ?: return@all true // Ignore unavailable load time selectors
+                } catch (e: Exception) {
+                    // Warn, because the resource maybe malformed
+                    optigui.warn(resource, "[$sectionName] Failed to evaluate `$key=$value`: ${e.message ?: e}")
+                    IFilter.Result.skip()
+                } is IFilter.Result.Match
+            }
+            if (!allMatch) {
+                continue // Skip silently if not all selectors matched
+            }
+
             val replacement = (section["replacement"].also {
                 if (it == null) optigui.warn(
                     resource,
