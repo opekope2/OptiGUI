@@ -12,7 +12,6 @@ import opekope2.optigui.api.lilac_resource_loading.IOptiGuiExtension
 import opekope2.optigui.filter.*
 import opekope2.optigui.internal.selector.loadTimeSelectors
 import opekope2.optigui.internal.selector.selectors
-import opekope2.optigui.properties.IGeneralProperties
 import opekope2.util.OPTIGUI_NAMESPACE
 import opekope2.util.OPTIGUI_RESOURCES_ROOT
 import opekope2.util.delimiters
@@ -94,9 +93,8 @@ class OptiGuiResourceLoader(private val optigui: IOptiGuiExtension) : IResourceL
                 }
 
                 val filters = mutableListOf<IFilter<Interaction, *>>(
-                    PreProcessorFilter.nullGuarded(
-                        { (it.data as? IGeneralProperties)?.container },
-                        IFilter.Result.mismatch(),
+                    PreProcessorFilter(
+                        { it.container },
                         EqualityFilter(container)
                     ),
                     PreProcessorFilter.nullGuarded(

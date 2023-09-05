@@ -2,6 +2,7 @@ package opekope2.optigui.api.interaction;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
 import opekope2.optigui.annotation.RequiresImplementation;
@@ -16,6 +17,7 @@ public interface IInteractor {
     /**
      * Signals the texture replacer that an interaction has begun. Should be called before opening a GUI.
      *
+     * @param container The identifier of the container. Same as in the {@code /summon} or {@code /setblock} commands
      * @param player    The interacting player
      * @param world     The world the interaction happens in. Must be client-side
      * @param hand      The hand of the player that triggered the interaction
@@ -23,7 +25,7 @@ public interface IInteractor {
      * @param hitResult The hit result from Minecraft
      * @return {@code true} if the parameters are valid, and a GUI is not open, otherwise {@code false}
      */
-    boolean interact(@NotNull PlayerEntity player, @NotNull World world, @NotNull Hand hand, @NotNull IInteractionTarget target, @Nullable HitResult hitResult);
+    boolean interact(@NotNull Identifier container, @NotNull PlayerEntity player, @NotNull World world, @NotNull Hand hand, @NotNull IInteractionTarget target, @Nullable HitResult hitResult);
 
     /**
      * Returns the implementation of {@link IInteractor}.

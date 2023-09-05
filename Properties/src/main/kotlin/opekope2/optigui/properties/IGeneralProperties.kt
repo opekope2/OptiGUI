@@ -9,11 +9,6 @@ import net.minecraft.util.Identifier
  */
 interface IGeneralProperties {
     /**
-     * The identifier of the container. Same as in the `/summon` or `/setblock` commands.
-     */
-    val container: Identifier
-
-    /**
      * Custom container name (renamed with an anvil or with a name tag).
      *
      * @see net.minecraft.util.Nameable.getCustomName

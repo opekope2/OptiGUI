@@ -30,7 +30,6 @@ private fun BlockEntity.createCommonProperties(): CommonProperties? {
 
     return CommonProperties(
         GeneralProperties(
-            container = lookup.lookupBlockId(world.getBlockState(pos).block),
             name = (this as? Nameable)?.customName?.string,
             biome = lookup.lookupBiomeId(world, pos),
             height = pos.y
@@ -46,7 +45,6 @@ private fun Entity.createCommonProperties(): CommonProperties? {
 
     return CommonProperties(
         GeneralProperties(
-            container = lookup.lookupEntityId(this),
             name = customName?.string,
             biome = lookup.lookupBiomeId(world, blockPos),
             height = blockY

@@ -91,9 +91,8 @@ private open class FilterCreator(private val containers: Set<Identifier>) :
     protected open fun createFilters(properties: Options, warn: WarnFunction): MutableList<IFilter<Interaction, *>> {
         val filters = mutableListOf<IFilter<Interaction, *>>()
 
-        filters += PreProcessorFilter.nullGuarded(
-            { (it.data as? IGeneralProperties)?.container },
-            mismatch(),
+        filters += PreProcessorFilter(
+            { it.container },
             ContainingFilter(containers)
         )
         filters += PreProcessorFilter(
@@ -250,9 +249,8 @@ private val containerFilterCreators = mapOf(
                     false -> setOf(Identifier("chest"))
                     else -> setOf(Identifier("chest"), Identifier("trapped_chest"))
                 }
-                filters[0] = PreProcessorFilter.nullGuarded(
-                    { (it.data as? IGeneralProperties)?.container },
-                    mismatch(),
+                filters[0] = PreProcessorFilter(
+                    { it.container },
                     ContainingFilter(containers)
                 )
 
@@ -288,9 +286,8 @@ private val containerFilterCreators = mapOf(
             // Ender chests can't be large, trapped, and can't be named
             if (ender != false && large != true && trapped != true && properties["name"].isNullOrEmpty()) {
                 val filters = createFilters(properties, optigui.bindWarnTo(resource))
-                filters[0] = PreProcessorFilter.nullGuarded(
-                    { (it.data as? IGeneralProperties)?.container },
-                    mismatch(),
+                filters[0] = PreProcessorFilter(
+                    { it.container },
                     EqualityFilter(Identifier("ender_chest"))
                 )
 
@@ -321,9 +318,8 @@ private val containerFilterCreators = mapOf(
             val containers = variants.map(::Identifier)
             val filters = super.createFilters(properties, warn)
 
-            filters[0] = PreProcessorFilter.nullGuarded(
-                { (it.data as? IGeneralProperties)?.container },
-                mismatch(),
+            filters[0] = PreProcessorFilter(
+                { it.container },
                 ContainingFilter(containers)
             )
 
@@ -348,9 +344,8 @@ private val containerFilterCreators = mapOf(
 
             if (variants.remove("llama")) {
                 val filters = createFilters(properties, optigui.bindWarnTo(resource))
-                filters[0] = PreProcessorFilter.nullGuarded(
-                    { (it.data as? IGeneralProperties)?.container },
-                    mismatch(),
+                filters[0] = PreProcessorFilter(
+                    { it.container },
                     EqualityFilter(Identifier("llama"))
                 )
 
@@ -389,9 +384,8 @@ private val containerFilterCreators = mapOf(
             if (variants.isEmpty()) return
 
             val filters = createFilters(properties, optigui.bindWarnTo(resource))
-            filters[0] = PreProcessorFilter.nullGuarded(
-                { (it.data as? IGeneralProperties)?.container },
-                mismatch(),
+            filters[0] = PreProcessorFilter(
+                { it.container },
                 ContainingFilter(variants.map(::Identifier))
             )
 
@@ -460,9 +454,8 @@ private val containerFilterCreators = mapOf(
             val blocks = colors.map { color -> "${color}_shulker_box" }
             val filters = super.createFilters(properties, warn)
 
-            filters[0] = PreProcessorFilter.nullGuarded(
-                { (it.data as? IGeneralProperties)?.container },
-                mismatch(),
+            filters[0] = PreProcessorFilter(
+                { it.container },
                 ContainingFilter(blocks.map(::Identifier))
             )
 

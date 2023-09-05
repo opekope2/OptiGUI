@@ -45,12 +45,13 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
 
     override fun interact(player: PlayerEntity, world: World, hand: Hand, hitResult: BlockHitResult): ActionResult {
         if (world.isClient) {
+            val container = lookup.lookupBlockId(world.getBlockState(hitResult.blockPos).block)
             val blockEntity = world.getBlockEntity(hitResult.blockPos)
             val target =
                 if (blockEntity?.hasProcessor == true) IInteractionTarget.BlockEntityTarget(blockEntity)
                 else getBlockInteractionTarget(world, hitResult.blockPos)
 
-            if (target != null) interactor.interact(player, world, hand, target, hitResult)
+            if (target != null) interactor.interact(container, player, world, hand, target, hitResult)
         }
 
         return ActionResult.PASS
@@ -66,7 +67,6 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
         return IInteractionTarget.ComputedTarget(
             CommonProperties(
                 GeneralProperties(
-                    container = container,
                     name = null,
                     biome = lookup.lookupBiomeId(world, target),
                     height = target.y
@@ -82,7 +82,8 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
         player: PlayerEntity, world: World, hand: Hand, entity: Entity, hitResult: EntityHitResult?
     ): ActionResult {
         if (world.isClient && entity.hasProcessor) {
-            interactor.interact(player, world, hand, IInteractionTarget.EntityTarget(entity), hitResult)
+            val container = lookup.lookupEntityId(entity)
+            interactor.interact(container, player, world, hand, IInteractionTarget.EntityTarget(entity), hitResult)
         }
 
         return ActionResult.PASS
@@ -102,7 +103,6 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
                 BookProperties(
                     CommonProperties(
                         GeneralProperties(
-                            container = Identifier("writable_book"),
                             name = stack.name.string,
                             biome = lookup.lookupBiomeId(world, player.blockPos),
                             height = player.blockY
@@ -123,7 +123,6 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
                 BookProperties(
                     CommonProperties(
                         GeneralProperties(
-                            container = Identifier("written_book"),
                             name = stack.name.string,
                             biome = lookup.lookupBiomeId(world, player.blockPos),
                             height = player.blockY
@@ -140,7 +139,8 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
             else -> return result
         }
 
-        interactor.interact(player, world, hand, target, null)
+        val container = lookup.lookupItemId(stack.item)
+        interactor.interact(container, player, world, hand, target, null)
 
         return result
     }
@@ -154,13 +154,13 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
         }
 
         interactor.interact(
+            container,
             player,
             world,
             Hand.MAIN_HAND,
             IInteractionTarget.ComputedTarget {
                 CommonProperties(
                     GeneralProperties(
-                        container = container,
                         name = player.name.string,
                         biome = lookup.lookupBiomeId(world, player.blockPos),
                         height = player.blockY

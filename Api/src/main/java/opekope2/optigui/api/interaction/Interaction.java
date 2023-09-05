@@ -8,7 +8,8 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Interaction representation with a block entity or entity.
  *
- * @param texture        The texture to be replaced.
+ * @param container      The identifier of the container. Same as in the {@code /summon} or {@code /setblock} commands
+ * @param texture        The texture to be replaced
  * @param screenTitle    The active GUI screen's title
  * @param rawInteraction The raw interaction from Minecraft containing the details
  * @param data           The interaction data returned by the interaction data provider
@@ -17,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
  * @see RawInteraction
  */
 public record Interaction(
+        @NotNull Identifier container,
         @NotNull Identifier texture,
         @NotNull Text screenTitle,
         @Nullable RawInteraction rawInteraction,

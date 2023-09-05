@@ -24,8 +24,8 @@ internal object TextureReplacer : ClientModInitializer, IInteractor {
         var interacting: Boolean = false
             private set
 
+        private var container: Identifier? = null
         private var target: IInteractionTarget? = null
-
         private var raw: RawInteraction? = null
         private var data: Any? = null
         private var screen: Screen? = null
@@ -43,9 +43,10 @@ internal object TextureReplacer : ClientModInitializer, IInteractor {
             }
         }
 
-        fun prepare(target: IInteractionTarget, rawInteraction: RawInteraction): Boolean {
+        fun prepare(container: Identifier, target: IInteractionTarget, rawInteraction: RawInteraction): Boolean {
             if (interacting) return false
 
+            this.container = container
             this.target = target
             this.raw = rawInteraction
 
@@ -61,6 +62,7 @@ internal object TextureReplacer : ClientModInitializer, IInteractor {
         }
 
         fun end() {
+            container = null
             target = null
             raw = null
             data = null
@@ -72,7 +74,7 @@ internal object TextureReplacer : ClientModInitializer, IInteractor {
 
         fun createInteraction(texture: Identifier): Interaction? {
             return if (!interacting) null
-            else Interaction(texture, screen?.title ?: return null, raw, data)
+            else Interaction(container ?: return null, texture, screen?.title ?: return null, raw, data)
         }
 
         override fun onPlayDisconnect(handler: ClientPlayNetworkHandler, client: MinecraftClient) {
@@ -121,9 +123,14 @@ internal object TextureReplacer : ClientModInitializer, IInteractor {
         else InteractionHolder.end()
 
     override fun interact(
-        player: PlayerEntity, world: World, hand: Hand, target: IInteractionTarget, hitResult: HitResult?
+        container: Identifier,
+        player: PlayerEntity,
+        world: World,
+        hand: Hand,
+        target: IInteractionTarget,
+        hitResult: HitResult?
     ): Boolean {
         if (!world.isClient) return false
-        return InteractionHolder.prepare(target, RawInteraction(player, world, hand, hitResult))
+        return InteractionHolder.prepare(container, target, RawInteraction(player, world, hand, hitResult))
     }
 }
