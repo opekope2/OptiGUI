@@ -97,9 +97,8 @@ class OptiGuiResourceLoader(private val optigui: IOptiGuiExtension) : IResourceL
                         { it.container },
                         EqualityFilter(container)
                     ),
-                    PreProcessorFilter.nullGuarded(
+                    PreProcessorFilter(
                         { it.texture },
-                        IFilter.Result.mismatch(),
                         ContainingFilter(replaceableTextures)
                     ),
                 )
