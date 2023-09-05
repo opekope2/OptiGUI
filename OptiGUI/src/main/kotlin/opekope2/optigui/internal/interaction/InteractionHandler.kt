@@ -140,7 +140,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
             else -> return result
         }
 
-        interactor.interact(player, world, Hand.MAIN_HAND, target, null)
+        interactor.interact(player, world, hand, target, null)
 
         return result
     }
