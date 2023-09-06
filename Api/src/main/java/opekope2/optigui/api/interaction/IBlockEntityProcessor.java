@@ -19,7 +19,7 @@ import java.util.function.Function;
  * @see opekope2.optigui.annotation.BlockEntityProcessor
  */
 @EntrypointName("optigui-blockentityprocessor")
-public interface IBlockEntityProcessor<T extends BlockEntity> extends Function<T, Object> {
+public interface IBlockEntityProcessor<T extends BlockEntity> extends Function<T, IInteractionData> {
     /**
      * Finds the registered block entity processor for the given block entity class.
      *

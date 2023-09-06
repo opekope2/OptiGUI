@@ -19,7 +19,7 @@ import java.util.function.Function;
  * @see opekope2.optigui.annotation.EntityProcessor
  */
 @EntrypointName("optigui-entityprocessor")
-public interface IEntityProcessor<T extends Entity> extends Function<T, Object> {
+public interface IEntityProcessor<T extends Entity> extends Function<T, IInteractionData> {
     /**
      * Finds the registered entity processor for the given entity class.
      *

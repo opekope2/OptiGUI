@@ -19,6 +19,7 @@ import opekope2.optigui.annotation.BlockEntityProcessor
 import opekope2.optigui.annotation.EntityProcessor
 import opekope2.optigui.api.interaction.IBlockEntityProcessor
 import opekope2.optigui.api.interaction.IEntityProcessor
+import opekope2.optigui.api.interaction.IInteractionData
 import opekope2.optigui.properties.impl.*
 import opekope2.util.comparatorOutputWorkaround
 import java.time.LocalDate
@@ -59,7 +60,7 @@ private fun Entity.createCommonProperties(): CommonProperties? {
 @BlockEntityProcessor(EnderChestBlockEntity::class)
 @BlockEntityProcessor(HangingSignBlockEntity::class)
 object GenericBlockEntityProcessor : IBlockEntityProcessor<BlockEntity> {
-    override fun apply(blockEntity: BlockEntity): Any? = blockEntity.createCommonProperties()
+    override fun apply(blockEntity: BlockEntity): IInteractionData? = blockEntity.createCommonProperties()
 }
 
 @BlockEntityProcessor(BrewingStandBlockEntity::class)
@@ -72,7 +73,7 @@ object GenericBlockEntityProcessor : IBlockEntityProcessor<BlockEntity> {
 @BlockEntityProcessor(HopperBlockEntity::class)
 @BlockEntityProcessor(ShulkerBoxBlockEntity::class)
 object ComparableBlockEntityProcessor : IBlockEntityProcessor<BlockEntity> {
-    override fun apply(blockEntity: BlockEntity): Any? {
+    override fun apply(blockEntity: BlockEntity): IInteractionData? {
         val screen = MinecraftClient.getInstance().currentScreen
 
         return CommonRedstoneComparatorProperties(
@@ -87,13 +88,13 @@ object ComparableBlockEntityProcessor : IBlockEntityProcessor<BlockEntity> {
 @EntityProcessor(ZombieHorseEntity::class)
 @EntityProcessor(WanderingTraderEntity::class)
 object GenericEntityProcessor : IEntityProcessor<Entity> {
-    override fun apply(entity: Entity): Any? = entity.createCommonProperties()
+    override fun apply(entity: Entity): IInteractionData? = entity.createCommonProperties()
 }
 
 @EntityProcessor(ChestMinecartEntity::class)
 @EntityProcessor(HopperMinecartEntity::class)
 object ComparableEntityProcessor : IEntityProcessor<Entity> {
-    override fun apply(entity: Entity): Any? {
+    override fun apply(entity: Entity): IInteractionData? {
         val screen = MinecraftClient.getInstance().currentScreen
 
         return CommonRedstoneComparatorProperties(
@@ -105,7 +106,7 @@ object ComparableEntityProcessor : IEntityProcessor<Entity> {
 
 @BlockEntityProcessor(BeaconBlockEntity::class)
 object BeaconProcessor : IBlockEntityProcessor<BeaconBlockEntity> {
-    override fun apply(beacon: BeaconBlockEntity): Any? {
+    override fun apply(beacon: BeaconBlockEntity): IInteractionData? {
         return BeaconProperties(
             commonProperties = beacon.createCommonProperties() ?: return null,
             level = beacon.level
@@ -118,7 +119,7 @@ private val chestTypeEnum = EnumProperty.of("type", ChestType::class.java)
 @BlockEntityProcessor(ChestBlockEntity::class)
 @BlockEntityProcessor(TrappedChestBlockEntity::class)
 object ChestProcessor : IBlockEntityProcessor<ChestBlockEntity> {
-    override fun apply(chest: ChestBlockEntity): Any? {
+    override fun apply(chest: ChestBlockEntity): IInteractionData? {
         val world = chest.world ?: return null
         val state = world.getBlockState(chest.pos)
         val type = state.entries[chestTypeEnum]
@@ -136,7 +137,7 @@ object ChestProcessor : IBlockEntityProcessor<ChestBlockEntity> {
 
 @EntityProcessor(ChestBoatEntity::class)
 object ChestBoatProcessor : IEntityProcessor<ChestBoatEntity> {
-    override fun apply(chestBoat: ChestBoatEntity): Any? {
+    override fun apply(chestBoat: ChestBoatEntity): IInteractionData? {
         return ChestBoatProperties(
             commonProperties = chestBoat.createCommonProperties() ?: return null,
             variant = chestBoat.variant.getName()
@@ -146,7 +147,7 @@ object ChestBoatProcessor : IEntityProcessor<ChestBoatEntity> {
 
 @EntityProcessor(HorseEntity::class)
 object HorseProcessor : IEntityProcessor<HorseEntity> {
-    override fun apply(horse: HorseEntity): Any? {
+    override fun apply(horse: HorseEntity): IInteractionData? {
         return HorseProperties(
             commonProperties = horse.createCommonProperties() ?: return null,
             horseLikeProperties = HorseLikeProperties(),
@@ -159,7 +160,7 @@ object HorseProcessor : IEntityProcessor<HorseEntity> {
 @EntityProcessor(DonkeyEntity::class)
 @EntityProcessor(MuleEntity::class)
 object DonkeyProcessor : IEntityProcessor<AbstractDonkeyEntity> {
-    override fun apply(donkey: AbstractDonkeyEntity): Any? {
+    override fun apply(donkey: AbstractDonkeyEntity): IInteractionData? {
         return DonkeyProperties(
             commonProperties = donkey.createCommonProperties() ?: return null,
             horseLikeProperties = HorseLikeProperties(),
@@ -171,7 +172,7 @@ object DonkeyProcessor : IEntityProcessor<AbstractDonkeyEntity> {
 @EntityProcessor(LlamaEntity::class)
 @EntityProcessor(TraderLlamaEntity::class)
 object LlamaProcessor : IEntityProcessor<LlamaEntity> {
-    override fun apply(llama: LlamaEntity): Any? {
+    override fun apply(llama: LlamaEntity): IInteractionData? {
         return LlamaProperties(
             donkeyProperties = DonkeyProperties(
                 commonProperties = llama.createCommonProperties() ?: return null,
@@ -186,7 +187,7 @@ object LlamaProcessor : IEntityProcessor<LlamaEntity> {
 
 @EntityProcessor(VillagerEntity::class)
 object VillagerProcessor : IEntityProcessor<VillagerEntity> {
-    override fun apply(villager: VillagerEntity): Any? {
+    override fun apply(villager: VillagerEntity): IInteractionData? {
         return VillagerProperties(
             commonProperties = villager.createCommonProperties() ?: return null,
             profession = lookup.lookupVillagerProfessionId(villager.villagerData.profession),
@@ -198,7 +199,7 @@ object VillagerProcessor : IEntityProcessor<VillagerEntity> {
 
 @BlockEntityProcessor(LecternBlockEntity::class)
 object LecternProcessor : IBlockEntityProcessor<LecternBlockEntity> {
-    override fun apply(lectern: LecternBlockEntity): Any? {
+    override fun apply(lectern: LecternBlockEntity): IInteractionData? {
         // Workaround, because LecternBlockEntity doesn't sync
         val screen = MinecraftClient.getInstance().currentScreen as? LecternScreen ?: return null
 
