@@ -9,8 +9,8 @@ import java.util.function.BiConsumer
  * Implementation of [ILlamaProperties] for llamas.
  */
 class LlamaProperties(
-    val commonProperties: ICommonProperties,
-    val donkeyProperties: IDonkeyProperties,
+    private val commonProperties: ICommonProperties,
+    private val donkeyProperties: IDonkeyProperties,
     override val carpetColor: String?,
     override val variant: String,
 ) : ICommonProperties by commonProperties, IDonkeyProperties by donkeyProperties, ILlamaProperties {

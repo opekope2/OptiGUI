@@ -9,8 +9,8 @@ import java.util.function.BiConsumer
  * Default implementation of [ICommonProperties].
  */
 data class CommonProperties(
-    val generalProperties: IGeneralProperties,
-    val independentProperties: IIndependentProperties,
+    private val generalProperties: IGeneralProperties,
+    private val independentProperties: IIndependentProperties,
 ) : ICommonProperties, IGeneralProperties by generalProperties, IIndependentProperties by independentProperties {
     override fun writeSelectors(appendSelector: BiConsumer<String, String>) {
         super<ICommonProperties>.writeSelectors(appendSelector)

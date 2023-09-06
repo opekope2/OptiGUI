@@ -8,7 +8,7 @@ import java.util.function.BiConsumer
  * Implementation of [IBeaconProperties] for beacons.
  */
 data class BeaconProperties(
-    val commonProperties: ICommonProperties,
+    private val commonProperties: ICommonProperties,
     override val level: Int,
 ) : ICommonProperties by commonProperties, IBeaconProperties {
     override fun writeSelectors(appendSelector: BiConsumer<String, String>) {

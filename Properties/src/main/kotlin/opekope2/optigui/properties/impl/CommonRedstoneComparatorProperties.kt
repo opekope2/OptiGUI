@@ -8,7 +8,7 @@ import java.util.function.BiConsumer
  * Implementation of [IRedstoneComparatorProperties] and [ICommonProperties].
  */
 data class CommonRedstoneComparatorProperties(
-    val commonProperties: ICommonProperties,
+    private val commonProperties: ICommonProperties,
     override val comparatorOutput: Int,
 ) : ICommonProperties by commonProperties, IRedstoneComparatorProperties {
     override fun writeSelectors(appendSelector: BiConsumer<String, String>) {

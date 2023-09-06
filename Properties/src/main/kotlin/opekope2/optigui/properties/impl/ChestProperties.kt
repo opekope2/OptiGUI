@@ -9,8 +9,8 @@ import java.util.function.BiConsumer
  * Implementation of [IChestProperties] for chests.
  */
 data class ChestProperties(
-    val commonProperties: ICommonProperties,
-    val redstoneComparatorProperties: IRedstoneComparatorProperties,
+    private val commonProperties: ICommonProperties,
+    private val redstoneComparatorProperties: IRedstoneComparatorProperties,
     override val isLarge: Boolean,
 ) : ICommonProperties by commonProperties, IRedstoneComparatorProperties by redstoneComparatorProperties,
     IChestProperties {

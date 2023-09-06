@@ -8,7 +8,7 @@ import java.util.function.BiConsumer
  * Implementation of [IChestBoatProperties] for chest boats.
  */
 data class ChestBoatProperties(
-    val commonProperties: ICommonProperties,
+    private val commonProperties: ICommonProperties,
     override val variant: String,
 ) : ICommonProperties by commonProperties, IChestBoatProperties {
     override fun writeSelectors(appendSelector: BiConsumer<String, String>) {

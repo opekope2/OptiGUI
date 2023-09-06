@@ -8,7 +8,7 @@ import java.util.function.BiConsumer
  * Implementation of [IBookProperties] for book items.
  */
 data class BookProperties(
-    val commonProperties: ICommonProperties,
+    private val commonProperties: ICommonProperties,
     override val currentPage: Int,
     override val pageCount: Int,
 ) : ICommonProperties by commonProperties, IBookProperties {
