@@ -22,6 +22,6 @@ public record Interaction(
         @NotNull Identifier texture,
         @NotNull Text screenTitle,
         @Nullable RawInteraction rawInteraction,
-        @Nullable Object data
+        @Nullable IInteractionData data
 ) {
 }

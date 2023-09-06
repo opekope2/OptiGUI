@@ -27,7 +27,7 @@ internal object TextureReplacer : ClientModInitializer, IInteractor {
         private var container: Identifier? = null
         private var target: IInteractionTarget? = null
         private var raw: RawInteraction? = null
-        private var data: Any? = null
+        private var data: IInteractionData? = null
         private var screen: Screen? = null
 
         var riddenEntity: Entity? = null
