@@ -1,5 +1,8 @@
 package opekope2.optigui.properties
 
+import opekope2.optigui.api.interaction.IInteractionData
+import java.util.function.BiConsumer
+
 /**
  * Properties for books, lecterns, and other book-holding containers.
  *
@@ -9,7 +12,7 @@ package opekope2.optigui.properties
  * @see opekope2.optigui.properties.impl.BookProperties
  * @see opekope2.optigui.properties.impl.LecternProperties
  */
-interface IBookProperties {
+interface IBookProperties : IInteractionData {
     /**
      * Current page of the book.
      */
@@ -19,4 +22,9 @@ interface IBookProperties {
      * Number of pages in the book.
      */
     val pageCount: Int
+
+    override fun writeSelectors(appendSelector: BiConsumer<String, String>) {
+        appendSelector.accept("book.page.current", currentPage.toString())
+        appendSelector.accept("book.page.count", pageCount.toString())
+    }
 }

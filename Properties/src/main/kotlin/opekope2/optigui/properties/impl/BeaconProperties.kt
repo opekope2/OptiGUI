@@ -2,6 +2,7 @@ package opekope2.optigui.properties.impl
 
 import opekope2.optigui.properties.IBeaconProperties
 import opekope2.optigui.properties.ICommonProperties
+import java.util.function.BiConsumer
 
 /**
  * Implementation of [IBeaconProperties] for beacons.
@@ -9,4 +10,9 @@ import opekope2.optigui.properties.ICommonProperties
 data class BeaconProperties(
     val commonProperties: ICommonProperties,
     override val level: Int,
-) : ICommonProperties by commonProperties, IBeaconProperties
+) : ICommonProperties by commonProperties, IBeaconProperties {
+    override fun writeSelectors(appendSelector: BiConsumer<String, String>) {
+        super<ICommonProperties>.writeSelectors(appendSelector)
+        super<IBeaconProperties>.writeSelectors(appendSelector)
+    }
+}

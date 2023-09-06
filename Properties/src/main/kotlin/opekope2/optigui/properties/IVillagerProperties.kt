@@ -1,6 +1,8 @@
 package opekope2.optigui.properties
 
 import net.minecraft.util.Identifier
+import opekope2.optigui.api.interaction.IInteractionData
+import java.util.function.BiConsumer
 
 /**
  * Properties for villagers.
@@ -8,7 +10,7 @@ import net.minecraft.util.Identifier
  * @see net.minecraft.entity.passive.VillagerEntity
  * @see opekope2.optigui.properties.impl.VillagerProperties
  */
-interface IVillagerProperties {
+interface IVillagerProperties : IInteractionData {
     /**
      * The profession ID of the villager.
      *
@@ -31,4 +33,9 @@ interface IVillagerProperties {
      * @see net.minecraft.village.VillagerType
      */
     val type: Identifier
+
+    override fun writeSelectors(appendSelector: BiConsumer<String, String>) {
+        appendSelector.accept("villager.professions", "$profession@$level")
+        appendSelector.accept("villager.types", type.toString())
+    }
 }
