@@ -12,13 +12,13 @@ import java.util.function.Supplier;
  */
 public sealed interface IInteractionTarget {
     /**
-     * Calculates the interaction data by the given target entity.
+     * Calculates the interaction data from the given target.
      *
      * @see IEntityProcessor
      * @see IBlockEntityProcessor
      */
     @Nullable
-    Object computeInteractionData();
+    IInteractionData computeInteractionData();
 
     /**
      * Represents an interaction without a target.
@@ -26,7 +26,7 @@ public sealed interface IInteractionTarget {
      * The interaction data returned by {@link #computeInteractionData()} will always be {@code null}.
      */
     @NotNull
-    IInteractionTarget NoneTarget = new ComputedTarget((Object) null);
+    IInteractionTarget NoneTarget = new ComputedTarget((IInteractionData) null);
 
     /**
      * Represents the target of an interaction as a block entity.
@@ -45,7 +45,7 @@ public sealed interface IInteractionTarget {
         @SuppressWarnings("unchecked")
         @Override
         @Nullable
-        public Object computeInteractionData() {
+        public IInteractionData computeInteractionData() {
             IBlockEntityProcessor<BlockEntity> processor = (IBlockEntityProcessor<BlockEntity>) IBlockEntityProcessor.ofClass(blockEntity.getClass());
             assert processor != null;
             return processor.apply(blockEntity);
@@ -69,7 +69,7 @@ public sealed interface IInteractionTarget {
         @SuppressWarnings("unchecked")
         @Override
         @Nullable
-        public Object computeInteractionData() {
+        public IInteractionData computeInteractionData() {
             IEntityProcessor<Entity> processor = (IEntityProcessor<Entity>) IEntityProcessor.ofClass(entity.getClass());
             assert processor != null;
             return processor.apply(entity);
@@ -82,17 +82,17 @@ public sealed interface IInteractionTarget {
      *
      * @param computeFunction The implementation of {@link #computeInteractionData()}
      */
-    record ComputedTarget(@NotNull Supplier<Object> computeFunction) implements IInteractionTarget {
+    record ComputedTarget(@NotNull Supplier<IInteractionData> computeFunction) implements IInteractionTarget {
         /**
          * @param interactionData The interaction data to be returned by {@link #computeInteractionData()}
          */
-        public ComputedTarget(@Nullable Object interactionData) {
+        public ComputedTarget(@Nullable IInteractionData interactionData) {
             this(() -> interactionData);
         }
 
         @Override
         @Nullable
-        public Object computeInteractionData() {
+        public IInteractionData computeInteractionData() {
             return computeFunction.get();
         }
     }

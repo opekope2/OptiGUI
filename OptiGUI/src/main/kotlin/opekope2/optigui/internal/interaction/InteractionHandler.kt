@@ -96,7 +96,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
         if (!world.isClient) return result
 
         val target = when (stack.item) {
-            Items.WRITABLE_BOOK -> IInteractionTarget.ComputedTarget {
+            Items.WRITABLE_BOOK -> IInteractionTarget.ComputedTarget { ->
                 val bookScreen = MinecraftClient.getInstance().currentScreen as? BookEditScreen
                     ?: return@ComputedTarget null
 
@@ -116,7 +116,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
                 )
             }
 
-            Items.WRITTEN_BOOK -> IInteractionTarget.ComputedTarget {
+            Items.WRITTEN_BOOK -> IInteractionTarget.ComputedTarget { ->
                 val bookScreen = MinecraftClient.getInstance().currentScreen as? BookScreen
                     ?: return@ComputedTarget null
 
@@ -158,7 +158,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
             player,
             world,
             Hand.MAIN_HAND,
-            IInteractionTarget.ComputedTarget {
+            IInteractionTarget.ComputedTarget { ->
                 CommonProperties(
                     GeneralProperties(
                         name = player.name.string,
