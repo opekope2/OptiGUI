@@ -2,11 +2,17 @@ package opekope2.optigui.impl
 
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.loader.api.FabricLoader
+import net.fabricmc.loader.api.Version
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.gui.screen.ingame.BookEditScreen
+import net.minecraft.client.gui.screen.ingame.BookScreen
+import net.minecraft.client.gui.screen.ingame.HandledScreen
+import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
 import net.minecraft.entity.Entity
 import net.minecraft.util.Identifier
 import opekope2.lilac.api.ILilacApi
+import opekope2.lilac.util.Util
 import opekope2.optigui.api.IOptiGuiApi
 import opekope2.optigui.api.interaction.IBlockEntityProcessor
 import opekope2.optigui.api.interaction.IEntityProcessor
@@ -24,6 +30,16 @@ object OptiGuiApi : IOptiGuiApi, ClientModInitializer {
     private val logger = LoggerFactory.getLogger("OptiGUI/MetadataLoader")
     private lateinit var containerTextureMap: Map<Identifier, Identifier>
     private val retexturableScreens = mutableSetOf<Class<out Screen>>()
+
+    init {
+        addRetexturableScreen(HandledScreen::class.java)
+        addRetexturableScreen(BookScreen::class.java)
+        addRetexturableScreen(BookEditScreen::class.java)
+
+        if (Util.checkModVersion("minecraft") { v -> v >= Version.parse("1.19.3") }) {
+            addRetexturableScreen(HangingSignEditScreen::class.java)
+        }
+    }
 
     override fun isAvailable(): Boolean = true
 
