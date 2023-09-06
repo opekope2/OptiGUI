@@ -13,6 +13,7 @@
     "IHangingSignEditScreenMixin",
     "MinecraftClientMixin",
     "MinecraftClientMixin2",
-    "RenderSystemMixin"
+    "RenderSystemMixin",
+    "ScreenMixin"
   ]
 }

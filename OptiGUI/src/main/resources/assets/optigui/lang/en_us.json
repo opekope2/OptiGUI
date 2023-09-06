@@ -1,0 +1,6 @@
+{
+  "key.categories.optigui": "OptiGUI",
+  "key.optigui.inspect": "Copy inspection to clipboard",
+  "optigui.toast.inspector.title": "OptiGUI Inspector",
+  "optigui.toast.inspector.description": "Inspection copied to clipboard"
+}
