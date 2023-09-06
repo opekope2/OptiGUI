@@ -123,6 +123,11 @@ final class IOptiGuiApi$Instance implements IOptiGuiApi {
         return API;
     }
 
+    @NotNull
+    private static RuntimeException implementationUnavailable() {
+        return new UnsupportedOperationException("OptiGUI implementation is not available.");
+    }
+
     @Override
     public boolean isAvailable() {
         return false;
@@ -130,47 +135,47 @@ final class IOptiGuiApi$Instance implements IOptiGuiApi {
 
     @Override
     @NotNull
+    public String getImplementationModId() {
+        return "optigui-api";
+    }
+
+    @Override
+    @NotNull
     public IInteractor getInteractor() {
-        throw new UnsupportedOperationException("OptiGUI implementation is not available.");
+        throw implementationUnavailable();
     }
 
     @Override
     @Nullable
     public Identifier getContainerTexture(@NotNull Identifier container) {
-        throw new UnsupportedOperationException("OptiGUI implementation is not available.");
+        throw implementationUnavailable();
     }
 
     @Override
     @Nullable
     public <T extends Entity> IEntityProcessor<@NotNull T> getEntityProcessor(@NotNull Class<@NotNull T> type) {
-        throw new UnsupportedOperationException("OptiGUI implementation is not available.");
+        throw implementationUnavailable();
     }
 
     @Override
     @Nullable
     public <T extends BlockEntity> IBlockEntityProcessor<@NotNull T> getBlockEntityProcessor(@NotNull Class<@NotNull T> type) {
-        throw new UnsupportedOperationException("OptiGUI implementation is not available.");
+        throw implementationUnavailable();
     }
 
     @Override
     public void addRetexturableScreen(@NotNull Class<? extends Screen> screenClass) {
-        throw new UnsupportedOperationException("OptiGUI implementation is not available.");
+        throw implementationUnavailable();
     }
 
     @Override
     public boolean isScreenRetexturable(@NotNull Screen screen) {
-        throw new UnsupportedOperationException("OptiGUI implementation is not available.");
+        throw implementationUnavailable();
     }
 
     @Override
     @NotNull
     public IInspector getInteractionInspector() {
-        throw new UnsupportedOperationException("OptiGUI implementation is not available.");
-    }
-
-    @Override
-    @NotNull
-    public String getImplementationModId() {
-        return "optigui-api";
+        throw implementationUnavailable();
     }
 }
