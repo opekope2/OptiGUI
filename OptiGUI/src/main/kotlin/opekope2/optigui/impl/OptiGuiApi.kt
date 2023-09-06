@@ -70,6 +70,10 @@ object OptiGuiApi : IOptiGuiApi, ClientModInitializer {
     }
 
     override fun onInitializeClient() {
+        loadContainerTextureMapping()
+    }
+
+    private fun loadContainerTextureMapping() {
         if (this::containerTextureMap.isInitialized) {
             logger.info("Not initializing container texture mapping, because it is already initialized")
             return
