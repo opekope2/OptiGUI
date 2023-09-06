@@ -16,6 +16,7 @@ import opekope2.lilac.util.Util
 import opekope2.optigui.api.IOptiGuiApi
 import opekope2.optigui.api.interaction.IBlockEntityProcessor
 import opekope2.optigui.api.interaction.IEntityProcessor
+import opekope2.optigui.api.interaction.IInspector
 import opekope2.optigui.api.interaction.IInteractor
 import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.internal.fabric.mod_json.metadata.ProcessableCustomMetadata
@@ -67,6 +68,10 @@ object OptiGuiApi : IOptiGuiApi, ClientModInitializer {
 
     override fun isScreenRetexturable(screen: Screen): Boolean {
         return retexturableScreens.any { it.isSuperOf(screen) }
+    }
+
+    override fun getInteractionInspector(): IInspector {
+        return TextureReplacer
     }
 
     override fun onInitializeClient() {

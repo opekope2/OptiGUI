@@ -7,6 +7,7 @@ import net.minecraft.util.Identifier;
 import opekope2.optigui.annotation.RequiresImplementation;
 import opekope2.optigui.api.interaction.IBlockEntityProcessor;
 import opekope2.optigui.api.interaction.IEntityProcessor;
+import opekope2.optigui.api.interaction.IInspector;
 import opekope2.optigui.api.interaction.IInteractor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -90,6 +91,15 @@ public interface IOptiGuiApi {
     boolean isScreenRetexturable(@NotNull Screen screen);
 
     /**
+     * Returns the implementation of {@see IInspector}.
+     *
+     * @see IInspector#getInstance()
+     */
+    @NotNull
+    @RequiresImplementation
+    IInspector getInteractionInspector();
+
+    /**
      * Returns the implementation of {@link IOptiGuiApi}.
      */
     @NotNull
@@ -149,6 +159,12 @@ final class IOptiGuiApi$Instance implements IOptiGuiApi {
 
     @Override
     public boolean isScreenRetexturable(@NotNull Screen screen) {
+        throw new UnsupportedOperationException("OptiGUI implementation is not available.");
+    }
+
+    @Override
+    @NotNull
+    public IInspector getInteractionInspector() {
         throw new UnsupportedOperationException("OptiGUI implementation is not available.");
     }
 
