@@ -116,27 +116,24 @@ internal object TextureReplacer : ClientModInitializer, IInteractor, IInspector 
                 data.writeSelectors { key, value -> appendLine("$key=$value") }
                 appendLine()
 
-                when (target) {
-                    is IInteractionTarget.BlockEntityTarget -> {
-                        appendLine("# NBT (for more detailed inspection purposes, as there is no selector for NBT):")
-                        appendLine("# ${target.blockEntity.createNbt()}")
-                        appendLine()
-                    }
-
-                    is IInteractionTarget.EntityTarget -> {
-                        appendLine("# NBT (for more detailed inspection purposes, as there is no selector for NBT):")
-                        appendLine("# ${target.entity.writeNbt(NbtCompound())}")
-                        appendLine()
-                    }
-
-                    else -> {
-                        appendLine("# NBT is not available")
-                        appendLine()
-                    }
+                val nbt = when (target) {
+                    is IInteractionTarget.BlockEntityTarget -> target.blockEntity.createNbt()
+                    is IInteractionTarget.EntityTarget -> target.entity.writeNbt(NbtCompound())
+                    else -> null
                 }
 
-                appendLine("# If you have an idea or feedback about the inspector, feel free to share it at")
-                appendLine("# https://github.com/opekope2/OptiGUI/issues/72")
+                if (nbt != null) {
+                    appendLine("# NBT selector is not supported by OptiGUI. Never has been.")
+                    appendLine("# However, selectors for most fields and methods in Entity, BlockEntity, and relevant subclasses")
+                    appendLine("# are likely be added in a future release, which makes an NBT selector redundant (expect them in 2024).")
+                    appendLine("# Entity class overview: https://maven.fabricmc.net/docs/yarn-1.20.1+build.10/net/minecraft/entity/Entity.html")
+                    appendLine("# BlockEntity class overview: https://maven.fabricmc.net/docs/yarn-1.20.1+build.10/net/minecraft/block/entity/BlockEntity.html")
+                    appendLine("# NBT is included here for more detailed inspection purposes, and may be removed in a future version.")
+                    appendLine("#nbt=$nbt")
+                    appendLine()
+                }
+
+                appendLine("# If you have an idea or feedback about the inspector, feel free to share it at https://github.com/opekope2/OptiGUI/issues/72")
             }
         }
     }
