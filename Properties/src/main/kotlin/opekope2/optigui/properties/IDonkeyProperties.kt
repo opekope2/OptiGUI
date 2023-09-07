@@ -11,7 +11,7 @@ import java.util.function.BiConsumer
  */
 interface IDonkeyProperties : IHorseLikeProperties, IInteractionData {
     /**
-     * Whether the donkey has a chest
+     * Whether the donkey has a chest.
      *
      * @see net.minecraft.entity.passive.AbstractDonkeyEntity.hasChest
      */
