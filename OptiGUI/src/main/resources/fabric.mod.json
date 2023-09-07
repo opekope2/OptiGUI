@@ -160,6 +160,10 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.HorseSaddleSelector"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.selector.HorseVariantSelector"
       },
       {

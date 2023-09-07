@@ -5,4 +5,6 @@ import opekope2.optigui.properties.IHorseLikeProperties
 /**
  * Default implementation of [IHorseLikeProperties].
  */
-class HorseLikeProperties : IHorseLikeProperties
+data class HorseLikeProperties(
+    override val hasSaddle: Boolean
+) : IHorseLikeProperties

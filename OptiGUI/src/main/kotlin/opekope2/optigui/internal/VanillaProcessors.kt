@@ -150,7 +150,9 @@ object HorseProcessor : IEntityProcessor<HorseEntity> {
     override fun apply(horse: HorseEntity): IInteractionData? {
         return HorseProperties(
             commonProperties = horse.createCommonProperties() ?: return null,
-            horseLikeProperties = HorseLikeProperties(),
+            horseLikeProperties = HorseLikeProperties(
+                hasSaddle = horse.isSaddled
+            ),
             variant = horse.variant.asString(),
             marking = horse.marking.name.lowercase()
         )
@@ -163,7 +165,9 @@ object DonkeyProcessor : IEntityProcessor<AbstractDonkeyEntity> {
     override fun apply(donkey: AbstractDonkeyEntity): IInteractionData? {
         return DonkeyProperties(
             commonProperties = donkey.createCommonProperties() ?: return null,
-            horseLikeProperties = HorseLikeProperties(),
+            horseLikeProperties = HorseLikeProperties(
+                hasSaddle = donkey.isSaddled
+            ),
             hasChest = donkey.hasChest()
         )
     }
@@ -176,7 +180,9 @@ object LlamaProcessor : IEntityProcessor<LlamaEntity> {
         return LlamaProperties(
             donkeyProperties = DonkeyProperties(
                 commonProperties = llama.createCommonProperties() ?: return null,
-                horseLikeProperties = HorseLikeProperties(),
+                horseLikeProperties = HorseLikeProperties(
+                    hasSaddle = llama.isSaddled
+                ),
                 hasChest = llama.hasChest()
             ),
             carpetColor = llama.carpetColor?.getName(),

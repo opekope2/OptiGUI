@@ -11,6 +11,7 @@ import opekope2.optigui.filter.EqualityFilter
 import opekope2.optigui.filter.IFilter
 import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.properties.IDonkeyProperties
+import opekope2.optigui.properties.IHorseLikeProperties
 import opekope2.optigui.properties.IHorseProperties
 import opekope2.optigui.properties.ILlamaProperties
 import opekope2.util.*
@@ -24,6 +25,17 @@ object DonkeyChestSelector : ISelector {
             IFilter.Result.mismatch(),
             EqualityFilter(selector.toBooleanStrict())
         )
+}
+
+@Selector("horse.has_saddle")
+object HorseSaddleSelector : ISelector {
+    override fun createFilter(selector: String): IFilter<Interaction, *> {
+        return PreProcessorFilter.nullGuarded(
+            { (it.data as? IHorseLikeProperties)?.hasSaddle },
+            IFilter.Result.mismatch(),
+            EqualityFilter(selector.toBooleanStrict())
+        )
+    }
 }
 
 @Selector("horse.variants")

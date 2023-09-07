@@ -10,6 +10,14 @@ import java.util.function.BiConsumer
  * @see opekope2.optigui.properties.impl.HorseLikeProperties
  */
 interface IHorseLikeProperties : IInteractionData {
+    /**
+     * Whether the horse is saddled.
+     *
+     * @see net.minecraft.entity.passive.AbstractHorseEntity.isSaddled
+     */
+    val hasSaddle: Boolean
+
     override fun writeSelectors(appendSelector: BiConsumer<String, String>) {
+        appendSelector.accept("horse.has_saddle", hasSaddle.toString())
     }
 }
