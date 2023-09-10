@@ -33,34 +33,36 @@ jobs:
           distribution: temurin
       - name: Build project
         if: inputs.build-project
-        run: ./gradlew build -PnoModLocalRuntime
+        run: ./gradlew build -x test
       - name: Test project
         if: inputs.test-project
-        run: ./gradlew test -PnoModLocalRuntime
+        run: ./gradlew test
       - name: Build documentation
         if: inputs.build-docs
-        run: ./gradlew :OptiGUI:dokkaHtml -PnoModLocalRuntime
+        run: ./gradlew dokkaHtmlMultiModule
       - name: Build documentation (Java syntax)
         if: inputs.build-docs
-        run: ./gradlew :OptiGUI:dokkaHtml -PjavaSyntax -PnoModLocalRuntime
+        run: ./gradlew dokkaHtmlMultiModule -PjavaSyntax
       - name: Upload build output
         if: inputs.build-project && inputs.upload-output && matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v3
         with:
           name: jars
-          path: OptiGUI/build/libs/*.jar
+          path: |
+            OptiGUI/build/libs/*.jar
+            Api/build/libs/*.jar
           if-no-files-found: error
       - name: Upload documentation output
         if: inputs.build-docs && inputs.upload-output && matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v3
         with:
           name: kdoc
-          path: OptiGUI/build/dokka/kotlinHtml
+          path: build/docs/kotlinHtml
           if-no-files-found: error
       - name: Upload documentation output (Java syntax)
         if: inputs.build-docs && inputs.upload-output && matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v3
         with:
           name: javadoc
-          path: OptiGUI/build/dokka/javaHtml
+          path: build/docs/javaHtml
           if-no-files-found: error

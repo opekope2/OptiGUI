@@ -48,8 +48,9 @@ jobs:
 
           name: OptiGUI ${{ github.ref_name }}
           files: |
-            dist/!(*-@(dev|sources|javadoc)).jar
-            dist/*-@(dev|sources|javadoc).jar
+            dist/OptiGUI/build/libs/!(*-@(dev|sources|javadoc)).jar
+            dist/OptiGUI/build/libs/*-@(dev|sources|javadoc).jar
+            dist/Api/build/libs/!(*-@(dev|sources|javadoc)).jar
           changelog-file: CHANGELOG.g.md
           game-version-filter: releases
           java: ${{ steps.load-versions.outputs.JAVA_VERSION }}
