@@ -1,14 +1,16 @@
 package opekope2.filter
 
-import kotlin.test.*
-import opekope2.filter.FilterResult.*
-import opekope2.util.withResult
+import opekope2.optigui.filter.*
+import opekope2.optigui.filter.IFilter.Result.*
 import java.util.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class FilterTests {
-    private val testMatchFilter = Filter<Int, String> { Match(it.toString()) }
-    private val testMismatchFilter = Filter<Int, String> { Mismatch() }
-    private val testSkipFilter = Filter<Int, String> { Skip() }
+    private val testMatchFilter = IFilter<Int, String> { value -> match(value.toString()) }
+    private val testMismatchFilter = IFilter<Int, String> { mismatch() }
+    private val testSkipFilter = IFilter<Int, String> { skip() }
 
 
     @Test
@@ -22,8 +24,8 @@ class FilterTests {
 
     @Test
     fun conditionalTest() {
-        assertIs<Mismatch<*>>(ConditionalFilter({ false }, Mismatch(), testMatchFilter).evaluate(0))
-        assertIs<Match<*>>(ConditionalFilter({ true }, Mismatch(), testMatchFilter).evaluate(0))
+        assertIs<Mismatch<*>>(ConditionalFilter({ false }, mismatch(), testMatchFilter).evaluate(0))
+        assertIs<Match<*>>(ConditionalFilter({ true }, mismatch(), testMatchFilter).evaluate(0))
     }
 
 
@@ -69,7 +71,7 @@ class FilterTests {
 
     @Test
     fun firstMatchMatchTest2() {
-        val matchFilter = Filter<Int, String> { Match((-it).toString()) }
+        val matchFilter = IFilter<Int, String> { value -> match((-value).toString()) }
         var res = FirstMatchFilter(testMatchFilter, matchFilter).evaluate(1)
 
         assertIs<Match<*>>(res)
@@ -155,7 +157,7 @@ class FilterTests {
 
     @Test
     fun nullGuardTest1() {
-        val filter = NullGuardFilter(Mismatch(), testMatchFilter)
+        val filter = NullGuardFilter(mismatch(), testMatchFilter)
 
         assertIs<Mismatch<*>>(filter.evaluate(null))
 
@@ -166,7 +168,7 @@ class FilterTests {
 
     @Test
     fun nullGuardTest2() {
-        val filter = NullGuardFilter(Skip(), testMismatchFilter)
+        val filter = NullGuardFilter(skip(), testMismatchFilter)
 
         assertIs<Skip<*>>(filter.evaluate(null))
         assertIs<Mismatch<*>>(filter.evaluate(1))
@@ -200,7 +202,7 @@ class FilterTests {
 
     @Test
     fun optionalTest() {
-        val filter = OptionalFilter(Mismatch(), testMatchFilter)
+        val filter = OptionalFilter(mismatch(), testMatchFilter)
 
         assertIs<Mismatch<*>>(filter.evaluate(Optional.empty()))
         assertIs<Match<*>>(filter.evaluate(Optional.of(1)))
@@ -209,7 +211,7 @@ class FilterTests {
 
     @Test
     fun preprocessorTest() {
-        val control = Filter<String, String> { Match(it) }
+        val control = IFilter<String, String> { value -> match(value) }
         val filter = PreProcessorFilter(Int::toString, control)
 
         assertEquals("1", (filter.evaluate(1) as Match).result)
@@ -217,8 +219,8 @@ class FilterTests {
 
     @Test
     fun nullGuardedPreprocessorTest() {
-        val control = Filter<String, String> { Match(it) }
-        val filter = PreProcessorFilter.nullGuarded<Int?, String, String>({ it?.toString() }, Skip(), control)
+        val control = IFilter<String, String> { value -> match(value) }
+        val filter = PreProcessorFilter.nullGuarded<Int?, String, String>({ it?.toString() }, skip(), control)
 
         assertIs<Skip<*>>(filter.evaluate(null))
 
@@ -230,9 +232,9 @@ class FilterTests {
 
     @Test
     fun postprocessorTest() {
-        val control = Filter<Int, Int> { Match(it) }
+        val control = IFilter<Int, Int> { value -> match(value) }
         val filter =
-            PostProcessorFilter(control) { input, result -> result.withResult(input to (result as Match).result.toString()) }
+            PostProcessorFilter(control) { input, result -> match(input to (result as Match).result.toString()) }
 
         val result = filter.evaluate(1)
         assertIs<Match<*>>(result)

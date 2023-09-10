@@ -9,8 +9,11 @@
     "BookEditScreenMixin",
     "BookScreenMixin",
     "ClientPlayerEntityMixin",
+    "IAbstractSignEditScreenMixin",
+    "IHangingSignEditScreenMixin",
     "MinecraftClientMixin",
     "MinecraftClientMixin2",
-    "RenderSystemMixin"
+    "RenderSystemMixin",
+    "ScreenMixin"
   ]
 }

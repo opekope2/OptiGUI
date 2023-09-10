@@ -4,6 +4,9 @@
   "version": "${version}",
   "name": "OptiGUI",
   "description": "Custom inventory GUIs on Fabric&Quilt with OptiFine resource pack support&many more features",
+  "provides": [
+    "optigui-api"
+  ],
   "authors": [
     "opekope2"
   ],
@@ -19,17 +22,221 @@
     "client": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.InitializerKt::initialize"
-      }
-    ],
-    "optigui": [
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.BuiltinFilterFactoriesKt::initializeFilterFactories"
+        "value": "opekope2.optigui.impl.OptiGuiApi"
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.BuiltinPreprocessorsKt::initializePreprocessors"
+        "value": "opekope2.optigui.internal.InspectorKeyBinding"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.TextureReplacer"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.interaction.InteractionHandler"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.interaction.Processors::loadEntityProcessors"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.interaction.Processors::loadBlockEntityProcessors"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.Selectors::loadSelectors"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.Selectors::loadLoadTimeSelectors"
+      }
+    ],
+    "optigui-entityprocessor": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.GenericEntityProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.ComparableEntityProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.ChestBoatProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.HorseProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.DonkeyProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.LlamaProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.VillagerProcessor"
+      }
+    ],
+    "optigui-blockentityprocessor": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.GenericBlockEntityProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.ComparableBlockEntityProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.BeaconProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.ChestProcessor"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.LecternProcessor"
+      }
+    ],
+    "optigui-selector": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.BeaconLevelSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.BookPageSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.BookPageCountSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.ChestBoatVariantSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.LargeChestSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.NameSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.WildcardNameSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.CaseInsensitiveWildcardNameSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.RegexNameSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.CaseInsensitiveRegexNameSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.BiomeSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.HeightSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.DonkeyChestSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.HorseSaddleSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.HorseVariantSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.HorseMarkingSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.LlamaColorSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.LlamaVariantSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.DateSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.InteractionTextureSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.InteractionHandSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.RedstoneComparatorOutputSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.VillagerProfessionSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.VillagerTypeSelector"
+      }
+    ],
+    "optigui-load-selector": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.ConditionalLoadSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.ModLoadSelector"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.LegacyOptiGuiVersionLoadSelector"
+      }
+    ],
+    "lilac-resourceloader-factory": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.lilac_resource_loader.OptiGuiResourceLoader\u0024Factory"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.lilac_resource_loader.OptiFineResourceLoader\u0024Factory"
+      }
+    ],
+    "lilac-resourceloadingsession-extensionfactory": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.lilac_resource_loader.OptiGuiResourceLoadingSession\u0024ExtensionFactory"
+      }
+    ],
+    "lilac-resourceloadingsession-lifecyclelistener": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.lilac_resource_loader.OptiGuiResourceLoadingSession\u0024ExtensionFactory"
       }
     ]
   },
@@ -39,18 +246,13 @@
   "accessWidener": "optigui.accesswidener",
   "depends": {
     "fabricloader": ">=${fabricloader}",
-    "fabric-lifecycle-events-v1": "*",
     "fabric-networking-api-v1": "*",
     "fabric-events-interaction-v0": "*",
+    "fabric-key-binding-api-v1": "*",
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
-    "minecraft": ">=1.18 <=1.20.1",
+    "minecraft": ">=1.20 <=1.20.1",
     "java": ">=${java}",
-    "optiglue": [
-      "=${version}-mc.1.18",
-      "=${version}-mc.1.18.2",
-      "=${version}-mc.1.19",
-      "=${version}-mc.1.19.3"
-    ]
+    "lilac": ">=1.0.0-alpha.1 <1.1.0"
   },
   "recommends": {
     "animatica": "*"
@@ -64,6 +266,87 @@
       "dependencies": [
         "fabric-api(required)"
       ]
+    },
+    "optigui": {
+      "containerTextures": {
+        "minecraft:anvil": "minecraft:textures/gui/container/anvil.png",
+        "minecraft:chipped_anvil": "minecraft:textures/gui/container/anvil.png",
+        "minecraft:damaged_anvil": "minecraft:textures/gui/container/anvil.png",
+        "minecraft:barrel": "minecraft:textures/gui/container/generic_54.png",
+        "minecraft:beacon": "minecraft:textures/gui/container/beacon.png",
+        "minecraft:brewing_stand": "minecraft:textures/gui/container/brewing_stand.png",
+        "minecraft:cartography_table": "minecraft:textures/gui/container/cartography_table.png",
+        "minecraft:chest": "minecraft:textures/gui/container/generic_54.png",
+        "minecraft:ender_chest": "minecraft:textures/gui/container/generic_54.png",
+        "minecraft:trapped_chest": "minecraft:textures/gui/container/generic_54.png",
+        "minecraft:chest_boat": "minecraft:textures/gui/container/generic_54.png",
+        "minecraft:chest_minecart": "minecraft:textures/gui/container/generic_54.png",
+        "minecraft:crafting_table": "minecraft:textures/gui/container/crafting_table.png",
+        "minecraft:dispenser": "minecraft:textures/gui/container/dispenser.png",
+        "minecraft:dropper": "minecraft:textures/gui/container/dispenser.png",
+        "minecraft:enchanting_table": "minecraft:textures/gui/container/enchanting_table.png",
+        "minecraft:furnace": "minecraft:textures/gui/container/furnace.png",
+        "minecraft:blast_furnace": "minecraft:textures/gui/container/blast_furnace.png",
+        "minecraft:smoker": "minecraft:textures/gui/container/smoker.png",
+        "minecraft:grindstone": "minecraft:textures/gui/container/grindstone.png",
+        "minecraft:acacia_hanging_sign": "minecraft:textures/gui/hanging_signs/acacia.png",
+        "minecraft:acacia_wall_hanging_sign": "minecraft:textures/gui/hanging_signs/acacia.png",
+        "minecraft:bamboo_hanging_sign": "minecraft:textures/gui/hanging_signs/bamboo.png",
+        "minecraft:bamboo_wall_hanging_sign": "minecraft:textures/gui/hanging_signs/bamboo.png",
+        "minecraft:birch_hanging_sign": "minecraft:textures/gui/hanging_signs/birch.png",
+        "minecraft:birch_wall_hanging_sign": "minecraft:textures/gui/hanging_signs/birch.png",
+        "minecraft:cherry_hanging_sign": "minecraft:textures/gui/hanging_signs/cherry.png",
+        "minecraft:cherry_wall_hanging_sign": "minecraft:textures/gui/hanging_signs/cherry.png",
+        "minecraft:crimson_hanging_sign": "minecraft:textures/gui/hanging_signs/crimson.png",
+        "minecraft:crimson_wall_hanging_sign": "minecraft:textures/gui/hanging_signs/crimson.png",
+        "minecraft:dark_oak_hanging_sign": "minecraft:textures/gui/hanging_signs/dark_oak.png",
+        "minecraft:dark_oak_wall_hanging_sign": "minecraft:textures/gui/hanging_signs/dark_oak.png",
+        "minecraft:jungle_hanging_sign": "minecraft:textures/gui/hanging_signs/jungle.png",
+        "minecraft:jungle_wall_hanging_sign": "minecraft:textures/gui/hanging_signs/jungle.png",
+        "minecraft:mangrove_hanging_sign": "minecraft:textures/gui/hanging_signs/mangrove.png",
+        "minecraft:mangrove_wall_hanging_sign": "minecraft:textures/gui/hanging_signs/mangrove.png",
+        "minecraft:oak_hanging_sign": "minecraft:textures/gui/hanging_signs/oak.png",
+        "minecraft:oak_wall_hanging_sign": "minecraft:textures/gui/hanging_signs/oak.png",
+        "minecraft:spruce_hanging_sign": "minecraft:textures/gui/hanging_signs/spruce.png",
+        "minecraft:spruce_wall_hanging_sign": "minecraft:textures/gui/hanging_signs/spruce.png",
+        "minecraft:warped_hanging_sign": "minecraft:textures/gui/hanging_signs/warped.png",
+        "minecraft:warped_wall_hanging_sign": "minecraft:textures/gui/hanging_signs/warped.png",
+        "minecraft:hopper": "minecraft:textures/gui/container/hopper.png",
+        "minecraft:hopper_minecart": "minecraft:textures/gui/container/hopper.png",
+        "minecraft:horse": "minecraft:textures/gui/container/horse.png",
+        "minecraft:camel": "minecraft:textures/gui/container/horse.png",
+        "minecraft:donkey": "minecraft:textures/gui/container/horse.png",
+        "minecraft:llama": "minecraft:textures/gui/container/horse.png",
+        "minecraft:trader_llama": "minecraft:textures/gui/container/horse.png",
+        "minecraft:mule": "minecraft:textures/gui/container/horse.png",
+        "minecraft:skeleton_horse": "minecraft:textures/gui/container/horse.png",
+        "minecraft:zombie_horse": "minecraft:textures/gui/container/horse.png",
+        "minecraft:lectern": "minecraft:textures/gui/book.png",
+        "minecraft:loom": "minecraft:textures/gui/container/loom.png",
+        "minecraft:shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:black_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:blue_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:brown_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:cyan_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:gray_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:green_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:light_blue_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:light_gray_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:lime_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:magenta_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:orange_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:pink_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:purple_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:red_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:white_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:yellow_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
+        "minecraft:smithing_table": "minecraft:textures/gui/container/smithing.png",
+        "minecraft:stonecutter": "minecraft:textures/gui/container/stonecutter.png",
+        "minecraft:villager": "minecraft:textures/gui/container/villager2.png",
+        "minecraft:wandering_trader": "minecraft:textures/gui/container/villager2.png",
+        "minecraft:writable_book": "minecraft:textures/gui/book.png",
+        "minecraft:written_book": "minecraft:textures/gui/book.png"
+      }
     }
   }
 }

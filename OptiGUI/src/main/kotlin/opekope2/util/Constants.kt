@@ -18,5 +18,4 @@ const val OPTIFINE_RESOURCES_ROOT = "optifine/gui/container"
 /**
  * The resource path `~` points to in OptiFine.
  */
-// Leave the dot there, it is a dummy for resolveSibling(String)
-const val OPTIFINE_TILDE_PATH = "optifine/."
+const val OPTIFINE_TILDE_PATH = "optifine"
