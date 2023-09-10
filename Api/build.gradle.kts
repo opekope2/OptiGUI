@@ -16,7 +16,14 @@ version = project.extra["mod_version"] as String
 group = project.extra["maven_group"] as String
 
 repositories {
-    mavenLocal()
+    exclusiveContent {
+        forRepository {
+            maven("https://api.modrinth.com/maven") { name = "Modrinth" }
+        }
+        filter {
+            includeGroup("maven.modrinth")
+        }
+    }
 }
 
 dependencies {
@@ -29,8 +36,7 @@ dependencies {
 
     modImplementation(fabricApi.module("fabric-events-interaction-v0", project.extra["fabric_version"] as String))
 
-    modImplementation(files(rootDir.resolve("lib/lilac-api-1.0.0-alpha.1-dev.jar")))
-    modLocalRuntime(files(rootDir.resolve("lib/lilac-1.0.0-alpha.1-dev.jar")))
+    modImplementation("maven.modrinth", "lilac", "1.0.0-beta.1-mc.1.19.4")
 
     testImplementation(kotlin("test"))
 

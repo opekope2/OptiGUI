@@ -12,7 +12,16 @@ base { archivesName.set(project.extra["archives_base_name"] as String) }
 version = project.extra["mod_version"] as String
 group = project.extra["maven_group"] as String
 
-repositories {}
+repositories {
+    exclusiveContent {
+        forRepository {
+            maven("https://api.modrinth.com/maven") { name = "Modrinth" }
+        }
+        filter {
+            includeGroup("maven.modrinth")
+        }
+    }
+}
 
 dependencies {
     minecraft("com.mojang", "minecraft", project.extra["minecraft_version"] as String)
@@ -27,8 +36,7 @@ dependencies {
     modImplementation(fabricApi.module("fabric-key-binding-api-v1", project.extra["fabric_version"] as String))
     modLocalRuntime("net.fabricmc.fabric-api", "fabric-api", project.extra["fabric_version"] as String)
 
-    modImplementation(files(rootDir.resolve("lib/lilac-api-1.0.0-alpha.1-dev.jar")))
-    modLocalRuntime(files(rootDir.resolve("lib/lilac-1.0.0-alpha.1-dev.jar")))
+    modImplementation("maven.modrinth", "lilac", "1.0.0-beta.1-mc.1.19.4")
 
     implementation(project(":Api", configuration = "namedElements"))
     implementation(project(":Filters"))
