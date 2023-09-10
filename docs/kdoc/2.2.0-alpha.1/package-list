@@ -1,0 +1,15 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:OptiGUI API
+opekope2.optigui.annotation
+opekope2.optigui.api
+opekope2.optigui.api.interaction
+opekope2.optigui.api.lilac_resource_loading
+opekope2.optigui.api.selector
+opekope2.optigui.filter
+module:OptiGUI Filters
+opekope2.optigui.filter
+module:OptiGUI Properties
+opekope2.optigui.properties
+opekope2.optigui.properties.impl
