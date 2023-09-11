@@ -806,9 +806,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) specifying villager professions with optional levels.
-
-The profession syntax is similar to the [date syntax](syntax.html#dates), but it accepts and optional namespace.
+A [list](syntax.html#lists) of [professions](syntax.html#professions) specifying villager professions with optional levels.
 
 !!! example "Cleric (any levels) or fisherman (any levels)"
     ```ini

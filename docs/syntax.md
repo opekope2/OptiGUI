@@ -231,3 +231,13 @@ Dates can be specified by the name, the first 3 characters of its name, or numbe
 | October   | `10`, `oct`, `october`, `spooktober` |
 | November  | `11`, `nov`, `november`              |
 | December  | `12`, `dec`, `december`              |
+
+## Professions
+
+Villager professions can be specified by an optional namespace and the profession name name, and an optional [level](#numbers) or [levl range](#ranges) separated with a `@` character:
+
+!!! example
+    ```ini
+    villager.professions = cleric minecraft:fisherman           # Cleric (any level) or fisherman (any level)
+    villager.professions = fletcher@1 minecraft:fletcher@3-4    # Fletcher (levels 1, 3, 4)
+    ```
