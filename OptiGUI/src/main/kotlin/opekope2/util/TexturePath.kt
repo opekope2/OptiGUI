@@ -183,6 +183,7 @@ object TexturePath {
         Identifier("camel") to HORSE,
         Identifier("donkey") to HORSE,
         Identifier("llama") to HORSE,
+        Identifier("trader_llama") to HORSE,
         Identifier("mule") to HORSE,
         Identifier("skeleton_horse") to HORSE,
         Identifier("zombie_horse") to HORSE,
