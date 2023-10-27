@@ -2,6 +2,8 @@
 
 package opekope2.util
 
+import net.fabricmc.loader.api.FabricLoader
+import net.fabricmc.loader.api.Version
 import net.minecraft.util.Identifier
 
 /**
@@ -104,12 +106,18 @@ object TexturePath {
     val HORSE = Identifier("textures/gui/container/horse.png")
 
     @JvmField
+    val VILLAGER = Identifier("textures/gui/container/villager.png")
+
+    @JvmField
     val VILLAGER2 = Identifier("textures/gui/container/villager2.png")
 
 
     @JvmField
     val INVENTORY = Identifier("textures/gui/container/inventory.png")
 
+    private val minecraft_1_20_2_or_newer: Boolean by lazy {
+        FabricLoader.getInstance().getModContainer("minecraft").get().metadata.version >= Version.parse("1.20.2")
+    }
 
     private val containerTextures = mapOf(
         Identifier("anvil") to ANVIL,
@@ -205,8 +213,8 @@ object TexturePath {
 
         Identifier("stonecutter") to STONECUTTER,
 
-        Identifier("villager") to VILLAGER2,
-        Identifier("wandering_trader") to VILLAGER2,
+        Identifier("villager") to if (minecraft_1_20_2_or_newer) VILLAGER else VILLAGER2,
+        Identifier("wandering_trader") to if (minecraft_1_20_2_or_newer) VILLAGER else VILLAGER2,
 
         Identifier("writable_book") to BOOK,
         Identifier("written_book") to BOOK
