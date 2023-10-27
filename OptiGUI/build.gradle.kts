@@ -29,6 +29,10 @@ dependencies {
         modImplementation(fabricApi.module("fabric-lifecycle-events-v1", fabricVersion))
         modImplementation(fabricApi.module("fabric-networking-api-v1", fabricVersion))
         modImplementation(fabricApi.module("fabric-events-interaction-v0", fabricVersion))
+
+        // OptiGlue transitive dependency.
+        // Declare explicitly, otherwise fabric loader will not find it.
+        modLocalRuntime(fabricApi.module("fabric-resource-loader-v0", fabricVersion))
     }
 
     if (!project.hasProperty("noModLocalRuntime")) {
