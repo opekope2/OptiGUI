@@ -1,6 +1,4 @@
-package opekope2.filter
-
-import opekope2.util.withResult
+package opekope2.optigui.filter
 
 /**
  * A post-processor filter, which enables the output of the given sub-filter to be changed.
@@ -17,23 +15,23 @@ import opekope2.util.withResult
  * @see PreProcessorFilter
  */
 class PostProcessorFilter<T, TFilterResult, TResult>(
-    private val filter: Filter<T, out TFilterResult>,
-    private val transform: (input: T, result: FilterResult<out TFilterResult>) -> FilterResult<out TResult>
-) : Filter<T, TResult>, Iterable<Filter<T, out TFilterResult>> {
+    private val filter: IFilter<T, out TFilterResult>,
+    private val transform: (input: T, result: IFilter.Result<out TFilterResult>) -> IFilter.Result<out TResult>
+) : IFilter<T, TResult>, Iterable<IFilter<T, out TFilterResult>> {
     /**
-     * Creates a new post-processor filter by specifying [FilterResult.Match.result].
+     * Creates a new post-processor filter by specifying [IFilter.Result.Match.result].
      *
      * @param filter The sub-filter to evaluate
      * @param result The (constant) result of the [transform] function
      */
-    constructor(filter: Filter<T, out TFilterResult>, result: TResult) : this(
+    constructor(filter: IFilter<T, out TFilterResult>, result: TResult) : this(
         filter,
         { _, filterResult -> filterResult.withResult(result) }
     )
 
-    override fun evaluate(value: T): FilterResult<out TResult> = transform(value, filter.evaluate(value))
+    override fun evaluate(value: T): IFilter.Result<out TResult> = transform(value, filter.evaluate(value))
 
-    override fun iterator(): Iterator<Filter<T, out TFilterResult>> = setOf(filter).iterator()
+    override fun iterator(): Iterator<IFilter<T, out TFilterResult>> = setOf(filter).iterator()
 
     override fun toString(): String = javaClass.name
 }

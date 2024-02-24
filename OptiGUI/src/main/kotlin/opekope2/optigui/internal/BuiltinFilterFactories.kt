@@ -6,11 +6,11 @@ import net.fabricmc.loader.api.VersionParsingException
 import net.minecraft.client.MinecraftClient
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
-import opekope2.filter.*
-import opekope2.filter.FilterResult.Mismatch
-import opekope2.filter.factory.FilterFactoryContext
-import opekope2.filter.factory.FilterFactoryResult
+import opekope2.optigui.filter.factory.FilterFactoryContext
+import opekope2.optigui.filter.factory.FilterFactoryResult
 import opekope2.optigui.InitializerContext
+import opekope2.optigui.filter.*
+import opekope2.optigui.filter.IFilter.Result.Companion.mismatch
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.properties.*
 import opekope2.util.*
@@ -26,7 +26,7 @@ internal fun initializeFilterFactories(context: InitializerContext) {
 private val resourceManager: ResourceManager by lazy { MinecraftClient.getInstance().resourceManager }
 
 private fun createFilter(context: FilterFactoryContext): FilterFactoryResult? {
-    val filters = mutableListOf<Filter<Interaction, out Identifier>>()
+    val filters = mutableListOf<IFilter<Interaction, out Identifier>>()
     val replaceableTextures = mutableSetOf<Identifier>()
 
     for ((sectionName, section) in context.resource.ini) {
@@ -58,12 +58,12 @@ private fun createFilter(context: FilterFactoryContext): FilterFactoryResult? {
         }
 
         val containers = sectionName.split(*delimiters).filter { !it.startsWith('#') }.mapNotNull(Identifier::tryParse)
-        val sectionFilters = mutableListOf<Filter<Interaction, Unit>>()
+        val sectionFilters = mutableListOf<IFilter<Interaction, Unit>>()
 
         if (containers.any()) {
             sectionFilters += PreProcessorFilter.nullGuarded(
                 { (it.data as? CommonProperties)?.container },
-                Mismatch(),
+                mismatch(),
                 ContainingFilter(containers)
             )
         }
@@ -129,7 +129,7 @@ private val filterCreators = mapOf(
         { biomes ->
             PreProcessorFilter.nullGuarded(
                 { (it.data as? CommonProperties)?.biome },
-                Mismatch(),
+                mismatch(),
                 ContainingFilter(biomes)
             )
         }
@@ -139,7 +139,7 @@ private val filterCreators = mapOf(
         { heights ->
             PreProcessorFilter.nullGuarded(
                 { (it.data as? CommonProperties)?.height },
-                Mismatch(),
+                mismatch(),
                 DisjunctionFilter(heights.map { it.toFilter() })
             )
         }
@@ -149,7 +149,7 @@ private val filterCreators = mapOf(
             dates.map { (month, day) ->
                 val monthFilter = PreProcessorFilter.nullGuarded<Interaction, Month, Unit>(
                     { (it.data as? IndependentProperties)?.date?.month },
-                    Mismatch(),
+                    mismatch(),
                     EqualityFilter(month)
                 )
                 val dayFilter = day?.toFilter()
@@ -159,7 +159,7 @@ private val filterCreators = mapOf(
                     monthFilter,
                     PreProcessorFilter.nullGuarded(
                         { (it.data as? IndependentProperties)?.date?.dayOfMonth },
-                        Mismatch(),
+                        mismatch(),
                         dayFilter
                     )
                 )
@@ -171,7 +171,7 @@ private val filterCreators = mapOf(
         { outputs ->
             PreProcessorFilter.nullGuarded(
                 { (it.data as? ComparatorProperties)?.comparatorOutput },
-                Mismatch(),
+                mismatch(),
                 DisjunctionFilter(outputs.map { it.toFilter() })
             )
         }
@@ -181,7 +181,7 @@ private val filterCreators = mapOf(
         { levels ->
             PreProcessorFilter.nullGuarded(
                 { (it.data as? BeaconProperties)?.level },
-                Mismatch(),
+                mismatch(),
                 DisjunctionFilter(levels.map { it.toFilter() })
             )
         }
@@ -189,7 +189,7 @@ private val filterCreators = mapOf(
     "chest.large" to createFilterFromProperty(String?::toBoolean) { large ->
         PreProcessorFilter.nullGuarded(
             { (it.data as? ChestProperties)?.isLarge },
-            Mismatch(),
+            mismatch(),
             EqualityFilter(large)
         )
     },
@@ -198,7 +198,7 @@ private val filterCreators = mapOf(
         { variants ->
             PreProcessorFilter.nullGuarded(
                 { (it.data as? ChestBoatProperties)?.variant },
-                Mismatch(),
+                mismatch(),
                 ContainingFilter(variants)
             )
         }
@@ -208,7 +208,7 @@ private val filterCreators = mapOf(
         { variants ->
             PreProcessorFilter.nullGuarded(
                 { (it.data as? LlamaProperties)?.carpetColor },
-                Mismatch(), // No carpet is mismatch, because at this point, some colors are required
+                mismatch(), // No carpet is mismatch, because at this point, some colors are required
                 ContainingFilter(variants)
             )
         }
@@ -218,7 +218,7 @@ private val filterCreators = mapOf(
             professions.map { (profession, level) ->
                 val profFilter = PreProcessorFilter.nullGuarded<Interaction, Identifier, Unit>(
                     { (it.data as? VillagerProperties)?.profession },
-                    Mismatch(),
+                    mismatch(),
                     EqualityFilter(profession)
                 )
                 val levelFilter = level?.toFilter()
@@ -228,7 +228,7 @@ private val filterCreators = mapOf(
                     profFilter,
                     PreProcessorFilter.nullGuarded(
                         { (it.data as? VillagerProperties)?.level },
-                        Mismatch(),
+                        mismatch(),
                         levelFilter
                     )
                 )
@@ -240,7 +240,7 @@ private val filterCreators = mapOf(
         { types ->
             PreProcessorFilter.nullGuarded(
                 { (it.data as? VillagerProperties)?.type },
-                Mismatch(),
+                mismatch(),
                 ContainingFilter(types)
             )
         }
@@ -254,7 +254,7 @@ private val filterCreators = mapOf(
     "donkey.has_chest" to createFilterFromProperty(String?::toBoolean) { hasChest ->
         PreProcessorFilter.nullGuarded(
             { (it.data as? DonkeyBaseProperties)?.hasChest },
-            Mismatch(),
+            mismatch(),
             EqualityFilter(hasChest)
         )
     },
@@ -263,7 +263,7 @@ private val filterCreators = mapOf(
         { pages ->
             PreProcessorFilter.nullGuarded(
                 { (it.data as? BookBaseProperties)?.currentPage },
-                Mismatch(),
+                mismatch(),
                 DisjunctionFilter(pages.map { it.toFilter() })
             )
         }
@@ -273,7 +273,7 @@ private val filterCreators = mapOf(
         { pages ->
             PreProcessorFilter.nullGuarded(
                 { (it.data as? BookBaseProperties)?.pageCount },
-                Mismatch(),
+                mismatch(),
                 DisjunctionFilter(pages.map { it.toFilter() })
             )
         }
@@ -351,10 +351,10 @@ private fun convertVillagerProfession(professions: String) = sequence {
 
 private fun <T : Any> createFilterFromProperty(
     propertyConverter: (String) -> T?,
-    filterCreator: (T) -> Filter<Interaction, Unit>
-): (String) -> Filter<Interaction, Unit>? = lambda@{ filterCreator(propertyConverter(it) ?: return@lambda null) }
+    filterCreator: (T) -> IFilter<Interaction, Unit>
+): (String) -> IFilter<Interaction, Unit>? = lambda@{ filterCreator(propertyConverter(it) ?: return@lambda null) }
 
-private fun createFilterFromName(name: Regex): Filter<Interaction, Unit> {
+private fun createFilterFromName(name: Regex): IFilter<Interaction, Unit> {
     return PreProcessorFilter(
         { (it.data as? CommonProperties)?.name ?: it.screenTitle.string },
         RegularExpressionFilter(name)

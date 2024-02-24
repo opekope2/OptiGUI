@@ -2,7 +2,7 @@ package opekope2.optigui
 
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.Entity
-import opekope2.filter.factory.FilterFactory
+import opekope2.optigui.filter.factory.FilterFactory
 import opekope2.optigui.interaction.BlockEntityPreprocessor
 import opekope2.optigui.interaction.EntityPreprocessor
 import opekope2.optigui.interaction.Interaction

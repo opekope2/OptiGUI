@@ -1,4 +1,4 @@
-package opekope2.filter
+package opekope2.optigui.filter
 
 /**
  * A filter, which yields a successful result only when the input number is within the defined range, and never skips.
@@ -7,11 +7,11 @@ package opekope2.filter
  * @see RangeFilter.atMost
  * @see RangeFilter.between
  */
-class RangeFilter private constructor(private val min: Int, private val max: Int) : Filter<Int, Unit> {
-    override fun evaluate(value: Int): FilterResult<out Unit> =
-        if (value in min..max) FilterResult.Match(Unit) else FilterResult.Mismatch()
+class RangeFilter private constructor(private val range: IntRange) : IFilter<Int, Unit> {
+    override fun evaluate(value: Int): IFilter.Result<out Unit> =
+        if (value in range) IFilter.Result.Match(Unit) else IFilter.Result.Mismatch
 
-    override fun toString(): String = "${javaClass.name}, $min..$max"
+    override fun toString(): String = "${javaClass.name}, range: $range"
 
     companion object {
         /**
@@ -20,7 +20,7 @@ class RangeFilter private constructor(private val min: Int, private val max: Int
          * @param min The inclusive lower bound of the range
          */
         @JvmStatic
-        fun atLeast(min: Int) = RangeFilter(min, Int.MAX_VALUE)
+        fun atLeast(min: Int) = RangeFilter(min..Int.MAX_VALUE)
 
         /**
          * Creates a filter, which yields a successful result when the input number <= [max]
@@ -28,7 +28,7 @@ class RangeFilter private constructor(private val min: Int, private val max: Int
          * @param max The inclusive upper bound of the range
          */
         @JvmStatic
-        fun atMost(max: Int) = RangeFilter(Int.MIN_VALUE, max)
+        fun atMost(max: Int) = RangeFilter(Int.MIN_VALUE..max)
 
         /**
          * Creates a filter, which yields a successful result when [min] <= input number <= [max]
@@ -37,6 +37,6 @@ class RangeFilter private constructor(private val min: Int, private val max: Int
          * @param max The inclusive upper bound of the range
          */
         @JvmStatic
-        fun between(min: Int, max: Int) = RangeFilter(min, max)
+        fun between(min: Int, max: Int) = RangeFilter(min..max)
     }
 }

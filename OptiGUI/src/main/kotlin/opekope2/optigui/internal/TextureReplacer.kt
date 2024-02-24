@@ -12,8 +12,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.hit.HitResult
 import net.minecraft.world.World
-import opekope2.filter.Filter
-import opekope2.filter.FilterResult
+import opekope2.optigui.filter.IFilter
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.interaction.InteractionTarget
 import opekope2.optigui.interaction.Preprocessors
@@ -92,7 +91,7 @@ internal object TextureReplacer : InteractionService {
 
     private val retexturableScreens: RetexturableScreensRegistryService = RetexturableScreensRegistry // TODO
 
-    internal var filter: Filter<Interaction, Identifier> = Filter { FilterResult.Skip() }
+    internal var filter: IFilter<Interaction, Identifier> = IFilter { IFilter.Result.Skip }
     internal var replaceableTextures = mutableSetOf<Identifier>()
 
     @JvmStatic
@@ -112,7 +111,7 @@ internal object TextureReplacer : InteractionService {
         if (texture !in replaceableTextures) return texture
 
         return InteractionHolder.replacementCache.computeIfAbsent(texture) {
-            filter.evaluate(interaction).let { (it as? FilterResult.Match)?.result } ?: texture
+            filter.evaluate(interaction).let { (it as? IFilter.Result.Match)?.result } ?: texture
         }
     }
 

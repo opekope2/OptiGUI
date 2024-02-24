@@ -6,9 +6,9 @@ import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.util.Identifier
 import net.minecraft.util.profiler.Profiler
-import opekope2.filter.Filter
-import opekope2.filter.FirstMatchFilter
 import opekope2.optigui.exception.ResourceNotFoundException
+import opekope2.optigui.filter.FirstMatchFilter
+import opekope2.optigui.filter.IFilter
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.filter.IdentifiableFilter
 import opekope2.optigui.internal.filter.factory.ReusableFilterFactoryContext
@@ -64,7 +64,7 @@ internal object ResourceLoader : IdentifiableResourceReloadListener {
         }.map { it.key }.toSet()
 
     private fun loadResources(resources: Set<OptiGuiResource>) {
-        val filters = mutableListOf<Filter<Interaction, Identifier>>()
+        val filters = mutableListOf<IFilter<Interaction, Identifier>>()
         val replaceableTextures = mutableSetOf<Identifier>()
 
         val context = ReusableFilterFactoryContext()

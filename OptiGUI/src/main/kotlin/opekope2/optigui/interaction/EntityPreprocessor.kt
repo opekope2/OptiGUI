@@ -2,6 +2,7 @@ package opekope2.optigui.interaction
 
 import net.minecraft.entity.Entity
 import opekope2.optigui.InitializerContext
+import opekope2.optigui.filter.IFilter
 
 /**
  * An entity preprocessor, which extracts information from an entity for further processing by filters.
@@ -24,7 +25,7 @@ fun interface EntityPreprocessor<T : Entity> {
      * Creates an interaction data based on a block entity.
      *
      * @param entity The source entity
-     * @return An object, which will be included in [Interaction.data], and processed by [opekope2.filter.Filter.evaluate]
+     * @return An object, which will be included in [Interaction.data], and processed by [IFilter.evaluate]
      */
     fun process(entity: T): Any?
 }

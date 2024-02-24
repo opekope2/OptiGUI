@@ -1,6 +1,6 @@
 package opekope2.optigui.internal.interaction
 
-import opekope2.filter.factory.FilterFactory
+import opekope2.optigui.filter.factory.FilterFactory
 
 internal object FilterFactoryStore {
     val filterFactories = mutableMapOf<String, MutableSet<FilterFactory>>()

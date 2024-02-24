@@ -9,7 +9,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
-import opekope2.filter.FilterResult
 import java.io.StringWriter
 import kotlin.jvm.optionals.getOrNull
 
@@ -21,20 +20,6 @@ import kotlin.jvm.optionals.getOrNull
  */
 internal fun String?.toBoolean(): Boolean? {
     return (this ?: return null).lowercase().toBooleanStrictOrNull()
-}
-
-/**
- * If the current [FilterResult] is [FilterResult.Match], change its result to the given one.
- * Otherwise, return the original.
- *
- * @param TOld The type of the old result
- * @param TNew The type of the new result
- * @param result The new result
- */
-fun <TOld, TNew> FilterResult<TOld>.withResult(result: TNew): FilterResult<TNew> = when (this) {
-    is FilterResult.Skip -> FilterResult.Skip()
-    is FilterResult.Mismatch -> FilterResult.Mismatch()
-    is FilterResult.Match -> FilterResult.Match(result)
 }
 
 /**

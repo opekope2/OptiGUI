@@ -1,6 +1,6 @@
 package opekope2.optigui.internal.filter.factory
 
-import opekope2.filter.factory.FilterFactoryContext
+import opekope2.optigui.filter.factory.FilterFactoryContext
 import opekope2.optigui.internal.logger
 import opekope2.optigui.resource.OptiGuiResource
 

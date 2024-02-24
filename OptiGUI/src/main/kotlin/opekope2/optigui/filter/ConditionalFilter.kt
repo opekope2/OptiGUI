@@ -1,4 +1,4 @@
-package opekope2.filter
+package opekope2.optigui.filter
 
 /**
  * A filter, which forwards evaluation to the given [filter],
@@ -12,14 +12,14 @@ package opekope2.filter
  */
 class ConditionalFilter<T, TResult>(
     private val check: (T) -> Boolean,
-    private val falseResult: FilterResult<TResult>,
-    private val filter: Filter<T, TResult>
-) : Filter<T, TResult>, Iterable<Filter<T, TResult>> {
-    override fun evaluate(value: T): FilterResult<out TResult> =
+    private val falseResult: IFilter.Result<TResult>,
+    private val filter: IFilter<T, TResult>
+) : IFilter<T, TResult>, Iterable<IFilter<T, TResult>> {
+    override fun evaluate(value: T): IFilter.Result<out TResult> =
         if (check(value)) filter.evaluate(value)
         else falseResult
 
-    override fun iterator(): Iterator<Filter<T, TResult>> = setOf(filter).iterator()
+    override fun iterator(): Iterator<IFilter<T, TResult>> = setOf(filter).iterator()
 
     override fun toString(): String = "${javaClass.name}, result if check is false: $falseResult"
 }

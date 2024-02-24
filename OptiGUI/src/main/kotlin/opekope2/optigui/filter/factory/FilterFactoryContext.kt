@@ -1,4 +1,4 @@
-package opekope2.filter.factory
+package opekope2.optigui.filter.factory
 
 import opekope2.optigui.resource.OptiGuiResource
 
