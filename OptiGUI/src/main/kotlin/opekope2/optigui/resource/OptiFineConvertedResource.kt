@@ -1,9 +1,9 @@
 package opekope2.optigui.resource
 
+import net.minecraft.client.MinecraftClient
+import net.minecraft.resource.ResourceManager
 import net.minecraft.util.DyeColor
 import net.minecraft.util.Identifier
-import opekope2.optigui.service.ResourceAccessService
-import opekope2.optigui.service.getService
 import opekope2.util.*
 import org.ini4j.Ini
 import org.ini4j.Options
@@ -201,16 +201,16 @@ private class SimpleConverter(
     }
 }
 
-private val resourceAccess: ResourceAccessService by lazy(::getService)
+private val resourceManager: ResourceManager by lazy { MinecraftClient.getInstance().resourceManager }
 
 private fun resolveReplacementTexture(texture: String, resourcePath: Identifier): String? {
     var texturePath = resolvePath(texture, resourcePath, OPTIFINE_TILDE_PATH) ?: return null
 
-    if (resourceAccess.getResource(texturePath).exists()) return texturePath.toString()
+    if (resourceManager.getResource(texturePath).isPresent) return texturePath.toString()
 
     texturePath = texturePath.run { Identifier(namespace, "$path.png") }
 
-    return if (resourceAccess.getResource(texturePath).exists()) texturePath.toString()
+    return if (resourceManager.getResource(texturePath).isPresent) texturePath.toString()
     else null
 }
 

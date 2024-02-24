@@ -20,7 +20,6 @@ import opekope2.optigui.interaction.Preprocessors
 import opekope2.optigui.interaction.RawInteraction
 import opekope2.optigui.internal.service.RetexturableScreensRegistryService
 import opekope2.optigui.service.InteractionService
-import opekope2.optigui.service.getService
 
 internal object TextureReplacer : InteractionService {
     private object InteractionHolder : ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Disconnect {
@@ -91,7 +90,7 @@ internal object TextureReplacer : InteractionService {
         }
     }
 
-    private val retexturableScreens: RetexturableScreensRegistryService by lazy(::getService)
+    private val retexturableScreens: RetexturableScreensRegistryService = RetexturableScreensRegistry // TODO
 
     internal var filter: Filter<Interaction, Identifier> = Filter { FilterResult.Skip() }
     internal var replaceableTextures = mutableSetOf<Identifier>()

@@ -1,9 +1,10 @@
 package opekope2.optigui.internal
 
-import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.SemanticVersion
 import net.fabricmc.loader.api.Version
 import net.fabricmc.loader.api.VersionParsingException
+import net.minecraft.client.MinecraftClient
+import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 import opekope2.filter.*
 import opekope2.filter.FilterResult.Mismatch
@@ -12,25 +13,17 @@ import opekope2.filter.factory.FilterFactoryResult
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.properties.*
-import opekope2.optigui.service.ResourceAccessService
-import opekope2.optigui.service.getService
 import opekope2.util.*
 import org.apache.commons.text.StringEscapeUtils.unescapeJava
 import java.time.Month
 import java.time.Month.*
-import kotlin.jvm.optionals.getOrNull
 
 @Suppress("unused")
 internal fun initializeFilterFactories(context: InitializerContext) {
     context.registerFilterFactory(::createFilter)
 }
 
-private val resourceAccess: ResourceAccessService by lazy(::getService)
-private val minecraft_1_19_4: Boolean by lazy {
-    FabricLoader.getInstance().getModContainer("minecraft")
-        .getOrNull()?.metadata?.version?.friendlyString?.contains("1.19.4") ?: false
-}
-private val smithingTable = Identifier("smithing_table")
+private val resourceManager: ResourceManager by lazy { MinecraftClient.getInstance().resourceManager }
 
 private fun createFilter(context: FilterFactoryContext): FilterFactoryResult? {
     val filters = mutableListOf<Filter<Interaction, out Identifier>>()
@@ -59,7 +52,7 @@ private fun createFilter(context: FilterFactoryContext): FilterFactoryResult? {
         } ?: continue).let { replace -> resolvePath(replace, context.resource.id) }.also {
             if (it == null) context.warn("Ignoring section [$sectionName], because replacement texture is malformed.")
         } ?: continue
-        if (!resourceAccess.getResource(replacement).exists()) {
+        if (!resourceManager.getResource(replacement).isPresent) {
             context.warn("Ignoring section [$sectionName], because replacement texture doesn't exist.")
             continue
         }
@@ -87,10 +80,6 @@ private fun createFilter(context: FilterFactoryContext): FilterFactoryResult? {
             replaceableTextures.addAll(
                 containers.mapNotNull(TexturePath::ofContainer)
             )
-            // Because Mojang
-            if (minecraft_1_19_4 && smithingTable in containers) {
-                replaceableTextures += TexturePath.LEGACY_SMITHING_TABLE
-            }
         }
     }
 

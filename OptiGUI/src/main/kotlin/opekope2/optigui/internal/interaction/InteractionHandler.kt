@@ -20,16 +20,16 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import opekope2.optigui.interaction.InteractionTarget
+import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.properties.BookProperties
 import opekope2.optigui.properties.DefaultProperties
 import opekope2.optigui.service.InteractionService
-import opekope2.optigui.service.RegistryLookupService
-import opekope2.optigui.service.getService
 import opekope2.util.TexturePath
+import opekope2.util.getBiomeId
+import opekope2.util.identifier
 
 internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseItemCallback {
-    private val interactor: InteractionService by lazy(::getService)
-    private val lookup: RegistryLookupService by lazy(::getService)
+    private val interactor: InteractionService = TextureReplacer // TODO
 
     init {
         UseBlockCallback.EVENT.register(this)
@@ -51,7 +51,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
     }
 
     private fun getBlockInteractionTarget(world: World, target: BlockPos): InteractionTarget? {
-        val container = lookup.lookupBlockId(world.getBlockState(target).block)
+        val container = world.getBlockState(target).block.identifier
         if (TexturePath.ofContainer(container) == null) {
             // Unknown/modded container
             return null
@@ -61,7 +61,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
             DefaultProperties(
                 container = container,
                 name = null,
-                biome = lookup.lookupBiomeId(world, target),
+                biome = world.getBiomeId(target),
                 height = target.y
             )
         )
@@ -89,7 +89,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
                 BookProperties(
                     container = Identifier("writable_book"),
                     name = stack.name.string,
-                    biome = lookup.lookupBiomeId(world, player.blockPos),
+                    biome = world.getBiomeId(player.blockPos),
                     height = player.blockY,
                     currentPage = (currentScreen as? BookEditScreen)?.currentPage?.plus(1) ?: return@Computed null,
                     pageCount = (currentScreen as? BookEditScreen)?.countPages() ?: return@Computed null
@@ -101,7 +101,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
                 BookProperties(
                     container = Identifier("written_book"),
                     name = stack.name.string,
-                    biome = lookup.lookupBiomeId(world, player.blockPos),
+                    biome = world.getBiomeId(player.blockPos),
                     height = player.blockY,
                     currentPage = (currentScreen as? BookScreen)?.pageIndex?.plus(1) ?: return@Computed null,
                     pageCount = (currentScreen as? BookScreen)?.pageCount ?: return@Computed null
@@ -118,7 +118,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
 
     @JvmStatic
     fun interact(player: PlayerEntity, world: World, currentScreen: Screen) {
-        fun getHangingSignBlockId(sign: SignBlockEntity) = lookup.lookupBlockId(world.getBlockState(sign.pos).block)
+        fun getHangingSignBlockId(sign: SignBlockEntity) = world.getBlockState(sign.pos).block.identifier
 
         val container = when (currentScreen) {
             is AbstractInventoryScreen<*> -> Identifier("player")
@@ -134,7 +134,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
                 DefaultProperties(
                     container,
                     player.name.string,
-                    lookup.lookupBiomeId(world, player.blockPos),
+                    world.getBiomeId(player.blockPos),
                     player.blockY
                 )
             },

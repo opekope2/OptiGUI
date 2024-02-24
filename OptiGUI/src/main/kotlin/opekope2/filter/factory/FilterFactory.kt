@@ -3,7 +3,6 @@ package opekope2.filter.factory
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.service.InteractionService
-import opekope2.optigui.service.RegistryLookupService
 
 /**
  * A filter factory, which creates filters when resources are (re)loaded (when the game starts, or the player presses F3+T).
