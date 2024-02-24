@@ -1,6 +1,6 @@
 @file: JvmName("ContainerTexturePath")
 
-package opekope2.util
+package opekope2.optigui.util
 
 import net.minecraft.util.Identifier
 
@@ -55,9 +55,6 @@ object TexturePath {
 
     @JvmField
     val SMITHING_TABLE = Identifier("textures/gui/container/smithing.png")
-
-    @JvmField
-    val LEGACY_SMITHING_TABLE = Identifier("textures/gui/container/legacy_smithing.png")
 
     @JvmField
     val SMOKER = Identifier("textures/gui/container/smoker.png")

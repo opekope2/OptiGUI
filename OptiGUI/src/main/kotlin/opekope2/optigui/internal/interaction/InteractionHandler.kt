@@ -24,9 +24,9 @@ import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.properties.BookProperties
 import opekope2.optigui.properties.DefaultProperties
 import opekope2.optigui.service.InteractionService
-import opekope2.util.TexturePath
-import opekope2.util.getBiomeId
-import opekope2.util.identifier
+import opekope2.optigui.util.TexturePath
+import opekope2.optigui.util.getBiomeId
+import opekope2.optigui.util.identifier
 
 internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseItemCallback {
     private val interactor: InteractionService = TextureReplacer // TODO

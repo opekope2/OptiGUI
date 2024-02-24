@@ -1,9 +1,9 @@
-package opekope2.util
+package opekope2.optigui.util
 
 /**
- * Namespace to place OptiGUI ini files in.
+ * OptiGUI mod ID.
  */
-const val OPTIGUI_NAMESPACE = "optigui"
+const val MOD_ID = "optigui"
 
 /**
  * Root folder to look for OptiGUI custom GUI ini resources.

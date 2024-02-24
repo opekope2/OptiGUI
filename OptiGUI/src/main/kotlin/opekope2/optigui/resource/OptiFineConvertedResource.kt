@@ -4,7 +4,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.DyeColor
 import net.minecraft.util.Identifier
-import opekope2.util.*
+import opekope2.optigui.util.*
 import org.ini4j.Ini
 import org.ini4j.Options
 import org.ini4j.Profile.Section

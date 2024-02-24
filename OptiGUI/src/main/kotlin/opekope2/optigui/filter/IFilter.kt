@@ -1,6 +1,6 @@
 package opekope2.optigui.filter
 
-import opekope2.util.TreeFormatter
+import opekope2.optigui.util.TreeFormatter
 
 /**
  * Functional interface for filtering.

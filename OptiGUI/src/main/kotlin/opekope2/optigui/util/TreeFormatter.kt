@@ -1,4 +1,4 @@
-package opekope2.util
+package opekope2.optigui.util
 
 import java.util.*
 

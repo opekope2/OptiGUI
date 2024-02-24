@@ -1,7 +1,8 @@
 package opekope2.util
 
+import opekope2.optigui.util.NumberOrRange
+import opekope2.optigui.util.NumberOrRange.Companion.tryParse
 import kotlin.test.*
-import opekope2.util.NumberOrRange.Companion.tryParse
 
 class NumberOrRangeTest {
     @Test

@@ -2,7 +2,6 @@ package opekope2.optigui.internal
 
 import net.minecraft.client.gui.screen.Screen
 import opekope2.optigui.internal.service.RetexturableScreensRegistryService
-import opekope2.util.isSuperOf
 
 internal object RetexturableScreensRegistry : RetexturableScreensRegistryService {
     private val retexturableScreens = mutableSetOf<Class<out Screen>>()
@@ -11,5 +10,5 @@ internal object RetexturableScreensRegistry : RetexturableScreensRegistryService
         retexturableScreens += screenClass
     }
 
-    override fun isScreenRetexturable(screen: Screen): Boolean = retexturableScreens.any { it.isSuperOf(screen) }
+    override fun isScreenRetexturable(screen: Screen): Boolean = retexturableScreens.any { it.isAssignableFrom(screen.javaClass) }
 }

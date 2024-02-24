@@ -3,7 +3,6 @@ package opekope2.optigui.internal
 import net.minecraft.block.entity.*
 import net.minecraft.block.enums.ChestType
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.screen.ingame.BookScreen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.screen.ingame.LecternScreen
 import net.minecraft.entity.Entity
@@ -18,10 +17,9 @@ import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.Nameable
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.properties.*
-import opekope2.util.comparatorOutputWorkaround
-import opekope2.util.getBiomeId
-import opekope2.util.getComparatorOutputWorkaround
-import opekope2.util.identifier
+import opekope2.optigui.util.comparatorOutput
+import opekope2.optigui.util.getBiomeId
+import opekope2.optigui.util.identifier
 
 @Suppress("unused")
 internal fun initializePreprocessors(context: InitializerContext) {
@@ -87,7 +85,7 @@ private fun processCommonComparable(blockEntity: BlockEntity): Any? {
         name = (blockEntity as? Nameable)?.customName?.string,
         biome = world.getBiomeId(blockEntity.pos),
         height = blockEntity.pos.y,
-        comparatorOutput = (screen as? HandledScreen<*>)?.screenHandler?.getComparatorOutputWorkaround() ?: 0
+        comparatorOutput = (screen as? HandledScreen<*>)?.screenHandler?.comparatorOutput ?: 0
     )
 }
 
@@ -111,7 +109,7 @@ private fun processCommonComparable(entity: Entity): Any? {
         name = entity.customName?.string,
         biome = world.getBiomeId(entity.blockPos),
         height = entity.blockY,
-        comparatorOutput = (screen as? HandledScreen<*>)?.screenHandler?.getComparatorOutputWorkaround() ?: 0
+        comparatorOutput = (screen as? HandledScreen<*>)?.screenHandler?.comparatorOutput ?: 0
     )
 }
 
@@ -141,7 +139,7 @@ private fun processChest(chest: ChestBlockEntity): Any? {
         biome = world.getBiomeId(chest.pos),
         height = chest.pos.y,
         isLarge = type != ChestType.SINGLE,
-        comparatorOutput = (screen as? HandledScreen<*>)?.screenHandler?.getComparatorOutputWorkaround() ?: 0
+        comparatorOutput = (screen as? HandledScreen<*>)?.screenHandler?.comparatorOutput ?: 0
     )
 }
 
@@ -217,8 +215,8 @@ private fun processLectern(lectern: LecternBlockEntity): Any? {
         name = null,
         biome = world.getBiomeId(lectern.pos),
         height = lectern.pos.y,
-        currentPage = (screen as? BookScreen)?.pageIndex?.plus(1) ?: return null,
-        pageCount = (screen as? BookScreen)?.pageCount ?: return null,
-        comparatorOutput = (screen as? LecternScreen)?.comparatorOutputWorkaround ?: 0
+        currentPage = (screen as? LecternScreen)?.pageIndex?.plus(1) ?: return null,
+        pageCount = (screen as? LecternScreen)?.pageCount ?: return null,
+        comparatorOutput = (screen as? LecternScreen)?.comparatorOutput ?: 0
     )
 }

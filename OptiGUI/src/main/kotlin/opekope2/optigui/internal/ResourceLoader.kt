@@ -16,7 +16,7 @@ import opekope2.optigui.internal.interaction.FilterFactoryStore.filterFactories
 import opekope2.optigui.resource.OptiFineConvertedResource
 import opekope2.optigui.resource.OptiGuiResource
 import opekope2.optigui.resource.ResourceReader
-import opekope2.util.*
+import opekope2.optigui.util.*
 import java.io.InputStream
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
@@ -55,7 +55,7 @@ internal object ResourceLoader : IdentifiableResourceReloadListener {
 
     private fun findOptiGuiResources(manager: ResourceManager) =
         manager.findResources(OPTIGUI_RESOURCES_ROOT) { (ns, path) ->
-            ns == OPTIGUI_NAMESPACE && path.endsWith(".ini")
+            ns == MOD_ID && path.endsWith(".ini")
         }.map { it.key }.toSet()
 
     private fun findOptiFineResources(manager: ResourceManager) =

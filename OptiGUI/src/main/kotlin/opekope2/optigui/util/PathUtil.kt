@@ -1,6 +1,6 @@
 @file: JvmName("PathResolver")
 
-package opekope2.util
+package opekope2.optigui.util
 
 import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
