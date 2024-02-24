@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "optigui",
-  "version": "${version}",
+  "version": "$version",
   "name": "OptiGUI",
   "description": "Custom inventory GUIs on Fabric&Quilt with OptiFine resource pack support&many more features",
   "authors": [
@@ -38,19 +38,14 @@
   ],
   "accessWidener": "optigui.accesswidener",
   "depends": {
-    "fabricloader": ">=${fabricloader}",
+    "fabricloader": ">=$fabric_loader",
+    "fabric-events-interaction-v0": "*",
     "fabric-lifecycle-events-v1": "*",
     "fabric-networking-api-v1": "*",
-    "fabric-events-interaction-v0": "*",
-    "fabric-language-kotlin": ">=${fabric_language_kotlin}",
-    "minecraft": ">=1.18 <=1.20.1",
-    "java": ">=${java}",
-    "optiglue": [
-      "=${version}-mc.1.18",
-      "=${version}-mc.1.18.2",
-      "=${version}-mc.1.19",
-      "=${version}-mc.1.19.3"
-    ]
+    "fabric-resource-loader-v0": "*",
+    "fabric-language-kotlin": ">=$fabric_language_kotlin",
+    "minecraft": ">=$minecraft",
+    "java": ">=$java"
   },
   "recommends": {
     "animatica": "*"
