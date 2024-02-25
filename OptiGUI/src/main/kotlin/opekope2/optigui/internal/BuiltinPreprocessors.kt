@@ -17,6 +17,7 @@ import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.Nameable
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.properties.*
+import opekope2.optigui.registry.BlockEntityProcessorRegistry
 import opekope2.optigui.registry.EntityProcessorRegistry
 import opekope2.optigui.util.comparatorOutput
 import opekope2.optigui.util.getBiomeId
@@ -24,31 +25,31 @@ import opekope2.optigui.util.identifier
 
 @Suppress("unused")
 internal fun initializePreprocessors(context: InitializerContext) {
-    context.registerPreprocessor<BrewingStandBlockEntity>(::processCommonComparable)
+    BlockEntityProcessorRegistry[BrewingStandBlockEntity::class.java] = ::processCommonComparable
 
-    context.registerPreprocessor<EnchantingTableBlockEntity>(::processCommon)
+    BlockEntityProcessorRegistry[EnchantingTableBlockEntity::class.java] = ::processCommon
 
-    context.registerPreprocessor<FurnaceBlockEntity>(::processCommonComparable)
-    context.registerPreprocessor<BlastFurnaceBlockEntity>(::processCommonComparable)
-    context.registerPreprocessor<SmokerBlockEntity>(::processCommonComparable)
+    BlockEntityProcessorRegistry[FurnaceBlockEntity::class.java] = ::processCommonComparable
+    BlockEntityProcessorRegistry[BlastFurnaceBlockEntity::class.java] = ::processCommonComparable
+    BlockEntityProcessorRegistry[SmokerBlockEntity::class.java] = ::processCommonComparable
 
-    context.registerPreprocessor<HopperBlockEntity>(::processCommonComparable)
+    BlockEntityProcessorRegistry[HopperBlockEntity::class.java] = ::processCommonComparable
     EntityProcessorRegistry[HopperMinecartEntity::class.java] = ::processCommonComparable
 
-    context.registerPreprocessor<ChestBlockEntity>(::processChest)
-    context.registerPreprocessor<TrappedChestBlockEntity>(::processChest)
-    context.registerPreprocessor<EnderChestBlockEntity>(::processCommon)
-    context.registerPreprocessor<BarrelBlockEntity>(::processCommonComparable)
+    BlockEntityProcessorRegistry[ChestBlockEntity::class.java] = ::processChest
+    BlockEntityProcessorRegistry[TrappedChestBlockEntity::class.java] = ::processChest
+    BlockEntityProcessorRegistry[EnderChestBlockEntity::class.java] = ::processCommon
+    BlockEntityProcessorRegistry[BarrelBlockEntity::class.java] = ::processCommonComparable
     EntityProcessorRegistry[ChestMinecartEntity::class.java] = ::processCommonComparable
     EntityProcessorRegistry[ChestBoatEntity::class.java] = ::processChestBoat
 
-    context.registerPreprocessor<BeaconBlockEntity>(::processBeacon)
+    BlockEntityProcessorRegistry[BeaconBlockEntity::class.java] = ::processBeacon
 
     EntityProcessorRegistry[VillagerEntity::class.java] = ::processVillager
     EntityProcessorRegistry[WanderingTraderEntity::class.java] = ::processCommon
 
-    context.registerPreprocessor<DispenserBlockEntity>(::processCommonComparable)
-    context.registerPreprocessor<DropperBlockEntity>(::processCommonComparable)
+    BlockEntityProcessorRegistry[DispenserBlockEntity::class.java] = ::processCommonComparable
+    BlockEntityProcessorRegistry[DropperBlockEntity::class.java] = ::processCommonComparable
 
     EntityProcessorRegistry[HorseEntity::class.java] = ::processCommon
     EntityProcessorRegistry[CamelEntity::class.java] = ::processCommon
@@ -59,11 +60,11 @@ internal fun initializePreprocessors(context: InitializerContext) {
     EntityProcessorRegistry[ZombieHorseEntity::class.java] = ::processCommon
     EntityProcessorRegistry[SkeletonHorseEntity::class.java] = ::processCommon
 
-    context.registerPreprocessor<ShulkerBoxBlockEntity>(::processCommonComparable)
+    BlockEntityProcessorRegistry[ShulkerBoxBlockEntity::class.java] = ::processCommonComparable
 
-    context.registerPreprocessor<LecternBlockEntity>(::processLectern)
+    BlockEntityProcessorRegistry[LecternBlockEntity::class.java] = ::processLectern
 
-    context.registerPreprocessor<HangingSignBlockEntity>(::processHangingSign)
+    BlockEntityProcessorRegistry[HangingSignBlockEntity::class.java] = ::processHangingSign
 }
 
 private fun processCommon(blockEntity: BlockEntity): Any? {
