@@ -2,6 +2,7 @@ package opekope2.optigui.registry
 
 import net.minecraft.entity.Entity
 import opekope2.optigui.interaction.IEntityProcessor
+import opekope2.optigui.interaction.Interaction
 
 /**
  * Object managing entity processors.
@@ -61,5 +62,5 @@ object EntityProcessorRegistry {
      * @param entity The entity to process
      */
     @JvmStatic
-    fun processEntity(entity: Entity): Any? = this[entity.javaClass]?.process(entity)
+    fun processEntity(entity: Entity): Interaction.IExportableData? = this[entity.javaClass]?.process(entity)
 }

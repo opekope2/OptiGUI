@@ -25,5 +25,5 @@ fun interface IEntityProcessor<T : Entity> {
      * @param entity The source entity
      * @return An object, which will be included in [Interaction.data], and processed by [IFilter.evaluate]
      */
-    fun process(entity: T): Any?
+    fun process(entity: T): Interaction.IExportableData?
 }

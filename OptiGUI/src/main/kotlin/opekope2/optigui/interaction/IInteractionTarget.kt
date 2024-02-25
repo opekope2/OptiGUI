@@ -15,7 +15,7 @@ sealed interface IInteractionTarget {
      * @see BlockEntityProcessorRegistry.processBlockEntity
      * @see EntityProcessorRegistry.processEntity
      */
-    fun computeInteractionData(): Any?
+    fun computeInteractionData(): Interaction.IExportableData?
 
     /**
      * Represents the target of an interaction as a block entity.
@@ -23,7 +23,8 @@ sealed interface IInteractionTarget {
      * @param blockEntity The target of the interaction
      */
     data class BlockEntityTarget(val blockEntity: BlockEntity) : IInteractionTarget {
-        override fun computeInteractionData(): Any? = BlockEntityProcessorRegistry.processBlockEntity(blockEntity)
+        override fun computeInteractionData(): Interaction.IExportableData? =
+            BlockEntityProcessorRegistry.processBlockEntity(blockEntity)
     }
 
     /**
@@ -32,7 +33,8 @@ sealed interface IInteractionTarget {
      * @param entity The target of the interaction
      */
     data class EntityTarget(val entity: Entity) : IInteractionTarget {
-        override fun computeInteractionData(): Any? = EntityProcessorRegistry.processEntity(entity)
+        override fun computeInteractionData(): Interaction.IExportableData? =
+            EntityProcessorRegistry.processEntity(entity)
     }
 
     /**
@@ -41,15 +43,15 @@ sealed interface IInteractionTarget {
      *
      * @param compute The implementation of [computeInteractionData]
      */
-    data class ComputedTarget(val compute: () -> Any?) : IInteractionTarget {
+    data class ComputedTarget(val compute: () -> Interaction.IExportableData?) : IInteractionTarget {
         /**
          * Create a computed interaction target from an already computed value.
          *
          * @param interactionData The interaction data to be returned by [computeInteractionData]
          */
-        constructor(interactionData: Any?) : this({ interactionData })
+        constructor(interactionData: Interaction.IExportableData?) : this({ interactionData })
 
-        override fun computeInteractionData(): Any? = compute()
+        override fun computeInteractionData(): Interaction.IExportableData? = compute()
     }
 
     companion object {

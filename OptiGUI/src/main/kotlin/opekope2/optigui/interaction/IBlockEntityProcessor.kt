@@ -27,5 +27,5 @@ fun interface IBlockEntityProcessor<T : BlockEntity> {
      * @param blockEntity The source block entity
      * @return An object, which will be included in [Interaction.data], and processed by [IFilter.evaluate]
      */
-    fun process(blockEntity: T): Any?
+    fun process(blockEntity: T): Interaction.IExportableData?
 }

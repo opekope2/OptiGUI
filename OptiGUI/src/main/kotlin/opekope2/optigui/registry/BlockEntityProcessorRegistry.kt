@@ -2,6 +2,7 @@ package opekope2.optigui.registry
 
 import net.minecraft.block.entity.BlockEntity
 import opekope2.optigui.interaction.IBlockEntityProcessor
+import opekope2.optigui.interaction.Interaction
 
 /**
  * Object managing block entity processors.
@@ -62,5 +63,6 @@ object BlockEntityProcessorRegistry {
      * @param blockEntity The block entity to process
      */
     @JvmStatic
-    fun processBlockEntity(blockEntity: BlockEntity): Any? = this[blockEntity.javaClass]?.process(blockEntity)
+    fun processBlockEntity(blockEntity: BlockEntity): Interaction.IExportableData? =
+        this[blockEntity.javaClass]?.process(blockEntity)
 }

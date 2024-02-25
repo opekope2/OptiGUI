@@ -26,6 +26,19 @@ data class Interaction(
     val rawInteraction: RawInteraction?,
     val data: Any?
 ) {
+    /**
+     * Represents [Interaction.data], which can be exported to selectors.
+     */
+    interface IExportableData {
+        /**
+         * Exports the interaction data to selectors.
+         *
+         * @param exportSelector The function accepting the selectors. The first argument is the selector key, the
+         *   second argument is the selector value. Call this for each selector to export.
+         */
+        fun exportSelectors(exportSelector: (selectorKey: String, selectorValue: String) -> Unit)
+    }
+
     companion object {
         /**
          * Prepares OptiGUI texture replacer for an interaction. Must be called before a [Screen] is opened.
