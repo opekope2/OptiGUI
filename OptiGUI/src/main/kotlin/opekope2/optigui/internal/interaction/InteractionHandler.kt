@@ -3,10 +3,12 @@ package opekope2.optigui.internal.interaction
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
-import net.minecraft.block.entity.SignBlockEntity
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.gui.screen.ingame.*
+import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
+import net.minecraft.client.gui.screen.ingame.BookEditScreen
+import net.minecraft.client.gui.screen.ingame.BookScreen
+import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -85,26 +87,28 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
 
         val target = when (stack.item) {
             Items.WRITABLE_BOOK -> IInteractionTarget.ComputedTarget {
-                val currentScreen = MinecraftClient.getInstance().currentScreen
+                val currentScreen = MinecraftClient.getInstance().currentScreen as? BookEditScreen
+                    ?: return@ComputedTarget null
                 BookProperties(
                     container = Identifier("writable_book"),
                     name = stack.name.string,
                     biome = world.getBiomeId(player.blockPos),
                     height = player.blockY,
-                    currentPage = (currentScreen as? BookEditScreen)?.currentPage?.plus(1) ?: return@ComputedTarget null,
-                    pageCount = (currentScreen as? BookEditScreen)?.countPages() ?: return@ComputedTarget null
+                    currentPage = currentScreen.currentPage + 1,
+                    pageCount = currentScreen.countPages()
                 )
             }
 
             Items.WRITTEN_BOOK -> IInteractionTarget.ComputedTarget {
-                val currentScreen = MinecraftClient.getInstance().currentScreen
+                val currentScreen = MinecraftClient.getInstance().currentScreen as? BookScreen
+                    ?: return@ComputedTarget null
                 BookProperties(
                     container = Identifier("written_book"),
                     name = stack.name.string,
                     biome = world.getBiomeId(player.blockPos),
                     height = player.blockY,
-                    currentPage = (currentScreen as? BookScreen)?.pageIndex?.plus(1) ?: return@ComputedTarget null,
-                    pageCount = (currentScreen as? BookScreen)?.pageCount ?: return@ComputedTarget null
+                    currentPage = currentScreen.pageIndex + 1,
+                    pageCount = currentScreen.pageCount
                 )
             }
 
@@ -118,11 +122,9 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
 
     @JvmStatic
     fun interact(player: PlayerEntity, world: World, currentScreen: Screen) {
-        fun getHangingSignBlockId(sign: SignBlockEntity) = world.getBlockState(sign.pos).block.identifier
-
         val container = when (currentScreen) {
             is AbstractInventoryScreen<*> -> Identifier("player")
-            is HangingSignEditScreen -> getHangingSignBlockId((currentScreen as AbstractSignEditScreen).blockEntity)
+            is HangingSignEditScreen -> world.getBlockState(currentScreen.blockEntity.pos).block.identifier
             else -> return
         }
 
