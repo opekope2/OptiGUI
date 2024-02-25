@@ -17,6 +17,7 @@ import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.Nameable
 import opekope2.optigui.InitializerContext
 import opekope2.optigui.properties.*
+import opekope2.optigui.registry.EntityProcessorRegistry
 import opekope2.optigui.util.comparatorOutput
 import opekope2.optigui.util.getBiomeId
 import opekope2.optigui.util.identifier
@@ -32,31 +33,31 @@ internal fun initializePreprocessors(context: InitializerContext) {
     context.registerPreprocessor<SmokerBlockEntity>(::processCommonComparable)
 
     context.registerPreprocessor<HopperBlockEntity>(::processCommonComparable)
-    context.registerPreprocessor<HopperMinecartEntity>(::processCommonComparable)
+    EntityProcessorRegistry[HopperMinecartEntity::class.java] = ::processCommonComparable
 
     context.registerPreprocessor<ChestBlockEntity>(::processChest)
     context.registerPreprocessor<TrappedChestBlockEntity>(::processChest)
     context.registerPreprocessor<EnderChestBlockEntity>(::processCommon)
     context.registerPreprocessor<BarrelBlockEntity>(::processCommonComparable)
-    context.registerPreprocessor<ChestMinecartEntity>(::processCommonComparable)
-    context.registerPreprocessor<ChestBoatEntity>(::processChestBoat)
+    EntityProcessorRegistry[ChestMinecartEntity::class.java] = ::processCommonComparable
+    EntityProcessorRegistry[ChestBoatEntity::class.java] = ::processChestBoat
 
     context.registerPreprocessor<BeaconBlockEntity>(::processBeacon)
 
-    context.registerPreprocessor<VillagerEntity>(::processVillager)
-    context.registerPreprocessor<WanderingTraderEntity>(::processCommon)
+    EntityProcessorRegistry[VillagerEntity::class.java] = ::processVillager
+    EntityProcessorRegistry[WanderingTraderEntity::class.java] = ::processCommon
 
     context.registerPreprocessor<DispenserBlockEntity>(::processCommonComparable)
     context.registerPreprocessor<DropperBlockEntity>(::processCommonComparable)
 
-    context.registerPreprocessor<HorseEntity>(::processCommon)
-    context.registerPreprocessor<CamelEntity>(::processCommon)
-    context.registerPreprocessor<DonkeyEntity>(::processDonkey)
-    context.registerPreprocessor<MuleEntity>(::processDonkey)
-    context.registerPreprocessor<LlamaEntity>(::processLlama)
-    context.registerPreprocessor<TraderLlamaEntity>(::processLlama)
-    context.registerPreprocessor<ZombieHorseEntity>(::processCommon)
-    context.registerPreprocessor<SkeletonHorseEntity>(::processCommon)
+    EntityProcessorRegistry[HorseEntity::class.java] = ::processCommon
+    EntityProcessorRegistry[CamelEntity::class.java] = ::processCommon
+    EntityProcessorRegistry[DonkeyEntity::class.java] = ::processDonkey
+    EntityProcessorRegistry[MuleEntity::class.java] = ::processDonkey
+    EntityProcessorRegistry[LlamaEntity::class.java] = ::processLlama
+    EntityProcessorRegistry[TraderLlamaEntity::class.java] = ::processLlama
+    EntityProcessorRegistry[ZombieHorseEntity::class.java] = ::processCommon
+    EntityProcessorRegistry[SkeletonHorseEntity::class.java] = ::processCommon
 
     context.registerPreprocessor<ShulkerBoxBlockEntity>(::processCommonComparable)
 

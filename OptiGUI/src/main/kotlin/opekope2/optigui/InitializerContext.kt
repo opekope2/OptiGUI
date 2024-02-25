@@ -1,14 +1,11 @@
 package opekope2.optigui
 
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.entity.Entity
 import opekope2.optigui.filter.factory.FilterFactory
 import opekope2.optigui.interaction.BlockEntityPreprocessor
-import opekope2.optigui.interaction.EntityPreprocessor
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.interaction.FilterFactoryStore
 import opekope2.optigui.internal.interaction.IdentifiableBlockEntityPreprocessor
-import opekope2.optigui.internal.interaction.IdentifiableEntityPreprocessor
 import opekope2.optigui.internal.interaction.PreprocessorStore
 
 /**
@@ -53,30 +50,5 @@ class InitializerContext internal constructor(private val modId: String) {
      * @return `true` if registration is successful, `false` if the given block entity already has a preprocessor registered
      */
     inline fun <reified T : BlockEntity> registerPreprocessor(processor: BlockEntityPreprocessor<T>) =
-        registerPreprocessor(T::class.java, processor)
-
-    /**
-     * Registers the preprocessor for an entity.
-     *
-     * @param T The entity type the preprocessor processes
-     * @param type Java moment. The entity type the preprocessor processes
-     * @param processor The entity preprocessor instance
-     * @return `true` if registration is successful, `false` if the given entity already has a preprocessor registered
-     */
-    @Suppress("UNCHECKED_CAST")
-    fun <T : Entity> registerPreprocessor(type: Class<out Entity>, processor: EntityPreprocessor<T>): Boolean =
-        PreprocessorStore.add(
-            type,
-            IdentifiableEntityPreprocessor(modId, processor) as IdentifiableEntityPreprocessor<Entity>
-        )
-
-    /**
-     * Registers the preprocessor for an entity.
-     *
-     * @param T The entity type the preprocessor processes
-     * @param processor The entity preprocessor instance
-     * @return `true` if registration is successful, `false` if the given entity already has a preprocessor registered
-     */
-    inline fun <reified T : Entity> registerPreprocessor(processor: EntityPreprocessor<T>) =
         registerPreprocessor(T::class.java, processor)
 }

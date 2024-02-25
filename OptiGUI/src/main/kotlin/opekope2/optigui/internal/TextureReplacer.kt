@@ -13,7 +13,11 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.hit.HitResult
 import net.minecraft.world.World
 import opekope2.optigui.filter.IFilter
-import opekope2.optigui.interaction.*
+import opekope2.optigui.interaction.IInteractionTarget
+import opekope2.optigui.interaction.IInteractor
+import opekope2.optigui.interaction.Interaction
+import opekope2.optigui.interaction.RawInteraction
+import opekope2.optigui.registry.EntityProcessorRegistry
 import opekope2.optigui.registry.RetexturableScreenRegistry
 
 internal object TextureReplacer : IInteractor {
@@ -32,7 +36,7 @@ internal object TextureReplacer : IInteractor {
         var riddenEntity: Entity? = null
 
         fun refreshInteractionData() {
-            val newData = target?.computeInteractionData() ?: riddenEntity?.let(Preprocessors::preprocessEntity)
+            val newData = target?.computeInteractionData() ?: riddenEntity?.let(EntityProcessorRegistry::processEntity)
 
             if (newData != data) {
                 data = newData

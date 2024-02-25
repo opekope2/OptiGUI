@@ -2,6 +2,7 @@ package opekope2.optigui.interaction
 
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.Entity
+import opekope2.optigui.registry.EntityProcessorRegistry
 
 /**
  * Represents the target of an interaction. See nested classes for available options.
@@ -11,7 +12,7 @@ sealed interface IInteractionTarget {
      * Calculates the interaction data by the given target entity.
      *
      * @see Preprocessors.preprocessBlockEntity
-     * @see Preprocessors.preprocessEntity
+     * @see EntityProcessorRegistry.processEntity
      */
     fun computeInteractionData(): Any?
 
@@ -30,7 +31,7 @@ sealed interface IInteractionTarget {
      * @param entity The target of the interaction
      */
     data class EntityTarget(val entity: Entity) : IInteractionTarget {
-        override fun computeInteractionData(): Any? = Preprocessors.preprocessEntity(entity)
+        override fun computeInteractionData(): Any? = EntityProcessorRegistry.processEntity(entity)
     }
 
     /**

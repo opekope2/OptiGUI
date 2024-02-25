@@ -3,7 +3,7 @@ package opekope2.optigui
 
 /**
  * OptiGUI entry point. Called when OptiGUI finishes initialization.
- * This is where [InitializerContext.registerFilterFactory] and [InitializerContext.registerPreprocessor] should be called.
+ * This is where [InitializerContext.registerFilterFactory] should be called.
  */
 fun interface EntryPoint {
     /**
