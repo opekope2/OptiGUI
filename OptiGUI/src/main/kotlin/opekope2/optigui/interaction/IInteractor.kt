@@ -1,15 +1,14 @@
-package opekope2.optigui.service
+package opekope2.optigui.interaction
 
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.HitResult
 import net.minecraft.world.World
-import opekope2.optigui.interaction.InteractionTarget
 
 /**
  * Interface for triggering interactions for texture replacing
  */
-interface InteractionService {
+interface IInteractor {
     /**
      * Signals the texture replacer that an interaction has begun. Should be called before opening a GUI.
      *

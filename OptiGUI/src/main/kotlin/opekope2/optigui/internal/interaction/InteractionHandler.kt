@@ -19,17 +19,17 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import opekope2.optigui.interaction.IInteractor
 import opekope2.optigui.interaction.InteractionTarget
 import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.properties.BookProperties
 import opekope2.optigui.properties.DefaultProperties
-import opekope2.optigui.service.InteractionService
 import opekope2.optigui.util.TexturePath
 import opekope2.optigui.util.getBiomeId
 import opekope2.optigui.util.identifier
 
 internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseItemCallback {
-    private val interactor: InteractionService = TextureReplacer // TODO
+    private val interactor: IInteractor = TextureReplacer // TODO
 
     init {
         UseBlockCallback.EVENT.register(this)

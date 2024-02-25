@@ -13,14 +13,10 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.hit.HitResult
 import net.minecraft.world.World
 import opekope2.optigui.filter.IFilter
-import opekope2.optigui.interaction.Interaction
-import opekope2.optigui.interaction.InteractionTarget
-import opekope2.optigui.interaction.Preprocessors
-import opekope2.optigui.interaction.RawInteraction
+import opekope2.optigui.interaction.*
 import opekope2.optigui.internal.service.RetexturableScreensRegistryService
-import opekope2.optigui.service.InteractionService
 
-internal object TextureReplacer : InteractionService {
+internal object TextureReplacer : IInteractor {
     private object InteractionHolder : ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Disconnect {
         val replacementCache = mutableMapOf<Identifier, Identifier>()
 
