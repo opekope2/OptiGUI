@@ -15,7 +15,6 @@ import net.minecraft.entity.vehicle.HopperMinecartEntity
 import net.minecraft.registry.Registries
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.Nameable
-import opekope2.optigui.InitializerContext
 import opekope2.optigui.properties.*
 import opekope2.optigui.registry.BlockEntityProcessorRegistry
 import opekope2.optigui.registry.EntityProcessorRegistry
@@ -24,7 +23,7 @@ import opekope2.optigui.util.getBiomeId
 import opekope2.optigui.util.identifier
 
 @Suppress("unused")
-internal fun initializePreprocessors(context: InitializerContext) {
+internal fun initializeVanillaProcessors() {
     BlockEntityProcessorRegistry[BrewingStandBlockEntity::class.java] = ::processCommonComparable
 
     BlockEntityProcessorRegistry[EnchantingTableBlockEntity::class.java] = ::processCommon
