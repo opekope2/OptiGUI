@@ -1,5 +1,6 @@
 package opekope2.optigui.internal
 
+import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.minecraft.client.MinecraftClient
@@ -20,7 +21,7 @@ import opekope2.optigui.interaction.RawInteraction
 import opekope2.optigui.registry.EntityProcessorRegistry
 import opekope2.optigui.registry.RetexturableScreenRegistry
 
-internal object TextureReplacer : IInteractor {
+internal object TextureReplacer : ClientModInitializer, IInteractor {
     private object InteractionHolder : ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Disconnect {
         val replacementCache = mutableMapOf<Identifier, Identifier>()
 
@@ -95,7 +96,7 @@ internal object TextureReplacer : IInteractor {
     @JvmStatic
     var riddenEntity: Entity? by InteractionHolder::riddenEntity
 
-    init {
+    override fun onInitializeClient() {
         ClientTickEvents.END_WORLD_TICK.register(InteractionHolder)
         ClientPlayConnectionEvents.DISCONNECT.register(InteractionHolder)
     }

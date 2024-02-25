@@ -9,7 +9,6 @@ import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
 import net.minecraft.resource.ResourceType
 import opekope2.optigui.EntryPoint
 import opekope2.optigui.InitializerContext
-import opekope2.optigui.internal.interaction.InteractionHandler
 import opekope2.optigui.registry.RetexturableScreenRegistry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -29,8 +28,6 @@ fun initialize() {
     RetexturableScreenRegistry += HangingSignEditScreen::class.java
 
     ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(ResourceLoader)
-
-    InteractionHandler
 
     runEntryPoints()
 

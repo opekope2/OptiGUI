@@ -1,5 +1,6 @@
 package opekope2.optigui.internal.interaction
 
+import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
@@ -30,10 +31,10 @@ import opekope2.optigui.util.TexturePath
 import opekope2.optigui.util.getBiomeId
 import opekope2.optigui.util.identifier
 
-internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseItemCallback {
+internal object InteractionHandler : ClientModInitializer, UseBlockCallback, UseEntityCallback, UseItemCallback {
     private val interactor: IInteractor = TextureReplacer // TODO
 
-    init {
+    override fun onInitializeClient() {
         UseBlockCallback.EVENT.register(this)
         UseEntityCallback.EVENT.register(this)
         UseItemCallback.EVENT.register(this)
