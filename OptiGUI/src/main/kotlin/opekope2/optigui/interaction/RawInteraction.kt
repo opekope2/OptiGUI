@@ -14,6 +14,6 @@ import net.minecraft.world.World
  *
  * @see UseBlockCallback.interact
  * @see UseEntityCallback.interact
- * @see IInteractor.interact
+ * @see Interaction.prepare
  */
 data class RawInteraction(val player: PlayerEntity, val world: World, val hand: Hand, val hitResult: HitResult?)

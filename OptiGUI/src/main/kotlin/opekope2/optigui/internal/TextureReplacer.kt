@@ -8,20 +8,15 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.network.ClientPlayNetworkHandler
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
-import net.minecraft.util.hit.HitResult
-import net.minecraft.world.World
 import opekope2.optigui.filter.IFilter
 import opekope2.optigui.interaction.IInteractionTarget
-import opekope2.optigui.interaction.IInteractor
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.interaction.RawInteraction
 import opekope2.optigui.registry.EntityProcessorRegistry
 import opekope2.optigui.registry.RetexturableScreenRegistry
 
-internal object TextureReplacer : ClientModInitializer, IInteractor {
+internal object TextureReplacer : ClientModInitializer {
     private object InteractionHolder : ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Disconnect {
         val replacementCache = mutableMapOf<Identifier, Identifier>()
 
@@ -123,16 +118,8 @@ internal object TextureReplacer : ClientModInitializer, IInteractor {
         }
     }
 
-    override fun interact(
-        player: PlayerEntity,
-        world: World,
-        hand: Hand,
-        target: IInteractionTarget,
-        hitResult: HitResult?
-    ): Boolean {
-        if (!world.isClient) return false
-        return InteractionHolder.prepare(target, RawInteraction(player, world, hand, hitResult))
-    }
+    fun prepareInteraction(target: IInteractionTarget, rawInteraction: RawInteraction): Boolean =
+        InteractionHolder.prepare(target, rawInteraction)
 
     @JvmStatic
     fun refreshInteractionData() = InteractionHolder.refreshInteractionData()

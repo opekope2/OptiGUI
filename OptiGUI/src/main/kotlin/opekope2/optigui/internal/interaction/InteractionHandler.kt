@@ -23,8 +23,7 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import opekope2.optigui.interaction.IInteractionTarget
-import opekope2.optigui.interaction.IInteractor
-import opekope2.optigui.internal.TextureReplacer
+import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.properties.BookProperties
 import opekope2.optigui.properties.DefaultProperties
 import opekope2.optigui.util.TexturePath
@@ -32,8 +31,6 @@ import opekope2.optigui.util.getBiomeId
 import opekope2.optigui.util.identifier
 
 internal object InteractionHandler : ClientModInitializer, UseBlockCallback, UseEntityCallback, UseItemCallback {
-    private val interactor: IInteractor = TextureReplacer // TODO
-
     override fun onInitializeClient() {
         UseBlockCallback.EVENT.register(this)
         UseEntityCallback.EVENT.register(this)
@@ -47,7 +44,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
                 if (blockEntity != null) IInteractionTarget.BlockEntityTarget(blockEntity)
                 else getBlockInteractionTarget(world, hitResult.blockPos)
 
-            if (target != null) interactor.interact(player, world, hand, target, hitResult)
+            if (target != null) Interaction.prepare(player, world, hand, target, hitResult)
         }
 
         return ActionResult.PASS
@@ -74,7 +71,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
         player: PlayerEntity, world: World, hand: Hand, entity: Entity, hitResult: EntityHitResult?
     ): ActionResult {
         if (world.isClient) {
-            interactor.interact(player, world, hand, IInteractionTarget.EntityTarget(entity), hitResult)
+            Interaction.prepare(player, world, hand, IInteractionTarget.EntityTarget(entity), hitResult)
         }
 
         return ActionResult.PASS
@@ -116,7 +113,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
             else -> return result
         }
 
-        interactor.interact(player, world, Hand.MAIN_HAND, target, null)
+        Interaction.prepare(player, world, Hand.MAIN_HAND, target, null)
 
         return result
     }
@@ -129,7 +126,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
             else -> return
         }
 
-        interactor.interact(
+        Interaction.prepare(
             player,
             world,
             Hand.MAIN_HAND,
