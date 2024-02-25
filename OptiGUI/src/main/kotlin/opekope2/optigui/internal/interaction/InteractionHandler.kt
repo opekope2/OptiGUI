@@ -19,8 +19,8 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import opekope2.optigui.interaction.IInteractionTarget
 import opekope2.optigui.interaction.IInteractor
-import opekope2.optigui.interaction.InteractionTarget
 import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.properties.BookProperties
 import opekope2.optigui.properties.DefaultProperties
@@ -41,7 +41,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
         if (world.isClient) {
             val blockEntity = world.getBlockEntity(hitResult.blockPos)
             val target =
-                if (blockEntity != null) InteractionTarget.BlockEntity(blockEntity)
+                if (blockEntity != null) IInteractionTarget.BlockEntityTarget(blockEntity)
                 else getBlockInteractionTarget(world, hitResult.blockPos)
 
             if (target != null) interactor.interact(player, world, hand, target, hitResult)
@@ -50,14 +50,14 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
         return ActionResult.PASS
     }
 
-    private fun getBlockInteractionTarget(world: World, target: BlockPos): InteractionTarget? {
+    private fun getBlockInteractionTarget(world: World, target: BlockPos): IInteractionTarget? {
         val container = world.getBlockState(target).block.identifier
         if (TexturePath.ofContainer(container) == null) {
             // Unknown/modded container
             return null
         }
 
-        return InteractionTarget.Preprocessed(
+        return IInteractionTarget.ComputedTarget(
             DefaultProperties(
                 container = container,
                 name = null,
@@ -71,7 +71,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
         player: PlayerEntity, world: World, hand: Hand, entity: Entity, hitResult: EntityHitResult?
     ): ActionResult {
         if (world.isClient) {
-            interactor.interact(player, world, hand, InteractionTarget.Entity(entity), hitResult)
+            interactor.interact(player, world, hand, IInteractionTarget.EntityTarget(entity), hitResult)
         }
 
         return ActionResult.PASS
@@ -84,27 +84,27 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
         if (!world.isClient) return result
 
         val target = when (stack.item) {
-            Items.WRITABLE_BOOK -> InteractionTarget.Computed {
+            Items.WRITABLE_BOOK -> IInteractionTarget.ComputedTarget {
                 val currentScreen = MinecraftClient.getInstance().currentScreen
                 BookProperties(
                     container = Identifier("writable_book"),
                     name = stack.name.string,
                     biome = world.getBiomeId(player.blockPos),
                     height = player.blockY,
-                    currentPage = (currentScreen as? BookEditScreen)?.currentPage?.plus(1) ?: return@Computed null,
-                    pageCount = (currentScreen as? BookEditScreen)?.countPages() ?: return@Computed null
+                    currentPage = (currentScreen as? BookEditScreen)?.currentPage?.plus(1) ?: return@ComputedTarget null,
+                    pageCount = (currentScreen as? BookEditScreen)?.countPages() ?: return@ComputedTarget null
                 )
             }
 
-            Items.WRITTEN_BOOK -> InteractionTarget.Computed {
+            Items.WRITTEN_BOOK -> IInteractionTarget.ComputedTarget {
                 val currentScreen = MinecraftClient.getInstance().currentScreen
                 BookProperties(
                     container = Identifier("written_book"),
                     name = stack.name.string,
                     biome = world.getBiomeId(player.blockPos),
                     height = player.blockY,
-                    currentPage = (currentScreen as? BookScreen)?.pageIndex?.plus(1) ?: return@Computed null,
-                    pageCount = (currentScreen as? BookScreen)?.pageCount ?: return@Computed null
+                    currentPage = (currentScreen as? BookScreen)?.pageIndex?.plus(1) ?: return@ComputedTarget null,
+                    pageCount = (currentScreen as? BookScreen)?.pageCount ?: return@ComputedTarget null
                 )
             }
 
@@ -130,7 +130,7 @@ internal object InteractionHandler : UseBlockCallback, UseEntityCallback, UseIte
             player,
             world,
             Hand.MAIN_HAND,
-            InteractionTarget.Computed {
+            IInteractionTarget.ComputedTarget {
                 DefaultProperties(
                     container,
                     player.name.string,

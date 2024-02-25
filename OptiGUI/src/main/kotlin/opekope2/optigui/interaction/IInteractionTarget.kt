@@ -1,12 +1,12 @@
 package opekope2.optigui.interaction
 
-import net.minecraft.block.entity.BlockEntity as MC_BlockEntity
-import net.minecraft.entity.Entity as MC_Entity
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.entity.Entity
 
 /**
  * Represents the target of an interaction. See nested classes for available options.
  */
-sealed interface InteractionTarget {
+sealed interface IInteractionTarget {
     /**
      * Calculates the interaction data by the given target entity.
      *
@@ -20,7 +20,7 @@ sealed interface InteractionTarget {
      *
      * @param blockEntity The target of the interaction
      */
-    class BlockEntity(val blockEntity: MC_BlockEntity) : InteractionTarget {
+    data class BlockEntityTarget(val blockEntity: BlockEntity) : IInteractionTarget {
         override fun computeInteractionData(): Any? = Preprocessors.preprocessBlockEntity(blockEntity)
     }
 
@@ -29,7 +29,7 @@ sealed interface InteractionTarget {
      *
      * @param entity The target of the interaction
      */
-    class Entity(val entity: MC_Entity) : InteractionTarget {
+    data class EntityTarget(val entity: Entity) : IInteractionTarget {
         override fun computeInteractionData(): Any? = Preprocessors.preprocessEntity(entity)
     }
 
@@ -39,25 +39,23 @@ sealed interface InteractionTarget {
      *
      * @param compute The implementation of [computeInteractionData]
      */
-    class Computed(val compute: () -> Any?) : InteractionTarget {
+    data class ComputedTarget(val compute: () -> Any?) : IInteractionTarget {
+        /**
+         * Create a computed interaction target from an already computed value.
+         *
+         * @param interactionData The interaction data to be returned by [computeInteractionData]
+         */
+        constructor(interactionData: Any?) : this({ interactionData })
+
         override fun computeInteractionData(): Any? = compute()
     }
 
-    /**
-     * Represents an interaction without a target.
-     * The interaction data returned by [computeInteractionData] will always be `null` as preprocessors are unavailable.
-     */
-
-    object None : InteractionTarget {
-        override fun computeInteractionData(): Any? = null
-    }
-
-    /**
-     * Represents an already processed interaction.
-     *
-     * @param interactionData The interaction data to be returned by [computeInteractionData]
-     */
-    class Preprocessed(private val interactionData: Any?) : InteractionTarget {
-        override fun computeInteractionData(): Any? = interactionData
+    companion object {
+        /**
+         * Represents an interaction without a target.
+         * The interaction data returned by [computeInteractionData] will always be `null` as preprocessors are unavailable.
+         */
+        @JvmField
+        val NoneTarget = ComputedTarget(null)
     }
 }

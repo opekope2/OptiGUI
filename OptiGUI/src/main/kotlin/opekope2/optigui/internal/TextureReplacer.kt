@@ -23,7 +23,7 @@ internal object TextureReplacer : IInteractor {
         var interacting: Boolean = false
             private set
 
-        private var target: InteractionTarget? = null
+        private var target: IInteractionTarget? = null
 
         private var raw: RawInteraction? = null
         private var data: Any? = null
@@ -40,7 +40,7 @@ internal object TextureReplacer : IInteractor {
             }
         }
 
-        fun prepare(target: InteractionTarget, rawInteraction: RawInteraction): Boolean {
+        fun prepare(target: IInteractionTarget, rawInteraction: RawInteraction): Boolean {
             if (interacting) return false
 
             this.target = target
@@ -121,7 +121,11 @@ internal object TextureReplacer : IInteractor {
     }
 
     override fun interact(
-        player: PlayerEntity, world: World, hand: Hand, target: InteractionTarget, hitResult: HitResult?
+        player: PlayerEntity,
+        world: World,
+        hand: Hand,
+        target: IInteractionTarget,
+        hitResult: HitResult?
     ): Boolean {
         if (!world.isClient) return false
         return InteractionHolder.prepare(target, RawInteraction(player, world, hand, hitResult))

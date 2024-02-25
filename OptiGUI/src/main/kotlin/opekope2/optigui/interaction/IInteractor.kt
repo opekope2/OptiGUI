@@ -19,5 +19,11 @@ interface IInteractor {
      * @param hitResult The hit result from Minecraft
      * @return `true` if the parameters are valid, and a GUI is not open, otherwise `false`
      */
-    fun interact(player: PlayerEntity, world: World, hand: Hand, target: InteractionTarget, hitResult: HitResult?): Boolean
+    fun interact(
+        player: PlayerEntity,
+        world: World,
+        hand: Hand,
+        target: IInteractionTarget,
+        hitResult: HitResult?
+    ): Boolean
 }
