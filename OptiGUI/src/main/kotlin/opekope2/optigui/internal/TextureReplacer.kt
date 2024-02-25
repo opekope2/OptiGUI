@@ -98,11 +98,11 @@ internal object TextureReplacer : ClientModInitializer {
 
     @JvmStatic
     fun replaceTexture(texture: Identifier): Identifier {
-        // Don't bother replacing textures if not interacting
-        val interaction = InteractionHolder.createInteraction(texture) ?: return texture
-
         // Only replace predefined textures
         if (texture !in replaceableTextures) return texture
+
+        // Don't bother replacing textures if not interacting
+        val interaction = InteractionHolder.createInteraction(texture) ?: return texture
 
         return InteractionHolder.replacementCache.computeIfAbsent(texture) {
             filter.evaluate(interaction).let { (it as? IFilter.Result.Match)?.result } ?: texture
