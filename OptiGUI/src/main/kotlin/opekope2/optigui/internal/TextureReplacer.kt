@@ -14,7 +14,7 @@ import net.minecraft.util.hit.HitResult
 import net.minecraft.world.World
 import opekope2.optigui.filter.IFilter
 import opekope2.optigui.interaction.*
-import opekope2.optigui.internal.service.RetexturableScreensRegistryService
+import opekope2.optigui.registry.RetexturableScreenRegistry
 
 internal object TextureReplacer : IInteractor {
     private object InteractionHolder : ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Disconnect {
@@ -85,8 +85,6 @@ internal object TextureReplacer : IInteractor {
         }
     }
 
-    private val retexturableScreens: RetexturableScreensRegistryService = RetexturableScreensRegistry // TODO
-
     internal var filter: IFilter<Interaction, Identifier> = IFilter { IFilter.Result.Skip }
     internal var replaceableTextures = mutableSetOf<Identifier>()
 
@@ -113,9 +111,9 @@ internal object TextureReplacer : IInteractor {
 
     @JvmStatic
     fun handleScreenChange(screen: Screen?) {
-        when {
-            screen == null -> InteractionHolder.end()
-            retexturableScreens.isScreenRetexturable(screen) -> InteractionHolder.begin(screen)
+        when (screen) {
+            null -> InteractionHolder.end()
+            in RetexturableScreenRegistry -> InteractionHolder.begin(screen)
             else -> InteractionHolder.end()
         }
     }
