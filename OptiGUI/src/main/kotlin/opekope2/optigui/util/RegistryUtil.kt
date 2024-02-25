@@ -2,6 +2,7 @@ package opekope2.optigui.util
 
 import net.minecraft.block.Block
 import net.minecraft.entity.Entity
+import net.minecraft.item.Item
 import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -19,6 +20,12 @@ val Block.identifier: Identifier
  */
 val Entity.identifier: Identifier
     get() = Registries.ENTITY_TYPE.getId(type)
+
+/**
+ * Finds the ID of the given item in the registry.
+ */
+val Item.identifier: Identifier
+    get() = Registries.ITEM.getId(this)
 
 /**
  * Finds the biome ID at the given world position.
