@@ -11,6 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class BookEditScreenMixin {
     @Inject(method = "changePage", at = @At("RETURN"))
     private void setPageMixin(CallbackInfo ci) {
-        TextureReplacer.forceTick();
+        TextureReplacer.refreshInteractionData();
     }
 }

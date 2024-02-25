@@ -132,5 +132,5 @@ internal object TextureReplacer : InteractionService {
     }
 
     @JvmStatic
-    fun forceTick() = InteractionHolder.refreshInteractionData()
+    fun refreshInteractionData() = InteractionHolder.refreshInteractionData()
 }

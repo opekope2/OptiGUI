@@ -12,16 +12,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class BookScreenMixin {
     @Inject(method = "setPage", at = @At("RETURN"))
     private void setPageMixin(int index, CallbackInfoReturnable<Boolean> cir) {
-        TextureReplacer.forceTick();
+        TextureReplacer.refreshInteractionData();
     }
 
     @Inject(method = "goToNextPage", at = @At("RETURN"))
     private void goToNextPageMixin(CallbackInfo ci) {
-        TextureReplacer.forceTick();
+        TextureReplacer.refreshInteractionData();
     }
 
     @Inject(method = "goToPreviousPage", at = @At("RETURN"))
     private void goToPreviousPageMixin(CallbackInfo ci) {
-        TextureReplacer.forceTick();
+        TextureReplacer.refreshInteractionData();
     }
 }
