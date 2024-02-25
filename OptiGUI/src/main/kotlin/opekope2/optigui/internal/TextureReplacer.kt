@@ -10,6 +10,7 @@ import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
 import net.minecraft.util.Identifier
 import opekope2.optigui.filter.IFilter
+import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
 import opekope2.optigui.interaction.IInteractionTarget
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.interaction.RawInteraction
@@ -50,6 +51,8 @@ internal object TextureReplacer : ClientModInitializer {
         }
 
         fun begin(screen: Screen) {
+            IBeforeInteractionBeginCallback.EVENT.invoker().onBeforeBegin()
+
             this.screen = screen
 
             interacting = true
