@@ -7,8 +7,6 @@ import net.minecraft.client.gui.screen.ingame.BookScreen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
 import net.minecraft.resource.ResourceType
-import opekope2.optigui.EntryPoint
-import opekope2.optigui.InitializerContext
 import opekope2.optigui.registry.RetexturableScreenRegistry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -29,23 +27,5 @@ fun initialize() {
 
     ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(ResourceLoader)
 
-    runEntryPoints()
-
     logger.info("OptiGUI initialized.")
-}
-
-private fun runEntryPoints() {
-    val entrypoints =
-        FabricLoader.getInstance().getEntrypointContainers("optigui", /* Java moment */ EntryPoint::class.java)
-
-    // Initialize OptiGlue first
-    entrypoints.sortByDescending {
-        when (it.provider.metadata.id) {
-            "optigui" -> 2
-            "optiglue" -> 1
-            else -> 0
-        }
-    }
-
-    entrypoints.forEach { it.entrypoint.onInitialize(InitializerContext(it.provider.metadata.id)) }
 }

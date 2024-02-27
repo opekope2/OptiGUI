@@ -6,7 +6,6 @@ import net.fabricmc.loader.api.VersionParsingException
 import net.minecraft.client.MinecraftClient
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
-import opekope2.optigui.InitializerContext
 import opekope2.optigui.filter.*
 import opekope2.optigui.filter.IFilter.Result.Companion.mismatch
 import opekope2.optigui.filter.factory.FilterFactoryContext
@@ -17,11 +16,6 @@ import opekope2.optigui.util.*
 import org.apache.commons.text.StringEscapeUtils.unescapeJava
 import java.time.Month
 import java.time.Month.*
-
-@Suppress("unused")
-internal fun initializeFilterFactories(context: InitializerContext) {
-    context.registerFilterFactory(::createFilter)
-}
 
 private val resourceManager: ResourceManager by lazy { MinecraftClient.getInstance().resourceManager }
 

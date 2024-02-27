@@ -33,12 +33,6 @@
         "adapter": "kotlin",
         "value": "opekope2.optigui.internal.interaction.InteractionHandler"
       }
-    ],
-    "optigui": [
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.BuiltinFilterFactoriesKt::initializeFilterFactories"
-      }
     ]
   },
   "mixins": [
