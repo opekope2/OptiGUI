@@ -78,9 +78,6 @@ tasks {
                 )
             )
         }
-        filesMatching("*.mixins.json") {
-            expand(mutableMapOf("java" to project.gradleProperty("java_version")))
-        }
     }
 
     java {
