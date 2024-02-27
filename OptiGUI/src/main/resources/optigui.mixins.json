@@ -10,7 +10,6 @@
     "BookScreenMixin",
     "ClientPlayerEntityMixin",
     "MinecraftClientMixin",
-    "MinecraftClientMixin2",
     "RenderSystemMixin"
   ]
 }
