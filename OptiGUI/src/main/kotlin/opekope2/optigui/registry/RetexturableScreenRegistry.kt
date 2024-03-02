@@ -3,7 +3,7 @@ package opekope2.optigui.registry
 import net.minecraft.client.gui.screen.Screen
 
 /**
- * Holds screens, which can be retextured by OptiGUI.
+ * Registry holding screens, which can be retextured by OptiGUI.
  */
 object RetexturableScreenRegistry {
     private val retexturableScreens = mutableSetOf<Class<out Screen>>()
@@ -14,18 +14,7 @@ object RetexturableScreenRegistry {
      * @param screenClass The class of the screen
      */
     @JvmStatic
-    fun add(screenClass: Class<out Screen>) {
-        this += screenClass
-    }
-
-    /**
-     * Registers a screen and all of its subclasses as retexturable.
-     *
-     * @param screenClass The class of the screen
-     */
-    @JvmStatic
-    @JvmSynthetic // use add() on java
-    operator fun plusAssign(screenClass: Class<out Screen>) {
+    fun register(screenClass: Class<out Screen>) {
         retexturableScreens += screenClass
     }
 

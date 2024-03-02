@@ -20,10 +20,10 @@ val modVersion =
 
 @Suppress("unused")
 fun initialize() {
-    RetexturableScreenRegistry += HandledScreen::class.java
-    RetexturableScreenRegistry += BookScreen::class.java
-    RetexturableScreenRegistry += BookEditScreen::class.java
-    RetexturableScreenRegistry += HangingSignEditScreen::class.java
+    RetexturableScreenRegistry.register(HandledScreen::class.java)
+    RetexturableScreenRegistry.register(BookScreen::class.java)
+    RetexturableScreenRegistry.register(BookEditScreen::class.java)
+    RetexturableScreenRegistry.register(HangingSignEditScreen::class.java)
 
     ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(ResourceLoader)
 
