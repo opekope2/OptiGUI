@@ -16,12 +16,13 @@ import java.nio.file.Path
  */
 @JvmOverloads
 fun resolvePath(pathToResolve: String, resource: Identifier, tildePath: String? = null): Identifier? {
+    val tildeValid = tildePath != null && pathToResolve.startsWith("~/")
     val root = Path.of(
-        if (tildePath != null && pathToResolve.startsWith("~/")) tildePath
+        if (tildeValid) "$tildePath/."
         else resource.path
     )
     val toResolve =
-        if (tildePath != null && pathToResolve.startsWith("~/")) pathToResolve.substring(2)
+        if (tildeValid) pathToResolve.substring(2)
         else pathToResolve
 
     if (toResolve.startsWith('/')) return null
