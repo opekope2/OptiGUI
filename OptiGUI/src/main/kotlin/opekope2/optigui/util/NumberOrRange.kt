@@ -3,6 +3,7 @@ package opekope2.optigui.util
 import opekope2.optigui.filter.EqualityFilter
 import opekope2.optigui.filter.IFilter
 import opekope2.optigui.filter.RangeFilter
+import opekope2.optigui.internal.util.trimParentheses
 
 /**
  * Represents an integer, or a start- and stop-inclusive integer range.
