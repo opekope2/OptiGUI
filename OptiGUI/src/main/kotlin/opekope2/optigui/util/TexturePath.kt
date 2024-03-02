@@ -101,7 +101,7 @@ object TexturePath {
     val HORSE = Identifier("textures/gui/container/horse.png")
 
     @JvmField
-    val VILLAGER2 = Identifier("textures/gui/container/villager2.png")
+    val VILLAGER = Identifier("textures/gui/container/villager.png")
 
 
     @JvmField
@@ -172,6 +172,7 @@ object TexturePath {
         Identifier("camel") to HORSE,
         Identifier("donkey") to HORSE,
         Identifier("llama") to HORSE,
+        Identifier("trader_llama") to HORSE,
         Identifier("mule") to HORSE,
         Identifier("skeleton_horse") to HORSE,
         Identifier("zombie_horse") to HORSE,
@@ -202,8 +203,8 @@ object TexturePath {
 
         Identifier("stonecutter") to STONECUTTER,
 
-        Identifier("villager") to VILLAGER2,
-        Identifier("wandering_trader") to VILLAGER2,
+        Identifier("villager") to VILLAGER,
+        Identifier("wandering_trader") to VILLAGER,
 
         Identifier("writable_book") to BOOK,
         Identifier("written_book") to BOOK
