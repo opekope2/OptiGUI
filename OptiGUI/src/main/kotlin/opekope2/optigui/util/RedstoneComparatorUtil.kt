@@ -7,7 +7,7 @@ import net.minecraft.util.math.MathHelper
 /**
  * Computes the comparator output based on the screen's inventory.
  */
-val ScreenHandler.redstoneComparatorOutput: Int
+val ScreenHandler.redstoneComparatorOutput: Int?
     get() {
         return ScreenHandler.calculateComparatorOutput(
             when (this) {
@@ -17,7 +17,7 @@ val ScreenHandler.redstoneComparatorOutput: Int
                 is Generic3x3ContainerScreenHandler -> inventory
                 is HopperScreenHandler -> inventory
                 is ShulkerBoxScreenHandler -> inventory
-                else -> return 0
+                else -> return null
             }
         )
     }

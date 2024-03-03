@@ -1,5 +1,6 @@
 package opekope2.optigui.internal.selector
 
+import net.minecraft.block.entity.ChestBlockEntity
 import net.minecraft.block.enums.ChestType
 import net.minecraft.state.property.EnumProperty
 import opekope2.optigui.filter.EqualityFilter
@@ -18,7 +19,7 @@ internal class LargeChestSelector : ISelector {
 
     private fun isChestLarge(interaction: Interaction): Boolean? {
         val world = interaction.data.world
-        val blockEntity = interaction.data.blockEntity ?: return null
+        val blockEntity = interaction.data.blockEntity as? ChestBlockEntity ?: return null
         val state = world.getBlockState(blockEntity.pos)
         return state.entries[chestTypeEnum] != ChestType.SINGLE
     }

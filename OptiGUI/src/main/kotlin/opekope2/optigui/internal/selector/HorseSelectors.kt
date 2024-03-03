@@ -79,14 +79,16 @@ internal class LlamaCarpetColorSelector : AbstractListSelector<DyeColor>() {
         throw RuntimeException("Invalid llama colors: ${joinNotFound(invalidSelectors)}")
 
     override fun createFilter(parsedSelectors: Collection<DyeColor>) = PreProcessorFilter.nullGuarded(
-        ::transformInteraction,
+        ::getLlamaCarpetColor,
         "Get llama carpet color",
         mismatch(), // No carpet is mismatch, because at this point, a carpet is required
         ContainingFilter(parsedSelectors)
     )
 
-    override fun transformInteraction(interaction: Interaction) =
+    private fun getLlamaCarpetColor(interaction: Interaction) =
         (interaction.data.entityOrRiddenEntity as? LlamaEntity)?.carpetColor
+
+    override fun transformInteraction(interaction: Interaction) = getLlamaCarpetColor(interaction)?.getName()
 }
 
 internal class LlamaVariantSelector : AbstractListSelector<LlamaEntity.Variant>() {
@@ -97,12 +99,14 @@ internal class LlamaVariantSelector : AbstractListSelector<LlamaEntity.Variant>(
         throw RuntimeException("Invalid llama variants: ${joinNotFound(invalidSelectors)}")
 
     override fun createFilter(parsedSelectors: Collection<LlamaEntity.Variant>) = PreProcessorFilter.nullGuarded(
-        ::transformInteraction,
+        ::getLlamaVariant,
         "Get llama variant",
         mismatch(),
         ContainingFilter(parsedSelectors)
     )
 
-    override fun transformInteraction(interaction: Interaction) =
+    private fun getLlamaVariant(interaction: Interaction) =
         (interaction.data.entityOrRiddenEntity as? LlamaEntity)?.variant
+
+    override fun transformInteraction(interaction: Interaction) = getLlamaVariant(interaction)?.asString()
 }
