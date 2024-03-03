@@ -203,7 +203,7 @@ class FilterTests {
     @Test
     fun preprocessorTest() {
         val control = IFilter<String, String> { Match(it) }
-        val filter = PreProcessorFilter(Int::toString, control)
+        val filter = PreProcessorFilter(Int::toString, "Convert to string", control)
 
         assertEquals("1", (filter.evaluate(1) as Match).result)
     }
@@ -211,7 +211,7 @@ class FilterTests {
     @Test
     fun nullGuardedPreprocessorTest() {
         val control = IFilter<String, String> { Match(it) }
-        val filter = PreProcessorFilter.nullGuarded<Int?, String, String>({ it?.toString() }, skip(), control)
+        val filter = PreProcessorFilter.nullGuarded(Int?::toString, "Convert to string", skip(), control)
 
         assertIs<Skip>(filter.evaluate(null))
 
@@ -225,7 +225,9 @@ class FilterTests {
     fun postprocessorTest() {
         val control = IFilter<Int, Int> { Match(it) }
         val filter =
-            PostProcessorFilter(control) { input, result -> result.withResult(input to (result as Match).result.toString()) }
+            PostProcessorFilter(control, "Convert result to string") { input, result ->
+                result.withResult(input to (result as Match).result.toString())
+            }
 
         val result = filter.evaluate(1)
         assertIs<Match<*>>(result)

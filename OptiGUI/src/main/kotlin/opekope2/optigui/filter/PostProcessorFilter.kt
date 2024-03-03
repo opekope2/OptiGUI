@@ -1,5 +1,7 @@
 package opekope2.optigui.filter
 
+import opekope2.optigui.filter.IFilter.Result.Match
+
 /**
  * A post-processor filter, which enables the output of the given sub-filter to be changed.
  *
@@ -9,6 +11,7 @@ package opekope2.optigui.filter
  * @param TFilterResult The type the sub-filter's returns
  * @param TResult The type the filter returns
  * @param filter The sub-filter to evaluate
+ * @param transformDescription Textual description of [transform] for better [dump] readability
  * @param transform The function, which transforms the result of [evaluate].
  * Its input is both the input of [evaluate] and the result of [filter]
  *
@@ -16,16 +19,18 @@ package opekope2.optigui.filter
  */
 class PostProcessorFilter<T, TFilterResult, TResult>(
     private val filter: IFilter<T, out TFilterResult>,
+    private val transformDescription: String,
     private val transform: (input: T, result: IFilter.Result<out TFilterResult>) -> IFilter.Result<out TResult>
 ) : IFilter<T, TResult>, Iterable<IFilter<T, out TFilterResult>> {
     /**
-     * Creates a new post-processor filter by specifying [IFilter.Result.Match.result].
+     * Creates a new post-processor filter by specifying [Match.result].
      *
      * @param filter The sub-filter to evaluate
      * @param result The (constant) result of the [transform] function
      */
     constructor(filter: IFilter<T, out TFilterResult>, result: TResult) : this(
         filter,
+        "Override match result with `$result`",
         { _, filterResult -> filterResult.withResult(result) }
     )
 
@@ -33,5 +38,5 @@ class PostProcessorFilter<T, TFilterResult, TResult>(
 
     override fun iterator(): Iterator<IFilter<T, out TFilterResult>> = setOf(filter).iterator()
 
-    override fun toString(): String = javaClass.name
+    override fun toString(): String = "${javaClass.name}, transform: $transformDescription"
 }
