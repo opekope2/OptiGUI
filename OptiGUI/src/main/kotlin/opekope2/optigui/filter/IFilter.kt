@@ -25,9 +25,7 @@ fun interface IFilter<T, TResult> {
     /**
      * Formats the current filter as a tree with ASCII characters, and returns the formatted string.
      */
-    fun dump(): String {
-        return dump(TreeFormatter(), last = true)
-    }
+    fun dump(): String = dump(TreeFormatter(), last = true)
 
     private fun dump(writer: TreeFormatter, last: Boolean): String {
         writer.indent()
@@ -62,7 +60,7 @@ fun interface IFilter<T, TResult> {
          */
         @Suppress("UNCHECKED_CAST")
         fun <TResult> withResult(result: TResult) =
-            if (this is Match<*>) Match(result)
+            if (this is Match) Match(result)
             else this as Result<TResult>
 
         /**
