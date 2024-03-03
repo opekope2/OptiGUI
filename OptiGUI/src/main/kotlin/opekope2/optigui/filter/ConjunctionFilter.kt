@@ -1,5 +1,7 @@
 package opekope2.optigui.filter
 
+import opekope2.optigui.filter.IFilter.Result.*
+
 /**
  * A filter, which applies the logical AND operation between the given filters and returns the result.
  * Only skips if all sub-filters skip, and only yields match if no sub-filters yield mismatch.
@@ -15,10 +17,18 @@ class ConjunctionFilter<T>(private val filters: Collection<IFilter<T, *>>) : IFi
      */
     constructor(vararg filters: IFilter<T, *>) : this(filters.toList())
 
-    override fun evaluate(value: T): IFilter.Result<out Unit> = filters.map { it.evaluate(value) }.let { result ->
-        if (result.any { it is IFilter.Result.Mismatch }) IFilter.Result.Mismatch
-        else if (result.all { it is IFilter.Result.Skip }) IFilter.Result.Skip
-        else IFilter.Result.Match(Unit)
+    override fun evaluate(value: T): IFilter.Result<out Unit> = filters.map { it.evaluate(value) }.let { results ->
+        var allSkip = true
+        for (result in results) {
+            when (result) {
+                is Match -> allSkip = false
+                is Mismatch -> return@let Mismatch
+                else -> {}
+            }
+        }
+
+        if (allSkip) Skip
+        else Match(Unit)
     }
 
     override fun iterator(): Iterator<IFilter<T, *>> = filters.iterator()
