@@ -1,5 +1,7 @@
 package opekope2.optigui.filter
 
+import opekope2.optigui.filter.IFilter.Result.*
+
 /**
  * A filter, which returns the opposite result of the provided filter.
  *
@@ -11,9 +13,9 @@ package opekope2.optigui.filter
  */
 class NegationFilter<T>(private val filter: IFilter<T, *>) : IFilter<T, Unit>, Iterable<IFilter<T, *>> {
     override fun evaluate(value: T): IFilter.Result<out Unit> = when (filter.evaluate(value)) {
-        is IFilter.Result.Match -> IFilter.Result.Mismatch
-        is IFilter.Result.Mismatch -> IFilter.Result.Match(Unit)
-        is IFilter.Result.Skip -> IFilter.Result.Skip
+        is Match -> Mismatch
+        is Mismatch -> Match(Unit)
+        is Skip -> Skip
     }
 
     override fun iterator(): Iterator<IFilter<T, *>> = setOf(filter).iterator()

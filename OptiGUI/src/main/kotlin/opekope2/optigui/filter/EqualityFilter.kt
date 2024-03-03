@@ -1,5 +1,8 @@
 package opekope2.optigui.filter
 
+import opekope2.optigui.filter.IFilter.Result.Match
+import opekope2.optigui.filter.IFilter.Result.Mismatch
+
 /**
  * A filter, which succeeds when the given value is [expectedValue], fails otherwise, and never skips.
  *
@@ -8,7 +11,8 @@ package opekope2.optigui.filter
  */
 class EqualityFilter<T>(private val expectedValue: T) : IFilter<T, Unit> {
     override fun evaluate(value: T): IFilter.Result<out Unit> =
-        if (value == expectedValue) IFilter.Result.Match(Unit) else IFilter.Result.Mismatch
+        if (value == expectedValue) Match(Unit)
+        else Mismatch
 
     override fun toString(): String = "${javaClass.name}, expected value: $expectedValue"
 }
