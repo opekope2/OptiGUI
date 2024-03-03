@@ -44,6 +44,8 @@ dependencies {
 
 loom {
     accessWidenerPath.set(file("src/main/resources/optigui.accesswidener"))
+
+    runtimeOnlyLog4j = true
 }
 
 tasks {

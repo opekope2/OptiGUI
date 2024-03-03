@@ -27,6 +27,10 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.FilterLoader"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.interaction.InteractionHandler"
       }
     ]

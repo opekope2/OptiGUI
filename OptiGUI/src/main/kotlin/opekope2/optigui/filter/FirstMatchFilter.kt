@@ -8,7 +8,7 @@ package opekope2.optigui.filter
  * @param TResult The type the filter returns
  * @param filters The sub-filters to evaluate
  */
-class FirstMatchFilter<T, TResult>(private val filters: Collection<IFilter<T, out TResult>>) : IFilter<T, TResult>,
+open class FirstMatchFilter<T, TResult>(private val filters: Collection<IFilter<T, out TResult>>) : IFilter<T, TResult>,
     Iterable<IFilter<T, out TResult>> {
     /**
      * Alternative constructor with variable arguments

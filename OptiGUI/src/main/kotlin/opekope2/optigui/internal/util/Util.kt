@@ -1,5 +1,8 @@
 package opekope2.optigui.internal.util
 
+import net.minecraft.util.Identifier
+import org.slf4j.Logger
+import org.slf4j.event.Level
 import java.io.StringWriter
 
 internal fun String?.toBoolean(): Boolean? {
@@ -44,3 +47,9 @@ internal inline fun <T, TResult> Collection<T>.mapNotNull(
 }
 
 internal fun joinNotFound(strings: Collection<String>) = strings.joinToString { "`$it`" }
+
+internal fun Logger.eventBuilder(level: Level, resource: Identifier, container: String?) =
+    atLevel(level).addKeyValue(LOG_KEY_RESOURCE, resource).addKeyValue(LOG_KEY_CONTAINER, container)
+
+internal fun Logger.eventBuilder(level: Level, resource: Identifier, container: Identifier?) =
+    eventBuilder(level, resource, container?.toString())
