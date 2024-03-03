@@ -22,9 +22,9 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
 import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
 import opekope2.optigui.interaction.Interaction
-import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.util.TexturePath
 import opekope2.optigui.util.identifier
+import opekope2.optigui.util.interactionData
 
 internal object InteractionHandler : ClientModInitializer, UseBlockCallback, UseEntityCallback, UseItemCallback,
     IBeforeInteractionBeginCallback {
@@ -102,7 +102,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
 
     @JvmStatic
     fun tryUpdateBookProperties(currentPage: Int, pageCount: Int) {
-        (TextureReplacer.interactionData?.extra as? BookExtraProperties)?.let {
+        (interactionData?.extra as? BookExtraProperties)?.let {
             it.currentPage = currentPage
             it.pageCount = pageCount
         }

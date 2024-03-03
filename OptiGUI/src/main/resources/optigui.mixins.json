@@ -9,6 +9,7 @@
     "BookEditScreenMixin",
     "BookScreenMixin",
     "MinecraftClientMixin",
-    "RenderSystemMixin"
+    "RenderSystemMixin",
+    "ScreenMixin"
   ]
 }

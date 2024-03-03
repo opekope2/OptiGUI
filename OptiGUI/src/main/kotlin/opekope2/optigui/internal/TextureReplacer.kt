@@ -15,6 +15,7 @@ import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.filter.ContainerMapFilter
 import opekope2.optigui.registry.RetexturableScreenRegistry
+import opekope2.optigui.util.TexturePath
 import opekope2.optigui.util.identifier
 
 internal object TextureReplacer : ClientModInitializer {
@@ -25,7 +26,8 @@ internal object TextureReplacer : ClientModInitializer {
         var interacting: Boolean = false
             private set
 
-        private var container: Identifier? = null
+        var container: Identifier? = null
+            private set
         var data: Interaction.Data? = null
             private set
         private var screen: Screen? = null
@@ -86,6 +88,12 @@ internal object TextureReplacer : ClientModInitializer {
     private var filter: ContainerMapFilter = ContainerMapFilter(mapOf())
     private var replaceableTextures: Set<Identifier> = setOf()
 
+    val inspectableInteraction: Interaction?
+        get() {
+            return InteractionHolder.createInteraction(
+                TexturePath.ofContainer(InteractionHolder.container ?: return null) ?: return null
+            )
+        }
     val interactionData: Interaction.Data? by InteractionHolder::data
 
     override fun onInitializeClient() {
@@ -117,7 +125,7 @@ internal object TextureReplacer : ClientModInitializer {
     fun prepareInteraction(container: Identifier, data: Interaction.Data): Boolean =
         InteractionHolder.prepare(container, data)
 
-    internal fun onFiltersLoaded(filter: ContainerMapFilter, replaceableTextures: Set<Identifier>) {
+    fun onFiltersLoaded(filter: ContainerMapFilter, replaceableTextures: Set<Identifier>) {
         this.filter = filter
         this.replaceableTextures = replaceableTextures
     }

@@ -50,6 +50,7 @@
   "depends": {
     "fabricloader": ">=$fabric_loader",
     "fabric-events-interaction-v0": "*",
+    "fabric-key-binding-api-v1": "*",
     "fabric-lifecycle-events-v1": "*",
     "fabric-networking-api-v1": "*",
     "fabric-resource-loader-v0": "*",

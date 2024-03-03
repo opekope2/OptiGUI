@@ -28,6 +28,7 @@ dependencies {
     )
 
     modImplementation(fabricApi.module("fabric-events-interaction-v0", project.gradleProperty("fabric_version")))
+    modImplementation(fabricApi.module("fabric-key-binding-api-v1", project.gradleProperty("fabric_version")))
     modImplementation(fabricApi.module("fabric-lifecycle-events-v1", project.gradleProperty("fabric_version")))
     modImplementation(fabricApi.module("fabric-networking-api-v1", project.gradleProperty("fabric_version")))
     modImplementation(fabricApi.module("fabric-resource-loader-v0", project.gradleProperty("fabric_version")))
