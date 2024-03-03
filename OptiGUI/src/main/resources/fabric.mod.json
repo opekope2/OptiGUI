@@ -23,10 +23,6 @@
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.VanillaProcessorsKt::initializeVanillaProcessors"
-      },
-      {
-        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.TextureReplacer"
       },
       {
