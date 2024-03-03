@@ -1,3 +1,5 @@
+@file: JvmName("RegistryUtil")
+
 package opekope2.optigui.util
 
 import net.minecraft.block.Block

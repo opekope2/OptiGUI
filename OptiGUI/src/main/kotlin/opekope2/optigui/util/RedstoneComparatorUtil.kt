@@ -1,3 +1,5 @@
+@file: JvmName("RedstoneComparatorUtil")
+
 package opekope2.optigui.util
 
 import net.minecraft.client.gui.screen.ingame.LecternScreen

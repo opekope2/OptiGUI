@@ -1,4 +1,4 @@
-@file: JvmName("PathResolver")
+@file: JvmName("PathUtil")
 
 package opekope2.optigui.util
 
