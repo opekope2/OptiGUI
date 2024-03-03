@@ -6,6 +6,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
 import opekope2.optigui.registry.FilterLoaderRegistry
 import opekope2.optigui.registry.RetexturableScreenRegistry
+import opekope2.optigui.resource.OptiFineFilterLoader
 import opekope2.optigui.resource.OptiGuiFilterLoader
 
 @Suppress("unused")
@@ -16,4 +17,5 @@ fun initialize() {
     RetexturableScreenRegistry.register(HangingSignEditScreen::class.java)
 
     FilterLoaderRegistry.register(OptiGuiFilterLoader())
+    FilterLoaderRegistry.register(OptiFineFilterLoader())
 }
