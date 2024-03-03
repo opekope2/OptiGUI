@@ -57,10 +57,10 @@ internal class VillagerProfessionSelector : AbstractListSelector<Pair<Identifier
         "${getVillagerProfession(interaction)}@${getVillagerLevel(interaction)}"
 
     private fun getVillagerProfession(interaction: Interaction) =
-        Registries.VILLAGER_PROFESSION.getId((interaction.data?.entityOrRiddenEntity as? VillagerEntity)?.villagerData?.profession)
+        Registries.VILLAGER_PROFESSION.getId((interaction.data.entityOrRiddenEntity as? VillagerEntity)?.villagerData?.profession)
 
     private fun getVillagerLevel(interaction: Interaction) =
-        (interaction.data?.entityOrRiddenEntity as? VillagerEntity)?.villagerData?.level
+        (interaction.data.entityOrRiddenEntity as? VillagerEntity)?.villagerData?.level
 }
 
 internal class VillagerTypeSelector : AbstractListSelector<Identifier>() {
@@ -77,5 +77,5 @@ internal class VillagerTypeSelector : AbstractListSelector<Identifier>() {
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        (interaction.data?.entityOrRiddenEntity as? VillagerEntity)?.villagerData?.type
+        (interaction.data.entityOrRiddenEntity as? VillagerEntity)?.villagerData?.type
 }

@@ -58,7 +58,12 @@ internal object TextureReplacer : ClientModInitializer {
 
         fun createInteraction(texture: Identifier): Interaction? {
             return if (!interacting) null
-            else Interaction(container ?: data?.player?.vehicle?.identifier ?: return null, texture, screen!!, data)
+            else Interaction(
+                container ?: data?.player?.vehicle?.identifier ?: return null,
+                texture,
+                screen!!,
+                data ?: return null
+            )
         }
 
         override fun onEndTick(world: ClientWorld?) {

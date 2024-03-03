@@ -21,5 +21,5 @@ internal class ChestBoatVariantSelector : AbstractListSelector<BoatEntity.Type>(
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        (interaction.data?.entityOrRiddenEntity as? BoatEntity)?.variant
+        (interaction.data.entityOrRiddenEntity as? BoatEntity)?.variant
 }

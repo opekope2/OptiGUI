@@ -23,7 +23,7 @@ internal class BookPageSelector : AbstractListSelector<NumberOrRange>() {
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        (interaction.data?.extra as? BookExtraProperties)?.currentPage
+        (interaction.data.extra as? BookExtraProperties)?.currentPage
             ?: (interaction.screen as? LecternScreen)?.pageIndex?.plus(1)
 }
 
@@ -41,6 +41,6 @@ internal class BookPageCountSelector : AbstractListSelector<NumberOrRange>() {
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        (interaction.data?.extra as? BookExtraProperties)?.pageCount
+        (interaction.data.extra as? BookExtraProperties)?.pageCount
             ?: (interaction.screen as? LecternScreen)?.pageCount
 }

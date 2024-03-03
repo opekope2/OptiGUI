@@ -17,7 +17,7 @@ internal class LargeChestSelector : ISelector {
     )
 
     private fun isChestLarge(interaction: Interaction): Boolean? {
-        val world = interaction.data?.world ?: return null
+        val world = interaction.data.world
         val blockEntity = interaction.data.blockEntity ?: return null
         val state = world.getBlockState(blockEntity.pos)
         return state.entries[chestTypeEnum] != ChestType.SINGLE

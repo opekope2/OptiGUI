@@ -19,7 +19,7 @@ internal class DonkeyChestSelector : ISelector {
     )
 
     private fun hasDonkeyChest(interaction: Interaction) =
-        (interaction.data?.entityOrRiddenEntity as? AbstractDonkeyEntity)?.hasChest()
+        (interaction.data.entityOrRiddenEntity as? AbstractDonkeyEntity)?.hasChest()
 
     override fun getRawSelector(interaction: Interaction) = hasDonkeyChest(interaction)?.toString()
 }
@@ -33,7 +33,7 @@ internal class DonkeySaddleSelector : ISelector {
     )
 
     private fun isDonkeySaddled(interaction: Interaction) =
-        (interaction.data?.entityOrRiddenEntity as? AbstractHorseEntity)?.isSaddled
+        (interaction.data.entityOrRiddenEntity as? AbstractHorseEntity)?.isSaddled
 
     override fun getRawSelector(interaction: Interaction): String? = isDonkeySaddled(interaction)?.toString()
 }
@@ -52,7 +52,7 @@ internal class HorseVariantSelector : AbstractListSelector<HorseColor>() {
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        (interaction.data?.entityOrRiddenEntity as? HorseEntity)?.variant
+        (interaction.data.entityOrRiddenEntity as? HorseEntity)?.variant
 }
 
 internal class HorseMarkingSelector : AbstractListSelector<HorseMarking>() {
@@ -69,7 +69,7 @@ internal class HorseMarkingSelector : AbstractListSelector<HorseMarking>() {
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        (interaction.data?.entityOrRiddenEntity as? HorseEntity)?.marking
+        (interaction.data.entityOrRiddenEntity as? HorseEntity)?.marking
 }
 
 internal class LlamaCarpetColorSelector : AbstractListSelector<DyeColor>() {
@@ -86,7 +86,7 @@ internal class LlamaCarpetColorSelector : AbstractListSelector<DyeColor>() {
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        (interaction.data?.entityOrRiddenEntity as? LlamaEntity)?.carpetColor
+        (interaction.data.entityOrRiddenEntity as? LlamaEntity)?.carpetColor
 }
 
 internal class LlamaVariantSelector : AbstractListSelector<LlamaEntity.Variant>() {
@@ -104,5 +104,5 @@ internal class LlamaVariantSelector : AbstractListSelector<LlamaEntity.Variant>(
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        (interaction.data?.entityOrRiddenEntity as? LlamaEntity)?.variant
+        (interaction.data.entityOrRiddenEntity as? LlamaEntity)?.variant
 }

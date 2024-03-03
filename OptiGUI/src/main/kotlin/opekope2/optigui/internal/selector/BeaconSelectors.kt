@@ -22,5 +22,5 @@ internal class BeaconLevelSelector : AbstractListSelector<NumberOrRange>() {
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        (interaction.data?.blockEntity as? BeaconBlockEntity)?.level
+        (interaction.data.blockEntity as? BeaconBlockEntity)?.level
 }

@@ -22,7 +22,7 @@ data class Interaction(
     val container: Identifier,
     val texture: Identifier,
     val screen: Screen,
-    val data: Data?
+    val data: Data
 ) {
     /**
      * Details about an interaction.

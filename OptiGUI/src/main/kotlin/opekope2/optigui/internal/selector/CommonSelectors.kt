@@ -26,8 +26,7 @@ internal abstract class AbstractNameSelector : ISelector {
 
     protected fun getInteractionTargetCustomName(interaction: Interaction): String {
         val (_, _, screen, data) = interaction
-        return if (data == null) screen.title.string
-        else (data.blockEntity as? Nameable ?: data.entityOrRiddenEntity)?.customName?.string ?: screen.title.string
+        return (data.blockEntity as? Nameable ?: data.entityOrRiddenEntity)?.customName?.string ?: screen.title.string
     }
 
     override fun getRawSelector(interaction: Interaction): String? = null
@@ -104,8 +103,7 @@ internal class BiomeSelector : AbstractListSelector<Identifier>() {
 
     override fun transformInteraction(interaction: Interaction): Identifier? {
         val (_, _, _, data) = interaction
-        return if (data == null) null
-        else (data.blockEntity?.pos ?: data.entityOrRiddenEntity?.blockPos)?.let(data.world::getBiomeId)
+        return (data.blockEntity?.pos ?: data.entityOrRiddenEntity?.blockPos)?.let(data.world::getBiomeId)
     }
 }
 
@@ -124,7 +122,6 @@ internal class HeightSelector : AbstractListSelector<NumberOrRange>() {
 
     override fun transformInteraction(interaction: Interaction): Int? {
         val (_, _, _, data) = interaction
-        return if (data == null) null
-        else (data.blockEntity?.pos ?: data.entityOrRiddenEntity?.blockPos)?.y
+        return (data.blockEntity?.pos ?: data.entityOrRiddenEntity?.blockPos)?.y
     }
 }
