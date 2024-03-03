@@ -23,6 +23,14 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.SelectorsKt::registerSelectors"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.selector.SelectorsKt::registerLoadTimeSelectors"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.TextureReplacer"
       },
       {
