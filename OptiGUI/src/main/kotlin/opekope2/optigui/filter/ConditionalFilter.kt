@@ -1,5 +1,7 @@
 package opekope2.optigui.filter
 
+import java.util.*
+
 /**
  * A filter, which forwards evaluation to the given [filter],
  * if the [check] function returns `true`. Otherwise, the result will be [falseResult].
@@ -22,4 +24,28 @@ class ConditionalFilter<T, TResult>(
     override fun iterator(): Iterator<IFilter<T, TResult>> = setOf(filter).iterator()
 
     override fun toString(): String = "${javaClass.name}, result if check is false: $falseResult"
+
+    companion object {
+        /**
+         * Creates a [ConditionalFilter], which gets an [Optional]'s value when passing to [filter] if
+         * [present][Optional.isPresent].
+         *
+         * @param T The type the given [filter] accepts
+         * @param TResult The type [filter] returns
+         * @param notPresentResult The result when the input is not present
+         * @param filter The filter to evaluate
+         */
+        fun <T, TResult> optional(
+            notPresentResult: IFilter.Result<TResult>,
+            filter: IFilter<T, TResult>
+        ): ConditionalFilter<Optional<T>, TResult> = ConditionalFilter(
+            { it.isPresent },
+            notPresentResult,
+            PreProcessorFilter(
+                { it.get() },
+                "Get optional value",
+                filter
+            )
+        )
+    }
 }

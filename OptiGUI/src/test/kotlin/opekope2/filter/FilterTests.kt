@@ -193,7 +193,7 @@ class FilterTests {
 
     @Test
     fun optionalTest() {
-        val filter = OptionalFilter(mismatch(), testMatchFilter)
+        val filter = ConditionalFilter.optional(mismatch(), testMatchFilter)
 
         assertIs<Mismatch>(filter.evaluate(Optional.empty()))
         assertIs<Match<*>>(filter.evaluate(Optional.of(1)))
