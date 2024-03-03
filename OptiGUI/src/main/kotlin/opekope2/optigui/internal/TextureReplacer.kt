@@ -14,8 +14,8 @@ import opekope2.optigui.filter.IFilter.Result.Match
 import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.filter.ContainerMapFilter
+import opekope2.optigui.registry.ContainerDefaultGuiTextureRegistry
 import opekope2.optigui.registry.RetexturableScreenRegistry
-import opekope2.optigui.util.TexturePath
 import opekope2.optigui.util.identifier
 
 internal object TextureReplacer : ClientModInitializer {
@@ -91,7 +91,7 @@ internal object TextureReplacer : ClientModInitializer {
     val inspectableInteraction: Interaction?
         get() {
             return InteractionHolder.createInteraction(
-                TexturePath.ofContainer(InteractionHolder.container ?: return null) ?: return null
+                ContainerDefaultGuiTextureRegistry[InteractionHolder.container ?: return null] ?: return null
             )
         }
     val interactionData: Interaction.Data? by InteractionHolder::data

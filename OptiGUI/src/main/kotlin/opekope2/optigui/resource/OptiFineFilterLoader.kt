@@ -7,6 +7,7 @@ import opekope2.optigui.internal.util.delimiters
 import opekope2.optigui.internal.util.eventBuilder
 import opekope2.optigui.internal.util.splitIgnoreEmpty
 import opekope2.optigui.internal.util.toBoolean
+import opekope2.optigui.registry.ContainerDefaultGuiTextureRegistry
 import opekope2.optigui.util.*
 import org.ini4j.Options
 import org.slf4j.Logger
@@ -182,7 +183,7 @@ private open class OptiFineFilterData(
     private val filterName: Boolean
 ) : IRawFilterData {
     override var replaceableTextures: Set<Identifier> =
-        container?.let(TexturePath::ofContainer)?.let(::setOf) ?: setOf()
+        container?.let(ContainerDefaultGuiTextureRegistry::get)?.let(::setOf) ?: setOf()
 
     constructor(
         resource: Identifier,
@@ -192,7 +193,7 @@ private open class OptiFineFilterData(
         filterName: Boolean
     ) : this(resource, Identifier(container), replacementTexture, properties, filterName)
 
-    var originalTexture: Identifier? = container?.let(TexturePath::ofContainer)
+    var originalTexture: Identifier? = container?.let(ContainerDefaultGuiTextureRegistry::get)
 
     override val rawSelectorData
         get() = sequence {

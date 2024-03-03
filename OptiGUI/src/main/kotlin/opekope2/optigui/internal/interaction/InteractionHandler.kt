@@ -22,7 +22,7 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
 import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
 import opekope2.optigui.interaction.Interaction
-import opekope2.optigui.util.TexturePath
+import opekope2.optigui.registry.ContainerDefaultGuiTextureRegistry
 import opekope2.optigui.util.identifier
 import opekope2.optigui.util.interactionData
 
@@ -46,11 +46,10 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
             return ActionResult.PASS
         }
 
-        if (TexturePath.ofContainer(container) != null) {
+        if (container in ContainerDefaultGuiTextureRegistry) {
             Interaction.prepare(container, player, world, hand, hitResult, null)
         }
 
-        // TODO modded containers with TexturePath
         return ActionResult.PASS
     }
 

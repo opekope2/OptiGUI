@@ -6,6 +6,7 @@ import opekope2.optigui.internal.util.assertNotEmpty
 import opekope2.optigui.internal.util.delimiters
 import opekope2.optigui.internal.util.eventBuilder
 import opekope2.optigui.internal.util.splitIgnoreEmpty
+import opekope2.optigui.registry.ContainerDefaultGuiTextureRegistry
 import opekope2.optigui.util.*
 import org.ini4j.Ini
 import org.ini4j.Profile
@@ -63,7 +64,7 @@ class OptiGuiFilterLoader : IFilterLoader {
     ) : IRawFilterData {
         override var replaceableTextures: Set<Identifier> = (
                 if ("interaction.texture" in section) Identifier.tryParse(section["interaction.texture"]!!)
-                else container?.let(TexturePath::ofContainer)
+                else container?.let(ContainerDefaultGuiTextureRegistry::get)
                 )?.let(::setOf) ?: setOf()
 
         override val rawSelectorData: Iterable<Pair<String, String>>
