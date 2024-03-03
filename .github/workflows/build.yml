@@ -33,16 +33,16 @@ jobs:
           distribution: temurin
       - name: Build project
         if: inputs.build-project
-        run: ./gradlew build -PnoModLocalRuntime
+        run: ./gradlew build -x test
       - name: Test project
         if: inputs.test-project
-        run: ./gradlew test -PnoModLocalRuntime
+        run: ./gradlew test
       - name: Build documentation
         if: inputs.build-docs
-        run: ./gradlew :OptiGUI:dokkaHtml -PnoModLocalRuntime
+        run: ./gradlew :OptiGUI:dokkaHtml
       - name: Build documentation (Java syntax)
         if: inputs.build-docs
-        run: ./gradlew :OptiGUI:dokkaHtml -PjavaSyntax -PnoModLocalRuntime
+        run: ./gradlew :OptiGUI:dokkaHtml -PjavaSyntax
       - name: Upload build output
         if: inputs.build-project && inputs.upload-output && matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v3
