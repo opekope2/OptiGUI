@@ -2,15 +2,15 @@ package opekope2.filter
 
 import opekope2.optigui.filter.*
 import opekope2.optigui.filter.IFilter.Result.*
+import opekope2.optigui.filter.IFilter.Result.Companion.mismatch
+import opekope2.optigui.filter.IFilter.Result.Companion.skip
 import java.util.*
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
+import kotlin.test.*
 
 class FilterTests {
-    private val testMatchFilter = IFilter<Int, String> { value -> match(value.toString()) }
-    private val testMismatchFilter = IFilter<Int, String> { mismatch() }
-    private val testSkipFilter = IFilter<Int, String> { skip() }
+    private val testMatchFilter = IFilter<Int, String> { Match(it.toString()) }
+    private val testMismatchFilter = IFilter<Int, String> { Mismatch }
+    private val testSkipFilter = IFilter<Int, String> { Skip }
 
 
     @Test
@@ -24,7 +24,7 @@ class FilterTests {
 
     @Test
     fun conditionalTest() {
-        assertIs<Mismatch<*>>(ConditionalFilter({ false }, mismatch(), testMatchFilter).evaluate(0))
+        assertIs<Mismatch>(ConditionalFilter({ false }, mismatch(), testMatchFilter).evaluate(0))
         assertIs<Match<*>>(ConditionalFilter({ true }, mismatch(), testMatchFilter).evaluate(0))
     }
 
@@ -37,30 +37,30 @@ class FilterTests {
 
     @Test
     fun conjunctionMismatchTest() {
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMismatchFilter).evaluate(0))
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMatchFilter, testMismatchFilter).evaluate(0))
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMatchFilter, testSkipFilter, testMismatchFilter).evaluate(0))
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMismatchFilter, testMatchFilter).evaluate(0))
+        assertIs<Mismatch>(ConjunctionFilter(testMismatchFilter).evaluate(0))
+        assertIs<Mismatch>(ConjunctionFilter(testMatchFilter, testMismatchFilter).evaluate(0))
+        assertIs<Mismatch>(ConjunctionFilter(testMatchFilter, testSkipFilter, testMismatchFilter).evaluate(0))
+        assertIs<Mismatch>(ConjunctionFilter(testMismatchFilter, testMatchFilter).evaluate(0))
     }
 
     @Test
     fun conjunctionSkipTest() {
-        assertIs<Skip<*>>(ConjunctionFilter<Int>().evaluate(0))
-        assertIs<Skip<*>>(ConjunctionFilter(testSkipFilter).evaluate(0))
-        assertIs<Skip<*>>(ConjunctionFilter(testSkipFilter, testSkipFilter).evaluate(0))
+        assertIs<Skip>(ConjunctionFilter<Int>().evaluate(0))
+        assertIs<Skip>(ConjunctionFilter(testSkipFilter).evaluate(0))
+        assertIs<Skip>(ConjunctionFilter(testSkipFilter, testSkipFilter).evaluate(0))
     }
 
 
     @Test
     fun firstMatchSkipTest() {
-        assertIs<Skip<*>>(FirstMatchFilter(testSkipFilter).evaluate(1))
-        assertIs<Skip<*>>(FirstMatchFilter(testSkipFilter, testSkipFilter).evaluate(1))
+        assertIs<Skip>(FirstMatchFilter(testSkipFilter).evaluate(1))
+        assertIs<Skip>(FirstMatchFilter(testSkipFilter, testSkipFilter).evaluate(1))
     }
 
     @Test
     fun firstMatchMismatchTest() {
-        assertIs<Mismatch<*>>(FirstMatchFilter(testMismatchFilter).evaluate(1))
-        assertIs<Mismatch<*>>(FirstMatchFilter(testSkipFilter, testMismatchFilter).evaluate(1))
+        assertIs<Mismatch>(FirstMatchFilter(testMismatchFilter).evaluate(1))
+        assertIs<Mismatch>(FirstMatchFilter(testSkipFilter, testMismatchFilter).evaluate(1))
     }
 
     @Test
@@ -71,7 +71,7 @@ class FilterTests {
 
     @Test
     fun firstMatchMatchTest2() {
-        val matchFilter = IFilter<Int, String> { value -> match((-value).toString()) }
+        val matchFilter = IFilter<Int, String> { Match((-it).toString()) }
         var res = FirstMatchFilter(testMatchFilter, matchFilter).evaluate(1)
 
         assertIs<Match<*>>(res)
@@ -88,7 +88,7 @@ class FilterTests {
     fun containingTest() {
         val filter = ContainingFilter((1..5).toSet())
 
-        assertIs<Mismatch<*>>(filter.evaluate(0))
+        assertIs<Mismatch>(filter.evaluate(0))
         assertIs<Match<*>>(filter.evaluate(1))
     }
 
@@ -96,22 +96,22 @@ class FilterTests {
     @Test
     fun disjunctionMatchTest() {
         assertIs<Match<*>>(ConjunctionFilter(testMatchFilter).evaluate(0))
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMatchFilter, testMismatchFilter).evaluate(0))
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMatchFilter, testSkipFilter, testMismatchFilter).evaluate(0))
+        assertIs<Mismatch>(ConjunctionFilter(testMatchFilter, testMismatchFilter).evaluate(0))
+        assertIs<Mismatch>(ConjunctionFilter(testMatchFilter, testSkipFilter, testMismatchFilter).evaluate(0))
         assertIs<Match<*>>(ConjunctionFilter(testMatchFilter, testSkipFilter).evaluate(0))
     }
 
     @Test
     fun disjunctionMismatchTest() {
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMismatchFilter).evaluate(0))
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMismatchFilter, testMatchFilter).evaluate(0))
+        assertIs<Mismatch>(ConjunctionFilter(testMismatchFilter).evaluate(0))
+        assertIs<Mismatch>(ConjunctionFilter(testMismatchFilter, testMatchFilter).evaluate(0))
     }
 
     @Test
     fun disjunctionSkipTest() {
-        assertIs<Skip<*>>(ConjunctionFilter<Int>().evaluate(0))
-        assertIs<Skip<*>>(ConjunctionFilter(testSkipFilter).evaluate(0))
-        assertIs<Skip<*>>(ConjunctionFilter(testSkipFilter, testSkipFilter).evaluate(0))
+        assertIs<Skip>(ConjunctionFilter<Int>().evaluate(0))
+        assertIs<Skip>(ConjunctionFilter(testSkipFilter).evaluate(0))
+        assertIs<Skip>(ConjunctionFilter(testSkipFilter, testSkipFilter).evaluate(0))
     }
 
 
@@ -119,16 +119,7 @@ class FilterTests {
     fun equalityTest() {
         val filter = EqualityFilter(1)
 
-        assertIs<Mismatch<*>>(filter.evaluate(0))
-        assertIs<Match<*>>(filter.evaluate(1))
-    }
-
-
-    @Test
-    fun inequalityTest() {
-        val filter = InequalityFilter(0)
-
-        assertIs<Mismatch<*>>(filter.evaluate(0))
+        assertIs<Mismatch>(filter.evaluate(0))
         assertIs<Match<*>>(filter.evaluate(1))
     }
 
@@ -137,7 +128,7 @@ class FilterTests {
     fun negationTest1() {
         val filter = NegationFilter(testMatchFilter)
 
-        assertIs<Mismatch<*>>(filter.evaluate(0))
+        assertIs<Mismatch>(filter.evaluate(0))
     }
 
     @Test
@@ -151,7 +142,7 @@ class FilterTests {
     fun negationTest3() {
         val filter = NegationFilter(testSkipFilter)
 
-        assertIs<Skip<*>>(filter.evaluate(0))
+        assertIs<Skip>(filter.evaluate(0))
     }
 
 
@@ -159,7 +150,7 @@ class FilterTests {
     fun nullGuardTest1() {
         val filter = NullGuardFilter(mismatch(), testMatchFilter)
 
-        assertIs<Mismatch<*>>(filter.evaluate(null))
+        assertIs<Mismatch>(filter.evaluate(null))
 
         val result = filter.evaluate(1)
         assertIs<Match<*>>(result)
@@ -170,8 +161,8 @@ class FilterTests {
     fun nullGuardTest2() {
         val filter = NullGuardFilter(skip(), testMismatchFilter)
 
-        assertIs<Skip<*>>(filter.evaluate(null))
-        assertIs<Mismatch<*>>(filter.evaluate(1))
+        assertIs<Skip>(filter.evaluate(null))
+        assertIs<Mismatch>(filter.evaluate(1))
     }
 
 
@@ -180,7 +171,7 @@ class FilterTests {
         val filter = RangeFilter.atLeast(5)
 
         assertIs<Match<*>>(filter.evaluate(10))
-        assertIs<Mismatch<*>>(filter.evaluate(0))
+        assertIs<Mismatch>(filter.evaluate(0))
     }
 
     @Test
@@ -188,7 +179,7 @@ class FilterTests {
         val filter = RangeFilter.atMost(5)
 
         assertIs<Match<*>>(filter.evaluate(0))
-        assertIs<Mismatch<*>>(filter.evaluate(10))
+        assertIs<Mismatch>(filter.evaluate(10))
     }
 
     @Test
@@ -196,33 +187,33 @@ class FilterTests {
         val filter = RangeFilter.between(1, 10)
 
         assertIs<Match<*>>(filter.evaluate(5))
-        assertIs<Mismatch<*>>(filter.evaluate(0))
+        assertIs<Mismatch>(filter.evaluate(0))
     }
 
 
     @Test
     fun optionalTest() {
-        val filter = OptionalFilter(mismatch(), testMatchFilter)
+        val filter = ConditionalFilter.optional(mismatch(), testMatchFilter)
 
-        assertIs<Mismatch<*>>(filter.evaluate(Optional.empty()))
+        assertIs<Mismatch>(filter.evaluate(Optional.empty()))
         assertIs<Match<*>>(filter.evaluate(Optional.of(1)))
     }
 
 
     @Test
     fun preprocessorTest() {
-        val control = IFilter<String, String> { value -> match(value) }
-        val filter = PreProcessorFilter(Int::toString, control)
+        val control = IFilter<String, String> { Match(it) }
+        val filter = PreProcessorFilter(Int::toString, "Convert to string", control)
 
         assertEquals("1", (filter.evaluate(1) as Match).result)
     }
 
     @Test
     fun nullGuardedPreprocessorTest() {
-        val control = IFilter<String, String> { value -> match(value) }
-        val filter = PreProcessorFilter.nullGuarded<Int?, String, String>({ it?.toString() }, skip(), control)
+        val control = IFilter<String, String> { Match(it) }
+        val filter = PreProcessorFilter.nullGuarded(Int?::toString, "Convert to string", skip(), control)
 
-        assertIs<Skip<*>>(filter.evaluate(null))
+        assertIs<Skip>(filter.evaluate(null))
 
         val result = filter.evaluate(1)
         assertIs<Match<*>>(result)
@@ -232,9 +223,11 @@ class FilterTests {
 
     @Test
     fun postprocessorTest() {
-        val control = IFilter<Int, Int> { value -> match(value) }
+        val control = IFilter<Int, Int> { Match(it) }
         val filter =
-            PostProcessorFilter(control) { input, result -> match(input to (result as Match).result.toString()) }
+            PostProcessorFilter(control, "Convert result to string") { input, result ->
+                result.withResult(input to (result as Match).result.toString())
+            }
 
         val result = filter.evaluate(1)
         assertIs<Match<*>>(result)
@@ -247,6 +240,6 @@ class FilterTests {
         val filter = RegularExpressionFilter("^1$".toRegex())
 
         assertIs<Match<*>>(filter.evaluate("1"))
-        assertIs<Mismatch<*>>(filter.evaluate("11"))
+        assertIs<Mismatch>(filter.evaluate("11"))
     }
 }

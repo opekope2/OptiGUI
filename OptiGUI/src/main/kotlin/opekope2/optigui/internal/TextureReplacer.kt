@@ -1,74 +1,57 @@
 package opekope2.optigui.internal
 
 import net.fabricmc.api.ClientModInitializer
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
+import net.fabricmc.fabric.api.networking.v1.PacketSender
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.network.ClientPlayNetworkHandler
-import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
-import net.minecraft.util.hit.HitResult
-import net.minecraft.world.World
-import opekope2.lilac.api.tick.ITickHandler
-import opekope2.lilac.api.tick.ITickNotifier
-import opekope2.optigui.api.IOptiGuiApi
-import opekope2.optigui.api.interaction.*
-import opekope2.optigui.filter.IFilter
+import opekope2.optigui.filter.IFilter.Result.Match
+import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
+import opekope2.optigui.interaction.Interaction
+import opekope2.optigui.internal.filter.ContainerMapFilter
+import opekope2.optigui.registry.ContainerDefaultGuiTextureRegistry
+import opekope2.optigui.registry.RetexturableScreenRegistry
+import opekope2.optigui.util.identifier
 
-internal object TextureReplacer : ClientModInitializer, IInteractor, IInspector by InteractionHolder {
-    private object InteractionHolder : ClientPlayConnectionEvents.Disconnect, ITickHandler, IInspector {
+internal object TextureReplacer : ClientModInitializer {
+    private object InteractionHolder : ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Join,
+        ClientPlayConnectionEvents.Disconnect {
         val replacementCache = mutableMapOf<Identifier, Identifier>()
 
         var interacting: Boolean = false
             private set
 
-        private val optiguiApi = IOptiGuiApi.getImplementation()
-
-        private var container: Identifier? = null
-        private var target: IInteractionTarget? = null
-        private var raw: RawInteraction? = null
-        private var data: IInteractionData? = null
+        var container: Identifier? = null
+            private set
+        var data: Interaction.Data? = null
+            private set
         private var screen: Screen? = null
 
-        var riddenEntity: Entity? = null
-
-        fun refreshInteractionData() {
-            val newData = target?.computeInteractionData() ?: riddenEntity?.let {
-                IEntityProcessor.ofClass(it.javaClass)?.apply(it)
-            }
-
-            if (newData != data) {
-                data = newData
-                replacementCache.clear()
-            }
-        }
-
-        fun prepare(container: Identifier, target: IInteractionTarget, rawInteraction: RawInteraction): Boolean {
+        fun prepare(container: Identifier, data: Interaction.Data): Boolean {
             if (interacting) return false
 
             this.container = container
-            this.target = target
-            this.raw = rawInteraction
+            this.data = data
 
             return true
         }
 
         fun begin(screen: Screen) {
+            IBeforeInteractionBeginCallback.EVENT.invoker().onBeforeBegin(screen)
+
             this.screen = screen
 
             interacting = true
-
-            refreshInteractionData()
         }
 
         fun end() {
             container = null
-            target = null
-            raw = null
-            data = null
+            data = data?.copy(hitResult = null, extra = null, blockEntity = null, entity = null)
 
             interacting = false
 
@@ -77,76 +60,46 @@ internal object TextureReplacer : ClientModInitializer, IInteractor, IInspector 
 
         fun createInteraction(texture: Identifier): Interaction? {
             return if (!interacting) null
-            else Interaction(container ?: return null, texture, screen?.title ?: return null, raw, data)
+            else Interaction(
+                container ?: data?.player?.vehicle?.identifier ?: return null,
+                texture,
+                screen!!,
+                data ?: return null
+            )
         }
 
-        override fun onPlayDisconnect(handler: ClientPlayNetworkHandler, client: MinecraftClient) {
+        override fun onEndTick(world: ClientWorld?) {
+            if (interacting) {
+                replacementCache.clear()
+            }
+        }
+
+        override fun onPlayReady(handler: ClientPlayNetworkHandler, sender: PacketSender?, client: MinecraftClient) {
+            data = Interaction.Data(client.player!!, handler.world, Hand.MAIN_HAND, null, null, null, null)
+        }
+
+        override fun onPlayDisconnect(handler: ClientPlayNetworkHandler?, client: MinecraftClient?) {
             // Clean up, don't leak memory. Just to be safe.
             end()
-            riddenEntity = null
-        }
-
-        override fun onTick(world: World, real: Boolean) {
-            if (interacting && world.isClient) {
-                refreshInteractionData()
-            }
-        }
-
-        override fun inspectCurrentInteraction(): String? {
-            if (!interacting) return null
-
-            val container = container ?: return null
-            val texture = optiguiApi.getContainerTexture(container)
-            val raw = raw ?: return null
-            val data = data ?: return null
-
-            val target = target ?: return null
-
-            return buildString {
-                appendLine("# Generated by OptiGUI Inspector")
-                appendLine()
-
-                appendLine("# You may not need all selectors")
-                appendLine("[$container]")
-                appendLine(
-                    if (texture != null) "interaction.texture=$texture"
-                    else "#interaction.texture: default texture is unavailable"
-                )
-                appendLine("interaction.hand=${raw.hand.name.lowercase()}")
-                data.writeSelectors { key, value -> appendLine("$key=$value") }
-                appendLine()
-
-                val nbt = when (target) {
-                    is IInteractionTarget.BlockEntityTarget -> target.blockEntity.createNbt()
-                    is IInteractionTarget.EntityTarget -> target.entity.writeNbt(NbtCompound())
-                    else -> null
-                }
-
-                if (nbt != null) {
-                    appendLine("# NBT selector is not supported by OptiGUI. Never has been.")
-                    appendLine("# However, selectors for most fields and methods in Entity, BlockEntity, and relevant subclasses")
-                    appendLine("# are likely be added in a future release, which makes an NBT selector redundant (expect them in 2024).")
-                    appendLine("# Entity class overview: https://maven.fabricmc.net/docs/yarn-1.20.1+build.10/net/minecraft/entity/Entity.html")
-                    appendLine("# BlockEntity class overview: https://maven.fabricmc.net/docs/yarn-1.20.1+build.10/net/minecraft/block/entity/BlockEntity.html")
-                    appendLine("# NBT is included here for more detailed inspection purposes, and may be removed in a future version.")
-                    appendLine("#nbt=$nbt")
-                    appendLine()
-                }
-
-                appendLine("# If you have an idea or feedback about the inspector, feel free to share it at https://github.com/opekope2/OptiGUI/issues/72")
-            }
+            data = null
         }
     }
 
-    internal var filter: IFilter<Interaction, Identifier> = IFilter<Interaction, Identifier> { IFilter.Result.skip() }
-    internal var replaceableTextures = setOf<Identifier>()
+    private var filter: ContainerMapFilter = ContainerMapFilter(mapOf())
+    private var replaceableTextures: Set<Identifier> = setOf()
 
-    @JvmStatic
-    var riddenEntity: Entity? by InteractionHolder::riddenEntity
+    val inspectableInteraction: Interaction?
+        get() {
+            return InteractionHolder.createInteraction(
+                ContainerDefaultGuiTextureRegistry[InteractionHolder.container ?: return null] ?: return null
+            )
+        }
+    val interactionData: Interaction.Data? by InteractionHolder::data
 
     override fun onInitializeClient() {
+        ClientTickEvents.END_WORLD_TICK.register(InteractionHolder)
+        ClientPlayConnectionEvents.JOIN.register(InteractionHolder)
         ClientPlayConnectionEvents.DISCONNECT.register(InteractionHolder)
-        ITickNotifier.getInstance() += InteractionHolder
     }
 
     @JvmStatic
@@ -157,28 +110,23 @@ internal object TextureReplacer : ClientModInitializer, IInteractor, IInspector 
         // Don't bother replacing textures if not interacting
         val interaction = InteractionHolder.createInteraction(texture) ?: return texture
 
-        return InteractionHolder.replacementCache.computeIfAbsent(texture) {
-            filter.evaluate(interaction).let { (it as? IFilter.Result.Match)?.result } ?: texture
+        return filter.evaluate(interaction).let { (it as? Match)?.result } ?: texture
+    }
+
+    @JvmStatic
+    fun handleScreenChange(screen: Screen?) {
+        when (screen) {
+            null -> InteractionHolder.end()
+            in RetexturableScreenRegistry -> InteractionHolder.begin(screen)
+            else -> InteractionHolder.end()
         }
     }
 
-    private inline val Screen.isRetexturable: Boolean
-        get() = IOptiGuiApi.getImplementation().isScreenRetexturable(this)
+    fun prepareInteraction(container: Identifier, data: Interaction.Data): Boolean =
+        InteractionHolder.prepare(container, data)
 
-    @JvmStatic
-    fun handleScreenChange(screen: Screen?) =
-        if (screen?.isRetexturable == true) InteractionHolder.begin(screen)
-        else InteractionHolder.end()
-
-    override fun interact(
-        container: Identifier,
-        player: PlayerEntity,
-        world: World,
-        hand: Hand,
-        target: IInteractionTarget,
-        hitResult: HitResult?
-    ): Boolean {
-        if (!world.isClient) return false
-        return InteractionHolder.prepare(container, target, RawInteraction(player, world, hand, hitResult))
+    fun onFiltersLoaded(filter: ContainerMapFilter, replaceableTextures: Set<Identifier>) {
+        this.filter = filter
+        this.replaceableTextures = replaceableTextures
     }
 }

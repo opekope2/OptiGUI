@@ -1,44 +1,46 @@
 package opekope2.optigui.internal.selector
 
-import net.fabricmc.loader.api.SemanticVersion
+import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.Version
 import net.fabricmc.loader.api.metadata.version.VersionComparisonOperator
 import net.fabricmc.loader.api.metadata.version.VersionPredicate
-import opekope2.lilac.util.Util
-import opekope2.optigui.annotation.Selector
-import opekope2.optigui.api.selector.ILoadTimeSelector
 import opekope2.optigui.filter.IFilter
-import opekope2.util.*
+import opekope2.optigui.filter.IFilter.Result.Companion.mismatch
+import opekope2.optigui.filter.IFilter.Result.Companion.skip
+import opekope2.optigui.filter.IFilter.Result.Match
+import opekope2.optigui.internal.util.*
+import opekope2.optigui.selector.ILoadTimeSelector
+import kotlin.jvm.optionals.getOrNull
 
-
-@Selector("if")
-object ConditionalLoadSelector : ILoadTimeSelector {
-    override fun evaluate(value: String): IFilter.Result<out Any> =
-        when (value.toBooleanStrictOrNull()) {
-            true -> IFilter.Result.match(Unit)
-            false -> IFilter.Result.mismatch()
-            null -> IFilter.Result.skip()
-        }
+internal class ConditionalLoadTimeSelector : ILoadTimeSelector {
+    override fun evaluate(value: String) = when (value.toBooleanStrictOrNull()) {
+        true -> Match(null)
+        false -> mismatch()
+        null -> skip()
+    }
 }
 
-@Selector("if.mods")
-object ModLoadSelector : ILoadTimeSelector {
-    override fun evaluate(value: String): IFilter.Result<out Any> {
+internal class ModsLoadTimeSelector : ILoadTimeSelector {
+    override fun evaluate(value: String): IFilter.Result<out Nothing?> {
         val modCheckResults = value.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
-            ?.map(::parseVersion) {
+            ?.mapNotNull(::parseVersion) {
                 throw RuntimeException("Invalid mod predicates: ${joinNotFound(it)}")
             }
-            ?.map { (modId, versionPredicate) -> Util.checkModVersion(modId, versionPredicate) }
-            ?: return IFilter.Result.skip<Unit>()
+            ?.assertNotEmpty()
+            ?.map { (modId, versionPredicate) ->
+                FabricLoader.getInstance().getModContainer(modId).getOrNull()?.metadata?.version?.let(versionPredicate)
+                    ?: false
+            }
+            ?: return skip()
 
-        return if (modCheckResults.all { it }) IFilter.Result.match(Unit)
-        else IFilter.Result.mismatch()
+        return if (modCheckResults.all { it }) Match(null)
+        else mismatch()
     }
 
     private fun parseVersion(modWithVersion: String): Pair<String, (Version) -> Boolean>? {
         return try {
-            val versionIndex = modWithVersion.indexOfAny(VersionComparisonOperator.values().map { it.serialized })
+            val versionIndex = modWithVersion.indexOfAny(VersionComparisonOperator.entries.map { it.serialized })
             if (versionIndex < 0) {
                 return modWithVersion to { true }
             }
@@ -51,15 +53,5 @@ object ModLoadSelector : ILoadTimeSelector {
         } catch (e: Exception) {
             null
         }
-    }
-}
-
-@Selector("if.mod.optigui.version.at_least")
-@Deprecated("For backwards compatibility only")
-object LegacyOptiGuiVersionLoadSelector : ILoadTimeSelector {
-    override fun evaluate(value: String): IFilter.Result<out Any> {
-        val requiredVersion = SemanticVersion.parse(value)
-        return if (Util.checkModVersion("optigui") { v -> v >= requiredVersion }) IFilter.Result.match(Unit)
-        else IFilter.Result.mismatch()
     }
 }
