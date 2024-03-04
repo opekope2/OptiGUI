@@ -5,7 +5,9 @@ import opekope2.optigui.filter.IFilter.Result.*
 import opekope2.optigui.filter.IFilter.Result.Companion.mismatch
 import opekope2.optigui.filter.IFilter.Result.Companion.skip
 import java.util.*
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class FilterTests {
     private val testMatchFilter = IFilter<Int, String> { Match(it.toString()) }
@@ -211,7 +213,12 @@ class FilterTests {
     @Test
     fun nullGuardedPreprocessorTest() {
         val control = IFilter<String, String> { Match(it) }
-        val filter = PreProcessorFilter.nullGuarded(Int?::toString, "Convert to string", skip(), control)
+        val filter = PreProcessorFilter.nullGuarded<Int?, String, String>(
+            { it?.toString() },
+            "Convert to string",
+            skip(),
+            control
+        )
 
         assertIs<Skip>(filter.evaluate(null))
 
