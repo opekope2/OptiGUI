@@ -96,6 +96,10 @@ internal object TextureReplacer : ClientModInitializer {
         }
     val interactionData: Interaction.Data? by InteractionHolder::data
 
+    @JvmStatic
+    var isActive = false
+        get() = field && InteractionHolder.interacting
+
     override fun onInitializeClient() {
         ClientTickEvents.END_WORLD_TICK.register(InteractionHolder)
         ClientPlayConnectionEvents.JOIN.register(InteractionHolder)
@@ -110,7 +114,9 @@ internal object TextureReplacer : ClientModInitializer {
         // Don't bother replacing textures if not interacting
         val interaction = InteractionHolder.createInteraction(texture) ?: return texture
 
-        return filter.evaluate(interaction).let { (it as? Match)?.result } ?: texture
+        return InteractionHolder.replacementCache.getOrPut(texture) {
+            filter.evaluate(interaction).let { (it as? Match)?.result } ?: texture
+        }
     }
 
     @JvmStatic
