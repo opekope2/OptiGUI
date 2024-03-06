@@ -1,17 +1,14 @@
 package opekope2.optigui.filter
 
-import opekope2.optigui.filter.IFilter.Result.Match
-import opekope2.optigui.filter.IFilter.Result.Mismatch
-
 /**
- * A filter, which yields a successful result only, when the provided regular expression matches the input.
+ * A filter, which returns a non-null value only when [regex] matches the input [String].
  *
  * @param regex The regular expression to filter with
  */
 class RegularExpressionFilter(private val regex: Regex) : IFilter<String, Unit> {
-    override fun evaluate(value: String): IFilter.Result<out Unit> =
-        if (regex.matches(value)) Match(Unit)
-        else Mismatch
+    override fun evaluate(input: String) =
+        if (regex.matches(input)) Unit
+        else null
 
     override fun toString(): String = "${javaClass.name}, regex: ${regex.pattern}"
 }

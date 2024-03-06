@@ -1,21 +1,18 @@
 package opekope2.optigui.filter
 
-import opekope2.optigui.filter.IFilter.Result.Match
-import opekope2.optigui.filter.IFilter.Result.Mismatch
-
 /**
- * A filter, which yields a successful result only when the input number is within the defined range, and never skips.
+ * A filter, which returns a non-null value only when the input number is withing the defined range.
  *
  * @see RangeFilter.atLeast
  * @see RangeFilter.atMost
  * @see RangeFilter.between
  */
 class RangeFilter private constructor(private val range: IntRange) : IFilter<Int, Unit> {
-    override fun evaluate(value: Int): IFilter.Result<out Unit> =
-        if (value in range) Match(Unit)
-        else Mismatch
+    override fun evaluate(input: Int) =
+        if (input in range) Unit
+        else null
 
-    override fun toString(): String = "${javaClass.name}, range: $range"
+    override fun toString() = "${javaClass.name}, range: $range"
 
     companion object {
         /**

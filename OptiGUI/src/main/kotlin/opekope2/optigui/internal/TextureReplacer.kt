@@ -10,7 +10,6 @@ import net.minecraft.client.network.ClientPlayNetworkHandler
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
-import opekope2.optigui.filter.IFilter.Result.Match
 import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.filter.ContainerMapFilter
@@ -115,7 +114,7 @@ internal object TextureReplacer : ClientModInitializer {
         val interaction = InteractionHolder.createInteraction(texture) ?: return texture
 
         return InteractionHolder.replacementCache.getOrPut(texture) {
-            filter.evaluate(interaction).let { (it as? Match)?.result } ?: texture
+            filter.evaluate(interaction) ?: texture
         }
     }
 

@@ -1,18 +1,15 @@
 package opekope2.optigui.filter
 
-import opekope2.optigui.filter.IFilter.Result.Match
-import opekope2.optigui.filter.IFilter.Result.Mismatch
-
 /**
- * A filter, which succeeds when the given value is [expectedValue], fails otherwise, and never skips.
+ * A filter, which only returns a non-null value, when the input is [expectedValue].
  *
- * @param T The type the filter accepts
+ * @param TInput The type the filter accepts
  * @param expectedValue The value the filter should succeed for
  */
-class EqualityFilter<T>(private val expectedValue: T) : IFilter<T, Unit> {
-    override fun evaluate(value: T): IFilter.Result<out Unit> =
-        if (value == expectedValue) Match(Unit)
-        else Mismatch
+class EqualityFilter<TInput>(private val expectedValue: TInput) : IFilter<TInput, Unit> {
+    override fun evaluate(input: TInput): Unit? =
+        if (input == expectedValue) Unit
+        else null
 
     override fun toString(): String = "${javaClass.name}, expected value: $expectedValue"
 }

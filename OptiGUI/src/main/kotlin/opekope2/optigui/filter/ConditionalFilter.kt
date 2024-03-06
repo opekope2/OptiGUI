@@ -6,39 +6,39 @@ import java.util.*
  * A filter, which forwards evaluation to the given [filter],
  * if the [check] function returns `true`. Otherwise, the result will be [falseResult].
  *
- * @param T The type the given [filter] accepts
+ * @param TInput The type the given [filter] accepts
  * @param TResult The type [filter] returns
  * @param check The function to decide if the evaluation should be forwarded to [filter] or return [falseResult]
  * @param falseResult The result when the input is `false`
  * @param filter The filter to evaluate
  */
-class ConditionalFilter<T, TResult>(
-    private val check: (T) -> Boolean,
-    private val falseResult: IFilter.Result<TResult>,
-    private val filter: IFilter<T, TResult>
-) : IFilter<T, TResult>, Iterable<IFilter<T, TResult>> {
-    override fun evaluate(value: T): IFilter.Result<out TResult> =
-        if (check(value)) filter.evaluate(value)
+class ConditionalFilter<TInput, TResult : Any>(
+    private val check: (TInput) -> Boolean,
+    private val falseResult: TResult?,
+    private val filter: IFilter<TInput, TResult>
+) : IFilter<TInput, TResult>, Iterable<IFilter<TInput, TResult>> {
+    override fun evaluate(input: TInput) =
+        if (check(input)) filter.evaluate(input)
         else falseResult
 
-    override fun iterator(): Iterator<IFilter<T, TResult>> = setOf(filter).iterator()
+    override fun iterator() = iterator { yield(filter) }
 
-    override fun toString(): String = "${javaClass.name}, result if check is false: $falseResult"
+    override fun toString() = "${javaClass.name}, result if check is false: $falseResult"
 
     companion object {
         /**
          * Creates a [ConditionalFilter], which gets an [Optional]'s value when passing to [filter] if
          * [present][Optional.isPresent].
          *
-         * @param T The type the given [filter] accepts
+         * @param TInput The type the given [filter] accepts
          * @param TResult The type [filter] returns
          * @param notPresentResult The result when the input is not present
          * @param filter The filter to evaluate
          */
-        fun <T, TResult> optional(
-            notPresentResult: IFilter.Result<TResult>,
-            filter: IFilter<T, TResult>
-        ): ConditionalFilter<Optional<T>, TResult> = ConditionalFilter(
+        fun <TInput, TResult : Any> optional(
+            notPresentResult: TResult?,
+            filter: IFilter<TInput, TResult>
+        ) = ConditionalFilter<Optional<TInput>, TResult>(
             { it.isPresent },
             notPresentResult,
             PreProcessorFilter(
