@@ -4,7 +4,6 @@ import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 import opekope2.optigui.filter.*
-import opekope2.optigui.filter.IFilter.Result.Companion.mismatch
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.util.joinNotFound
 import opekope2.optigui.util.NumberOrRange
@@ -35,7 +34,7 @@ internal class VillagerProfessionSelector : AbstractListSelector<Pair<Identifier
             val profFilter = PreProcessorFilter.nullGuarded(
                 ::getVillagerProfession,
                 "Get villager profession",
-                mismatch(),
+                null,
                 EqualityFilter(profession)
             )
             val levelFilter = level?.toFilter()
@@ -46,7 +45,7 @@ internal class VillagerProfessionSelector : AbstractListSelector<Pair<Identifier
                 PreProcessorFilter.nullGuarded(
                     ::getVillagerLevel,
                     "Get villager level",
-                    mismatch(),
+                    null,
                     levelFilter
                 )
             )
@@ -74,7 +73,7 @@ internal class VillagerTypeSelector : AbstractListSelector<Identifier>() {
     override fun createFilter(parsedSelectors: Collection<Identifier>) = PreProcessorFilter.nullGuarded(
         ::transformInteraction,
         "Get villager type",
-        mismatch(),
+        null,
         ContainingFilter(parsedSelectors)
     )
 

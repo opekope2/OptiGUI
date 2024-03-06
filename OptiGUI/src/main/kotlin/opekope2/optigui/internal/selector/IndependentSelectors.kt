@@ -4,7 +4,6 @@ import kotlinx.datetime.*
 import opekope2.optigui.filter.ConjunctionFilter
 import opekope2.optigui.filter.DisjunctionFilter
 import opekope2.optigui.filter.EqualityFilter
-import opekope2.optigui.filter.IFilter.Result.Companion.mismatch
 import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.util.joinNotFound
@@ -33,7 +32,7 @@ internal class DateSelector : AbstractListSelector<Pair<Month, NumberOrRange?>>(
             val monthFilter = PreProcessorFilter.nullGuarded<Interaction, Month, Unit>(
                 { today.month },
                 "Get month",
-                mismatch(),
+                null,
                 EqualityFilter(month)
             )
             val dayFilter = day?.toFilter() ?: return@map monthFilter
@@ -43,7 +42,7 @@ internal class DateSelector : AbstractListSelector<Pair<Month, NumberOrRange?>>(
                 PreProcessorFilter.nullGuarded(
                     { today.dayOfMonth },
                     "Get day of month",
-                    mismatch(),
+                    null,
                     dayFilter
                 )
             )

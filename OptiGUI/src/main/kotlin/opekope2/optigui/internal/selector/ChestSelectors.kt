@@ -4,7 +4,6 @@ import net.minecraft.block.entity.ChestBlockEntity
 import net.minecraft.block.enums.ChestType
 import net.minecraft.state.property.EnumProperty
 import opekope2.optigui.filter.EqualityFilter
-import opekope2.optigui.filter.IFilter.Result.Companion.mismatch
 import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.selector.ISelector
@@ -13,7 +12,7 @@ internal class LargeChestSelector : ISelector {
     override fun createFilter(selector: String) = PreProcessorFilter.nullGuarded(
         ::isChestLarge,
         "Check if chest is large",
-        mismatch(),
+        null,
         EqualityFilter(selector.toBooleanStrict())
     )
 

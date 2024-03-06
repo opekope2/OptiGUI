@@ -3,7 +3,6 @@ package opekope2.optigui.internal.selector
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.screen.ingame.LecternScreen
 import opekope2.optigui.filter.DisjunctionFilter
-import opekope2.optigui.filter.IFilter.Result.Companion.mismatch
 import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.util.joinNotFound
@@ -19,7 +18,7 @@ internal class RedstoneComparatorOutputSelector : AbstractListSelector<NumberOrR
     override fun createFilter(parsedSelectors: Collection<NumberOrRange>) = PreProcessorFilter.nullGuarded(
         ::transformInteraction,
         "Get redstone comparator output",
-        mismatch(),
+        null,
         DisjunctionFilter(parsedSelectors.map { it.toFilter() })
     )
 

@@ -4,7 +4,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.Nameable
 import opekope2.optigui.filter.ContainingFilter
 import opekope2.optigui.filter.DisjunctionFilter
-import opekope2.optigui.filter.IFilter.Result.Companion.mismatch
 import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.filter.RegularExpressionFilter
 import opekope2.optigui.interaction.Interaction
@@ -97,7 +96,7 @@ internal class BiomeSelector : AbstractListSelector<Identifier>() {
     override fun createFilter(parsedSelectors: Collection<Identifier>) = PreProcessorFilter.nullGuarded(
         ::transformInteraction,
         "Get interaction biome",
-        mismatch(),
+        null,
         ContainingFilter(parsedSelectors)
     )
 
@@ -116,7 +115,7 @@ internal class HeightSelector : AbstractListSelector<NumberOrRange>() {
     override fun createFilter(parsedSelectors: Collection<NumberOrRange>) = PreProcessorFilter.nullGuarded(
         ::transformInteraction,
         "Get interaction height",
-        mismatch(),
+        null,
         DisjunctionFilter(parsedSelectors.map { it.toFilter() })
     )
 

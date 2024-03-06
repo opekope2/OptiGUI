@@ -2,7 +2,6 @@ package opekope2.optigui.internal.selector
 
 import net.minecraft.block.entity.BeaconBlockEntity
 import opekope2.optigui.filter.DisjunctionFilter
-import opekope2.optigui.filter.IFilter.Result.Companion.mismatch
 import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.util.joinNotFound
@@ -17,7 +16,7 @@ internal class BeaconLevelSelector : AbstractListSelector<NumberOrRange>() {
     override fun createFilter(parsedSelectors: Collection<NumberOrRange>) = PreProcessorFilter.nullGuarded(
         ::transformInteraction,
         "Get beacon level",
-        mismatch(),
+        null,
         DisjunctionFilter(parsedSelectors.map { it.toFilter() })
     )
 

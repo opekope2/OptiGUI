@@ -4,7 +4,6 @@ import net.minecraft.entity.passive.*
 import net.minecraft.util.DyeColor
 import opekope2.optigui.filter.ContainingFilter
 import opekope2.optigui.filter.EqualityFilter
-import opekope2.optigui.filter.IFilter.Result.Companion.mismatch
 import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.util.joinNotFound
@@ -14,7 +13,7 @@ internal class DonkeyChestSelector : ISelector {
     override fun createFilter(selector: String) = PreProcessorFilter.nullGuarded(
         ::hasDonkeyChest,
         "Check if donkey has chest",
-        mismatch(),
+        null,
         EqualityFilter(selector.toBooleanStrict())
     )
 
@@ -28,7 +27,7 @@ internal class DonkeySaddleSelector : ISelector {
     override fun createFilter(selector: String) = PreProcessorFilter.nullGuarded(
         ::isDonkeySaddled,
         "Chest if horse is saddled",
-        mismatch(),
+        null,
         EqualityFilter(selector.toBooleanStrict())
     )
 
@@ -47,7 +46,7 @@ internal class HorseVariantSelector : AbstractListSelector<HorseColor>() {
     override fun createFilter(parsedSelectors: Collection<HorseColor>) = PreProcessorFilter.nullGuarded(
         ::transformInteraction,
         "Get horse variant",
-        mismatch(),
+        null,
         ContainingFilter(parsedSelectors)
     )
 
@@ -64,7 +63,7 @@ internal class HorseMarkingSelector : AbstractListSelector<HorseMarking>() {
     override fun createFilter(parsedSelectors: Collection<HorseMarking>) = PreProcessorFilter.nullGuarded(
         ::transformInteraction,
         "Get horse marking",
-        mismatch(),
+        null,
         ContainingFilter(parsedSelectors)
     )
 
@@ -76,12 +75,12 @@ internal class LlamaCarpetColorSelector : AbstractListSelector<DyeColor>() {
     override fun parseSelector(selector: String) = DyeColor.byName(selector, null)
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
-        throw RuntimeException("Invalid llama colors: ${joinNotFound(invalidSelectors)}")
+        throw RuntimeException("Invalid llama carpet colors: ${joinNotFound(invalidSelectors)}")
 
     override fun createFilter(parsedSelectors: Collection<DyeColor>) = PreProcessorFilter.nullGuarded(
         ::getLlamaCarpetColor,
         "Get llama carpet color",
-        mismatch(), // No carpet is mismatch, because at this point, a carpet is required
+        null, // No carpet is mismatch, because at this point, a carpet is required
         ContainingFilter(parsedSelectors)
     )
 
@@ -101,7 +100,7 @@ internal class LlamaVariantSelector : AbstractListSelector<LlamaEntity.Variant>(
     override fun createFilter(parsedSelectors: Collection<LlamaEntity.Variant>) = PreProcessorFilter.nullGuarded(
         ::getLlamaVariant,
         "Get llama variant",
-        mismatch(),
+        null,
         ContainingFilter(parsedSelectors)
     )
 

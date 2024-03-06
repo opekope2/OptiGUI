@@ -2,7 +2,6 @@ package opekope2.optigui.internal.selector
 
 import net.minecraft.client.gui.screen.ingame.LecternScreen
 import opekope2.optigui.filter.DisjunctionFilter
-import opekope2.optigui.filter.IFilter.Result.Companion.mismatch
 import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.interaction.BookExtraProperties
@@ -18,7 +17,7 @@ internal class BookPageSelector : AbstractListSelector<NumberOrRange>() {
     override fun createFilter(parsedSelectors: Collection<NumberOrRange>) = PreProcessorFilter.nullGuarded(
         ::transformInteraction,
         "Get book current page",
-        mismatch(),
+        null,
         DisjunctionFilter(parsedSelectors.map { it.toFilter() })
     )
 
@@ -36,7 +35,7 @@ internal class BookPageCountSelector : AbstractListSelector<NumberOrRange>() {
     override fun createFilter(parsedSelectors: Collection<NumberOrRange>) = PreProcessorFilter.nullGuarded(
         ::transformInteraction,
         "Get book page count",
-        mismatch(),
+        null,
         DisjunctionFilter(parsedSelectors.map { it.toFilter() })
     )
 
