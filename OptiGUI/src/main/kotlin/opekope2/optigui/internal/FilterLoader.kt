@@ -16,7 +16,7 @@ import opekope2.optigui.internal.filter.ContainerMapFilter
 import opekope2.optigui.internal.filter.ContainerMapFirstMatchFilter
 import opekope2.optigui.internal.util.eventBuilder
 import opekope2.optigui.registry.FilterLoaderRegistry
-import opekope2.optigui.registry.LoadTimeSelectorRegistry
+import opekope2.optigui.registry.LoadSelectorRegistry
 import opekope2.optigui.registry.SelectorRegistry
 import opekope2.optigui.resource.IRawFilterData
 import opekope2.optigui.util.MOD_ID
@@ -57,7 +57,7 @@ internal object FilterLoader : IdentifiableResourceReloadListener, ClientModInit
     private fun loadFilters(manager: ResourceManager, data: Collection<IRawFilterData>, logger: Logger) {
         val filters = data.mapNotNull { rawFilterData ->
             when {
-                loadTimeSelectorsSkip(rawFilterData, logger) -> null
+                loadSelectorsSkip(rawFilterData, logger) -> null
 
                 rawFilterData.replaceableTextures.isEmpty() -> {
                     logger.eventBuilder(WARN, rawFilterData.resource, rawFilterData.container).log(
@@ -106,16 +106,15 @@ internal object FilterLoader : IdentifiableResourceReloadListener, ClientModInit
         )
     }
 
-    private fun loadTimeSelectorsSkip(rawFilterData: IRawFilterData, logger: Logger): Boolean {
+    private fun loadSelectorsSkip(rawFilterData: IRawFilterData, logger: Logger): Boolean {
         for ((selectorKey, selectorValue) in rawFilterData.rawSelectorData) {
-            if (selectorKey !in LoadTimeSelectorRegistry) continue
+            if (selectorKey !in LoadSelectorRegistry) continue
 
             try {
-                val result = LoadTimeSelectorRegistry[selectorKey]!!.evaluate(selectorValue)
-                if (result !is IFilter.Result.Match) {
+                if (!LoadSelectorRegistry[selectorKey]!!(selectorValue)) {
                     logger.eventBuilder(INFO, rawFilterData.resource, rawFilterData.container).log(
-                        "Ignoring container `{}` in `{}`, because load-time selector `{}={}` resulted in `{}`",
-                        rawFilterData.container, rawFilterData.resource, selectorKey, selectorValue, result
+                        "Ignoring container `{}` in `{}`, because of load selector `{}={}`",
+                        rawFilterData.container, rawFilterData.resource, selectorKey, selectorValue
                     )
                     return true
                 }
@@ -123,7 +122,7 @@ internal object FilterLoader : IdentifiableResourceReloadListener, ClientModInit
                 logger.eventBuilder(ERROR, rawFilterData.resource, rawFilterData.container)
                     .setCause(e)
                     .log(
-                        "Ignoring container `{}` in `{}`, because load-time selector `{}={}` threw an exception",
+                        "Ignoring container `{}` in `{}`, because load selector `{}={}` threw an exception",
                         rawFilterData.container, rawFilterData.resource, selectorKey, selectorValue
                     )
                 return true
@@ -138,7 +137,7 @@ internal object FilterLoader : IdentifiableResourceReloadListener, ClientModInit
 
         for ((selectorKey, selectorValue) in rawFilterData.rawSelectorData) {
             if (selectorKey !in SelectorRegistry) {
-                if (selectorKey !in LoadTimeSelectorRegistry) {
+                if (selectorKey !in LoadSelectorRegistry) {
                     logger.eventBuilder(WARN, rawFilterData.resource, rawFilterData.container).log(
                         "Unknown selector `{}` in container `{}` in `{}`",
                         selectorKey, rawFilterData.container, rawFilterData.resource

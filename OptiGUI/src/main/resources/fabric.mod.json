@@ -27,7 +27,7 @@
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.selector.SelectorsKt::registerLoadTimeSelectors"
+        "value": "opekope2.optigui.internal.selector.SelectorsKt::registerLoadSelectors"
       },
       {
         "adapter": "kotlin",

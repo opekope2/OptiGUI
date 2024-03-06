@@ -2,7 +2,7 @@
 
 package opekope2.optigui.internal.selector
 
-import opekope2.optigui.registry.LoadTimeSelectorRegistry
+import opekope2.optigui.registry.LoadSelectorRegistry
 import opekope2.optigui.registry.SelectorRegistry
 
 fun registerSelectors() {
@@ -45,7 +45,7 @@ fun registerSelectors() {
     SelectorRegistry.register("villager.type", VillagerTypeSelector())
 }
 
-fun registerLoadTimeSelectors() {
-    LoadTimeSelectorRegistry.register("if", ConditionalLoadTimeSelector())
-    LoadTimeSelectorRegistry.register("if.mods", ModsLoadTimeSelector())
+fun registerLoadSelectors() {
+    LoadSelectorRegistry.register("if", ConditionalLoadSelector())
+    LoadSelectorRegistry.register("if.mods", ModsLoadSelector())
 }

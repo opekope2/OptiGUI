@@ -13,26 +13,26 @@ object SelectorRegistry : Iterable<Pair<String, ISelector>> {
      *
      * @param selectorKey The key (as in key-value pair) to register a selector for
      * @param selector The selector instance
-     * @return `true` if the registration was successful, `false` if there was a selector or load-time selector registered
+     * @return `true` if the registration was successful, `false` if there was a selector or load selector registered
      *   for the given key
      */
     fun tryRegister(selectorKey: String, selector: ISelector): Boolean {
-        if (selectorKey in this || selectorKey in LoadTimeSelectorRegistry) return false
+        if (selectorKey in this || selectorKey in LoadSelectorRegistry) return false
 
         selectors[selectorKey] = selector
         return true
     }
 
     /**
-     * Registers the given selector with the given key or throws an exception, if there was a selector or load-time
-     * selector registered for the given key.
+     * Registers the given selector with the given key or throws an exception, if there was a selector or load selector
+     * registered for the given key.
      *
      * @param selectorKey The key (as in key-value pair) to register a selector for
      * @param selector The selector instance
      */
     fun register(selectorKey: String, selector: ISelector) {
         if (!tryRegister(selectorKey, selector)) {
-            throw IllegalStateException("A selector or load-time selector for `$selectorKey` has already been registered")
+            throw IllegalStateException("A selector or load selector for `$selectorKey` has already been registered")
         }
     }
 

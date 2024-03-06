@@ -4,25 +4,16 @@ import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.Version
 import net.fabricmc.loader.api.metadata.version.VersionComparisonOperator
 import net.fabricmc.loader.api.metadata.version.VersionPredicate
-import opekope2.optigui.filter.IFilter
-import opekope2.optigui.filter.IFilter.Result.Companion.mismatch
-import opekope2.optigui.filter.IFilter.Result.Companion.skip
-import opekope2.optigui.filter.IFilter.Result.Match
 import opekope2.optigui.internal.util.*
-import opekope2.optigui.selector.ILoadTimeSelector
 import kotlin.jvm.optionals.getOrNull
 
-internal class ConditionalLoadTimeSelector : ILoadTimeSelector {
-    override fun evaluate(value: String) = when (value.toBooleanStrictOrNull()) {
-        true -> Match(null)
-        false -> mismatch()
-        null -> skip()
-    }
+internal class ConditionalLoadSelector : (String) -> Boolean {
+    override fun invoke(selectorValue: String) = selectorValue.toBooleanStrict()
 }
 
-internal class ModsLoadTimeSelector : ILoadTimeSelector {
-    override fun evaluate(value: String): IFilter.Result<out Nothing?> {
-        val modCheckResults = value.splitIgnoreEmpty(*delimiters)
+internal class ModsLoadSelector : (String) -> Boolean {
+    override fun invoke(selectorValue: String): Boolean {
+        val modCheckResults = selectorValue.splitIgnoreEmpty(*delimiters)
             ?.assertNotEmpty()
             ?.mapNotNull(::parseVersion) {
                 throw RuntimeException("Invalid mod predicates: ${joinNotFound(it)}")
@@ -32,10 +23,9 @@ internal class ModsLoadTimeSelector : ILoadTimeSelector {
                 FabricLoader.getInstance().getModContainer(modId).getOrNull()?.metadata?.version?.let(versionPredicate)
                     ?: false
             }
-            ?: return skip()
+            ?: return false
 
-        return if (modCheckResults.all { it }) Match(null)
-        else mismatch()
+        return modCheckResults.all { it }
     }
 
     private fun parseVersion(modWithVersion: String): Pair<String, (Version) -> Boolean>? {
