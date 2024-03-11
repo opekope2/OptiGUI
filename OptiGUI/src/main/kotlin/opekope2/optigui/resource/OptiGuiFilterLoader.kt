@@ -47,16 +47,31 @@ class OptiGuiFilterLoader : IFilterLoader {
                         "Ignoring section [{}] in `{}`, because replacement texture `{}` cannot be resolved",
                         sectionName, id, section["replacement"]
                     )
-                    setOf()
-                } else {
-                    section -= "replacement"
-                    containers.map { FilterData(id, it, replacement, section) }
+                    return@loadSection setOf()
                 }
+
+                section -= "replacement"
+
+                var priority = 0
+                if ("load.priority" in section) {
+                    val loadPriority = section["load.priority"]!!
+                    priority = loadPriority.toIntOrNull() ?: run {
+                        logger.eventBuilder(WARN, id, sectionName).log(
+                            "Ignoring section [{}] in `{}`, because load priority `{}` is malformed",
+                            sectionName, id, loadPriority
+                        )
+                        return@loadSection setOf()
+                    }
+                    section -= "load.priority"
+                }
+                
+                containers.map { FilterData(priority, id, it, replacement, section) }
             }
         }
     }
 
     private class FilterData(
+        override val priority: Int,
         override val resource: Identifier,
         override val container: Identifier?,
         override val replacementTexture: Identifier,
