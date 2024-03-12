@@ -1,86 +1,67 @@
 package opekope2.filter
 
 import opekope2.optigui.filter.*
-import opekope2.optigui.filter.IFilter.Result.*
 import java.util.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertIs
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 class FilterTests {
-    private val testMatchFilter = IFilter<Int, String> { value -> match(value.toString()) }
-    private val testMismatchFilter = IFilter<Int, String> { mismatch() }
-    private val testSkipFilter = IFilter<Int, String> { skip() }
+    private val testSuccessFilter = IFilter<Int, String> { it.toString() }
+    private val testFailFilter = IFilter<Int, String> { null }
 
 
     @Test
     fun matchTest() {
-        val result = testMatchFilter.evaluate(1)
+        val result = testSuccessFilter.evaluate(1)
 
-        assertIs<Match<*>>(result)
-        assertEquals("1", (result as Match).result)
+        assertEquals("1", result)
     }
 
 
     @Test
     fun conditionalTest() {
-        assertIs<Mismatch<*>>(ConditionalFilter({ false }, mismatch(), testMatchFilter).evaluate(0))
-        assertIs<Match<*>>(ConditionalFilter({ true }, mismatch(), testMatchFilter).evaluate(0))
+        assertNull(ConditionalFilter({ false }, null, testSuccessFilter).evaluate(0))
+        assertNotNull(ConditionalFilter({ true }, null, testSuccessFilter).evaluate(0))
     }
 
 
     @Test
-    fun conjunctionMatchTest() {
-        assertIs<Match<*>>(ConjunctionFilter(testMatchFilter).evaluate(0))
-        assertIs<Match<*>>(ConjunctionFilter(testMatchFilter, testSkipFilter).evaluate(0))
+    fun conjunctionSuccessTest() {
+        assertNotNull(ConjunctionFilter(testSuccessFilter).evaluate(0))
     }
 
     @Test
-    fun conjunctionMismatchTest() {
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMismatchFilter).evaluate(0))
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMatchFilter, testMismatchFilter).evaluate(0))
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMatchFilter, testSkipFilter, testMismatchFilter).evaluate(0))
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMismatchFilter, testMatchFilter).evaluate(0))
-    }
-
-    @Test
-    fun conjunctionSkipTest() {
-        assertIs<Skip<*>>(ConjunctionFilter<Int>().evaluate(0))
-        assertIs<Skip<*>>(ConjunctionFilter(testSkipFilter).evaluate(0))
-        assertIs<Skip<*>>(ConjunctionFilter(testSkipFilter, testSkipFilter).evaluate(0))
+    fun conjunctionFailTest() {
+        assertNull(ConjunctionFilter(testFailFilter).evaluate(0))
+        assertNull(ConjunctionFilter(testSuccessFilter, testFailFilter).evaluate(0))
+        assertNull(ConjunctionFilter(testFailFilter, testSuccessFilter).evaluate(0))
     }
 
 
     @Test
-    fun firstMatchSkipTest() {
-        assertIs<Skip<*>>(FirstMatchFilter(testSkipFilter).evaluate(1))
-        assertIs<Skip<*>>(FirstMatchFilter(testSkipFilter, testSkipFilter).evaluate(1))
+    fun firstMatchSuccessTest1() {
+        assertNotNull(FirstMatchFilter(testSuccessFilter).evaluate(1))
+        assertNotNull(FirstMatchFilter(testFailFilter, testSuccessFilter).evaluate(1))
+        assertNotNull(FirstMatchFilter(testSuccessFilter, testFailFilter).evaluate(1))
     }
 
     @Test
-    fun firstMatchMismatchTest() {
-        assertIs<Mismatch<*>>(FirstMatchFilter(testMismatchFilter).evaluate(1))
-        assertIs<Mismatch<*>>(FirstMatchFilter(testSkipFilter, testMismatchFilter).evaluate(1))
+    fun firstMatchSuccessTest2() {
+        val matchFilter = IFilter<Int, String> { (-it).toString() }
+        var res = FirstMatchFilter(testSuccessFilter, matchFilter).evaluate(1)
+
+        assertEquals("1", res)
+
+        res = FirstMatchFilter(matchFilter, testSuccessFilter).evaluate(1)
+
+        assertEquals("-1", res)
     }
 
     @Test
-    fun firstMatchMatchTest1() {
-        assertIs<Match<*>>(FirstMatchFilter(testMatchFilter).evaluate(1))
-        assertIs<Match<*>>(FirstMatchFilter(testSkipFilter, testMismatchFilter, testMatchFilter).evaluate(1))
-    }
-
-    @Test
-    fun firstMatchMatchTest2() {
-        val matchFilter = IFilter<Int, String> { value -> match((-value).toString()) }
-        var res = FirstMatchFilter(testMatchFilter, matchFilter).evaluate(1)
-
-        assertIs<Match<*>>(res)
-        assertEquals("1", res.result)
-
-        res = FirstMatchFilter(matchFilter, testMatchFilter).evaluate(1)
-
-        assertIs<Match<*>>(res)
-        assertEquals("-1", res.result)
+    fun firstMatchFailTest() {
+        assertNull(FirstMatchFilter(testFailFilter).evaluate(1))
     }
 
 
@@ -88,30 +69,21 @@ class FilterTests {
     fun containingTest() {
         val filter = ContainingFilter((1..5).toSet())
 
-        assertIs<Mismatch<*>>(filter.evaluate(0))
-        assertIs<Match<*>>(filter.evaluate(1))
+        assertNull(filter.evaluate(0))
+        assertNotNull(filter.evaluate(1))
     }
 
 
     @Test
-    fun disjunctionMatchTest() {
-        assertIs<Match<*>>(ConjunctionFilter(testMatchFilter).evaluate(0))
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMatchFilter, testMismatchFilter).evaluate(0))
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMatchFilter, testSkipFilter, testMismatchFilter).evaluate(0))
-        assertIs<Match<*>>(ConjunctionFilter(testMatchFilter, testSkipFilter).evaluate(0))
+    fun disjunctionSuccessTest() {
+        assertNotNull(ConjunctionFilter(testSuccessFilter).evaluate(0))
     }
 
     @Test
-    fun disjunctionMismatchTest() {
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMismatchFilter).evaluate(0))
-        assertIs<Mismatch<*>>(ConjunctionFilter(testMismatchFilter, testMatchFilter).evaluate(0))
-    }
-
-    @Test
-    fun disjunctionSkipTest() {
-        assertIs<Skip<*>>(ConjunctionFilter<Int>().evaluate(0))
-        assertIs<Skip<*>>(ConjunctionFilter(testSkipFilter).evaluate(0))
-        assertIs<Skip<*>>(ConjunctionFilter(testSkipFilter, testSkipFilter).evaluate(0))
+    fun disjunctionFailTest() {
+        assertNull(ConjunctionFilter(testFailFilter).evaluate(0))
+        assertNull(ConjunctionFilter(testSuccessFilter, testFailFilter).evaluate(0))
+        assertNull(ConjunctionFilter(testFailFilter, testSuccessFilter).evaluate(0))
     }
 
 
@@ -119,59 +91,41 @@ class FilterTests {
     fun equalityTest() {
         val filter = EqualityFilter(1)
 
-        assertIs<Mismatch<*>>(filter.evaluate(0))
-        assertIs<Match<*>>(filter.evaluate(1))
+        assertNull(filter.evaluate(0))
+        assertNotNull(filter.evaluate(1))
     }
 
 
     @Test
-    fun inequalityTest() {
-        val filter = InequalityFilter(0)
+    fun negationSuccessTest() {
+        val filter = NegationFilter(testFailFilter)
 
-        assertIs<Mismatch<*>>(filter.evaluate(0))
-        assertIs<Match<*>>(filter.evaluate(1))
-    }
-
-
-    @Test
-    fun negationTest1() {
-        val filter = NegationFilter(testMatchFilter)
-
-        assertIs<Mismatch<*>>(filter.evaluate(0))
+        assertNotNull(filter.evaluate(0))
     }
 
     @Test
-    fun negationTest2() {
-        val filter = NegationFilter(testMismatchFilter)
+    fun negationFailTest() {
+        val filter = NegationFilter(testSuccessFilter)
 
-        assertIs<Match<*>>(filter.evaluate(0))
-    }
-
-    @Test
-    fun negationTest3() {
-        val filter = NegationFilter(testSkipFilter)
-
-        assertIs<Skip<*>>(filter.evaluate(0))
+        assertNull(filter.evaluate(0))
     }
 
 
     @Test
     fun nullGuardTest1() {
-        val filter = NullGuardFilter(mismatch(), testMatchFilter)
+        val filter = InputNullGuardFilter(null, testSuccessFilter)
 
-        assertIs<Mismatch<*>>(filter.evaluate(null))
+        assertNull(filter.evaluate(null))
 
         val result = filter.evaluate(1)
-        assertIs<Match<*>>(result)
-        assertEquals("1", (result as Match).result)
+        assertEquals("1", result)
     }
 
     @Test
     fun nullGuardTest2() {
-        val filter = NullGuardFilter(skip(), testMismatchFilter)
+        val filter = InputNullGuardFilter(null, testFailFilter)
 
-        assertIs<Skip<*>>(filter.evaluate(null))
-        assertIs<Mismatch<*>>(filter.evaluate(1))
+        assertNull(filter.evaluate(1))
     }
 
 
@@ -179,66 +133,71 @@ class FilterTests {
     fun numberRangeTest1() {
         val filter = RangeFilter.atLeast(5)
 
-        assertIs<Match<*>>(filter.evaluate(10))
-        assertIs<Mismatch<*>>(filter.evaluate(0))
+        assertNotNull(filter.evaluate(10))
+        assertNull(filter.evaluate(0))
     }
 
     @Test
     fun numberRangeTest2() {
         val filter = RangeFilter.atMost(5)
 
-        assertIs<Match<*>>(filter.evaluate(0))
-        assertIs<Mismatch<*>>(filter.evaluate(10))
+        assertNotNull(filter.evaluate(0))
+        assertNull(filter.evaluate(10))
     }
 
     @Test
     fun numberRangeTest3() {
         val filter = RangeFilter.between(1, 10)
 
-        assertIs<Match<*>>(filter.evaluate(5))
-        assertIs<Mismatch<*>>(filter.evaluate(0))
+        assertNotNull(filter.evaluate(5))
+        assertNull(filter.evaluate(0))
     }
 
 
     @Test
     fun optionalTest() {
-        val filter = OptionalFilter(mismatch(), testMatchFilter)
+        val filter = ConditionalFilter.optional(null, testSuccessFilter)
 
-        assertIs<Mismatch<*>>(filter.evaluate(Optional.empty()))
-        assertIs<Match<*>>(filter.evaluate(Optional.of(1)))
+        assertNull(filter.evaluate(Optional.empty()))
+        assertNotNull(filter.evaluate(Optional.of(1)))
     }
 
 
     @Test
     fun preprocessorTest() {
-        val control = IFilter<String, String> { value -> match(value) }
-        val filter = PreProcessorFilter(Int::toString, control)
+        val control = IFilter<String, String> { it }
+        val filter = PreProcessorFilter(Int::toString, "Convert to string", control)
 
-        assertEquals("1", (filter.evaluate(1) as Match).result)
+        assertEquals("1", filter.evaluate(1))
     }
 
     @Test
     fun nullGuardedPreprocessorTest() {
-        val control = IFilter<String, String> { value -> match(value) }
-        val filter = PreProcessorFilter.nullGuarded<Int?, String, String>({ it?.toString() }, skip(), control)
+        val control = IFilter<String, String> { it }
+        val filter = PreProcessorFilter.nullGuarded<Int?, String, String>(
+            { it?.toString() },
+            "Convert to string",
+            null,
+            control
+        )
 
-        assertIs<Skip<*>>(filter.evaluate(null))
+        assertNull(filter.evaluate(null))
 
         val result = filter.evaluate(1)
-        assertIs<Match<*>>(result)
-        assertEquals("1", (result as Match).result)
+        assertEquals("1", result)
     }
 
 
     @Test
     fun postprocessorTest() {
-        val control = IFilter<Int, Int> { value -> match(value) }
+        val control = IFilter<Int, Int> { it }
         val filter =
-            PostProcessorFilter(control) { input, result -> match(input to (result as Match).result.toString()) }
+            PostProcessorFilter(control, "Convert result to string") { input, result ->
+                input to result.toString()
+            }
 
         val result = filter.evaluate(1)
-        assertIs<Match<*>>(result)
-        assertEquals(1 to "1", (result as Match).result)
+        assertEquals(1 to "1", result)
     }
 
 
@@ -246,7 +205,7 @@ class FilterTests {
     fun regularExpressionTest() {
         val filter = RegularExpressionFilter("^1$".toRegex())
 
-        assertIs<Match<*>>(filter.evaluate("1"))
-        assertIs<Mismatch<*>>(filter.evaluate("11"))
+        assertNotNull(filter.evaluate("1"))
+        assertNull(filter.evaluate("11"))
     }
 }

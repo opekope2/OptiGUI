@@ -1,70 +1,72 @@
 package opekope2.optigui.internal.selector
 
-import opekope2.optigui.annotation.Selector
-import opekope2.optigui.api.interaction.Interaction
-import opekope2.optigui.api.selector.ISelector
-import opekope2.optigui.filter.*
-import opekope2.optigui.properties.IIndependentProperties
-import opekope2.util.*
-import java.time.Month
+import kotlinx.datetime.*
+import opekope2.optigui.filter.ConjunctionFilter
+import opekope2.optigui.filter.DisjunctionFilter
+import opekope2.optigui.filter.EqualityFilter
+import opekope2.optigui.filter.PreProcessorFilter
+import opekope2.optigui.interaction.Interaction
+import opekope2.optigui.internal.util.joinNotFound
+import opekope2.optigui.util.NumberOrRange
 
+internal class DateSelector : AbstractListSelector<Pair<Month, NumberOrRange?>>() {
+    private val today: LocalDate
+        get() = Clock.System.todayIn(TimeZone.currentSystemDefault())
 
-@Selector("date")
-object DateSelector : ISelector {
-    override fun createFilter(selector: String): IFilter<Interaction, *>? {
-        return selector.splitIgnoreEmpty(*delimiters)
-            ?.assertNotEmpty()
-            ?.map(::tryParseDate) { throw RuntimeException("Invalid dates: ${joinNotFound(it)}") }
-            ?.assertNotEmpty()
-            ?.let { dates ->
-                DisjunctionFilter(
-                    dates.map { (month, day) ->
-                        val monthFilter = PreProcessorFilter.nullGuarded<Interaction, Month, Unit>(
-                            { (it.data as? IIndependentProperties)?.date?.month },
-                            IFilter.Result.mismatch(),
-                            EqualityFilter(month)
-                        )
-                        val dayFilter = day?.toFilter()
+    override fun parseSelector(selector: String): Pair<Month, NumberOrRange?>? {
+        val parts = selector.split('@')
+        if (parts.size != 2) return null
+        val (rawMonth, rawDay) = parts
 
-                        if (dayFilter == null) monthFilter
-                        else ConjunctionFilter(
-                            monthFilter,
-                            PreProcessorFilter.nullGuarded(
-                                { (it.data as? IIndependentProperties)?.date?.dayOfMonth },
-                                IFilter.Result.mismatch(),
-                                dayFilter
-                            )
-                        )
-                    }
+        val month = getMonth(rawMonth) ?: return null
+        val day = NumberOrRange.tryParse(rawDay)
+
+        return month to day
+    }
+
+    override fun parseFailed(invalidSelectors: Collection<String>) =
+        throw RuntimeException("Invalid dates: ${joinNotFound(invalidSelectors)}")
+
+    override fun createFilter(parsedSelectors: Collection<Pair<Month, NumberOrRange?>>) = DisjunctionFilter(
+        parsedSelectors.map { (month, day) ->
+            val monthFilter = PreProcessorFilter.nullGuarded<Interaction, Month, Unit>(
+                { today.month },
+                "Get month",
+                null,
+                EqualityFilter(month)
+            )
+            val dayFilter = day?.toFilter() ?: return@map monthFilter
+
+            ConjunctionFilter(
+                monthFilter,
+                PreProcessorFilter.nullGuarded(
+                    { today.dayOfMonth },
+                    "Get day of month",
+                    null,
+                    dayFilter
                 )
-            }
-    }
-
-    private fun tryParseDate(date: String): Pair<Month, NumberOrRange?>? {
-        return if ('@' in date) {
-            if (date.count { it == '@' } > 2) return null
-            val (monthName, day) = date.split('@')
-            val (month) = monthUnmapping.firstOrNull { (_, aliases) -> monthName in aliases }
-                ?: return null
-            month to (NumberOrRange.tryParse(day) ?: return null)
-        } else {
-            val (month) = monthUnmapping.firstOrNull { (_, aliases) -> date in aliases } ?: return null
-            month to null
+            )
         }
+    )
+
+    override fun transformInteraction(interaction: Interaction): String {
+        val today = today
+        return "${today.month.name.lowercase()}@${today.dayOfMonth}"
     }
 
-    private val monthUnmapping = arrayOf(
-        Month.JANUARY to arrayOf("jan", "january", "1"),
-        Month.FEBRUARY to arrayOf("feb", "february", "2"),
-        Month.MARCH to arrayOf("mar", "march", "3"),
-        Month.APRIL to arrayOf("apr", "april", "4"),
-        Month.MAY to arrayOf("may", "5"),
-        Month.JUNE to arrayOf("jun", "june", "6"),
-        Month.JULY to arrayOf("jul", "july", "7"),
-        Month.AUGUST to arrayOf("aug", "augustus", "8"),
-        Month.SEPTEMBER to arrayOf("sep", "september", "9"),
-        Month.OCTOBER to arrayOf("oct", "october", "spooktober", "10"),
-        Month.NOVEMBER to arrayOf("nov", "november", "11"),
-        Month.DECEMBER to arrayOf("dec", "december", "12")
-    )
+    private fun getMonth(monthName: String) = when (monthName) {
+        "jan", "january", "1" -> Month.JANUARY
+        "feb", "february", "2" -> Month.FEBRUARY
+        "mar", "march", "3" -> Month.MARCH
+        "apr", "april", "4" -> Month.APRIL
+        "may", "5" -> Month.MAY
+        "jun", "june", "6" -> Month.JUNE
+        "jul", "july", "7" -> Month.JULY
+        "aug", "augustus", "8" -> Month.AUGUST
+        "sep", "september", "9" -> Month.SEPTEMBER
+        "oct", "october", "spooktober", "10" -> Month.OCTOBER
+        "nov", "november", "11" -> Month.NOVEMBER
+        "dec", "december", "12" -> Month.DECEMBER
+        else -> null
+    }
 }

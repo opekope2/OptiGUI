@@ -1,14 +1,14 @@
 # OptiGUI
 
-[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/opekope2/OptiGUI?include_prereleases&label=Download+from+GitHub&logo=github)](https://github.com/opekope2/OptiGUI/releases)
-[![Modrinth Version](https://img.shields.io/modrinth/v/optigui?label=Download+from+Modrinth&logo=modrinth)](https://modrinth.com/mod/optigui/versions)
-[![CurseForge Download](https://img.shields.io/badge/Download_from_CurseForge-uhh..._latest_I_guess%3F-E04E14?logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/optigui/files)
-[![GitHub Repo stars](https://img.shields.io/github/stars/opekope2/OptiGUI?label=⭐+GitHub+stars&color=ffff00)](https://github.com/opekope2/OptiGUI/stargazers)
-![GitHub top language](https://img.shields.io/github/languages/top/opekope2/OptiGUI?color=7F52FF&logo=kotlin)
-[![Documentation](https://img.shields.io/badge/Read%20the-documentation-8CA1AF?logo=readthedocs)](https://opekope2.github.io/OptiGUI)
-[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffe-Ko--fi-f16061?logo=ko-fi)](https://ko-fi.com/opekope2)
+[![GitHub Release](https://img.shields.io/github/v/release/opekope2/OptiGUI?include_prereleases&style=flat&logo=github&label=Download%20form%20GitHub)](https://github.com/opekope2/OptiGUI/releases)
+[![Modrinth Download](https://img.shields.io/modrinth/v/optigui?style=flat&logo=modrinth&label=Download%20from%20Modrinth)](https://modrinth.com/mod/optigui/versions)
+[![CurseForge Download](https://img.shields.io/curseforge/v/619986?style=flat&logo=curseforge&label=Download%20from%20CurseForge)](https://www.curseforge.com/minecraft/mc-mods/optigui/files)
+[![GitHub Repo stars](https://img.shields.io/github/stars/opekope2/OptiGUI?style=flat&label=%E2%AD%90%20GitHub%20stars&color=ffff00)](https://github.com/opekope2/OptiGUI/stargazers)
+![GitHub top language](https://img.shields.io/github/languages/top/opekope2/OptiGUI?style=flat&logo=kotlin&color=7f52ff)
+[![Documentation](https://img.shields.io/badge/Read_the-documentation-8ca1af?style=flat&logo=readthedocs)](https://opekope2.github.io/OptiGUI)
+[![Buy me a coffee](https://img.shields.io/badge/Buy_me_a_coffee-Ko--fi-f16061?style=flat&logo=ko-fi)](https://ko-fi.com/opekope2)
 
-A client side mod to customize the texture of in-game GUIs with resource packs. Now rewritten from scratch in Kotlin for cleaner code, better performance, more features, and extensibility.
+OptiGUI is a client-side mod, which enables the customization of in-game GUI screen textures with resource packs. Now rewritten from scratch in Kotlin for cleaner code, better performance, more features, and extensibility.
 Other mods' developers can add their custom containers and customization options. See documentation link above.
 
 [Supports most OptiFine GUI resource packs](#supported-resource-packs). If a resource pack does not work or works differently than using OptiFine, please open an issue (select the **Report a bug** template).
@@ -22,7 +22,8 @@ Other mods' developers can add their custom containers and customization options
 
 ## Resource pack docs
 
-This mod supports a superset of OptiFine features, see documentation link above. Some of them are not supported by OptiFine, and are marked as such.
+OptiGUI supports OptiFine custom GUI resource packs, and also supports OptiGUI resource packs. OptiGUI resource packs are more flexible than OptiFine resource packs.
+See documentation link above to get started.
 
 ## Supported resource packs
 
@@ -62,6 +63,10 @@ Only with [Animatica](https://github.com/FoundationGames/Animatica).
 ### OptiFine colors (colors.properties)?
 
 No, use [Colormatic](https://github.com/kvverti/colormatic).
+
+### Performance impact?
+
+OptiGUI's performance impact is negligible (tho it varies a bit depending on which resource packs are used).
 
 ### Configuration GUI/file?
 

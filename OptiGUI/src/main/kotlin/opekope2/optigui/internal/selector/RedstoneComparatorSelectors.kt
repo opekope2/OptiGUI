@@ -1,29 +1,28 @@
 package opekope2.optigui.internal.selector
 
-import opekope2.optigui.annotation.Selector
-import opekope2.optigui.api.interaction.Interaction
-import opekope2.optigui.api.selector.ISelector
+import net.minecraft.client.gui.screen.ingame.HandledScreen
+import net.minecraft.client.gui.screen.ingame.LecternScreen
 import opekope2.optigui.filter.DisjunctionFilter
-import opekope2.optigui.filter.IFilter
 import opekope2.optigui.filter.PreProcessorFilter
-import opekope2.optigui.properties.IRedstoneComparatorProperties
-import opekope2.util.*
+import opekope2.optigui.interaction.Interaction
+import opekope2.optigui.internal.util.joinNotFound
+import opekope2.optigui.util.NumberOrRange
+import opekope2.optigui.util.redstoneComparatorOutput
 
+internal class RedstoneComparatorOutputSelector : AbstractListSelector<NumberOrRange>() {
+    override fun parseSelector(selector: String) = NumberOrRange.tryParse(selector)
 
-@Selector("comparator.output")
-object RedstoneComparatorOutputSelector : ISelector {
-    override fun createFilter(selector: String): IFilter<Interaction, *>? =
-        selector.splitIgnoreEmpty(*delimiters)
-            ?.assertNotEmpty()
-            ?.map(NumberOrRange::tryParse) {
-                throw RuntimeException("Invalid values: ${joinNotFound(it)}")
-            }
-            ?.assertNotEmpty()
-            ?.let { outputs ->
-                PreProcessorFilter.nullGuarded(
-                    { (it.data as? IRedstoneComparatorProperties)?.comparatorOutput },
-                    IFilter.Result.mismatch(),
-                    DisjunctionFilter(outputs.map { it.toFilter() })
-                )
-            }
+    override fun parseFailed(invalidSelectors: Collection<String>): Nothing =
+        throw RuntimeException("Invalid redstone comparator output values: ${joinNotFound(invalidSelectors)}")
+
+    override fun createFilter(parsedSelectors: Collection<NumberOrRange>) = PreProcessorFilter.nullGuarded(
+        ::transformInteraction,
+        "Get redstone comparator output",
+        null,
+        DisjunctionFilter(parsedSelectors.map { it.toFilter() })
+    )
+
+    override fun transformInteraction(interaction: Interaction) =
+        (interaction.screen as? HandledScreen<*>)?.screenHandler?.redstoneComparatorOutput
+            ?: (interaction.screen as? LecternScreen)?.redstoneComparatorOutput
 }

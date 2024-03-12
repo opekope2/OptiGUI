@@ -1,30 +1,24 @@
 package opekope2.optigui.internal.selector
 
 import net.minecraft.entity.vehicle.BoatEntity
-import opekope2.optigui.annotation.Selector
-import opekope2.optigui.api.interaction.Interaction
-import opekope2.optigui.api.selector.ISelector
 import opekope2.optigui.filter.ContainingFilter
-import opekope2.optigui.filter.IFilter
 import opekope2.optigui.filter.PreProcessorFilter
-import opekope2.optigui.properties.IChestBoatProperties
-import opekope2.util.*
+import opekope2.optigui.interaction.Interaction
+import opekope2.optigui.internal.util.joinNotFound
 
+internal class ChestBoatVariantSelector : AbstractListSelector<BoatEntity.Type>() {
+    override fun parseSelector(selector: String) = BoatEntity.Type.CODEC.byId(selector)
 
-@Selector("chest_boat.variants")
-object ChestBoatVariantSelector : ISelector {
-    override fun createFilter(selector: String): IFilter<Interaction, *>? =
-        selector.splitIgnoreEmpty(*delimiters)
-            ?.assertNotEmpty()
-            ?.map({ variant -> variant.takeIf { BoatEntity.Type.CODEC.byId(variant) != null } }) {
-                throw RuntimeException("Invalid chest boat variants: ${joinNotFound(it)}")
-            }
-            ?.assertNotEmpty()
-            ?.let { variants ->
-                PreProcessorFilter.nullGuarded(
-                    { (it.data as? IChestBoatProperties)?.variant },
-                    IFilter.Result.mismatch(),
-                    ContainingFilter(variants)
-                )
-            }
+    override fun parseFailed(invalidSelectors: Collection<String>) =
+        throw RuntimeException("Invalid chest boat variants: ${joinNotFound(invalidSelectors)}")
+
+    override fun createFilter(parsedSelectors: Collection<BoatEntity.Type>) = PreProcessorFilter.nullGuarded(
+        ::transformInteraction,
+        "Get chest boat variant",
+        null,
+        ContainingFilter(parsedSelectors)
+    )
+
+    override fun transformInteraction(interaction: Interaction) =
+        (interaction.data.entityOrRiddenEntity as? BoatEntity)?.variant
 }

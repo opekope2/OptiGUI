@@ -4,11 +4,11 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
 import net.minecraft.client.gui.screen.ingame.BookEditScreen
 import net.minecraft.client.gui.screen.ingame.BookScreen
+import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -19,72 +19,52 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
-import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import opekope2.lilac.api.registry.IRegistryLookup
-import opekope2.optigui.api.IOptiGuiApi
-import opekope2.optigui.api.interaction.IInteractionTarget
-import opekope2.optigui.api.interaction.IInteractor
-import opekope2.optigui.mixin.IHangingSignEditScreenMixin
-import opekope2.optigui.properties.impl.BookProperties
-import opekope2.optigui.properties.impl.CommonProperties
-import opekope2.optigui.properties.impl.GeneralProperties
-import opekope2.optigui.properties.impl.IndependentProperties
-import java.time.LocalDate
+import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
+import opekope2.optigui.interaction.Interaction
+import opekope2.optigui.registry.ContainerDefaultGuiTextureRegistry
+import opekope2.optigui.util.identifier
+import opekope2.optigui.util.interactionData
+import opekope2.optigui.util.invalidateCachedReplacement
 
-internal object InteractionHandler : ClientModInitializer, UseBlockCallback, UseEntityCallback, UseItemCallback {
-    private val optiguiApi = IOptiGuiApi.getImplementation()
-    private val interactor = IInteractor.getInstance()
-    private val lookup = IRegistryLookup.getInstance()
-
+internal object InteractionHandler : ClientModInitializer, UseBlockCallback, UseEntityCallback, UseItemCallback,
+    IBeforeInteractionBeginCallback {
     override fun onInitializeClient() {
         UseBlockCallback.EVENT.register(this)
         UseEntityCallback.EVENT.register(this)
         UseItemCallback.EVENT.register(this)
+        IBeforeInteractionBeginCallback.EVENT.register(this)
     }
 
     override fun interact(player: PlayerEntity, world: World, hand: Hand, hitResult: BlockHitResult): ActionResult {
-        if (world.isClient) {
-            val container = lookup.lookupBlockId(world.getBlockState(hitResult.blockPos).block)
-            val blockEntity = world.getBlockEntity(hitResult.blockPos)
-            val target =
-                if (blockEntity?.hasProcessor == true) IInteractionTarget.BlockEntityTarget(blockEntity)
-                else getBlockInteractionTarget(world, hitResult.blockPos)
+        if (!world.isClient) return ActionResult.PASS
 
-            if (target != null) interactor.interact(container, player, world, hand, target, hitResult)
+        val container = world.getBlockState(hitResult.blockPos).block.identifier
+        val blockEntity = world.getBlockEntity(hitResult.blockPos)
+
+        if (blockEntity != null) {
+            Interaction.prepare(container, player, world, hand, hitResult, null, blockEntity)
+            return ActionResult.PASS
+        }
+
+        if (container in ContainerDefaultGuiTextureRegistry) {
+            Interaction.prepare(container, player, world, hand, hitResult, null)
         }
 
         return ActionResult.PASS
     }
 
-    private fun getBlockInteractionTarget(world: World, target: BlockPos): IInteractionTarget? {
-        val container = lookup.lookupBlockId(world.getBlockState(target).block)
-        if (optiguiApi.getContainerTexture(container) == null) {
-            // Unknown/modded container
-            return null
-        }
-
-        return IInteractionTarget.ComputedTarget(
-            CommonProperties(
-                GeneralProperties(
-                    name = null,
-                    biome = lookup.lookupBiomeId(world, target),
-                    height = target.y
-                ),
-                IndependentProperties(
-                    date = LocalDate.now()
-                )
-            )
-        )
-    }
-
     override fun interact(
-        player: PlayerEntity, world: World, hand: Hand, entity: Entity, hitResult: EntityHitResult?
+        player: PlayerEntity,
+        world: World,
+        hand: Hand,
+        entity: Entity,
+        hitResult: EntityHitResult?
     ): ActionResult {
-        if (world.isClient && entity.hasProcessor) {
-            val container = lookup.lookupEntityId(entity)
-            interactor.interact(container, player, world, hand, IInteractionTarget.EntityTarget(entity), hitResult)
-        }
+        if (!world.isClient) return ActionResult.PASS
+
+        val container = entity.identifier
+        Interaction.prepare(container, player, world, hand, hitResult, null, entity)
 
         return ActionResult.PASS
     }
@@ -95,82 +75,37 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
 
         if (!world.isClient) return result
 
-        val target = when (stack.item) {
-            Items.WRITABLE_BOOK -> IInteractionTarget.ComputedTarget { ->
-                val bookScreen = MinecraftClient.getInstance().currentScreen as? BookEditScreen
-                    ?: return@ComputedTarget null
-
-                BookProperties(
-                    CommonProperties(
-                        GeneralProperties(
-                            name = stack.name.string,
-                            biome = lookup.lookupBiomeId(world, player.blockPos),
-                            height = player.blockY
-                        ),
-                        IndependentProperties(
-                            date = LocalDate.now()
-                        )
-                    ),
-                    currentPage = bookScreen.currentPage + 1,
-                    pageCount = bookScreen.countPages()
-                )
-            }
-
-            Items.WRITTEN_BOOK -> IInteractionTarget.ComputedTarget { ->
-                val bookScreen = MinecraftClient.getInstance().currentScreen as? BookScreen
-                    ?: return@ComputedTarget null
-
-                BookProperties(
-                    CommonProperties(
-                        GeneralProperties(
-                            name = stack.name.string,
-                            biome = lookup.lookupBiomeId(world, player.blockPos),
-                            height = player.blockY
-                        ),
-                        IndependentProperties(
-                            date = LocalDate.now()
-                        )
-                    ),
-                    currentPage = bookScreen.pageIndex + 1,
-                    pageCount = bookScreen.pageCount
-                )
-            }
-
-            else -> return result
+        if (stack.isOf(Items.WRITABLE_BOOK) || stack.isOf(Items.WRITTEN_BOOK)) {
+            Interaction.prepare(stack.item.identifier, player, world, Hand.MAIN_HAND, null, BookExtraProperties(0, 0))
+            // BookExtraProperties will be updated later
         }
-
-        val container = lookup.lookupItemId(stack.item)
-        interactor.interact(container, player, world, hand, target, null)
-
         return result
+    }
+
+    override fun onBeforeBegin(screen: Screen) {
+        when (screen) {
+            is BookEditScreen -> tryUpdateBookProperties(screen.currentPage + 1, screen.countPages())
+            is BookScreen -> tryUpdateBookProperties(screen.pageIndex + 1, screen.pageCount)
+        }
     }
 
     @JvmStatic
     fun interact(player: PlayerEntity, world: World, currentScreen: Screen) {
         val container = when (currentScreen) {
             is AbstractInventoryScreen<*> -> Identifier("player")
-            is IHangingSignEditScreenMixin -> lookup.lookupBlockId(world.getBlockState(currentScreen.blockEntity.pos).block)
+            is HangingSignEditScreen -> world.getBlockState(currentScreen.blockEntity.pos).block.identifier
             else -> return
         }
 
-        interactor.interact(
-            container,
-            player,
-            world,
-            Hand.MAIN_HAND,
-            IInteractionTarget.ComputedTarget { ->
-                CommonProperties(
-                    GeneralProperties(
-                        name = player.name.string,
-                        biome = lookup.lookupBiomeId(world, player.blockPos),
-                        height = player.blockY
-                    ),
-                    IndependentProperties(
-                        date = LocalDate.now()
-                    )
-                )
-            },
-            null
-        )
+        Interaction.prepare(container, player, world, Hand.MAIN_HAND, null, null)
+    }
+
+    @JvmStatic
+    fun tryUpdateBookProperties(currentPage: Int, pageCount: Int) {
+        (interactionData?.extra as? BookExtraProperties)?.let {
+            it.currentPage = currentPage
+            it.pageCount = pageCount
+            invalidateCachedReplacement()
+        }
     }
 }

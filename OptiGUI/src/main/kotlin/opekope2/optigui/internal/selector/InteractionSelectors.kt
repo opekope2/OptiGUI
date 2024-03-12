@@ -2,43 +2,36 @@ package opekope2.optigui.internal.selector
 
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
-import opekope2.optigui.annotation.Selector
-import opekope2.optigui.api.interaction.Interaction
-import opekope2.optigui.api.selector.ISelector
 import opekope2.optigui.filter.ContainingFilter
 import opekope2.optigui.filter.EqualityFilter
 import opekope2.optigui.filter.IFilter
 import opekope2.optigui.filter.PreProcessorFilter
-import opekope2.util.*
+import opekope2.optigui.interaction.Interaction
+import opekope2.optigui.internal.util.joinNotFound
+import opekope2.optigui.selector.ISelector
 
-
-@Selector("interaction.texture")
-object InteractionTextureSelector : ISelector {
+internal class InteractionTextureSelector : ISelector {
     override fun createFilter(selector: String): IFilter<Interaction, *> =
         PreProcessorFilter(
             { it.texture },
+            "Get interaction screen texture",
             EqualityFilter(Identifier(selector))
         )
+
+    override fun getRawSelector(interaction: Interaction) = interaction.texture.toString()
 }
 
-@Selector("interaction.hand")
-object InteractionHandSelector : ISelector {
-    private val hands = mapOf(
-        "main_hand" to Hand.MAIN_HAND,
-        "off_hand" to Hand.OFF_HAND
+internal class InteractionHandSelector : AbstractListSelector<Hand>() {
+    override fun parseSelector(selector: String) = Hand.entries.firstOrNull { it.name.lowercase() == selector }
+
+    override fun parseFailed(invalidSelectors: Collection<String>) =
+        throw RuntimeException("Invalid hands: ${joinNotFound(invalidSelectors)}")
+
+    override fun createFilter(parsedSelectors: Collection<Hand>): IFilter<Interaction, *> = PreProcessorFilter(
+        { it.data.hand },
+        "Get interacting player hand",
+        ContainingFilter(parsedSelectors)
     )
 
-    override fun createFilter(selector: String): IFilter<Interaction, *>? {
-        return selector.splitIgnoreEmpty(*delimiters)
-            ?.assertNotEmpty()
-            ?.map(hands::get) {
-                throw RuntimeException("Invalid hands: ${joinNotFound(it)}")
-            }
-            ?.let { hands ->
-                PreProcessorFilter(
-                    { it.rawInteraction?.hand },
-                    ContainingFilter(hands)
-                )
-            }
-    }
+    override fun transformInteraction(interaction: Interaction) = interaction.data.hand.name.lowercase()
 }

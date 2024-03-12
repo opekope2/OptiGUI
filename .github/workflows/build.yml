@@ -39,30 +39,28 @@ jobs:
         run: ./gradlew test
       - name: Build documentation
         if: inputs.build-docs
-        run: ./gradlew dokkaHtmlMultiModule
+        run: ./gradlew :OptiGUI:dokkaHtml
       - name: Build documentation (Java syntax)
         if: inputs.build-docs
-        run: ./gradlew dokkaHtmlMultiModule -PjavaSyntax
+        run: ./gradlew :OptiGUI:dokkaHtml -PjavaSyntax
       - name: Upload build output
         if: inputs.build-project && inputs.upload-output && matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v3
         with:
           name: jars
-          path: |
-            OptiGUI/build/libs/*.jar
-            Api/build/libs/*.jar
+          path: OptiGUI/build/libs/*.jar
           if-no-files-found: error
       - name: Upload documentation output
         if: inputs.build-docs && inputs.upload-output && matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v3
         with:
           name: kdoc
-          path: build/docs/kotlinHtml
+          path: OptiGUI/build/dokka/kotlinHtml
           if-no-files-found: error
       - name: Upload documentation output (Java syntax)
         if: inputs.build-docs && inputs.upload-output && matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v3
         with:
           name: javadoc
-          path: build/docs/javaHtml
+          path: OptiGUI/build/dokka/javaHtml
           if-no-files-found: error

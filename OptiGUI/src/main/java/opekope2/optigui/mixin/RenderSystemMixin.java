@@ -11,6 +11,6 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 abstract class RenderSystemMixin {
     @ModifyVariable(method = "_setShaderTexture(ILnet/minecraft/util/Identifier;)V", at = @At("HEAD"), index = 1, argsOnly = true)
     private static Identifier setShaderTextureMixin(Identifier id) {
-        return TextureReplacer.replaceTexture(id);
+        return TextureReplacer.isActive() ? TextureReplacer.replaceTexture(id) : id;
     }
 }
