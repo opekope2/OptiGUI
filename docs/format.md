@@ -540,18 +540,6 @@ Supports the following additional selectors: [common selectors](#common-selector
     [hopper_minecart]
     ```
 
-## Horse-like
-
-Horse-like selectors are different from [horse selectors](#horse). Horses support horse-like selectors, as well as donkeys for example, but donkeys don't support [horse selectors](#horse). This is based on the (Java) class hierarchy in the game.
-
-### `horse.has_saddle`
-
-**Optional**{.chip-lightblue}
-**OptiGUI 2.2.0-alpha.1+**{.chip-darkgreen}
-**Minecraft 1.18+**{.chip-lightgreen}
-
-A single [boolean](syntax.html#booleans) specifying if the entity needs to be or not be saddled.
-
 ## Horse
 
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
@@ -559,17 +547,26 @@ A single [boolean](syntax.html#booleans) specifying if the entity needs to be or
 
 **Texture path:** `minecraft:textures/gui/container/horse.png`
 
-Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [donkey selectors](#donkey)
 
 !!! example
     ```ini
     [horse]
     ```
 
-### `horse.variants`
+### `horse.has_saddle`
 
 **Optional**{.chip-lightblue}
 **OptiGUI 2.2.0-alpha.1**{.chip-darkgreen}
+**Removed in OptiGUI 2.3.0-alpha.1**{.chip-red}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+A single [boolean](syntax.html#booleans) specifying if the entity needs to be or not be saddled.
+
+### `horse.variants`
+
+**Optional**{.chip-lightblue}
+**OptiGUI 2.2.0-alpha.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
 A [list](syntax.html#lists) of [strings](syntax.html#strings) specifying the horse's variant. Possible values:
@@ -585,7 +582,7 @@ A [list](syntax.html#lists) of [strings](syntax.html#strings) specifying the hor
 ### `horse.markings`
 
 **Optional**{.chip-lightblue}
-**OptiGUI 2.2.0-alpha.1**{.chip-darkgreen}
+**OptiGUI 2.2.0-alpha.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
 A [list](syntax.html#lists) of [strings](syntax.html#strings) specifying the marking on a horse. Possible values:
@@ -603,7 +600,7 @@ A [list](syntax.html#lists) of [strings](syntax.html#strings) specifying the mar
 
 **Texture path:** `minecraft:textures/gui/container/horse.png`
 
-Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [horse-like selectors](#horse-like)
+Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [`horse.has_saddle`](#horsehas_saddle)
 
 !!! example
     ```ini
@@ -625,7 +622,7 @@ A single [boolean](syntax.html#booleans) specifying if the entity needs to have 
 
 **Texture path:** `minecraft:textures/gui/container/horse.png`
 
-Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [horse-like selectors](#horse-like), [donkey selectors](#donkey)
+Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [donkey selectors](#donkey)
 
 !!! example
     ```ini
@@ -639,7 +636,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 
 **Texture path:** `minecraft:textures/gui/container/horse.png`
 
-Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [horse-like selectors](#horse-like), [donkey selectors](#donkey)
+Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [donkey selectors](#donkey)
 
 !!! example
     ```ini
@@ -692,7 +689,7 @@ A [list](syntax.html#lists) of [strings](syntax.html#strings) specifying the lla
 
 **Texture path:** `minecraft:textures/gui/container/horse.png`
 
-Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [horse-like selectors](#horse-like), [donkey selectors](#donkey), [llama selectors](#llama)
+Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [donkey selectors](#donkey), [llama selectors](#llama)
 
 !!! example
     ```ini
@@ -736,7 +733,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 
 **Texture path:** `minecraft:textures/gui/container/horse.png`
 
-Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors)
+Supports the following additional selectors: [common selectors](#common-selectors), [interaction selectors](#interaction-selectors), [independent selectors](#independent-selectors), [`horse.has_saddle`](#horsehas_saddle)
 
 !!! example
     ```ini
