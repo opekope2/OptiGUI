@@ -23,18 +23,19 @@ internal class DonkeyChestSelector : ISelector {
     override fun getRawSelector(interaction: Interaction) = hasDonkeyChest(interaction)?.toString()
 }
 
-internal class DonkeySaddleSelector : ISelector {
+// TODO implement selector on Saddleable interface
+internal class HorseSaddleSelector : ISelector {
     override fun createFilter(selector: String) = PreProcessorFilter.nullGuarded(
-        ::isDonkeySaddled,
-        "Chest if horse is saddled",
+        ::isHorseSaddled,
+        "Check if horse is saddled",
         null,
         EqualityFilter(selector.toBooleanStrict())
     )
 
-    private fun isDonkeySaddled(interaction: Interaction) =
+    private fun isHorseSaddled(interaction: Interaction) =
         (interaction.data.entityOrRiddenEntity as? AbstractHorseEntity)?.isSaddled
 
-    override fun getRawSelector(interaction: Interaction): String? = isDonkeySaddled(interaction)?.toString()
+    override fun getRawSelector(interaction: Interaction): String? = isHorseSaddled(interaction)?.toString()
 }
 
 internal class HorseVariantSelector : AbstractListSelector<HorseColor>() {

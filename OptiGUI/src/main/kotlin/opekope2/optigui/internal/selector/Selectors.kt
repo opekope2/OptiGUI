@@ -25,8 +25,7 @@ fun registerSelectors() {
     SelectorRegistry.register("heights", HeightSelector())
 
     SelectorRegistry.register("donkey.has_chest", DonkeyChestSelector())
-    SelectorRegistry.register("donkey.is_saddled", DonkeySaddleSelector())
-    // TODO document horse.has_saddle removal
+    SelectorRegistry.register("horse.has_saddle", HorseSaddleSelector())
     SelectorRegistry.register("horse.markings", HorseMarkingSelector())
     SelectorRegistry.register("horse.variants", HorseVariantSelector())
     SelectorRegistry.register("llama.colors", LlamaCarpetColorSelector())
