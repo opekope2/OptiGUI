@@ -25,6 +25,7 @@ import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.registry.ContainerDefaultGuiTextureRegistry
 import opekope2.optigui.util.identifier
 import opekope2.optigui.util.interactionData
+import opekope2.optigui.util.invalidateCachedReplacement
 
 internal object InteractionHandler : ClientModInitializer, UseBlockCallback, UseEntityCallback, UseItemCallback,
     IBeforeInteractionBeginCallback {
@@ -104,6 +105,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
         (interactionData?.extra as? BookExtraProperties)?.let {
             it.currentPage = currentPage
             it.pageCount = pageCount
+            invalidateCachedReplacement()
         }
     }
 }

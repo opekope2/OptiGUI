@@ -134,4 +134,6 @@ internal object TextureReplacer : ClientModInitializer {
         this.filter = filter
         this.replaceableTextures = replaceableTextures
     }
+
+    fun clearReplacementCache() = InteractionHolder.replacementCache.clear()
 }

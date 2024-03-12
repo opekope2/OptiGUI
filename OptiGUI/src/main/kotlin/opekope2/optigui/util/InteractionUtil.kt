@@ -14,6 +14,12 @@ val interactionData: Interaction.Data?
     get() = TextureReplacer.interactionData
 
 /**
+ * Forces the texture replacer to re-evaluate the filters. Call this after modifying [Interaction.Data.extra] if the
+ * current screen pauses the game in single player.
+ */
+fun invalidateCachedReplacement() = TextureReplacer.clearReplacementCache()
+
+/**
  * Creates an OptiGUI INI from the current interaction data.
  */
 fun inspectInteraction(): String? {
