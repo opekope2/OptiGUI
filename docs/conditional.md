@@ -21,9 +21,9 @@ A single [boolean](syntax.html#booleans) specifying if the property should be lo
 
 **Optional**{.chip-lightblue}
 **OptiGUI 2.1.0-beta.3+**{.chip-darkgreen}
-**Deprecated**{.chip-red}
+**Removed in OptiGUI 2.3.0-alpha.1**{.chip-red}
 
-Use [`if.mods = optigui>=version`](#ifmods) instead of `if.mod.optigui.version.at_least = version`.
+Use [`if.mods = optigui>=version`](#ifmods) instead of `#!properties if.mod.optigui.version.at_least = version`.
 
 ## `if.mods`
 
@@ -41,11 +41,11 @@ If multiple mods are specified, all must match to load the resource. If a mod is
 
 !!! example
     ```ini
-    if.mods = optigui-extra                     # Checks for the presence of optigui-extra
-    if.mods = optigui>=2.2.0-alpha.1            # Checks, if OptiGUI is 2.2.0-alpha.1 or newer
-    if.mods = minecraft~1.20.1                  # Checks if Minecraft is >=1.20.1 and <1.21
-    if.mods = lilac>=1.0.0-beta.1 lilac<1.1.0   # Checks if lilac meets multiple criteria
-    if.mods = minecraft fabric-api java>=17     # Mix-n-match (they all have to match)
+    if.mods = optigui                               # Checks for the presence of optigui
+    if.mods = optigui>=2.3.0-alpha.1                # Checks, if OptiGUI is 2.3.0-alpha.1 or newer
+    if.mods = minecraft~1.20.1                      # Checks if Minecraft is >=1.20.1 and <1.21
+    if.mods = optigui>=2.3.0-alpha.1 optigui<2.4.0  # Checks if OptiGUI meets multiple criteria
+    if.mods = minecraft fabric-api java>=17         # Mix-n-match (all of them has to match)
     ```
 
 ### Operators
