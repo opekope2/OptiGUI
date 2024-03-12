@@ -3,7 +3,7 @@
   "id": "optigui",
   "version": "$version",
   "name": "OptiGUI",
-  "description": "Custom inventory GUIs on Fabric&Quilt with OptiFine resource pack support&many more features",
+  "description": "Blazing fast custom GUI textures on Fabric and Quilt with built-in OptiFine custom GUI resource pack support",
   "authors": [
     "opekope2"
   ],
