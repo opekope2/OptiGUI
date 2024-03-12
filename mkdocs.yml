@@ -20,7 +20,6 @@ nav:
   - For developers:
     - Develop OptiGUI: develop.md
     - Using OptiGUI in a mod: usage.md
-    - OptiGlue: optiglue.md
   - API docs:
     - Latest: kdoc/latest
     #CI_KDOC_PLACEHOLDER
