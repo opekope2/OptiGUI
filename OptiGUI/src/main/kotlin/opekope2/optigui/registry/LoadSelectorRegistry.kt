@@ -20,6 +20,7 @@ object LoadSelectorRegistry : Iterable<Pair<String, (String) -> Boolean>> {
      * @return `true` if the registration was successful, `false` if there was a selector or load selector registered
      *   for the given key
      */
+    @JvmStatic
     fun tryRegister(selectorKey: String, selector: (String) -> Boolean): Boolean {
         if (selectorKey in this || selectorKey in SelectorRegistry) return false
 
@@ -34,6 +35,7 @@ object LoadSelectorRegistry : Iterable<Pair<String, (String) -> Boolean>> {
      * @param selectorKey The key (as in key-value pair) to register a load selector for
      * @param selector The load selector instance
      */
+    @JvmStatic
     fun register(selectorKey: String, selector: (String) -> Boolean) {
         if (!tryRegister(selectorKey, selector)) {
             throw IllegalStateException("A selector or load selector for `$selectorKey` has already been registered")
