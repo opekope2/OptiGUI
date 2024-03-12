@@ -1,11 +1,11 @@
 # Home
 
-[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/opekope2/OptiGUI?include_prereleases&label=Download+from+GitHub&logo=github)](https://github.com/opekope2/OptiGUI/releases)
-[![Modrinth Version](https://img.shields.io/modrinth/v/optigui?label=Download+from+Modrinth&logo=modrinth)](https://modrinth.com/mod/optigui/versions)
-[![CurseForge Download](https://img.shields.io/badge/Download_from_CurseForge-uhh..._latest_I_guess%3F-E04E14?logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/optigui/files)
-[![GitHub Repo stars](https://img.shields.io/github/stars/opekope2/OptiGUI?label=⭐+GitHub+stars&color=ffff00)](https://github.com/opekope2/OptiGUI/stargazers)
-![GitHub top language](https://img.shields.io/github/languages/top/opekope2/OptiGUI?color=7F52FF&logo=kotlin)
-[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffe-Ko--fi-f16061?logo=ko-fi)](https://ko-fi.com/opekope2)
+[![GitHub Release](https://img.shields.io/github/v/release/opekope2/OptiGUI?include_prereleases&style=flat&logo=github&label=Download%20form%20GitHub)](https://github.com/opekope2/OptiGUI/releases)
+[![Modrinth Download](https://img.shields.io/modrinth/v/optigui?style=flat&logo=modrinth&label=Download%20from%20Modrinth)](https://modrinth.com/mod/optigui/versions)
+[![CurseForge Download](https://img.shields.io/curseforge/v/619986?style=flat&logo=curseforge&label=Download%20from%20CurseForge)](https://www.curseforge.com/minecraft/mc-mods/optigui/files)
+[![GitHub Repo stars](https://img.shields.io/github/stars/opekope2/OptiGUI?style=flat&label=%E2%AD%90%20GitHub%20stars&color=ffff00)](https://github.com/opekope2/OptiGUI/stargazers)
+![GitHub top language](https://img.shields.io/github/languages/top/opekope2/OptiGUI?style=flat&logo=kotlin&color=7f52ff)
+[![Buy me a coffee](https://img.shields.io/badge/Buy_me_a_coffee-Ko--fi-f16061?style=flat&logo=ko-fi)](https://ko-fi.com/opekope2)
 
 Welcome to the OptiGUI documentation. OptiGUI enables the customization of any inventory GUIs on Fabric&Quilt, and has built-in support for OptiFine resource packs.
 
