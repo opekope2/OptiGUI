@@ -4,7 +4,7 @@
 [![Modrinth Download](https://img.shields.io/modrinth/v/optigui?style=flat&logo=modrinth&label=Download%20from%20Modrinth)](https://modrinth.com/mod/optigui/versions)
 [![CurseForge Download](https://img.shields.io/curseforge/v/619986?style=flat&logo=curseforge&label=Download%20from%20CurseForge)](https://www.curseforge.com/minecraft/mc-mods/optigui/files)
 [![GitHub Repo stars](https://img.shields.io/github/stars/opekope2/OptiGUI?style=flat&label=%E2%AD%90%20GitHub%20stars&color=ffff00)](https://github.com/opekope2/OptiGUI/stargazers)
-![GitHub top language](https://img.shields.io/github/languages/top/opekope2/OptiGUI?style=flat&logo=kotlin&color=7F52FF)
+![GitHub top language](https://img.shields.io/github/languages/top/opekope2/OptiGUI?style=flat&logo=kotlin&color=7f52ff)
 [![Documentation](https://img.shields.io/badge/Read_the-documentation-8ca1af?style=flat&logo=readthedocs)](https://opekope2.github.io/OptiGUI)
 [![Buy me a coffee](https://img.shields.io/badge/Buy_me_a_coffee-Ko--fi-f16061?style=flat&logo=ko-fi)](https://ko-fi.com/opekope2)
 
