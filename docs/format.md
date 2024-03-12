@@ -558,7 +558,6 @@ Supports the following additional selectors: [common selectors](#common-selector
 
 **Optional**{.chip-lightblue}
 **OptiGUI 2.2.0-alpha.1**{.chip-darkgreen}
-**Removed in OptiGUI 2.3.0-alpha.1**{.chip-red}
 **Minecraft 1.18+**{.chip-lightgreen}
 
 A single [boolean](syntax.html#booleans) specifying if the entity needs to be or not be saddled.
