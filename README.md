@@ -5,6 +5,7 @@
 [![CurseForge Download](https://img.shields.io/curseforge/v/619986?style=flat&logo=curseforge&label=Download%20from%20CurseForge)](https://www.curseforge.com/minecraft/mc-mods/optigui/files)
 [![GitHub Repo stars](https://img.shields.io/github/stars/opekope2/OptiGUI?style=flat&label=%E2%AD%90%20GitHub%20stars&color=ffff00)](https://github.com/opekope2/OptiGUI/stargazers)
 ![GitHub top language](https://img.shields.io/github/languages/top/opekope2/OptiGUI?style=flat&logo=kotlin&color=7F52FF)
+[![Documentation](https://img.shields.io/badge/Read_the-documentation-8ca1af?style=flat&logo=readthedocs)](https://opekope2.github.io/OptiGUI)
 [![Buy me a coffee](https://img.shields.io/badge/Buy_me_a_coffee-Ko--fi-f16061?style=flat&logo=ko-fi)](https://ko-fi.com/opekope2)
 
 OptiGUI is a client-side mod, which enables the customization of in-game GUI screen textures with resource packs. Now rewritten from scratch in Kotlin for cleaner code, better performance, more features, and extensibility.
