@@ -16,9 +16,9 @@ For each container GUI texture to replace, create a `.ini` file in `/assets/opti
 !!! note
     When specifying texture paths, **do not** forget file extensions, otherwise OptiGUI **will not** find the resources!
 
-## Pseudoselectors
+## Special selectors
 
-These look like selectors, but not used for selecting an entity/block entity, and are processed specially by OptiGUI.
+These are not real selectors used for selecting entities and block entities, just have the same syntax. OptiGUI processes these specially when loading the resource.
 
 ### `replacement`
 
