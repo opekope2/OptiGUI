@@ -1,6 +1,7 @@
 package opekope2.optigui.resource
 
 import net.minecraft.resource.ResourceManager
+import net.minecraft.text.Text
 import net.minecraft.util.DyeColor
 import net.minecraft.util.Identifier
 import opekope2.optigui.internal.util.delimiters
@@ -66,8 +67,9 @@ private fun createFilterData(
             )
             continue
         }
-        yield(
-            OptiFineFilterData(resourcePath, null, resolvedReplacement, properties, false).apply {
+        yield(//TODO title
+            OptiFineFilterData(resourcePath, null, resolvedReplacement, Text.empty(),
+                properties, false).apply {
                 originalTexture = original
                 replaceableTextures = setOf(original)
             }
@@ -156,7 +158,8 @@ private fun createFilterData(
         }
 
         "creative" -> {}
-        "inventory" -> yield(OptiFineFilterData(resource, null, replacementTexture, properties, false))
+        "inventory" -> yield(OptiFineFilterData(resource, null, replacementTexture, Text.empty(),
+            properties, false))//TODO title
     }
 }
 
@@ -179,6 +182,7 @@ private open class OptiFineFilterData(
     override val resource: Identifier,
     final override val container: Identifier?,
     final override var replacementTexture: Identifier,
+    override val title: Text,//TODO title
     protected val properties: Options,
     private val filterName: Boolean
 ) : IRawFilterData {
@@ -191,7 +195,8 @@ private open class OptiFineFilterData(
         replacementTexture: Identifier,
         properties: Options,
         filterName: Boolean
-    ) : this(resource, Identifier(container), replacementTexture, properties, filterName)
+    ) : this(resource, Identifier(container), replacementTexture, Text.empty(),
+        properties, filterName)
 
     var originalTexture: Identifier? = container?.let(ContainerDefaultGuiTextureRegistry::get)
 

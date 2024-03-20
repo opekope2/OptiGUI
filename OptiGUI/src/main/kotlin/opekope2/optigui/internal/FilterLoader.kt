@@ -80,6 +80,7 @@ internal object FilterLoader : IdentifiableResourceReloadListener, ClientModInit
 
                     rawFilterData to PostProcessorFilter(
                         ConjunctionFilter(selectorFilters),
+                        rawFilterData.title,//TODO title
                         rawFilterData.replacementTexture
                     )
                 }

@@ -1,5 +1,8 @@
 package opekope2.optigui.filter
 
+import net.minecraft.text.TextContent
+import opekope2.optigui.interaction.Interaction
+
 /**
  * A filter, which returns the first non-null evaluation from [filters].
  * It returns `null`, if none of [filters] return a non-null value, or [filters] is empty.
@@ -20,7 +23,20 @@ open class FirstMatchFilter<TInput, TResult : Any>(private val filters: Collecti
     override fun evaluate(input: TInput): TResult? {
         for (filter in filters) {
             val result = filter.evaluate(input)
-            if (result != null) return result
+            if (result != null) {
+                if (filter is PostProcessorFilter<*, *, *, *>) {//TODO title
+                    val title = filter.getTitle()
+                    if (input is Interaction) {
+                        if (title.content != TextContent.EMPTY) {
+                            input.screen.setTitle(title)
+                        }
+                        else if (!title.style.isEmpty) {
+                            input.screen.setTitle(input.screen.title.copyContentOnly().setStyle(title.style))
+                        }
+                    }
+                }
+                return result
+            }
         }
         return null
     }

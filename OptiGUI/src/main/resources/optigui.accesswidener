@@ -32,3 +32,6 @@ accessible  field   net/minecraft/screen/HopperScreenHandler                    
 
 # ShulkerBoxScreenHandler
 accessible  field   net/minecraft/screen/ShulkerBoxScreenHandler                    inventory       Lnet/minecraft/inventory/Inventory;
+
+#Fork
+accessible  field   net/minecraft/client/gui/screen/Screen                          title           Lnet/minecraft/text/Text;

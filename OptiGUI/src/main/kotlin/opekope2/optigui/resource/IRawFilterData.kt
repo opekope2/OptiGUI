@@ -1,5 +1,6 @@
 package opekope2.optigui.resource
 
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 /**
@@ -32,6 +33,11 @@ interface IRawFilterData {
      * The replacement texture of the filter.
      */
     val replacementTexture: Identifier
+
+    /**
+     * The replacement title of the filter.//TODO title
+     */
+    val title: Text
 
     /**
      * The raw selector data as key-value pairs.

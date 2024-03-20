@@ -1,6 +1,11 @@
 package opekope2.optigui.resource
 
+import com.google.gson.JsonSyntaxException
 import net.minecraft.resource.ResourceManager
+import net.minecraft.text.Style
+import net.minecraft.text.Text
+import net.minecraft.text.TextColor
+import net.minecraft.util.Formatting
 import net.minecraft.util.Identifier
 import opekope2.optigui.internal.util.assertNotEmpty
 import opekope2.optigui.internal.util.delimiters
@@ -13,6 +18,7 @@ import org.ini4j.Profile
 import org.slf4j.Logger
 import org.slf4j.event.Level.ERROR
 import org.slf4j.event.Level.WARN
+import java.util.regex.Pattern
 
 /**
  * OptiGUI INI filter loader.
@@ -64,8 +70,60 @@ class OptiGuiFilterLoader : IFilterLoader {
                     }
                     section -= "load.priority"
                 }
+
+                var title = Text.empty()//TODO title
+                if ("title.json" in section) {
+                    val titleJson = section["title.json"]!!
+                    try {
+                        title = Text.Serializer.fromJson(titleJson)
+                    } catch (e: JsonSyntaxException) {
+                        logger.eventBuilder(WARN, id, sectionName).log(
+                            "Ignoring section [{}] in `{}`, because title json `{}` is malformed",
+                            sectionName, id, titleJson
+                        )
+                        return@loadSection setOf()
+                    }
+
+                    if(titleJson.contains("\"text\":\"this_name\"")) { //if player want to use current container name
+                        title = Text.empty().setStyle(title.style)
+                    }
+
+                    section -= "title.json"
+                    section -= "title.name"
+                    section -= "title.style"
+                } else {
+                    if ("title.name" in section) {
+                        val titleName = section["title.name"]!!
+                        title = Text.translatable(titleName)
+                        section -= "title.name"
+                    }
+
+                    if ("title.style" in section) {
+                        val titleStyle = section["title.style"]!!
+                        val styles = titleStyle.split(Pattern.compile(" "))
+                        var style = Style.EMPTY
+                        for (st in styles) {
+                            val format = Formatting.byName(st.lowercase())
+                            style = if (format != null) style.withFormatting(format)
+                            else {
+                                val color = TextColor.parse(st)
+                                if (color != null) {
+                                    style.withColor(color)
+                                } else {
+                                    logger.eventBuilder(WARN, id, sectionName).log(
+                                        "Ignoring section [{}] in `{}`, because title style `{}` is malformed in `{}`",
+                                        sectionName, id, titleStyle, st
+                                    )
+                                    return@loadSection setOf()
+                                }
+                            }
+                        }
+                        title = title.setStyle(style)
+                        section -= "title.style"
+                    }
+                }
                 
-                containers.map { FilterData(priority, id, it, replacement, section) }
+                containers.map { FilterData(priority, id, it, replacement, title, section) }
             }
         }
     }
@@ -75,6 +133,7 @@ class OptiGuiFilterLoader : IFilterLoader {
         override val resource: Identifier,
         override val container: Identifier?,
         override val replacementTexture: Identifier,
+        override val title: Text,//TODO title
         private val section: Profile.Section
     ) : IRawFilterData {
         override var replaceableTextures: Set<Identifier> = (

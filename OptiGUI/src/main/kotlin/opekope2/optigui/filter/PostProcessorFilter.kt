@@ -1,5 +1,7 @@
 package opekope2.optigui.filter
 
+import net.minecraft.text.Text
+
 /**
  * A post-processor filter, which changes the output of the given sub-filter.
  *
@@ -13,8 +15,9 @@ package opekope2.optigui.filter
  *
  * @see PreProcessorFilter
  */
-class PostProcessorFilter<TInput, TSubFilterResult : Any, TResult : Any>(
+class PostProcessorFilter<TInput, TTitle : Text, TSubFilterResult : Any, TResult : Any>(
     private val filter: IFilter<TInput, out TSubFilterResult>,
+    private val title: TTitle,//TODO title
     private val transformDescription: String,
     private val transform: (input: TInput, result: TSubFilterResult?) -> TResult?
 ) : IFilter<TInput, TResult>, Iterable<IFilter<TInput, out TSubFilterResult>> {
@@ -24,8 +27,9 @@ class PostProcessorFilter<TInput, TSubFilterResult : Any, TResult : Any>(
      * @param filter The sub-filter to evaluate
      * @param result The (constant) return value of the [transform] function
      */
-    constructor(filter: IFilter<TInput, out TSubFilterResult>, result: TResult) : this(
+    constructor(filter: IFilter<TInput, out TSubFilterResult>, title: TTitle, result: TResult) : this(
         filter,
+        title,//TODO title
         "Set result to `$result`",
         { _, subFilterResult -> result.takeIf { subFilterResult != null } }
     )
@@ -35,4 +39,6 @@ class PostProcessorFilter<TInput, TSubFilterResult : Any, TResult : Any>(
     override fun iterator() = iterator { yield(filter) }
 
     override fun toString() = "${javaClass.name}, transform: $transformDescription"
+
+    fun getTitle(): Text = this.title//TODO title
 }

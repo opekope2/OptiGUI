@@ -75,6 +75,9 @@
         "fabric-api(required)"
       ]
     },
+    "loom:injected_interfaces": {
+      "net/minecraft/class_437": ["opekope2/optigui/inter/IScreen"]
+    },
     "optigui:container_default_gui_textures": {
       "minecraft:anvil": "minecraft:textures/gui/container/anvil.png",
       "minecraft:chipped_anvil": "minecraft:textures/gui/container/anvil.png",

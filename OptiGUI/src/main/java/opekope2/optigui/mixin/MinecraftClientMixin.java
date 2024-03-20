@@ -22,6 +22,8 @@ abstract class MinecraftClientMixin {
     @Nullable
     public Screen currentScreen;
 
+    @Shadow public abstract void setScreen(@Nullable Screen screen);
+
     @Inject(method = "setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("TAIL"))
     private void setScreenMixin(Screen screen, CallbackInfo ci) {
         if (player != null && player.getEntityWorld() != null && currentScreen != null) {
