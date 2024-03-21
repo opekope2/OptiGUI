@@ -4,6 +4,10 @@ title: "[CRASH] <title>"
 labels:
   - crash
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Please search existing issues to see if the crash you encountered has already been reported.
   - type: input
     attributes:
       label: Loader and its version

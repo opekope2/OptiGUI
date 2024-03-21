@@ -1,16 +1,13 @@
 name: Submit a resource pack
 description: Add a supported resource pack to the README
 body:
-  - type: checkboxes
+  - type: markdown
     attributes:
-      label: Is this an OptiFine/OptiGUI resource pack?
-      description: Please make sure that it has OptiFine (/assets/minecraft/optifine/gui) or OptiGUI (/assets/optigui/gui) files.
-      options:
-        - label: It is an OptiFine/OptiGUI resource pack
-          required: true
+      value: |
+        Please make sure that the resource pack contains OptiGUI(`/assets/optigui/gui`) or OptiFine (`/assets/minecraft/optifine/gui`) files.
   - type: input
     attributes:
       label: Homepage
-      description: Enter the link to the resource pack homepage (Planet Minecraft or CurseForge page, NOT direct download)
+      description: Enter the link to the resource pack homepage (Planet Minecraft or CurseForge page for example, NOT direct download)
     validations:
       required: true

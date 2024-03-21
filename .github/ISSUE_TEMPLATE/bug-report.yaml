@@ -4,13 +4,10 @@ title: "[BUG] <title>"
 labels:
   - bug
 body:
-  - type: checkboxes
+  - type: markdown
     attributes:
-      label: Is there an existing issue for this?
-      description: Please search to see if an issue already exists for the bug you encountered.
-      options:
-        - label: I have searched the existing issues
-          required: true
+      value: |
+        Please search existing issues to see if the bug you encountered has already been reported.
   - type: textarea
     attributes:
       label: Expected Behavior
@@ -47,9 +44,10 @@ body:
       label: Behavior difference
       description: Which of these does OptiGUI work differently from?
       options:
-        - label: Behavior is different from OptiGUI documentation
-        - label: Behavior is different from OptiFine
-        - label: Behavior is different from expected (or straight up doesn't work)
+        - label: OptiGUI documentation
+        - label: OptiFine
+        - label: Something you logically expect from OptiGUI
+        - label: Doesn't work at all
   - type: textarea
     attributes:
       label: Anything else
