@@ -28,20 +28,24 @@ jobs:
           path: dist
       - name: Fetch release tag
         run: git fetch origin $GITHUB_REF:$GITHUB_REF -f
-      - name: Load publish information
-        id: load-versions
-        run: |
-          git for-each-ref $GITHUB_REF --format '%(contents)' > CHANGELOG.g.md
-          JAVA_VERSION=$(grep java_version gradle.properties | sed "s|java_version=||g")
-          echo "JAVA_VERSION=$JAVA_VERSION" >> $GITHUB_OUTPUT
-          MOD_VERSION=$(grep mod_version gradle.properties | sed "s|mod_version=||g")
-          echo "MOD_VERSION=$MOD_VERSION" >> $GITHUB_OUTPUT
+      - name: Generate changelog
+        run: git for-each-ref $GITHUB_REF --format '%(contents)' > CHANGELOG.g.md
+      - name: Load java version
+        id: load-java-version
+        uses: SebRollen/toml-action@v1.2.0
+        with:
+          file: gradle/libs.versions.toml
+          field: versions.java
+      - name: Load mod version
+        id: load-mod-version
+        uses: SebRollen/toml-action@v1.2.0
+        with:
+          file: gradle/libs.versions.toml
+          field: versions.optigui
       - name: Ensure git tag and mod version match
-        if: steps.load-versions.outputs.JAVA_VERSION != github.ref
-        env:
-          MOD_VERSION: ${{ steps.load-versions.outputs.MOD_VERSION }}
+        if: steps.load-mod-version.outputs.value != github.ref_name
         run: |
-          echo git tag '$GITHUB_REF' doesn't match mod version '$MOD_VERSION'
+          echo "git tag '$GITHUB_REF_NAME' doesn't match mod version '${{ steps.load-mod-version.outputs.value }}'"
           exit 1
       - name: Publish to GitHub, Modrinth, and CurseForge
         uses: Kir-Antipov/mc-publish@v3.3.0
@@ -61,7 +65,7 @@ jobs:
             dist/*-@(dev|sources|javadoc).jar
           changelog-file: CHANGELOG.g.md
           game-version-filter: releases
-          java: ${{ steps.load-versions.outputs.JAVA_VERSION }}
+          java: ${{ steps.load-java-version.outputs.value }}
       - name: Delete build output
         uses: geekyeggo/delete-artifact@v2
         with:
