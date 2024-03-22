@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm")
-    id("org.jetbrains.dokka")
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.dokka)
 }
 
 repositories {
@@ -9,6 +9,6 @@ repositories {
 
 buildscript {
     dependencies {
-        classpath("org.jetbrains.dokka", "dokka-base", project.gradleProperty("dokka_version"))
+        classpath(libs.dokka.base)
     }
 }
