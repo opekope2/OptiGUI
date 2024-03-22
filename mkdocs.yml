@@ -1,6 +1,6 @@
 site_name: OptiGUI documentation
-repo_url: https://github.com/opekope2/OptiGUI-Next
-copyright: © 2022-2023 opekope2
+repo_url: https://github.com/opekope2/OptiGUI
+copyright: © 2022-2024 opekope2
 theme:
   name: material
   icon:
