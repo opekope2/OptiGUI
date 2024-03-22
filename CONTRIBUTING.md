@@ -12,9 +12,15 @@ Cool!
 4. Open a pull request to the `dev` branch. OptiGUI development happens on the `dev` branch. The `main` branch is only
    for releases
 
-## I added a translation
+## I want to add a translation
 
-Cool! Follow [I fixed something in OptiGUI](#i-fixed-something-in-optigui) guides to open a pull request.
+Cool!
+
+1. Clone the repository (including the `dev` branch, not `main` branch only)
+2. Create a new branch from `dev`
+3. Add your translation JSON to `OptiGUI/src/main/resources/assets/optigui/lang/` folder
+4. Open a pull request to the `dev` branch. OptiGUI development happens on the `dev` branch. The `main` branch is only
+   for releases
 
 ## I'd like to see a feature added to OptiGUI
 
