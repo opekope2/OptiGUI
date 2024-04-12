@@ -12,4 +12,4 @@ dependencyResolutionManagement {
     }
 }
 
-include("OptiGUI")
+include("OptiGUI", "Tester")

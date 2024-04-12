@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "optigui-tester",
+  "version": "$version",
+  "name": "OptiGUI Tester",
+  "description": "OptiGUI test runner",
+  "authors": [
+    "opekope2"
+  ],
+  "contact": {
+    "homepage": "https://opekope2.dev/OptiGUI",
+    "sources": "https://github.com/opekope2/OptiGUI",
+    "issues": "https://github.com/opekope2/OptiGUI/issues"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "client": []
+  },
+  "mixins": [
+    "optigui-tester.mixins.json"
+  ],
+  "depends": {
+    "optigui": "=$version",
+    "fabricloader": ">=$fabric_loader",
+    "fabric-lifecycle-events-v1": "*",
+    "fabric-networking-api-v1": "*",
+    "fabric-language-kotlin": ">=$fabric_language_kotlin",
+    "minecraft": ">=$minecraft",
+    "java": ">=$java"
+  }
+}
