@@ -15,12 +15,17 @@ import net.minecraft.util.Identifier
 import net.minecraft.world.Difficulty
 import net.minecraft.world.gen.chunk.FlatChunkGenerator
 import opekope2.optigui.tester.mixin.ICreateWorldScreenMixin
+import java.io.File
+import java.util.*
 
 object Tester : ClientModInitializer, ClientPlayConnectionEvents.Join, ClientTickEvents.EndTick {
     private val testWorldName = UUID.randomUUID().toString()
 
-    @JvmField
-    var finishTesting = false
+    private val testResourcePacks =
+        System.getProperty("optigui.tester.resource_packs")?.split(File.pathSeparator) ?: listOf()
+    private var currentBatch = -1
+
+    private val taskQueue: Queue<Runnable> = LinkedList()
 
     @JvmStatic
     val isEnabled: Boolean = System.getProperty("optigui.tester.enabled") != null
@@ -32,18 +37,37 @@ object Tester : ClientModInitializer, ClientPlayConnectionEvents.Join, ClientTic
     }
 
     override fun onPlayReady(handler: ClientPlayNetworkHandler, sender: PacketSender, client: MinecraftClient) {
-        // TODO start running tests
+        startNextTestBatch(client)
     }
 
     override fun onEndTick(client: MinecraftClient) {
-        if (finishTesting) {
-            finishTesting = false
-            client.disconnect(MessageScreen(Text.literal("Finishing testing")))
-            client.levelStorage.createSessionWithoutSymlinkCheck(TEST_WORLD_NAME).use {
-                it.deleteSessionLock()
-            }
-            client.scheduleStop()
+        while (taskQueue.isNotEmpty()) {
+            taskQueue.remove().run()
         }
+    }
+
+    private fun startNextTestBatch(client: MinecraftClient) {
+        if (++currentBatch == testResourcePacks.size) {
+            taskQueue.add(::finishTesting)
+            return
+        }
+
+        if (currentBatch > 0) {
+            client.resourcePackManager.disable(testResourcePacks[currentBatch - 1])
+        }
+        client.resourcePackManager.enable(testResourcePacks[currentBatch])
+        client.reloadResources().thenRun {
+            taskQueue.add { startNextTestBatch(client) } // TODO run tests instead of continuing to the next batch
+        }
+    }
+
+    private fun finishTesting() {
+        val client = MinecraftClient.getInstance()
+        client.disconnect(MessageScreen(Text.literal("Finishing testing")))
+        client.levelStorage.createSessionWithoutSymlinkCheck(testWorldName).use {
+            it.deleteSessionLock()
+        }
+        client.scheduleStop()
     }
 
     @JvmStatic
