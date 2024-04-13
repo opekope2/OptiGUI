@@ -15,7 +15,12 @@
   "license": "MIT",
   "environment": "*",
   "entrypoints": {
-    "client": []
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.tester.Tester"
+      }
+    ]
   },
   "mixins": [
     "optigui-tester.mixins.json"
