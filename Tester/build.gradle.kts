@@ -37,6 +37,8 @@ loom {
         val clientTest by registering {
             inherit(client)
             ideConfigGenerated(true)
+            property("optigui.tester.enabled")
+            property("optigui.tester.resource_packs", "") // TODO
         }
     }
 }

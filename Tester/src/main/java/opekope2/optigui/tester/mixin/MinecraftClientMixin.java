@@ -16,12 +16,16 @@ public abstract class MinecraftClientMixin {
     @SuppressWarnings("UnreachableCode")
     @Inject(method = "method_53528", at = @At("HEAD"), cancellable = true)
     private void onInitFinished(CallbackInfo ci) {
-        Tester.loadTestWorld((MinecraftClient) (Object) this);
-        ci.cancel();
+        if (Tester.isEnabled()) {
+            Tester.loadTestWorld((MinecraftClient) (Object) this);
+            ci.cancel();
+        }
     }
 
     @Inject(method = "createInitScreens", at = @At("HEAD"), cancellable = true)
     private void dontCreateInitScreens(List<Function<Runnable, Screen>> list, CallbackInfo ci) {
-        ci.cancel();
+        if (Tester.isEnabled()) {
+            ci.cancel();
+        }
     }
 }

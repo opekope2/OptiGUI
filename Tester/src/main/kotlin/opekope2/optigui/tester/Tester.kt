@@ -22,7 +22,11 @@ object Tester : ClientModInitializer, ClientPlayConnectionEvents.Join, ClientTic
     @JvmField
     var finishTesting = false
 
+    @JvmStatic
+    val isEnabled: Boolean = System.getProperty("optigui.tester.enabled") != null
+
     override fun onInitializeClient() {
+        if (!isEnabled) return
         ClientPlayConnectionEvents.JOIN.register(this)
         ClientTickEvents.END_CLIENT_TICK.register(this)
     }
