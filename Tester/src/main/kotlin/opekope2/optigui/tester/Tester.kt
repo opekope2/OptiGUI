@@ -17,7 +17,7 @@ import net.minecraft.world.gen.chunk.FlatChunkGenerator
 import opekope2.optigui.tester.mixin.ICreateWorldScreenMixin
 
 object Tester : ClientModInitializer, ClientPlayConnectionEvents.Join, ClientTickEvents.EndTick {
-    const val TEST_WORLD_NAME = "OptiGUI Test World"
+    private val testWorldName = UUID.randomUUID().toString()
 
     @JvmField
     var finishTesting = false
@@ -57,7 +57,7 @@ object Tester : ClientModInitializer, ClientPlayConnectionEvents.Join, ClientTic
         creator.setCheatsEnabled(true)
         creator.difficulty = Difficulty.EASY
         creator.gameMode = WorldCreator.Mode.CREATIVE
-        creator.worldName = TEST_WORLD_NAME
+        creator.worldName = testWorldName
         creator.worldType = WorldCreator.WorldType(worldPresets.getEntry(worldPresets[Identifier("flat")]))
         creator.applyModifier { dynamicRegistryManager, dimensionsRegistryHolder ->
             dimensionsRegistryHolder.with(
