@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screen.world.CreateWorldScreen
 import net.minecraft.client.gui.screen.world.WorldCreator
 import net.minecraft.client.network.ClientPlayNetworkHandler
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.sound.SoundCategory
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.world.Difficulty
@@ -34,6 +35,9 @@ object Tester : ClientModInitializer, ClientPlayConnectionEvents.Join, ClientTic
         if (!isEnabled) return
         ClientPlayConnectionEvents.JOIN.register(this)
         ClientTickEvents.END_CLIENT_TICK.register(this)
+        taskQueue.add {
+            MinecraftClient.getInstance().options.getSoundVolumeOption(SoundCategory.MASTER).value = 0.0
+        }
     }
 
     override fun onPlayReady(handler: ClientPlayNetworkHandler, sender: PacketSender, client: MinecraftClient) {
