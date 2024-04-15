@@ -163,6 +163,7 @@ tasks {
         destinationDirectory = projectDir.resolve(systemTest.runDir).resolve("resourcepacks")
         archiveFileName = optiFineTestZip
         include { true }
+        outputs.file(destinationDirectory.file(archiveFileName))
     }
 
     val packIniTestResourcePack by registering(Zip::class) {
@@ -171,6 +172,7 @@ tasks {
         destinationDirectory = projectDir.resolve(systemTest.runDir).resolve("resourcepacks")
         archiveFileName = iniTestZip
         include { true }
+        outputs.file(destinationDirectory.file(archiveFileName))
     }
 
     val packTestResourcePacks by registering {
@@ -182,8 +184,8 @@ tasks {
     }
 
     clean {
-        val resourcePacks = projectDir.resolve(systemTest.runDir).resolve("resourcepacks")
-        delete(resourcePacks.resolve(optiFineTestZip), resourcePacks.resolve(iniTestZip))
+        delete(packOptiFineTestResourcePack.get().outputs.files)
+        delete(packIniTestResourcePack.get().outputs.files)
     }
 
     dokkaHtml {
