@@ -9,13 +9,9 @@ import org.gradle.api.tasks.Optional
 import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.property
 
-class TestPropertyBuilder(project: Project) {
-    constructor(id: String, project: Project) : this(project) {
-        this.id = id
-    }
-
+open class TestPropertyBuilder(id: String, project: Project) {
     @Input
-    val id: Property<String> = project.objects.property()
+    val id: Property<String> = project.objects.property<String>().apply { assign(id) }
 
     @Nested
     val pos: Property<Position> = project.objects.property()
