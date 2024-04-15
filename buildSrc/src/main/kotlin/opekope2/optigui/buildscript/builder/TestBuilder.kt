@@ -16,7 +16,7 @@ class TestBuilder(private val project: Project) : IDestination<String> {
 
     @Optional
     @Nested
-    val block: Property<TestPropertyBuilder> = project.objects.property()
+    val block: Property<TestBlockPropertyBuilder> = project.objects.property()
 
     @Optional
     @Nested
@@ -24,8 +24,8 @@ class TestBuilder(private val project: Project) : IDestination<String> {
 
     // TODO item
 
-    fun block(id: String, action: TestPropertyBuilder.() -> Unit) {
-        block = TestPropertyBuilder(id, project).apply(action)
+    fun block(id: String, action: TestBlockPropertyBuilder.() -> Unit) {
+        block = TestBlockPropertyBuilder(id, project).apply(action)
     }
 
     fun entity(id: String, action: TestPropertyBuilder.() -> Unit) {
