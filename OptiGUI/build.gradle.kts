@@ -2,6 +2,7 @@ import opekope2.optigui.buildscript.task.GenerateResourcePack
 import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.time.Year
 
 plugins {
@@ -76,7 +77,22 @@ loom {
     }
 }
 
+val javaVersion = libs.versions.java.get()
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(javaVersion)
+    }
+    sourceCompatibility = JavaVersion.toVersion(javaVersion)
+    targetCompatibility = JavaVersion.toVersion(javaVersion)
+    withSourcesJar()
+}
+
 kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget(javaVersion)
+        freeCompilerArgs.add("-Xjvm-default=all")
+    }
     target {
         val main by compilations.getting
         val systemTest by compilations.getting {
@@ -86,20 +102,9 @@ kotlin {
 }
 
 tasks {
-    val javaVersion = libs.versions.java.get()
-
     withType<JavaCompile> {
         options.encoding = "UTF-8"
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
         options.release = javaVersion.toInt()
-    }
-
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = javaVersion
-            freeCompilerArgs = listOf("-Xjvm-default=all")
-        }
     }
 
     jar {
@@ -132,15 +137,6 @@ tasks {
                 )
             )
         }
-    }
-
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(javaVersion)
-        }
-        sourceCompatibility = JavaVersion.toVersion(javaVersion)
-        targetCompatibility = JavaVersion.toVersion(javaVersion)
-        withSourcesJar()
     }
 
     test {
