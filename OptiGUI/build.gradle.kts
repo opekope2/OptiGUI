@@ -1,3 +1,4 @@
+import opekope2.optigui.buildscript.task.GenerateResourcePack
 import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
@@ -15,6 +16,11 @@ base {
 
 version = libs.versions.optigui.get()
 group = "opekope2.optigui"
+
+val systemTest by sourceSets.creating {
+    compileClasspath += sourceSets["main"].compileClasspath
+    runtimeClasspath += sourceSets["main"].runtimeClasspath
+}
 
 repositories {}
 
@@ -37,15 +43,37 @@ dependencies {
 
     testImplementation(kotlin("test"))
 
+    "systemTestImplementation"(sourceSets["main"].output)
+
     if (project.hasProperty("javaSyntax")) {
         dokkaPlugin(libs.dokka.plugin.java.syntax)
     }
 }
 
+val optiFineTestZip = "OptiFineTest.zip"
+val iniTestZip = "IniTest.zip"
+
 loom {
     accessWidenerPath = file("src/main/resources/optigui.accesswidener")
 
     runtimeOnlyLog4j = true
+
+    runs {
+        val client by getting {
+            ideConfigGenerated(true)
+        }
+        val systemTest by creating {
+            inherit(client)
+            source(systemTest)
+            runDir("run/systemTest")
+            configName = "System Test"
+            property("optigui.tester.enabled")
+            property(
+                "optigui.tester.resource_packs",
+                arrayOf("file/$optiFineTestZip", "file/$iniTestZip").joinToString(File.pathSeparator)
+            )
+        }
+    }
 }
 
 tasks {
@@ -83,6 +111,20 @@ tasks {
         }
     }
 
+    "processSystemTestResources"(ProcessResources::class) {
+        filesMatching("fabric.mod.json") {
+            expand(
+                mutableMapOf(
+                    "version" to version as String,
+                    "fabric_loader" to libs.versions.fabric.loader.get(),
+                    "fabric_language_kotlin" to libs.versions.fabric.language.kotlin.get(),
+                    "minecraft" to libs.versions.minecraft.get(),
+                    "java" to javaVersion
+                )
+            )
+        }
+    }
+
     java {
         toolchain {
             languageVersion = JavaLanguageVersion.of(javaVersion)
@@ -97,6 +139,43 @@ tasks {
         testLogging {
             events("PASSED", "SKIPPED", "FAILED")
         }
+    }
+
+    val generateOptiFineTestResourcePack by registering(GenerateResourcePack::class) {
+        into(project.layout.buildDirectory.dir("generated/testResourcePack/OptiFine").get())
+        minecraftJar = loom.namedMinecraftJars.first()
+    }
+
+    val generateIniTestResourcePack by registering(GenerateResourcePack::class) {
+        into(project.layout.buildDirectory.dir("generated/testResourcePack/INI").get())
+        minecraftJar = loom.namedMinecraftJars.first()
+    }
+
+    val systemTest by loom.runs.getting
+
+    val packOptiFineTestResourcePack by registering(Zip::class) {
+        dependsOn(generateOptiFineTestResourcePack)
+        from(generateOptiFineTestResourcePack.get().destination)
+        destinationDirectory = projectDir.resolve(systemTest.runDir).resolve("resourcepacks")
+        archiveFileName = optiFineTestZip
+        include { true }
+    }
+
+    val packIniTestResourcePack by registering(Zip::class) {
+        dependsOn(generateIniTestResourcePack)
+        from(generateIniTestResourcePack.get().destination)
+        destinationDirectory = projectDir.resolve(systemTest.runDir).resolve("resourcepacks")
+        archiveFileName = iniTestZip
+        include { true }
+    }
+
+    val runSystemTest by getting {
+        dependsOn(packOptiFineTestResourcePack, packIniTestResourcePack)
+    }
+
+    clean {
+        val resourcePacks = projectDir.resolve(systemTest.runDir).resolve("resourcepacks")
+        delete(resourcePacks.resolve(optiFineTestZip), resourcePacks.resolve(iniTestZip))
     }
 
     dokkaHtml {
