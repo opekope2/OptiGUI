@@ -1,5 +1,7 @@
 package opekope2.optigui.buildscript.builder
 
+import com.github.holgerbrandl.jsonbuilder.json
+import opekope2.optigui.buildscript.data.Position
 import opekope2.optigui.buildscript.util.IDestination
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
@@ -8,7 +10,7 @@ import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.Optional
 import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.property
-import org.ini4j.Options
+import org.json.JSONObject
 
 class TestBuilder(private val project: Project) : IDestination<String> {
     @Input
@@ -32,11 +34,36 @@ class TestBuilder(private val project: Project) : IDestination<String> {
         entity = TestPropertyBuilder(id, project).apply(action)
     }
 
-    internal fun build(replacementId: String) = Options().apply {
-        val testProperties = block.orNull ?: entity.get()
-        this[if (block.isPresent) "block" else "entity"] = testProperties.id.get()
-        this["pos"] = testProperties.pos.get().toString()
-        testProperties.nbt.orNull?.let { this["nbt"] = it }
-        this["expected_texture"] = replacementId
+    internal fun build(replacementId: String): JSONObject {
+        val isBlock = block.isPresent
+        val pos: Position
+        val nbt: String?
+        if (isBlock) {
+            pos = block.get().pos.get()
+            nbt = block.get().nbt.orNull
+        } else {
+            pos = entity.get().pos.get()
+            nbt = entity.get().nbt.orNull
+        }
+
+        return json {
+            if (isBlock) {
+                "blockState" to {
+                    "Name" to block.get().id.get()
+                    "Properties" to {
+                        block.get().stateProperties.get().forEach { (key, value) ->
+                            key to value
+                        }
+                    }
+                }
+            } else {
+                "entityId" to entity.get().id.get()
+            }
+            "pos" to pos.toArray()
+            if (nbt != null) {
+                "nbt" to nbt
+            }
+            "expectedTexture" to replacementId
+        }
     }
 }

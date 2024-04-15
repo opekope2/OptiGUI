@@ -8,4 +8,5 @@ repositories {
 
 dependencies {
     implementation(libs.ini4j)
+    implementation(libs.jsonbuilder)
 }

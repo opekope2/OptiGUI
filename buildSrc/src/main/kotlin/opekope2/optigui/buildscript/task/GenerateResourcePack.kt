@@ -110,7 +110,7 @@ abstract class GenerateResourcePack : DefaultTask(), IDestination<Directory> {
 
                 val testOutFile = this.destination.get().file(test.destination.get()).asFile.absoluteFile
                 testOutFile.parentFile.mkdirs()
-                generated.store(testOutFile)
+                PrintWriter(testOutFile).use(generated::write)
 
 
                 // Generate pack.mcmeta

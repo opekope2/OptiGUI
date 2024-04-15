@@ -10,6 +10,7 @@ fabric-api = "0.91.6+1.20.2"
 fabric-language-kotlin = "1.10.18+kotlin.1.9.22"
 commons-text = "1.11.0"
 ini4j = "0.5.4"
+jsonbuilder = "0.10"
 dokka = "1.9.20"
 
 [libraries]
@@ -19,6 +20,7 @@ fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = 
 fabric-language-kotlin = { group = "net.fabricmc", name = "fabric-language-kotlin", version.ref = "fabric-language-kotlin" }
 apache-commons-text = { group = "org.apache.commons", name = "commons-text", version.ref = "commons-text" }
 ini4j = { group = "org.ini4j", name = "ini4j", version.ref = "ini4j" }
+jsonbuilder = { group = "com.github.holgerbrandl", name = "jsonbuilder", version.ref = "jsonbuilder" }
 dokka-base = { group = "org.jetbrains.dokka", name = "dokka-base", version.ref = "dokka" }
 dokka-plugin-java-syntax = { group = "org.jetbrains.dokka", name = "kotlin-as-java-plugin", version.ref = "dokka" }
 
