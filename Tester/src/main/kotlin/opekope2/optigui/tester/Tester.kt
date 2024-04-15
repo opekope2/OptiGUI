@@ -3,28 +3,39 @@ package opekope2.optigui.tester
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PacketSender
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.MessageScreen
+import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.world.CreateWorldScreen
 import net.minecraft.client.gui.screen.world.WorldCreator
 import net.minecraft.client.network.ClientPlayNetworkHandler
+import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.SoundCategory
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.world.Difficulty
 import net.minecraft.world.gen.chunk.FlatChunkGenerator
+import opekope2.optigui.tester.exception.TestsFailedException
 import opekope2.optigui.tester.mixin.ICreateWorldScreenMixin
-import java.io.File
+import opekope2.optigui.tester.packet.c2s.PrepareBlockTestC2SPacket
+import opekope2.optigui.tester.packet.c2s.PrepareEntityTestC2SPacket
+import opekope2.optigui.tester.packet.s2c.TestPreparationFailedS2CPacket
+import opekope2.optigui.tester.packet.s2c.TestReadyS2CPacket
+import opekope2.optigui.tester.test.TestDiscovery
+import opekope2.optigui.tester.test.TestRunner
 import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 object Tester : ClientModInitializer, ClientPlayConnectionEvents.Join, ClientTickEvents.EndTick {
     private val testWorldName = UUID.randomUUID().toString()
 
-    private val testResourcePacks =
-        System.getProperty("optigui.tester.resource_packs")?.split(File.pathSeparator) ?: listOf()
-    private var currentBatch = -1
+    private val testRunners = TestDiscovery.createTestRunners()
+    private lateinit var testRunner: TestRunner
+    private var allSuccessful = true
 
     private val taskQueue: Queue<Runnable> = LinkedList()
 
@@ -33,15 +44,55 @@ object Tester : ClientModInitializer, ClientPlayConnectionEvents.Join, ClientTic
 
     override fun onInitializeClient() {
         if (!isEnabled) return
+
         ClientPlayConnectionEvents.JOIN.register(this)
         ClientTickEvents.END_CLIENT_TICK.register(this)
-        taskQueue.add {
+
+        ClientPlayNetworking.registerGlobalReceiver(
+            TestReadyS2CPacket.TYPE,
+            ::onTestReady
+        )
+        ClientPlayNetworking.registerGlobalReceiver(
+            TestPreparationFailedS2CPacket.TYPE,
+            ::onTestPreparationFailed
+        )
+
+        ServerPlayNetworking.registerGlobalReceiver(
+            PrepareBlockTestC2SPacket.TYPE,
+            TestServerHandler::prepareBlockTest
+        )
+        ServerPlayNetworking.registerGlobalReceiver(
+            PrepareEntityTestC2SPacket.TYPE,
+            TestServerHandler::prepareEntityTest
+        )
+
+        runLater {
             MinecraftClient.getInstance().options.getSoundVolumeOption(SoundCategory.MASTER).value = 0.0
         }
     }
 
+    private fun onTestReady(packet: TestReadyS2CPacket, player: ClientPlayerEntity, responseSender: PacketSender) {
+        val entity = packet.entityId.getOrNull()?.let(player.world::getEntityById)
+        testRunner.onTestPrepared(entity)
+    }
+
+    private fun onTestPreparationFailed(
+        packet: TestPreparationFailedS2CPacket,
+        player: ClientPlayerEntity,
+        responseSender: PacketSender
+    ) {
+        testRunner.onTestPreparationFailed()
+    }
+
+    @JvmStatic
+    fun onScreenChange(screen: Screen?) {
+        if (::testRunner.isInitialized && screen != null) {
+            testRunner.onScreenChange(screen)
+        }
+    }
+
     override fun onPlayReady(handler: ClientPlayNetworkHandler, sender: PacketSender, client: MinecraftClient) {
-        startNextTestBatch(client)
+        runTests(client, 0)
     }
 
     override fun onEndTick(client: MinecraftClient) {
@@ -50,28 +101,36 @@ object Tester : ClientModInitializer, ClientPlayConnectionEvents.Join, ClientTic
         }
     }
 
-    private fun startNextTestBatch(client: MinecraftClient) {
-        if (++currentBatch == testResourcePacks.size) {
-            taskQueue.add(::finishTesting)
+    private fun runTests(client: MinecraftClient, ordinal: Int) {
+        if (ordinal >= testRunners.count()) {
+            finishTesting(client)
             return
         }
 
-        if (currentBatch > 0) {
-            client.resourcePackManager.disable(testResourcePacks[currentBatch - 1])
-        }
-        client.resourcePackManager.enable(testResourcePacks[currentBatch])
-        client.reloadResources().thenRun {
-            taskQueue.add { startNextTestBatch(client) } // TODO run tests instead of continuing to the next batch
+        testRunner = testRunners[ordinal]
+
+        testRunner.runTests(client) { allSuccessful ->
+            this.allSuccessful = this.allSuccessful and allSuccessful
+            runLater {
+                runTests(client, ordinal + 1)
+            }
         }
     }
 
-    private fun finishTesting() {
-        val client = MinecraftClient.getInstance()
+    private fun finishTesting(client: MinecraftClient) {
         client.disconnect(MessageScreen(Text.literal("Finishing testing")))
         client.levelStorage.createSessionWithoutSymlinkCheck(testWorldName).use {
             it.deleteSessionLock()
         }
-        client.scheduleStop()
+        if (allSuccessful) {
+            client.scheduleStop()
+        } else {
+            throw TestsFailedException("Some tests did not succeed")
+        }
+    }
+
+    fun runLater(runnable: Runnable) {
+        taskQueue += runnable
     }
 
     @JvmStatic

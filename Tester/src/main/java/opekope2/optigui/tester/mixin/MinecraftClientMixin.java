@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 import java.util.function.Function;
 
-@Mixin(MinecraftClient.class)
+@Mixin(value = MinecraftClient.class, priority = 2000)
 public abstract class MinecraftClientMixin {
     @SuppressWarnings("UnreachableCode")
     @Inject(method = "method_53528", at = @At("HEAD"), cancellable = true)
@@ -27,5 +27,10 @@ public abstract class MinecraftClientMixin {
         if (Tester.isEnabled()) {
             ci.cancel();
         }
+    }
+
+    @Inject(method = "setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("TAIL"))
+    private void setScreenMixin(Screen screen, CallbackInfo ci) {
+        Tester.onScreenChange(screen);
     }
 }
