@@ -31,6 +31,8 @@ public abstract class MinecraftClientMixin {
 
     @Inject(method = "setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("TAIL"))
     private void setScreenMixin(Screen screen, CallbackInfo ci) {
-        Tester.onScreenChange(screen);
+        if (Tester.isEnabled()) {
+            Tester.onScreenChange(screen);
+        }
     }
 }
