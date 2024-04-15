@@ -23,8 +23,7 @@ class PropertiesBuilder(project: Project) : IDestination<String> {
         properties.put(key, value)
     }
 
-    internal fun build(container: String, replacementId: String) = Options().apply {
-        this["container"] = container
+    internal fun build(replacementId: String) = Options().apply {
         this["texture"] = replacementId
         putAll(properties.get())
     }

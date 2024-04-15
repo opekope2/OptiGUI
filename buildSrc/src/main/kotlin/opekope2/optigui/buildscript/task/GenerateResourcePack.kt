@@ -72,7 +72,7 @@ abstract class GenerateResourcePack : DefaultTask(), IDestination<Directory> {
                 val resourceText = when {
                     properties.isPresent -> {
                         // Generate properties
-                        val generated = properties.get().build(containerId, replacementId)
+                        val generated = properties.get().build(replacementId)
 
                         generated.store(outFile)
                         StringWriter().also(generated::store).toString()
