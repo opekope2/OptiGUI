@@ -151,6 +151,10 @@ tasks {
         minecraftJar = loom.namedMinecraftJars.first()
     }
 
+    val generateTestResourcePacks by registering {
+        dependsOn(generateOptiFineTestResourcePack, generateIniTestResourcePack)
+    }
+
     val systemTest by loom.runs.getting
 
     val packOptiFineTestResourcePack by registering(Zip::class) {
@@ -169,8 +173,12 @@ tasks {
         include { true }
     }
 
-    val runSystemTest by getting {
+    val packTestResourcePacks by registering {
         dependsOn(packOptiFineTestResourcePack, packIniTestResourcePack)
+    }
+
+    val runSystemTest by getting {
+        dependsOn(packTestResourcePacks)
     }
 
     clean {
