@@ -76,6 +76,15 @@ loom {
     }
 }
 
+kotlin {
+    target {
+        val main by compilations.getting
+        val systemTest by compilations.getting {
+            associateWith(main)
+        }
+    }
+}
+
 tasks {
     val javaVersion = libs.versions.java.get()
 
