@@ -1,5 +1,6 @@
 package opekope2.optigui.buildscript.task
 
+import com.github.holgerbrandl.jsonbuilder.json
 import opekope2.optigui.buildscript.builder.ResourcePackBuilder
 import opekope2.optigui.buildscript.util.IDestination
 import org.gradle.api.DefaultTask
@@ -114,19 +115,14 @@ abstract class GenerateResourcePack : DefaultTask(), IDestination<Directory> {
 
 
                 // Generate pack.mcmeta
-                val packMcmeta = this.destination.file("pack.mcmeta").get().asFile
-                PrintWriter(packMcmeta).use {
-                    it.write(
-                        """
-                        {
-                            "pack": {
-                                "pack_format": 22,
-                                "description": "OptiGUI test resource pack"
-                            }
-                        }
-                        """.trimIndent()
-                    )
+                val packMcmetaFile = this.destination.file("pack.mcmeta").get().asFile
+                val packMcmeta = json {
+                    "pack" to {
+                        "pack_format" to 22
+                        "description" to "OptiGUI test resource pack"
+                    }
                 }
+                PrintWriter(packMcmetaFile).use(packMcmeta::write)
             }
         }
     }
