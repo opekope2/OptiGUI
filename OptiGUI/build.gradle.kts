@@ -24,11 +24,11 @@ dependencies {
     modImplementation(libs.fabric.loader)
     modImplementation(libs.fabric.language.kotlin)
 
-    modImplementation(fabricApi.module("fabric-events-interaction-v0", libs.versions.fabric.api.get()))
-    modImplementation(fabricApi.module("fabric-key-binding-api-v1", libs.versions.fabric.api.get()))
-    modImplementation(fabricApi.module("fabric-lifecycle-events-v1", libs.versions.fabric.api.get()))
-    modImplementation(fabricApi.module("fabric-networking-api-v1", libs.versions.fabric.api.get()))
-    modImplementation(fabricApi.module("fabric-resource-loader-v0", libs.versions.fabric.api.get()))
+    modImplementation(fabric.events.interaction.v0)
+    modImplementation(fabric.key.binding.api.v1)
+    modImplementation(fabric.lifecycle.events.v1)
+    modImplementation(fabric.networking.api.v1)
+    modImplementation(fabric.resource.loader.v0)
 
     implementation(libs.apache.commons.text)
     include(libs.apache.commons.text)
@@ -132,7 +132,7 @@ tasks {
                 packageListUrl = uri("https://maven.fabricmc.net/docs/yarn-$mappingsVersion/element-list").toURL()
             }
             externalDocumentationLink {
-                val fabricVersion = libs.versions.fabric.api.get()
+                val fabricVersion = fabric.bom.get().version
                 url = uri("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/").toURL()
                 packageListUrl = uri("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/element-list").toURL()
             }
