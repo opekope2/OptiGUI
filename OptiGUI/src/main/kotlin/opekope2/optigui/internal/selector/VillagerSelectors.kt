@@ -78,5 +78,5 @@ internal class VillagerTypeSelector : AbstractListSelector<Identifier>() {
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        Registries.VILLAGER_TYPE.getId((interaction.data.entity as? VillagerEntity)?.villagerData?.type)
+        (interaction.data.entity as? VillagerEntity)?.villagerData?.type?.let(Registries.VILLAGER_TYPE::getId)
 }
