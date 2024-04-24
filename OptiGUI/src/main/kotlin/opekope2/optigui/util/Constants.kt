@@ -22,3 +22,13 @@ const val OPTIFINE_RESOURCES_ROOT = "optifine/gui/container"
  */
 // Leave the dot there, it is a dummy for resolveSibling(String)
 const val OPTIFINE_TILDE_PATH = "optifine/."
+
+/**
+ * Log key to tell OptiGUI about the resource being loaded.
+ */
+const val LOG_KEY_RESOURCE = "resource"
+
+/**
+ * Log key to tell OptiGUI about the container being loaded from a resource.
+ */
+const val LOG_KEY_CONTAINER = "container"
