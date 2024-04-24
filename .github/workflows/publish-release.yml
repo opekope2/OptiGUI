@@ -13,6 +13,7 @@ jobs:
       build-project: true
       build-docs: true
       upload-output: true
+      fast: true
 
   publish:
     name: Publish OptiGUI
