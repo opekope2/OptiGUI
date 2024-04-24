@@ -11,16 +11,47 @@ on:
         type: boolean
       upload-output:
         type: boolean
+      fast:
+        type: boolean
 
 jobs:
+  prepare-build-matrix:
+    name: Prepare build matrix
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create build matrix
+        id: create-build-matrix
+        env:
+          DEFAULT_MATRIX: '
+            {
+              "os": [
+                "ubuntu-latest",
+                "windows-latest"
+              ]
+            }
+            '
+          FAST_MATRIX: '
+            {
+              "os": [
+                "ubuntu-latest"
+              ]
+            }
+            '
+        run: |
+          if [ "${{ inputs.fast }}" = true ]; then
+            echo "BUILD_MATRIX=$FAST_MATRIX" >> $GITHUB_OUTPUT
+          else
+            echo "BUILD_MATRIX=$DEFAULT_MATRIX" >> $GITHUB_OUTPUT
+          fi
+    outputs:
+      build-matrix: ${{ steps.create-build-matrix.outputs.BUILD_MATRIX }}
+
   build:
     name: Build project
     strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - windows-latest
+      matrix: ${{ fromJson(needs.prepare-build-matrix.outputs.build-matrix) }}
     runs-on: ${{ matrix.os }}
+    needs: prepare-build-matrix
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
@@ -44,21 +75,21 @@ jobs:
         if: inputs.build-docs
         run: ./gradlew :OptiGUI:dokkaHtml -PjavaSyntax
       - name: Upload build output
-        if: inputs.build-project && inputs.upload-output && matrix.os == 'ubuntu-latest'
+        if: inputs.build-project && inputs.upload-output
         uses: actions/upload-artifact@v4.3.1
         with:
           name: jars
           path: OptiGUI/build/libs/*.jar
           if-no-files-found: error
       - name: Upload documentation output
-        if: inputs.build-docs && inputs.upload-output && matrix.os == 'ubuntu-latest'
+        if: inputs.build-docs && inputs.upload-output
         uses: actions/upload-artifact@v4.3.1
         with:
           name: kdoc
           path: OptiGUI/build/dokka/kotlinHtml
           if-no-files-found: error
       - name: Upload documentation output (Java syntax)
-        if: inputs.build-docs && inputs.upload-output && matrix.os == 'ubuntu-latest'
+        if: inputs.build-docs && inputs.upload-output
         uses: actions/upload-artifact@v4.3.1
         with:
           name: javadoc
