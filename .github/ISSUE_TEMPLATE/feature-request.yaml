@@ -1,0 +1,12 @@
+name: Request a feature
+description: Open an issue about a feature you would like to see in OptiGUI
+title: "[FEATURE REQUEST] <title>"
+labels:
+  - enhancement
+body:
+  - type: textarea
+    attributes:
+      label: Feature description
+      description: Describe the feature you would like to see implemented in OptiGUI.
+    validations:
+      required: true

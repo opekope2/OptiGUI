@@ -20,20 +20,33 @@ jobs:
     needs: build
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.1
       - name: Download build output
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.4
         with:
           name: jars
           path: dist
       - name: Fetch release tag
         run: git fetch origin $GITHUB_REF:$GITHUB_REF -f
-      - name: Load publish information
-        id: load-versions
+      - name: Generate changelog
+        run: git for-each-ref $GITHUB_REF --format '%(contents)' > CHANGELOG.g.md
+      - name: Load java version
+        id: load-java-version
+        uses: SebRollen/toml-action@v1.2.0
+        with:
+          file: gradle/libs.versions.toml
+          field: versions.java
+      - name: Load mod version
+        id: load-mod-version
+        uses: SebRollen/toml-action@v1.2.0
+        with:
+          file: gradle/libs.versions.toml
+          field: versions.optigui
+      - name: Ensure git tag and mod version match
+        if: steps.load-mod-version.outputs.value != github.ref_name
         run: |
-          git for-each-ref $GITHUB_REF --format '%(contents)' > CHANGELOG.g.md
-          JAVA_VERSION=$(grep java_version gradle.properties | sed "s|java_version=||g")
-          echo "JAVA_VERSION=$JAVA_VERSION" >> $GITHUB_OUTPUT
+          echo "git tag '$GITHUB_REF_NAME' doesn't match mod version '${{ steps.load-mod-version.outputs.value }}'"
+          exit 1
       - name: Publish to GitHub, Modrinth, and CurseForge
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
@@ -52,9 +65,9 @@ jobs:
             dist/*-@(dev|sources|javadoc).jar
           changelog-file: CHANGELOG.g.md
           game-version-filter: releases
-          java: ${{ steps.load-versions.outputs.JAVA_VERSION }}
+          java: ${{ steps.load-java-version.outputs.value }}
       - name: Delete build output
-        uses: geekyeggo/delete-artifact@v2
+        uses: geekyeggo/delete-artifact@v5.0.0
         with:
           name: jars
           useGlob: false
@@ -68,7 +81,7 @@ jobs:
       VERSION: ${{ github.ref_name }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
           ref: docs
@@ -77,12 +90,12 @@ jobs:
           git config user.email "41898282+github-actions@users.noreply.github.com"
           git config user.name "github-actions[bot]"
       - name: Download Kotlin documentation
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.4
         with:
           name: kdoc
           path: docs/kdoc/${{ github.ref_name }}
       - name: Download Java documentation
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.4
         with:
           name: javadoc
           path: docs/javadoc/${{ github.ref_name }}
@@ -105,11 +118,11 @@ jobs:
           git add docs
           git commit -a -m "Add documentation for $VERSION"
       - name: Push documentation
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@v0.8.0
         with:
           branch: docs
       - name: Delete documentation artifacts
-        uses: geekyeggo/delete-artifact@v2
+        uses: geekyeggo/delete-artifact@v5.0.0
         with:
           name: |
             kdoc
@@ -123,7 +136,7 @@ jobs:
     needs: push-docs
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.1
         with:
           ref: docs
       - name: Configure git
@@ -131,6 +144,6 @@ jobs:
           git config user.email "41898282+github-actions@users.noreply.github.com"
           git config user.name "github-actions[bot]"
       - name: Publish documentation
-        uses: mhausenblas/mkdocs-deploy-gh-pages@master
+        uses: mhausenblas/mkdocs-deploy-gh-pages@1.26
         env:
           GITHUB_TOKEN: ${{ github.token }}

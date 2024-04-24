@@ -1,6 +1,8 @@
 package opekope2.optigui.internal.util
 
 import net.minecraft.util.Identifier
+import opekope2.optigui.util.LOG_KEY_CONTAINER
+import opekope2.optigui.util.LOG_KEY_RESOURCE
 import org.slf4j.Logger
 import org.slf4j.event.Level
 import java.io.StringWriter

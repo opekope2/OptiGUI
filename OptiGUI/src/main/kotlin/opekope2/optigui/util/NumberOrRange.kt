@@ -51,7 +51,7 @@ sealed class NumberOrRange {
         private val regex = Regex("""^(?:(?<start>\d+|\(-?\d+\))-(?<end>\d+|\(-?\d+\))?|(?<value>-?\d+))$""")
 
         /**
-         * Parses a number or range according to the [OptiGUI docs](https://opekope2.github.io/OptiGUI/syntax/#ranges).
+         * Parses a number or range according to the [OptiGUI docs](https://opekope2.dev/OptiGUI/syntax/#ranges).
          */
         @JvmStatic
         fun tryParse(numberRange: String): NumberOrRange? {

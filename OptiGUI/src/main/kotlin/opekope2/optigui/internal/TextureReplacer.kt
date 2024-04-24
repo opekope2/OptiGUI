@@ -96,7 +96,7 @@ internal object TextureReplacer : ClientModInitializer {
     val interactionData: Interaction.Data? by InteractionHolder::data
 
     @JvmStatic
-    var isActive = false
+    var isReplacingTextures = false
         get() = field && InteractionHolder.interacting
 
     override fun onInitializeClient() {

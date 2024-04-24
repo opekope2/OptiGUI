@@ -19,8 +19,8 @@ public class GameRendererMixin {
             )
     )
     public void renderCurrentScreenWithTooltip(Screen instance, DrawContext context, int mouseX, int mouseY, float delta, Operation<Void> original) {
-        TextureReplacer.setActive(true);
+        TextureReplacer.setReplacingTextures(true);
         original.call(instance, context, mouseX, mouseY, delta);
-        TextureReplacer.setActive(false);
+        TextureReplacer.setReplacingTextures(false);
     }
 }
