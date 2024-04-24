@@ -23,7 +23,6 @@ internal class DonkeyChestSelector : ISelector {
     override fun getRawSelector(interaction: Interaction) = hasDonkeyChest(interaction)?.toString()
 }
 
-// TODO implement selector on Saddleable interface
 internal class HorseSaddleSelector : ISelector {
     override fun createFilter(selector: String) = PreProcessorFilter.nullGuarded(
         ::isHorseSaddled,
