@@ -2,8 +2,6 @@
 
 package opekope2.optigui.util
 
-import net.fabricmc.loader.api.FabricLoader
-import net.fabricmc.loader.api.Version
 import net.minecraft.nbt.NbtCompound
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.TextureReplacer
@@ -20,10 +18,6 @@ val interactionData: Interaction.Data?
  * current screen pauses the game in single player.
  */
 fun invalidateCachedReplacement() = TextureReplacer.clearReplacementCache()
-
-// FIXME tech debt
-private val minecraft_1_20_5 =
-    FabricLoader.getInstance().getModContainer("minecraft").get().metadata.version >= Version.parse("1.20.5")
 
 /**
  * Creates an OptiGUI INI from the current interaction data.
@@ -45,14 +39,7 @@ fun inspectInteraction(): String? {
         appendLine()
 
         when {
-            // FIXME tech debt
-            data.blockEntity != null && minecraft_1_20_5 -> {
-                appendLine("# Block entity NBT is not available on Minecraft 1.20.5+")
-                appendLine()
-            }
-
-            // FIXME tech debt
-            data.blockEntity != null && !minecraft_1_20_5 -> {
+            data.blockEntity != null -> {
                 appendLine("# NBT (for more detailed inspection purposes, as there is no selector for NBT):")
                 appendLine("# ${data.blockEntity.createNbt()}")
                 appendLine()
