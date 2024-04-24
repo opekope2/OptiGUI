@@ -2,7 +2,9 @@
 
 package opekope2.optigui.util
 
+import net.minecraft.client.MinecraftClient
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.BuiltinRegistries
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.registry.SelectorRegistry
@@ -40,8 +42,11 @@ fun inspectInteraction(): String? {
 
         when {
             data.blockEntity != null -> {
+                // TODO move to parameter
+                val registryLookup = MinecraftClient.getInstance().world?.registryManager
+                    ?: BuiltinRegistries.createWrapperLookup()
                 appendLine("# NBT (for more detailed inspection purposes, as there is no selector for NBT):")
-                appendLine("# ${data.blockEntity.createNbt()}")
+                appendLine("# ${data.blockEntity.createNbt(registryLookup)}")
                 appendLine()
             }
 
