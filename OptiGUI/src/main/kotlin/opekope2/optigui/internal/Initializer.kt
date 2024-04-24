@@ -14,7 +14,7 @@ import opekope2.optigui.resource.OptiGuiFilterLoader
 import org.lwjgl.glfw.GLFW
 
 @JvmField
-val INSPECTOR_KEY_BINDING: KeyBinding = KeyBindingHelper.registerKeyBinding(
+internal val INSPECTOR_KEY_BINDING: KeyBinding = KeyBindingHelper.registerKeyBinding(
     KeyBinding(
         "key.optigui.inspect",
         InputUtil.Type.KEYSYM,
@@ -24,7 +24,7 @@ val INSPECTOR_KEY_BINDING: KeyBinding = KeyBindingHelper.registerKeyBinding(
 )
 
 @Suppress("unused")
-fun initialize() {
+internal fun initialize() {
     RetexturableScreenRegistry.register(HandledScreen::class.java)
     RetexturableScreenRegistry.register(BookScreen::class.java)
     RetexturableScreenRegistry.register(BookEditScreen::class.java)

@@ -5,7 +5,7 @@ package opekope2.optigui.internal.selector
 import opekope2.optigui.registry.LoadSelectorRegistry
 import opekope2.optigui.registry.SelectorRegistry
 
-fun registerSelectors() {
+internal fun registerSelectors() {
     SelectorRegistry.register("beacon.levels", BeaconLevelSelector())
     // TODO primary+secondary status effect selector
 
@@ -44,7 +44,7 @@ fun registerSelectors() {
     SelectorRegistry.register("villager.type", VillagerTypeSelector())
 }
 
-fun registerLoadSelectors() {
+internal fun registerLoadSelectors() {
     LoadSelectorRegistry.register("if", ConditionalLoadSelector())
     LoadSelectorRegistry.register("if.mods", ModsLoadSelector())
 }
