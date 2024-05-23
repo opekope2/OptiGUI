@@ -20,6 +20,13 @@ Other mods' developers can add their custom containers and customization options
 3. Download the required dependencies as well
 4. Put this mod in your mods folder
 
+## Supported languages
+
+* 🇺🇸 by [opekope2](https://github.com/opekope2)
+* 🇲🇽 by [TheLegendofSaram](https://github.com/TheLegendofSaram)
+
+Want to see your name here? [Translate OptiGUI to your native language](https://github.com/opekope2/OptiGUI/blob/main/CONTRIBUTING.md#i-want-to-add-a-translation).
+
 ## Resource pack docs
 
 OptiGUI supports OptiFine custom GUI resource packs, and also supports OptiGUI resource packs. OptiGUI resource packs are more flexible than OptiFine resource packs.
