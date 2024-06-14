@@ -1,6 +1,7 @@
 import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.time.Year
 
 plugins {
@@ -59,8 +60,8 @@ tasks {
     }
 
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = javaVersion
+        compilerOptions {
+            jvmTarget.set(JvmTarget.fromTarget(javaVersion))
             freeCompilerArgs = listOf("-Xjvm-default=all")
         }
     }
