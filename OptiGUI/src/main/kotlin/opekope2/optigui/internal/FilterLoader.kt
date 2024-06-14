@@ -30,7 +30,7 @@ import java.util.concurrent.Executor
 internal object FilterLoader : IdentifiableResourceReloadListener, ClientModInitializer {
     private val LOGGER = LoggerFactory.getLogger("OptiGUI/FilterLoader")
 
-    override fun getFabricId() = Identifier(MOD_ID, "filter_loader")
+    override fun getFabricId(): Identifier = Identifier.of(MOD_ID, "filter_loader")
 
     override fun reload(
         synchronizer: ResourceReloader.Synchronizer,

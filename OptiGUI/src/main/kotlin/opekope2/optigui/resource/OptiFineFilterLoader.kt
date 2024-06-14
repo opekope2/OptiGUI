@@ -169,7 +169,7 @@ private fun resolveTexture(
 
     if (resourceManager.getResource(texturePath).isPresent) return texturePath
 
-    texturePath = texturePath.run { Identifier(namespace, "$path.png") }
+    texturePath = texturePath.run { Identifier.of(namespace, "$path.png") }
 
     return if (resourceManager.getResource(texturePath).isPresent) texturePath
     else null
@@ -191,7 +191,7 @@ private open class OptiFineFilterData(
         replacementTexture: Identifier,
         properties: Options,
         filterName: Boolean
-    ) : this(resource, Identifier(container), replacementTexture, properties, filterName)
+    ) : this(resource, Identifier.ofVanilla(container), replacementTexture, properties, filterName)
 
     var originalTexture: Identifier? = container?.let(ContainerDefaultGuiTextureRegistry::get)
 
