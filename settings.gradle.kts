@@ -6,6 +6,10 @@ pluginManagement {
     }
 }
 
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0" // FIXME gradle is retarded
+}
+
 dependencyResolutionManagement {
     repositories {
         maven("https://maven.fabricmc.net") { name = "Fabric" }
