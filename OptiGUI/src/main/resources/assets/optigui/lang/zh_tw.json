@@ -1,6 +1,6 @@
 {
   "key.categories.optigui": "OptiGUI",
-  "key.optigui.inspect": "將檢查結果複製到剪貼板",
+  "key.optigui.inspect": "複製檢查結果到剪貼板",
   "optigui.toast.inspector.title": "OptiGUI 檢查器",
   "optigui.toast.inspector.description": "檢查結果已複製到剪貼板"
 }
