@@ -13,6 +13,26 @@
       }
     }
   ],
+  "contributors": [
+    {
+      "name": "Santiago Hernandez",
+      "contact": {
+        "github": "https://github.com/TheLegendofSaram"
+      }
+    },
+    {
+      "name": "dirtTW",
+      "contact": {
+        "github": "https://github.com/yichifauzi"
+      }
+    },
+    {
+      "name": "notlin4",
+      "contact": {
+        "github": "https://github.com/notlin4"
+      }
+    }
+  ],
   "contact": {
     "homepage": "https://opekope2.dev/OptiGUI",
     "sources": "https://github.com/opekope2/OptiGUI",
