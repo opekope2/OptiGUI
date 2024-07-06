@@ -5,7 +5,13 @@
   "name": "OptiGUI",
   "description": "Blazing fast custom GUI textures on Fabric and Quilt with built-in OptiFine custom GUI resource pack support",
   "authors": [
-    "opekope2"
+    {
+      "name": "opekope2",
+      "contact": {
+        "homepage": "https://opekope2.dev",
+        "github": "https://github.com/opekope2"
+      }
+    }
   ],
   "contact": {
     "homepage": "https://opekope2.dev/OptiGUI",
