@@ -1,5 +1,3 @@
-@file: Suppress("unused")
-
 package opekope2.optigui.internal.selector
 
 import opekope2.optigui.registry.LoadSelectorRegistry
