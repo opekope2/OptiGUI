@@ -15,7 +15,7 @@ internal class InteractionTextureSelector : ISelector {
         PreProcessorFilter(
             { it.texture },
             "Get interaction screen texture",
-            EqualityFilter(Identifier(selector))
+            EqualityFilter(Identifier.of(selector))
         )
 
     override fun getRawSelector(interaction: Interaction) = interaction.texture.toString()

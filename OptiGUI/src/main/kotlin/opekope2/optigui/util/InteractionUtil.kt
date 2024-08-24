@@ -41,7 +41,7 @@ fun inspectInteraction(): String? {
         when {
             data.blockEntity != null -> {
                 appendLine("# NBT (for more detailed inspection purposes, as there is no selector for NBT):")
-                appendLine("# ${data.blockEntity.createNbt()}")
+                appendLine("# ${data.blockEntity.createNbt(data.world.registryManager)}")
                 appendLine()
             }
 

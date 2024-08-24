@@ -79,13 +79,9 @@
   "accessWidener": "optigui.accesswidener",
   "depends": {
     "fabricloader": ">=$fabric_loader",
-    "fabric-events-interaction-v0": "*",
-    "fabric-key-binding-api-v1": "*",
-    "fabric-lifecycle-events-v1": "*",
-    "fabric-networking-api-v1": "*",
-    "fabric-resource-loader-v0": "*",
+    "fabric-api": ">=$fabric_api",
     "fabric-language-kotlin": ">=$fabric_language_kotlin",
-    "minecraft": ">=$minecraft <1.20.5",
+    "minecraft": ">=$minecraft",
     "java": ">=$java"
   },
   "recommends": {
@@ -96,9 +92,6 @@
       "loaders": [
         "fabric",
         "quilt"
-      ],
-      "dependencies": [
-        "fabric-api(required)"
       ]
     },
     "optigui:container_default_gui_textures": {

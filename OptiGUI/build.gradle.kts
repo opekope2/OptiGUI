@@ -1,6 +1,8 @@
 import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.time.Year
 
 plugins {
@@ -23,12 +25,7 @@ dependencies {
     mappings(variantOf(libs.yarn) { classifier("v2") })
     modImplementation(libs.fabric.loader)
     modImplementation(libs.fabric.language.kotlin)
-
-    modImplementation(fabricApi.module("fabric-events-interaction-v0", libs.versions.fabric.api.get()))
-    modImplementation(fabricApi.module("fabric-key-binding-api-v1", libs.versions.fabric.api.get()))
-    modImplementation(fabricApi.module("fabric-lifecycle-events-v1", libs.versions.fabric.api.get()))
-    modImplementation(fabricApi.module("fabric-networking-api-v1", libs.versions.fabric.api.get()))
-    modImplementation(fabricApi.module("fabric-resource-loader-v0", libs.versions.fabric.api.get()))
+    modImplementation(libs.fabric.api)
 
     implementation(libs.apache.commons.text)
     include(libs.apache.commons.text)
@@ -51,16 +48,16 @@ loom {
 tasks {
     val javaVersion = libs.versions.java.get()
 
-    withType<JavaCompile> {
+    withType<JavaCompile>().configureEach {
         options.encoding = "UTF-8"
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
         options.release = javaVersion.toInt()
     }
 
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = javaVersion
+    withType<KotlinCompile>().configureEach {
+        compilerOptions {
+            jvmTarget = JvmTarget.fromTarget(javaVersion)
             freeCompilerArgs = listOf("-Xjvm-default=all")
         }
     }
@@ -75,6 +72,7 @@ tasks {
                 mutableMapOf(
                     "version" to version as String,
                     "fabric_loader" to libs.versions.fabric.loader.get(),
+                    "fabric_api" to libs.versions.fabric.api.get(),
                     "fabric_language_kotlin" to libs.versions.fabric.language.kotlin.get(),
                     "minecraft" to libs.versions.minecraft.get(),
                     "java" to javaVersion

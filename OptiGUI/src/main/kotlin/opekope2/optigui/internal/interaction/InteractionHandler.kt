@@ -92,7 +92,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
     @JvmStatic
     fun interact(player: PlayerEntity, world: World, currentScreen: Screen) {
         val container = when (currentScreen) {
-            is AbstractInventoryScreen<*> -> Identifier("player")
+            is AbstractInventoryScreen<*> -> Identifier.ofVanilla("player")
             is HangingSignEditScreen -> world.getBlockState(currentScreen.blockEntity.pos).block.identifier
             else -> return
         }

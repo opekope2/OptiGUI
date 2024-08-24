@@ -39,8 +39,8 @@ object ContainerDefaultGuiTextureRegistry : ClientModInitializer {
         for ((key, value) in texturesObj) {
             val valueString = value.asString
 
-            val keyId = Identifier(key)
-            val valueId = Identifier(valueString)
+            val keyId = Identifier.of(key)
+            val valueId = Identifier.of(valueString)
 
             if (keyId in containerTextures) {
                 throw RuntimeException("A default GUI texture for container `$key` has already been registered")
