@@ -9,6 +9,8 @@
     "BookEditScreenMixin",
     "BookScreenMixin",
     "GameRendererMixin",
+    "HandledScreenMixin",
+    "HangingSignEditScreenMixin",
     "MinecraftClientMixin",
     "RenderSystemMixin",
     "ScreenMixin"

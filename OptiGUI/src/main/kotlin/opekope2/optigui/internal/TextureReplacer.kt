@@ -14,7 +14,7 @@ import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.filter.ContainerMapFilter
 import opekope2.optigui.registry.ContainerDefaultGuiTextureRegistry
-import opekope2.optigui.registry.RetexturableScreenRegistry
+import opekope2.optigui.screen.IRetexturableScreen
 import opekope2.optigui.util.identifier
 
 internal object TextureReplacer : ClientModInitializer {
@@ -120,11 +120,8 @@ internal object TextureReplacer : ClientModInitializer {
 
     @JvmStatic
     fun handleScreenChange(screen: Screen?) {
-        when (screen) {
-            null -> InteractionHolder.end()
-            in RetexturableScreenRegistry -> InteractionHolder.begin(screen)
-            else -> InteractionHolder.end()
-        }
+        if (screen is IRetexturableScreen) InteractionHolder.begin(screen)
+        else InteractionHolder.end()
     }
 
     fun prepareInteraction(container: Identifier, data: Interaction.Data): Boolean =

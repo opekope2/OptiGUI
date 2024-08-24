@@ -2,6 +2,7 @@ package opekope2.optigui.mixin;
 
 import net.minecraft.client.gui.screen.ingame.BookScreen;
 import opekope2.optigui.internal.interaction.InteractionHandler;
+import opekope2.optigui.screen.IRetexturableScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = BookScreen.class)
-public abstract class BookScreenMixin {
+public abstract class BookScreenMixin implements IRetexturableScreen {
     @Shadow
     public int pageIndex;
 
