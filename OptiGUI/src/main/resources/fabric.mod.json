@@ -64,7 +64,6 @@
   "mixins": [
     "optigui.mixins.json"
   ],
-  "accessWidener": "optigui.accesswidener",
   "depends": {
     "fabricloader": ">=$fabric_loader",
     "fabric-api": ">=$fabric_api",

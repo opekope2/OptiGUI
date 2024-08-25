@@ -6,13 +6,23 @@
     "defaultRequire": 1
   },
   "client": [
+    "AbstractFurnaceScreenHandlerMixin",
     "BookEditScreenMixin",
     "BookScreenMixin",
+    "BrewingStandScreenHandlerMixin",
     "GameRendererMixin",
+    "Generic3x3ContainerScreenHandlerMixin",
+    "GenericContainerScreenHandlerMixin",
     "HandledScreenMixin",
     "HangingSignEditScreenMixin",
+    "HopperScreenHandlerMixin",
+    "IAbstractSignEditScreenAccessor",
+    "IBookEditScreenAccessor",
+    "IBookScreenAccessor",
+    "LecternScreenMixin",
     "MinecraftClientMixin",
     "RenderSystemMixin",
-    "ScreenMixin"
+    "ScreenMixin",
+    "ShulkerBoxScreenHandlerMixin"
   ]
 }

@@ -6,9 +6,6 @@ import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
-import net.minecraft.client.gui.screen.ingame.BookEditScreen
-import net.minecraft.client.gui.screen.ingame.BookScreen
-import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -22,6 +19,9 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
 import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
 import opekope2.optigui.interaction.Interaction
+import opekope2.optigui.mixin.IAbstractSignEditScreenAccessor
+import opekope2.optigui.mixin.IBookEditScreenAccessor
+import opekope2.optigui.mixin.IBookScreenAccessor
 import opekope2.optigui.util.identifier
 import opekope2.optigui.util.interactionData
 import opekope2.optigui.util.invalidateCachedReplacement
@@ -80,8 +80,8 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
 
     override fun onBeforeBegin(screen: Screen) {
         when (screen) {
-            is BookEditScreen -> tryUpdateBookProperties(screen.currentPage + 1, screen.countPages())
-            is BookScreen -> tryUpdateBookProperties(screen.pageIndex + 1, screen.pageCount)
+            is IBookEditScreenAccessor -> tryUpdateBookProperties(screen.currentPage + 1, screen.countPages())
+            is IBookScreenAccessor -> tryUpdateBookProperties(screen.pageIndex + 1, screen.pageCount)
         }
     }
 
@@ -89,7 +89,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
     fun interact(player: PlayerEntity, world: World, currentScreen: Screen) {
         val container = when (currentScreen) {
             is AbstractInventoryScreen<*> -> Identifier.ofVanilla("player")
-            is HangingSignEditScreen -> world.getBlockState(currentScreen.blockEntity.pos).block.identifier
+            is IAbstractSignEditScreenAccessor -> world.getBlockState(currentScreen.blockEntity.pos).block.identifier
             else -> return
         }
 
