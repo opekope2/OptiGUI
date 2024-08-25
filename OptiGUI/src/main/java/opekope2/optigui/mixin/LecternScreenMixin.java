@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 public abstract class LecternScreenMixin extends BookScreen implements IRedstoneComparatorOutputGetterScreen, IBookScreenAccessor {
     @Override
     public int optiGUI_getRedstoneComparatorOutput() {
-        float f = getPageCount() > 1 ? getPageIndex() / (getPageCount() - 1.0f) : 1.0f;
+        float f = callGetPageCount() > 1 ? getPageIndex() / (callGetPageCount() - 1.0f) : 1.0f;
         return MathHelper.floor(f * 14.0f) + 1;
     }
 }

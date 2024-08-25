@@ -12,6 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class BookEditScreenMixin implements IBookEditScreenAccessor, IRetexturableScreen {
     @Inject(method = "changePage", at = @At("RETURN"))
     private void setPageMixin(CallbackInfo ci) {
-        InteractionHandler.tryUpdateBookProperties(getCurrentPage() + 1, countPages());
+        InteractionHandler.tryUpdateBookProperties(getCurrentPage() + 1, callCountPages());
     }
 }

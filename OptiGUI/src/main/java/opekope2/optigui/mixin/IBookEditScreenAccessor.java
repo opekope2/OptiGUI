@@ -10,6 +10,6 @@ public interface IBookEditScreenAccessor {
     @Accessor
     int getCurrentPage();
 
-    @Invoker("countPages")
-    int countPages();
+    @Invoker
+    int callCountPages();
 }

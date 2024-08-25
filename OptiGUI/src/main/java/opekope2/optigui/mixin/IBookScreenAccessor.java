@@ -10,6 +10,6 @@ public interface IBookScreenAccessor {
     @Accessor
     int getPageIndex();
 
-    @Invoker("getPageCount")
-    int getPageCount();
+    @Invoker
+    int callGetPageCount();
 }
