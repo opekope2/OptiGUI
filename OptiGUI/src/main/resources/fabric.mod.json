@@ -49,14 +49,6 @@
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.selector.SelectorsKt::registerSelectors"
-      },
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.selector.SelectorsKt::registerLoadSelectors"
-      },
-      {
-        "adapter": "kotlin",
         "value": "opekope2.optigui.registry.ContainerDefaultGuiTextureRegistry"
       },
       {
