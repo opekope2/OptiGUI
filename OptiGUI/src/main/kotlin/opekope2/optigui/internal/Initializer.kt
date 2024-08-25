@@ -3,9 +3,6 @@ package opekope2.optigui.internal
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
-import opekope2.optigui.registry.FilterLoaderRegistry
-import opekope2.optigui.resource.OptiFineFilterLoader
-import opekope2.optigui.resource.OptiGuiFilterLoader
 import org.lwjgl.glfw.GLFW
 
 @JvmField
@@ -19,6 +16,4 @@ internal val INSPECTOR_KEY_BINDING: KeyBinding = KeyBindingHelper.registerKeyBin
 )
 
 internal fun initialize() {
-    FilterLoaderRegistry.register(OptiGuiFilterLoader())
-    FilterLoaderRegistry.register(OptiFineFilterLoader())
 }
