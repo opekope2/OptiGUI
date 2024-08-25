@@ -16,7 +16,6 @@
     "HandledScreenMixin",
     "HangingSignEditScreenMixin",
     "HopperScreenHandlerMixin",
-    "IAbstractSignEditScreenAccessor",
     "IBookEditScreenAccessor",
     "IBookScreenAccessor",
     "LecternScreenMixin",

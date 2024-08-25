@@ -4,27 +4,21 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
-import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
-import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
-import opekope2.optigui.interaction.Interaction
-import opekope2.optigui.mixin.IAbstractSignEditScreenAccessor
+import opekope2.optigui.interaction.*
+import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.mixin.IBookEditScreenAccessor
 import opekope2.optigui.mixin.IBookScreenAccessor
-import opekope2.optigui.util.identifier
-import opekope2.optigui.util.interactionData
-import opekope2.optigui.util.invalidateCachedReplacement
+import opekope2.optigui.screen.IRetexturableScreen
 
 internal object InteractionHandler : ClientModInitializer, UseBlockCallback, UseEntityCallback, UseItemCallback,
     IBeforeInteractionBeginCallback {
@@ -32,35 +26,41 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
         UseBlockCallback.EVENT.register(this)
         UseEntityCallback.EVENT.register(this)
         UseItemCallback.EVENT.register(this)
-        IBeforeInteractionBeginCallback.EVENT.register(this)
+        BEFORE_INTERACTION_BEGIN_EVENT.register(this)
     }
 
     override fun interact(player: PlayerEntity, world: World, hand: Hand, hitResult: BlockHitResult): ActionResult {
         if (!world.isClient) return ActionResult.PASS
 
-        val container = world.getBlockState(hitResult.blockPos).block.identifier
-        val blockEntity = world.getBlockEntity(hitResult.blockPos)
+        val blockPos = hitResult.blockPos
+        val blockState = world.getBlockState(blockPos)
+        val blockEntity = world.getBlockEntity(blockPos)
 
-        if (blockEntity != null) {
-            Interaction.prepare(container, player, world, hand, hitResult, null, blockEntity)
-        } else {
-            Interaction.prepare(container, player, world, hand, hitResult, null)
-        }
+        InteractionManager.prepare(
+            BlockInteractionData(
+                blockPos,
+                blockState,
+                blockEntity,
+                player.getStackInHand(hand),
+                Interaction.PlayerData(player, hand)
+            )
+        )
 
         return ActionResult.PASS
     }
 
     override fun interact(
-        player: PlayerEntity,
-        world: World,
-        hand: Hand,
-        entity: Entity,
-        hitResult: EntityHitResult?
+        player: PlayerEntity, world: World, hand: Hand, entity: Entity, hitResult: EntityHitResult?
     ): ActionResult {
         if (!world.isClient) return ActionResult.PASS
 
-        val container = entity.identifier
-        Interaction.prepare(container, player, world, hand, hitResult, null, entity)
+        InteractionManager.prepare(
+            EntityInteractionData(
+                entity,
+                player.getStackInHand(hand),
+                Interaction.PlayerData(player, hand)
+            )
+        )
 
         return ActionResult.PASS
     }
@@ -72,36 +72,31 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
         if (!world.isClient) return result
 
         if (stack.isOf(Items.WRITABLE_BOOK) || stack.isOf(Items.WRITTEN_BOOK)) {
-            Interaction.prepare(stack.item.identifier, player, world, Hand.MAIN_HAND, null, BookExtraProperties(0, 0))
-            // BookExtraProperties will be updated later
+            InteractionManager.prepare(
+                ItemInteractionData(
+                    stack,
+                    Interaction.PlayerData(player, hand),
+                    BookExtraProperties(0, 0) // will be updated later
+                )
+            )
         }
         return result
     }
 
-    override fun onBeforeBegin(screen: Screen) {
+    override fun onBeforeInteractionBegin(screen: IRetexturableScreen) {
         when (screen) {
-            is IBookEditScreenAccessor -> tryUpdateBookProperties(screen.currentPage + 1, screen.countPages())
-            is IBookScreenAccessor -> tryUpdateBookProperties(screen.pageIndex + 1, screen.pageCount)
+            is IBookEditScreenAccessor -> updateBookProperties(screen.currentPage + 1, screen.callCountPages())
+            is IBookScreenAccessor -> updateBookProperties(screen.pageIndex + 1, screen.callGetPageCount())
         }
     }
 
     @JvmStatic
-    fun interact(player: PlayerEntity, world: World, currentScreen: Screen) {
-        val container = when (currentScreen) {
-            is AbstractInventoryScreen<*> -> Identifier.ofVanilla("player")
-            is IAbstractSignEditScreenAccessor -> world.getBlockState(currentScreen.blockEntity.pos).block.identifier
-            else -> return
-        }
+    fun updateBookProperties(currentPage: Int, pageCount: Int) {
+        val bookProperties = InteractionManager.interactionData?.extraData
+        if (bookProperties !is BookExtraProperties) return
 
-        Interaction.prepare(container, player, world, Hand.MAIN_HAND, null, null)
-    }
-
-    @JvmStatic
-    fun tryUpdateBookProperties(currentPage: Int, pageCount: Int) {
-        (interactionData?.extra as? BookExtraProperties)?.let {
-            it.currentPage = currentPage
-            it.pageCount = pageCount
-            invalidateCachedReplacement()
-        }
+        bookProperties.currentPage = currentPage
+        bookProperties.pageCount = pageCount
+        InteractionManager.clearCache()
     }
 }

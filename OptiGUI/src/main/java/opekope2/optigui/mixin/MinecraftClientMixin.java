@@ -2,9 +2,13 @@ package opekope2.optigui.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
-import opekope2.optigui.internal.TextureReplacer;
-import opekope2.optigui.internal.interaction.InteractionHandler;
+import net.minecraft.util.Hand;
+import opekope2.optigui.interaction.Interaction;
+import opekope2.optigui.interaction.InventoryInteractionData;
+import opekope2.optigui.internal.interaction.InteractionManager;
+import opekope2.optigui.screen.IRetexturableScreen;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -23,11 +27,20 @@ public abstract class MinecraftClientMixin {
     public Screen currentScreen;
 
     @Inject(method = "setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("TAIL"))
-    private void setScreenMixin(Screen screen, CallbackInfo ci) {
-        if (player != null && player.getEntityWorld() != null && currentScreen != null) {
-            InteractionHandler.interact(player, player.getEntityWorld(), currentScreen);
+    private void setScreenMixin(CallbackInfo ci) {
+        if (player != null && currentScreen instanceof AbstractInventoryScreen<?>) {
+            InteractionManager.prepare(
+                    new InventoryInteractionData(
+                            player.getMainHandStack(),
+                            new Interaction.PlayerData(player, Hand.MAIN_HAND)
+                    )
+            );
         }
 
-        TextureReplacer.handleScreenChange(currentScreen);
+        if (currentScreen instanceof IRetexturableScreen retexturableScreen) {
+            InteractionManager.begin(retexturableScreen);
+        } else {
+            InteractionManager.end();
+        }
     }
 }
