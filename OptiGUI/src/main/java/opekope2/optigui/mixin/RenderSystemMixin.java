@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(value = RenderSystem.class, /* Inject before Animatica for full compatibility */ priority = 900)
-abstract class RenderSystemMixin {
+public abstract class RenderSystemMixin {
     @ModifyVariable(method = "_setShaderTexture(ILnet/minecraft/util/Identifier;)V", at = @At("HEAD"), index = 1, argsOnly = true)
     private static Identifier setShaderTextureMixin(Identifier id) {
         return TextureReplacer.isReplacingTextures() && id != null ? TextureReplacer.replaceTexture(id) : id;
