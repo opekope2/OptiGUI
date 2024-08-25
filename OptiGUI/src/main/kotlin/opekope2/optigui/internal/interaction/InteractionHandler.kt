@@ -22,7 +22,6 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
 import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
 import opekope2.optigui.interaction.Interaction
-import opekope2.optigui.registry.ContainerDefaultGuiTextureRegistry
 import opekope2.optigui.util.identifier
 import opekope2.optigui.util.interactionData
 import opekope2.optigui.util.invalidateCachedReplacement
@@ -44,10 +43,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
 
         if (blockEntity != null) {
             Interaction.prepare(container, player, world, hand, hitResult, null, blockEntity)
-            return ActionResult.PASS
-        }
-
-        if (container in ContainerDefaultGuiTextureRegistry) {
+        } else {
             Interaction.prepare(container, player, world, hand, hitResult, null)
         }
 
