@@ -1,16 +1,10 @@
-package opekope2.optigui.util
+package opekope2.optigui.internal.util
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectAVLTreeMap
 import it.unimi.dsi.fastutil.ints.Int2ObjectSortedMap
 import java.util.function.IntSupplier
 
-/**
- * An optimized ordered list element accessor for the first match of a predicate.
- *
- * @param T The type of the list elements
- * @param list The reference list to copy elements from
- */
-class OrderedListLruAccessor<T : OrderedListLruAccessor.ValueSupplier>(list: List<T>) {
+internal class OrderedListLruAccessor<T : OrderedListLruAccessor.ValueSupplier>(list: List<T>) {
     private val valueToListMap: Int2ObjectSortedMap<Link<T>> = Int2ObjectAVLTreeMap(Comparator.reverseOrder())
 
     init {
@@ -24,13 +18,7 @@ class OrderedListLruAccessor<T : OrderedListLruAccessor.ValueSupplier>(list: Lis
         }
     }
 
-    /**
-     * Gets the first element matching [predicate] and promotes it to the first place among the elements having the same value.
-     * Returns `null` if no elements match [predicate].
-     *
-     * @param predicate
-     */
-    fun promoteFirstOrNull(predicate: (T) -> Boolean): T? {
+    inline fun promoteFirstOrNull(predicate: (T) -> Boolean): T? {
         for ((value, head) in valueToListMap.int2ObjectEntrySet()) {
             var link = head
 
@@ -63,10 +51,7 @@ class OrderedListLruAccessor<T : OrderedListLruAccessor.ValueSupplier>(list: Lis
         valueToListMap[value] = link
     }
 
-    private class Link<T>(var prev: Link<T>?, var next: Link<T>?, val element: T)
+    internal class Link<T>(var prev: Link<T>?, var next: Link<T>?, val element: T)
 
-    /**
-     * An element supplying its own value.
-     */
     fun interface ValueSupplier : IntSupplier
 }
