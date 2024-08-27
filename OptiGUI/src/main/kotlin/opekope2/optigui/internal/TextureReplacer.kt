@@ -1,108 +1,29 @@
 package opekope2.optigui.internal
 
+import com.google.common.collect.ImmutableMap
+import com.google.common.collect.ImmutableSet
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
-import net.fabricmc.fabric.api.networking.v1.PacketSender
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.network.ClientPlayNetworkHandler
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
-import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
-import opekope2.optigui.interaction.Interaction
-import opekope2.optigui.internal.filter.ContainerMapFilter
-import opekope2.optigui.registry.ContainerDefaultGuiTextureRegistry
-import opekope2.optigui.screen.IRetexturableScreen
-import opekope2.optigui.util.identifier
+import opekope2.optigui.internal.filter.TextureReplacerFilter
+import opekope2.optigui.internal.interaction.InteractionManager
+import opekope2.optigui.internal.util.OrderedListLruAccessor
 
-internal object TextureReplacer : ClientModInitializer {
-    private object InteractionHolder : ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Join,
-        ClientPlayConnectionEvents.Disconnect {
-        val replacementCache = mutableMapOf<Identifier, Identifier>()
+internal typealias ContainerId2FiltersMap = ImmutableMap<Identifier?, OrderedListLruAccessor<TextureReplacerFilter>>
 
-        var interacting: Boolean = false
-            private set
-
-        var container: Identifier? = null
-            private set
-        var data: Interaction.Data? = null
-            private set
-        private var screen: Screen? = null
-
-        fun prepare(container: Identifier, data: Interaction.Data): Boolean {
-            if (interacting) return false
-
-            this.container = container
-            this.data = data
-
-            return true
-        }
-
-        fun begin(screen: Screen) {
-            IBeforeInteractionBeginCallback.EVENT.invoker().onBeforeBegin(screen)
-
-            this.screen = screen
-
-            interacting = true
-        }
-
-        fun end() {
-            container = null
-            data = data?.copy(hitResult = null, extra = null, blockEntity = null, entity = null)
-
-            interacting = false
-
-            replacementCache.clear()
-        }
-
-        fun createInteraction(texture: Identifier): Interaction? {
-            return if (!interacting) null
-            else Interaction(
-                container ?: data?.player?.vehicle?.identifier ?: return null,
-                texture,
-                screen!!,
-                data ?: return null
-            )
-        }
-
-        override fun onEndTick(world: ClientWorld?) {
-            if (interacting) {
-                replacementCache.clear()
-            }
-        }
-
-        override fun onPlayReady(handler: ClientPlayNetworkHandler, sender: PacketSender?, client: MinecraftClient) {
-            data = Interaction.Data(client.player!!, handler.world, Hand.MAIN_HAND, null, null, null, null)
-        }
-
-        override fun onPlayDisconnect(handler: ClientPlayNetworkHandler?, client: MinecraftClient?) {
-            // Clean up, don't leak memory. Just to be safe.
-            end()
-            data = null
-        }
-    }
-
-    private var filter: ContainerMapFilter = ContainerMapFilter(mapOf())
-    private var replaceableTextures: Set<Identifier> = setOf()
-
-    val inspectableInteraction: Interaction?
-        get() {
-            return InteractionHolder.createInteraction(
-                ContainerDefaultGuiTextureRegistry[InteractionHolder.container ?: return null] ?: return null
-            )
-        }
-    val interactionData: Interaction.Data? by InteractionHolder::data
+internal object TextureReplacer : ClientModInitializer, ClientTickEvents.EndWorldTick {
+    private var filters: ContainerId2FiltersMap = ImmutableMap.of()
+    private var replaceableTextures: ImmutableSet<Identifier> = ImmutableSet.of()
+    private val replacementCache = mutableMapOf<Identifier, Identifier>()
 
     @JvmStatic
     var isReplacingTextures = false
-        get() = field && InteractionHolder.interacting
 
-    override fun onInitializeClient() {
-        ClientTickEvents.END_WORLD_TICK.register(InteractionHolder)
-        ClientPlayConnectionEvents.JOIN.register(InteractionHolder)
-        ClientPlayConnectionEvents.DISCONNECT.register(InteractionHolder)
+    @JvmStatic
+    fun loadFilters(filters: ContainerId2FiltersMap, replaceableTextures: ImmutableSet<Identifier>) {
+        this.filters = filters
+        this.replaceableTextures = replaceableTextures
     }
 
     @JvmStatic
@@ -111,26 +32,26 @@ internal object TextureReplacer : ClientModInitializer {
         if (texture !in replaceableTextures) return texture
 
         // Don't bother replacing textures if not interacting
-        val interaction = InteractionHolder.createInteraction(texture) ?: return texture
+        val interaction = InteractionManager.createInteraction(texture) ?: return texture
 
-        return InteractionHolder.replacementCache.getOrPut(texture) {
-            filter.evaluate(interaction) ?: texture
+        return replacementCache.getOrPut(texture) {
+            filters[interaction.data.id]?.promoteFirstOrNull { it.test(interaction) }?.replacementTexture
+                ?: filters[null]?.promoteFirstOrNull { it.test(interaction) }?.replacementTexture
+                ?: texture
         }
     }
 
     @JvmStatic
-    fun handleScreenChange(screen: Screen?) {
-        if (screen is IRetexturableScreen) InteractionHolder.begin(screen)
-        else InteractionHolder.end()
+    fun clearCache() {
+        replacementCache.clear()
     }
 
-    fun prepareInteraction(container: Identifier, data: Interaction.Data): Boolean =
-        InteractionHolder.prepare(container, data)
-
-    fun onFiltersLoaded(filter: ContainerMapFilter, replaceableTextures: Set<Identifier>) {
-        this.filter = filter
-        this.replaceableTextures = replaceableTextures
+    override fun onInitializeClient() {
+        ClientTickEvents.END_WORLD_TICK.register(this)
     }
 
-    fun clearReplacementCache() = InteractionHolder.replacementCache.clear()
+    override fun onEndTick(world: ClientWorld?) {
+        if (!InteractionManager.isInteracting) return
+        clearCache()
+    }
 }
