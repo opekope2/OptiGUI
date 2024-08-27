@@ -1,6 +1,6 @@
 package opekope2.optigui.screen
 
 /**
- * Marker interface for marking a screen to be retextured by OptiGUI.
+ * Marker interface for making a screen retexturable by OptiGUI.
  */
 interface IRetexturableScreen

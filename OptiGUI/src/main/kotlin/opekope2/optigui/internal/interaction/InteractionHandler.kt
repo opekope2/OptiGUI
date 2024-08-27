@@ -50,7 +50,11 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
     }
 
     override fun interact(
-        player: PlayerEntity, world: World, hand: Hand, entity: Entity, hitResult: EntityHitResult?
+        player: PlayerEntity,
+        world: World,
+        hand: Hand,
+        entity: Entity,
+        hitResult: EntityHitResult?
     ): ActionResult {
         if (!world.isClient) return ActionResult.PASS
 
