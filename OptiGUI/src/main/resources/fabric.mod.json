@@ -53,7 +53,11 @@
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.FilterLoader"
+        "value": "opekope2.optigui.internal.interaction.InteractionManager"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.resource.loader.ResourceLoader"
       },
       {
         "adapter": "kotlin",
