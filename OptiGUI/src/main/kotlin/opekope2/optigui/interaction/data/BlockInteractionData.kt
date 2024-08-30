@@ -1,4 +1,4 @@
-package opekope2.optigui.interaction
+package opekope2.optigui.interaction.data
 
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -24,7 +24,7 @@ data class BlockInteractionData @JvmOverloads constructor(
     val blockState: BlockState,
     val blockEntity: BlockEntity?,
     override val item: ItemStack,
-    override val playerData: Interaction.PlayerData,
+    override val playerData: InteractionPlayerData,
     override val extraData: Supplier<NbtCompound>? = null
 ) : IInteractionData {
     override val id: Identifier

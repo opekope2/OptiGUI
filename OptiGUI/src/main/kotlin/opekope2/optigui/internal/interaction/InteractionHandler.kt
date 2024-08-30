@@ -14,8 +14,13 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
-import opekope2.optigui.interaction.*
+import opekope2.optigui.interaction.BEFORE_INTERACTION_BEGIN_EVENT
+import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
 import opekope2.optigui.interaction.InteractionManager
+import opekope2.optigui.interaction.data.BlockInteractionData
+import opekope2.optigui.interaction.data.EntityInteractionData
+import opekope2.optigui.interaction.data.InteractionPlayerData
+import opekope2.optigui.interaction.data.ItemInteractionData
 import opekope2.optigui.mixin.IBookEditScreenAccessor
 import opekope2.optigui.mixin.IBookScreenAccessor
 import opekope2.optigui.screen.IRetexturableScreen
@@ -42,7 +47,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
                 blockState,
                 blockEntity,
                 player.getStackInHand(hand),
-                Interaction.PlayerData(player, hand)
+                InteractionPlayerData(player, hand)
             )
         )
 
@@ -62,7 +67,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
             EntityInteractionData(
                 entity,
                 player.getStackInHand(hand),
-                Interaction.PlayerData(player, hand)
+                InteractionPlayerData(player, hand)
             )
         )
 
@@ -79,7 +84,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
             InteractionManager.prepare(
                 ItemInteractionData(
                     stack,
-                    Interaction.PlayerData(player, hand),
+                    InteractionPlayerData(player, hand),
                     BookExtraProperties(0, 0) // will be updated later
                 )
             )

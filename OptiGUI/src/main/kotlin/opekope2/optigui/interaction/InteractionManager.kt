@@ -1,6 +1,7 @@
 package opekope2.optigui.interaction
 
 import net.minecraft.client.gui.screen.Screen
+import opekope2.optigui.interaction.data.IInteractionData
 import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.internal.interaction.InteractionManager as InternalInteractionManager
 

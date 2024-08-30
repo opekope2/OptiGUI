@@ -1,4 +1,4 @@
-package opekope2.optigui.interaction
+package opekope2.optigui.interaction.data
 
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
@@ -29,7 +29,7 @@ sealed interface IInteractionData {
     /**
      * Details about the interacting player.
      */
-    val playerData: Interaction.PlayerData
+    val playerData: InteractionPlayerData
 
     /**
      * Extra details about the interaction. May be mutable.

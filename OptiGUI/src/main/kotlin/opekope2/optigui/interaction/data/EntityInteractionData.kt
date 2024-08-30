@@ -1,4 +1,4 @@
-package opekope2.optigui.interaction
+package opekope2.optigui.interaction.data
 
 import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
@@ -19,7 +19,7 @@ import java.util.function.Supplier
 data class EntityInteractionData @JvmOverloads constructor(
     val entity: Entity,
     override val item: ItemStack,
-    override val playerData: Interaction.PlayerData,
+    override val playerData: InteractionPlayerData,
     override val extraData: Supplier<NbtCompound>? = null
 ) : IInteractionData {
     override val id: Identifier

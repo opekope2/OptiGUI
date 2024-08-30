@@ -3,9 +3,9 @@
 package opekope2.optigui.util
 
 import net.minecraft.nbt.NbtCompound
-import opekope2.optigui.interaction.BlockInteractionData
-import opekope2.optigui.interaction.EntityInteractionData
 import opekope2.optigui.interaction.InteractionManager
+import opekope2.optigui.interaction.data.BlockInteractionData
+import opekope2.optigui.interaction.data.EntityInteractionData
 
 /**
  * Creates an OptiGUI INI from the current interaction data.

@@ -1,10 +1,9 @@
 package opekope2.optigui.interaction
 
-import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import opekope2.optigui.interaction.data.IInteractionData
+import opekope2.optigui.interaction.data.InteractionPlayerData
 import opekope2.optigui.screen.IRetexturableScreen
 import java.util.function.Supplier
 
@@ -23,7 +22,7 @@ data class Interaction(
     /**
      * Details about the interacting player.
      */
-    val playerData: PlayerData
+    val playerData: InteractionPlayerData
         get() = data.playerData
 
     /**
@@ -31,18 +30,4 @@ data class Interaction(
      */
     val extraData: Supplier<NbtCompound>?
         get() = data.extraData
-
-    /**
-     * Details about an interacting player.
-     *
-     * @param player The interacting player
-     * @param hand The hand the player interacted with
-     */
-    data class PlayerData(val player: PlayerEntity, val hand: Hand) {
-        /**
-         * The entity the player is sitting in/on or `null`, if it's not sitting in/on anything.
-         */
-        val vehicle: Entity?
-            get() = player.vehicle
-    }
 }

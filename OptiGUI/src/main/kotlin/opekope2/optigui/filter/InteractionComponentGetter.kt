@@ -8,9 +8,9 @@ import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.dimension.DimensionType
-import opekope2.optigui.interaction.BlockInteractionData
-import opekope2.optigui.interaction.EntityInteractionData
 import opekope2.optigui.interaction.Interaction
+import opekope2.optigui.interaction.data.BlockInteractionData
+import opekope2.optigui.interaction.data.EntityInteractionData
 import opekope2.optigui.screen.IRedstoneComparatorOutputGetterScreen
 import opekope2.optigui.util.MOD_ID
 import java.time.LocalDateTime

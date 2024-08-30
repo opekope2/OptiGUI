@@ -5,8 +5,8 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.Hand;
-import opekope2.optigui.interaction.Interaction;
-import opekope2.optigui.interaction.InventoryInteractionData;
+import opekope2.optigui.interaction.data.InteractionPlayerData;
+import opekope2.optigui.interaction.data.InventoryInteractionData;
 import opekope2.optigui.internal.interaction.InteractionManager;
 import opekope2.optigui.screen.IRetexturableScreen;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +32,7 @@ public abstract class MinecraftClientMixin {
             InteractionManager.prepare(
                     new InventoryInteractionData(
                             player.getMainHandStack(),
-                            new Interaction.PlayerData(player, Hand.MAIN_HAND)
+                            new InteractionPlayerData(player, Hand.MAIN_HAND)
                     )
             );
         }
