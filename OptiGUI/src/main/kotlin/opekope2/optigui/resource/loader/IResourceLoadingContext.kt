@@ -1,4 +1,4 @@
-package opekope2.optigui.resource
+package opekope2.optigui.resource.loader
 
 import net.minecraft.resource.Resource
 import net.minecraft.util.Identifier
@@ -19,7 +19,7 @@ interface IResourceLoadingContext<T> {
     /**
      * The loaded resource.
      */
-    val resource: T
+    val loadedResource: T
 
     /**
      * The logger used to log resource loading events.
@@ -34,7 +34,7 @@ interface IResourceLoadingContext<T> {
     fun getResource(resourceId: Identifier): Resource?
 
     /**
-     * Gets a loaded [resource] from possibly other [IResourceLoadingContext]s.
+     * Gets a [loadedResource] from a possibly different [IResourceLoadingContext].
      *
      * @param resourceId The resource ID to get
      */

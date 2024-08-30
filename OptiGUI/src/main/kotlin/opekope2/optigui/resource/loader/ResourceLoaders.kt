@@ -1,4 +1,4 @@
-package opekope2.optigui.resource
+package opekope2.optigui.resource.loader
 
 /**
  * Registry holding OptiGUI resource loaders.

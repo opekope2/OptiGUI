@@ -12,8 +12,8 @@ import net.minecraft.util.profiler.Profiler
 import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.internal.filter.TextureReplacerFilter
 import opekope2.optigui.internal.util.OrderedListLruAccessor
-import opekope2.optigui.resource.IResourceLoader
-import opekope2.optigui.resource.ResourceLoaders
+import opekope2.optigui.resource.loader.IResourceLoader
+import opekope2.optigui.resource.loader.ResourceLoaders
 import opekope2.optigui.util.MOD_ID
 import org.slf4j.LoggerFactory
 import java.util.concurrent.CompletableFuture

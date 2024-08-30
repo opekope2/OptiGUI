@@ -1,4 +1,4 @@
-package opekope2.optigui.resource
+package opekope2.optigui.resource.loader
 
 import net.minecraft.resource.Resource
 import net.minecraft.util.Identifier
