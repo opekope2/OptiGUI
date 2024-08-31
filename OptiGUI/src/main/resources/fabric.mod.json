@@ -49,6 +49,10 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.resource.loader.sdlang.SDLangResourceLoader"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.optigui.internal.TextureReplacer"
       },
       {

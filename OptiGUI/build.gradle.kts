@@ -31,6 +31,8 @@ dependencies {
     include(libs.apache.commons.text)
     implementation(libs.ini4j)
     include(libs.ini4j)
+    implementation(libs.sdlang)
+    include(libs.sdlang)
 
     testImplementation(kotlin("test"))
 
