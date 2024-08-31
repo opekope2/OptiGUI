@@ -4,6 +4,14 @@ import com.google.common.collect.ImmutableList
 import java.util.function.BiPredicate
 import java.util.function.Predicate
 
+/**
+ * A function, which decides if a filter matches based on the results of a collection of filters.
+ *
+ * @see CollectionFilter.none
+ * @see CollectionFilter.any
+ * @see CollectionFilter.some
+ * @see CollectionFilter.all
+ */
 typealias ICollectionOperator<T> = BiPredicate<Collection<Predicate<T>>, T>
 
 /**
