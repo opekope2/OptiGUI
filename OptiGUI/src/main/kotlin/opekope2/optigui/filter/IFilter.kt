@@ -15,6 +15,12 @@ typealias INbtFilter = IFilter<NbtElement?>
 typealias IInteractionFilter = IFilter<Interaction>
 
 /**
+ * A filter evaluated at load time.
+ * Note that this doesn't take an input, because the implementor provides it.
+ */
+typealias ILoadTimeFilter = IFilter<Nothing?>
+
+/**
  * Functional interface for filtering.
  *
  * @param T The type the filter accepts
