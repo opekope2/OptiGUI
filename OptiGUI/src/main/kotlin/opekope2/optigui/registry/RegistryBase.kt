@@ -22,7 +22,7 @@ abstract class RegistryBase<TKey, TValue> {
      * @param key The key to associate a value with
      * @param value The value to register
      */
-    fun register(key: TKey, value: TValue) {
+    open fun register(key: TKey, value: TValue) {
         validateEntry(key, value)
         entries[key] = value
     }
