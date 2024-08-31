@@ -4,14 +4,14 @@ import java.util.function.BiPredicate
 import java.util.function.Predicate
 
 /**
- * A function, which decides if a filter matches based on the results of a collection of filters.
+ * A function, which decides if a filter matches based on the results of a collection of filters filtering a single value.
  *
  * @see PredicateCollectionOperators
  */
 typealias IPredicateCollectionOperator<T> = BiPredicate<Collection<Predicate<T>>, T>
 
 /**
- * Object holding common collection operators.
+ * Object holding common [IPredicateCollectionOperator]s.
  */
 @Suppress("UNCHECKED_CAST")
 object PredicateCollectionOperators {
