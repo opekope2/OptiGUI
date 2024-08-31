@@ -6,10 +6,10 @@ import opekope2.optigui.util.IPredicateCollectionOperator
 /**
  * A collection of multiple sub-filters.
  *
- * @param filters The sub-filter to evaluate
+ * @param filters The sub-filters to evaluate
  * @param operator The logical operator to apply between the filter results
  */
-class CollectionFilter<TFilter : IFilter<TInput>, TInput>(
+class FilterCollectionFilter<TFilter : IFilter<TInput>, TInput>(
     private val filters: ImmutableList<TFilter>,
     private val operator: IPredicateCollectionOperator<TInput>
 ) : IFilter<TInput>, Iterable<TFilter> {
