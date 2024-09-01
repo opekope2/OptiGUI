@@ -35,7 +35,7 @@ internal class SDLangResourceLoader : IResourceLoader<SDLangDocument>, ClientMod
             when (tag.name) {
                 "const" -> processConstTag(tag, context)
                 "retexture" -> processRetextureTag(tag, context)
-                else -> context.logger.warn("Ignoring unexpected tag `{}`", tag.name)
+                else -> context.logger.info("Ignoring unexpected tag `{}`", tag.name)
             }
         }
     }
@@ -190,12 +190,17 @@ internal class SDLangResourceLoader : IResourceLoader<SDLangDocument>, ClientMod
         }
 
         for ((matcherName, parameter) in tag.attributes) {
-            val filter = createFilterFromMatcher(matcherName, parameter.value, ctx)
+            val filter = try {
+                createFilterFromMatcher(matcherName, parameter.value, ctx)
+            } catch (e: Exception) {
+                ctx.logger.error("Error parsing matcher `{}` with value `{}`", matcherName, parameter.value, e)
+                error = true
+                continue
+            }
 
-            when {
-                filter == null -> error = true
-                subNbtKey is String -> filters += SubNbtFilter(subNbtKey, filter)
-                subNbtKey is Int -> filters += NbtListIndexFilter(subNbtKey, filter)
+            when (subNbtKey) {
+                is String -> filters += SubNbtFilter(subNbtKey, filter)
+                is Int -> filters += NbtListIndexFilter(subNbtKey, filter)
             }
         }
 
@@ -212,29 +217,15 @@ internal class SDLangResourceLoader : IResourceLoader<SDLangDocument>, ClientMod
         matcherName: String,
         attributeValue: Any,
         ctx: IResourceLoadingContext<SDLangDocument>
-    ): INbtFilter? {
-        if (matcherName !in NbtMatchers) {
-            ctx.logger.error("No such matcher `{}`", matcherName)
-            return null
-        }
+    ): INbtFilter {
+        if (matcherName !in NbtMatchers) throw IllegalArgumentException("No such matcher")
+
         val matcher = NbtMatchers.getValue(matcherName)
 
         if (!matcherName.endsWith('$')) return matcher.createFilter(attributeValue)
         return when (attributeValue) {
-            !is String -> {
-                ctx.logger.error(
-                    "Constant reference `{}` in attribute `{}` is not a string", attributeValue, matcherName
-                )
-                null
-            }
-
-            !in ctx.loadedResource.constants -> {
-                ctx.logger.error(
-                    "Constant reference `{}` in attribute `{}` is not defined", attributeValue, matcherName
-                )
-                null
-            }
-
+            !is String -> throw IllegalArgumentException("Constant reference is not a string")
+            !in ctx.loadedResource.constants -> throw IllegalArgumentException("Referenced constant is not defined")
             else -> matcher.createFilter(ctx.loadedResource.constants[attributeValue]!!)
         }
     }

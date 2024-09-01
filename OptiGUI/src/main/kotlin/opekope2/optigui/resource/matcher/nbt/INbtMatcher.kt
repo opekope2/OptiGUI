@@ -7,16 +7,16 @@ import opekope2.optigui.filter.INbtFilter
  */
 interface INbtMatcher {
     /**
-     * Creates an [INbtFilter] from a single parameter.
+     * Creates an [INbtFilter] from a single parameter or throws an exception.
      *
      * @param parameter The resource-supplied parameter
      */
-    fun createFilter(parameter: Any?): INbtFilter?
+    fun createFilter(parameter: Any?): INbtFilter
 
     /**
-     * Creates an [INbtFilter] from a list of parameters.
+     * Creates an [INbtFilter] from a list of parameters or throws an exception.
      *
      * @param parameters The resource-supplied list containing the parameters
      */
-    fun createFilter(parameters: List<Any?>): INbtFilter?
+    fun createFilter(parameters: List<Any?>): INbtFilter
 }
