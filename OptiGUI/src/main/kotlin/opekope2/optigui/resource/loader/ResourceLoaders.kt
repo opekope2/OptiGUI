@@ -1,20 +1,9 @@
 package opekope2.optigui.resource.loader
 
+import net.minecraft.util.Identifier
+import opekope2.optigui.registry.RegistryBase
+
 /**
- * Registry holding OptiGUI resource loaders.
+ * OptiGUI resource loader registry.
  */
-object ResourceLoaders : Iterable<IResourceLoader<*>> {
-    private val resourceLoaders = mutableSetOf<IResourceLoader<*>>()
-
-    /**
-     * Registers a resource loader.
-     *
-     * @param resourceLoader The resource loader instance
-     */
-    @JvmStatic
-    fun register(resourceLoader: IResourceLoader<*>) {
-        resourceLoaders += resourceLoader
-    }
-
-    override fun iterator(): Iterator<IResourceLoader<*>> = resourceLoaders.iterator()
-}
+object ResourceLoaders : RegistryBase<Identifier, IResourceLoader<*>>()

@@ -15,18 +15,6 @@ import opekope2.optigui.resource.matcher.nbt.NbtMatchers
 import opekope2.optigui.util.*
 import org.slf4j.Logger
 import java.io.InputStreamReader
-import kotlin.collections.Collection
-import kotlin.collections.MutableList
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.contains
-import kotlin.collections.isNotEmpty
-import kotlin.collections.iterator
-import kotlin.collections.joinToString
-import kotlin.collections.mapValues
-import kotlin.collections.mutableListOf
-import kotlin.collections.plusAssign
-import kotlin.collections.set
 
 internal class SDLangResourceLoader : IResourceLoader<SDLangDocument>, ClientModInitializer {
     override val startingPath: String
@@ -53,7 +41,7 @@ internal class SDLangResourceLoader : IResourceLoader<SDLangDocument>, ClientMod
     }
 
     override fun onInitializeClient() {
-        ResourceLoaders.register(this)
+        ResourceLoaders.register(Identifier.of(MOD_ID, "sdlang_loader"), this)
     }
 
     private fun processConstTag(tag: Tag, ctx: IResourceLoadingContext<SDLangDocument>) {

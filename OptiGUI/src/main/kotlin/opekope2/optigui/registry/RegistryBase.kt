@@ -4,7 +4,7 @@ package opekope2.optigui.registry
  * OptiGUI base registration utility.
  * This is not to be confused with Minecraft registries.
  */
-abstract class RegistryBase<TKey, TValue> {
+abstract class RegistryBase<TKey, TValue> : Iterable<Map.Entry<TKey, TValue>> {
     private val entries = mutableMapOf<TKey, TValue>()
 
     /**
@@ -40,4 +40,6 @@ abstract class RegistryBase<TKey, TValue> {
      * @param key The key to check
      */
     fun getValue(key: TKey) = entries.getValue(key)
+
+    override fun iterator(): Iterator<Map.Entry<TKey, TValue>> = entries.iterator()
 }

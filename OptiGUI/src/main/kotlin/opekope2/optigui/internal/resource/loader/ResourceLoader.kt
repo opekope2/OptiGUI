@@ -48,7 +48,7 @@ internal object ResourceLoader : SimpleResourceReloadListener<ResourceLoaderData
     private fun loadResources(manager: ResourceManager): ResourceLoaderData {
         val data = mutableMapOf<Identifier, Data<Any>>()
 
-        for (loader in ResourceLoaders as Iterable<IResourceLoader<Any>>) {
+        for ((_, loader) in ResourceLoaders as Iterable<Map.Entry<*, IResourceLoader<Any>>>) {
             val resources = manager.findResources(loader.startingPath, loader::canLoad)
             for ((id, resource) in resources) {
                 if (id in data) {
