@@ -6,21 +6,19 @@ Hello there! I'm glad you'd like to make OptiGUI a better mod.
 
 Cool!
 
-1. Clone the repository (including the `dev` branch, not `main` branch only)
+1. Clone the repository
 2. Create a new branch from `dev`
 3. Commit your changes. Make sure to format the code and optimize imports. Use *Kotlin style guide* in IDEA
-4. Open a pull request to the `dev` branch. OptiGUI development happens on the `dev` branch. The `main` branch is only
-   for releases
+4. Open a pull request to the `dev` branch
 
 ## I want to add a translation
 
 Cool!
 
-1. Clone the repository (including the `dev` branch, not `main` branch only)
+1. Clone the repository
 2. Create a new branch from `dev`
 3. Add your translation JSON to `OptiGUI/src/main/resources/assets/optigui/lang/` folder
-4. Open a pull request to the `dev` branch. OptiGUI development happens on the `dev` branch. The `main` branch is only
-   for releases
+4. Open a pull request to the `dev` branch
 
 ## I'd like to see a feature added to OptiGUI
 
