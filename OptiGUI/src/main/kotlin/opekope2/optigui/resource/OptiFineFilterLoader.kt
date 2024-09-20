@@ -156,7 +156,7 @@ private fun createFilterData(
         }
 
         "creative" -> {}
-        "inventory" -> yield(OptiFineFilterData(resource, null, replacementTexture, properties, false))
+        "inventory" -> yield(PlayerFilterData(resource, replacementTexture, properties))
     }
 }
 
@@ -277,6 +277,19 @@ private class VillagerFilterData(
                     }
                 }
         }.toSet()
+}
+
+private class PlayerFilterData(
+    resource: Identifier,
+    replacementTexture: Identifier,
+    properties: Options
+) : OptiFineFilterData(resource, "player", replacementTexture, properties, false) {
+    override val rawSelectorData
+        get() = sequence {
+            originalTexture?.let { original -> yield("interaction.texture" to original.toString()) }
+            properties["biomes"]?.let { biomes -> yield("player.biomes" to biomes) }
+            properties["heights"]?.let { heights -> yield("player.heights" to heights) }
+        }.asIterable()
 }
 
 private fun getNameSelectorData(name: String) = when {

@@ -15,13 +15,19 @@ internal class DateSelector : AbstractListSelector<Pair<Month, NumberOrRange?>>(
 
     override fun parseSelector(selector: String): Pair<Month, NumberOrRange?>? {
         val parts = selector.split('@')
-        if (parts.size != 2) return null
-        val (rawMonth, rawDay) = parts
+        return when (parts.size) {
+            1 -> (getMonth(parts[0]) ?: return null) to null
+            2 -> {
+                val (rawMonth, rawDay) = parts
 
-        val month = getMonth(rawMonth) ?: return null
-        val day = NumberOrRange.tryParse(rawDay)
+                val month = getMonth(rawMonth) ?: return null
+                val day = NumberOrRange.tryParse(rawDay)
 
-        return month to day
+                return month to day
+            }
+
+            else -> null
+        }
     }
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
