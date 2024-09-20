@@ -40,6 +40,14 @@ internal fun registerSelectors() {
 
     SelectorRegistry.register("villager.professions", VillagerProfessionSelector())
     SelectorRegistry.register("villager.type", VillagerTypeSelector())
+
+    SelectorRegistry.register("player.biomes", PlayerBiomeSelector())
+    SelectorRegistry.register("player.heights", PlayerHeightSelector())
+    SelectorRegistry.register("player.name", LiteralPlayerNameSelector())
+    SelectorRegistry.register("player.name.regex", RegexPlayerNameSelector(false))
+    SelectorRegistry.register("player.name.regex.ignore_case", RegexPlayerNameSelector(true))
+    SelectorRegistry.register("player.name.wildcard", WildcardPlayerNameSelector(false))
+    SelectorRegistry.register("player.name.wildcard.ignore_case", WildcardPlayerNameSelector(true))
 }
 
 internal fun registerLoadSelectors() {
