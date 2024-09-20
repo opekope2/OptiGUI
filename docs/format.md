@@ -131,37 +131,61 @@ A [list](syntax.html#lists) of [dates](syntax.html#dates) specifying when the te
 
 ## Player selectors
 
-**Upcoming**{.chip-purple}
-
-[#7](https://github.com/opekope2/OptiGUI/issues/7)
-
 ### `player.name`
 
-**Upcoming**{.chip-purple}
+**Optional**{.chip-lightblue}
+**OptiGUI 2.3.0-beta.3+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+A [String](syntax.html#strings) specifying the exact value of the name of the entity or block entity.
 
 ### `player.name.wildcard`
 
-**Upcoming**{.chip-purple}
+**Optional**{.chip-lightblue}
+**OptiGUI 2.3.0-beta.3+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+A [String](syntax.html#strings) specifying the case-sensitive [wildcard](syntax.html#wildcard) to match against the name of the entity or block entity.
 
 ### `player.name.wildcard.ignore_case`
 
-**Upcoming**{.chip-purple}
+**Optional**{.chip-lightblue}
+**OptiGUI 2.3.0-beta.3+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+A [String](syntax.html#strings) specifying the case-insensitive [wildcard](syntax.html#wildcard) to match against the name of the entity or block entity.
 
 ### `player.name.regex`
 
-**Upcoming**{.chip-purple}
+**Optional**{.chip-lightblue}
+**OptiGUI 2.3.0-beta.3+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+A [String](syntax.html#strings) specifying the case-sensitive [regex](syntax.html#regex) to match against the name of the entity or block entity.
 
 ### `player.name.regex.ignore_case`
 
-**Upcoming**{.chip-purple}
+**Optional**{.chip-lightblue}
+**OptiGUI 2.3.0-beta.3+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+A [String](syntax.html#strings) specifying the case-insensitive [regex](syntax.html#regex) to match against the name of the entity or block entity.
 
 ### `player.biomes`
 
-**Upcoming**{.chip-purple}
+**Optional**{.chip-lightblue}
+**OptiGUI 2.3.0-beta.3+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+A [list](syntax.html#lists) of biome identifiers specifying the biomes of the entity or block entity where this replacement applies.
 
 ### `player.heights`
 
-**Upcoming**{.chip-purple}
+**Optional**{.chip-lightblue}
+**OptiGUI 2.3.0-beta.3+**{.chip-darkgreen}
+**Minecraft 1.18+**{.chip-lightgreen}
+
+A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](syntax.html#ranges) specifying the heights (Y coordiantes) of the entity or block entity, where this replacemen
 
 ## Comparator selectors
 
