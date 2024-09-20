@@ -23,7 +23,7 @@ internal abstract class AbstractNameSelector : ISelector {
 
     abstract fun createRegex(selector: String): Regex
 
-    protected fun getInteractionTargetCustomName(interaction: Interaction): String {
+    protected open fun getInteractionTargetCustomName(interaction: Interaction): String {
         val (_, _, screen, data) = interaction
         return (data.blockEntity as? Nameable ?: data.entityOrRiddenEntity)?.customName?.string ?: screen.title.string
     }
@@ -38,13 +38,13 @@ internal abstract class AbstractNameSelector : ISelector {
     }
 }
 
-internal class LiteralNameSelector : AbstractNameSelector() {
+internal open class LiteralNameSelector : AbstractNameSelector() {
     override fun createRegex(selector: String) = Regex(selector, RegexOption.LITERAL)
 
     override fun getRawSelector(interaction: Interaction) = getInteractionTargetCustomName(interaction)
 }
 
-internal class WildcardNameSelector(private val ignoreCase: Boolean) : AbstractNameSelector() {
+internal open class WildcardNameSelector(private val ignoreCase: Boolean) : AbstractNameSelector() {
     override fun createRegex(selector: String) = Regex(
         wildcardToRegex(unescapeJava(selector)),
         getRegexOptions(ignoreCase)
@@ -80,14 +80,14 @@ internal class WildcardNameSelector(private val ignoreCase: Boolean) : AbstractN
     }
 }
 
-internal class RegexNameSelector(private val ignoreCase: Boolean) : AbstractNameSelector() {
+internal open class RegexNameSelector(private val ignoreCase: Boolean) : AbstractNameSelector() {
     override fun createRegex(selector: String) = Regex(
         unescapeJava(selector),
         getRegexOptions(ignoreCase)
     )
 }
 
-internal class BiomeSelector : AbstractListSelector<Identifier>() {
+internal open class BiomeSelector : AbstractListSelector<Identifier>() {
     override fun parseSelector(selector: String) = Identifier.tryParse(selector)
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
@@ -106,7 +106,7 @@ internal class BiomeSelector : AbstractListSelector<Identifier>() {
     }
 }
 
-internal class HeightSelector : AbstractListSelector<NumberOrRange>() {
+internal open class HeightSelector : AbstractListSelector<NumberOrRange>() {
     override fun parseSelector(selector: String) = NumberOrRange.tryParse(selector)
 
     override fun parseFailed(invalidSelectors: Collection<String>) =

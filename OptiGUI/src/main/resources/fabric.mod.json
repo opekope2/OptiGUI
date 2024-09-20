@@ -5,7 +5,33 @@
   "name": "OptiGUI",
   "description": "Blazing fast custom GUI textures on Fabric and Quilt with built-in OptiFine custom GUI resource pack support",
   "authors": [
-    "opekope2"
+    {
+      "name": "opekope2",
+      "contact": {
+        "homepage": "https://opekope2.dev",
+        "github": "https://github.com/opekope2"
+      }
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Santiago Hernandez",
+      "contact": {
+        "github": "https://github.com/TheLegendofSaram"
+      }
+    },
+    {
+      "name": "dirtTW",
+      "contact": {
+        "github": "https://github.com/yichifauzi"
+      }
+    },
+    {
+      "name": "notlin4",
+      "contact": {
+        "github": "https://github.com/notlin4"
+      }
+    }
   ],
   "contact": {
     "homepage": "https://opekope2.dev/OptiGUI",
@@ -88,6 +114,7 @@
       "minecraft:trapped_chest": "minecraft:textures/gui/container/generic_54.png",
       "minecraft:chest_boat": "minecraft:textures/gui/container/generic_54.png",
       "minecraft:chest_minecart": "minecraft:textures/gui/container/generic_54.png",
+      "minecraft:crafter": "minecraft:textures/gui/container/crafter.png",
       "minecraft:crafting_table": "minecraft:textures/gui/container/crafting_table.png",
       "minecraft:dispenser": "minecraft:textures/gui/container/dispenser.png",
       "minecraft:dropper": "minecraft:textures/gui/container/dispenser.png",
@@ -152,7 +179,8 @@
       "minecraft:villager": "minecraft:textures/gui/container/villager.png",
       "minecraft:wandering_trader": "minecraft:textures/gui/container/villager.png",
       "minecraft:writable_book": "minecraft:textures/gui/book.png",
-      "minecraft:written_book": "minecraft:textures/gui/book.png"
+      "minecraft:written_book": "minecraft:textures/gui/book.png",
+      "minecraft:player": "minecraft:textures/gui/container/inventory.png"
     }
   }
 }

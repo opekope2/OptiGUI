@@ -26,7 +26,6 @@ import org.slf4j.event.Level.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 
-@Suppress("unused")
 internal object FilterLoader : IdentifiableResourceReloadListener, ClientModInitializer {
     private val LOGGER = LoggerFactory.getLogger("OptiGUI/FilterLoader")
 

@@ -23,7 +23,6 @@ internal val INSPECTOR_KEY_BINDING: KeyBinding = KeyBindingHelper.registerKeyBin
     )
 )
 
-@Suppress("unused")
 internal fun initialize() {
     RetexturableScreenRegistry.register(HandledScreen::class.java)
     RetexturableScreenRegistry.register(BookScreen::class.java)
