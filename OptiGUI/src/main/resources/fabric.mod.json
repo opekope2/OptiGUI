@@ -178,7 +178,8 @@
       "minecraft:villager": "minecraft:textures/gui/container/villager.png",
       "minecraft:wandering_trader": "minecraft:textures/gui/container/villager.png",
       "minecraft:writable_book": "minecraft:textures/gui/book.png",
-      "minecraft:written_book": "minecraft:textures/gui/book.png"
+      "minecraft:written_book": "minecraft:textures/gui/book.png",
+      "minecraft:player": "minecraft:textures/gui/container/inventory.png"
     }
   }
 }
