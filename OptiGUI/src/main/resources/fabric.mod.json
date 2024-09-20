@@ -114,6 +114,7 @@
       "minecraft:trapped_chest": "minecraft:textures/gui/container/generic_54.png",
       "minecraft:chest_boat": "minecraft:textures/gui/container/generic_54.png",
       "minecraft:chest_minecart": "minecraft:textures/gui/container/generic_54.png",
+      "minecraft:crafter": "minecraft:textures/gui/container/crafter.png",
       "minecraft:crafting_table": "minecraft:textures/gui/container/crafting_table.png",
       "minecraft:dispenser": "minecraft:textures/gui/container/dispenser.png",
       "minecraft:dropper": "minecraft:textures/gui/container/dispenser.png",
