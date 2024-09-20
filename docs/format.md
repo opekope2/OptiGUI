@@ -264,9 +264,6 @@ Supports the following additional selectors: [common selectors](#common-selector
     book.page.count = 5 10-15
     ```
 
-**OptiGUI 2.1.3+**{.chip-darkgreen}
-**Minecraft 1.18+**{.chip-lightgreen}
-
 ### `book.page.current`
 
 **Optional**{.chip-lightblue}
