@@ -10,7 +10,6 @@
     "BookEditScreenMixin",
     "BookScreenMixin",
     "BrewingStandScreenHandlerMixin",
-    "GameRendererMixin",
     "Generic3x3ContainerScreenHandlerMixin",
     "GenericContainerScreenHandlerMixin",
     "HandledScreenMixin",
