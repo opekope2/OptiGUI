@@ -21,9 +21,7 @@ internal object TextureReplacer : ClientModInitializer, ClientTickEvents.EndWorl
     private var filters: ContainerId2FiltersMap = ImmutableMap.of()
     private var replaceableTextures: ImmutableSet<Identifier> = ImmutableSet.of()
     private val replacementCache = mutableMapOf<Identifier, Identifier>()
-
-    @JvmStatic
-    var isReplacingTextures = false
+    private var renderingScreen = false
 
     @JvmStatic
     fun loadFilters(filters: ContainerId2FiltersMap, replaceableTextures: ImmutableSet<Identifier>) {
@@ -33,12 +31,11 @@ internal object TextureReplacer : ClientModInitializer, ClientTickEvents.EndWorl
 
     @JvmStatic
     fun replaceTexture(texture: Identifier): Identifier {
-        // Only replace predefined textures
+        if (!renderingScreen) return texture
+        if (!InteractionManager.isInteracting) return texture
         if (texture !in replaceableTextures) return texture
 
-        // Don't bother replacing textures if not interacting
         val interaction = InteractionManager.createInteraction(texture) ?: return texture
-
         return replacementCache.getOrPut(texture) {
             filters[interaction.data.id]?.promoteFirstOrNull { it.test(interaction) }?.replacementTexture
                 ?: filters[null]?.promoteFirstOrNull { it.test(interaction) }?.replacementTexture
@@ -66,10 +63,10 @@ internal object TextureReplacer : ClientModInitializer, ClientTickEvents.EndWorl
     }
 
     override fun beforeRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
-        isReplacingTextures = true
+        renderingScreen = true
     }
 
     override fun afterRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
-        isReplacingTextures = false
+        renderingScreen = false
     }
 }
