@@ -46,7 +46,6 @@ internal object TextureReplacer : ClientModInitializer, ClientTickEvents.EndWorl
         }
     }
 
-    @JvmStatic
     fun clearCache() {
         replacementCache.clear()
     }
