@@ -29,6 +29,7 @@ dependencies {
     modImplementation(fabricApi.module("fabric-lifecycle-events-v1", libs.versions.fabric.api.get()))
     modImplementation(fabricApi.module("fabric-networking-api-v1", libs.versions.fabric.api.get()))
     modImplementation(fabricApi.module("fabric-resource-loader-v0", libs.versions.fabric.api.get()))
+    modImplementation(fabricApi.module("fabric-screen-api-v1", libs.versions.fabric.api.get()))
 
     implementation(libs.apache.commons.text)
     include(libs.apache.commons.text)
