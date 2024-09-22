@@ -30,6 +30,7 @@ dependencies {
     modImplementation(fabric.lifecycle.events.v1)
     modImplementation(fabric.networking.api.v1)
     modImplementation(fabric.resource.loader.v0)
+    modImplementation(fabric.screen.api.v1)
 
     implementation(libs.apache.commons.text)
     include(libs.apache.commons.text)
