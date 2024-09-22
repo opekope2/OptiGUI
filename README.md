@@ -28,7 +28,7 @@ Other mods' developers can add their custom containers and customization options
 * 🇨🇳 by [dirtTW](https://github.com/yichifauzi), [notlin4](https://github.com/notlin4)
 * 🇩🇪 by [Lucanoria](https://github.com/Lucanoria)
 
-Want to see your name here? [Translate OptiGUI to your native language](https://github.com/opekope2/OptiGUI/blob/main/CONTRIBUTING.md#i-want-to-add-a-translation).
+Want to see your name here? [Translate OptiGUI to your native language](https://github.com/opekope2/OptiGUI/blob/dev/CONTRIBUTING.md#i-want-to-add-a-translation).
 
 ## Resource pack docs
 
