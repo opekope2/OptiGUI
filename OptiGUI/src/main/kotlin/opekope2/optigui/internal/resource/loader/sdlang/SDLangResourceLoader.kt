@@ -7,7 +7,8 @@ import net.fabricmc.api.ClientModInitializer
 import net.minecraft.resource.Resource
 import net.minecraft.util.Identifier
 import opekope2.optigui.filter.*
-import opekope2.optigui.interaction.InteractionFilterFactories
+import opekope2.optigui.filter.factory.IInteractionFilterFactory
+import opekope2.optigui.filter.factory.ILoadTimeFilterFactory
 import opekope2.optigui.resource.loader.IResourceLoader
 import opekope2.optigui.resource.loader.IResourceLoadingContext
 import opekope2.optigui.resource.loader.ResourceLoaders
@@ -64,14 +65,14 @@ internal class SDLangResourceLoader : IResourceLoader<SDLangDocument>, ClientMod
             val childFilters = createChildFilters(child, ctx).ifNull { error = true } ?: continue
 
             when (child.name) {
-                in LoadTimeFilterFactories -> {
+                in ILoadTimeFilterFactory.Registry -> {
                     val loadTimeFilter = createLoadTimeFilter(tag, childFilters, ctx.logger)
                         .ifNull { error = true } ?: continue
 
                     loadTimeFilters += loadTimeFilter
                 }
 
-                in InteractionFilterFactories -> {
+                in IInteractionFilterFactory.Registry -> {
                     val filter = createInteractionFilter(child, childFilters, ctx.logger)
                         .ifNull { error = true } ?: continue
 
@@ -118,7 +119,7 @@ internal class SDLangResourceLoader : IResourceLoader<SDLangDocument>, ClientMod
     }
 
     private fun createLoadTimeFilter(tag: Tag, childFilters: Collection<INbtFilter>, logger: Logger): ILoadTimeFilter? {
-        val loadTimeFilterFactory = LoadTimeFilterFactories.getValue(tag.name)
+        val loadTimeFilterFactory = ILoadTimeFilterFactory.getValue(tag.name)
         val loadTimeFilter = loadTimeFilterFactory.createLoadTimeFilter(
             tag.values,
             tag.attributes.mapValues { (_, value) -> value.value },
@@ -134,7 +135,7 @@ internal class SDLangResourceLoader : IResourceLoader<SDLangDocument>, ClientMod
         childFilters: Collection<INbtFilter>,
         logger: Logger
     ): IInteractionFilter? {
-        val factory = InteractionFilterFactories.getValue(tag.name)
+        val factory = IInteractionFilterFactory.getValue(tag.name)
         val filter = factory.createInteractionFilter(
             tag.values,
             tag.attributes.mapValues { (_, value) -> value.value },

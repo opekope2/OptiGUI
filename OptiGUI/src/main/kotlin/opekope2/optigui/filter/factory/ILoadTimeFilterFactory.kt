@@ -1,5 +1,8 @@
-package opekope2.optigui.filter
+package opekope2.optigui.filter.factory
 
+import opekope2.optigui.filter.ILoadTimeFilter
+import opekope2.optigui.filter.INbtFilter
+import opekope2.optigui.registry.RegistryBase
 import org.slf4j.Logger
 
 /**
@@ -21,4 +24,14 @@ fun interface ILoadTimeFilterFactory {
         childFilters: Collection<INbtFilter>,
         logger: Logger
     ): ILoadTimeFilter?
+
+    /**
+     * Load-time NBT filter registry.
+     */
+    companion object Registry : RegistryBase<String, ILoadTimeFilterFactory>() {
+        override fun validateEntry(key: String, value: ILoadTimeFilterFactory) {
+            super.validateEntry(key, value)
+            require(key == "if" || key.startsWith("if.")) { "Key must start with `if.`" }
+        }
+    }
 }
