@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>opekope2.optigui.util</title>
+    <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../images/logo-icon.svg">
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../index.html">
+                            OptiGUI
+                    </a>
+            </div>
+            <div class="library-version">
+2.3.0-beta.5+1.20            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":OptiGUI:dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="package" id="content" pageIds="OptiGUI::opekope2.optigui.util////PointingToDeclaration//631721658">
+  <div class="breadcrumbs"><a href="../../index.html">OptiGUI</a><span class="delimiter">/</span><span class="current">opekope2.optigui.util</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button><button class="section-tab" data-togglable="PROPERTY,EXTENSION_PROPERTY">Properties</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-1168734485%2FClasslikes%2F631721658" anchor-label="NumberOrRange" id="-1168734485%2FClasslikes%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-number-or-range/index.html"><span>Number</span><wbr></wbr><span>Or</span><wbr></wbr><span><span>Range</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1168734485%2FClasslikes%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">class </span><a href="-number-or-range/index.html">NumberOrRange</a></div><div class="brief "><p class="paragraph">Represents an integer, or a start- and stop-inclusive integer range.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="350575120%2FClasslikes%2F631721658" anchor-label="TreeFormatter" id="350575120%2FClasslikes%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-tree-formatter/index.html"><span>Tree</span><wbr></wbr><span><span>Formatter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="350575120%2FClasslikes%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-tree-formatter/index.html">TreeFormatter</a></div><div class="brief "><p class="paragraph">An indentation and tree formatter utility class.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-600025435%2FProperties%2F631721658" anchor-label="interactionData" id="-600025435%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="interaction-data.html"><span>interaction</span><wbr></wbr><span><span>Data</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-600025435%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="interaction-data.html">interactionData</a><span class="token operator">: </span><a href="../opekope2.optigui.interaction/-interaction/-data/index.html">Interaction.Data</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns the current interaction data.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1655922373%2FProperties%2F631721658" anchor-label="LOG_KEY_CONTAINER" id="-1655922373%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-l-o-g_-k-e-y_-c-o-n-t-a-i-n-e-r.html"><span><span>LOG_KEY_CONTAINER</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1655922373%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-l-o-g_-k-e-y_-c-o-n-t-a-i-n-e-r.html">LOG_KEY_CONTAINER</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Log key to tell OptiGUI about the container being loaded from a resource.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1740557520%2FProperties%2F631721658" anchor-label="LOG_KEY_RESOURCE" id="1740557520%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-l-o-g_-k-e-y_-r-e-s-o-u-r-c-e.html"><span><span>LOG_KEY_RESOURCE</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1740557520%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-l-o-g_-k-e-y_-r-e-s-o-u-r-c-e.html">LOG_KEY_RESOURCE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Log key to tell OptiGUI about the resource being loaded.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1858954849%2FProperties%2F631721658" anchor-label="MOD_ID" id="1858954849%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-m-o-d_-i-d.html"><span><span>MOD_ID</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1858954849%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-m-o-d_-i-d.html">MOD_ID</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">OptiGUI mod ID.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1229032906%2FProperties%2F631721658" anchor-label="OPTIFINE_RESOURCES_ROOT" id="-1229032906%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-o-p-t-i-f-i-n-e_-r-e-s-o-u-r-c-e-s_-r-o-o-t.html"><span><span>OPTIFINE_RESOURCES_ROOT</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1229032906%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-o-p-t-i-f-i-n-e_-r-e-s-o-u-r-c-e-s_-r-o-o-t.html">OPTIFINE_RESOURCES_ROOT</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Root folder to look for OptiFine custom GUI properties.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1421100230%2FProperties%2F631721658" anchor-label="OPTIFINE_TILDE_PATH" id="1421100230%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-o-p-t-i-f-i-n-e_-t-i-l-d-e_-p-a-t-h.html"><span><span>OPTIFINE_TILDE_PATH</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1421100230%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-o-p-t-i-f-i-n-e_-t-i-l-d-e_-p-a-t-h.html">OPTIFINE_TILDE_PATH</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">The resource path <code class="lang-kotlin">~</code> points to in OptiFine.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="353677987%2FProperties%2F631721658" anchor-label="OPTIGUI_RESOURCES_ROOT" id="353677987%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-o-p-t-i-g-u-i_-r-e-s-o-u-r-c-e-s_-r-o-o-t.html"><span><span>OPTIGUI_RESOURCES_ROOT</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="353677987%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-o-p-t-i-g-u-i_-r-e-s-o-u-r-c-e-s_-r-o-o-t.html">OPTIGUI_RESOURCES_ROOT</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Root folder to look for OptiGUI custom GUI ini resources.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="EXTENSION_PROPERTY">
+        <h2 class="">Inherited properties</h2>
+        <div class="table"><a data-name="471560486%2FProperties%2F631721658" anchor-label="identifier" id="471560486%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="identifier.html"><span><span>identifier</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="471560486%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/block/Block.html">Block</a><span class="token punctuation">.</span><a href="identifier.html">identifier</a><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/util/Identifier.html">Identifier</a></div><div class="brief "><p class="paragraph">Finds the ID of the given block in the registry.</p></div><div class="symbol monospace"><span class="token keyword">val </span><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/entity/Entity.html">Entity</a><span class="token punctuation">.</span><a href="identifier.html">identifier</a><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/util/Identifier.html">Identifier</a></div><div class="brief "><p class="paragraph">Finds the ID of the given entity in the registry.</p></div><div class="symbol monospace"><span class="token keyword">val </span><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/item/Item.html">Item</a><span class="token punctuation">.</span><a href="identifier.html">identifier</a><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/util/Identifier.html">Identifier</a></div><div class="brief "><p class="paragraph">Finds the ID of the given item in the registry.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1877134008%2FProperties%2F631721658" anchor-label="redstoneComparatorOutput" id="-1877134008%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="redstone-comparator-output.html"><span>redstone</span><wbr></wbr><span>Comparator</span><wbr></wbr><span><span>Output</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1877134008%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/client/gui/screen/ingame/LecternScreen.html">LecternScreen</a><span class="token punctuation">.</span><a href="redstone-comparator-output.html">redstoneComparatorOutput</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Computes the comparator output of a lectern based on its screen.</p></div><div class="symbol monospace"><span class="token keyword">val </span><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/screen/ScreenHandler.html">ScreenHandler</a><span class="token punctuation">.</span><a href="redstone-comparator-output.html">redstoneComparatorOutput</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Computes the comparator output based on the screen's inventory.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1514498213%2FFunctions%2F631721658" anchor-label="inspectInteraction" id="-1514498213%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="inspect-interaction.html"><span>inspect</span><wbr></wbr><span><span>Interaction</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1514498213%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="inspect-interaction.html"><span class="token function">inspectInteraction</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Creates an OptiGUI INI from the current interaction data.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1475634188%2FFunctions%2F631721658" anchor-label="invalidateCachedReplacement" id="1475634188%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="invalidate-cached-replacement.html"><span>invalidate</span><wbr></wbr><span>Cached</span><wbr></wbr><span><span>Replacement</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1475634188%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="invalidate-cached-replacement.html"><span class="token function">invalidateCachedReplacement</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Forces the texture replacer to re-evaluate the filters. Call this after modifying <a href="../opekope2.optigui.interaction/-interaction/-data/extra.html">Interaction.Data.extra</a> if the current screen pauses the game in single player.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-470383382%2FFunctions%2F631721658" anchor-label="resolvePath" id="-470383382%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="resolve-path.html"><span>resolve</span><wbr></wbr><span><span>Path</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-470383382%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword">fun </span><a href="resolve-path.html"><span class="token function">resolvePath</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">pathToResolve<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">resource<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/util/Identifier.html">Identifier</a><span class="token punctuation">, </span></span><span class="parameter ">tildePath<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/util/Identifier.html">Identifier</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Resolves the absolute path of the given resource to resolve.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="EXTENSION_FUNCTION">
+        <h2 class="">Inherited functions</h2>
+        <div class="table"><a data-name="1956688314%2FFunctions%2F631721658" anchor-label="component1" id="1956688314%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="component1.html"><span><span>component1</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1956688314%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">operator </span><span class="token keyword">fun </span><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/util/Identifier.html">Identifier</a><span class="token punctuation">.</span><a href="component1.html"><span class="token function">component1</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph"><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/util/Identifier.html">Identifier</a> deconstruction helper, which returns the namespace.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1644886277%2FFunctions%2F631721658" anchor-label="component2" id="-1644886277%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="component2.html"><span><span>component2</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1644886277%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">operator </span><span class="token keyword">fun </span><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/util/Identifier.html">Identifier</a><span class="token punctuation">.</span><a href="component2.html"><span class="token function">component2</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph"><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/util/Identifier.html">Identifier</a> deconstruction helper, which returns the path.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="334617305%2FFunctions%2F631721658" anchor-label="getBiomeId" id="334617305%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-biome-id.html"><span>get</span><wbr></wbr><span>Biome</span><wbr></wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="334617305%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/world/World.html">World</a><span class="token punctuation">.</span><a href="get-biome-id.html"><span class="token function">getBiomeId</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">pos<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/util/math/BlockPos.html">BlockPos</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20+build.1/net/minecraft/util/Identifier.html">Identifier</a></div><div class="brief "><p class="paragraph">Finds the biome ID at the given world position.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022-2024 opekope2. OptiGUI is not an official Minecraft product. Not associated with or endorsed by Mojang Studios.</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
