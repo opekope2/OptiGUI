@@ -219,15 +219,13 @@ internal class SDLangResourceLoader : IResourceLoader<SDLangDocument>, ClientMod
         attributeValue: Any,
         ctx: IResourceLoadingContext<SDLangDocument>
     ): INbtFilter {
-        if (matcherName !in NbtMatchers) throw IllegalArgumentException("No such matcher")
-
+        require(matcherName in NbtMatchers) { "No such matcher" }
         val matcher = NbtMatchers.getValue(matcherName)
 
         if (!matcherName.endsWith('$')) return matcher.createFilter(attributeValue)
-        return when (attributeValue) {
-            !is String -> throw IllegalArgumentException("Constant reference is not a string")
-            !in ctx.loadedResource.constants -> throw IllegalArgumentException("Referenced constant is not defined")
-            else -> matcher.createFilter(ctx.loadedResource.constants[attributeValue]!!)
-        }
+
+        require(attributeValue is String) { "Constant reference is not a string" }
+        require(attributeValue in ctx.loadedResource.constants) { "Referenced constant is not defined" }
+        return matcher.createFilter(ctx.loadedResource.constants[attributeValue]!!)
     }
 }

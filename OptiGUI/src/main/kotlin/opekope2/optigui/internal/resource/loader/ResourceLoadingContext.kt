@@ -34,7 +34,7 @@ internal class ResourceLoadingContext<T>(
         replacementTexture: Identifier,
         priority: Int
     ) {
-        if (priority < 0) throw IllegalArgumentException("Priority can't be negative")
+        require(priority >= 0) { "Priority can't be negative" }
         containerFilterAdder.accept(
             containerId,
             TextureReplacerFilter(filter, replacementTexture, priority)
