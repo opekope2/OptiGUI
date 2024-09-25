@@ -91,7 +91,7 @@
     "fabric-networking-api-v1": "*",
     "fabric-resource-loader-v0": "*",
     "fabric-language-kotlin": ">=$fabric_language_kotlin",
-    "minecraft": ">=$minecraft <1.20.5",
+    "minecraft": ">=$minecraft <1.20.2",
     "java": ">=$java"
   },
   "recommends": {
@@ -120,7 +120,6 @@
       "minecraft:trapped_chest": "minecraft:textures/gui/container/generic_54.png",
       "minecraft:chest_boat": "minecraft:textures/gui/container/generic_54.png",
       "minecraft:chest_minecart": "minecraft:textures/gui/container/generic_54.png",
-      "minecraft:crafter": "minecraft:textures/gui/container/crafter.png",
       "minecraft:crafting_table": "minecraft:textures/gui/container/crafting_table.png",
       "minecraft:dispenser": "minecraft:textures/gui/container/dispenser.png",
       "minecraft:dropper": "minecraft:textures/gui/container/dispenser.png",
@@ -182,8 +181,8 @@
       "minecraft:yellow_shulker_box": "minecraft:textures/gui/container/shulker_box.png",
       "minecraft:smithing_table": "minecraft:textures/gui/container/smithing.png",
       "minecraft:stonecutter": "minecraft:textures/gui/container/stonecutter.png",
-      "minecraft:villager": "minecraft:textures/gui/container/villager.png",
-      "minecraft:wandering_trader": "minecraft:textures/gui/container/villager.png",
+      "minecraft:villager": "minecraft:textures/gui/container/villager2.png",
+      "minecraft:wandering_trader": "minecraft:textures/gui/container/villager2.png",
       "minecraft:writable_book": "minecraft:textures/gui/book.png",
       "minecraft:written_book": "minecraft:textures/gui/book.png",
       "minecraft:player": "minecraft:textures/gui/container/inventory.png"

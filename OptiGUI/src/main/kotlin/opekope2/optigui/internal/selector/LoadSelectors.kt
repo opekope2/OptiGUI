@@ -30,7 +30,7 @@ internal class ModsLoadSelector : (String) -> Boolean {
 
     private fun parseVersion(modWithVersion: String): Pair<String, (Version) -> Boolean>? {
         return try {
-            val versionIndex = modWithVersion.indexOfAny(VersionComparisonOperator.entries.map { it.serialized })
+            val versionIndex = modWithVersion.indexOfAny(VersionComparisonOperator.values().map { it.serialized })
             if (versionIndex < 0) {
                 return modWithVersion to { true }
             }

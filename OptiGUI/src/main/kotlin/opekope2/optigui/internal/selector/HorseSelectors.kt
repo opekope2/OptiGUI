@@ -38,7 +38,7 @@ internal class HorseSaddleSelector : ISelector {
 }
 
 internal class HorseVariantSelector : AbstractListSelector<HorseColor>() {
-    override fun parseSelector(selector: String) = HorseColor.entries.firstOrNull { it.name.lowercase() == selector }
+    override fun parseSelector(selector: String) = HorseColor.values().firstOrNull { it.name.lowercase() == selector }
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
         throw RuntimeException("Invalid horse variants: ${joinNotFound(invalidSelectors)}")
@@ -55,7 +55,7 @@ internal class HorseVariantSelector : AbstractListSelector<HorseColor>() {
 }
 
 internal class HorseMarkingSelector : AbstractListSelector<HorseMarking>() {
-    override fun parseSelector(selector: String) = HorseMarking.entries.firstOrNull { it.name.lowercase() == selector }
+    override fun parseSelector(selector: String) = HorseMarking.values().firstOrNull { it.name.lowercase() == selector }
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
         throw RuntimeException("Invalid horse markings: ${joinNotFound(invalidSelectors)}")
@@ -92,7 +92,7 @@ internal class LlamaCarpetColorSelector : AbstractListSelector<DyeColor>() {
 
 internal class LlamaVariantSelector : AbstractListSelector<LlamaEntity.Variant>() {
     override fun parseSelector(selector: String) =
-        LlamaEntity.Variant.entries.firstOrNull { it.name.lowercase() == selector }
+        LlamaEntity.Variant.values().firstOrNull { it.name.lowercase() == selector }
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
         throw RuntimeException("Invalid llama variants: ${joinNotFound(invalidSelectors)}")

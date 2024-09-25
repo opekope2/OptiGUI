@@ -22,7 +22,7 @@ internal class InteractionTextureSelector : ISelector {
 }
 
 internal class InteractionHandSelector : AbstractListSelector<Hand>() {
-    override fun parseSelector(selector: String) = Hand.entries.firstOrNull { it.name.lowercase() == selector }
+    override fun parseSelector(selector: String) = Hand.values().firstOrNull { it.name.lowercase() == selector }
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
         throw RuntimeException("Invalid hands: ${joinNotFound(invalidSelectors)}")
