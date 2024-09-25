@@ -1,21 +1,26 @@
 package opekope2.optigui.toast
 
-import net.minecraft.client.gui.DrawContext
+import com.mojang.blaze3d.systems.RenderSystem
+import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.toast.Toast
 import net.minecraft.client.toast.ToastManager
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
 /**
  * A toast displaying the inspector message.
  */
 class InspectorToast : Toast {
-    override fun draw(context: DrawContext, manager: ToastManager, startTime: Long): Toast.Visibility {
-        val textRenderer = manager.client.textRenderer
-        context.drawTexture(Toast.TEXTURE, 0, 0, 0, 0, width, height)
+    override fun draw(matrices: MatrixStack?, manager: ToastManager, startTime: Long): Toast.Visibility {
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram)
+        RenderSystem.setShaderTexture(0, Toast.TEXTURE)
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
 
-        context.drawText(textRenderer, TITLE, 7, 7, 0xFF00FFFF.toInt(), false)
-        context.drawText(textRenderer, DESCRIPTION, 7, 18, 0xFFFFFFFF.toInt(), false)
-        return if (startTime >= 4000 * manager.notificationDisplayTimeMultiplier) Toast.Visibility.HIDE
+        manager.drawTexture(matrices, 0, 0, 0, 0, width, height)
+        manager.client.textRenderer.draw(matrices, TITLE, 7f, 7f, 0xFF00FFFF.toInt())
+        manager.client.textRenderer.draw(matrices, DESCRIPTION, 7f, 18f, 0xFFFFFFFF.toInt())
+
+        return if (startTime >= 4000) Toast.Visibility.HIDE
         else Toast.Visibility.SHOW
     }
 

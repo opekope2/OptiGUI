@@ -6,12 +6,12 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
 import net.minecraft.client.gui.screen.ingame.BookEditScreen
 import net.minecraft.client.gui.screen.ingame.BookScreen
 import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -99,11 +99,11 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
         ScreenEvents.afterRender(screen).register(this)
     }
 
-    override fun beforeRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
+    override fun beforeRender(screen: Screen?, matrices: MatrixStack?, mouseX: Int, mouseY: Int, tickDelta: Float) {
         TextureReplacer.isReplacingTextures = true
     }
 
-    override fun afterRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
+    override fun afterRender(screen: Screen?, matrices: MatrixStack?, mouseX: Int, mouseY: Int, tickDelta: Float) {
         TextureReplacer.isReplacingTextures = false
     }
 
