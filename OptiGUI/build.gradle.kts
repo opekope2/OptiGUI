@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2022-2024 opekope2 & OptiGUI contributors
+
 import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
@@ -67,7 +70,8 @@ tasks {
     }
 
     jar {
-        from(rootDir.resolve("LICENSE"))
+        from(rootDir.resolve("COPYING"))
+        from(rootDir.resolve("COPYING.LESSER"))
     }
 
     processResources {
