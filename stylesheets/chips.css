@@ -1,0 +1,40 @@
+.chip-darkgreen,
+.chip-lightgreen,
+.chip-darkblue,
+.chip-lightblue,
+.chip-pink,
+.chip-purple,
+.chip-red {
+    display: inline-block;
+    color: white;
+    padding: 0px 16px;
+    border-radius: 20px;
+}
+
+.chip-darkgreen {
+    background: teal;
+}
+
+.chip-lightgreen {
+    background: lightseagreen;
+}
+
+.chip-darkblue {
+    background: royalblue;
+}
+
+.chip-lightblue {
+    background: dodgerblue;
+}
+
+.chip-pink {
+    background: deeppink;
+}
+
+.chip-purple {
+    background-color: darkviolet;
+}
+
+.chip-red {
+    background: red;
+}

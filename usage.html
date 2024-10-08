@@ -1,0 +1,1695 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="develop.html">
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>Using OptiGUI in a mod - OptiGUI documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/chips.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#using-optigui-in-a-mod" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="OptiGUI documentation" class="md-header__button md-logo" aria-label="OptiGUI documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OptiGUI documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Using OptiGUI in a mod
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/opekope2/OptiGUI" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="OptiGUI documentation" class="md-nav__button md-logo" aria-label="OptiGUI documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    OptiGUI documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/opekope2/OptiGUI" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="false">
+          Resource packs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Resource packs" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Resource packs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="syntax.html" class="md-nav__link">
+        Basic information & syntax
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="format.html" class="md-nav__link">
+        Replacing GUI textures
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="migrate.html" class="md-nav__link">
+        Migration guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="conditional.html" class="md-nav__link">
+        Conditional loading
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" tabindex="0" aria-expanded="true">
+          For developers
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="For developers" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          For developers
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="develop.html" class="md-nav__link">
+        Develop OptiGUI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Using OptiGUI in a mod
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="usage.html" class="md-nav__link md-nav__link--active">
+        Using OptiGUI in a mod
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#depending-on-optigui" class="md-nav__link">
+    Depending on OptiGUI
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resource-loading" class="md-nav__link">
+    Resource loading
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-a-container" class="md-nav__link">
+    Adding a container
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-interaction" class="md-nav__link">
+    The interaction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selectors" class="md-nav__link">
+    Selectors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optigui-custom-metadata" class="md-nav__link">
+    OptiGUI custom metadata
+  </a>
+  
+    <nav class="md-nav" aria-label="OptiGUI custom metadata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#container-default-gui-texture" class="md-nav__link">
+    Container default GUI texture
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" tabindex="0" aria-expanded="false">
+          API docs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="API docs" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          API docs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/latest" class="md-nav__link">
+        Latest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.6+1.21" class="md-nav__link">
+        2.3.0-beta.6+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.6+1.20.5" class="md-nav__link">
+        2.3.0-beta.6+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.6+1.20.2" class="md-nav__link">
+        2.3.0-beta.6+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.6+1.20" class="md-nav__link">
+        2.3.0-beta.6+1.20
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.6+1.19.3" class="md-nav__link">
+        2.3.0-beta.6+1.19.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.5+1.19.3" class="md-nav__link">
+        2.3.0-beta.5+1.19.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.5+1.20" class="md-nav__link">
+        2.3.0-beta.5+1.20
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.5+1.21" class="md-nav__link">
+        2.3.0-beta.5+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.5+1.20.5" class="md-nav__link">
+        2.3.0-beta.5+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.5+1.20.2" class="md-nav__link">
+        2.3.0-beta.5+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.4+1.21" class="md-nav__link">
+        2.3.0-beta.4+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.4+1.20.5" class="md-nav__link">
+        2.3.0-beta.4+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.4+1.20.2" class="md-nav__link">
+        2.3.0-beta.4+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.3+1.20.2" class="md-nav__link">
+        2.3.0-beta.3+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.2+1.21" class="md-nav__link">
+        2.3.0-beta.2+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.2+1.20.5" class="md-nav__link">
+        2.3.0-beta.2+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.2" class="md-nav__link">
+        2.3.0-beta.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-alpha.2" class="md-nav__link">
+        2.3.0-alpha.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.7" class="md-nav__link">
+        2.1.7
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.6" class="md-nav__link">
+        2.1.6
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.2.0-alpha.1" class="md-nav__link">
+        2.2.0-alpha.1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.5" class="md-nav__link">
+        2.1.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.4" class="md-nav__link">
+        2.1.4
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.3" class="md-nav__link">
+        2.1.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.2" class="md-nav__link">
+        2.1.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.1" class="md-nav__link">
+        2.1.1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.0" class="md-nav__link">
+        2.1.0
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.0-beta.3" class="md-nav__link">
+        2.1.0-beta.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.0.0-beta.2" class="md-nav__link">
+        2.1.0-beta.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.0-beta.1" class="md-nav__link">
+        2.1.0-beta.1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.0.0-beta.3" class="md-nav__link">
+        2.0.0-beta.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.0.0-beta.2" class="md-nav__link">
+        2.0.0-beta.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.0.0-beta.1" class="md-nav__link">
+        2.0.0-beta.1
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" tabindex="0" aria-expanded="false">
+          API docs (Java syntax)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="API docs (Java syntax)" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          API docs (Java syntax)
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/latest" class="md-nav__link">
+        Latest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.6+1.21" class="md-nav__link">
+        2.3.0-beta.6+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.6+1.20.5" class="md-nav__link">
+        2.3.0-beta.6+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.6+1.20.2" class="md-nav__link">
+        2.3.0-beta.6+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.6+1.20" class="md-nav__link">
+        2.3.0-beta.6+1.20
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.6+1.19.3" class="md-nav__link">
+        2.3.0-beta.6+1.19.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.5+1.19.3" class="md-nav__link">
+        2.3.0-beta.5+1.19.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.5+1.20" class="md-nav__link">
+        2.3.0-beta.5+1.20
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.5+1.21" class="md-nav__link">
+        2.3.0-beta.5+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.5+1.20.5" class="md-nav__link">
+        2.3.0-beta.5+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.5+1.20.2" class="md-nav__link">
+        2.3.0-beta.5+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.4+1.21" class="md-nav__link">
+        2.3.0-beta.4+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.4+1.20.5" class="md-nav__link">
+        2.3.0-beta.4+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.4+1.20.2" class="md-nav__link">
+        2.3.0-beta.4+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.3+1.20.2" class="md-nav__link">
+        2.3.0-beta.3+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.2+1.21" class="md-nav__link">
+        2.3.0-beta.2+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.2+1.20.5" class="md-nav__link">
+        2.3.0-beta.2+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.2" class="md-nav__link">
+        2.3.0-beta.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-alpha.2" class="md-nav__link">
+        2.3.0-alpha.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.7" class="md-nav__link">
+        2.1.7
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.6" class="md-nav__link">
+        2.1.6
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.2.0-alpha.1" class="md-nav__link">
+        2.2.0-alpha.1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.5" class="md-nav__link">
+        2.1.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.4" class="md-nav__link">
+        2.1.4
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.3" class="md-nav__link">
+        2.1.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.2" class="md-nav__link">
+        2.1.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.1" class="md-nav__link">
+        2.1.1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.0" class="md-nav__link">
+        2.1.0
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.0-beta.3" class="md-nav__link">
+        2.1.0-beta.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.0.0-beta.2" class="md-nav__link">
+        2.1.0-beta.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.0-beta.1" class="md-nav__link">
+        2.1.0-beta.1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.0.0-beta.3" class="md-nav__link">
+        2.0.0-beta.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.0.0-beta.2" class="md-nav__link">
+        2.0.0-beta.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.0.0-beta.1" class="md-nav__link">
+        2.0.0-beta.1
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#depending-on-optigui" class="md-nav__link">
+    Depending on OptiGUI
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resource-loading" class="md-nav__link">
+    Resource loading
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-a-container" class="md-nav__link">
+    Adding a container
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-interaction" class="md-nav__link">
+    The interaction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selectors" class="md-nav__link">
+    Selectors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optigui-custom-metadata" class="md-nav__link">
+    OptiGUI custom metadata
+  </a>
+  
+    <nav class="md-nav" aria-label="OptiGUI custom metadata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#container-default-gui-texture" class="md-nav__link">
+    Container default GUI texture
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+
+<h1 id="using-optigui-in-a-mod">Using OptiGUI in a mod</h1>
+<p>These are the basics of OptiGUI, which gives you some idea on how to use it within your mods.</p>
+<h2 id="depending-on-optigui">Depending on OptiGUI</h2>
+<p>OptiGUI doesn't have a maven repository. You can install it from <a href="https://docs.modrinth.com/maven">Modrinth Maven</a> or <a href="https://www.cursemaven.com/">Curse Maven</a>.</p>
+<ol>
+<li>Add OptiGUI API JAR to your <code>build.gradle(.kts)</code> as described in one of the above links (classifier: <code>api</code>)</li>
+<li>Add OptiGUI dependencies to the <code>modLocalRuntime</code> configuration inside the dependencies block</li>
+<li>Extract the nested JARs from the OptiGUI jar's <code>META-INF/jars</code> folder to your local mods folder. You can do this manually or with <code>build.gradle(.kts)</code>. Here's an example<ol>
+<li><a href="https://github.com/opekope2/OptiGUI/blob/a837dd45285af044170ade6322766305ac107880/Extra/build.gradle.kts#L33-L34">Create a configuration</a></li>
+<li><a href="https://github.com/opekope2/OptiGUI/blob/a837dd45285af044170ade6322766305ac107880/Extra/build.gradle.kts#L54">Add dependencies to the configuration</a></li>
+<li><a href="https://github.com/opekope2/OptiGUI/blob/a837dd45285af044170ade6322766305ac107880/Extra/build.gradle.kts#L117-L134">Create a task to extract nested JARs</a></li>
+</ol>
+</li>
+</ol>
+<h2 id="resource-loading">Resource loading</h2>
+<p>When the game (re)loads resources, OptiGUI reads <a href="format.html">OptiGUI properties</a> and <a href="https://optifine.readthedocs.io/custom_guis.html">OptiFine properties</a>, and creates a filter chain.</p>
+<p>For each selector in each group in each OptiFine resource, OptiGUI invokes the registered <a href="kdoc/latest/-opti-g-u-i/opekope2.optigui.selector/-i-selector/index.html"><code>ISelector</code></a><sup><a href="javadoc/latest/-opti-g-u-i/opekope2.optigui.selector/-i-selector/index.html">(Java syntax)</a></sup> to create a filter for the given selector. A <a href="kdoc/latest/-opti-g-u-i/opekope2.optigui.filter/-conjunction-filter/index.html"><code>ConjunctionFilter</code></a><sup><a href="javadoc/latest/-opti-g-u-i/opekope2.optigui.filter/-conjunction-filter/-conjunction-filter.html">(Java syntax)</a></sup> will be created for a group containing these filters, and this filter will be added to the filter chain.</p>
+<p>Filters added to the filter chain will be evaluated sequentially until one returns a non-null value. This will be cached until the end of the current game tick, and will be used as a the replacement texture of the GUI screen.</p>
+<h2 id="adding-a-container">Adding a container</h2>
+<p>If your mod adds a new container with a GUI screen, <a href="#container-default-gui-texture">add the GUI screen's texture to your mod's metadata</a>.</p>
+<p>If you use or extend a vanilla block entity or entity, OptiGUI has built-in support for that. However, you may want to create <a href="#selectors">selectors</a> for your block entity or entity subclass, which can be used by resource packs.</p>
+<p>If you make your own block entity or entity, most OptiGUI selectors won't work. You'll need to create your own <a href="#selectors">selectors</a>, which can be used by resource packs.</p>
+<h2 id="the-interaction">The interaction</h2>
+<ul>
+<li>Before an interaction, OptiGUI can be notified about an upcoming interaction using <a href="kdoc/latest/-opti-g-u-i/opekope2.optigui.interaction/-interaction/-companion/prepare.html"><code>Interaction.prepare</code></a><sup><a href="javadoc/latest/-opti-g-u-i/opekope2.optigui.interaction/-interaction/prepare.html">(Java syntax)</a></sup>. This is called internally, when the player right clicks a block or entity. This method call returns <code>false</code>, and is ignored while an interaction is ongoing.</li>
+<li>An interaction begins when the game opens a GUI screen</li>
+<li>An interaction ends, when the open GUI screen gets closed</li>
+<li>Use <a href="kdoc/latest/-opti-g-u-i/opekope2.optigui.interaction/-i-before-interaction-begin-callback/index.html"><code>IBeforeInteractionBeginCallback</code></a><sup><a href="javadoc/latest/-opti-g-u-i/opekope2.optigui.interaction/-i-before-interaction-begin-callback/index.html">(Java syntax)</a></sup> to get notified right before an interaction begins.</li>
+</ul>
+<h2 id="selectors">Selectors</h2>
+<p>Selectors create a filter from a string description in an OptiGUI INI file. For example, <code class="highlight"><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">OptiGUI</span></code> is a selector, <code>name</code> is the selector key, and <code>OptiGUI</code> is the string description.</p>
+<p>The created filters process an <a href="kdoc/latest/-opti-g-u-i/opekope2.optigui.interaction/-interaction/index.html"><code>Interaction</code></a><sup><a href="javadoc/latest/-opti-g-u-i/opekope2.optigui.interaction/-interaction/index.html">(Java syntax)</a></sup> once every game tick, and may provide a replacement texture. This texture will be cached for subsequent GUI screen rendering calls within the game tick.</p>
+<p>To create a selector:</p>
+<ol>
+<li>Create a public class</li>
+<li>Implement <a href="kdoc/latest/-opti-g-u-i/opekope2.optigui.selector/-i-selector/index.html"><code>ISelector</code></a><sup><a href="javadoc/latest/-opti-g-u-i/opekope2.optigui.selector/-i-selector/index.html">(Java syntax)</a></sup> (<a href="https://github.com/opekope2/OptiGUI/tree/main/OptiGUI/src/main/kotlin/opekope2/optigui/internal/selector">Kotlin examples</a>)</li>
+<li>Register it with <a href="kdoc/latest/-opti-g-u-i/opekope2.optigui.registry/-selector-registry/register.html"><code>SelectorRegistry.register</code></a><sup><a href="javadoc/latest/-opti-g-u-i/opekope2.optigui.registry/-selector-registry/register.html">(Java syntax)</a></sup></li>
+</ol>
+<h2 id="optigui-custom-metadata">OptiGUI custom metadata</h2>
+<p><code>fabric.mod.json</code> allows <a href="https://fabricmc.net/wiki/documentation:fabric_mod_json_spec#custom_fields">custom fields</a> to be specified.
+OptiGUI will read this metadata from each mod where present.</p>
+<h3 id="container-default-gui-texture">Container default GUI texture</h3>
+<p>Add a JSON object named <code>optigui:container_default_gui_textures</code> to the custom fields to define the texture of a container's screen:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="c1">//...</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">&quot;custom&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">&quot;optigui:container_default_gui_textures&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">&quot;modid:container1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;modid:path/to/textures/container1.png&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">&quot;modid:container2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;modid:path/to/textures/container2.png&quot;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">}</span>
+</code></pre></div>
+<p>Container <code>modid:container1</code> has the texture <code>modid:path/to/textures/container1.png</code>, and <code>modid:container2</code> has the texture <code>modid:path/to/textures/container2.png</code>.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2022-2024 opekope2
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.expand", "content.code.copy"], "search": "assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>PostProcessorFilter</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../images/logo-icon.svg">
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            OptiGUI
+                    </a>
+            </div>
+            <div class="library-version">
+2.3.0-beta.6+1.20            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":OptiGUI:dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="OptiGUI::opekope2.optigui.filter/PostProcessorFilter///PointingToDeclaration//631721658">
+  <div class="breadcrumbs"><a href="../../../index.html">OptiGUI</a><span class="delimiter">/</span><a href="../index.html">opekope2.optigui.filter</a><span class="delimiter">/</span><span class="current">PostProcessorFilter</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Post</span><wbr></wbr><span>Processor</span><wbr></wbr><span><span>Filter</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span class="token keyword">class </span><a href="index.html">PostProcessorFilter</a><span class="token operator">&lt;</span>TInput<span class="token keyword"> extends </span><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a><span class="token punctuation">, </span>TSubFilterResult<span class="token keyword"> extends </span><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a><span class="token punctuation">, </span>TResult<span class="token keyword"> extends </span><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a><span class="token operator">&gt;</span><span class="token keyword"> implements </span><a href="../-i-filter/index.html">IFilter</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">TInput</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="index.html">TResult</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html">Iterable</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-i-filter/index.html">IFilter</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">TInput</a><span class="token punctuation">, </span><span class="token keyword">? extends </span><a href="index.html">TSubFilterResult</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="clearfix"><span class="floating-right">(<a href="https://github.com/opekope2/OptiGUI/tree/2.3.0-beta.6+1.20/OptiGUI/src/main/kotlin/opekope2/optigui/filter/PostProcessorFilter.kt#L16">source</a>)</span></span></div><p class="paragraph">A post-processor filter, which changes the output of the given sub-filter.</p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>TInput</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The type the filter accepts</p></div></div></div></div><div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>TSub</span><wbr></wbr><span>Filter</span><wbr></wbr><span><span>Result</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The type the sub-filter's returns</p></div></div></div></div><div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>TResult</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The type the filter returns</p></div></div></div></div><div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>filter</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The sub-filter to evaluate</p></div></div></div></div><div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>transform</span><wbr></wbr><span><span>Description</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Textual description of <span data-unresolved-link="opekope2.optigui.filter/PostProcessorFilter/transform/#/PointingToDeclaration/">transform</span> for better <span data-unresolved-link="opekope2.optigui.filter/PostProcessorFilter/dump/#/PointingToDeclaration/">dump</span> readability</p></div></div></div></div><div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>transform</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The function, which transforms the result of <a href="evaluate.html">evaluate</a>. Its input is both the input of <a href="evaluate.html">evaluate</a> and the result of <span data-unresolved-link="opekope2.optigui.filter/PostProcessorFilter/filter/#/PointingToDeclaration/">filter</span></p></div></div></div></div></div><h4 class="">See also</h4><div class="table"><div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-pre-processor-filter/index.html"><span>Pre</span><wbr></wbr><span>Processor</span><wbr></wbr><span><span>Filter</span></span></a></div></span></div><div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-659983613%2FConstructors%2F631721658" anchor-label="PostProcessorFilter" id="-659983613%2FConstructors%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-post-processor-filter.html"><span>Post</span><wbr></wbr><span>Processor</span><wbr></wbr><span><span>Filter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-659983613%2FConstructors%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="index.html">PostProcessorFilter</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">TInput</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="index.html">TSubFilterResult</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="index.html">TResult</a><span class="token operator">&gt;</span> <a href="-post-processor-filter.html"><span class="token function">PostProcessorFilter</span></a><span class="token operator">&lt;</span>TInput<span class="token keyword"> extends </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span>TSubFilterResult<span class="token keyword"> extends </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span>TResult<span class="token keyword"> extends </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="../-i-filter/index.html">IFilter</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">TInput</a><span class="token punctuation">, </span><span class="token keyword">? extends </span><a href="index.html">TSubFilterResult</a><span class="token operator">&gt;</span> filter<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="index.html">TResult</a> result</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Creates a new post-processor filter by specifying its return value.</p></div><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="index.html">PostProcessorFilter</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">TInput</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="index.html">TSubFilterResult</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="index.html">TResult</a><span class="token operator">&gt;</span> <a href="-post-processor-filter.html"><span class="token function">PostProcessorFilter</span></a><span class="token operator">&lt;</span>TInput<span class="token keyword"> extends </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span>TSubFilterResult<span class="token keyword"> extends </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span>TResult<span class="token keyword"> extends </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="../-i-filter/index.html">IFilter</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">TInput</a><span class="token punctuation">, </span><span class="token keyword">? extends </span><a href="index.html">TSubFilterResult</a><span class="token operator">&gt;</span> filter<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a> transformDescription<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><span data-unresolved-link="kotlin.jvm.functions/Function2///PointingToDeclaration/">Function2</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">TInput</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="index.html">TSubFilterResult</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="index.html">TResult</a><span class="token operator">&gt;</span> transform</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1522616436%2FFunctions%2F631721658" anchor-label="evaluate" id="1522616436%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="evaluate.html"><span><span>evaluate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1522616436%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="index.html">TResult</a> <a href="evaluate.html"><span class="token function">evaluate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="index.html">TInput</a> input</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Evaluates the filter with the given value.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1175452181%2FFunctions%2F631721658" anchor-label="iterator" id="1175452181%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="iterator.html"><span><span>iterator</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1175452181%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Iterator.html">Iterator</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-i-filter/index.html">IFilter</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">TInput</a><span class="token punctuation">, </span><span class="token keyword">? extends </span><a href="index.html">TSubFilterResult</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="iterator.html"><span class="token function">iterator</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1509275177%2FFunctions%2F631721658" anchor-label="toString" id="-1509275177%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="to-string.html"><span>to</span><wbr></wbr><span><span>String</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1509275177%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a> <a href="to-string.html"><span class="token function">toString</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Inherited functions</h2>
+        <div class="table"><a data-name="-1082351642%2FFunctions%2F631721658" anchor-label="dump" id="-1082351642%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-i-filter/dump.html"><span><span>dump</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1082351642%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a> <a href="../-i-filter/dump.html"><span class="token function">dump</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Formats the current filter as a tree, and returns the formatted string.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2085097361%2FFunctions%2F631721658" anchor-label="forEach" id="2085097361%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pre-processor-filter/index.html#2085097361%2FFunctions%2F631721658"><span>for</span><wbr></wbr><span><span>Each</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2085097361%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a> <a href="../-pre-processor-filter/index.html#2085097361%2FFunctions%2F631721658"><span class="token function">forEach</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Consumer.html">Consumer</a><span class="token operator">&lt;</span><span class="token keyword">? super </span><a href="../-i-filter/index.html">IFilter</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">TInput</a><span class="token punctuation">, </span><span class="token keyword">? extends </span><a href="index.html">TSubFilterResult</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> p0</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1387152138%2FFunctions%2F631721658" anchor-label="spliterator" id="-1387152138%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pre-processor-filter/index.html#-1387152138%2FFunctions%2F631721658"><span><span>spliterator</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1387152138%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Spliterator.html">Spliterator</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-i-filter/index.html">IFilter</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">TInput</a><span class="token punctuation">, </span><span class="token keyword">? extends </span><a href="index.html">TSubFilterResult</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="../-pre-processor-filter/index.html#-1387152138%2FFunctions%2F631721658"><span class="token function">spliterator</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022-2024 opekope2. OptiGUI is not an official Minecraft product. Not associated with or endorsed by Mojang Studios.</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

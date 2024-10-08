@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Data</title>
+    <link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../../images/logo-icon.svg">
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../../index.html">
+                            OptiGUI
+                    </a>
+            </div>
+            <div class="library-version">
+2.3.0-beta.2+1.20.5            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":OptiGUI:dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="OptiGUI::opekope2.optigui.interaction/Interaction.Data///PointingToDeclaration//631721658">
+  <div class="breadcrumbs"><a href="../../../../index.html">OptiGUI</a><span class="delimiter">/</span><a href="../../index.html">opekope2.optigui.interaction</a><span class="delimiter">/</span><a href="../index.html">Interaction</a><span class="delimiter">/</span><span class="current">Data</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Data</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span class="token keyword">class </span><a href="index.html">Data</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/opekope2/OptiGUI/tree/2.3.0-beta.2+1.20.5/OptiGUI/src/main/kotlin/opekope2/optigui/interaction/Interaction.kt#L37">source</a>)</span></span></div><p class="paragraph">Details about an interaction.</p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>player</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The interacting player</p></div></div></div></div><div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>world</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The world the interaction happened in. Must be client world</p></div></div></div></div><div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>hand</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The player's interacting hand</p></div></div></div></div><div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>extra</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Extra properties to supply to the filters. Can be mutable</p></div></div></div></div><div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>block</span><wbr></wbr><span><span>Entity</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The target block entity. Is <code class="lang-kotlin">null</code>, if <a href="index.html#-11116240%2FProperties%2F631721658">entity</a> is not <code class="lang-kotlin">null</code></p></div></div></div></div><div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>entity</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The target entity. Is <code class="lang-kotlin">null</code>, if <a href="index.html#331494583%2FProperties%2F631721658">blockEntity</a> is not <code class="lang-kotlin">null</code></p></div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="736708016%2FConstructors%2F631721658" anchor-label="Interaction.Data" id="736708016%2FConstructors%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-interaction.-data.html"><span>Interaction.</span><wbr></wbr><span>Data</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="736708016%2FConstructors%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="index.html">Interaction.Data</a> <a href="-interaction.-data.html"><span class="token function">Interaction.Data</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/entity/player/PlayerEntity.html">PlayerEntity</a> player<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/world/World.html">World</a> world<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/util/Hand.html">Hand</a> hand<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/util/hit/HitResult.html">HitResult</a> hitResult<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html">Object</a> extra<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/block/entity/BlockEntity.html">BlockEntity</a> blockEntity<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/entity/Entity.html">Entity</a> entity</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="331494583%2FProperties%2F631721658" anchor-label="blockEntity" id="331494583%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#331494583%2FProperties%2F631721658"><span>block</span><wbr></wbr><span><span>Entity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="331494583%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/block/entity/BlockEntity.html">BlockEntity</a> <a href="index.html#331494583%2FProperties%2F631721658">blockEntity</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-11116240%2FProperties%2F631721658" anchor-label="entity" id="-11116240%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-11116240%2FProperties%2F631721658"><span><span>entity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-11116240%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/entity/Entity.html">Entity</a> <a href="index.html#-11116240%2FProperties%2F631721658">entity</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1193438934%2FProperties%2F631721658" anchor-label="entityOrRiddenEntity" id="-1193438934%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1193438934%2FProperties%2F631721658"><span>entity</span><wbr></wbr><span>Or</span><wbr></wbr><span>Ridden</span><wbr></wbr><span><span>Entity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1193438934%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/entity/Entity.html">Entity</a> <a href="index.html#-1193438934%2FProperties%2F631721658">entityOrRiddenEntity</a></div><div class="brief "><p class="paragraph">Gets <a href="index.html#-11116240%2FProperties%2F631721658">entity</a> if not <code class="lang-kotlin">null</code>, or the entity <a href="index.html#2003756018%2FProperties%2F631721658">player</a> is sitting on. Preferred over <a href="index.html#-11116240%2FProperties%2F631721658">entity</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1084546807%2FProperties%2F631721658" anchor-label="extra" id="1084546807%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1084546807%2FProperties%2F631721658"><span><span>extra</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1084546807%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html">Object</a> <a href="index.html#1084546807%2FProperties%2F631721658">extra</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2142568540%2FProperties%2F631721658" anchor-label="hand" id="-2142568540%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-2142568540%2FProperties%2F631721658"><span><span>hand</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2142568540%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/util/Hand.html">Hand</a> <a href="index.html#-2142568540%2FProperties%2F631721658">hand</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1255251849%2FProperties%2F631721658" anchor-label="hitResult" id="-1255251849%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1255251849%2FProperties%2F631721658"><span>hit</span><wbr></wbr><span><span>Result</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1255251849%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/util/hit/HitResult.html">HitResult</a> <a href="index.html#-1255251849%2FProperties%2F631721658">hitResult</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2003756018%2FProperties%2F631721658" anchor-label="player" id="2003756018%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#2003756018%2FProperties%2F631721658"><span><span>player</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2003756018%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/entity/player/PlayerEntity.html">PlayerEntity</a> <a href="index.html#2003756018%2FProperties%2F631721658">player</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1526895179%2FProperties%2F631721658" anchor-label="world" id="-1526895179%2FProperties%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1526895179%2FProperties%2F631721658"><span><span>world</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1526895179%2FProperties%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/world/World.html">World</a> <a href="index.html#-1526895179%2FProperties%2F631721658">world</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1919417689%2FFunctions%2F631721658" anchor-label="getBlockEntity" id="1919417689%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-block-entity.html"><span>get</span><wbr></wbr><span>Block</span><wbr></wbr><span><span>Entity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1919417689%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/block/entity/BlockEntity.html">BlockEntity</a> <a href="get-block-entity.html"><span class="token function">getBlockEntity</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="708459342%2FFunctions%2F631721658" anchor-label="getEntity" id="708459342%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-entity.html"><span>get</span><wbr></wbr><span><span>Entity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="708459342%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/entity/Entity.html">Entity</a> <a href="get-entity.html"><span class="token function">getEntity</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-88973624%2FFunctions%2F631721658" anchor-label="getEntityOrRiddenEntity" id="-88973624%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-entity-or-ridden-entity.html"><span>get</span><wbr></wbr><span>Entity</span><wbr></wbr><span>Or</span><wbr></wbr><span>Ridden</span><wbr></wbr><span><span>Entity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-88973624%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/entity/Entity.html">Entity</a> <a href="get-entity-or-ridden-entity.html"><span class="token function">getEntityOrRiddenEntity</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-554809063%2FFunctions%2F631721658" anchor-label="getExtra" id="-554809063%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-extra.html"><span>get</span><wbr></wbr><span><span>Extra</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-554809063%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html">Object</a> <a href="get-extra.html"><span class="token function">getExtra</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-671430334%2FFunctions%2F631721658" anchor-label="getHand" id="-671430334%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-hand.html"><span>get</span><wbr></wbr><span><span>Hand</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-671430334%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/util/Hand.html">Hand</a> <a href="get-hand.html"><span class="token function">getHand</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-560862823%2FFunctions%2F631721658" anchor-label="getHitResult" id="-560862823%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-hit-result.html"><span>get</span><wbr></wbr><span>Hit</span><wbr></wbr><span><span>Result</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-560862823%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/util/hit/HitResult.html">HitResult</a> <a href="get-hit-result.html"><span class="token function">getHitResult</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1571635696%2FFunctions%2F631721658" anchor-label="getPlayer" id="-1571635696%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-player.html"><span>get</span><wbr></wbr><span><span>Player</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1571635696%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/entity/player/PlayerEntity.html">PlayerEntity</a> <a href="get-player.html"><span class="token function">getPlayer</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1128716247%2FFunctions%2F631721658" anchor-label="getWorld" id="1128716247%2FFunctions%2F631721658" data-filterable-set=":OptiGUI:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":OptiGUI:dokkaHtml/main" data-filterable-set=":OptiGUI:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-world.html"><span>get</span><wbr></wbr><span><span>World</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1128716247%2FFunctions%2F631721658"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":OptiGUI:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/world/World.html">World</a> <a href="get-world.html"><span class="token function">getWorld</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022-2024 opekope2. OptiGUI is not an official Minecraft product. Not associated with or endorsed by Mojang Studios.</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

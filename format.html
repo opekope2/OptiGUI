@@ -1,0 +1,3611 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="syntax.html">
+      
+      
+        <link rel="next" href="migrate.html">
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>Replacing GUI textures - OptiGUI documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/chips.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#replacing-gui-textures" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="OptiGUI documentation" class="md-header__button md-logo" aria-label="OptiGUI documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OptiGUI documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Replacing GUI textures
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/opekope2/OptiGUI" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="OptiGUI documentation" class="md-nav__button md-logo" aria-label="OptiGUI documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    OptiGUI documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/opekope2/OptiGUI" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="true">
+          Resource packs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Resource packs" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Resource packs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="syntax.html" class="md-nav__link">
+        Basic information & syntax
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Replacing GUI textures
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="format.html" class="md-nav__link md-nav__link--active">
+        Replacing GUI textures
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#special-selectors" class="md-nav__link">
+    Special selectors
+  </a>
+  
+    <nav class="md-nav" aria-label="Special selectors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#replacement" class="md-nav__link">
+    replacement
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loadpriority" class="md-nav__link">
+    load.priority
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interaction-selectors" class="md-nav__link">
+    Interaction selectors
+  </a>
+  
+    <nav class="md-nav" aria-label="Interaction selectors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interactiontexture" class="md-nav__link">
+    interaction.texture
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interactionhand" class="md-nav__link">
+    interaction.hand
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interactionscreen_title" class="md-nav__link">
+    interaction.screen_title
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-selectors" class="md-nav__link">
+    Common selectors
+  </a>
+  
+    <nav class="md-nav" aria-label="Common selectors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#name" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#namewildcard" class="md-nav__link">
+    name.wildcard
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#namewildcardignore_case" class="md-nav__link">
+    name.wildcard.ignore_case
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nameregex" class="md-nav__link">
+    name.regex
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nameregexignore_case" class="md-nav__link">
+    name.regex.ignore_case
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#biomes" class="md-nav__link">
+    biomes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heights" class="md-nav__link">
+    heights
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#independent-selectors" class="md-nav__link">
+    Independent selectors
+  </a>
+  
+    <nav class="md-nav" aria-label="Independent selectors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#date" class="md-nav__link">
+    date
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#player-selectors" class="md-nav__link">
+    Player selectors
+  </a>
+  
+    <nav class="md-nav" aria-label="Player selectors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#playername" class="md-nav__link">
+    player.name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playernamewildcard" class="md-nav__link">
+    player.name.wildcard
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playernamewildcardignore_case" class="md-nav__link">
+    player.name.wildcard.ignore_case
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playernameregex" class="md-nav__link">
+    player.name.regex
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playernameregexignore_case" class="md-nav__link">
+    player.name.regex.ignore_case
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbiomes" class="md-nav__link">
+    player.biomes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerheights" class="md-nav__link">
+    player.heights
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparator-selectors" class="md-nav__link">
+    Comparator selectors
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparator selectors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparatoroutput" class="md-nav__link">
+    comparator.output
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anvil" class="md-nav__link">
+    Anvil
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#barrel" class="md-nav__link">
+    Barrel
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beacon" class="md-nav__link">
+    Beacon
+  </a>
+  
+    <nav class="md-nav" aria-label="Beacon">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beaconlevels" class="md-nav__link">
+    beacon.levels
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#book" class="md-nav__link">
+    Book
+  </a>
+  
+    <nav class="md-nav" aria-label="Book">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bookpagecurrent" class="md-nav__link">
+    book.page.current
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bookpagecount" class="md-nav__link">
+    book.page.count
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#book-and-quill" class="md-nav__link">
+    Book and Quill
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#brewing-stand" class="md-nav__link">
+    Brewing stand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cartography-table" class="md-nav__link">
+    Cartography table
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chest" class="md-nav__link">
+    Chest
+  </a>
+  
+    <nav class="md-nav" aria-label="Chest">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chestlarge" class="md-nav__link">
+    chest.large
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trapped-chest" class="md-nav__link">
+    Trapped chest
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ender-chest" class="md-nav__link">
+    Ender chest
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chest-boats" class="md-nav__link">
+    Chest boats
+  </a>
+  
+    <nav class="md-nav" aria-label="Chest boats">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chest_boatvariants" class="md-nav__link">
+    chest_boat.variants
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chest-minecart" class="md-nav__link">
+    Chest minecart
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crafting-table" class="md-nav__link">
+    Crafting table
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dispenser" class="md-nav__link">
+    Dispenser
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dropper" class="md-nav__link">
+    Dropper
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enchanting-table" class="md-nav__link">
+    Enchanting table
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#furnace" class="md-nav__link">
+    Furnace
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blast-furnace" class="md-nav__link">
+    Blast furnace
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smoker" class="md-nav__link">
+    Smoker
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grindstone" class="md-nav__link">
+    Grindstone
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hopper" class="md-nav__link">
+    Hopper
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hopper-minecart" class="md-nav__link">
+    Hopper minecart
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#horse" class="md-nav__link">
+    Horse
+  </a>
+  
+    <nav class="md-nav" aria-label="Horse">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#horsehas_saddle" class="md-nav__link">
+    horse.has_saddle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#horsevariants" class="md-nav__link">
+    horse.variants
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#horsemarkings" class="md-nav__link">
+    horse.markings
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#donkey" class="md-nav__link">
+    Donkey
+  </a>
+  
+    <nav class="md-nav" aria-label="Donkey">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#donkeyhas_chest" class="md-nav__link">
+    donkey.has_chest
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mule" class="md-nav__link">
+    Mule
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#llama" class="md-nav__link">
+    Llama
+  </a>
+  
+    <nav class="md-nav" aria-label="Llama">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#llamacolors" class="md-nav__link">
+    llama.colors
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llamavariants" class="md-nav__link">
+    llama.variants
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trader-llama" class="md-nav__link">
+    Trader llama
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#skeleton-horse" class="md-nav__link">
+    Skeleton horse
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zombie-horse" class="md-nav__link">
+    Zombie horse
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#camel" class="md-nav__link">
+    Camel
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lectern" class="md-nav__link">
+    Lectern
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loom" class="md-nav__link">
+    Loom
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shulker-boxes" class="md-nav__link">
+    Shulker boxes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sign" class="md-nav__link">
+    Sign
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hanging-sign" class="md-nav__link">
+    Hanging sign
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smithing-table" class="md-nav__link">
+    Smithing table
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stonecutter" class="md-nav__link">
+    Stonecutter
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#villagers" class="md-nav__link">
+    Villagers
+  </a>
+  
+    <nav class="md-nav" aria-label="Villagers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#villagerprofessions" class="md-nav__link">
+    villager.professions
+  </a>
+  
+    <nav class="md-nav" aria-label="villager.professions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vanilla-professions" class="md-nav__link">
+    Vanilla professions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#villagertype" class="md-nav__link">
+    villager.type
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wandering-trader" class="md-nav__link">
+    Wandering trader
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#survival-inventory" class="md-nav__link">
+    Survival inventory
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creative-inventory-everything-else" class="md-nav__link">
+    Creative inventory &amp; everything else
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="migrate.html" class="md-nav__link">
+        Migration guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="conditional.html" class="md-nav__link">
+        Conditional loading
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" tabindex="0" aria-expanded="false">
+          For developers
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="For developers" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          For developers
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="develop.html" class="md-nav__link">
+        Develop OptiGUI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="usage.html" class="md-nav__link">
+        Using OptiGUI in a mod
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" tabindex="0" aria-expanded="false">
+          API docs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="API docs" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          API docs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/latest" class="md-nav__link">
+        Latest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.6+1.21" class="md-nav__link">
+        2.3.0-beta.6+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.6+1.20.5" class="md-nav__link">
+        2.3.0-beta.6+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.6+1.20.2" class="md-nav__link">
+        2.3.0-beta.6+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.6+1.20" class="md-nav__link">
+        2.3.0-beta.6+1.20
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.6+1.19.3" class="md-nav__link">
+        2.3.0-beta.6+1.19.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.5+1.19.3" class="md-nav__link">
+        2.3.0-beta.5+1.19.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.5+1.20" class="md-nav__link">
+        2.3.0-beta.5+1.20
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.5+1.21" class="md-nav__link">
+        2.3.0-beta.5+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.5+1.20.5" class="md-nav__link">
+        2.3.0-beta.5+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.5+1.20.2" class="md-nav__link">
+        2.3.0-beta.5+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.4+1.21" class="md-nav__link">
+        2.3.0-beta.4+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.4+1.20.5" class="md-nav__link">
+        2.3.0-beta.4+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.4+1.20.2" class="md-nav__link">
+        2.3.0-beta.4+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.3+1.20.2" class="md-nav__link">
+        2.3.0-beta.3+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.2+1.21" class="md-nav__link">
+        2.3.0-beta.2+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.2+1.20.5" class="md-nav__link">
+        2.3.0-beta.2+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-beta.2" class="md-nav__link">
+        2.3.0-beta.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.3.0-alpha.2" class="md-nav__link">
+        2.3.0-alpha.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.7" class="md-nav__link">
+        2.1.7
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.6" class="md-nav__link">
+        2.1.6
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.2.0-alpha.1" class="md-nav__link">
+        2.2.0-alpha.1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.5" class="md-nav__link">
+        2.1.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.4" class="md-nav__link">
+        2.1.4
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.3" class="md-nav__link">
+        2.1.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.2" class="md-nav__link">
+        2.1.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.1" class="md-nav__link">
+        2.1.1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.0" class="md-nav__link">
+        2.1.0
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.0-beta.3" class="md-nav__link">
+        2.1.0-beta.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.0.0-beta.2" class="md-nav__link">
+        2.1.0-beta.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.1.0-beta.1" class="md-nav__link">
+        2.1.0-beta.1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.0.0-beta.3" class="md-nav__link">
+        2.0.0-beta.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.0.0-beta.2" class="md-nav__link">
+        2.0.0-beta.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/2.0.0-beta.1" class="md-nav__link">
+        2.0.0-beta.1
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" tabindex="0" aria-expanded="false">
+          API docs (Java syntax)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="API docs (Java syntax)" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          API docs (Java syntax)
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/latest" class="md-nav__link">
+        Latest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.6+1.21" class="md-nav__link">
+        2.3.0-beta.6+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.6+1.20.5" class="md-nav__link">
+        2.3.0-beta.6+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.6+1.20.2" class="md-nav__link">
+        2.3.0-beta.6+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.6+1.20" class="md-nav__link">
+        2.3.0-beta.6+1.20
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.6+1.19.3" class="md-nav__link">
+        2.3.0-beta.6+1.19.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.5+1.19.3" class="md-nav__link">
+        2.3.0-beta.5+1.19.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.5+1.20" class="md-nav__link">
+        2.3.0-beta.5+1.20
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.5+1.21" class="md-nav__link">
+        2.3.0-beta.5+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.5+1.20.5" class="md-nav__link">
+        2.3.0-beta.5+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.5+1.20.2" class="md-nav__link">
+        2.3.0-beta.5+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.4+1.21" class="md-nav__link">
+        2.3.0-beta.4+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.4+1.20.5" class="md-nav__link">
+        2.3.0-beta.4+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.4+1.20.2" class="md-nav__link">
+        2.3.0-beta.4+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.3+1.20.2" class="md-nav__link">
+        2.3.0-beta.3+1.20.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.2+1.21" class="md-nav__link">
+        2.3.0-beta.2+1.21
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.2+1.20.5" class="md-nav__link">
+        2.3.0-beta.2+1.20.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-beta.2" class="md-nav__link">
+        2.3.0-beta.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.3.0-alpha.2" class="md-nav__link">
+        2.3.0-alpha.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.7" class="md-nav__link">
+        2.1.7
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.6" class="md-nav__link">
+        2.1.6
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.2.0-alpha.1" class="md-nav__link">
+        2.2.0-alpha.1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.5" class="md-nav__link">
+        2.1.5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.4" class="md-nav__link">
+        2.1.4
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.3" class="md-nav__link">
+        2.1.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.2" class="md-nav__link">
+        2.1.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.1" class="md-nav__link">
+        2.1.1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.0" class="md-nav__link">
+        2.1.0
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.0-beta.3" class="md-nav__link">
+        2.1.0-beta.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.0.0-beta.2" class="md-nav__link">
+        2.1.0-beta.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.1.0-beta.1" class="md-nav__link">
+        2.1.0-beta.1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.0.0-beta.3" class="md-nav__link">
+        2.0.0-beta.3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.0.0-beta.2" class="md-nav__link">
+        2.0.0-beta.2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/2.0.0-beta.1" class="md-nav__link">
+        2.0.0-beta.1
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#special-selectors" class="md-nav__link">
+    Special selectors
+  </a>
+  
+    <nav class="md-nav" aria-label="Special selectors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#replacement" class="md-nav__link">
+    replacement
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loadpriority" class="md-nav__link">
+    load.priority
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interaction-selectors" class="md-nav__link">
+    Interaction selectors
+  </a>
+  
+    <nav class="md-nav" aria-label="Interaction selectors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interactiontexture" class="md-nav__link">
+    interaction.texture
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interactionhand" class="md-nav__link">
+    interaction.hand
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interactionscreen_title" class="md-nav__link">
+    interaction.screen_title
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-selectors" class="md-nav__link">
+    Common selectors
+  </a>
+  
+    <nav class="md-nav" aria-label="Common selectors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#name" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#namewildcard" class="md-nav__link">
+    name.wildcard
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#namewildcardignore_case" class="md-nav__link">
+    name.wildcard.ignore_case
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nameregex" class="md-nav__link">
+    name.regex
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nameregexignore_case" class="md-nav__link">
+    name.regex.ignore_case
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#biomes" class="md-nav__link">
+    biomes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heights" class="md-nav__link">
+    heights
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#independent-selectors" class="md-nav__link">
+    Independent selectors
+  </a>
+  
+    <nav class="md-nav" aria-label="Independent selectors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#date" class="md-nav__link">
+    date
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#player-selectors" class="md-nav__link">
+    Player selectors
+  </a>
+  
+    <nav class="md-nav" aria-label="Player selectors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#playername" class="md-nav__link">
+    player.name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playernamewildcard" class="md-nav__link">
+    player.name.wildcard
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playernamewildcardignore_case" class="md-nav__link">
+    player.name.wildcard.ignore_case
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playernameregex" class="md-nav__link">
+    player.name.regex
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playernameregexignore_case" class="md-nav__link">
+    player.name.regex.ignore_case
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbiomes" class="md-nav__link">
+    player.biomes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerheights" class="md-nav__link">
+    player.heights
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparator-selectors" class="md-nav__link">
+    Comparator selectors
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparator selectors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparatoroutput" class="md-nav__link">
+    comparator.output
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anvil" class="md-nav__link">
+    Anvil
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#barrel" class="md-nav__link">
+    Barrel
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beacon" class="md-nav__link">
+    Beacon
+  </a>
+  
+    <nav class="md-nav" aria-label="Beacon">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beaconlevels" class="md-nav__link">
+    beacon.levels
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#book" class="md-nav__link">
+    Book
+  </a>
+  
+    <nav class="md-nav" aria-label="Book">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bookpagecurrent" class="md-nav__link">
+    book.page.current
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bookpagecount" class="md-nav__link">
+    book.page.count
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#book-and-quill" class="md-nav__link">
+    Book and Quill
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#brewing-stand" class="md-nav__link">
+    Brewing stand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cartography-table" class="md-nav__link">
+    Cartography table
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chest" class="md-nav__link">
+    Chest
+  </a>
+  
+    <nav class="md-nav" aria-label="Chest">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chestlarge" class="md-nav__link">
+    chest.large
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trapped-chest" class="md-nav__link">
+    Trapped chest
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ender-chest" class="md-nav__link">
+    Ender chest
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chest-boats" class="md-nav__link">
+    Chest boats
+  </a>
+  
+    <nav class="md-nav" aria-label="Chest boats">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chest_boatvariants" class="md-nav__link">
+    chest_boat.variants
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chest-minecart" class="md-nav__link">
+    Chest minecart
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crafting-table" class="md-nav__link">
+    Crafting table
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dispenser" class="md-nav__link">
+    Dispenser
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dropper" class="md-nav__link">
+    Dropper
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enchanting-table" class="md-nav__link">
+    Enchanting table
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#furnace" class="md-nav__link">
+    Furnace
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blast-furnace" class="md-nav__link">
+    Blast furnace
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smoker" class="md-nav__link">
+    Smoker
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grindstone" class="md-nav__link">
+    Grindstone
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hopper" class="md-nav__link">
+    Hopper
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hopper-minecart" class="md-nav__link">
+    Hopper minecart
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#horse" class="md-nav__link">
+    Horse
+  </a>
+  
+    <nav class="md-nav" aria-label="Horse">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#horsehas_saddle" class="md-nav__link">
+    horse.has_saddle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#horsevariants" class="md-nav__link">
+    horse.variants
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#horsemarkings" class="md-nav__link">
+    horse.markings
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#donkey" class="md-nav__link">
+    Donkey
+  </a>
+  
+    <nav class="md-nav" aria-label="Donkey">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#donkeyhas_chest" class="md-nav__link">
+    donkey.has_chest
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mule" class="md-nav__link">
+    Mule
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#llama" class="md-nav__link">
+    Llama
+  </a>
+  
+    <nav class="md-nav" aria-label="Llama">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#llamacolors" class="md-nav__link">
+    llama.colors
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llamavariants" class="md-nav__link">
+    llama.variants
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trader-llama" class="md-nav__link">
+    Trader llama
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#skeleton-horse" class="md-nav__link">
+    Skeleton horse
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zombie-horse" class="md-nav__link">
+    Zombie horse
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#camel" class="md-nav__link">
+    Camel
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lectern" class="md-nav__link">
+    Lectern
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loom" class="md-nav__link">
+    Loom
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shulker-boxes" class="md-nav__link">
+    Shulker boxes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sign" class="md-nav__link">
+    Sign
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hanging-sign" class="md-nav__link">
+    Hanging sign
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smithing-table" class="md-nav__link">
+    Smithing table
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stonecutter" class="md-nav__link">
+    Stonecutter
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#villagers" class="md-nav__link">
+    Villagers
+  </a>
+  
+    <nav class="md-nav" aria-label="Villagers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#villagerprofessions" class="md-nav__link">
+    villager.professions
+  </a>
+  
+    <nav class="md-nav" aria-label="villager.professions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vanilla-professions" class="md-nav__link">
+    Vanilla professions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#villagertype" class="md-nav__link">
+    villager.type
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wandering-trader" class="md-nav__link">
+    Wandering trader
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#survival-inventory" class="md-nav__link">
+    Survival inventory
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creative-inventory-everything-else" class="md-nav__link">
+    Creative inventory &amp; everything else
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+
+<h1 id="replacing-gui-textures">Replacing GUI textures</h1>
+<p>This page describes the usage of OptiGUI <sup>2.1.0-beta.1+</sup> INI files. <a href="https://optifine.readthedocs.io/custom_guis.html">The OptiFine custom GUI documentation is available here</a>.</p>
+<p>This page assumes you to be familiar with the <a href="syntax.html">OptiGUI syntax</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>OptiGUI 2.1.0-beta.1 removed all OptiFine extensions from OptiFine files: <code>_cartography_table</code>, <code>_chest_boat</code>, <code>_grindstone</code>, <code>_loom</code>, <code>_smithing_table</code>, <code>_stonecutter</code>, <code>_barrel</code>, <code>_minecart</code>, <code>_furnace</code>, <code>_blast</code>, <code>_blast_furnace</code>, <code>_smoker</code>, <code>_camel</code>, <code>_zombie_horse</code>, <code>_skeleton_horse</code>, <code>_wandering_trader</code>.</p>
+<p>See the <a href="migrate.html">migration guide</a> to learn how to convert your resource pack.</p>
+</div>
+<p>You can define a texture replacement for each inventory GUI, and apply them based on different criteria.</p>
+<p>For each container GUI texture to replace, create a <code>.ini</code> file in <code>/assets/optigui/gui/</code> folder (or any of its subfolders in any depth) of the resource pack.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When specifying texture paths, <strong>do not</strong> forget file extensions, otherwise OptiGUI <strong>will not</strong> find the resources!</p>
+</div>
+<h2 id="special-selectors">Special selectors</h2>
+<p>These are not real selectors used for selecting entities and block entities, just have the same syntax. OptiGUI processes these specially when loading the resource.</p>
+<h3 id="replacement"><code>replacement</code></h3>
+<p><strong class="chip-darkblue">Required</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><a href="syntax.html#paths">Path</a> to the replacement texture for the default GUI texture of the container. This is not really a selector, as it is not used to match against an interaction, but specifies the replacement if all other selectors match.</p>
+<h3 id="loadpriority"><code>load.priority</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.2.0-alpha.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A single <a href="syntax.html#numbers">integer</a> (not range) specifying the load priority of the group. Default load priority is <code>0</code>. Higher load priority means earlier processing while evaluating the loaded filters.</p>
+<h2 id="interaction-selectors">Interaction selectors</h2>
+<h3 id="interactiontexture"><code>interaction.texture</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><a href="syntax.html#paths">Path</a> to the texture to replace (the default texture of the container). When left empty, OptiGUI looks up the default texture of the specified containers.</p>
+<h3 id="interactionhand"><code>interaction.hand</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.2.0-alpha.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>The hand the player started the interaction with. Possible values:</p>
+<ul>
+<li><code>main_hand</code></li>
+<li><code>off_hand</code></li>
+</ul>
+<h3 id="interactionscreen_title"><code>interaction.screen_title</code></h3>
+<p><strong class="chip-purple">Upcoming</strong></p>
+<h2 id="common-selectors">Common selectors</h2>
+<h3 id="name"><code>name</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#strings">String</a> specifying the exact value of the name of the entity or block entity.</p>
+<h3 id="namewildcard"><code>name.wildcard</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#strings">String</a> specifying the case-sensitive <a href="syntax.html#wildcard">wildcard</a> to match against the name of the entity or block entity.</p>
+<h3 id="namewildcardignore_case"><code>name.wildcard.ignore_case</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#strings">String</a> specifying the case-insensitive <a href="syntax.html#wildcard">wildcard</a> to match against the name of the entity or block entity.</p>
+<h3 id="nameregex"><code>name.regex</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#strings">String</a> specifying the case-sensitive <a href="syntax.html#regex">regex</a> to match against the name of the entity or block entity.</p>
+<h3 id="nameregexignore_case"><code>name.regex.ignore_case</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#strings">String</a> specifying the case-insensitive <a href="syntax.html#regex">regex</a> to match against the name of the entity or block entity.</p>
+<h3 id="biomes"><code>biomes</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of biome identifiers specifying the biomes of the entity or block entity where this replacement applies.</p>
+<h3 id="heights"><code>heights</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of <a href="syntax.html#numbers">integers</a> and <a href="syntax.html#ranges">ranges</a> specifying the heights (Y coordiantes) of the entity or block entity, where this replacement applies.</p>
+<h2 id="independent-selectors">Independent selectors</h2>
+<h3 id="date"><code>date</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of <a href="syntax.html#dates">dates</a> specifying when the texture should be replaced.</p>
+<h2 id="player-selectors">Player selectors</h2>
+<h3 id="playername"><code>player.name</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.3.0-beta.3+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#strings">String</a> specifying the exact value of the name of the entity or block entity.</p>
+<h3 id="playernamewildcard"><code>player.name.wildcard</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.3.0-beta.3+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#strings">String</a> specifying the case-sensitive <a href="syntax.html#wildcard">wildcard</a> to match against the name of the entity or block entity.</p>
+<h3 id="playernamewildcardignore_case"><code>player.name.wildcard.ignore_case</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.3.0-beta.3+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#strings">String</a> specifying the case-insensitive <a href="syntax.html#wildcard">wildcard</a> to match against the name of the entity or block entity.</p>
+<h3 id="playernameregex"><code>player.name.regex</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.3.0-beta.3+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#strings">String</a> specifying the case-sensitive <a href="syntax.html#regex">regex</a> to match against the name of the entity or block entity.</p>
+<h3 id="playernameregexignore_case"><code>player.name.regex.ignore_case</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.3.0-beta.3+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#strings">String</a> specifying the case-insensitive <a href="syntax.html#regex">regex</a> to match against the name of the entity or block entity.</p>
+<h3 id="playerbiomes"><code>player.biomes</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.3.0-beta.3+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of biome identifiers specifying the biomes of the entity or block entity where this replacement applies.</p>
+<h3 id="playerheights"><code>player.heights</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.3.0-beta.3+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of <a href="syntax.html#numbers">integers</a> and <a href="syntax.html#ranges">ranges</a> specifying the heights (Y coordiantes) of the entity or block entity, where this replacemen</p>
+<h2 id="comparator-selectors">Comparator selectors</h2>
+<h3 id="comparatoroutput"><code>comparator.output</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.3+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of <a href="syntax.html#numbers">integers</a> and <a href="syntax.html#ranges">ranges</a> specifying the redstone comparator output of the entity or block entity, where this replacement applies.</p>
+<h2 id="anvil">Anvil</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/anvil.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">[anvil chipped_anvil damaged_anvil]</span>
+</code></pre></div>
+</div>
+<h2 id="barrel">Barrel</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/generic_54.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#comparator-selectors">comparator selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">[barrel]</span>
+</code></pre></div>
+</div>
+<h2 id="beacon">Beacon</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/beacon.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">[beacon]</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="na">beacon.levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1 3-5</span>
+</code></pre></div>
+</div>
+<h3 id="beaconlevels"><code>beacon.levels</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of <a href="syntax.html#numbers">integers</a> and <a href="syntax.html#ranges">ranges</a> specifying the levels of beacon power to apply to (how many bases of blocks).</p>
+<h2 id="book">Book</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.3+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/book.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">[written_book]</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="na">book.page.current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1 3-4</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="na">book.page.count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">5 10-15</span>
+</code></pre></div>
+</div>
+<h3 id="bookpagecurrent"><code>book.page.current</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.3+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of <a href="syntax.html#numbers">integers</a> and <a href="syntax.html#ranges">ranges</a> specifying the the current page of the book, where this replacement applies.</p>
+<h3 id="bookpagecount"><code>book.page.count</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.3+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of <a href="syntax.html#numbers">integers</a> and <a href="syntax.html#ranges">ranges</a> specifying the the page count of the book, where this replacement applies.</p>
+<h2 id="book-and-quill">Book and Quill</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.3+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/book.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#book">book selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">[writable_book]</span>
+</code></pre></div>
+</div>
+<h2 id="brewing-stand">Brewing stand</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/brewing_stand.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#comparator-selectors">comparator selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[brewing_stand]</span>
+</code></pre></div>
+</div>
+<h2 id="cartography-table">Cartography table</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/cartography_table.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">[cartography_tabe]</span>
+</code></pre></div>
+</div>
+<h2 id="chest">Chest</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/generic_54.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#comparator-selectors">comparator selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">[chest]</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="na">chest.large</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+</code></pre></div>
+</div>
+<h3 id="chestlarge"><code>chest.large</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A single <a href="syntax.html#booleans">boolean</a> specifying if the texture of a double chest should be replaced.</p>
+<h2 id="trapped-chest">Trapped chest</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/generic_54.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#comparator-selectors">comparator selectors</a>, <a href="#chest">chest selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">[trapped_chest]</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="na">chest.large</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+</code></pre></div>
+</div>
+<h2 id="ender-chest">Ender chest</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/generic_54.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">[ender_chest]</span>
+</code></pre></div>
+</div>
+<h2 id="chest-boats">Chest boats</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.19+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/generic_54.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">[chest_boat]</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="na">chest_boat.variants</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">oak spruce</span>
+</code></pre></div>
+</div>
+<h3 id="chest_boatvariants"><code>chest_boat.variants</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.19+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of <a href="syntax.html#strings">strings</a> specifying the wood type of the chest boat. Possible values:</p>
+<ul>
+<li><code>acacia</code></li>
+<li><code>bamboo</code> <strong class="chip-lightgreen">Minecraft 1.20+</strong> <strong class="chip-lightgreen">Minecraft 1.19.3+ with 1.20 experiments</strong></li>
+<li><code>birch</code></li>
+<li><code>cherry</code> <strong class="chip-lightgreen">Minecraft 1.20+</strong> <strong class="chip-lightgreen">Minecraft 1.19.4+ with 1.20 experiments</strong></li>
+<li><code>dark_oak</code></li>
+<li><code>jungle</code></li>
+<li><code>mangrove</code></li>
+<li><code>oak</code></li>
+<li><code>spruce</code></li>
+</ul>
+<h2 id="chest-minecart">Chest minecart</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>mniecraft:textures/gui/container/generic_54.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#comparator-selectors">comparator selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">[chest_minecart]</span>
+</code></pre></div>
+</div>
+<h2 id="crafting-table">Crafting table</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/crafting_table.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">[crafting_table]</span>
+</code></pre></div>
+</div>
+<h2 id="dispenser">Dispenser</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/dispenser.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#comparator-selectors">comparator selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">[dispenser]</span>
+</code></pre></div>
+</div>
+<h2 id="dropper">Dropper</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/dispenser.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#comparator-selectors">comparator selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">[dropper]</span>
+</code></pre></div>
+</div>
+<h2 id="enchanting-table">Enchanting table</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/enchanting_table.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">[enchanting_table]</span>
+</code></pre></div>
+</div>
+<h2 id="furnace">Furnace</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/furnace.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#comparator-selectors">comparator selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">[furnace]</span>
+</code></pre></div>
+</div>
+<h2 id="blast-furnace">Blast furnace</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/blast_furnace.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#comparator-selectors">comparator selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">[blast_furnace]</span>
+</code></pre></div>
+</div>
+<h2 id="smoker">Smoker</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/smoker.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#comparator-selectors">comparator selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">[smoker]</span>
+</code></pre></div>
+</div>
+<h2 id="grindstone">Grindstone</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/grindstone.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">[grindstone]</span>
+</code></pre></div>
+</div>
+<h2 id="hopper">Hopper</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/hopper.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#comparator-selectors">comparator selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">[hopper]</span>
+</code></pre></div>
+</div>
+<h2 id="hopper-minecart">Hopper minecart</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/hopper.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#comparator-selectors">comparator selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">[hopper_minecart]</span>
+</code></pre></div>
+</div>
+<h2 id="horse">Horse</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/horse.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#donkey">donkey selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">[horse]</span>
+</code></pre></div>
+</div>
+<h3 id="horsehas_saddle"><code>horse.has_saddle</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.2.0-alpha.1</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A single <a href="syntax.html#booleans">boolean</a> specifying if the entity needs to be or not be saddled.</p>
+<h3 id="horsevariants"><code>horse.variants</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.2.0-alpha.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of <a href="syntax.html#strings">strings</a> specifying the horse's variant. Possible values:</p>
+<ul>
+<li><code>black</code></li>
+<li><code>brown</code></li>
+<li><code>chestnut</code></li>
+<li><code>creamy</code></li>
+<li><code>dark_brown</code></li>
+<li><code>gray</code></li>
+<li><code>white</code></li>
+</ul>
+<h3 id="horsemarkings"><code>horse.markings</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.2.0-alpha.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of <a href="syntax.html#strings">strings</a> specifying the marking on a horse. Possible values:</p>
+<ul>
+<li><code>black_dots</code></li>
+<li><code>none</code></li>
+<li><code>white</code></li>
+<li><code>white_dots</code></li>
+<li><code>white_field</code></li>
+</ul>
+<h2 id="donkey">Donkey</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/horse.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#horsehas_saddle"><code>horse.has_saddle</code></a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="k">[donkey]</span>
+</code></pre></div>
+</div>
+<h3 id="donkeyhas_chest"><code>donkey.has_chest</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.3+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A single <a href="syntax.html#booleans">boolean</a> specifying if the entity needs to have or not have a chest.</p>
+<h2 id="mule">Mule</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/horse.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#donkey">donkey selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="k">[mule]</span>
+</code></pre></div>
+</div>
+<h2 id="llama">Llama</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/horse.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#donkey">donkey selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="k">[llama trader_llama]</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="na">llama.colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">red green blue</span>
+</code></pre></div>
+</div>
+<h3 id="llamacolors"><code>llama.colors</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of <a href="syntax.html#strings">strings</a> specifying the llama's carpet color. Possible values:</p>
+<ul>
+<li><code>white</code></li>
+<li><code>orange</code></li>
+<li><code>magenta</code></li>
+<li><code>light_blue</code></li>
+<li><code>yellow</code></li>
+<li><code>lime</code></li>
+<li><code>pink</code></li>
+<li><code>gray</code></li>
+<li><code>light_gray</code></li>
+<li><code>cyan</code></li>
+<li><code>purple</code></li>
+<li><code>blue</code></li>
+<li><code>brown</code></li>
+<li><code>green</code></li>
+<li><code>red</code></li>
+<li><code>black</code></li>
+</ul>
+<h3 id="llamavariants"><code>llama.variants</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.2.0-alpha.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of <a href="syntax.html#strings">strings</a> specifying the llama's variant. Possible values:</p>
+<ul>
+<li><code>brown</code></li>
+<li><code>creamy</code></li>
+<li><code>gray</code></li>
+<li><code>white</code></li>
+</ul>
+<h2 id="trader-llama">Trader llama</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/horse.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#donkey">donkey selectors</a>, <a href="#llama">llama selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="k">[llama trader_llama]</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="na">llama.colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">red green blue</span>
+</code></pre></div>
+</div>
+<h2 id="skeleton-horse">Skeleton horse</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/horse.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="k">[skeleton_horse]</span>
+</code></pre></div>
+</div>
+<h2 id="zombie-horse">Zombie horse</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/horse.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="k">[zombie_horse]</span>
+</code></pre></div>
+</div>
+<h2 id="camel">Camel</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.20+</strong>
+<strong class="chip-lightgreen">Minecraft 1.19.3+ with 1.20 experiments</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/horse.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#horsehas_saddle"><code>horse.has_saddle</code></a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="k">[camel]</span>
+</code></pre></div>
+</div>
+<h2 id="lectern">Lectern</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/horse.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#comparator-selectors">comparator selectors</a>, <a href="#book">book selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="k">[lectern]</span>
+</code></pre></div>
+</div>
+<h2 id="loom">Loom</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/loom.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="k">[loom]</span>
+</code></pre></div>
+</div>
+<h2 id="shulker-boxes">Shulker boxes</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/shulker_box.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a>, <a href="#comparator-selectors">comparator selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="k">[shulker_box]</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="k">[white_shulker_box]</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="k">[orange_shulker_box]</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="k">[magenta_shulker_box]</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="k">[light_blue_shulker_box]</span>
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="k">[yellow_shulker_box]</span>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="k">[lime_shulker_box]</span>
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a><span class="k">[pink_shulker_box]</span>
+<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a><span class="k">[gray_shulker_box]</span>
+<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="k">[light_gray_shulker_box]</span>
+<a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a><span class="k">[cyan_shulker_box]</span>
+<a id="__codelineno-32-12" name="__codelineno-32-12" href="#__codelineno-32-12"></a><span class="k">[purple_shulker_box]</span>
+<a id="__codelineno-32-13" name="__codelineno-32-13" href="#__codelineno-32-13"></a><span class="k">[blue_shulker_box]</span>
+<a id="__codelineno-32-14" name="__codelineno-32-14" href="#__codelineno-32-14"></a><span class="k">[brown_shulker_box]</span>
+<a id="__codelineno-32-15" name="__codelineno-32-15" href="#__codelineno-32-15"></a><span class="k">[green_shulker_box]</span>
+<a id="__codelineno-32-16" name="__codelineno-32-16" href="#__codelineno-32-16"></a><span class="k">[red_shulker_box]</span>
+<a id="__codelineno-32-17" name="__codelineno-32-17" href="#__codelineno-32-17"></a><span class="k">[black_shulker_box]</span>
+</code></pre></div>
+</div>
+<h2 id="sign">Sign</h2>
+<p><strong class="chip-red">Not supported</strong></p>
+<p>Sign edit GUI renders a block model of the sign block, it doesn't have a texture.</p>
+<h2 id="hanging-sign">Hanging sign</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.3+</strong>
+<strong class="chip-lightgreen">Minecraft 1.20+</strong>
+<strong class="chip-lightgreen">Minecraft 1.19.3+ with 1.20 experiments</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/hanging_signs/*.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="k">[acacia_hanging_sign acacia_wall_hanging_sign]</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="k">[bamboo_hanging_sign bamboo_wall_hanging_sign]</span>
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="k">[birch_hanging_sign birch_wall_hanging_sign]</span>
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="k">[cherry_hanging_sign cherry_wall_hanging_sign]</span>
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a><span class="k">[crimson_hanging_sign crimson_wall_hanging_sign]</span>
+<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a><span class="k">[dark_oak_hanging_sign dark_oak_wall_hanging_sign]</span>
+<a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a><span class="k">[jungle_hanging_sign jungle_wall_hanging_sign]</span>
+<a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="k">[mangrove_hanging_sign mangrove_wall_hanging_sign]</span>
+<a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a><span class="k">[oak_hanging_sign oak_wall_hanging_sign]</span>
+<a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a><span class="k">[spruce_hanging_sign spruce_wall_hanging_sign]</span>
+<a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a><span class="k">[warped_hanging_sign warped_wall_hanging_sign]</span>
+</code></pre></div>
+</div>
+<h2 id="smithing-table">Smithing table</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/smithing.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="k">[smithing_table]</span>
+</code></pre></div>
+</div>
+<h2 id="stonecutter">Stonecutter</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/stonecutter.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="k">[stonecutter]</span>
+</code></pre></div>
+</div>
+<h2 id="villagers">Villagers</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/villager2.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="k">[villager]</span>
+</code></pre></div>
+</div>
+<h3 id="villagerprofessions"><code>villager.professions</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of <a href="syntax.html#professions">professions</a> specifying villager professions with optional levels.</p>
+<div class="admonition example">
+<p class="admonition-title">Cleric (any levels) or fisherman (any levels)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="k">[villager]</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="na">villager.professions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">cleric minecraft:fisherman</span>
+</code></pre></div>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Fletcher (levels 1, 3, 4)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="k">[villager]</span>
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="na">villager.professions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">fletcher@1 minecraft:fletcher@3-4</span>
+</code></pre></div>
+</div>
+<h4 id="vanilla-professions">Vanilla professions</h4>
+<ul>
+<li><code>armorer</code></li>
+<li><code>butcher</code></li>
+<li><code>cartographer</code></li>
+<li><code>cleric</code></li>
+<li><code>farmer</code></li>
+<li><code>fisherman</code></li>
+<li><code>fletcher</code></li>
+<li><code>leatherworker</code></li>
+<li><code>librarian</code></li>
+<li><code>mason</code></li>
+<li><code>nitwit</code></li>
+<li><code>shepherd</code></li>
+<li><code>toolsmith</code></li>
+<li><code>weaponsmith</code></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>OptiGUI supports professions from other mods, if prefixed with a namespace.</p>
+</div>
+<h3 id="villagertype"><code>villager.type</code></h3>
+<p><strong class="chip-lightblue">Optional</strong>
+<strong class="chip-darkgreen">OptiGUI 2.1.3+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p>A <a href="syntax.html#lists">list</a> of <a href="syntax.html#strings">strings</a> specifying villager types (which biome was it born in). This is how its clothing looks like. Possible values:</p>
+<ul>
+<li><code>desert</code></li>
+<li><code>jungle</code></li>
+<li><code>plains</code></li>
+<li><code>savanna</code></li>
+<li><code>snow</code></li>
+<li><code>swamp</code></li>
+<li><code>taiga</code></li>
+</ul>
+<h2 id="wandering-trader">Wandering trader</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/villager2.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="k">[wandering_trader]</span>
+</code></pre></div>
+</div>
+<h2 id="survival-inventory">Survival inventory</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<p><strong>Texture path:</strong> <code>minecraft:textures/gui/container/inventory.png</code></p>
+<p>Supports the following additional selectors: <a href="#common-selectors">common selectors</a>, <a href="#interaction-selectors">interaction selectors</a>, <a href="#independent-selectors">independent selectors</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Common selectors apply to the player instead of the interacted container, because there is no interaction with another entity or block entity.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="k">[player]</span>
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="na">interaction.texture</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">minecraft:textures/gui/container/inventory.png</span>
+</code></pre></div>
+</div>
+<h2 id="creative-inventory-everything-else">Creative inventory &amp; everything else</h2>
+<p><strong class="chip-darkgreen">OptiGUI 2.1.0-beta.1+</strong>
+<strong class="chip-lightgreen">Minecraft 1.18+</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>GUIs not having a default texture must to be fitered with <a href="#interactiontexture"><code>interaction.texture</code></a>.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Example for creative inventory</p>
+<p>This is the equivalent syntax of <a href="https://optifine.readthedocs.io/custom_guis.html#texture-texture-path">OptiFine's <code>texture.PATH</code> example in the table</a>. In <code>/assets/optigui/gui/creative_desert.ini</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="k">[player #1]</span>
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a><span class="na">biomes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">desert</span>
+<a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a><span class="na">interaction.texture</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">minecraft:textures/gui/container/creative_inventory/tab_inventory.png</span>
+<a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a><span class="na">replacement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">tab_inventory_desert.png</span>
+<a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>
+<a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a><span class="k">[player #2]</span>
+<a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a><span class="na">biomes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">desert</span>
+<a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a><span class="na">interaction.texture</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">minecraft:textures/gui/container/creative_inventory/tabs.png</span>
+<a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a><span class="na">replacement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">tabs_desert.png</span>
+<a id="__codelineno-41-10" name="__codelineno-41-10" href="#__codelineno-41-10"></a>
+<a id="__codelineno-41-11" name="__codelineno-41-11" href="#__codelineno-41-11"></a><span class="k">[player #3]</span>
+<a id="__codelineno-41-12" name="__codelineno-41-12" href="#__codelineno-41-12"></a><span class="na">biomes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">desert</span>
+<a id="__codelineno-41-13" name="__codelineno-41-13" href="#__codelineno-41-13"></a><span class="na">interaction.texture</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">minecraft:textures/gui/container/creative_inventory/tab_items.png</span>
+<a id="__codelineno-41-14" name="__codelineno-41-14" href="#__codelineno-41-14"></a><span class="na">replacement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">tab_items_desert.png</span>
+<a id="__codelineno-41-15" name="__codelineno-41-15" href="#__codelineno-41-15"></a>
+<a id="__codelineno-41-16" name="__codelineno-41-16" href="#__codelineno-41-16"></a><span class="k">[player #4]</span>
+<a id="__codelineno-41-17" name="__codelineno-41-17" href="#__codelineno-41-17"></a><span class="na">biomes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">desert</span>
+<a id="__codelineno-41-18" name="__codelineno-41-18" href="#__codelineno-41-18"></a><span class="na">interaction.texture</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">minecraft:textures/gui/container/creative_inventory/tab_item_search.png</span>
+<a id="__codelineno-41-19" name="__codelineno-41-19" href="#__codelineno-41-19"></a><span class="na">replacement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">tab_item_search_desert.png</span>
+</code></pre></div>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2022-2024 opekope2
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.expand", "content.code.copy"], "search": "assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+    
+  </body>
+</html>

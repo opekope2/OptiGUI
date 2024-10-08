@@ -1,0 +1,18 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:opekope2.optigui.filter/PreProcessorFilter.Companion/nullGuarded/#kotlin.Function1[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])?]#[Error type: Unresolved type for IFilter.Result<TResult>][TypeParam(bounds=[kotlin.Any?])]#[Error type: Unresolved type for IFilter<TFilter, TResult>][TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/OptiGUI Filters/opekope2.optigui.filter/-pre-processor-filter/null-guarded.html
+$dokka.location:opekope2.optigui.filter/RangeFilter.Companion/atLeast/#kotlin.Int/PointingToDeclaration/OptiGUI Filters/opekope2.optigui.filter/-range-filter/at-least.html
+$dokka.location:opekope2.optigui.filter/RangeFilter.Companion/atMost/#kotlin.Int/PointingToDeclaration/OptiGUI Filters/opekope2.optigui.filter/-range-filter/at-most.html
+$dokka.location:opekope2.optigui.filter/RangeFilter.Companion/between/#kotlin.Int#kotlin.Int/PointingToDeclaration/OptiGUI Filters/opekope2.optigui.filter/-range-filter/between.html
+module:OptiGUI API
+opekope2.optigui.annotation
+opekope2.optigui.api
+opekope2.optigui.api.interaction
+opekope2.optigui.api.lilac_resource_loading
+opekope2.optigui.api.selector
+opekope2.optigui.filter
+module:OptiGUI Filters
+opekope2.optigui.filter
+module:OptiGUI Properties
+opekope2.optigui.properties
+opekope2.optigui.properties.impl

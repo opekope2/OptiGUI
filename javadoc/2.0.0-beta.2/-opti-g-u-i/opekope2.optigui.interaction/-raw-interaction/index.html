@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>RawInteraction</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>OptiGUI</span>
+            </a>
+    </div>
+    <div>
+2.0.0-beta.2    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter="OptiGUI/main">jvm</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="OptiGUI::opekope2.optigui.interaction/RawInteraction///PointingToDeclaration//-1573797845">
+  <div class="breadcrumbs"><a href="../../../index.html">OptiGUI</a><span class="delimiter">/</span><a href="../index.html">opekope2.optigui.interaction</a><span class="delimiter">/</span><span class="current">RawInteraction</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Raw</span><wbr></wbr><span><span>Interaction</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="OptiGUI/main"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span class="token keyword">class </span><a href="index.html">RawInteraction</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/opekope2/OptiGUI-Next/tree/2.0.0-beta.2/OptiGUI/src/main/kotlin/opekope2/optigui/interaction/RawInteraction.kt#L20">source</a>)</span></span></div><p class="paragraph">Raw interaction details. When using preprocessors, this is likely unnecessary. Only required, when entities and block entities are unavailable (for example, anvils, and many villager job sites). Unavailable for ridden entities.</p><h4 class="">See also</h4><div class="table"><div class="table-row" data-filterable-current="OptiGUI/main" data-filterable-set="OptiGUI/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="https://maven.fabricmc.net/docs/fabric-api-0.76.0+1.19.4/net/fabricmc/fabric/api/event/player/UseBlockCallback.html#interact-net.minecraft.entity.player.PlayerEntity-net.minecraft.world.World-net.minecraft.util.Hand-net.minecraft.util.hit.BlockHitResult-"><span>Use</span><wbr></wbr><span>Block</span><wbr></wbr><span>Callback.</span><wbr></wbr><span>interact</span></a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="OptiGUI/main" data-filterable-set="OptiGUI/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="https://maven.fabricmc.net/docs/fabric-api-0.76.0+1.19.4/net/fabricmc/fabric/api/event/player/UseEntityCallback.html#interact-net.minecraft.entity.player.PlayerEntity-net.minecraft.world.World-net.minecraft.util.Hand-net.minecraft.entity.Entity-net.minecraft.util.hit.EntityHitResult?-"><span>Use</span><wbr></wbr><span>Entity</span><wbr></wbr><span>Callback.</span><wbr></wbr><span>interact</span></a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="OptiGUI/main" data-filterable-set="OptiGUI/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../opekope2.optigui.service/-interaction-service/interact.html"><span>Interaction</span><wbr></wbr><span>Service.</span><wbr></wbr><span>interact</span></a></div></span></div><div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,FUNCTION,PROPERTY">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="129288173%2FConstructors%2F-1573797845" anchor-label="RawInteraction" id="129288173%2FConstructors%2F-1573797845" data-filterable-set="OptiGUI/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current="OptiGUI/main" data-filterable-set="OptiGUI/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-raw-interaction.html"><span>Raw</span><wbr></wbr><span><span>Interaction</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="129288173%2FConstructors%2F-1573797845"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="OptiGUI/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="index.html">RawInteraction</a> <a href="-raw-interaction.html"><span class="token function">RawInteraction</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/net/minecraft/entity/player/PlayerEntity.html">PlayerEntity</a> player<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/net/minecraft/world/World.html">World</a> world<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/net/minecraft/util/Hand.html">Hand</a> hand<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/net/minecraft/util/hit/HitResult.html">HitResult</a> hitResult</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-603787426%2FFunctions%2F-1573797845" anchor-label="getHand" id="-603787426%2FFunctions%2F-1573797845" data-filterable-set="OptiGUI/main"></a>
+          <div class="table-row" data-filterable-current="OptiGUI/main" data-filterable-set="OptiGUI/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-hand.html"><span>get</span><wbr></wbr><span><span>Hand</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-603787426%2FFunctions%2F-1573797845"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="OptiGUI/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/net/minecraft/util/Hand.html">Hand</a> <a href="get-hand.html"><span class="token function">getHand</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="662254845%2FFunctions%2F-1573797845" anchor-label="getHitResult" id="662254845%2FFunctions%2F-1573797845" data-filterable-set="OptiGUI/main"></a>
+          <div class="table-row" data-filterable-current="OptiGUI/main" data-filterable-set="OptiGUI/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-hit-result.html"><span>get</span><wbr></wbr><span>Hit</span><wbr></wbr><span><span>Result</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="662254845%2FFunctions%2F-1573797845"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="OptiGUI/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/net/minecraft/util/hit/HitResult.html">HitResult</a> <a href="get-hit-result.html"><span class="token function">getHitResult</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-991310548%2FFunctions%2F-1573797845" anchor-label="getPlayer" id="-991310548%2FFunctions%2F-1573797845" data-filterable-set="OptiGUI/main"></a>
+          <div class="table-row" data-filterable-current="OptiGUI/main" data-filterable-set="OptiGUI/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-player.html"><span>get</span><wbr></wbr><span><span>Player</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-991310548%2FFunctions%2F-1573797845"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="OptiGUI/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/net/minecraft/entity/player/PlayerEntity.html">PlayerEntity</a> <a href="get-player.html"><span class="token function">getPlayer</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1069320901%2FFunctions%2F-1573797845" anchor-label="getWorld" id="-1069320901%2FFunctions%2F-1573797845" data-filterable-set="OptiGUI/main"></a>
+          <div class="table-row" data-filterable-current="OptiGUI/main" data-filterable-set="OptiGUI/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-world.html"><span>get</span><wbr></wbr><span><span>World</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1069320901%2FFunctions%2F-1573797845"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="OptiGUI/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/net/minecraft/world/World.html">World</a> <a href="get-world.html"><span class="token function">getWorld</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="618000136%2FProperties%2F-1573797845" anchor-label="hand" id="618000136%2FProperties%2F-1573797845" data-filterable-set="OptiGUI/main"></a>
+          <div class="table-row" data-filterable-current="OptiGUI/main" data-filterable-set="OptiGUI/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#618000136%2FProperties%2F-1573797845"><span><span>hand</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="618000136%2FProperties%2F-1573797845"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="OptiGUI/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/net/minecraft/util/Hand.html">Hand</a> <a href="index.html#618000136%2FProperties%2F-1573797845">hand</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-674926701%2FProperties%2F-1573797845" anchor-label="hitResult" id="-674926701%2FProperties%2F-1573797845" data-filterable-set="OptiGUI/main"></a>
+          <div class="table-row" data-filterable-current="OptiGUI/main" data-filterable-set="OptiGUI/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-674926701%2FProperties%2F-1573797845"><span>hit</span><wbr></wbr><span><span>Result</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-674926701%2FProperties%2F-1573797845"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="OptiGUI/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/net/minecraft/util/hit/HitResult.html">HitResult</a> <a href="index.html#-674926701%2FProperties%2F-1573797845">hitResult</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="620464726%2FProperties%2F-1573797845" anchor-label="player" id="620464726%2FProperties%2F-1573797845" data-filterable-set="OptiGUI/main"></a>
+          <div class="table-row" data-filterable-current="OptiGUI/main" data-filterable-set="OptiGUI/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#620464726%2FProperties%2F-1573797845"><span><span>player</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="620464726%2FProperties%2F-1573797845"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="OptiGUI/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/net/minecraft/entity/player/PlayerEntity.html">PlayerEntity</a> <a href="index.html#620464726%2FProperties%2F-1573797845">player</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1848612143%2FProperties%2F-1573797845" anchor-label="world" id="-1848612143%2FProperties%2F-1573797845" data-filterable-set="OptiGUI/main"></a>
+          <div class="table-row" data-filterable-current="OptiGUI/main" data-filterable-set="OptiGUI/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1848612143%2FProperties%2F-1573797845"><span><span>world</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1848612143%2FProperties%2F-1573797845"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="OptiGUI/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.19.4+build.1/net/minecraft/world/World.html">World</a> <a href="index.html#-1848612143%2FProperties%2F-1573797845">world</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022-2023 opekope2</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
