@@ -1,7 +1,7 @@
 [versions]
 java = "17" # Don't forget to update *.mixins.json
 kotlin = "1.8.21"
-optigui = "2.3.0-beta.5+1.19.3"
+optigui = "2.3.0-beta.6+1.19.3"
 minecraft = "1.19.3"
 yarn = "1.19.3+build.5"
 fabric-loom = "1.5-SNAPSHOT"

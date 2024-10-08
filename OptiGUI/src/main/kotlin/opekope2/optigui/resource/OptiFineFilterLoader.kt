@@ -66,12 +66,7 @@ private fun createFilterData(
             )
             continue
         }
-        yield(
-            OptiFineFilterData(resourcePath, null, resolvedReplacement, properties, false).apply {
-                originalTexture = original
-                replaceableTextures = setOf(original)
-            }
-        )
+        yield(TexturePathFilterData(resourcePath, original, resolvedReplacement, properties))
     }
 }
 
@@ -193,7 +188,7 @@ private open class OptiFineFilterData(
         filterName: Boolean
     ) : this(resource, Identifier(container), replacementTexture, properties, filterName)
 
-    var originalTexture: Identifier? = container?.let(ContainerDefaultGuiTextureRegistry::get)
+    open val originalTexture: Identifier? = container?.let(ContainerDefaultGuiTextureRegistry::get)
 
     override val rawSelectorData
         get() = sequence {
@@ -287,6 +282,24 @@ private class PlayerFilterData(
     override val rawSelectorData
         get() = sequence {
             originalTexture?.let { original -> yield("interaction.texture" to original.toString()) }
+            properties["biomes"]?.let { biomes -> yield("player.biomes" to biomes) }
+            properties["heights"]?.let { heights -> yield("player.heights" to heights) }
+        }.asIterable()
+}
+
+private class TexturePathFilterData(
+    resource: Identifier,
+    override val originalTexture: Identifier,
+    replacementTexture: Identifier,
+    properties: Options
+) : OptiFineFilterData(resource, null, replacementTexture, properties, false) {
+    init {
+        replaceableTextures = setOf(originalTexture)
+    }
+
+    override val rawSelectorData: Iterable<Pair<String, String>>
+        get() = sequence {
+            yield("interaction.texture" to originalTexture.toString())
             properties["biomes"]?.let { biomes -> yield("player.biomes" to biomes) }
             properties["heights"]?.let { heights -> yield("player.heights" to heights) }
         }.asIterable()
