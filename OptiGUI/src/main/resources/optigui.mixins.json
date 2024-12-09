@@ -8,8 +8,8 @@
   "client": [
     "HandledScreenMixin",
     "IBookScreenAccessor",
+    "DrawContextMixin",
     "MinecraftClientMixin",
-    "RenderSystemMixin",
     "ScreenMixin",
     "screen.AbstractFurnaceScreenHandlerMixin",
     "screen.BookEditScreenMixin",
