@@ -1,18 +1,12 @@
 package opekope2.optigui.filter
 
 import net.minecraft.nbt.NbtElement
-import opekope2.optigui.interaction.Interaction
 import java.util.function.Predicate
 
 /**
  * A filter filtering [NbtElement]s.
  */
 typealias INbtFilter = IFilter<NbtElement?>
-
-/**
- * A filter filtering [Interaction]s.
- */
-typealias IInteractionFilter = IFilter<Interaction>
 
 /**
  * A filter evaluated at load time.

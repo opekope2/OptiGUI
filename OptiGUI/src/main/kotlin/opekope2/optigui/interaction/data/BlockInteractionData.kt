@@ -4,8 +4,10 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import opekope2.optigui.util.encode
 import opekope2.optigui.util.identifier
 import java.util.function.Supplier
 
@@ -29,4 +31,11 @@ data class BlockInteractionData @JvmOverloads constructor(
 ) : IInteractionData {
     override val id: Identifier
         get() = blockState.block.identifier
+
+    override fun writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
+        super.writeNbt(compound, lookup)
+
+        compound.encode("block_state", blockState, BlockState.CODEC, lookup)
+        if (blockEntity != null) compound.put("block_entity", blockEntity.createNbtWithId(lookup))
+    }
 }

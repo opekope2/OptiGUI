@@ -2,7 +2,7 @@ package opekope2.optigui.resource.loader
 
 import net.minecraft.resource.Resource
 import net.minecraft.util.Identifier
-import opekope2.optigui.filter.IInteractionFilter
+import opekope2.optigui.filter.INbtFilter
 import org.slf4j.Logger
 
 /**
@@ -49,17 +49,17 @@ interface IResourceLoadingContext<T> {
 
     /**
      * Tells OptiGUI to replace the texture of a container with the given texture if the given filter matches the
-     * interaction.
+     * interaction NBT.
      *
      * @param containerId The container to replace the texture of
-     * @param filter
+     * @param filter The filter to match interactions
      * @param replacementTexture The texture to replace the container's texture with
      * @param priority The evaluation order of the filter. Can't be negative. Higher priority filters are evaluated
      *  first. OptiGUI works best if most filters have 0 priority, so only set this anything higher if you must
      */
     fun addRetexturableContainer(
         containerId: Identifier,
-        filter: IInteractionFilter,
+        filter: INbtFilter,
         replacementTexture: Identifier,
         priority: Int
     )

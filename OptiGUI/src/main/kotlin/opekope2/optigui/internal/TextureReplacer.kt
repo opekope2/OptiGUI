@@ -36,9 +36,10 @@ internal object TextureReplacer : ClientModInitializer, ClientTickEvents.EndWorl
         if (texture !in replaceableTextures) return texture
 
         val interaction = InteractionManager.createInteraction(texture) ?: return texture
+        val interactionNbt = interaction.createNbt()
         return replacementCache.getOrPut(texture) {
-            filters[interaction.data.id]?.promoteFirstOrNull { it.test(interaction) }?.replacementTexture
-                ?: filters[null]?.promoteFirstOrNull { it.test(interaction) }?.replacementTexture
+            filters[interaction.data.id]?.promoteFirstOrNull { it.test(interactionNbt) }?.replacementTexture
+                ?: filters[null]?.promoteFirstOrNull { it.test(interactionNbt) }?.replacementTexture
                 ?: texture
         }
     }

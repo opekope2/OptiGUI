@@ -2,7 +2,7 @@ package opekope2.optigui.internal.resource.loader
 
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
-import opekope2.optigui.filter.IInteractionFilter
+import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.internal.filter.TextureReplacerFilter
 import opekope2.optigui.resource.loader.IResourceLoadingContext
 import org.slf4j.Logger
@@ -30,7 +30,7 @@ internal class ResourceLoadingContext<T>(
 
     override fun addRetexturableContainer(
         containerId: Identifier,
-        filter: IInteractionFilter,
+        filter: INbtFilter,
         replacementTexture: Identifier,
         priority: Int
     ) {

@@ -1,14 +1,13 @@
 package opekope2.optigui.filter.factory
 
-import opekope2.optigui.filter.IInteractionFilter
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.registry.RegistryBase
 import org.slf4j.Logger
 
 /**
- * A factory for an [IInteractionFilter].
+ * A factory for an [INbtFilter].
  */
-fun interface IInteractionFilterFactory {
+fun interface INbtFilterFactory {
     /**
      * Creates a filter, which filters an interaction.
      *
@@ -23,13 +22,13 @@ fun interface IInteractionFilterFactory {
         properties: Map<String, Any?>,
         childFilters: Collection<INbtFilter>,
         logger: Logger
-    ): IInteractionFilter?
+    ): INbtFilter?
 
     /**
      * Interaction filter registry.
      */
-    companion object Registry : RegistryBase<String, IInteractionFilterFactory>() {
-        override fun validateEntry(key: String, value: IInteractionFilterFactory) {
+    companion object Registry : RegistryBase<String, INbtFilterFactory>() {
+        override fun validateEntry(key: String, value: INbtFilterFactory) {
             super.validateEntry(key, value)
             require(key != "if") { "Key must not be `if`" }
             require(!key.startsWith("if.")) { "Key can't start with `if.`" }

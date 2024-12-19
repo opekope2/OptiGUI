@@ -7,8 +7,8 @@ import net.fabricmc.api.ClientModInitializer
 import net.minecraft.resource.Resource
 import net.minecraft.util.Identifier
 import opekope2.optigui.filter.*
-import opekope2.optigui.filter.factory.IInteractionFilterFactory
 import opekope2.optigui.filter.factory.ILoadTimeFilterFactory
+import opekope2.optigui.filter.factory.INbtFilterFactory
 import opekope2.optigui.resource.loader.IResourceLoader
 import opekope2.optigui.resource.loader.IResourceLoadingContext
 import opekope2.optigui.resource.loader.ResourceLoaders
@@ -58,7 +58,7 @@ internal class SDLangResourceLoader : IResourceLoader<SDLangDocument>, ClientMod
         val containers = getContainers(tag, ctx)
 
         var error = false
-        val filters = mutableListOf<IInteractionFilter>()
+        val filters = mutableListOf<INbtFilter>()
         val loadTimeFilters = mutableListOf<ILoadTimeFilter>()
 
         for (child in tag.children) {
@@ -72,7 +72,7 @@ internal class SDLangResourceLoader : IResourceLoader<SDLangDocument>, ClientMod
                     loadTimeFilters += loadTimeFilter
                 }
 
-                in IInteractionFilterFactory.Registry -> {
+                in INbtFilterFactory.Registry -> {
                     val filter = createInteractionFilter(child, childFilters, ctx.logger)
                         .ifNull { error = true } ?: continue
 
@@ -134,8 +134,8 @@ internal class SDLangResourceLoader : IResourceLoader<SDLangDocument>, ClientMod
         tag: Tag,
         childFilters: Collection<INbtFilter>,
         logger: Logger
-    ): IInteractionFilter? {
-        val factory = IInteractionFilterFactory.getValue(tag.name)
+    ): INbtFilter? {
+        val factory = INbtFilterFactory.getValue(tag.name)
         val filter = factory.createInteractionFilter(
             tag.values,
             tag.attributes.mapValues { (_, value) -> value.value },

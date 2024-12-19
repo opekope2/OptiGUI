@@ -3,9 +3,11 @@ package opekope2.optigui.interaction.data
 import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import opekope2.optigui.util.identifier
+import opekope2.optigui.util.subCompound
 import java.util.function.Supplier
 
 /**
@@ -27,4 +29,10 @@ data class EntityInteractionData @JvmOverloads constructor(
 
     override val blockPos: BlockPos
         get() = entity.blockPos
+
+    override fun writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
+        super.writeNbt(compound, lookup)
+
+        entity.writeNbt(compound.subCompound("entity"))
+    }
 }

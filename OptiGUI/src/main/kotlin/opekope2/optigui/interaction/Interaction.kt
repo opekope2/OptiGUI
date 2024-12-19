@@ -1,10 +1,12 @@
 package opekope2.optigui.interaction
 
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 import opekope2.optigui.interaction.data.IInteractionData
 import opekope2.optigui.interaction.data.InteractionPlayerData
 import opekope2.optigui.screen.IRetexturableScreen
+import opekope2.optigui.util.INbtConvertible
 import java.util.function.Supplier
 
 /**
@@ -18,7 +20,7 @@ data class Interaction(
     val originalTexture: Identifier,
     val screen: IRetexturableScreen,
     val data: IInteractionData
-) {
+) : INbtConvertible {
     /**
      * Details about the interacting player.
      */
@@ -30,4 +32,11 @@ data class Interaction(
      */
     val extraData: Supplier<NbtCompound>?
         get() = data.extraData
+
+    override fun writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
+        compound.putString("original_texture", originalTexture.toString())
+        data.writeNbt(compound, lookup)
+    }
+
+    fun createNbt() = NbtCompound().also { writeNbt(it, playerData.player.world.registryManager) }
 }
