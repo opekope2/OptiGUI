@@ -8,6 +8,7 @@ import opekope2.optigui.interaction.data.InteractionPlayerData
 import opekope2.optigui.screen.IRedstoneComparatorOutputGetterScreen
 import opekope2.optigui.screen.IRetexturableScreen
 import opekope2.optigui.util.INbtConvertible
+import java.time.LocalDateTime
 import java.util.function.Supplier
 
 /**
@@ -37,6 +38,7 @@ data class Interaction(
     override fun writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
         compound.putString("original_texture", originalTexture.toString())
         createRedstoneComparatorNbt()?.let { compound.put("redstone_comparator", it) }
+        compound.put("time", createTimeNbt())
         data.writeNbt(compound, lookup)
     }
 
@@ -45,6 +47,17 @@ data class Interaction(
         return NbtCompound().apply {
             putInt("output", comparatorOutputGetter.redstoneComparatorOutput)
         }
+    }
+
+    private fun createTimeNbt() = NbtCompound().apply {
+        val now = LocalDateTime.now()
+        putInt("year", now.year)
+        putInt("month", now.month.value)
+        putInt("day", now.dayOfMonth)
+        putInt("weekday", now.dayOfWeek.value)
+        putInt("hour", now.hour)
+        putInt("minute", now.minute)
+        putInt("second", now.second)
     }
 
     fun createNbt() = NbtCompound().also { writeNbt(it, playerData.player.world.registryManager) }
