@@ -5,6 +5,7 @@ import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 import opekope2.optigui.interaction.data.IInteractionData
 import opekope2.optigui.interaction.data.InteractionPlayerData
+import opekope2.optigui.screen.IRedstoneComparatorOutputGetterScreen
 import opekope2.optigui.screen.IRetexturableScreen
 import opekope2.optigui.util.INbtConvertible
 import java.util.function.Supplier
@@ -35,7 +36,15 @@ data class Interaction(
 
     override fun writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
         compound.putString("original_texture", originalTexture.toString())
+        createRedstoneComparatorNbt()?.let { compound.put("redstone_comparator", it) }
         data.writeNbt(compound, lookup)
+    }
+
+    private fun createRedstoneComparatorNbt(): NbtCompound? {
+        val comparatorOutputGetter = screen as? IRedstoneComparatorOutputGetterScreen ?: return null
+        return NbtCompound().apply {
+            putInt("output", comparatorOutputGetter.redstoneComparatorOutput)
+        }
     }
 
     fun createNbt() = NbtCompound().also { writeNbt(it, playerData.player.world.registryManager) }
