@@ -9,12 +9,6 @@ import java.util.function.Predicate
 typealias INbtFilter = IFilter<NbtElement?>
 
 /**
- * A filter evaluated at load time.
- * Note that this doesn't take an input, because the implementor provides it.
- */
-typealias ILoadTimeFilter = IFilter<Nothing?>
-
-/**
  * Functional interface for filtering.
  *
  * @param T The type the filter accepts
