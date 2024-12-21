@@ -11,10 +11,8 @@ import opekope2.optigui.util.ICollectionOperator
  * @param filter The sub-filter to evaluate
  * @param operator The logical operator to apply between the filter results
  */
-class NbtCollectionFilter(
-    private val filter: IFilter<NbtElement>,
-    private val operator: ICollectionOperator<NbtElement>
-) : IFilter<NbtElement> {
+class NbtCollectionFilter(private val filter: INbtFilter, private val operator: ICollectionOperator<NbtElement>) :
+    INbtFilter {
     override fun test(value: NbtElement) = when (value) {
         is INbtCompoundAccessor -> operator.test(filter, value.entries.values)
         is AbstractNbtList<*> -> operator.test(filter, value)

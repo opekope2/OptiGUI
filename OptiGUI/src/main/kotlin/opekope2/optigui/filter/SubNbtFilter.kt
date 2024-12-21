@@ -11,7 +11,7 @@ import net.minecraft.nbt.NbtElement
  * @see NbtListIndexFilter
  */
 class SubNbtFilter(private val subNbtKey: String, private val filter: INbtFilter) : INbtFilter {
-    override fun test(nbt: NbtElement?) =
-        if (nbt is NbtCompound && subNbtKey in nbt) filter.test(nbt[subNbtKey])
+    override fun test(nbt: NbtElement) =
+        if (nbt is NbtCompound && subNbtKey in nbt) filter.test(nbt[subNbtKey]!!)
         else false
 }

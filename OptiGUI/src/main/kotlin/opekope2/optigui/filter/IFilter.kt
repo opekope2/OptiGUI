@@ -6,7 +6,7 @@ import java.util.function.Predicate
 /**
  * A filter filtering [NbtElement]s.
  */
-typealias INbtFilter = IFilter<NbtElement?>
+typealias INbtFilter = IFilter<NbtElement>
 
 /**
  * Functional interface for filtering.
