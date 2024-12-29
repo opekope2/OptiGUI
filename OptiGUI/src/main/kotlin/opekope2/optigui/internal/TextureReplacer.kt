@@ -17,7 +17,7 @@ import net.minecraft.resource.ResourceType
 import net.minecraft.util.Identifier
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.TextureReplacerFilter
-import opekope2.optigui.internal.interaction.InteractionManager
+import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.util.LinkedLruCollection
 import opekope2.optigui.util.MOD_ID
 

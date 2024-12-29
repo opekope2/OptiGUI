@@ -57,7 +57,7 @@
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.interaction.InteractionManager"
+        "value": "opekope2.optigui.interaction.InteractionManager"
       },
       {
         "adapter": "kotlin",
