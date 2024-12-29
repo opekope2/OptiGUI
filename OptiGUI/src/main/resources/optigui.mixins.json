@@ -17,7 +17,6 @@
     "HopperScreenHandlerMixin",
     "IBookEditScreenAccessor",
     "IBookScreenAccessor",
-    "INbtCompoundAccessor",
     "LecternScreenMixin",
     "MinecraftClientMixin",
     "RenderSystemMixin",
