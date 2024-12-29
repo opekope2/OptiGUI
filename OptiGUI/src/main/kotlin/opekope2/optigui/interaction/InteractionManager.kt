@@ -31,6 +31,12 @@ internal object InteractionManager : ClientModInitializer, ClientPlayConnectionE
         private set
 
     /**
+     * Returns the non-replaced textures rendered during the previous call to [Screen.renderWithTooltip].
+     */
+    @JvmStatic
+    val lastFrameRenderedTextures by TextureReplacer::lastFrameRenderedTextures
+
+    /**
      * Tells OptiGUI the details about the next interaction. Must be called before a [Screen] is opened.
      * If called multiple times before a [Screen] is opened, the last call takes effect.
      *

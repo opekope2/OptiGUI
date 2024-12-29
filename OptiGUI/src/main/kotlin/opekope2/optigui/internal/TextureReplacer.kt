@@ -29,12 +29,14 @@ internal object TextureReplacer : SimpleSynchronousResourceReloadListener, Clien
     private var replaceableTextures: ImmutableSet<Identifier> = ImmutableSet.of()
     private val replacementCache = mutableMapOf<Identifier, Identifier>()
     private var renderingScreen = false
+    var lastFrameRenderedTextures: ImmutableSet<Identifier> = ImmutableSet.of()
+        private set
 
     @JvmStatic
     fun replaceTexture(texture: Identifier): Identifier {
         if (!renderingScreen) return texture
         if (!InteractionManager.isInteracting) return texture
-        if (texture !in replaceableTextures) return texture
+        if (texture !in replaceableTextures) return replacementCache.getOrPut(texture) { texture }
 
         val interaction = InteractionManager.createInteraction(texture) ?: return texture
         val interactionNbt = interaction.createNbt()
@@ -48,6 +50,7 @@ internal object TextureReplacer : SimpleSynchronousResourceReloadListener, Clien
     }
 
     fun clearCache() {
+        lastFrameRenderedTextures = ImmutableSet.copyOf(replacementCache.keys)
         replacementCache.clear()
     }
 
