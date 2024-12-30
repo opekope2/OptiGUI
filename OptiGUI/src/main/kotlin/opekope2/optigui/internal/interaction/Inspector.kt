@@ -7,9 +7,9 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.mojang.serialization.Encoder
 import com.mojang.serialization.JsonOps
+import net.minecraft.nbt.AbstractNbtList
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
-import net.minecraft.nbt.NbtList
 import opekope2.optigui.filter.ILoadTimeNbtSupplier
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.data.IInteractionData
@@ -20,7 +20,7 @@ private val NBT_FILTER_JSON_ENCODER: Encoder<NbtCompound> = NbtCompound.CODEC.co
 
 private fun transformNbtFilterKeys(nbt: NbtElement): NbtElement = when (nbt) {
     is NbtCompound -> transformNbtFilterKeys(nbt)
-    is NbtList -> transformNbtFilterKeys(nbt)
+    is AbstractNbtList<*> -> transformNbtFilterKeys(nbt)
     else -> nbt
 }
 
@@ -36,7 +36,7 @@ private inline fun transformNbtFilterKeys(nbt: NbtCompound): NbtCompound {
 }
 
 @Suppress("NOTHING_TO_INLINE") // Stack size
-private inline fun transformNbtFilterKeys(nbt: NbtList): NbtCompound = NbtCompound().apply {
+private inline fun transformNbtFilterKeys(nbt: AbstractNbtList<*>): NbtCompound = NbtCompound().apply {
     for ((index, element) in nbt.withIndex()) {
         put("@$index", transformNbtFilterKeys(element))
     }
