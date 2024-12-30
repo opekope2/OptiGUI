@@ -7,6 +7,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Hand
 import opekope2.optigui.util.INbtConvertible
+import opekope2.optigui.util.getBiomeId
 import opekope2.optigui.util.subCompound
 
 /**
@@ -25,6 +26,7 @@ data class InteractionPlayerData(val player: PlayerEntity, val hand: Hand) : INb
     override fun writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
         player.writeNbt(compound.subCompound("player"))
         vehicle?.writeNbt(compound.subCompound("vehicle"))
+        compound.putString("player_biome", player.world.getBiomeId(player.blockPos).toString())
         compound.putString("hand", hand.name)
     }
 }
