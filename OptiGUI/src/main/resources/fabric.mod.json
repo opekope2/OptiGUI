@@ -49,7 +49,7 @@
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.resource.loader.sdlang.SDLangResourceLoader"
+        "value": "opekope2.optigui.internal.resource.loader.json.JsonFilterLoader"
       },
       {
         "adapter": "kotlin",

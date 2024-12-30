@@ -11,7 +11,6 @@ fabric-language-kotlin = "1.11.0+kotlin.2.0.0"
 commons-text = "1.12.0"
 ini4j = "0.5.4"
 dokka = "1.9.20"
-sdlang = "2.2.0"
 
 [libraries]
 minecraft = { group = "com.mojang", name = "minecraft", version.ref = "minecraft" }
@@ -23,7 +22,6 @@ apache-commons-text = { group = "org.apache.commons", name = "commons-text", ver
 ini4j = { group = "org.ini4j", name = "ini4j", version.ref = "ini4j" }
 dokka-base = { group = "org.jetbrains.dokka", name = "dokka-base", version.ref = "dokka" }
 dokka-plugin-java-syntax = { group = "org.jetbrains.dokka", name = "kotlin-as-java-plugin", version.ref = "dokka" }
-sdlang = { group = "com.singingbush", name = "sdlang", version.ref = "sdlang" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
