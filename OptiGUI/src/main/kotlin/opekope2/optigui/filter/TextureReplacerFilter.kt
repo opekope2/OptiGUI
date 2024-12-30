@@ -14,4 +14,14 @@ class TextureReplacerFilter(
     val container: Identifier,
     filter: INbtFilter,
     val replacementTextures: ImmutableMap<Identifier, Identifier>
-) : INbtFilter by filter
+) : INbtFilter by filter {
+    /**
+     * Creates a new [TextureReplacerFilter] instance.
+     *
+     * @param container The container to replace textures of
+     * @param filter The filter deciding whether to replace the textures of the container
+     * @param replacementTextures A map containing the original and the replaced textures
+     */
+    constructor(container: Identifier, filter: INbtFilter, replacementTextures: Map<Identifier, Identifier>) :
+            this(container, filter, ImmutableMap.copyOf(replacementTextures))
+}
