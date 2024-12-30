@@ -1,4 +1,4 @@
-package opekope2.optigui.filter
+package opekope2.optigui.resource.load
 
 import net.minecraft.nbt.NbtElement
 import opekope2.optigui.registry.RegistryBase
