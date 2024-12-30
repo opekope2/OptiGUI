@@ -15,7 +15,6 @@
     "HandledScreenMixin",
     "HangingSignEditScreenMixin",
     "HopperScreenHandlerMixin",
-    "IBookEditScreenAccessor",
     "IBookScreenAccessor",
     "LecternScreenMixin",
     "MinecraftClientMixin",

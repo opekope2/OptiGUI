@@ -8,6 +8,11 @@ import org.jetbrains.annotations.NotNull;
  * Marker interface for making a screen retexturable by OptiGUI.
  */
 public interface IRetexturableScreen {
-    default void optiGui_writeNbt(@NotNull NbtCompound compound, @NotNull RegistryWrapper.WrapperLookup lookup) {
-    }
+    /**
+     * Writes the screen's content to {@code compound}.
+     *
+     * @param compound The output {@link NbtCompound} to write contents to
+     * @param lookup   The registry lookup used to encode NBT
+     */
+    void optiGui_writeNbt(@NotNull NbtCompound compound, @NotNull RegistryWrapper.WrapperLookup lookup);
 }

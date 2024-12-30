@@ -9,7 +9,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import opekope2.optigui.util.encode
 import opekope2.optigui.util.identifier
-import java.util.function.Supplier
 
 /**
  * Details about an interaction with a container block.
@@ -19,15 +18,13 @@ import java.util.function.Supplier
  * @param blockEntity The block entity at [blockPos] or `null`, if there's no block entity
  * @param item The item the player interacted with
  * @param playerData Details about the player
- * @param extraData Extra details about the interaction. May be mutable
  */
-data class BlockInteractionData @JvmOverloads constructor(
+data class BlockInteractionData(
     override val blockPos: BlockPos,
     val blockState: BlockState,
     val blockEntity: BlockEntity?,
     override val item: ItemStack,
-    override val playerData: InteractionPlayerData,
-    override val extraData: Supplier<NbtCompound>? = null
+    override val playerData: InteractionPlayerData
 ) : IInteractionData {
     override val id: Identifier
         get() = blockState.block.identifier

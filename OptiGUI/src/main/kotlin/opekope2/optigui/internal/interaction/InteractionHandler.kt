@@ -14,24 +14,17 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
-import opekope2.optigui.interaction.BEFORE_INTERACTION_BEGIN_EVENT
-import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.data.BlockInteractionData
 import opekope2.optigui.interaction.data.EntityInteractionData
 import opekope2.optigui.interaction.data.InteractionPlayerData
 import opekope2.optigui.interaction.data.ItemInteractionData
-import opekope2.optigui.mixin.IBookEditScreenAccessor
-import opekope2.optigui.mixin.IBookScreenAccessor
-import opekope2.optigui.screen.IRetexturableScreen
 
-internal object InteractionHandler : ClientModInitializer, UseBlockCallback, UseEntityCallback, UseItemCallback,
-    IBeforeInteractionBeginCallback {
+internal object InteractionHandler : ClientModInitializer, UseBlockCallback, UseEntityCallback, UseItemCallback {
     override fun onInitializeClient() {
         UseBlockCallback.EVENT.register(this)
         UseEntityCallback.EVENT.register(this)
         UseItemCallback.EVENT.register(this)
-        BEFORE_INTERACTION_BEGIN_EVENT.register(this)
     }
 
     override fun interact(player: PlayerEntity, world: World, hand: Hand, hitResult: BlockHitResult): ActionResult {
@@ -64,11 +57,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
         if (!world.isClient) return ActionResult.PASS
 
         InteractionManager.prepare(
-            EntityInteractionData(
-                entity,
-                player.getStackInHand(hand),
-                InteractionPlayerData(player, hand)
-            )
+            EntityInteractionData(entity, player.getStackInHand(hand), InteractionPlayerData(player, hand))
         )
 
         return ActionResult.PASS
@@ -82,30 +71,9 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
 
         if (stack.isOf(Items.WRITABLE_BOOK) || stack.isOf(Items.WRITTEN_BOOK)) {
             InteractionManager.prepare(
-                ItemInteractionData(
-                    stack,
-                    InteractionPlayerData(player, hand),
-                    BookExtraProperties(0, 0) // will be updated later
-                )
+                ItemInteractionData(stack, InteractionPlayerData(player, hand))
             )
         }
         return result
-    }
-
-    override fun onBeforeInteractionBegin(screen: IRetexturableScreen) {
-        when (screen) {
-            is IBookEditScreenAccessor -> updateBookProperties(screen.currentPage + 1, screen.callCountPages())
-            is IBookScreenAccessor -> updateBookProperties(screen.pageIndex + 1, screen.callGetPageCount())
-        }
-    }
-
-    @JvmStatic
-    fun updateBookProperties(currentPage: Int, pageCount: Int) {
-        val bookProperties = InteractionManager.interactionData?.extraData
-        if (bookProperties !is BookExtraProperties) return
-
-        bookProperties.currentPage = currentPage
-        bookProperties.pageCount = pageCount
-        InteractionManager.clearCache()
     }
 }

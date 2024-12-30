@@ -5,11 +5,10 @@ import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 import opekope2.optigui.interaction.data.IInteractionData
 import opekope2.optigui.interaction.data.InteractionPlayerData
-import opekope2.optigui.screen.IRedstoneComparatorOutputGetterScreen
 import opekope2.optigui.screen.IRetexturableScreen
 import opekope2.optigui.util.INbtConvertible
+import opekope2.optigui.util.subCompound
 import java.time.LocalDateTime
-import java.util.function.Supplier
 
 /**
  * Interaction between a player and a container.
@@ -29,24 +28,11 @@ data class Interaction(
     val playerData: InteractionPlayerData
         get() = data.playerData
 
-    /**
-     * Extra details about the interaction. May be mutable.
-     */
-    val extraData: Supplier<NbtCompound>?
-        get() = data.extraData
-
     override fun writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
         compound.putString("original_texture", originalTexture.toString())
-        createRedstoneComparatorNbt()?.let { compound.put("redstone_comparator", it) }
+        screen.optiGui_writeNbt(compound.subCompound("screen"), lookup)
         compound.put("time", createTimeNbt())
         data.writeNbt(compound, lookup)
-    }
-
-    private fun createRedstoneComparatorNbt(): NbtCompound? {
-        val comparatorOutputGetter = screen as? IRedstoneComparatorOutputGetterScreen ?: return null
-        return NbtCompound().apply {
-            putInt("output", comparatorOutputGetter.redstoneComparatorOutput)
-        }
     }
 
     private fun createTimeNbt() = NbtCompound().apply {

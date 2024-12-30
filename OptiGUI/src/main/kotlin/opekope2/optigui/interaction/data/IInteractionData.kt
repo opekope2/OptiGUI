@@ -10,7 +10,6 @@ import net.minecraft.world.dimension.DimensionType
 import opekope2.optigui.util.INbtConvertible
 import opekope2.optigui.util.encode
 import opekope2.optigui.util.getBiomeId
-import java.util.function.Supplier
 
 /**
  * Details about an interaction.
@@ -37,11 +36,6 @@ sealed interface IInteractionData : INbtConvertible {
     val playerData: InteractionPlayerData
 
     /**
-     * Extra details about the interaction. May be mutable.
-     */
-    val extraData: Supplier<NbtCompound>?
-
-    /**
      * The world the interaction happened in.
      */
     val world: World
@@ -53,7 +47,6 @@ sealed interface IInteractionData : INbtConvertible {
         compound.putString("biome", world.getBiomeId(blockPos).toString())
         compound.put("item", item.encodeAllowEmpty(lookup))
         playerData.writeNbt(compound, lookup)
-        extraData?.get()?.let { compound.put("extra", it) }
         compound.put("world", createWorldNbt())
         // TODO structures
     }

@@ -76,8 +76,8 @@ internal object InteractionManager : ClientModInitializer, ClientPlayConnectionE
         interactionData.takeIf { isInteracting }?.let { Interaction(originalTexture, screen!!, it) }
 
     /**
-     * Clears the texture replacer cache. Call this after modifying [IInteractionData.extraData] if the current screen
-     * pauses the game in single player.
+     * Clears the texture replacer cache. Call this if the current screen pauses the game in single player, when its
+     * content gets updated.
      */
     @JvmStatic
     fun clearCache() {
