@@ -61,11 +61,15 @@
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.resource.loader.ResourceLoader"
+        "value": "opekope2.optigui.internal.interaction.InteractionHandler"
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.interaction.InteractionHandler"
+        "value": "opekope2.optigui.internal.resource.load.nbt_supplier.LoadTimeNbtSuppliersKt::register"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.resource.matcher.NbtMatchersKt::register"
       }
     ]
   },
