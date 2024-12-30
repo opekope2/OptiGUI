@@ -10,10 +10,10 @@ import com.mojang.serialization.JsonOps
 import net.minecraft.nbt.AbstractNbtList
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
-import opekope2.optigui.filter.ILoadTimeNbtSupplier
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.data.IInteractionData
-import opekope2.optigui.resource.json.JsonFilterResource
+import opekope2.optigui.resource.format.json.JsonFilterResource
+import opekope2.optigui.resource.load.ILoadTimeNbtSupplier
 
 private val GSON = GsonBuilder().setLenient().setPrettyPrinting().create()
 private val NBT_FILTER_JSON_ENCODER: Encoder<NbtCompound> = NbtCompound.CODEC.comap(::transformNbtFilterKeys)
@@ -47,15 +47,25 @@ internal fun inspectInteraction(): String? {
 }
 
 internal fun createJsonResource(interactionData: IInteractionData): JsonElement? = JsonObject().apply {
-    addProperty("gui", interactionData.id.toString())
-    add("textures", getLastRenderedTextures())
-    add("match", getInteractionNbtFilter() ?: return null)
+    addProperty(JsonFilterResource.CONTAINERS_KEY, interactionData.id.toString())
+    add(JsonFilterResource.TEXTURES_KEY, getLastRenderedTextures())
+    add(JsonFilterResource.LOAD_FILTER_KEY, getLoadTimeNbtFilter())
+    add(JsonFilterResource.FILTER_KEY, getInteractionNbtFilter() ?: return null)
 }
 
 private fun getLastRenderedTextures() = JsonObject().apply {
     for (texture in InteractionManager.lastFrameRenderedTextures) {
         addProperty(texture.toString(), "example:path/to/replacement.png")
     }
+}
+
+private fun getLoadTimeNbtFilter(): JsonElement? {
+    val loadTimeNbt = NbtCompound()
+    for ((key, supplier) in ILoadTimeNbtSupplier) {
+        loadTimeNbt.put(key, supplier.get())
+    }
+
+    return NBT_FILTER_JSON_ENCODER.encodeStart(JsonOps.INSTANCE, loadTimeNbt).result().orElse(null)
 }
 
 private fun getInteractionNbtFilter(): JsonElement? {
