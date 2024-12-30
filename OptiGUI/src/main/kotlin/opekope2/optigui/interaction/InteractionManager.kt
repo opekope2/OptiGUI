@@ -41,7 +41,6 @@ internal object InteractionManager : ClientModInitializer, ClientPlayConnectionE
      * If called multiple times before a [Screen] is opened, the last call takes effect.
      *
      * @return `true` if a GUI is not open, otherwise `false`
-     * @see IBeforeInteractionBeginCallback
      */
     @JvmStatic
     fun prepare(data: IInteractionData) =
@@ -56,7 +55,6 @@ internal object InteractionManager : ClientModInitializer, ClientPlayConnectionE
      */
     @JvmStatic
     internal fun begin(screen: IRetexturableScreen) {
-        BEFORE_INTERACTION_BEGIN_EVENT.invoker().onBeforeInteractionBegin(screen)
         this.screen = screen
     }
 
@@ -68,7 +66,6 @@ internal object InteractionManager : ClientModInitializer, ClientPlayConnectionE
         interactionData = null
         screen = null
         TextureReplacer.clearCache()
-        AFTER_INTERACTION_END_EVENT.invoker().onAfterInteractionEnd()
     }
 
     @JvmStatic
