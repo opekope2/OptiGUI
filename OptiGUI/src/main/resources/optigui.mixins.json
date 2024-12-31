@@ -13,7 +13,6 @@
     "Generic3x3ContainerScreenHandlerMixin",
     "GenericContainerScreenHandlerMixin",
     "HandledScreenMixin",
-    "HangingSignEditScreenMixin",
     "HopperScreenHandlerMixin",
     "IBookScreenAccessor",
     "LecternScreenMixin",

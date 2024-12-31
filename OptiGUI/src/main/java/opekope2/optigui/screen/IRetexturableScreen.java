@@ -14,5 +14,6 @@ public interface IRetexturableScreen {
      * @param compound The output {@link NbtCompound} to write contents to
      * @param lookup   The registry lookup used to encode NBT
      */
-    void optiGui_writeNbt(@NotNull NbtCompound compound, @NotNull RegistryWrapper.WrapperLookup lookup);
+    default void optiGui_writeNbt(@NotNull NbtCompound compound, @NotNull RegistryWrapper.WrapperLookup lookup) {
+    }
 }
