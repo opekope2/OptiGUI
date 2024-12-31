@@ -11,7 +11,6 @@
     "HandledScreenMixin",
     "IBookScreenAccessor",
     "MinecraftClientMixin",
-    "ScreenMixin",
     "screen.AbstractFurnaceScreenHandlerMixin",
     "screen.BookEditScreenMixin",
     "screen.BookScreenMixin",

@@ -70,6 +70,10 @@
       {
         "adapter": "kotlin",
         "value": "opekope2.optigui.internal.resource.matcher.NbtMatchersKt::register"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.interaction.Inspector"
       }
     ]
   },
