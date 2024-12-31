@@ -1,4 +1,4 @@
-package opekope2.optigui.mixin;
+package opekope2.optigui.mixin.screen;
 
 import net.minecraft.client.gui.screen.ingame.BookEditScreen;
 import net.minecraft.nbt.NbtCompound;
@@ -23,7 +23,7 @@ public abstract class BookEditScreenMixin implements IRetexturableScreen {
     abstract int callCountPages();
 
     @Inject(method = "changePage", at = @At("RETURN"))
-    private void setPageMixin(CallbackInfo ci) {
+    private void clearTextureReplacerCacheAfterPageChange(CallbackInfo ci) {
         InteractionManager.clearCache();
     }
 

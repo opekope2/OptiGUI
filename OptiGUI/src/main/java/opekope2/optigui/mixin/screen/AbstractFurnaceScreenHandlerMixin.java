@@ -1,13 +1,13 @@
-package opekope2.optigui.mixin;
+package opekope2.optigui.mixin.screen;
 
 import net.minecraft.inventory.Inventory;
-import net.minecraft.screen.HopperScreenHandler;
+import net.minecraft.screen.AbstractFurnaceScreenHandler;
 import opekope2.optigui.screen.handler.IInventoryScreenHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(HopperScreenHandler.class)
-public abstract class HopperScreenHandlerMixin implements IInventoryScreenHandler {
+@Mixin(AbstractFurnaceScreenHandler.class)
+public abstract class AbstractFurnaceScreenHandlerMixin implements IInventoryScreenHandler {
     @Accessor
     @Override
     public abstract Inventory getInventory();

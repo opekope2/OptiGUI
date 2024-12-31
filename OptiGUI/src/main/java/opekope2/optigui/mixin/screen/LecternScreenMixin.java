@@ -1,10 +1,11 @@
-package opekope2.optigui.mixin;
+package opekope2.optigui.mixin.screen;
 
 import net.minecraft.client.gui.screen.ingame.BookScreen;
 import net.minecraft.client.gui.screen.ingame.LecternScreen;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.MathHelper;
+import opekope2.optigui.mixin.IBookScreenAccessor;
 import opekope2.optigui.screen.IRetexturableScreen;
 import opekope2.optigui.util.Constants;
 import org.jetbrains.annotations.NotNull;

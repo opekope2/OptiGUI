@@ -6,19 +6,19 @@
     "defaultRequire": 1
   },
   "client": [
-    "AbstractFurnaceScreenHandlerMixin",
-    "BookEditScreenMixin",
-    "BookScreenMixin",
-    "BrewingStandScreenHandlerMixin",
-    "Generic3x3ContainerScreenHandlerMixin",
-    "GenericContainerScreenHandlerMixin",
     "HandledScreenMixin",
-    "HopperScreenHandlerMixin",
     "IBookScreenAccessor",
-    "LecternScreenMixin",
     "MinecraftClientMixin",
     "RenderSystemMixin",
     "ScreenMixin",
-    "ShulkerBoxScreenHandlerMixin"
+    "screen.AbstractFurnaceScreenHandlerMixin",
+    "screen.BookEditScreenMixin",
+    "screen.BookScreenMixin",
+    "screen.BrewingStandScreenHandlerMixin",
+    "screen.Generic3x3ContainerScreenHandlerMixin",
+    "screen.GenericContainerScreenHandlerMixin",
+    "screen.HopperScreenHandlerMixin",
+    "screen.LecternScreenMixin",
+    "screen.ShulkerBoxScreenHandlerMixin"
   ]
 }

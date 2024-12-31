@@ -1,9 +1,10 @@
-package opekope2.optigui.mixin;
+package opekope2.optigui.mixin.screen;
 
 import net.minecraft.client.gui.screen.ingame.BookScreen;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import opekope2.optigui.interaction.InteractionManager;
+import opekope2.optigui.mixin.IBookScreenAccessor;
 import opekope2.optigui.screen.IRetexturableScreen;
 import opekope2.optigui.util.Constants;
 import org.jetbrains.annotations.NotNull;
@@ -20,17 +21,12 @@ public abstract class BookScreenMixin implements IBookScreenAccessor, IRetextura
     protected abstract int getPageCount();
 
     @Inject(method = "setPage", at = @At("RETURN"))
-    private void setPageMixin(int index, CallbackInfoReturnable<Boolean> cir) {
+    private void clearTextureReplacerCacheAfterPageChange(CallbackInfoReturnable<Boolean> cir) {
         InteractionManager.clearCache();
     }
 
-    @Inject(method = "goToNextPage", at = @At("RETURN"))
-    private void goToNextPageMixin(CallbackInfo ci) {
-        InteractionManager.clearCache();
-    }
-
-    @Inject(method = "goToPreviousPage", at = @At("RETURN"))
-    private void goToPreviousPageMixin(CallbackInfo ci) {
+    @Inject(method = {"goToNextPage", "goToPreviousPage"}, at = @At("RETURN"))
+    private void clearTextureReplacerCacheAfterPageChange(CallbackInfo ci) {
         InteractionManager.clearCache();
     }
 
