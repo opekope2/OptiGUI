@@ -18,4 +18,17 @@ abstract class DrawContextMixin {
     private Identifier replaceTexture(Identifier id) {
         return id != null ? TextureReplacer.replaceTexture(id) : null;
     }
+
+    @ModifyVariable(
+            method = {
+                    "drawGuiTexture(Lnet/minecraft/util/Identifier;IIIII)V",
+                    "drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIIII)V"
+            },
+            at = @At("HEAD"),
+            index = 1,
+            argsOnly = true
+    )
+    private Identifier replaceGuiTexture(Identifier id) {
+        return id != null ? TextureReplacer.replaceTexture(id) : null;
+    }
 }
