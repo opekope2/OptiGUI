@@ -16,6 +16,7 @@ import opekope2.optigui.screen.IRetexturableScreen
  */
 internal object InteractionManager : ClientModInitializer, ClientPlayConnectionEvents.Disconnect {
     private var screen: IRetexturableScreen? = null
+    private var nextInteractionData: IInteractionData? = null
 
     /**
      * Returns if an interaction is ongoing.
@@ -25,7 +26,7 @@ internal object InteractionManager : ClientModInitializer, ClientPlayConnectionE
         get() = screen != null
 
     /**
-     * Returns the interaction data last supplied using [prepare] or `null`, if the interaction has ended since.
+     * Returns the interaction data last supplied using [prepare] or `null`, if no interaction is ongoing.
      */
     @JvmStatic
     var interactionData: IInteractionData? = null
@@ -40,24 +41,23 @@ internal object InteractionManager : ClientModInitializer, ClientPlayConnectionE
         get() = ImmutableSet.copyOf(TextureReplacer.renderedTextures)
 
     /**
-     * Tells OptiGUI the details about the next interaction. Must be called before a [Screen] is opened.
-     * If called multiple times before a [Screen] is opened, the last call takes effect.
-     *
-     * @return `true` if a GUI is not open, otherwise `false`
+     * Tells OptiGUI the details about the next interaction. If called multiple times before a [Screen] is opened, the
+     * last call takes effect. If called while a [Screen] is open, it will only take effect when the next [Screen] is
+     * opened.
      */
     @JvmStatic
-    fun prepare(data: IInteractionData) =
-        if (isInteracting) false
-        else {
-            interactionData = data
-            true
-        }
+    fun prepare(data: IInteractionData) {
+        nextInteractionData = data
+    }
 
     /**
      * @suppress
      */
     @JvmStatic
     internal fun begin(screen: IRetexturableScreen) {
+        // TODO handle screen change (no end() between two begin()s)
+        interactionData = nextInteractionData
+        nextInteractionData = null
         this.screen = screen
     }
 
@@ -68,7 +68,7 @@ internal object InteractionManager : ClientModInitializer, ClientPlayConnectionE
     internal fun end() {
         interactionData = null
         screen = null
-        TextureReplacer.clearCache()
+        clearCache()
     }
 
     @JvmStatic
@@ -90,5 +90,6 @@ internal object InteractionManager : ClientModInitializer, ClientPlayConnectionE
 
     override fun onPlayDisconnect(handler: ClientPlayNetworkHandler?, client: MinecraftClient?) {
         end()
+        nextInteractionData = null
     }
 }
