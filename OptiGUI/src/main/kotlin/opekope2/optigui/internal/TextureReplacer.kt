@@ -29,8 +29,8 @@ internal object TextureReplacer : SimpleSynchronousResourceReloadListener, Clien
     private var replaceableTextures: ImmutableSet<Identifier> = ImmutableSet.of()
     private val replacementCache = mutableMapOf<Identifier, Identifier>()
     private var renderingScreen = false
-    var lastFrameRenderedTextures: ImmutableSet<Identifier> = ImmutableSet.of()
-        private set
+    val renderedTextures: Set<Identifier>
+        get() = replacementCache.keys
 
     @JvmStatic
     fun replaceTexture(texture: Identifier): Identifier {
@@ -50,7 +50,6 @@ internal object TextureReplacer : SimpleSynchronousResourceReloadListener, Clien
     }
 
     fun clearCache() {
-        lastFrameRenderedTextures = ImmutableSet.copyOf(replacementCache.keys)
         replacementCache.clear()
     }
 

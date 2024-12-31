@@ -1,5 +1,6 @@
 package opekope2.optigui.interaction
 
+import com.google.common.collect.ImmutableSet
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.minecraft.client.MinecraftClient
@@ -31,10 +32,12 @@ internal object InteractionManager : ClientModInitializer, ClientPlayConnectionE
         private set
 
     /**
-     * Returns the non-replaced textures rendered during the previous call to [Screen.renderWithTooltip].
+     * Returns the non-replaced textures rendered since the previous call to [clearCache] or world tick (whichever was
+     * later). This may include textures rendered throughout multiple frames.
      */
     @JvmStatic
-    val lastFrameRenderedTextures by TextureReplacer::lastFrameRenderedTextures
+    val renderedTextures: ImmutableSet<Identifier>
+        get() = ImmutableSet.copyOf(TextureReplacer.renderedTextures)
 
     /**
      * Tells OptiGUI the details about the next interaction. Must be called before a [Screen] is opened.
