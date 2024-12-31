@@ -20,6 +20,8 @@ public abstract class HandledScreenMixin implements IRetexturableScreen {
 
     @Override
     public void optiGui_writeNbt(@NotNull NbtCompound compound, @NotNull RegistryWrapper.WrapperLookup lookup) {
+        IRetexturableScreen.super.optiGui_writeNbt(compound, lookup);
+
         ScreenHandler screenHandler = getScreenHandler();
         if (screenHandler instanceof IInventoryScreenHandler inventoryScreenHandler) {
             Inventory inventory = inventoryScreenHandler.getInventory();

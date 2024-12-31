@@ -34,6 +34,11 @@ const val OF_TILDE_PATH = "optifine/."
 const val LOG_KEY_RESOURCE = "resource"
 
 /**
+ * NBT key for a screen's title.
+ */
+const val SCREEN_TITLE_KEY = "title"
+
+/**
  * NBT key for redstone comparator output calculated from an inventory screen.
  */
 const val COMPARATOR_OUTPUT_KEY = "comparator_output"

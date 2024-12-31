@@ -32,6 +32,8 @@ public abstract class BookScreenMixin implements IBookScreenAccessor, IRetextura
 
     @Override
     public void optiGui_writeNbt(@NotNull NbtCompound compound, @NotNull RegistryWrapper.WrapperLookup lookup) {
+        IRetexturableScreen.super.optiGui_writeNbt(compound, lookup);
+
         compound.putInt(Constants.CURRENT_PAGE_KEY, getPageIndex() + 1);
         compound.putInt(Constants.PAGE_COUNT_KEY, getPageCount());
     }

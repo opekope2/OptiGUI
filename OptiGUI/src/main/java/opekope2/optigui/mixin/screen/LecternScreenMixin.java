@@ -15,6 +15,8 @@ import org.spongepowered.asm.mixin.Mixin;
 public abstract class LecternScreenMixin extends BookScreen implements IRetexturableScreen, IBookScreenAccessor {
     @Override
     public void optiGui_writeNbt(@NotNull NbtCompound compound, @NotNull RegistryWrapper.WrapperLookup lookup) {
+        IRetexturableScreen.super.optiGui_writeNbt(compound, lookup);
+
         float f = callGetPageCount() > 1 ? getPageIndex() / (callGetPageCount() - 1.0f) : 1.0f;
         compound.putInt(Constants.COMPARATOR_OUTPUT_KEY, MathHelper.floor(f * 14.0f) + 1);
         compound.putInt(Constants.CURRENT_PAGE_KEY, getPageIndex() + 1);

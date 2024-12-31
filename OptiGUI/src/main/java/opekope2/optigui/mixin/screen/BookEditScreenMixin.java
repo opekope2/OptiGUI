@@ -29,6 +29,8 @@ public abstract class BookEditScreenMixin implements IRetexturableScreen {
 
     @Override
     public void optiGui_writeNbt(@NotNull NbtCompound compound, @NotNull RegistryWrapper.WrapperLookup lookup) {
+        IRetexturableScreen.super.optiGui_writeNbt(compound, lookup);
+
         compound.putInt(Constants.CURRENT_PAGE_KEY, getCurrentPage() + 1);
         compound.putInt(Constants.PAGE_COUNT_KEY, callCountPages());
     }
