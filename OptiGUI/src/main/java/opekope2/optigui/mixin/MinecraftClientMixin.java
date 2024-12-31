@@ -27,7 +27,7 @@ public abstract class MinecraftClientMixin {
     public Screen currentScreen;
 
     @Inject(method = "setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("TAIL"))
-    private void setScreenMixin(CallbackInfo ci) {
+    private void manageInteraction(CallbackInfo ci) {
         if (player != null && currentScreen instanceof AbstractInventoryScreen<?>) {
             InteractionManager.prepare(
                     new InventoryInteractionData(
