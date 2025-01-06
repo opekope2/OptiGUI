@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = BookScreen.class)
+@Mixin(BookScreen.class)
 public abstract class BookScreenMixin implements IBookScreenAccessor, IRetexturableScreen {
     @Shadow
     protected abstract int getPageCount();
