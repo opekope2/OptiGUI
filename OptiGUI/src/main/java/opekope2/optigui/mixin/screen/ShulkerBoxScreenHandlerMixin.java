@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ShulkerBoxScreenHandler.class)
 public abstract class ShulkerBoxScreenHandlerMixin implements IInventoryScreenHandler {
-    @Accessor
+    @Accessor("inventory")
     @Override
-    public abstract Inventory getInventory();
+    public abstract Inventory optiGui_getInventory();
 }

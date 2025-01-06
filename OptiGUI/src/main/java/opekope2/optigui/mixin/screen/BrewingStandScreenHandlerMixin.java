@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(BrewingStandScreenHandler.class)
 public abstract class BrewingStandScreenHandlerMixin implements IInventoryScreenHandler {
-    @Accessor
+    @Accessor("inventory")
     @Override
-    public abstract Inventory getInventory();
+    public abstract Inventory optiGui_getInventory();
 }

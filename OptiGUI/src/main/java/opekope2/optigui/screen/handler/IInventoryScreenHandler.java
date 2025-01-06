@@ -19,5 +19,5 @@ public interface IInventoryScreenHandler {
     /**
      * Gets the inventory of the screen handler.
      */
-    Inventory getInventory();
+    Inventory optiGui_getInventory();
 }

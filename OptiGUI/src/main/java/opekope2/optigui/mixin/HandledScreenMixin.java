@@ -23,7 +23,7 @@ public abstract class HandledScreenMixin implements IRetexturableScreen {
 
         ScreenHandler screenHandler = getScreenHandler();
         if (screenHandler instanceof IInventoryScreenHandler inventoryScreenHandler) {
-            Inventory inventory = inventoryScreenHandler.getInventory();
+            Inventory inventory = inventoryScreenHandler.optiGui_getInventory();
 
             compound.putInt(Constants.COMPARATOR_OUTPUT_KEY, ScreenHandler.calculateComparatorOutput(inventory));
             // compound.put(Constants.INVENTORY_KEY, InventoryUtil.createNbt(inventory, lookup));
