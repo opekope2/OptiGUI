@@ -1,11 +1,7 @@
 package opekope2.optigui.interaction
 
 import com.google.common.collect.ImmutableSet
-import net.fabricmc.api.ClientModInitializer
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.network.ClientPlayNetworkHandler
 import net.minecraft.util.Identifier
 import opekope2.optigui.interaction.data.IInteractionData
 import opekope2.optigui.internal.TextureReplacer
@@ -14,7 +10,7 @@ import opekope2.optigui.screen.IRetexturableScreen
 /**
  * Manages player interactions that have GUI interactions.
  */
-internal object InteractionManager : ClientModInitializer, ClientPlayConnectionEvents.Disconnect {
+internal object InteractionManager {
     private var screen: IRetexturableScreen? = null
     private var nextInteractionData: IInteractionData? = null
 
@@ -65,10 +61,12 @@ internal object InteractionManager : ClientModInitializer, ClientPlayConnectionE
      * @suppress
      */
     @JvmStatic
-    internal fun end() {
+    @JvmOverloads
+    internal fun end(disconnected: Boolean = false) {
         interactionData = null
         screen = null
         clearCache()
+        if (disconnected) nextInteractionData = null
     }
 
     @JvmStatic
@@ -82,14 +80,5 @@ internal object InteractionManager : ClientModInitializer, ClientPlayConnectionE
     @JvmStatic
     fun clearCache() {
         TextureReplacer.clearCache()
-    }
-
-    override fun onInitializeClient() {
-        ClientPlayConnectionEvents.DISCONNECT.register(this)
-    }
-
-    override fun onPlayDisconnect(handler: ClientPlayNetworkHandler?, client: MinecraftClient?) {
-        end()
-        nextInteractionData = null
     }
 }

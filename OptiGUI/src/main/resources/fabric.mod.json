@@ -45,35 +45,7 @@
     "client": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.InitializerKt::initialize"
-      },
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.resource.loader.json.JsonFilterLoader"
-      },
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.TextureReplacer"
-      },
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.optigui.interaction.InteractionManager"
-      },
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.interaction.InteractionHandler"
-      },
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.resource.load.nbt_supplier.LoadTimeNbtSuppliersKt::register"
-      },
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.resource.matcher.NbtMatchersKt::register"
-      },
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.interaction.Inspector"
+        "value": "opekope2.optigui.internal.fabric.OptiGuiClient"
       }
     ]
   },

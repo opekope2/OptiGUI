@@ -2,33 +2,22 @@ package opekope2.optigui.internal
 
 import com.google.common.collect.ImmutableMap
 import com.google.common.collect.ImmutableSet
-import net.fabricmc.api.ClientModInitializer
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
-import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper
-import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.world.ClientWorld
 import net.minecraft.nbt.NbtElement
 import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.ResourceType
+import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraft.util.Identifier
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.TextureReplacerFilter
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.util.LinkedLruCollection
-import opekope2.optigui.util.MOD_ID
 
 internal typealias ContainerId2FiltersMap = ImmutableMap<Identifier?, LinkedLruCollection<TextureReplacerFilter, NbtElement>>
 
-internal object TextureReplacer : SimpleSynchronousResourceReloadListener, ClientModInitializer,
-    ClientTickEvents.EndWorldTick, ScreenEvents.BeforeInit, ScreenEvents.BeforeRender, ScreenEvents.AfterRender {
+internal object TextureReplacer : SynchronousResourceReloader {
     private var filters: ContainerId2FiltersMap = ImmutableMap.of()
     private var replaceableTextures: ImmutableSet<Identifier> = ImmutableSet.of()
     private val replacementCache = mutableMapOf<Identifier, Identifier>()
-    private var renderingScreen = false
+    var renderingScreen = false
     val renderedTextures: Set<Identifier>
         get() = replacementCache.keys
 
@@ -53,10 +42,6 @@ internal object TextureReplacer : SimpleSynchronousResourceReloadListener, Clien
         replacementCache.clear()
     }
 
-    override fun getFabricId(): Identifier = Identifier.of(MOD_ID, "texture_replacer")
-
-    override fun getFabricDependencies() = IFilterLoader.map { it.key }
-
     override fun reload(manager: ResourceManager?) {
         val filters = IFilterLoader.flatMap { it.value.get() }
 
@@ -64,29 +49,5 @@ internal object TextureReplacer : SimpleSynchronousResourceReloadListener, Clien
             filters.groupBy { it.container }.mapValues { (_, list) -> LinkedLruCollection(list) }
         )
         this.replaceableTextures = ImmutableSet.copyOf(filters.flatMap { it.replacementTextures.keys })
-    }
-
-    override fun onInitializeClient() {
-        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(this)
-        ClientTickEvents.END_WORLD_TICK.register(this)
-        ScreenEvents.BEFORE_INIT.register(this)
-    }
-
-    override fun onEndTick(world: ClientWorld?) {
-        if (!InteractionManager.isInteracting) return
-        clearCache()
-    }
-
-    override fun beforeInit(client: MinecraftClient?, screen: Screen, scaledWidth: Int, scaledHeight: Int) {
-        ScreenEvents.beforeRender(screen).register(this)
-        ScreenEvents.afterRender(screen).register(this)
-    }
-
-    override fun beforeRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
-        renderingScreen = true
-    }
-
-    override fun afterRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
-        renderingScreen = false
     }
 }

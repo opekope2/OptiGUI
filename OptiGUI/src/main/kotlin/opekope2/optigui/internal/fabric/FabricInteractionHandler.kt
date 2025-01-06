@@ -1,6 +1,5 @@
-package opekope2.optigui.internal.interaction
+package opekope2.optigui.internal.fabric
 
-import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
@@ -20,8 +19,8 @@ import opekope2.optigui.interaction.data.EntityInteractionData
 import opekope2.optigui.interaction.data.InteractionPlayerData
 import opekope2.optigui.interaction.data.ItemInteractionData
 
-internal object InteractionHandler : ClientModInitializer, UseBlockCallback, UseEntityCallback, UseItemCallback {
-    override fun onInitializeClient() {
+internal object FabricInteractionHandler : UseBlockCallback, UseEntityCallback, UseItemCallback {
+    init {
         UseBlockCallback.EVENT.register(this)
         UseEntityCallback.EVENT.register(this)
         UseItemCallback.EVENT.register(this)
