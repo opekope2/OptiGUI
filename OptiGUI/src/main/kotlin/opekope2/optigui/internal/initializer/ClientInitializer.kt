@@ -3,7 +3,6 @@ package opekope2.optigui.internal.initializer
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.internal.resource.load.nbt_supplier.ModListsNbtSupplier
-import opekope2.optigui.internal.resource.loader.json.JsonFilterLoader
 import opekope2.optigui.internal.resource.matcher.*
 import opekope2.optigui.resource.load.ILoadTimeNbtSupplier
 import opekope2.optigui.resource.matcher.nbt.NbtMatcherRegistry
@@ -13,13 +12,8 @@ internal object ClientInitializer {
         TextureReplacer
         InteractionManager
 
-        registerResourceLoaders()
         registerLoadTimeNbtSuppliers()
         registerNbtMatchers()
-    }
-
-    private fun registerResourceLoaders() {
-        JsonFilterLoader.onInitializeClient()
     }
 
     private fun registerLoadTimeNbtSuppliers() {

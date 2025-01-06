@@ -18,6 +18,7 @@ import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.internal.initializer.ClientInitializer
+import opekope2.optigui.internal.resource.loader.json.JsonFilterLoader
 import opekope2.optigui.util.MOD_ID
 
 internal class OptiGuiClient :
@@ -31,12 +32,15 @@ internal class OptiGuiClient :
         ClientInitializer
         FabricInteractionHandler
         FabricInteractionInspector
-
-        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(TODO_NAME)
-
+        registerResourceLoaders(ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES))
         ClientTickEvents.END_WORLD_TICK.register(this)
         ClientPlayConnectionEvents.DISCONNECT.register(this)
         ScreenEvents.BEFORE_INIT.register(this)
+    }
+
+    private fun registerResourceLoaders(manager: ResourceManagerHelper) {
+        manager.registerReloadListener(FabricResourceReloadListener(JsonFilterLoader.ID, JsonFilterLoader))
+        manager.registerReloadListener(TextureReplacerReloadListener)
     }
 
     override fun onEndTick(world: ClientWorld?) {
@@ -61,7 +65,8 @@ internal class OptiGuiClient :
         TextureReplacer.renderingScreen = false
     }
 
-    private object TODO_NAME : IdentifiableResourceReloadListener, SynchronousResourceReloader by TextureReplacer {
+    private object TextureReplacerReloadListener : IdentifiableResourceReloadListener,
+        SynchronousResourceReloader by TextureReplacer {
         override fun getFabricId(): Identifier = Identifier.of(MOD_ID, "texture_replacer")
 
         override fun getFabricDependencies() = IFilterLoader.map { it.key }

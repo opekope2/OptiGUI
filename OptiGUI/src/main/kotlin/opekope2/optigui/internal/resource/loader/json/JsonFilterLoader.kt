@@ -2,12 +2,9 @@ package opekope2.optigui.internal.resource.loader.json
 
 import com.google.gson.JsonParseException
 import com.mojang.serialization.JsonOps
-import net.fabricmc.api.ClientModInitializer
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.resource.ResourceFinder
 import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.ResourceType
 import net.minecraft.resource.SinglePreparationResourceReloader
 import net.minecraft.util.Identifier
 import net.minecraft.util.JsonHelper
@@ -23,11 +20,16 @@ import org.slf4j.LoggerFactory
 
 private typealias TextureReplacerFilterList = List<TextureReplacerFilter>
 
-internal object JsonFilterLoader : SinglePreparationResourceReloader<TextureReplacerFilterList>(), IFilterLoader,
-    ClientModInitializer {
+internal object JsonFilterLoader : SinglePreparationResourceReloader<TextureReplacerFilterList>(), IFilterLoader {
+    val ID = Identifier.of(MOD_ID, "json_loader")!!
+    private val LOGGER = LoggerFactory.getLogger("OptiGUI/JsonFilterLoader")
+    private val FINDER = ResourceFinder(OPTIGUI_JSON_RESOURCES_ROOT, ".json")
+
     private lateinit var filters: TextureReplacerFilterList
 
-    override fun getFabricId() = ID
+    init {
+        IFilterLoader.register(ID, this)
+    }
 
     override fun prepare(manager: ResourceManager, profiler: Profiler) = profiler.push("json_load") {
         val loadTimeNbt = NbtCompound()
@@ -58,13 +60,4 @@ internal object JsonFilterLoader : SinglePreparationResourceReloader<TextureRepl
     }
 
     override fun get() = filters
-
-    override fun onInitializeClient() {
-        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(this)
-        IFilterLoader.register(this)
-    }
-
-    private val ID = Identifier.of(MOD_ID, "json_loader")!!
-    private val LOGGER = LoggerFactory.getLogger("OptiGUI/JsonFilterLoader")
-    private val FINDER = ResourceFinder(OPTIGUI_JSON_RESOURCES_ROOT, ".json")
 }
