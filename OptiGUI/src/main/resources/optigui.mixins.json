@@ -9,7 +9,6 @@
     "ClientPlayerEntityMixin",
     "DrawContextMixin",
     "HandledScreenMixin",
-    "IBookScreenAccessor",
     "MinecraftClientMixin",
     "screen.AbstractFurnaceScreenHandlerMixin",
     "screen.BookEditScreenMixin",
