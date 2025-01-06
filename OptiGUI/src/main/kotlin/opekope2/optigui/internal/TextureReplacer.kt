@@ -11,7 +11,7 @@ import opekope2.optigui.filter.TextureReplacerFilter
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.util.LinkedLruCollection
 
-internal typealias ContainerId2FiltersMap = ImmutableMap<Identifier?, LinkedLruCollection<TextureReplacerFilter, NbtElement>>
+internal typealias ContainerId2FiltersMap = ImmutableMap<Identifier, LinkedLruCollection<TextureReplacerFilter, NbtElement>>
 
 internal object TextureReplacer : SynchronousResourceReloader {
     private var filters: ContainerId2FiltersMap = ImmutableMap.of()
@@ -31,7 +31,6 @@ internal object TextureReplacer : SynchronousResourceReloader {
         val interactionNbt = interaction.createNbt()
         return replacementCache.getOrPut(texture) {
             val replacements = filters[interaction.data.id]?.promoteFirstOrNull(interactionNbt)?.replacementTextures
-                ?: filters[null]?.promoteFirstOrNull(interactionNbt)?.replacementTextures
                 ?: ImmutableMap.of()
 
             replacements[texture] ?: texture
