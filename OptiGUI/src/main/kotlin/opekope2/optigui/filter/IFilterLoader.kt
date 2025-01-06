@@ -11,6 +11,11 @@ import java.util.function.Supplier
  */
 interface IFilterLoader : ResourceReloader, Supplier<List<TextureReplacerFilter>> {
     /**
+     * Gets the filters loaded in [IFilterLoader.reload].
+     */
+    override fun get(): List<TextureReplacerFilter>
+
+    /**
      * Filter supplier registry.
      */
     companion object Registry : RegistryBase<Identifier, IFilterLoader>()
