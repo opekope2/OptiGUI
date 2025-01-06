@@ -27,7 +27,7 @@ internal object TextureReplacer : SynchronousResourceReloader {
         if (!InteractionManager.isInteracting) return texture
         if (texture !in replaceableTextures) return replacementCache.getOrPut(texture) { texture }
 
-        val interaction = InteractionManager.createInteraction() ?: return texture
+        val interaction = InteractionManager.interaction ?: return texture
         val interactionNbt = interaction.createNbt()
         return replacementCache.getOrPut(texture) {
             val replacements = filters[interaction.data.id]?.promoteFirstOrNull(interactionNbt)?.replacementTextures

@@ -75,7 +75,7 @@ object FabricInteractionInspector : ScreenEvents.BeforeInit, ScreenKeyboardEvent
         if (screen !is IRetexturableScreen) return
         if (!KEY_BINDING.matchesKey(key, scancode)) return
 
-        val inspection = GSON.toJson(createJsonResource(InteractionManager.interactionData ?: return) ?: return)
+        val inspection = GSON.toJson(createJsonResource(InteractionManager.interaction?.data ?: return) ?: return)
 
         MinecraftClient.getInstance().keyboard.clipboard = inspection
         MinecraftClient.getInstance().toastManager.add(InspectorToast())
@@ -104,7 +104,7 @@ object FabricInteractionInspector : ScreenEvents.BeforeInit, ScreenKeyboardEvent
     }
 
     private fun getInteractionNbtFilter(): JsonElement? {
-        val interaction = InteractionManager.createInteraction() ?: return null
+        val interaction = InteractionManager.interaction ?: return null
 
         return NBT_FILTER_JSON_ENCODER.encodeStart(JsonOps.INSTANCE, interaction.createNbt()).result().orElse(null)
     }

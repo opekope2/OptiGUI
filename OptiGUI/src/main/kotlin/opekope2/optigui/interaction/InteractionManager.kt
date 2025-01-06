@@ -22,10 +22,10 @@ internal object InteractionManager {
         get() = screen != null
 
     /**
-     * Returns the interaction data last supplied using [prepare] or `null`, if no interaction is ongoing.
+     * Returns the ongoing interaction or `null`, if no interaction is ongoing.
      */
     @JvmStatic
-    var interactionData: IInteractionData? = null
+    var interaction: Interaction? = null
         private set
 
     /**
@@ -52,7 +52,7 @@ internal object InteractionManager {
     @JvmStatic
     internal fun begin(screen: IRetexturableScreen) {
         // TODO handle screen change (no end() between two begin()s)
-        interactionData = nextInteractionData
+        interaction = nextInteractionData?.let { Interaction(screen, it) }
         nextInteractionData = null
         this.screen = screen
     }
@@ -63,14 +63,11 @@ internal object InteractionManager {
     @JvmStatic
     @JvmOverloads
     internal fun end(disconnected: Boolean = false) {
-        interactionData = null
+        interaction = null
         screen = null
         clearCache()
         if (disconnected) nextInteractionData = null
     }
-
-    @JvmStatic
-    fun createInteraction() = interactionData.takeIf { isInteracting }?.let { Interaction(screen!!, it) }
 
     /**
      * Clears the texture replacer cache. Call this if the current screen pauses the game in single player, when its
