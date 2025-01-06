@@ -70,8 +70,7 @@ internal object InteractionManager {
     }
 
     @JvmStatic
-    fun createInteraction(originalTexture: Identifier) =
-        interactionData.takeIf { isInteracting }?.let { Interaction(originalTexture, screen!!, it) }
+    fun createInteraction() = interactionData.takeIf { isInteracting }?.let { Interaction(screen!!, it) }
 
     /**
      * Clears the texture replacer cache. Call this if the current screen pauses the game in single player, when its

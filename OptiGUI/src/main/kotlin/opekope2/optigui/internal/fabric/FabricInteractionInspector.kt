@@ -104,8 +104,7 @@ object FabricInteractionInspector : ScreenEvents.BeforeInit, ScreenKeyboardEvent
     }
 
     private fun getInteractionNbtFilter(): JsonElement? {
-        val texture = InteractionManager.renderedTextures.firstOrNull() ?: return null
-        val interaction = InteractionManager.createInteraction(texture) ?: return null
+        val interaction = InteractionManager.createInteraction() ?: return null
 
         return NBT_FILTER_JSON_ENCODER.encodeStart(JsonOps.INSTANCE, interaction.createNbt()).result().orElse(null)
     }
