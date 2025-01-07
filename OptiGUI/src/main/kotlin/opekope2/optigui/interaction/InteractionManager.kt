@@ -10,7 +10,7 @@ import opekope2.optigui.screen.IRetexturableScreen
 /**
  * Manages player interactions that have GUI interactions.
  */
-internal object InteractionManager {
+object InteractionManager {
     private var screen: IRetexturableScreen? = null
     private var nextInteractionData: IInteractionData? = null
 
