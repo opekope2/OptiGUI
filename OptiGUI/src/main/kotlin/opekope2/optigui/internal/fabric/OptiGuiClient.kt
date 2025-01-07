@@ -45,7 +45,7 @@ internal class OptiGuiClient :
 
     override fun onEndTick(world: ClientWorld?) {
         if (!InteractionManager.isInteracting) return
-        TextureReplacer.clearCache()
+        InteractionManager.clearCache()
     }
 
     override fun onPlayDisconnect(handler: ClientPlayNetworkHandler?, client: MinecraftClient?) {

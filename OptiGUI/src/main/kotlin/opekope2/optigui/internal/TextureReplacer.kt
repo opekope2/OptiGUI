@@ -16,29 +16,26 @@ internal typealias ContainerId2FiltersMap = ImmutableMap<Identifier, LinkedLruCo
 internal object TextureReplacer : SynchronousResourceReloader {
     private var filters: ContainerId2FiltersMap = ImmutableMap.of()
     private var replaceableTextures: ImmutableSet<Identifier> = ImmutableSet.of()
-    private val replacementCache = mutableMapOf<Identifier, Identifier>()
+    private var replacements: ImmutableMap<Identifier, Identifier> = ImmutableMap.of()
     var renderingScreen = false
-    val renderedTextures: Set<Identifier>
-        get() = replacementCache.keys
+    val renderedTextures = mutableSetOf<Identifier>()
 
     @JvmStatic
     fun replaceTexture(texture: Identifier): Identifier {
         if (!renderingScreen) return texture
         if (!InteractionManager.isInteracting) return texture
-        if (texture !in replaceableTextures) return replacementCache.getOrPut(texture) { texture }
+        if (texture !in replaceableTextures) return texture
 
-        val interaction = InteractionManager.interaction ?: return texture
-        val interactionNbt = interaction.createNbt()
-        return replacementCache.getOrPut(texture) {
-            val replacements = filters[interaction.data.id]?.promoteFirstOrNull(interactionNbt)?.replacementTextures
-                ?: ImmutableMap.of()
+        renderedTextures += texture
 
-            replacements[texture] ?: texture
-        }
+        return replacements[texture] ?: texture
     }
 
     fun clearCache() {
-        replacementCache.clear()
+        replacements = InteractionManager.interaction?.let {
+            filters[it.data.id]?.promoteFirstOrNull(it.createNbt())?.replacementTextures
+        } ?: ImmutableMap.of()
+        renderedTextures.clear()
     }
 
     override fun reload(manager: ResourceManager?) {

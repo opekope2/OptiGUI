@@ -55,6 +55,7 @@ object InteractionManager {
         interaction = nextInteractionData?.let { Interaction(screen, it) }
         nextInteractionData = null
         this.screen = screen
+        clearCache()
     }
 
     /**
@@ -70,7 +71,7 @@ object InteractionManager {
     }
 
     /**
-     * Clears the texture replacer cache. Call this if the current screen pauses the game in single player, when its
+     * Clears the texture replacer cache. Call this if the current screen pauses the game in single player, after its
      * content gets updated.
      */
     @JvmStatic
