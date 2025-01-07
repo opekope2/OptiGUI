@@ -59,9 +59,6 @@
     "minecraft": ">=$minecraft",
     "java": ">=$java"
   },
-  "recommends": {
-    "animatica": "*"
-  },
   "custom": {
     "mc-publish": {
       "loaders": [
