@@ -26,6 +26,10 @@ Other mods' developers can add their custom containers and customization options
 * 🇹🇼 by [dirtTW](https://github.com/yichifauzi), [notlin4](https://github.com/notlin4)
 * 🇨🇳 by [dirtTW](https://github.com/yichifauzi), [notlin4](https://github.com/notlin4)
 * 🇩🇪 by [Lucanoria](https://github.com/Lucanoria)
+* 🇪🇸 by [LyriaWintona](https://github.com/LyriaWintona)
+* 🇮🇹 by [RoberbufDx8105](https://github.com/RoberbufDx8105)
+* 🇲🇾 by [NuruddinPlays](https://github.com/NuruddinPlays)
+* 🇺🇦 by [gorr0w7](https://github.com/gorr0w7)
 
 Want to see your name here? [Translate OptiGUI to your native language](https://github.com/opekope2/OptiGUI/blob/dev/CONTRIBUTING.md#i-want-to-add-a-translation).
 
