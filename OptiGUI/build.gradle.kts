@@ -61,7 +61,8 @@ tasks {
     }
 
     jar {
-        from(rootDir.resolve("LICENSE"))
+        from(rootDir.resolve("COPYING"))
+        from(rootDir.resolve("COPYING.LESSER"))
     }
 
     processResources {

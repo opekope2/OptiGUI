@@ -15,12 +15,6 @@
   ],
   "contributors": [
     {
-      "name": "Santiago Hernandez",
-      "contact": {
-        "github": "https://github.com/TheLegendofSaram"
-      }
-    },
-    {
       "name": "dirtTW",
       "contact": {
         "github": "https://github.com/yichifauzi"
@@ -31,6 +25,36 @@
       "contact": {
         "github": "https://github.com/notlin4"
       }
+    },
+    {
+      "name": "Lucanoria",
+      "contact": {
+        "github": "https://github.com/Lucanoria"
+      }
+    },
+    {
+      "name": "LyriaWintona",
+      "contact": {
+        "github": "https://github.com/LyriaWintona"
+      }
+    },
+    {
+      "name": "RoberbufDx8105",
+      "contact": {
+        "github": "https://github.com/RoberbufDx8105"
+      }
+    },
+    {
+      "name": "NuruddinPlays",
+      "contact": {
+        "github": "https://github.com/NuruddinPlays"
+      }
+    },
+    {
+      "name": "gorr0w7",
+      "contact": {
+        "github": "https://github.com/gorr0w7"
+      }
     }
   ],
   "contact": {
@@ -38,7 +62,7 @@
     "sources": "https://github.com/opekope2/OptiGUI",
     "issues": "https://github.com/opekope2/OptiGUI/issues"
   },
-  "license": "MIT",
+  "license": "LGPL-3.0-or-later",
   "icon": "assets/optigui/icon.png",
   "environment": "client",
   "entrypoints": {

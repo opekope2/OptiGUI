@@ -3,7 +3,7 @@ name: Check mergeability
 on:
   pull_request:
     branches:
-      - main
+      - dev
 
 jobs:
   merge-check:
