@@ -144,7 +144,7 @@ tasks {
                 documentedVisibilities = setOf()
             }
             perPackageOption {
-                matchingRegex = """opekope2\.optigui\.mixin"""
+                matchingRegex = """opekope2\.optigui\.mixin(\..*)?"""
                 suppress = true
                 documentedVisibilities = setOf()
             }
