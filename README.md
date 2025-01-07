@@ -23,7 +23,6 @@ Other mods' developers can add their custom containers and customization options
 ## Supported languages
 
 * 🇺🇸 by [opekope2](https://github.com/opekope2)
-* 🇲🇽 by [Santiago Hernandez](https://github.com/TheLegendofSaram)
 * 🇹🇼 by [dirtTW](https://github.com/yichifauzi), [notlin4](https://github.com/notlin4)
 * 🇨🇳 by [dirtTW](https://github.com/yichifauzi), [notlin4](https://github.com/notlin4)
 * 🇩🇪 by [Lucanoria](https://github.com/Lucanoria)

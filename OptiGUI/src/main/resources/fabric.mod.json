@@ -44,7 +44,7 @@
     "sources": "https://github.com/opekope2/OptiGUI",
     "issues": "https://github.com/opekope2/OptiGUI/issues"
   },
-  "license": "MIT",
+  "license": "LGPL-3.0-or-later",
   "icon": "assets/optigui/icon.png",
   "environment": "client",
   "entrypoints": {
