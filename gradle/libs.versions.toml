@@ -1,5 +1,5 @@
 [versions]
-java = "21" # Don't forget to update *.mixins.json
+java = "21" # Don't forget to update *.mixins.json and build.yml
 kotlin = "2.0.0"
 optigui = "3.0.0-alpha.1"
 minecraft = "1.21"
