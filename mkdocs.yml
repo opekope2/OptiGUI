@@ -12,11 +12,10 @@ theme:
     - content.code.copy
 nav:
   - Home: index.md
-  - Resource packs:
-    - Basic information & syntax: syntax.md
-    - Replacing GUI textures: format.md
+  - Supported resource packs:
+    - OptiGUI INI: INI.md
+    - OptiFine properties: https://optifine.readthedocs.io/custom_guis.html
     - Migration guide: migrate.md
-    - Conditional loading: conditional.md
   - For developers:
     - Develop OptiGUI: develop.md
     - Using OptiGUI in a mod: usage.md

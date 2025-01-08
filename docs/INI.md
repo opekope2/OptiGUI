@@ -1,22 +1,187 @@
-# Replacing GUI textures
-
-This page describes the usage of OptiGUI ^2.1.0-beta.1+^ INI files. [The OptiFine custom GUI documentation is available here](https://optifine.readthedocs.io/custom_guis.html).
-
-This page assumes you to be familiar with the [OptiGUI syntax](syntax.html).
-
-!!! warning
-    OptiGUI 2.1.0-beta.1 removed all OptiFine extensions from OptiFine files: `_cartography_table`, `_chest_boat`, `_grindstone`, `_loom`, `_smithing_table`, `_stonecutter`, `_barrel`, `_minecart`, `_furnace`, `_blast`, `_blast_furnace`, `_smoker`, `_camel`, `_zombie_horse`, `_skeleton_horse`, `_wandering_trader`.
-
-    See the [migration guide](migrate.html) to learn how to convert your resource pack.
+# OptiGUI INI resources
 
 You can define a texture replacement for each inventory GUI, and apply them based on different criteria.
 
-For each container GUI texture to replace, create a `.ini` file in `/assets/optigui/gui/` folder (or any of its subfolders in any depth) of the resource pack.
+## File naming rules
+
+Each file in a resource pack must only contain characters `a-z 0-9 _`. All lowercase, no whitespace. Otherwise, the game will not recognize it.
+
+> Each file name must match the regular expression `^[a-z0-9_]+$`
+
+Textures must be [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) images with `.png` extension.
 
 !!! note
     When specifying texture paths, **do not** forget file extensions, otherwise OptiGUI **will not** find the resources!
 
-## Special selectors
+All text files must be encoded in UTF-8. Do not use an ASCII encoding.
+
+For each container GUI texture to replace, create a `.ini` file in `/assets/optigui/gui/` folder (or any of its subfolders in any depth) of the resource pack.
+
+## File structure
+
+OptiGUI uses [INI](https://en.wikipedia.org/wiki/INI_file) files, kind of like OptiFine, but uses more features of it.
+
+All selectors are case-sensitive: `name` is not the same as `Name`. The order of selectors within the file or within a group does not matter.
+
+### Groups
+
+Groups start with `#!ini [square bracketed]` identifiers. Place the identifier of the container to replace the GUI.
+
+!!! tip
+    Go to the [Minecraft Wiki](https://minecraft.wiki). Select a container (for example, a chest, horse, crafting table, etc.), scroll down to **Data values/ID/Java Edition**, and copy the text from the **Identifier** column. This identifier is used by the `/give` and `/summon` commands.
+
+If multiple selectors are specified in a group, they **all must match** in order to apply the replacement texture. If incompatible selectors are specified (for example, `llama.colors` to `[chest]`, it will **never** match).
+
+!!! example
+    ```ini
+    [chest]
+    # Selectors here apply to minecraft:chest
+    # If namespace is omitted, the default is minecraft
+    selector=value
+
+    [minecraft:barrel]
+    # Starts a new group
+    # Selectors here apply to minecraft:barrel
+    selector=value_for_barrel
+
+    [horse minecraft:llama]
+    # Selectors here apply to both horses and llamas
+    # Namespaces and the lack of them can be mixed
+    # The default namespace is minecraft
+    white_spaces = are_trimmed
+    # Is the same as
+    white_spaces=are_trimmed
+
+    [chest #2]
+    # [chest] is not allowed again
+    # Anything specified after a hashtag is ignored
+    # Useful when want to replace the GUI of the same container, but with different selectors
+
+    [#3 chest]
+    # Hashtags can be anywhere between the square brackets
+    # Remember, the group accepts a list of identifiers, a hashtag's scope lasts until the next whitespace
+    # Here, only #3 is ignored, but not chest
+    ```
+
+## Types
+
+### Path
+
+!!! warning "Caution"
+    Always use forward slashes (`/`) to separate folders.
+
+    Regardless of operating system (*Windows, Mac, \*nix*), do **not** use backslashes (`\`), or the game will not properly recognize the path.
+
+OptiGUI paths can be specified in two ways: relative and absolute.
+
+```ini
+# Relative path (relative to the folder the INI file is in)
+path=texture.png
+path=subfolder/texture.png
+
+# You can use current and parent directory
+path=./texture.png
+path=../other/texture.png
+
+# Absolute (namespace prefix)
+path=minecraft:textures/gui/container/crafting_table.png
+```
+
+!!! warning "Caution"
+    Contrary to OptiFine, OptiGUI **requires** the file extension (`.png` here) to be specified. If it is not specified, OptiGUI will **not** find the texture!
+
+!!! note
+    Tildes (`~`) are **not** supported by OptiGUI. When loading OptiFine `.properties`, OptiGUI will expand them.
+
+### String
+
+OptiGUI supports exact values, and case-sensitive and case-insensitive variants of wildcards and regexes. However, these are not prefixed with `regex:`, `iregex:`, `pattern:`, or `ipattern:`. The accepted type (wildcard, regex, ...) depends on the selector, and always noted explicitly.
+
+!!! note
+    Any backslashes must be doubled. Matching backslashes within a regular expression or wildcard must be quadrupled.
+
+    ✅ Correct: `name=regex:\\d+`, `name=regex:\\\\`, `nbt.display.name=/\\/\\`
+
+    ❌ Wrong: `name=regex:\d+`, `name=regex:\\` (for matching \), `name=/\/\\` (missing a backslash)
+
+#### Exact value
+
+`Letter to Herobrine` matches `Letter to Herobrine`, and nothing else.
+
+#### Wildcard
+
+You may use the following characters to match other characters:
+
+| Character | Regex equivalent | Meaning                      |
+|-----------|------------------|------------------------------|
+| `?`       | `.`              | Matches exactly 1 character  |
+| `*`       | `.*`             | Matches 0 or more characters |
+
+#### Regex
+
+[Regular expressions](https://en.wikipedia.org/wiki/Regular_expression) "patterns" other strings can be matched against.
+
+OptiGUI understands the [Java syntax](https://docs.oracle.com/javase/tutorial/essential/regex/). [Expression flags](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#advanced_searching_with_flags) are **not** supported.
+
+You can use the [RegExr](https://regexr.com/) tool to create and test your regexes. When pasting into az OptiGUI INI file, make sure to duplicate all backslashes (`\`), as OptiGUI will unescape any escape sequences Java supports (like hexadecimals, line breaks, and unicode codepoints).
+
+### Number
+
+Numbers can be specified as a signed or unsigned integer.
+
+!!! example
+    ```ini
+    number = 1
+    ```
+
+#### Range
+
+Inclusive ranges between numbers are defined with a `-` between the minimum and the maximum number. The right side is optional: if it is omitted, the upper bound will be positive infinity.
+
+!!! tip
+    OptiGUI usually allows specifying ranges as [lists](#list)
+
+!!! example
+    ```ini
+    # 1, 2, 3
+    numbers = 1-3
+
+    # Multiple ranges
+    # 1 through 3, or 6, or 8, or 10 through 15
+    # 1, 2, 3, 6, 8, 10, 11, 12, 13, 14, 15
+    numbers = 1-3 6 8 10-15
+
+    # Greater than or equal to
+    # 100, or 200, or 5340, or 25902, etc.
+    numbers = 100-
+
+    # Negative number, not a range
+    # Only matches negative 100, not -4, -7, or -101
+    numbers = -100
+
+    # Negative numbers must be surrounded with parenthesis
+    numbers = (-1)-(-3)
+    ```
+
+!!! note
+    There is **no** range to specify `≤` relation, you need to specify the lower bound: `0-100`. `-100` is a number, and will only match `-100`.
+
+!!! note
+    The `range:` prefix is **not supported** by OptiGUI and will be ignored when loading OptiFine `.properties`.
+
+### Boolean
+
+Booleans are case-insensitive.
+
+Possible values: `true`, `false`. Everything else is ignored.
+
+### List
+
+Lists can hold multiple elements separated with a whitespace. The element type is specified by the selector, it can be any type, like numbers or booleans. Strings are also supported, however, whitespaces within a string will start a new list element (and therefore, cannot be specified in strings inside lists).
+
+If multiple elements are specified in a list, **any of them** can match in order to replace a texture.
+
+## Pseudo-selectors
 
 These are not real selectors used for selecting entities and block entities, just have the same syntax. OptiGUI processes these specially when loading the resource.
 
@@ -26,7 +191,7 @@ These are not real selectors used for selecting entities and block entities, jus
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-[Path](syntax.html#paths) to the replacement texture for the default GUI texture of the container. This is not really a selector, as it is not used to match against an interaction, but specifies the replacement if all other selectors match.
+[Path](#path) to the replacement texture for the default GUI texture of the container. This is not really a selector, as it is not used to match against an interaction, but specifies the replacement if all other selectors match.
 
 ### `load.priority`
 
@@ -34,7 +199,7 @@ These are not real selectors used for selecting entities and block entities, jus
 **OptiGUI 2.2.0-alpha.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A single [integer](syntax.html#numbers) (not range) specifying the load priority of the group. Default load priority is `0`. Higher load priority means earlier processing while evaluating the loaded filters.
+A single [integer](#number) (not range) specifying the load priority of the group. Default load priority is `0`. Higher load priority means earlier processing while evaluating the loaded filters.
 
 ## Interaction selectors
 
@@ -44,7 +209,7 @@ A single [integer](syntax.html#numbers) (not range) specifying the load priority
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-[Path](syntax.html#paths) to the texture to replace (the default texture of the container). When left empty, OptiGUI looks up the default texture of the specified containers.
+[Path](#path) to the texture to replace (the default texture of the container). When left empty, OptiGUI looks up the default texture of the specified containers.
 
 ### `interaction.hand`
 
@@ -69,7 +234,7 @@ The hand the player started the interaction with. Possible values:
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [String](syntax.html#strings) specifying the exact value of the name of the entity or block entity.
+A [String](#string) specifying the exact value of the name of the entity or block entity.
 
 ### `name.wildcard`
 
@@ -77,7 +242,7 @@ A [String](syntax.html#strings) specifying the exact value of the name of the en
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [String](syntax.html#strings) specifying the case-sensitive [wildcard](syntax.html#wildcard) to match against the name of the entity or block entity.
+A [String](#string) specifying the case-sensitive [wildcard](#wildcard) to match against the name of the entity or block entity.
 
 ### `name.wildcard.ignore_case`
 
@@ -85,7 +250,7 @@ A [String](syntax.html#strings) specifying the case-sensitive [wildcard](syntax.
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [String](syntax.html#strings) specifying the case-insensitive [wildcard](syntax.html#wildcard) to match against the name of the entity or block entity.
+A [String](#string) specifying the case-insensitive [wildcard](#wildcard) to match against the name of the entity or block entity.
 
 ### `name.regex`
 
@@ -93,7 +258,7 @@ A [String](syntax.html#strings) specifying the case-insensitive [wildcard](synta
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [String](syntax.html#strings) specifying the case-sensitive [regex](syntax.html#regex) to match against the name of the entity or block entity.
+A [String](#string) specifying the case-sensitive [regex](#regex) to match against the name of the entity or block entity.
 
 ### `name.regex.ignore_case`
 
@@ -101,7 +266,7 @@ A [String](syntax.html#strings) specifying the case-sensitive [regex](syntax.htm
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [String](syntax.html#strings) specifying the case-insensitive [regex](syntax.html#regex) to match against the name of the entity or block entity.
+A [String](#string) specifying the case-insensitive [regex](#regex) to match against the name of the entity or block entity.
 
 ### `biomes`
 
@@ -109,7 +274,7 @@ A [String](syntax.html#strings) specifying the case-insensitive [regex](syntax.h
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) of biome identifiers specifying the biomes of the entity or block entity where this replacement applies.
+A [list](#list) of biome identifiers specifying the biomes of the entity or block entity where this replacement applies.
 
 ### `heights`
 
@@ -117,7 +282,7 @@ A [list](syntax.html#lists) of biome identifiers specifying the biomes of the en
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](syntax.html#ranges) specifying the heights (Y coordiantes) of the entity or block entity, where this replacement applies.
+A [list](#list) of [integers](#number) and [ranges](#range) specifying the heights (Y coordiantes) of the entity or block entity, where this replacement applies.
 
 ## Independent selectors
 
@@ -127,7 +292,47 @@ A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](synt
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) of [dates](syntax.html#dates) specifying when the texture should be replaced.
+A [list](#list) of dates specifying when the texture should be replaced.
+
+A date can be specified by the name, the first 3 characters of its name, or number of the month, and an optional day [number](#number) or day [range](#range) separated with a `@` character:
+
+!!! example
+    ```ini
+    # January
+    date = january
+    date = jan
+    date = 1
+    # These are all equivalent to:
+    date = jan@1-31
+
+    # October 1-5, 11-15, 21-25
+    date = oct@1-5 10@11-15 october@21-25
+    # The following is not valid:
+    invalid_date = october@1-5,11-15,21-25
+
+    # Christmas
+    christmas = dec@24-26
+
+    # Not Christmas
+    not_christmas = 1 2 3 4 5 6 7 8 9 spooktober 11 dec@1-23 dec@27-31
+    ```
+
+#### Supported month abbreviations
+
+| Month     | Abbreviations                        |
+|-----------|--------------------------------------|
+| January   | `1`, `jan`, `january`                |
+| February  | `2`, `feb`, `february`               |
+| March     | `3`, `mar`, `march`                  |
+| April     | `4`, `apr`, `april`                  |
+| May       | `5`, `may`                           |
+| June      | `6`, `jun`, `june`                   |
+| July      | `7`, `jul`, `july`                   |
+| August    | `8`, `aug`, `augustus`               |
+| September | `9`, `sep`, `september`              |
+| October   | `10`, `oct`, `october`, `spooktober` |
+| November  | `11`, `nov`, `november`              |
+| December  | `12`, `dec`, `december`              |
 
 ## Player selectors
 
@@ -137,7 +342,7 @@ A [list](syntax.html#lists) of [dates](syntax.html#dates) specifying when the te
 **OptiGUI 2.3.0-beta.3+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [String](syntax.html#strings) specifying the exact value of the name of the entity or block entity.
+A [String](#string) specifying the exact value of the name of the entity or block entity.
 
 ### `player.name.wildcard`
 
@@ -145,7 +350,7 @@ A [String](syntax.html#strings) specifying the exact value of the name of the en
 **OptiGUI 2.3.0-beta.3+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [String](syntax.html#strings) specifying the case-sensitive [wildcard](syntax.html#wildcard) to match against the name of the entity or block entity.
+A [String](#string) specifying the case-sensitive [wildcard](#wildcard) to match against the name of the entity or block entity.
 
 ### `player.name.wildcard.ignore_case`
 
@@ -153,7 +358,7 @@ A [String](syntax.html#strings) specifying the case-sensitive [wildcard](syntax.
 **OptiGUI 2.3.0-beta.3+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [String](syntax.html#strings) specifying the case-insensitive [wildcard](syntax.html#wildcard) to match against the name of the entity or block entity.
+A [String](#string) specifying the case-insensitive [wildcard](#wildcard) to match against the name of the entity or block entity.
 
 ### `player.name.regex`
 
@@ -161,7 +366,7 @@ A [String](syntax.html#strings) specifying the case-insensitive [wildcard](synta
 **OptiGUI 2.3.0-beta.3+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [String](syntax.html#strings) specifying the case-sensitive [regex](syntax.html#regex) to match against the name of the entity or block entity.
+A [String](#string) specifying the case-sensitive [regex](#regex) to match against the name of the entity or block entity.
 
 ### `player.name.regex.ignore_case`
 
@@ -169,7 +374,7 @@ A [String](syntax.html#strings) specifying the case-sensitive [regex](syntax.htm
 **OptiGUI 2.3.0-beta.3+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [String](syntax.html#strings) specifying the case-insensitive [regex](syntax.html#regex) to match against the name of the entity or block entity.
+A [String](#string) specifying the case-insensitive [regex](#regex) to match against the name of the entity or block entity.
 
 ### `player.biomes`
 
@@ -177,7 +382,7 @@ A [String](syntax.html#strings) specifying the case-insensitive [regex](syntax.h
 **OptiGUI 2.3.0-beta.3+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) of biome identifiers specifying the biomes of the entity or block entity where this replacement applies.
+A [list](#list) of biome identifiers specifying the biomes of the entity or block entity where this replacement applies.
 
 ### `player.heights`
 
@@ -185,7 +390,7 @@ A [list](syntax.html#lists) of biome identifiers specifying the biomes of the en
 **OptiGUI 2.3.0-beta.3+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](syntax.html#ranges) specifying the heights (Y coordiantes) of the entity or block entity, where this replacemen
+A [list](#list) of [integers](#number) and [ranges](#range) specifying the heights (Y coordiantes) of the entity or block entity, where this replacemen
 
 ## Comparator selectors
 
@@ -195,7 +400,7 @@ A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](synt
 **OptiGUI 2.1.3+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](syntax.html#ranges) specifying the redstone comparator output of the entity or block entity, where this replacement applies.
+A [list](#list) of [integers](#number) and [ranges](#range) specifying the redstone comparator output of the entity or block entity, where this replacement applies.
 
 ## Anvil
 
@@ -246,7 +451,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](syntax.html#ranges) specifying the levels of beacon power to apply to (how many bases of blocks).
+A [list](#list) of [integers](#number) and [ranges](#range) specifying the levels of beacon power to apply to (how many bases of blocks).
 
 ## Book
 
@@ -270,7 +475,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 **OptiGUI 2.1.3+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](syntax.html#ranges) specifying the the current page of the book, where this replacement applies.
+A [list](#list) of [integers](#number) and [ranges](#range) specifying the the current page of the book, where this replacement applies.
 
 ### `book.page.count`
 
@@ -278,7 +483,7 @@ A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](synt
 **OptiGUI 2.1.3+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) of [integers](syntax.html#numbers) and [ranges](syntax.html#ranges) specifying the the page count of the book, where this replacement applies.
+A [list](#list) of [integers](#number) and [ranges](#range) specifying the the page count of the book, where this replacement applies.
 
 ## Book and Quill
 
@@ -343,7 +548,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A single [boolean](syntax.html#booleans) specifying if the texture of a double chest should be replaced.
+A single [boolean](#boolean) specifying if the texture of a double chest should be replaced.
 
 ## Trapped chest
 
@@ -400,7 +605,7 @@ Supports the following additional selectors: [common selectors](#common-selector
     Entity `minecraft:chest_boat` was split in [snapshot 24w39a](https://minecraft.wiki/w/Java_Edition_24w39a#Non-mob_entities). Use the new entity IDs instead of this selector.
     Use [conditional loading](conditional.md#ifmods) to support multiple versions of the game.
 
-A [list](syntax.html#lists) of [strings](syntax.html#strings) specifying the wood type of the chest boat. Possible values:
+A [list](#list) of [strings](#string) specifying the wood type of the chest boat. Possible values:
 
 * `acacia`
 * `bamboo` **Minecraft 1.20+**{.chip-lightgreen} **Minecraft 1.19.3+ with 1.20 experiments**{.chip-lightgreen}
@@ -586,7 +791,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 **OptiGUI 2.2.0-alpha.1**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A single [boolean](syntax.html#booleans) specifying if the entity needs to be or not be saddled.
+A single [boolean](#boolean) specifying if the entity needs to be or not be saddled.
 
 ### `horse.variants`
 
@@ -594,7 +799,7 @@ A single [boolean](syntax.html#booleans) specifying if the entity needs to be or
 **OptiGUI 2.2.0-alpha.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) of [strings](syntax.html#strings) specifying the horse's variant. Possible values:
+A [list](#list) of [strings](#string) specifying the horse's variant. Possible values:
 
 * `black`
 * `brown`
@@ -610,7 +815,7 @@ A [list](syntax.html#lists) of [strings](syntax.html#strings) specifying the hor
 **OptiGUI 2.2.0-alpha.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) of [strings](syntax.html#strings) specifying the marking on a horse. Possible values:
+A [list](#list) of [strings](#string) specifying the marking on a horse. Possible values:
 
 * `black_dots`
 * `none`
@@ -638,7 +843,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 **OptiGUI 2.1.3+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A single [boolean](syntax.html#booleans) specifying if the entity needs to have or not have a chest.
+A single [boolean](#boolean) specifying if the entity needs to have or not have a chest.
 
 ## Mule
 
@@ -675,7 +880,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) of [strings](syntax.html#strings) specifying the llama's carpet color. Possible values:
+A [list](#list) of [strings](#string) specifying the llama's carpet color. Possible values:
 
 * `white`
 * `orange`
@@ -700,7 +905,7 @@ A [list](syntax.html#lists) of [strings](syntax.html#strings) specifying the lla
 **OptiGUI 2.2.0-alpha.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) of [strings](syntax.html#strings) specifying the llama's variant. Possible values:
+A [list](#list) of [strings](#string) specifying the llama's variant. Possible values:
 
 * `brown`
 * `creamy`
@@ -902,7 +1107,9 @@ Supports the following additional selectors: [common selectors](#common-selector
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) of [professions](syntax.html#professions) specifying villager professions with optional levels.
+A [list](#list) of villager professions specifying villager professions with optional levels.
+
+Villager professions can be specified by an optional namespace and the profession name name, and an optional [level](#number) or [level range](#range) separated with a `@` character:
 
 !!! example "Cleric (any levels) or fisherman (any levels)"
     ```ini
@@ -942,7 +1149,7 @@ A [list](syntax.html#lists) of [professions](syntax.html#professions) specifying
 **OptiGUI 2.1.3+**{.chip-darkgreen}
 **Minecraft 1.18+**{.chip-lightgreen}
 
-A [list](syntax.html#lists) of [strings](syntax.html#strings) specifying villager types (which biome was it born in). This is how its clothing looks like. Possible values:
+A [list](#list) of [strings](#string) specifying villager types (which biome was it born in). This is how its clothing looks like. Possible values:
 
 * `desert`
 * `jungle`
@@ -1016,3 +1223,65 @@ Supports the following additional selectors: [common selectors](#common-selector
     interaction.texture = minecraft:textures/gui/container/creative_inventory/tab_item_search.png
     replacement = tab_item_search_desert.png
     ```
+
+## Conditional loading
+
+OptiGUI ^2.1.0-beta.3+^ supports conditionally loading OptiGUI resources.
+
+Conditional loading selectors always begin with `if.` (except for `if`), and should be added to [groups](#groups) to specify when (not) to load the group (just like normal selectors). These will be evaluated when loading resources instead of when replacing textures.
+
+### `if`
+
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.3+**{.chip-darkgreen}
+
+A single [boolean](syntax.html#booleans) specifying if the property should be loaded. Set to `false` to prevent the group from loading.
+
+!!! example
+    ```ini
+    [container]
+    if = false
+    ```
+
+### `if.mod.optigui.version.at_least`
+
+**Optional**{.chip-lightblue}
+**OptiGUI 2.1.0-beta.3+**{.chip-darkgreen}
+**Removed in OptiGUI 2.3.0-alpha.1**{.chip-red}
+
+Use [`if.mods = optigui>=version`](#ifmods) instead of `#!properties if.mod.optigui.version.at_least = version`.
+
+### `if.mods`
+
+**Optional**{.chip-lightblue}
+**OptiGUI 2.2.0-alpha.1+**{.chip-darkgreen}
+
+A [list](syntax.html#lists) of the following things:
+
+The mod ID, and optionally an operator and a [semantic version](https://semver.org) specifying the version of a mod required to load the group. If an operator and a version is omitted, OptiGUI will check for the presence of the mod. Useful to prevent loading on old versions, which don't support some features.
+
+If multiple mods are specified, all must match to load the resource. If a mod is not present, it will not match regardless of the version specified.
+
+!!! note
+    There is no operator currently to match only when the mod is not present
+
+!!! example
+    ```ini
+    if.mods = optigui                               # Checks for the presence of optigui
+    if.mods = optigui>=2.3.0-alpha.1                # Checks, if OptiGUI is 2.3.0-alpha.1 or newer
+    if.mods = minecraft~1.20.1                      # Checks if Minecraft is >=1.20.1 and <1.21
+    if.mods = optigui>=2.3.0-alpha.1 optigui<2.4.0  # Checks if OptiGUI meets multiple criteria
+    if.mods = minecraft fabric-api java>=17         # Mix-n-match (all of them has to match)
+    ```
+
+#### Operators
+
+| Opertor | Checks, if a mod...                                                                  |
+|---------|--------------------------------------------------------------------------------------|
+| `>`     | is newer, than the given version                                                     |
+| `>=`    | is at least as new, as the given version                                             |
+| `<`     | is older, than the given version                                                     |
+| `<=`    | is at most as old, as the given version                                              |
+| `=`     | has the same version, as the given version                                           |
+| `~`     | is at least as new, and has the same minor (**X.Y**.z) version, as the given version |
+| `^`     | is at least as new, and has the same major (**X**.y.z) version, as the given version |
