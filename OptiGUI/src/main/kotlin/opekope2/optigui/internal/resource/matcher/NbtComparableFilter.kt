@@ -36,7 +36,13 @@ internal abstract class NbtComparableFilter(signBitMask: Int) : INbtFilter {
         val MORE_THAN_DECODER = decoder(Result.MORE.mask, false)
 
         @JvmField
+        val MORE_THAN_IGNORE_CASE_DECODER = decoder(Result.MORE.mask, true)
+
+        @JvmField
         val AT_LEAST_DECODER = decoder(Result.MORE.mask or Result.EQUAL.mask, false)
+
+        @JvmField
+        val AT_LEAST_IGNORE_CASE_DECODER = decoder(Result.MORE.mask or Result.EQUAL.mask, true)
 
         @JvmField
         val EQUAL_TO_DECODER = decoder(Result.EQUAL.mask, false)
@@ -48,10 +54,19 @@ internal abstract class NbtComparableFilter(signBitMask: Int) : INbtFilter {
         val NOT_EQUAL_TO_DECODER = decoder(Result.MORE.mask or Result.LESS.mask, false)
 
         @JvmField
+        val NOT_EQUAL_TO_IGNORE_CASE_DECODER = decoder(Result.MORE.mask or Result.LESS.mask, true)
+
+        @JvmField
         val AT_MOST_DECODER = decoder(Result.EQUAL.mask or Result.LESS.mask, false)
 
         @JvmField
+        val AT_MOST_IGNORE_CASE_DECODER = decoder(Result.EQUAL.mask or Result.LESS.mask, true)
+
+        @JvmField
         val LESS_THAN_DECODER = decoder(Result.LESS.mask, false)
+
+        @JvmField
+        val LESS_THAN_IGNORE_CASE_DECODER = decoder(Result.LESS.mask, true)
 
         private fun decoder(signBitMask: Int, ignoreCase: Boolean): Decoder<INbtFilter> = Codecs.BASIC_OBJECT.flatMap {
             when (it) {

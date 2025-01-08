@@ -22,12 +22,17 @@ internal object ClientInitializer {
 
     private fun registerNbtMatchers() {
         NbtMatcherRegistry.register(">", NbtComparableFilter.MORE_THAN_DECODER)
+        NbtMatcherRegistry.register(">*", NbtComparableFilter.MORE_THAN_IGNORE_CASE_DECODER)
         NbtMatcherRegistry.register(">=", NbtComparableFilter.AT_LEAST_DECODER)
+        NbtMatcherRegistry.register(">=*", NbtComparableFilter.AT_LEAST_IGNORE_CASE_DECODER)
         NbtMatcherRegistry.register("=", NbtComparableFilter.EQUAL_TO_DECODER)
         NbtMatcherRegistry.register("=*", NbtComparableFilter.EQUAL_TO_IGNORE_CASE_DECODER)
         NbtMatcherRegistry.register("!=", NbtComparableFilter.NOT_EQUAL_TO_DECODER)
+        NbtMatcherRegistry.register("!=*", NbtComparableFilter.NOT_EQUAL_TO_IGNORE_CASE_DECODER)
         NbtMatcherRegistry.register("<=", NbtComparableFilter.AT_MOST_DECODER)
+        NbtMatcherRegistry.register("<=*", NbtComparableFilter.AT_MOST_IGNORE_CASE_DECODER)
         NbtMatcherRegistry.register("<", NbtComparableFilter.LESS_THAN_DECODER)
+        NbtMatcherRegistry.register("<*", NbtComparableFilter.LESS_THAN_IGNORE_CASE_DECODER)
 
         NbtMatcherRegistry.register("regex", NbtStringRegexFilter.REGEX_DECODER)
         NbtMatcherRegistry.register("regex*", NbtStringRegexFilter.REGEX_IGNORE_CASE_DECODER)
