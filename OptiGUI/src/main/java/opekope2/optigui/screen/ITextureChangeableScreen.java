@@ -1,6 +1,9 @@
 package opekope2.optigui.screen;
 
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ingame.BookEditScreen;
+import net.minecraft.client.gui.screen.ingame.BookScreen;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.TextCodecs;
@@ -9,9 +12,11 @@ import opekope2.optigui.util.NbtUtil;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Marker interface for making a screen retexturable by OptiGUI.
+ * Marker interface for allowing OptiGUI to change textures on a screen (and its subclasses).
+ * <p>
+ * Mixed into {@link HandledScreen}, {@link BookScreen}, and {@link BookEditScreen}.
  */
-public interface IRetexturableScreen {
+public interface ITextureChangeableScreen {
     /**
      * Writes the screen's content to {@code compound}.
      * By default, it writes {@link Screen#getTitle()} to key {@link Constants#SCREEN_TITLE_KEY}.

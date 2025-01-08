@@ -5,7 +5,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
-import opekope2.optigui.screen.IRetexturableScreen;
+import opekope2.optigui.screen.ITextureChangeableScreen;
 import opekope2.optigui.screen.handler.IInventoryScreenHandler;
 import opekope2.optigui.util.Constants;
 import org.jetbrains.annotations.NotNull;
@@ -13,13 +13,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(HandledScreen.class)
-public abstract class HandledScreenMixin implements IRetexturableScreen {
+public abstract class HandledScreenMixin implements ITextureChangeableScreen {
     @Shadow
     public abstract ScreenHandler getScreenHandler();
 
     @Override
     public void optiGui_writeNbt(@NotNull NbtCompound compound, @NotNull RegistryWrapper.WrapperLookup lookup) {
-        IRetexturableScreen.super.optiGui_writeNbt(compound, lookup);
+        ITextureChangeableScreen.super.optiGui_writeNbt(compound, lookup);
 
         ScreenHandler screenHandler = getScreenHandler();
         if (screenHandler instanceof IInventoryScreenHandler inventoryScreenHandler) {

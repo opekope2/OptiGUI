@@ -5,7 +5,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
-import opekope2.optigui.screen.IRetexturableScreen;
+import opekope2.optigui.screen.ITextureChangeableScreen;
 
 /**
  * A {@link ScreenHandler}, which has an inventory (at least one slot), and calculates redstone comparator using
@@ -13,7 +13,7 @@ import opekope2.optigui.screen.IRetexturableScreen;
  * <p>
  * Implementing this utility class on your {@link ScreenHandler} will add inventory and redstone comparator output
  * NBTs in our {@link HandledScreen}'s
- * {@link IRetexturableScreen#optiGui_writeNbt(NbtCompound, RegistryWrapper.WrapperLookup)} method.
+ * {@link ITextureChangeableScreen#optiGui_writeNbt(NbtCompound, RegistryWrapper.WrapperLookup)} method.
  */
 public interface IInventoryScreenHandler {
     /**

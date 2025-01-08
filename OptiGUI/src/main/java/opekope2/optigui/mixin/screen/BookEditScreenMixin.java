@@ -4,7 +4,7 @@ import net.minecraft.client.gui.screen.ingame.BookEditScreen;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import opekope2.optigui.interaction.InteractionManager;
-import opekope2.optigui.screen.IRetexturableScreen;
+import opekope2.optigui.screen.ITextureChangeableScreen;
 import opekope2.optigui.util.Constants;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BookEditScreen.class)
-public abstract class BookEditScreenMixin implements IRetexturableScreen {
+public abstract class BookEditScreenMixin implements ITextureChangeableScreen {
     @Accessor
     abstract int getCurrentPage();
 
@@ -29,7 +29,7 @@ public abstract class BookEditScreenMixin implements IRetexturableScreen {
 
     @Override
     public void optiGui_writeNbt(@NotNull NbtCompound compound, @NotNull RegistryWrapper.WrapperLookup lookup) {
-        IRetexturableScreen.super.optiGui_writeNbt(compound, lookup);
+        ITextureChangeableScreen.super.optiGui_writeNbt(compound, lookup);
 
         compound.putInt(Constants.CURRENT_PAGE_KEY, getCurrentPage() + 1);
         compound.putInt(Constants.PAGE_COUNT_KEY, callCountPages());

@@ -8,7 +8,7 @@ import net.minecraft.util.Hand;
 import opekope2.optigui.interaction.InteractionManager;
 import opekope2.optigui.interaction.data.InteractionPlayerData;
 import opekope2.optigui.interaction.data.InventoryInteractionData;
-import opekope2.optigui.screen.IRetexturableScreen;
+import opekope2.optigui.screen.ITextureChangeableScreen;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,8 +37,8 @@ public abstract class MinecraftClientMixin {
             );
         }
 
-        if (currentScreen instanceof IRetexturableScreen retexturableScreen) {
-            InteractionManager.begin$optigui(retexturableScreen);
+        if (currentScreen instanceof ITextureChangeableScreen textureChangeableScreen) {
+            InteractionManager.begin$optigui(textureChangeableScreen);
         } else {
             InteractionManager.end$optigui();
         }

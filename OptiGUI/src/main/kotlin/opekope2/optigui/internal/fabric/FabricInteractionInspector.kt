@@ -21,7 +21,7 @@ import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.data.IInteractionData
 import opekope2.optigui.resource.format.json.JsonFilterResource
 import opekope2.optigui.resource.load.ILoadTimeNbtSupplier
-import opekope2.optigui.screen.IRetexturableScreen
+import opekope2.optigui.screen.ITextureChangeableScreen
 import opekope2.optigui.toast.InspectorToast
 import org.lwjgl.glfw.GLFW
 
@@ -68,7 +68,7 @@ object FabricInteractionInspector : ScreenEvents.BeforeInit, ScreenKeyboardEvent
     }
 
     override fun beforeInit(client: MinecraftClient?, screen: Screen?, scaledWidth: Int, scaledHeight: Int) {
-        if (screen is IRetexturableScreen) ScreenKeyboardEvents.afterKeyRelease(screen).register(this)
+        if (screen is ITextureChangeableScreen) ScreenKeyboardEvents.afterKeyRelease(screen).register(this)
     }
 
     override fun afterKeyRelease(screen: Screen?, key: Int, scancode: Int, modifiers: Int) {

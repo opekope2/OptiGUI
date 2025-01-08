@@ -4,14 +4,14 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.util.Identifier
 import opekope2.optigui.interaction.data.IInteractionData
 import opekope2.optigui.internal.TextureChanger
-import opekope2.optigui.screen.IRetexturableScreen
+import opekope2.optigui.screen.ITextureChangeableScreen
 import java.util.*
 
 /**
  * Manages player interactions that have GUI interactions.
  */
 object InteractionManager {
-    private var screen: IRetexturableScreen? = null
+    private var screen: ITextureChangeableScreen? = null
     private var nextInteractionData: IInteractionData? = null
 
     /**
@@ -49,7 +49,7 @@ object InteractionManager {
      * @suppress
      */
     @JvmStatic
-    internal fun begin(screen: IRetexturableScreen) {
+    internal fun begin(screen: ITextureChangeableScreen) {
         // TODO handle screen change (no end() between two begin()s)
         interaction = nextInteractionData?.let { Interaction(screen, it) }
         nextInteractionData = null
