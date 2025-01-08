@@ -97,6 +97,7 @@ data class JsonFilterResource(
         /**
          * Decoder for an [INbtFilter] from [JsonFilterResource.loadFilter] and [JsonFilterResource.filter].
          */
+        @JvmField
         val NBT_FILTER_DECODER: Decoder<INbtFilter> = Codecs.BASIC_OBJECT.flatMap(::decodeFilter)
 
         /**
