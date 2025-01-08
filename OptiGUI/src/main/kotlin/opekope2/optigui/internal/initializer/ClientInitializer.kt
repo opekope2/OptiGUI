@@ -5,7 +5,7 @@ import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.resource.load.nbt_supplier.ModListsNbtSupplier
 import opekope2.optigui.internal.resource.matcher.*
 import opekope2.optigui.resource.load.ILoadTimeNbtSupplier
-import opekope2.optigui.resource.matcher.nbt.NbtMatcherRegistry
+import opekope2.optigui.resource.matcher.NbtMatcherRegistry
 
 internal object ClientInitializer {
     init {

@@ -1,4 +1,4 @@
-package opekope2.optigui.resource.matcher.nbt
+package opekope2.optigui.resource.matcher
 
 import com.mojang.serialization.Decoder
 import opekope2.optigui.filter.INbtFilter
