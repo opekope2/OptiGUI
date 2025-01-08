@@ -16,7 +16,7 @@ import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraft.util.Identifier
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.interaction.InteractionManager
-import opekope2.optigui.internal.TextureReplacer
+import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.initializer.ClientInitializer
 import opekope2.optigui.internal.resource.loader.json.JsonFilterLoader
 import opekope2.optigui.util.MOD_ID
@@ -40,7 +40,7 @@ internal class OptiGuiClient :
 
     private fun registerResourceLoaders(manager: ResourceManagerHelper) {
         manager.registerReloadListener(FabricResourceReloadListener(JsonFilterLoader.ID, JsonFilterLoader))
-        manager.registerReloadListener(TextureReplacerReloadListener)
+        manager.registerReloadListener(TextureChangerReloadListener)
     }
 
     override fun onEndTick(world: ClientWorld?) {
@@ -58,16 +58,16 @@ internal class OptiGuiClient :
     }
 
     override fun beforeRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
-        TextureReplacer.renderingScreen = true
+        TextureChanger.renderingScreen = true
     }
 
     override fun afterRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
-        TextureReplacer.renderingScreen = false
+        TextureChanger.renderingScreen = false
     }
 
-    private object TextureReplacerReloadListener : IdentifiableResourceReloadListener,
-        SynchronousResourceReloader by TextureReplacer {
-        override fun getFabricId(): Identifier = Identifier.of(MOD_ID, "texture_replacer")
+    private object TextureChangerReloadListener : IdentifiableResourceReloadListener,
+        SynchronousResourceReloader by TextureChanger {
+        override fun getFabricId(): Identifier = Identifier.of(MOD_ID, "texture_changer")
 
         override fun getFabricDependencies() = IFilterLoader.map { it.key }
     }

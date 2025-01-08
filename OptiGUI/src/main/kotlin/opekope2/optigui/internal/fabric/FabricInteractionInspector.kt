@@ -90,7 +90,7 @@ object FabricInteractionInspector : ScreenEvents.BeforeInit, ScreenKeyboardEvent
 
     private fun getLastRenderedTextures() = JsonObject().apply {
         for (texture in InteractionManager.renderedTextures) {
-            addProperty(texture.toString(), "example:path/to/replacement.png")
+            addProperty(texture.toString(), "example:path/to/changed/texture.png")
         }
     }
 

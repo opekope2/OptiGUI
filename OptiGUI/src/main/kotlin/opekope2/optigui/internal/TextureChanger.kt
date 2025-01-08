@@ -5,33 +5,33 @@ import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraft.util.Identifier
 import opekope2.optigui.filter.IFilterLoader
-import opekope2.optigui.filter.TextureReplacerFilter
+import opekope2.optigui.filter.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.util.LinkedLruCollection
 
-internal typealias ContainerId2FiltersMap = Map<Identifier, LinkedLruCollection<TextureReplacerFilter, NbtElement>>
+internal typealias ContainerId2FiltersMap = Map<Identifier, LinkedLruCollection<TextureChangerFilter, NbtElement>>
 
-internal object TextureReplacer : SynchronousResourceReloader {
+internal object TextureChanger : SynchronousResourceReloader {
     private var filters: ContainerId2FiltersMap = mapOf()
-    private var replaceableTextures: Set<Identifier> = setOf()
-    private var replacementTextures: Map<Identifier, Identifier> = mapOf()
+    private var changeableTextures: Set<Identifier> = setOf()
+    private var textureChanges: Map<Identifier, Identifier> = mapOf()
     var renderingScreen = false
     val renderedTextures = mutableSetOf<Identifier>()
 
     @JvmStatic
-    fun replaceTexture(texture: Identifier): Identifier {
+    fun changeTexture(texture: Identifier): Identifier {
         if (!renderingScreen) return texture
         if (!InteractionManager.isInteracting) return texture
-        if (texture !in replaceableTextures) return texture
+        if (texture !in changeableTextures) return texture
 
         renderedTextures += texture
 
-        return replacementTextures[texture] ?: texture
+        return textureChanges[texture] ?: texture
     }
 
     fun clearCache() {
-        replacementTextures = InteractionManager.interaction?.let {
-            filters[it.data.id]?.promoteFirstOrNull(it.createNbt())?.replacementTextures
+        textureChanges = InteractionManager.interaction?.let {
+            filters[it.data.id]?.promoteFirstOrNull(it.createNbt())?.textureChanges
         } ?: mapOf()
         renderedTextures.clear()
     }
@@ -40,6 +40,6 @@ internal object TextureReplacer : SynchronousResourceReloader {
         val filters = IFilterLoader.flatMap { it.value.get() }
 
         this.filters = filters.groupBy { it.container }.mapValues { (_, list) -> LinkedLruCollection(list) }
-        this.replaceableTextures = filters.flatMapTo(HashSet(filters.size)) { it.replacementTextures.keys }
+        this.changeableTextures = filters.flatMapTo(HashSet(filters.size)) { it.textureChanges.keys }
     }
 }

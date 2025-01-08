@@ -23,7 +23,7 @@ public abstract class BookEditScreenMixin implements IRetexturableScreen {
     abstract int callCountPages();
 
     @Inject(method = "changePage", at = @At("RETURN"))
-    private void clearTextureReplacerCacheAfterPageChange(CallbackInfo ci) {
+    private void clearInteractionCacheAfterPageChange(CallbackInfo ci) {
         InteractionManager.clearCache();
     }
 

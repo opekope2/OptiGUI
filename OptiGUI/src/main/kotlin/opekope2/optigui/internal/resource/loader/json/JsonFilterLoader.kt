@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.JsonHelper
 import net.minecraft.util.profiler.Profiler
 import opekope2.optigui.filter.IFilterLoader
-import opekope2.optigui.filter.TextureReplacerFilter
+import opekope2.optigui.filter.TextureChangerFilter
 import opekope2.optigui.resource.format.json.JsonFilterResource
 import opekope2.optigui.resource.load.ILoadTimeNbtSupplier
 import opekope2.optigui.util.MOD_ID
@@ -18,14 +18,14 @@ import opekope2.optigui.util.OPTIGUI_JSON_RESOURCES_ROOT
 import opekope2.optigui.util.push
 import org.slf4j.LoggerFactory
 
-private typealias TextureReplacerFilterList = List<TextureReplacerFilter>
+private typealias TextureChangerFilterList = List<TextureChangerFilter>
 
-internal object JsonFilterLoader : SinglePreparationResourceReloader<TextureReplacerFilterList>(), IFilterLoader {
+internal object JsonFilterLoader : SinglePreparationResourceReloader<TextureChangerFilterList>(), IFilterLoader {
     val ID = Identifier.of(MOD_ID, "json_loader")!!
     private val LOGGER = LoggerFactory.getLogger("OptiGUI/JsonFilterLoader")
     private val FINDER = ResourceFinder(OPTIGUI_JSON_RESOURCES_ROOT, ".json")
 
-    private lateinit var filters: TextureReplacerFilterList
+    private lateinit var filters: TextureChangerFilterList
 
     init {
         IFilterLoader.register(ID, this)
@@ -55,7 +55,7 @@ internal object JsonFilterLoader : SinglePreparationResourceReloader<TextureRepl
         }
     }
 
-    override fun apply(prepared: TextureReplacerFilterList, manager: ResourceManager, profiler: Profiler) {
+    override fun apply(prepared: TextureChangerFilterList, manager: ResourceManager, profiler: Profiler) {
         filters = prepared
     }
 

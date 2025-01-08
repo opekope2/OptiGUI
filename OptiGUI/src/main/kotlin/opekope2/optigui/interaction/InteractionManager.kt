@@ -3,7 +3,7 @@ package opekope2.optigui.interaction
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.util.Identifier
 import opekope2.optigui.interaction.data.IInteractionData
-import opekope2.optigui.internal.TextureReplacer
+import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.screen.IRetexturableScreen
 import java.util.*
 
@@ -29,11 +29,11 @@ object InteractionManager {
         private set
 
     /**
-     * Returns the non-replaced textures rendered since the previous call to [clearCache] or world tick (whichever was
+     * Returns the non-changed textures rendered since the previous call to [clearCache] or world tick (whichever was
      * later). This may include textures rendered throughout multiple frames.
      */
     @JvmStatic
-    val renderedTextures: Set<Identifier> = Collections.unmodifiableSet(TextureReplacer.renderedTextures)
+    val renderedTextures: Set<Identifier> = Collections.unmodifiableSet(TextureChanger.renderedTextures)
 
     /**
      * Tells OptiGUI the details about the next interaction. If called multiple times before a [Screen] is opened, the
@@ -70,11 +70,11 @@ object InteractionManager {
     }
 
     /**
-     * Clears the texture replacer cache. Call this if the current screen pauses the game in single player, after its
-     * content gets updated.
+     * Clears the interaction cache. Call this if the current screen pauses the game in single player, after its content
+     * gets updated.
      */
     @JvmStatic
     fun clearCache() {
-        TextureReplacer.clearCache()
+        TextureChanger.clearCache()
     }
 }

@@ -17,8 +17,8 @@ import opekope2.optigui.util.unwrap
 /**
  * Represents an OptiGUI JSON-based filter.
  *
- * @param containers The containers to replace the texture of
- * @param textures A map mapping the textures to be replaced to the replacement textures
+ * @param containers The containers to change the GUI textures of
+ * @param textures A map containing the original and the changed textures
  * @param loadFilter Raw representation of a filter determining if the resource should be loaded
  * @param filter Raw representation of a filter filtering an interaction NBT
  */
@@ -35,7 +35,7 @@ data class JsonFilterResource(
             NBT_FILTER_DECODER.parse(JavaOps.INSTANCE, loadFilter).unwrap { return DataResult.error { it.message() } }
         val filter =
             NBT_FILTER_DECODER.parse(JavaOps.INSTANCE, filter).unwrap { return DataResult.error { it.message() } }
-        val filters = containers.map { TextureReplacerFilter(it, filter, textures) }
+        val filters = containers.map { TextureChangerFilter(it, filter, textures) }
 
         return DataResult.success(ParsedFilters(filters, loadFilter))
     }
@@ -46,7 +46,7 @@ data class JsonFilterResource(
      * @param filters The filters loaded from the JSON
      * @param loadTimeFilter The filter determining if [filters] should be loaded
      */
-    data class ParsedFilters(val filters: Collection<TextureReplacerFilter>, val loadTimeFilter: INbtFilter)
+    data class ParsedFilters(val filters: Collection<TextureChangerFilter>, val loadTimeFilter: INbtFilter)
 
     companion object {
         /**

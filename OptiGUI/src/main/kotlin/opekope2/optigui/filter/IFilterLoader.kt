@@ -6,14 +6,14 @@ import opekope2.optigui.registry.RegistryBase
 import java.util.function.Supplier
 
 /**
- * A filter supplier that loads [filters][TextureReplacerFilter] from resources.
- * [IFilterLoader.getValue] should return the filters loaded in [IFilterLoader.reload].
+ * A filter supplier that loads [filters][TextureChangerFilter] from resources.
+ * [IFilterLoader.get] should return the filters loaded in [IFilterLoader.reload].
  */
-interface IFilterLoader : ResourceReloader, Supplier<List<TextureReplacerFilter>> {
+interface IFilterLoader : ResourceReloader, Supplier<List<TextureChangerFilter>> {
     /**
      * Gets the filters loaded in [IFilterLoader.reload].
      */
-    override fun get(): List<TextureReplacerFilter>
+    override fun get(): List<TextureChangerFilter>
 
     /**
      * Filter supplier registry.
