@@ -13,7 +13,7 @@ internal abstract class NbtComparableFilter(signBitMask: Int) : INbtFilter {
 
     protected abstract fun compareTo(nbt: NbtElement): Result
 
-    enum class Result(val mask: Int) {
+    protected enum class Result(val mask: Int) {
         LESS(1 shl 2),
         EQUAL(1 shl 1),
         MORE(1 shl 0),
