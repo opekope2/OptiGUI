@@ -69,14 +69,15 @@ internal abstract class NbtComparableFilter(signBitMask: Int) : INbtFilter {
         val LESS_THAN_IGNORE_CASE_DECODER = decoder(Result.LESS.mask, true)
 
         private fun decoder(signBitMask: Int, ignoreCase: Boolean): Decoder<INbtFilter> = Codecs.BASIC_OBJECT.flatMap {
+            if (ignoreCase && it !is String) return@flatMap DataResult.error { "Not a string: $it" }
             when (it) {
                 is String -> DataResult.success(NbtStringFilter(signBitMask, it, ignoreCase))
-                !is Number -> return@flatMap DataResult.error { "Not a number: $it" }
+                !is Number -> DataResult.error { "Not a number: $it" }
                 is Byte, is Short, is Int -> DataResult.success(NbtIntFilter(signBitMask, it.toInt()))
                 is Long -> DataResult.success(NbtLongFilter(signBitMask, it))
                 is Float -> DataResult.success(NbtFloatFilter(signBitMask, it))
                 is Double -> DataResult.success(NbtDoubleFilter(signBitMask, it))
-                else -> return@flatMap DataResult.error { "Unsupported number: $it" }
+                else -> DataResult.error { "Unsupported number: $it" }
             }
         }
     }
