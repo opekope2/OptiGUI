@@ -15,7 +15,7 @@ const val OPTIGUI_INI_RESOURCES_ROOT = "gui"
 /**
  * Root folder to look for OptiGUI custom GUI JSON resources.
  */
-const val OPTIGUI_JSON_RESOURCES_ROOT = MOD_ID
+const val OPTIGUI_JSON_RESOURCES_ROOT = "$MOD_ID/gui"
 
 /**
  * Root folder to look for OptiFine custom GUI properties.
