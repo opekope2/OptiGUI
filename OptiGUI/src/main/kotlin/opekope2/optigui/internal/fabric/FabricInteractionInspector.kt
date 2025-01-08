@@ -68,11 +68,10 @@ object FabricInteractionInspector : ScreenEvents.BeforeInit, ScreenKeyboardEvent
     }
 
     override fun beforeInit(client: MinecraftClient?, screen: Screen?, scaledWidth: Int, scaledHeight: Int) {
-        ScreenKeyboardEvents.afterKeyRelease(screen).register(this)
+        if (screen is IRetexturableScreen) ScreenKeyboardEvents.afterKeyRelease(screen).register(this)
     }
 
     override fun afterKeyRelease(screen: Screen?, key: Int, scancode: Int, modifiers: Int) {
-        if (screen !is IRetexturableScreen) return
         if (!KEY_BINDING.matchesKey(key, scancode)) return
 
         val inspection = GSON.toJson(createJsonResource(InteractionManager.interaction?.data ?: return) ?: return)
