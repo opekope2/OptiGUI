@@ -1,6 +1,5 @@
 package opekope2.optigui.filter
 
-import com.google.common.collect.ImmutableMap
 import net.minecraft.util.Identifier
 
 /**
@@ -13,15 +12,10 @@ import net.minecraft.util.Identifier
 class TextureReplacerFilter(
     val container: Identifier,
     filter: INbtFilter,
-    val replacementTextures: ImmutableMap<Identifier, Identifier>
+    replacementTextures: Map<Identifier, Identifier>
 ) : INbtFilter by filter {
     /**
-     * Creates a new [TextureReplacerFilter] instance.
-     *
-     * @param container The container to replace textures of
-     * @param filter The filter deciding whether to replace the textures of the container
-     * @param replacementTextures A map containing the original and the replaced textures
+     * A map containing the original and the replaced textures.
      */
-    constructor(container: Identifier, filter: INbtFilter, replacementTextures: Map<Identifier, Identifier>) :
-            this(container, filter, ImmutableMap.copyOf(replacementTextures))
+    val replacementTextures = replacementTextures.toMap()
 }

@@ -1,11 +1,11 @@
 package opekope2.optigui.interaction
 
-import com.google.common.collect.ImmutableSet
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.util.Identifier
 import opekope2.optigui.interaction.data.IInteractionData
 import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.screen.IRetexturableScreen
+import java.util.*
 
 /**
  * Manages player interactions that have GUI interactions.
@@ -33,8 +33,7 @@ object InteractionManager {
      * later). This may include textures rendered throughout multiple frames.
      */
     @JvmStatic
-    val renderedTextures: ImmutableSet<Identifier>
-        get() = ImmutableSet.copyOf(TextureReplacer.renderedTextures)
+    val renderedTextures: Set<Identifier> = Collections.unmodifiableSet(TextureReplacer.renderedTextures)
 
     /**
      * Tells OptiGUI the details about the next interaction. If called multiple times before a [Screen] is opened, the
