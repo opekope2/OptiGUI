@@ -17,6 +17,7 @@ import opekope2.optigui.util.MOD_ID
 import opekope2.optigui.util.OPTIGUI_JSON_RESOURCES_ROOT
 import opekope2.optigui.util.push
 import org.slf4j.LoggerFactory
+import java.io.FileNotFoundException
 
 private typealias TextureChangerFilterList = List<TextureChangerFilter>
 
@@ -45,6 +46,10 @@ internal object JsonFilterLoader : SinglePreparationResourceReloader<TextureChan
                 }
                 val filter = JsonFilterResource.PARSED_FILTER_DECODER.parse(JsonOps.INSTANCE, json)
                     .getOrThrow(::JsonParseException)
+
+                val missingTextures = filter.filters.flatMapTo(mutableSetOf()) { it.textureChanges.values }
+                    .filter { manager.getResource(it).isEmpty }
+                if (missingTextures.isNotEmpty()) throw FileNotFoundException("Missing textures: ${missingTextures.joinToString()}")
 
                 if (filter.loadTimeFilter.test(loadTimeNbt)) filter.filters
                 else listOf()
