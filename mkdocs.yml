@@ -17,7 +17,6 @@ nav:
     - OptiFine properties: https://optifine.readthedocs.io/custom_guis.html
     - Migration guide: migrate.md
   - For developers:
-    - Develop OptiGUI: develop.md
     - Using OptiGUI in a mod: usage.md
 markdown_extensions:
   - admonition
