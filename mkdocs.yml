@@ -15,7 +15,8 @@ nav:
   - Supported resource packs:
     - OptiGUI INI: INI.md
     - OptiFine properties: https://optifine.readthedocs.io/custom_guis.html
-    - Migration guide: migrate.md
+  - No longer supported resource formats:
+    - Extensions to OptiFine properties: Properties-extensions.md
   - For developers:
     - Using OptiGUI in a mod: usage.md
 markdown_extensions:
