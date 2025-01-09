@@ -605,7 +605,7 @@ Supports the following additional selectors: [common selectors](#common-selector
 
 !!! warning
     Entity `minecraft:chest_boat` was split in [snapshot 24w39a](https://minecraft.wiki/w/Java_Edition_24w39a#Non-mob_entities). Use the new entity IDs instead of this selector.
-    Use [conditional loading](conditional.md#ifmods) to support multiple versions of the game.
+    Use [conditional loading](#ifmods) to support multiple versions of the game.
 
 A [list](#list) of [strings](#string) specifying the wood type of the chest boat. Possible values:
 
@@ -1237,7 +1237,7 @@ Conditional loading selectors always begin with `if.` (except for `if`), and sho
 **Optional**{.chip-lightblue}
 **OptiGUI 2.1.0-beta.3+**{.chip-darkgreen}
 
-A single [boolean](syntax.html#booleans) specifying if the property should be loaded. Set to `false` to prevent the group from loading.
+A single [boolean](#boolean) specifying if the property should be loaded. Set to `false` to prevent the group from loading.
 
 !!! example
     ```ini
@@ -1258,7 +1258,7 @@ Use [`if.mods = optigui>=version`](#ifmods) instead of `#!properties if.mod.opti
 **Optional**{.chip-lightblue}
 **OptiGUI 2.2.0-alpha.1+**{.chip-darkgreen}
 
-A [list](syntax.html#lists) of the following things:
+A [list](#list) of the following things:
 
 The mod ID, and optionally an operator and a [semantic version](https://semver.org) specifying the version of a mod required to load the group. If an operator and a version is omitted, OptiGUI will check for the presence of the mod. Useful to prevent loading on old versions, which don't support some features.
 
