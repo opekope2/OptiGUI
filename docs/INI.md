@@ -1,5 +1,7 @@
 # OptiGUI INI resources
 
+**OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+
 You can define a texture replacement for each inventory GUI, and apply them based on different criteria.
 
 ## File naming rules

@@ -12,7 +12,8 @@ theme:
     - content.code.copy
 nav:
   - Home: index.md
-  - Supported resource packs:
+  - Supported resource formats:
+    - OptiGUI JSON: JSON.md
     - OptiGUI INI: INI.md
     - OptiFine properties: https://optifine.readthedocs.io/custom_guis.html
   - No longer supported resource formats:
