@@ -228,10 +228,6 @@ The hand the player started the interaction with. Possible values:
 * `main_hand`
 * `off_hand`
 
-### `interaction.screen_title`
-
-**Upcoming**{.chip-purple}
-
 ## Common selectors
 
 ### `name`
