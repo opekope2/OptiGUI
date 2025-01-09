@@ -1,4 +1,4 @@
-# Extensions to OptiFine properties
+# Extensions to OptiFine properties - migration guide
 
 OptiGUI 2.1.0-beta.1 removed support for all extensions from OptiFine properties. Here's a guide how to convert them to [OptiGUI JSON resources](JSON.md).
 
