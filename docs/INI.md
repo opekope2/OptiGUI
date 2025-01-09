@@ -199,9 +199,13 @@ These are not real selectors used for selecting entities and block entities, jus
 
 **Optional**{.chip-lightblue}
 **OptiGUI 2.2.0-alpha.1+**{.chip-darkgreen}
+**Removed in OptiGUI 3.0.0-alpha.1**{.chip-red}
 **Minecraft 1.18+**{.chip-lightgreen}
 
 A single [integer](#number) (not range) specifying the load priority of the group. Default load priority is `0`. Higher load priority means earlier processing while evaluating the loaded filters.
+
+!!! warning
+    Not supported on OptiGUI 3 due to performance implications
 
 ## Interaction selectors
 
