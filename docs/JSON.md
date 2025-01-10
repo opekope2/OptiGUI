@@ -146,6 +146,74 @@ If the matcher name is `#n`, matches an NBT element, if any of the following is 
 }
 ```
 
+### `#none`
+
+Matches an NBT element, if any of the following is true:
+
+* it is an NBT List/Array, and none (exactly 0) of its elements match the given [filter](#filter)
+
+```json
+{
+  "@player": {
+    "@Motion": {
+      "#none": {
+        ">": 1
+      }
+    }
+  }
+}
+```
+
+### `#any`
+
+Matches an NBT element, if any of the following is true:
+
+* it is an NBT List/Array, and any (1 or more) of its elements match the given [filter](#filter)
+
+```json
+{
+  "@player": {
+    "@Motion": {
+      "#any": {
+        ">": 1
+      }
+    }
+  }
+}
+```
+
+### `#some`
+
+Matches an NBT element, if any of the following is true:
+
+* it is an NBT List/Array, and 0 or more, but not all of its elements match the given [filter](#filter)
+
+```json
+{
+  "@player": {
+    "@Motion": {
+      "#some": 0
+    }
+  }
+}
+```
+
+### `#all`
+
+Matches an NBT element, if any of the following is true:
+
+* it is an NBT List/Array, and all of its elements match the given [filter](#filter)
+
+```json
+{
+  "@player": {
+    "@Motion": {
+      "#all": 0
+    }
+  }
+}
+```
+
 ### `>`
 
 **OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
