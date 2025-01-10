@@ -159,7 +159,7 @@ data class JsonFilterResource(
                 decodeFilter(it, depth + 1).unwrap { error -> return error }
             }
 
-            return DataResult.success(matchAllOf(filters))
+            return DataResult.success(matchAnyOf(filters))
         }
     }
 }
