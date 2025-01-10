@@ -65,7 +65,7 @@ jobs:
           game-version-filter: releases
           java: ${{ steps.load-java-version.outputs.value }}
       - name: Delete build output
-        uses: geekyeggo/delete-artifact@v5.0.0
+        uses: geekyeggo/delete-artifact@v5.1.0
         with:
           name: jars
           useGlob: false
