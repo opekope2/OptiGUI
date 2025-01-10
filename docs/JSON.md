@@ -140,7 +140,7 @@ If the matcher name is `@tag`, matches an NBT element, if any of the following i
 
 ```json
 {
-  "@Never gonna give you up": {}
+  "@tag": {}
 }
 ```
 
