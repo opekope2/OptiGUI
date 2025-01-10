@@ -90,7 +90,7 @@ object FabricInteractionInspector : ScreenEvents.BeforeInit, ScreenKeyboardEvent
 
     private fun createJsonResource(interactionData: IInteractionData): JsonElement? = JsonObject().apply {
         addProperty("generated_by", GENERATED_BY)
-        addProperty("wiki", "https://opekope2.dev/OptiGUI/JSON.html")
+        addProperty("docs", "https://opekope2.dev/OptiGUI/JSON.html")
         addProperty(JsonFilterResource.CONTAINERS_KEY, interactionData.id.toString())
         add(JsonFilterResource.TEXTURES_KEY, getLastRenderedTextures())
         add(JsonFilterResource.LOAD_FILTER_KEY, getLoadTimeNbtFilter())
