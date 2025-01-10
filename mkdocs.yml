@@ -18,8 +18,6 @@ nav:
     - OptiFine properties: https://optifine.readthedocs.io/custom_guis.html
   - No longer supported resource formats:
     - Extensions to OptiFine properties - migration guide: Properties-extensions.md
-  - For developers:
-    - Using OptiGUI in a mod: usage.md
 markdown_extensions:
   - admonition
   - attr_list
