@@ -124,7 +124,7 @@ If the matcher name is `@tag`, matches an NBT element, if any of the following i
 
 ```json
 {
-  "@OptiGUI": {}
+  "@Never gonna give you up": {}
 }
 ```
 
@@ -157,11 +157,13 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@The Answer": {
-    ">": 42
+  "@player": {
+    "@health": {
+      ">": 10
+    }
   },
-  "@OptiGUI": {
-    ">": "Is awesome"
+  "@biome": {
+    ">": "minecraft:cherry_grove"
   }
 }
 ```
@@ -176,8 +178,8 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@OptiGUI": {
-    ">*": "Is awesome"
+  "@biome": {
+    ">*": "minecraft:cherry_grove"
   }
 }
 ```
@@ -193,11 +195,13 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@The Answer": {
-    ">=": 42
+  "@player": {
+    "@health": {
+      ">=": 10
+    }
   },
-  "@OptiGUI": {
-    ">=": "Is awesome"
+  "@biome": {
+    ">=": "minecraft:cherry_grove"
   }
 }
 ```
@@ -212,8 +216,8 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@OptiGUI": {
-    ">=*": "Is awesome"
+  "@biome": {
+    ">=*": "minecraft:cherry_grove"
   }
 }
 ```
@@ -229,26 +233,30 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@The Answer": {
-    "=": 42
+  "@player": {
+    "@health": {
+      "=": 10
+    }
   },
-  "@OptiGUI": {
-    "=": "Is awesome"
+  "@biome": {
+    "=": "minecraft:cherry_grove"
   }
 }
 ```
 
 #### Syntax shortcut
 
-en only the `=` matcher is used in a JSON object, the value can be written in place of the JSON object:
+When only the `=` matcher is used in a JSON object, the value can be written in place of the JSON object:
 
 ```json
 {
-  "@The Answer": {
-    "=": 42
+  "@player": {
+    "@health": {
+      "=": 10
+    }
   },
-  "@OptiGUI": {
-    "=": "Is awesome"
+  "@biome": {
+    "=": "minecraft:cherry_grove"
   }
 }
 ```
@@ -257,8 +265,10 @@ Can be written as:
 
 ```json
 {
-  "@The Answer": 42,
-  "@OptiGUI": "Is awesome"
+  "@player": {
+    "@health": 10
+  },
+  "@biome": "minecraft:cherry_grove"
 }
 ```
 
@@ -272,7 +282,9 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@OptiGUI": "Is awesome"
+  "@hand": {
+    "=*": "Main_Hand"
+  }
 }
 ```
 
@@ -287,11 +299,13 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@The Answer": {
-    "!=": 42
+  "@player": {
+    "@health": {
+      "!=": 10
+    }
   },
-  "@OptiGUI": {
-    "!=": "Is awesome"
+  "@biome": {
+    "!=": "minecraft:cherry_grove"
   }
 }
 ```
@@ -306,7 +320,9 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@OptiGUI": "Is awesome"
+  "@hand": {
+    "!=*": "Off_Hand"
+  }
 }
 ```
 
@@ -321,11 +337,13 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@The Answer": {
-    "<=": 42
+  "@player": {
+    "@health": {
+      "<=": 10
+    }
   },
-  "@OptiGUI": {
-    "<=": "Is awesome"
+  "@biome": {
+    "<=": "minecraft:cherry_grove"
   }
 }
 ```
@@ -340,8 +358,8 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@OptiGUI": {
-    "<=*": "Is awesome"
+  "@biome": {
+    "<=*": "minecraft:cherry_grove"
   }
 }
 ```
@@ -357,11 +375,13 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@The Answer": {
-    "<": 42
+  "@player": {
+    "@health": {
+      "<": 10
+    }
   },
-  "@OptiGUI": {
-    "<": "Is awesome"
+  "@biome": {
+    "<": "minecraft:cherry_grove"
   }
 }
 ```
@@ -376,8 +396,8 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@OptiGUI": {
-    "<*": "Is awesome"
+  "@biome": {
+    "<*": "minecraft:cherry_grove"
   }
 }
 ```
@@ -396,8 +416,8 @@ If you'd like to buy me a coffee, you can do so at [Ko-fi](https://ko-fi.com/ope
 
 ```json
 {
-  "@OptiGUI": {
-    "regex": "^Is awesome$"
+  "@biome": {
+    "regex": "^minecraft:.*jungle$"
   }
 }
 ```
@@ -416,8 +436,8 @@ If you'd like to buy me a coffee, you can do so at [Ko-fi](https://ko-fi.com/ope
 
 ```json
 {
-  "@OptiGUI": {
-    "regex*": "^Is awesome$"
+  "@biome": {
+    "regex": "^Minecraft:.*Jungle$"
   }
 }
 ```
@@ -435,8 +455,8 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@OptiGUI": {
-    "wildcard": "Is *"
+  "@biome": {
+    "regex": "minecraft:*savanna*"
   }
 }
 ```
@@ -454,8 +474,8 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@OptiGUI": {
-    "wildcard": "Is *"
+  "@biome": {
+    "regex": "Minecraft:*Savanna*"
   }
 }
 ```
@@ -470,7 +490,7 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@OptiGUI": {
+  "@block_state": {
     "type": "compound"
   }
 }
@@ -502,11 +522,13 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@OptiGUI": {
+  "@player": {
     "none_of": [
-      "laggy",
       {
-        "wildcard*": "worse*optifine"
+        "@Health": 20
+      },
+      {
+        "@FoodLevel": 20
       }
     ]
   }
@@ -523,11 +545,13 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@OptiGUI": {
+  "@player": {
     "any_of": [
-      "awesome",
       {
-        "wildcard*": "better*optifine"
+        "@Health": 20
+      },
+      {
+        "@FoodLevel": 20
       }
     ]
   }
@@ -544,11 +568,13 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@OptiGUI": {
+  "@player": {
     "some_of": [
-      "awesome",
       {
-        "wildcard*": "better*optifine"
+        "@Health": 20
+      },
+      {
+        "@FoodLevel": 20
       }
     ]
   }
@@ -565,11 +591,13 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@OptiGUI": {
+  "@player": {
     "all_of": [
-      "awesome",
       {
-        "wildcard*": "better*optifine"
+        "@Health": 20
+      },
+      {
+        "@FoodLevel": 20
       }
     ]
   }
@@ -582,14 +610,14 @@ Matches an NBT element, if any of the following is true:
 
 Matches an NBT element, if any of the following is true:
 
-* it is an NBT Compound, and the given [filter](#filter) matches a list consisting of the compound's attributes (keys).
+* it is an NBT Compound, and the given [filter](#filter) matches a list consisting of the compound's attributes (keys)
 
 ```json
 {
-  "@OptiGUI": {
+  "@mods": {
     "keys": {
-      "any_of": {
-        "=": "Is awesome"
+      "#any": {
+        "=": "avm_staff"
       }
     }
   }
@@ -602,14 +630,16 @@ Matches an NBT element, if any of the following is true:
 
 Matches an NBT element, if any of the following is true:
 
-* it is an NBT Compound, and the given [filter](#filter) matches a list consisting of the compound's values.
+* it is an NBT Compound, and the given [filter](#filter) matches a list consisting of the compound's values
 
 ```json
 {
-  "@OptiGUI": {
+  "@mods": {
     "values": {
-      "all_of": {
-        "<": 42
+      "#all": {
+        "@version": {
+          ">=*": "1"
+        }
       }
     }
   }
@@ -628,9 +658,11 @@ Matches an NBT element, if any of the following is true:
 
 ```json
 {
-  "@OptiGUI": {
-    "size": {
-      "<": 42
+  "@player": {
+    "@active_effects": {
+      "size": {
+        ">=": 33
+      }
     }
   }
 }
