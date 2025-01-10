@@ -1,20 +1,17 @@
 package opekope2.optigui.internal.resource.matcher
 
 import com.mojang.serialization.Decoder
-import net.minecraft.nbt.*
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.NbtString
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.resource.format.json.JsonFilterResource
 
 internal class NbtKeysFilter(private val filter: INbtFilter) : INbtFilter {
-    override fun test(nbt: NbtElement): Boolean {
-        return filter.test(
-            when (nbt) {
-                is NbtCompound -> nbt.keys.mapTo(NbtList(), NbtString::of)
-                is AbstractNbtList<*> -> NbtIntArray(IntArray(nbt.size) { it })
-                else -> return false
-            }
-        )
-    }
+    override fun test(nbt: NbtElement) =
+        if (nbt !is NbtCompound) false
+        else filter.test(nbt.keys.mapTo(NbtList(), NbtString::of))
 
     companion object {
         @JvmField
