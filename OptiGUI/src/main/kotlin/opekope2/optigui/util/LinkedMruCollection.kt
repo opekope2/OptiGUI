@@ -3,13 +3,13 @@ package opekope2.optigui.util
 import java.util.function.Predicate
 
 /**
- * A read-only collection, which stores elements in LRU order.
+ * A read-only collection, which stores elements in most recently used order.
  *
  * @param T The type of the elements in the collection
  * @param U The type of the parameter passed to [Predicate.test] on the collection elements
  * @param collection The elements of the collection
  */
-class LinkedLruCollection<T : Predicate<U>, U>(collection: Collection<T>) : Collection<T> {
+class LinkedMruCollection<T : Predicate<U>, U>(collection: Collection<T>) : Collection<T> {
     private var head: Link<T>? = null
 
     override val size = collection.size

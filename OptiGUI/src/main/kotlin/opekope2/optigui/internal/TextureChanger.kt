@@ -7,9 +7,9 @@ import net.minecraft.util.Identifier
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager
-import opekope2.optigui.util.LinkedLruCollection
+import opekope2.optigui.util.LinkedMruCollection
 
-internal typealias ContainerId2FiltersMap = Map<Identifier, LinkedLruCollection<TextureChangerFilter, NbtElement>>
+internal typealias ContainerId2FiltersMap = Map<Identifier, LinkedMruCollection<TextureChangerFilter, NbtElement>>
 
 internal object TextureChanger : SynchronousResourceReloader {
     private var filters: ContainerId2FiltersMap = mapOf()
@@ -38,7 +38,7 @@ internal object TextureChanger : SynchronousResourceReloader {
     override fun reload(manager: ResourceManager?) {
         val filters = IFilterLoader.flatMap { it.value.get() }
 
-        this.filters = filters.groupBy { it.container }.mapValues { (_, list) -> LinkedLruCollection(list) }
+        this.filters = filters.groupBy { it.container }.mapValues { (_, list) -> LinkedMruCollection(list) }
         this.changeableTextures = filters.flatMapTo(HashSet(filters.size)) { it.textureChanges.keys }
     }
 }
