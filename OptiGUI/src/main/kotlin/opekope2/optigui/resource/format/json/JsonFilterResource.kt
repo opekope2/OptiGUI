@@ -129,6 +129,11 @@ data class JsonFilterResource(
                         SubNbtFilter(key.substring(1), subFilter)
                     }
 
+                    key == "#none" -> matchNone(decodeFilter(value, depth + 1).unwrap { return it })
+                    key == "#any" -> matchAny(decodeFilter(value, depth + 1).unwrap { return it })
+                    key == "#some" -> matchSome(decodeFilter(value, depth + 1).unwrap { return it })
+                    key == "#all" -> matchAll(decodeFilter(value, depth + 1).unwrap { return it })
+
                     key.startsWith('#') -> {
                         val subNbtKey = key.substring(1)
                         val subNbtIndex =
