@@ -40,7 +40,7 @@ jobs:
         run: ./gradlew test
       - name: Upload build output
         if: inputs.upload-output && matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v4.3.1
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: jars
           path: OptiGUI/build/libs/*.jar
