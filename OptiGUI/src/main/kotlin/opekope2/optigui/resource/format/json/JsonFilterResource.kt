@@ -145,7 +145,7 @@ data class JsonFilterResource(
                 }
             }
 
-            return DataResult.success(matchAll(filters))
+            return DataResult.success(matchAllOf(filters))
         }
 
         @Suppress("NOTHING_TO_INLINE") // Stack size
@@ -154,7 +154,7 @@ data class JsonFilterResource(
                 decodeFilter(it, depth + 1).unwrap { error -> return error }
             }
 
-            return DataResult.success(matchAll(filters))
+            return DataResult.success(matchAllOf(filters))
         }
     }
 }

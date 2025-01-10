@@ -3,9 +3,11 @@
 package opekope2.optigui.filter
 
 /**
- * Matches only if no elements match in the collection. Matches empty collections.
+ * Matches only if no filters match in the collection. Matches if [filters][filters] [is empty][isEmpty].
+ *
+ * @param filters The filters to evaluate
  */
-fun <T> matchNone(filters: Collection<IFilter<T>>): IFilter<T> {
+fun <T> matchNoneOf(filters: Collection<IFilter<T>>): IFilter<T> {
     val filterList = filters.toList()
     return IFilter {
         filterList.none { filter -> filter.test(it) }
@@ -13,9 +15,11 @@ fun <T> matchNone(filters: Collection<IFilter<T>>): IFilter<T> {
 }
 
 /**
- * Matches if at least 1 element matches in the collection. Doesn't match empty collections.
+ * Matches if at least 1 filter matches in the collection. Doesn't match if [filters][filters] [is empty][isEmpty].
+ *
+ * @param filters The filters to evaluate
  */
-fun <T> matchAny(filters: Collection<IFilter<T>>): IFilter<T> {
+fun <T> matchAnyOf(filters: Collection<IFilter<T>>): IFilter<T> {
     val filterList = filters.toList()
     return IFilter {
         filterList.any { filter -> filter.test(it) }
@@ -23,9 +27,12 @@ fun <T> matchAny(filters: Collection<IFilter<T>>): IFilter<T> {
 }
 
 /**
- * Matches if 0 or more, but not all elements match in the collection. Doesn't match empty collections.
+ * Matches if 0 or more, but not all filters match in the collection. Doesn't match if [filters][filters]
+ * [is empty][isEmpty].
+ *
+ * @param filters The filters to evaluate
  */
-fun <T> matchSome(filters: Collection<IFilter<T>>): IFilter<T> {
+fun <T> matchSomeOf(filters: Collection<IFilter<T>>): IFilter<T> {
     val filterList = filters.toList()
     return IFilter {
         !filterList.all { filter -> filter.test(it) }
@@ -33,9 +40,11 @@ fun <T> matchSome(filters: Collection<IFilter<T>>): IFilter<T> {
 }
 
 /**
- * Matches if every single element matches in the collection. Matches empty collections.
+ * Matches if every single filter matches in the collection. Matches if [filters][filters] [is empty][isEmpty].
+ *
+ * @param filters The filters to evaluate
  */
-fun <T> matchAll(filters: Collection<IFilter<T>>): IFilter<T> {
+fun <T> matchAllOf(filters: Collection<IFilter<T>>): IFilter<T> {
     val filterList = filters.toList()
     return IFilter {
         filterList.all { filter -> filter.test(it) }
