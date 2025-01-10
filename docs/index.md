@@ -26,7 +26,9 @@ OptiGUI resource packs, in contrast, support more features.
 
 I also found it confusing using `#!properties container=chest`, as there is no way to specify whether to replace the texture of a single chest, and adding `_barrel` to it was a mistake, because OptiFine ignores `_barrel` as mentioned in [#30](https://github.com/opekope2/OptiGUI/issues/30).
 
-I introduced OptiGUI-specific configuration files in OptiGUI 2.1.0-beta.1, which enables the use of more precise selectors to choose when to replace the texture. These can be found [here](format.html). More selectors are planned to be added in later versions, you can check out [GitHub issues](https://github.com/opekope2/OptiGUI) to see some of them.
+~~I introduced OptiGUI-specific configuration files in OptiGUI 2.1.0-beta.1, which enables the use of more precise selectors to choose when to replace the texture. These can be found [here](INI.md). More selectors are planned to be added in later versions, you can check out [GitHub issues](https://github.com/opekope2/OptiGUI) to see some of them.~~
+
+I introduced JSON-based configuration files in OptiGUI 3.0.0-alpha.1, which uses NBT data to match blocks, entities, items, and more. This supports modded blocks, entites, and items out-of-the-box, and it documented [here](JSON.md).
 
 ## Hybrid resource packs
 
@@ -61,7 +63,5 @@ OptiGUI assets are located in the `/assets/optigui/gui/` folder (or its children
 WIP. Some tips can be found in [#50](https://github.com/opekope2/OptiGUI/issues/50).
 
 ## Animations
-
-Animations may be possible in the future with selectors, like `frame.numerator` and `frame.denominator` (non-existent at the moment), which is different from OptiFine custom animations.
 
 OptiGUI supports [Animatica](https://github.com/FoundationGames/Animatica) ([Modrinth](https://modrinth.com/mod/animatica), [CurseForge](https://www.curseforge.com/minecraft/mc-mods/animatica)) out of box.

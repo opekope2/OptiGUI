@@ -27,6 +27,7 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.superfences
   - pymdownx.caret
+  - pymdownx.tilde
 extra_css:
   - stylesheets/chips.css
 use_directory_urls: false
