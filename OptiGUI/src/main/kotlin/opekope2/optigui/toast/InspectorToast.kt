@@ -21,7 +21,7 @@ class InspectorToast : Toast {
     }
 
     companion object {
-        private val TEXTURE = Identifier("toast/advancement")
+        private val TEXTURE = Identifier.ofVanilla("toast/advancement")
         private val TITLE = Text.translatable("optigui.toast.inspector.title")
         private val DESCRIPTION = Text.translatable("optigui.toast.inspector.description")
     }

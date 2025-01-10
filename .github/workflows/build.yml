@@ -3,95 +3,45 @@ name: Build project
 on:
   workflow_call:
     inputs:
-      build-project:
-        type: boolean
       test-project:
-        type: boolean
-      build-docs:
         type: boolean
       upload-output:
         type: boolean
-      fast:
-        type: boolean
 
 jobs:
-  prepare-build-matrix:
-    name: Prepare build matrix
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create build matrix
-        id: create-build-matrix
-        env:
-          DEFAULT_MATRIX: '
-            {
-              "os": [
-                "ubuntu-latest",
-                "windows-latest"
-              ]
-            }
-            '
-          FAST_MATRIX: '
-            {
-              "os": [
-                "ubuntu-latest"
-              ]
-            }
-            '
-        run: |
-          if [ "${{ inputs.fast }}" = true ]; then
-            echo "BUILD_MATRIX=$FAST_MATRIX" >> $GITHUB_OUTPUT
-          else
-            echo "BUILD_MATRIX=$DEFAULT_MATRIX" >> $GITHUB_OUTPUT
-          fi
-    outputs:
-      build-matrix: ${{ steps.create-build-matrix.outputs.BUILD_MATRIX }}
-
   build:
     name: Build project
     strategy:
-      matrix: ${{ fromJson(needs.prepare-build-matrix.outputs.build-matrix) }}
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
     runs-on: ${{ matrix.os }}
-    needs: prepare-build-matrix
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
       - name: Validate gradle wrapper
         uses: gradle/wrapper-validation-action@v2.1.3
+      - name: Load java version
+        id: load-java-version
+        uses: SebRollen/toml-action@v1.2.0
+        with:
+          file: gradle/libs.versions.toml
+          field: versions.java
       - name: JDK setup
         uses: actions/setup-java@v4.2.1
         with:
-          java-version: 17
+          java-version: ${{ steps.load-java-version.outputs.value }}
           distribution: temurin
       - name: Build project
-        if: inputs.build-project
         run: ./gradlew build -x test
       - name: Test project
         if: inputs.test-project
         run: ./gradlew test
-      - name: Build documentation
-        if: inputs.build-docs
-        run: ./gradlew :OptiGUI:dokkaHtml
-      - name: Build documentation (Java syntax)
-        if: inputs.build-docs
-        run: ./gradlew :OptiGUI:dokkaHtml -PjavaSyntax
       - name: Upload build output
-        if: inputs.build-project && inputs.upload-output
+        if: inputs.upload-output && matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v4.3.1
         with:
           name: jars
           path: OptiGUI/build/libs/*.jar
-          if-no-files-found: error
-      - name: Upload documentation output
-        if: inputs.build-docs && inputs.upload-output
-        uses: actions/upload-artifact@v4.3.1
-        with:
-          name: kdoc
-          path: OptiGUI/build/dokka/kotlinHtml
-          if-no-files-found: error
-      - name: Upload documentation output (Java syntax)
-        if: inputs.build-docs && inputs.upload-output
-        uses: actions/upload-artifact@v4.3.1
-        with:
-          name: javadoc
-          path: OptiGUI/build/dokka/javaHtml
           if-no-files-found: error

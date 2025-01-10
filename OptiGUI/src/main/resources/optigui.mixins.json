@@ -1,15 +1,23 @@
 {
   "required": true,
   "package": "opekope2.optigui.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "BookEditScreenMixin",
-    "BookScreenMixin",
+    "ClientPlayerEntityMixin",
+    "DrawContextMixin",
+    "HandledScreenMixin",
     "MinecraftClientMixin",
-    "RenderSystemMixin",
-    "ScreenMixin"
+    "screen.AbstractFurnaceScreenHandlerMixin",
+    "screen.BookEditScreenMixin",
+    "screen.BookScreenMixin",
+    "screen.BrewingStandScreenHandlerMixin",
+    "screen.Generic3x3ContainerScreenHandlerMixin",
+    "screen.GenericContainerScreenHandlerMixin",
+    "screen.HopperScreenHandlerMixin",
+    "screen.LecternScreenMixin",
+    "screen.ShulkerBoxScreenHandlerMixin"
   ]
 }
