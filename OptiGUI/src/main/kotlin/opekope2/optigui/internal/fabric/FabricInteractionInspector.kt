@@ -71,7 +71,7 @@ object FabricInteractionInspector : ScreenEvents.BeforeInit, ScreenKeyboardEvent
     @Suppress("NOTHING_TO_INLINE") // Stack size
     private inline fun transformNbtFilterKeys(nbt: AbstractNbtList<*>): NbtCompound = NbtCompound().apply {
         for ((index, element) in nbt.withIndex()) {
-            put("@$index", transformNbtFilterKeys(element))
+            put("#$index", transformNbtFilterKeys(element))
         }
     }
 

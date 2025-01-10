@@ -123,25 +123,26 @@ data class JsonFilterResource(
             for ((key, value) in map) {
                 if (key !is String) return DataResult.error { "Not a string: $key" }
 
-                if (key.startsWith('@')) {
-                    val subNbtKey = key.substring(1)
-                    val subNbtIndex = subNbtKey.toIntOrNull()
-                    val subFilter = decodeFilter(value, depth + 1).unwrap { return it }
-                    val subNbtFilter = SubNbtFilter(key.substring(1), subFilter)
-
-                    if (subNbtIndex != null) {
-                        filters += matchAny(listOf(subNbtFilter, NbtListIndexFilter(subNbtIndex, subFilter)))
-                    } else {
-                        filters += subNbtFilter
+                filters += when {
+                    key.startsWith('@') -> {
+                        val subFilter = decodeFilter(value, depth + 1).unwrap { return it }
+                        SubNbtFilter(key.substring(1), subFilter)
                     }
 
-                    continue
-                }
+                    key.startsWith('#') -> {
+                        val subNbtKey = key.substring(1)
+                        val subNbtIndex =
+                            subNbtKey.toIntOrNull() ?: return DataResult.error { "Not a number: $subNbtKey" }
+                        val subFilter = decodeFilter(value, depth + 1).unwrap { return it }
+                        NbtListIndexFilter(subNbtIndex, subFilter)
+                    }
 
-                if (key !in NbtMatcherRegistry) return DataResult.error { "No such matcher: $key" }
-                val decoder = NbtMatcherRegistry.getValue(key)
-                val filter = decoder.parse(JavaOps.INSTANCE, value).unwrap { return it }
-                filters += filter
+                    else -> {
+                        if (key !in NbtMatcherRegistry) return DataResult.error { "No such matcher: $key" }
+                        val decoder = NbtMatcherRegistry.getValue(key)
+                        decoder.parse(JavaOps.INSTANCE, value).unwrap { return it }
+                    }
+                }
             }
 
             return DataResult.success(matchAll(filters))
