@@ -1,6 +1,11 @@
 # OptiGUI INI resources
 
 **OptiGUI 2.1.0-beta.1+**{.chip-darkgreen}
+**Not yet supported by OptiGUI 3**{.chip-red}
+
+!!! warning "Deprecation warning"
+    OptiGUI INI resources are deprecated in favor of [OptiGUI JSON resources](JSON.md). OptiGUI JSON resources offer great versatility, and better compatibility out-of-the-box.  
+    The OptiGUI INI format was inspired by OptiFine's properties, but it didn't solve OptiFine properties' limitations, and created as many problems as it solved.
 
 You can define a texture replacement for each inventory GUI, and apply them based on different criteria.
 
