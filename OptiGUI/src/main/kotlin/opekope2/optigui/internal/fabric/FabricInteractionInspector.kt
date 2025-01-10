@@ -10,6 +10,7 @@ import com.mojang.serialization.JsonOps
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.option.KeyBinding
@@ -23,7 +24,9 @@ import opekope2.optigui.resource.format.json.JsonFilterResource
 import opekope2.optigui.resource.load.ILoadTimeNbtSupplier
 import opekope2.optigui.screen.ITextureChangeableScreen
 import opekope2.optigui.toast.InspectorToast
+import opekope2.optigui.util.MOD_ID
 import org.lwjgl.glfw.GLFW
+import kotlin.jvm.optionals.getOrNull
 
 // TODO inspector button on screen instead of a key binding
 object FabricInteractionInspector : ScreenEvents.BeforeInit, ScreenKeyboardEvents.AfterKeyRelease {
@@ -38,6 +41,11 @@ object FabricInteractionInspector : ScreenEvents.BeforeInit, ScreenKeyboardEvent
             "key.categories.optigui"
         )
     )
+    private val GENERATED_BY = run {
+        val modContainer = FabricLoader.getInstance().getModContainer(MOD_ID).getOrNull() ?: return@run "OptiGUI"
+        val modVersion = modContainer.metadata.version.toString()
+        "OptiGUI $modVersion"
+    }
 
     init {
         ScreenEvents.BEFORE_INIT.register(this)
@@ -81,6 +89,8 @@ object FabricInteractionInspector : ScreenEvents.BeforeInit, ScreenKeyboardEvent
     }
 
     private fun createJsonResource(interactionData: IInteractionData): JsonElement? = JsonObject().apply {
+        addProperty("generated_by", GENERATED_BY)
+        addProperty("wiki", "https://opekope2.dev/OptiGUI/JSON.html")
         addProperty(JsonFilterResource.CONTAINERS_KEY, interactionData.id.toString())
         add(JsonFilterResource.TEXTURES_KEY, getLastRenderedTextures())
         add(JsonFilterResource.LOAD_FILTER_KEY, getLoadTimeNbtFilter())
