@@ -775,18 +775,23 @@ Matches an NBT element, if any of the following is true:
 
 ### Check for a container renamed in an anvil
 
-Since most blocks don't send their custom name to their NBT when sending it to the client without a mod like [Know My Name!](https://modrinth.com/mod/know-my-name), the screen title can be used.
+Since most blocks don't send their custom name to their NBT when sending it to the client without a mod installed on the server like [Know My Name](https://modrinth.com/mod/know-my-name), the GUI screen title can be used instead.
 
 The default name of a block is a [translated text](https://minecraft.wiki/w/Text_component_format#Translated_Text).  
-If an anvil is used to rename the block's item, it is a [plain text](https://minecraft.wiki/w/Text_component_format#Plain_Text).
+If an anvil is used to rename the block in its item form, it is a [plain text](https://minecraft.wiki/w/Text_component_format#Plain_Text).  
 If a command is used to set its custom name, then it can be any kind of text.
 
 ```json
 {
   "@screen": {
-    "@title": {
-      "@text": "Never gonna give you up"
-    }
+    "@title": [
+      {
+        "@text": "Never gonna give you up"
+      },
+      {
+        "@translate": "container.shulkerBox"
+      }
+    ]
   }
 }
 ```
