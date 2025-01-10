@@ -107,6 +107,11 @@ An [NBT filter](#filter) evaluated when changing GUI screen textures.
     Avoid creating two JSON resources, where `match` filters can match the same NBT.  
     OptiGUI chooses the least recently used JSON resource's NBT filter, and not the more specific one (for performance reasons), which can lead to the less specific NBT filter always being prioritized over the more specific filter.
 
+!!! warning "Caution"
+    Since block entities don't send all of their NBT to the client, it is possible that some NBT data will "disappear" after disconnecting.
+    This happens with blocks placed by you before being unloaded (like disconnecting, changing dimensions, or going out of render distance).
+    I suggest re-logging before inspecting newly placed blocks.
+
 ## Filter
 
 ### JSON Object
