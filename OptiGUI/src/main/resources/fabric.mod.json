@@ -80,7 +80,7 @@
     "fabricloader": ">=$fabric_loader",
     "fabric-api": ">=$fabric_api",
     "fabric-language-kotlin": ">=$fabric_language_kotlin",
-    "minecraft": ">=$minecraft",
+    "minecraft": ">=$minecraft <1.21.2",
     "java": ">=$java"
   },
   "custom": {
