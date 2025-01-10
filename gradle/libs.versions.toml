@@ -1,27 +1,25 @@
 [versions]
-java = "21" # Don't forget to update *.mixins.json
-kotlin = "2.0.0"
-optigui = "2.3.0-beta.6+1.21"
+java = "21"
+kotlin = "2.1.0"
+optigui = "3.0.0-alpha.1+fabric.1.21"
 minecraft = "1.21"
-yarn = "1.21+build.2"
-fabric-loom = "1.6-SNAPSHOT"
-fabric-loader = "0.15.11"
-fabric-language-kotlin = "1.11.0+kotlin.2.0.0"
-commons-text = "1.12.0"
+yarn = "1.21+build.9"
+fabric-loom = "1.9-SNAPSHOT"
+fabric-loader = "0.16.10"
+fabric-api = "0.102.0+1.21"
+fabric-language-kotlin = "1.13.0+kotlin.2.1.0"
+commons-text = "1.13.0"
 ini4j = "0.5.4"
-dokka = "1.9.20"
 
 [libraries]
 minecraft = { group = "com.mojang", name = "minecraft", version.ref = "minecraft" }
 yarn = { group = "net.fabricmc", name = "yarn", version.ref = "yarn" }
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric-loader" }
+fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric-api" }
 fabric-language-kotlin = { group = "net.fabricmc", name = "fabric-language-kotlin", version.ref = "fabric-language-kotlin" }
 apache-commons-text = { group = "org.apache.commons", name = "commons-text", version.ref = "commons-text" }
 ini4j = { group = "org.ini4j", name = "ini4j", version.ref = "ini4j" }
-dokka-base = { group = "org.jetbrains.dokka", name = "dokka-base", version.ref = "dokka" }
-dokka-plugin-java-syntax = { group = "org.jetbrains.dokka", name = "kotlin-as-java-plugin", version.ref = "dokka" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 fabric-loom = { id = "fabric-loom", version.ref = "fabric-loom" }
-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }

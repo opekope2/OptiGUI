@@ -3,7 +3,6 @@
 package opekope2.optigui.util
 
 import net.minecraft.util.Identifier
-import net.minecraft.util.InvalidIdentifierException
 import java.nio.file.Path
 
 /**
@@ -28,13 +27,11 @@ fun resolvePath(pathToResolve: String, resource: Identifier, tildePath: String? 
     if (toResolve.startsWith('/')) return null
 
     return when (toResolve.count { it == ':' }) {
-        0 -> try {
+        0 -> {
             val path = root.resolveSibling(toResolve).normalize().toString().replace('\\', '/')
 
             if (path.contains("..")) null
-            else Identifier.of(resource.namespace, path)
-        } catch (_: InvalidIdentifierException) {
-            null
+            else Identifier.tryParse(resource.namespace, path)
         }
 
         1 -> Identifier.tryParse(toResolve)
