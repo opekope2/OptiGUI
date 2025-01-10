@@ -8,8 +8,8 @@ import opekope2.optigui.screen.ITextureChangeableScreen;
 import opekope2.optigui.util.Constants;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;
+import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -20,8 +20,8 @@ public abstract class BookScreenMixin implements ITextureChangeableScreen {
     @Accessor
     protected abstract int getPageIndex();
 
-    @Shadow
-    protected abstract int getPageCount();
+    @Invoker
+    protected abstract int callGetPageCount();
 
     @Inject(method = "setPage", at = @At("RETURN"))
     private void clearInteractionCacheAfterPageChange(CallbackInfoReturnable<Boolean> cir) {
@@ -38,6 +38,6 @@ public abstract class BookScreenMixin implements ITextureChangeableScreen {
         ITextureChangeableScreen.super.optiGui_writeNbt(compound, lookup);
 
         compound.putInt(Constants.CURRENT_PAGE_KEY, getPageIndex() + 1);
-        compound.putInt(Constants.PAGE_COUNT_KEY, getPageCount());
+        compound.putInt(Constants.PAGE_COUNT_KEY, callGetPageCount());
     }
 }
