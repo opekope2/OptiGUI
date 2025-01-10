@@ -1,3 +1,637 @@
 # OptiGUI JSON resources
 
 **OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+## File structure
+
+OptiGUI 3 adds support for a new, [JSON](https://json.org)-based resource format, with the following deviations allowed from the JSON standard (see [GSON code](https://github.com/google/gson/blob/gson-parent-2.10.1/gson/src/main/java/com/google/gson/stream/JsonReader.java#L300-L331) for the full list):
+
+```json
+# Comments
+// are allowed
+/*
+Multi-line comments are allowed,
+but can't be nested
+*/
+{
+  UnquotedNames: "are allowed",
+  'Single-quoted names': "are allowed",
+  "Unquoted strings": are_allowed,
+  "Single-quoted strings": 'are allowed',
+  "Array elements can be separated by": ["commas", "or"; "semicolons"],
+  "Unnecessary array separators": ["are treated as", null, /* null */, , ,],
+  "Names and values can be separated": {
+    "Using": "colons",
+    "Using"= "equality signs",
+    "Or"=> "arrows"
+  },
+  "Name/value pairs can be separated": {
+    "Using": "commas";
+    "Or": "semicolons"
+  }
+}
+```
+
+### `containers`
+
+**Required**{.chip-darkblue}
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+The identifiers of the blocks, entities, or items to change the GUI texture of.
+This identifier is used by `/setblock`, `/summon`, and `/give` commands.
+
+!!! example "Identifier"
+    ```json
+    {
+      "containers": "minecraft:villager"
+    }
+    ```
+
+!!! example "Array of Identifiers"
+    ```json
+    {
+      "containers": ["minecraft:villager", "minecraft:wandering_trader"]
+    }
+    ```
+
+!!! tip
+    1. Go to the [Minecraft Wiki](https://minecraft.wiki).
+    2. Search for a block, entity, or item, and go to its page
+    3. Scroll down to **Data values/ID/Java Edition**
+    4. Copy the text from the **Identifier** column
+
+!!! tip
+    If the namespace is `minecraft`, then it can be omitted.  
+    For example, `waxed_lightly_weathered_cut_copper_stairs` is the same as `minecraft:waxed_lightly_weathered_cut_copper_stairs`
+
+### `textures`
+
+**Required**{.chip-darkblue}
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+!!! example "JSON Object"
+    ```json
+    {
+      "textures": {
+        "mod:textures/gui/path/to/texture.png": "example:path/to/changed/texture.png"
+      }
+    }
+    ```
+
+!!! tip
+    If the namespace is `minecraft`, then it can be omitted.  
+    For example, `waxed_lightly_weathered_cut_copper_stairs` is the same as `minecraft:waxed_lightly_weathered_cut_copper_stairs`
+
+### `if`
+
+**Optional**{.chip-lightblue}
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+An [NBT filter](#filter) evaluated when loading the JSON resuorce. If it doesn't match, the JSON resource will not be loaded.
+
+### `match`
+
+**Optional**{.chip-lightblue}
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+An [NBT filter](#filter) evaluated when changing GUI screen textures.
+
+## Filter
+
+### JSON Object
+
+A filter is a collection of [NBT Matchers](#nbt-matchers).  
+When multiple matchers are placed into a JSON object, all of them has to match.
+
+### String
+
+When only the `=` matcher is used in a JSON object, the string value can be written in place of the JSON object.
+See [`=` matcher's syntax shortcut](#syntax-shortcut).
+
+### Number
+
+When only the `=` matcher is used in a JSON object, the numeric value can be written in place of the JSON object.
+See [`=` matcher's syntax shortcut](#syntax-shortcut).
+
+## NBT Matchers
+
+### NBT Compound child tag
+
+If the matcher name is `@tag`, matches an NBT element, if any of the following is true:
+
+* it is an NBT Compound, has a child tag named `tag`, and the given [filter](#filter) matches its child tag named `tag`.
+  If the filter is an empty JSON object, then only the presence of a child tag named `tag` is checked
+
+```json
+{
+  "@OptiGUI": {}
+}
+```
+
+### NBT List/Array `n`th element
+
+If the matcher name is `#n`, matches an NBT element, if any of the following is true:
+
+* it is an NBT List/Array, `n>=0`, has at least `n-1` elements, and the given [filter](#filter) matches its `n`th element (starting from 0).
+  If the filter is an empty JSON object, then only the element count is checked
+* it is an NBT List/Array, `n<0`, has at least [`|n|`](https://en.wikipedia.org/wiki/Absolute_value) elements, and the given [filter](#filter) matches its `size-|n|`th element (starting from 0).
+  If the filter is an empty JSON object, then only the element count is checked
+
+```json
+{
+  "#0":  {}, // First element
+  "#1":  {}, // Second element
+  "#-1": {}, // Last element
+  "#-2": {}  // Second to last element
+}
+```
+
+### `>`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a number, and is larger than the given number
+* it is a string, and is [lexicographically after](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#compareTo-java.lang.String-) the given string (case-sensitive)
+
+```json
+{
+  "@The Answer": {
+    ">": 42
+  },
+  "@OptiGUI": {
+    ">": "Is awesome"
+  }
+}
+```
+
+### `>*`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a string, and is [lexicographically after](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#compareToIgnoreCase-java.lang.String-) the given string (case-insensitive)
+
+```json
+{
+  "@OptiGUI": {
+    ">*": "Is awesome"
+  }
+}
+```
+
+### `>=`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a number, and is larger than or equal to the given number
+* it is a string, and is [lexicographically after or equal to](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#compareTo-java.lang.String-) the given string (case-sensitive)
+
+```json
+{
+  "@The Answer": {
+    ">=": 42
+  },
+  "@OptiGUI": {
+    ">=": "Is awesome"
+  }
+}
+```
+
+### `>=*`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a string, and is [lexicographically after or equal to](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#compareToIgnoreCase-java.lang.String-) the given string (case-insensitive)
+
+```json
+{
+  "@OptiGUI": {
+    ">=*": "Is awesome"
+  }
+}
+```
+
+### `=`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a number, and is equal to the given number
+* it is a string, and is [equal to](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#compareTo-java.lang.String-) the given string (case-sensitive)
+
+```json
+{
+  "@The Answer": {
+    "=": 42
+  },
+  "@OptiGUI": {
+    "=": "Is awesome"
+  }
+}
+```
+
+#### Syntax shortcut
+
+en only the `=` matcher is used in a JSON object, the value can be written in place of the JSON object:
+
+```json
+{
+  "@The Answer": {
+    "=": 42
+  },
+  "@OptiGUI": {
+    "=": "Is awesome"
+  }
+}
+```
+
+Can be written as:
+
+```json
+{
+  "@The Answer": 42,
+  "@OptiGUI": "Is awesome"
+}
+```
+
+### `=*`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a string, and is [equal to](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#compareToIgnoreCase-java.lang.String-) the given string (case-insensitive)
+
+```json
+{
+  "@OptiGUI": "Is awesome"
+}
+```
+
+### `!=`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a number, and is not equal to the given number
+* it is a string, and is [not equal to](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#compareTo-java.lang.String-) the given string (case-sensitive)
+
+```json
+{
+  "@The Answer": {
+    "!=": 42
+  },
+  "@OptiGUI": {
+    "!=": "Is awesome"
+  }
+}
+```
+
+### `!=*`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a string, and is [not equal to](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#compareToIgnoreCase-java.lang.String-) the given string (case-insensitive)
+
+```json
+{
+  "@OptiGUI": "Is awesome"
+}
+```
+
+### `<=`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a number, and is smaller than or equal to the given number
+* it is a string, and is [lexicographically before or equal to](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#compareTo-java.lang.String-) the given string (case-sensitive)
+
+```json
+{
+  "@The Answer": {
+    "<=": 42
+  },
+  "@OptiGUI": {
+    "<=": "Is awesome"
+  }
+}
+```
+
+### `<=*`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a string, and is [lexicographically before or equal to](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#compareToIgnoreCase-java.lang.String-) the given string (case-insensitive)
+
+```json
+{
+  "@OptiGUI": {
+    "<=*": "Is awesome"
+  }
+}
+```
+
+### `<`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a number, and is smaller than the given number
+* it is a string, and is [lexicographically before](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#compareTo-java.lang.String-) the given string (case-sensitive)
+
+```json
+{
+  "@The Answer": {
+    "<": 42
+  },
+  "@OptiGUI": {
+    "<": "Is awesome"
+  }
+}
+```
+
+### `<*`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a string, and is [lexicographically before](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#compareToIgnoreCase-java.lang.String-) the given string (case-insensitive)
+
+```json
+{
+  "@OptiGUI": {
+    "<*": "Is awesome"
+  }
+}
+```
+
+### `regex`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a string, and matches the given regex (case-sensitive)
+
+Test your regex at [regex101](https://regex101.com) or [RegExr](https://regexr.com) (not sponsored).  
+If you need help escaping it as JSON, [try this recipe on CyberChef](https://cyberchef.org/#recipe=Escape_string('Special%20chars','Single',true,true,false)) (also not sponsored).  
+If you'd like to buy me a coffee, you can do so at [Ko-fi](https://ko-fi.com/opekope2) (sponsored).
+
+```json
+{
+  "@OptiGUI": {
+    "regex": "^Is awesome$"
+  }
+}
+```
+
+### `regex*`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a string, and matches the given regex (case-insensitive)
+
+Test your regex at [regex101](https://regex101.com) or [RegExr](https://regexr.com) (not sponsored).  
+If you need help escaping it as JSON, [try this recipe on CyberChef](https://cyberchef.org/#recipe=Escape_string('Special%20chars','Single',true,true,false)) (also not sponsored).  
+If you'd like to buy me a coffee, you can do so at [Ko-fi](https://ko-fi.com/opekope2) (sponsored).
+
+```json
+{
+  "@OptiGUI": {
+    "regex*": "^Is awesome$"
+  }
+}
+```
+
+### `wildcard`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a string, and matches the given wildcard (case-sensitive)
+
+* `?` matches exacly 1 character ([regex](#regex) equivalent: `.`)
+* `*` matches 0 or more characters ([regex](#regex) equivalent: `.*`)
+
+```json
+{
+  "@OptiGUI": {
+    "wildcard": "Is *"
+  }
+}
+```
+
+### `wildcard*`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is a string, and matches the given wildcard (case-insensitive)
+
+* `?` matches exacly 1 character ([regex](#regex_1) equivalent: `.`)
+* `*` matches 0 or more characters ([regex](#regex_1) equivalent: `.*`)
+
+```json
+{
+  "@OptiGUI": {
+    "wildcard": "Is *"
+  }
+}
+```
+
+### `type`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is of a given type
+
+```json
+{
+  "@OptiGUI": {
+    "type": "compound"
+  }
+}
+```
+
+| Type (numeric) | Type (string) |
+|----------------|---------------|
+| 0              | `end`         |
+| 1              | `byte`        |
+| 2              | `short`       |
+| 3              | `int`         |
+| 4              | `long`        |
+| 5              | `float`       |
+| 6              | `double`      |
+| 7              | `byte_array`  |
+| 8              | `string`      |
+| 9              | `list`        |
+| 10             | `compound`    |
+| 11             | `int_array`   |
+| 12             | `long_array`  |
+
+### `none_of`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* none (exactly 0) of the given JSON array of [filters](#filter) matches the NBT element
+
+```json
+{
+  "@OptiGUI": {
+    "none_of": [
+      "laggy",
+      {
+        "wildcard*": "worse*optifine"
+      }
+    ]
+  }
+}
+```
+
+### `any_of`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* any (1 or more) of the given JSON array of [filters](#filter) matches the NBT element
+
+```json
+{
+  "@OptiGUI": {
+    "any_of": [
+      "awesome",
+      {
+        "wildcard*": "better*optifine"
+      }
+    ]
+  }
+}
+```
+
+### `some_of`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* 0 or more, but not all of the given JSON array of [filters](#filter) matches the NBT element
+
+```json
+{
+  "@OptiGUI": {
+    "some_of": [
+      "awesome",
+      {
+        "wildcard*": "better*optifine"
+      }
+    ]
+  }
+}
+```
+
+### `all_of`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* all of the given JSON array of [filters](#filter) matches the NBT element
+
+```json
+{
+  "@OptiGUI": {
+    "all_of": [
+      "awesome",
+      {
+        "wildcard*": "better*optifine"
+      }
+    ]
+  }
+}
+```
+
+### `keys`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is an NBT Compound, and the given [filter](#filter) matches a list consisting of the compound's attributes (keys).
+
+```json
+{
+  "@OptiGUI": {
+    "keys": {
+      "any_of": {
+        "=": "Is awesome"
+      }
+    }
+  }
+}
+```
+
+### `values`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is an NBT Compound, and the given [filter](#filter) matches a list consisting of the compound's values.
+
+```json
+{
+  "@OptiGUI": {
+    "values": {
+      "all_of": {
+        "<": 42
+      }
+    }
+  }
+}
+```
+
+### `size`
+
+**OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
+
+Matches an NBT element, if any of the following is true:
+
+* it is an NBT Compound, and the number of the attribute-value pairs in it matches the given [filter](#filter)
+* it is an NBT List/Array, and the number of the elements in it matches the given [filter](#filter)
+* it is a string, and its [length](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#length--) matches the given [filter](#filter)
+
+```json
+{
+  "@OptiGUI": {
+    "size": {
+      "<": 42
+    }
+  }
+}
+```
