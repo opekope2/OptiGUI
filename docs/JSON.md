@@ -2,6 +2,10 @@
 
 **OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
 
+!!! tip
+    OptiGUI ships with an inspector.
+    Press `F12` (default key binding) while a GUI screen is open, and OptiGUI will generate and copy a JSON resource to your clipboard.
+
 ## File structure
 
 OptiGUI 3 adds support for a new, [JSON](https://json.org)-based resource format, with the following deviations allowed from the JSON standard (see [GSON code](https://github.com/google/gson/blob/gson-parent-2.10.1/gson/src/main/java/com/google/gson/stream/JsonReader.java#L300-L331) for the full list):
@@ -40,19 +44,21 @@ but can't be nested
 The identifiers of the blocks, entities, or items to change the GUI texture of.
 This identifier is used by `/setblock`, `/summon`, and `/give` commands.
 
-!!! example "Identifier"
-    ```json
-    {
-      "containers": "minecraft:villager"
-    }
-    ```
+It can be specified as a single identifier:
 
-!!! example "Array of Identifiers"
-    ```json
-    {
-      "containers": ["minecraft:villager", "minecraft:wandering_trader"]
-    }
-    ```
+```json
+{
+  "containers": "minecraft:villager"
+}
+```
+
+Or a JSON array of identifiers. In this case, OptiGUI will change the textures of any of the specified blocks, entities, or items:
+
+```json
+{
+  "containers": ["minecraft:villager", "minecraft:wandering_trader"]
+}
+```
 
 !!! tip
     1. Go to the [Minecraft Wiki](https://minecraft.wiki).
@@ -69,14 +75,15 @@ This identifier is used by `/setblock`, `/summon`, and `/give` commands.
 **Required**{.chip-darkblue}
 **OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
 
-!!! example "JSON Object"
-    ```json
-    {
-      "textures": {
-        "mod:textures/gui/path/to/texture.png": "example:path/to/changed/texture.png"
-      }
-    }
-    ```
+A JSON object specifying the original textures, and what textures to change those to.
+
+```json
+{
+  "textures": {
+    "mod:textures/gui/path/to/texture.png": "example:path/to/changed/texture.png"
+  }
+}
+```
 
 !!! tip
     If the namespace is `minecraft`, then it can be omitted.  
@@ -87,7 +94,7 @@ This identifier is used by `/setblock`, `/summon`, and `/give` commands.
 **Optional**{.chip-lightblue}
 **OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
 
-An [NBT filter](#filter) evaluated when loading the JSON resuorce. If it doesn't match, the JSON resource will not be loaded.
+An [NBT filter](#filter) evaluated when loading the JSON resuorce. If it doesn't match, the JSON resource is not loaded.
 
 ### `match`
 
@@ -95,6 +102,10 @@ An [NBT filter](#filter) evaluated when loading the JSON resuorce. If it doesn't
 **OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
 
 An [NBT filter](#filter) evaluated when changing GUI screen textures.
+
+!!! warning "Caution"
+    Avoid creating two JSON resources, where `match` filters can match the same NBT.  
+    OptiGUI chooses the least recently used JSON resource's NBT filter, and not the more specific one (for performance reasons), which can lead to the less specific NBT filter always being prioritized over the more specific filter.
 
 ## Filter
 
