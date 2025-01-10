@@ -22,11 +22,10 @@ internal object TextureChanger : SynchronousResourceReloader {
     fun changeTexture(texture: Identifier): Identifier {
         if (!renderingScreen) return texture
         if (!InteractionManager.isInteracting) return texture
-        if (texture !in changeableTextures) return texture
-
         renderedTextures += texture
 
-        return textureChanges[texture] ?: texture
+        return if (texture !in changeableTextures) texture
+        else textureChanges[texture] ?: texture
     }
 
     fun clearCache() {
