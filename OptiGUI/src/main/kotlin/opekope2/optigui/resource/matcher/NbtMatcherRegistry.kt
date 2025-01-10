@@ -11,5 +11,6 @@ object NbtMatcherRegistry : RegistryBase<String, Decoder<INbtFilter>>() {
     override fun validateEntry(key: String, value: Decoder<INbtFilter>) {
         super.validateEntry(key, value)
         require(!key.startsWith('@')) { "Key must not start with @" }
+        require(!key.startsWith('#')) { "Key must not start with #" }
     }
 }
