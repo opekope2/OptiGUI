@@ -59,12 +59,19 @@ tasks {
     processResources {
         filesMatching("fabric.mod.json") {
             expand(
-                mutableMapOf(
+                mapOf(
                     "version" to version as String,
                     "fabric_loader" to libs.versions.fabric.loader.get(),
                     "fabric_api" to libs.versions.fabric.api.get(),
                     "fabric_language_kotlin" to libs.versions.fabric.language.kotlin.get(),
                     "minecraft" to libs.versions.minecraft.get(),
+                    "java" to javaVersion
+                )
+            )
+        }
+        filesMatching("*.mixins.json") {
+            expand(
+                mapOf(
                     "java" to javaVersion
                 )
             )
