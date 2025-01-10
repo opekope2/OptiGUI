@@ -19,7 +19,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.2.2
       - name: Validate gradle wrapper
         uses: gradle/wrapper-validation-action@v2.1.3
       - name: Load java version
