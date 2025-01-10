@@ -114,6 +114,11 @@ An [NBT filter](#filter) evaluated when changing GUI screen textures.
 A filter is a collection of [NBT Matchers](#nbt-matchers).  
 When multiple matchers are placed into a JSON object, all of them has to match.
 
+### JSON Array
+
+A JSON array filter contains other [filters](#filter).  
+When multiple filters are placed into a JSON array, any of them has to match.
+
 ### String
 
 When only the `=` matcher is used in a JSON object, the string value can be written in place of the JSON object.
