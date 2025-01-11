@@ -6,6 +6,14 @@
     OptiGUI ships with an inspector.
     Press `F12` (default key binding) while a GUI screen is open, and OptiGUI will generate and copy a JSON resource to your clipboard.
 
+## File location
+
+Each file in a resource pack must only contain characters `a-z 0-9 _`. All lowercase, no whitespace. Otherwise, the game will not recognize it.
+
+> Each file name must match the regular expression `^[a-z0-9_]+$`
+
+OptiGUI loads `.json` files from a resource pack's `assets/<namespace>/optigui/gui` folder, including its subfolders in any depth. The namespace can be anything as long as it's valid, not just `optigui`.
+
 ## File structure
 
 OptiGUI 3 adds support for a new, [JSON](https://json.org)-based resource format, with the following deviations allowed from the JSON standard (see [GSON code](https://github.com/google/gson/blob/gson-parent-2.10.1/gson/src/main/java/com/google/gson/stream/JsonReader.java#L300-L331) for the full list):
@@ -94,7 +102,7 @@ A JSON object specifying the original textures, and what textures to change thos
 **Optional**{.chip-lightblue}
 **OptiGUI 3.0.0-alpha.1+**{.chip-darkgreen}
 
-An [NBT filter](#filter) evaluated when loading the JSON resuorce. If it doesn't match, the JSON resource is not loaded.
+An [NBT filter](#filter) evaluated when loading the JSON resource. If it doesn't match, the JSON resource is not loaded.
 
 ### `match`
 
