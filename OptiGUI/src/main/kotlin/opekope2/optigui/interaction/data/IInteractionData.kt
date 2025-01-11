@@ -59,7 +59,6 @@ sealed interface IInteractionData : INbtConvertible {
             // biomeAccess - no properties
             putInt("bottom_section_coord", bottomSectionCoord)
             putInt("bottom_y", bottomY)
-            // brewingRecipeRegistry - no properties
             // chunkManager - no additional properties
             putInt("vertical_section_count", countVerticalSections())
             // damageSources - irrelevant? data pack detection?
@@ -74,7 +73,7 @@ sealed interface IInteractionData : INbtConvertible {
             // getRandom - irrelevant
             // hashCode - irrelevant
             putInt("height", height)
-            // increaseAndGetMapId - mutates world
+            // nextMapId - mutates world
             // isClient - true
             putBoolean("is_day", isDay)
             putBoolean("is_debug_world", isDebugWorld)
