@@ -10,5 +10,4 @@ jobs:
     name: Check mergeability
     uses: ./.github/workflows/build.yml
     with:
-      build-project: true
       test-project: true
