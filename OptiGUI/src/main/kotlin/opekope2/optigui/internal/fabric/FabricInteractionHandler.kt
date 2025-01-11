@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
@@ -68,11 +67,10 @@ internal object FabricInteractionHandler : UseBlockCallback, UseEntityCallback, 
 
         if (!world.isClient) return result
 
-        if (stack.isOf(Items.WRITABLE_BOOK) || stack.isOf(Items.WRITTEN_BOOK)) {
-            InteractionManager.prepare(
-                ItemInteractionData(stack, InteractionPlayerData(player, hand))
-            )
-        }
+        InteractionManager.prepare(
+            ItemInteractionData(stack, InteractionPlayerData(player, hand))
+        )
+
         return result
     }
 }
