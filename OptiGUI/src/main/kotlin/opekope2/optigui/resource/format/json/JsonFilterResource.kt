@@ -87,9 +87,9 @@ data class JsonFilterResource(
                     .forGetter(JsonFilterResource::containers),
                 Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).fieldOf(TEXTURES_KEY)
                     .forGetter(JsonFilterResource::textures),
-                Codecs.BASIC_OBJECT.optionalFieldOf(LOAD_FILTER_KEY, listOf<Any>())
+                Codecs.BASIC_OBJECT.optionalFieldOf(LOAD_FILTER_KEY, mapOf<String, Any>())
                     .forGetter(JsonFilterResource::loadFilter),
-                Codecs.BASIC_OBJECT.optionalFieldOf(FILTER_KEY, listOf<Any>())
+                Codecs.BASIC_OBJECT.optionalFieldOf(FILTER_KEY, mapOf<String, Any>())
                     .forGetter(JsonFilterResource::filter)
             ).apply(instance, ::JsonFilterResource)
         }
