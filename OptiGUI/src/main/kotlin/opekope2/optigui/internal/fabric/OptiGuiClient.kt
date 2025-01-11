@@ -67,7 +67,7 @@ internal class OptiGuiClient :
 
     private object TextureChangerReloadListener : IdentifiableResourceReloadListener,
         SynchronousResourceReloader by TextureChanger {
-        override fun getFabricId(): Identifier = Identifier.of(MOD_ID, "texture_changer")
+        override fun getFabricId(): Identifier = Identifier(MOD_ID, "texture_changer")
 
         override fun getFabricDependencies() = IFilterLoader.map { it.key }
     }

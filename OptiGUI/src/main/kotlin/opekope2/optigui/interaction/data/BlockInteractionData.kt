@@ -33,6 +33,6 @@ data class BlockInteractionData(
         super.writeNbt(compound, lookup)
 
         compound.encode("block_state", blockState, BlockState.CODEC, lookup)
-        if (blockEntity != null) compound.put("block_entity", blockEntity.createNbtWithId(lookup))
+        if (blockEntity != null) compound.put("block_entity", blockEntity.createNbtWithId())
     }
 }

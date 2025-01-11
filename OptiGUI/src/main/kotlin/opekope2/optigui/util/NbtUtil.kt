@@ -19,7 +19,7 @@ import net.minecraft.registry.RegistryWrapper
  * @param lookup The registry lookup to get NBT Ops from
  */
 fun <T> NbtCompound.encode(key: String, input: T, encoder: Encoder<T>, lookup: RegistryWrapper.WrapperLookup) {
-    encode(key, input, encoder, lookup.getOps(NbtOps.INSTANCE))
+    encode(key, input, encoder, NbtOps.INSTANCE)
 }
 
 /**
@@ -32,7 +32,7 @@ fun <T> NbtCompound.encode(key: String, input: T, encoder: Encoder<T>, lookup: R
  * @param ops The [DynamicOps] obtained from [RegistryWrapper.WrapperLookup.getOps]
  */
 fun <T> NbtCompound.encode(key: String, input: T, encoder: Encoder<T>, ops: DynamicOps<NbtElement>) {
-    put(key, encoder.encodeStart(ops, input).getOrThrow())
+    put(key, encoder.encodeStart(ops, input).getOrThrow(false) { })
 }
 
 /**

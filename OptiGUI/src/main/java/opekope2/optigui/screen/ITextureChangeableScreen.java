@@ -6,7 +6,7 @@ import net.minecraft.client.gui.screen.ingame.BookScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.text.TextCodecs;
+import net.minecraft.util.dynamic.Codecs;
 import opekope2.optigui.util.Constants;
 import opekope2.optigui.util.NbtUtil;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +26,7 @@ public interface ITextureChangeableScreen {
      */
     default void optiGui_writeNbt(@NotNull NbtCompound compound, @NotNull RegistryWrapper.WrapperLookup lookup) {
         if (this instanceof Screen screen) {
-            NbtUtil.encode(compound, Constants.SCREEN_TITLE_KEY, screen.getTitle(), TextCodecs.CODEC, lookup);
+            NbtUtil.encode(compound, Constants.SCREEN_TITLE_KEY, screen.getTitle(), Codecs.TEXT, lookup);
         }
     }
 }

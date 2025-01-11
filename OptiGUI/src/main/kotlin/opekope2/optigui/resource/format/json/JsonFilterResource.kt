@@ -4,14 +4,13 @@ import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.Decoder
-import com.mojang.serialization.JavaOps
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.nbt.NbtElement
 import net.minecraft.util.Identifier
-import net.minecraft.util.dynamic.Codecs
 import opekope2.optigui.filter.*
 import opekope2.optigui.internal.resource.matcher.NbtComparableFilter
 import opekope2.optigui.resource.matcher.NbtMatcherRegistry
+import opekope2.optigui.util.dfu.backport.JavaOps
 import opekope2.optigui.util.unwrap
 
 /**
@@ -31,10 +30,10 @@ data class JsonFilterResource(
     private fun process(): DataResult<ParsedFilters> {
         val containers = containers.map(::listOf) { it }
         val textures = textures
-        val loadFilter =
-            NBT_FILTER_DECODER.parse(JavaOps.INSTANCE, loadFilter).unwrap { return DataResult.error { it.message() } }
-        val filter =
-            NBT_FILTER_DECODER.parse(JavaOps.INSTANCE, filter).unwrap { return DataResult.error { it.message() } }
+        val loadFilter = NBT_FILTER_DECODER.parse(JavaOps.INSTANCE, loadFilter)
+            .unwrap { return DataResult.error { it.error().get().message() } }
+        val filter = NBT_FILTER_DECODER.parse(JavaOps.INSTANCE, filter)
+            .unwrap { return DataResult.error { it.error().get().message() } }
         val filters = containers.map { TextureChangerFilter(it, filter, textures) }
 
         return DataResult.success(ParsedFilters(filters, loadFilter))
@@ -87,9 +86,9 @@ data class JsonFilterResource(
                     .forGetter(JsonFilterResource::containers),
                 Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).fieldOf(TEXTURES_KEY)
                     .forGetter(JsonFilterResource::textures),
-                Codecs.BASIC_OBJECT.optionalFieldOf(LOAD_FILTER_KEY, listOf<Any>())
+                JavaOps.BASIC_OBJECT_CODEC.optionalFieldOf(LOAD_FILTER_KEY, listOf<Any>())
                     .forGetter(JsonFilterResource::loadFilter),
-                Codecs.BASIC_OBJECT.optionalFieldOf(FILTER_KEY, listOf<Any>())
+                JavaOps.BASIC_OBJECT_CODEC.optionalFieldOf(FILTER_KEY, listOf<Any>())
                     .forGetter(JsonFilterResource::filter)
             ).apply(instance, ::JsonFilterResource)
         }
@@ -98,7 +97,7 @@ data class JsonFilterResource(
          * Decoder for an [INbtFilter] from [JsonFilterResource.loadFilter] and [JsonFilterResource.filter].
          */
         @JvmField
-        val NBT_FILTER_DECODER: Decoder<INbtFilter> = Codecs.BASIC_OBJECT.flatMap(::decodeFilter)
+        val NBT_FILTER_DECODER: Decoder<INbtFilter> = JavaOps.BASIC_OBJECT_CODEC.flatMap(::decodeFilter)
 
         /**
          * Decoder for [ParsedFilters].

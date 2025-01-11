@@ -1,11 +1,11 @@
 package opekope2.optigui.internal.resource.matcher
 
-import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.Decoder
 import net.minecraft.nbt.NbtElement
 import opekope2.optigui.filter.INbtFilter
+import java.util.function.Function
 
 internal class NbtTypeFilter(private val type: Byte) : INbtFilter {
     override fun test(nbt: NbtElement) = nbt.type == type
@@ -31,7 +31,7 @@ internal class NbtTypeFilter(private val type: Byte) : INbtFilter {
 
         @JvmField
         val DECODER: Decoder<INbtFilter> = Codec.either(Codec.BYTE, STRING_CODEC).map {
-            NbtTypeFilter(Either.unwrap(it))
+            NbtTypeFilter(it.map(Function.identity(), Function.identity()))
         }
 
         private fun <TKey, TValue> map(map: Map<TKey, TValue>, key: TKey): DataResult<TValue> =

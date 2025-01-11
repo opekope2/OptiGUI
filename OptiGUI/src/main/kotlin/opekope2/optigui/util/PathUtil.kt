@@ -31,7 +31,7 @@ fun resolvePath(pathToResolve: String, resource: Identifier, tildePath: String? 
             val path = root.resolveSibling(toResolve).normalize().toString().replace('\\', '/')
 
             if (path.contains("..")) null
-            else Identifier.tryParse(resource.namespace, path)
+            else Identifier.of(resource.namespace, path)
         }
 
         1 -> Identifier.tryParse(toResolve)

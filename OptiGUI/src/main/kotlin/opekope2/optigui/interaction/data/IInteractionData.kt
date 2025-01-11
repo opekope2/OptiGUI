@@ -45,7 +45,7 @@ sealed interface IInteractionData : INbtConvertible {
         compound.putString("container", id.toString())
         compound.encode("pos", blockPos, BlockPos.CODEC, lookup)
         compound.putString("biome", world.getBiomeId(blockPos).toString())
-        compound.put("item", item.encodeAllowEmpty(lookup))
+        compound.encode("item", item, ItemStack.CODEC, lookup)
         playerData.writeNbt(compound, lookup)
         compound.put("world", createWorldNbt())
         // TODO structures
@@ -65,7 +65,7 @@ sealed interface IInteractionData : INbtConvertible {
             // damageSources - irrelevant? data pack detection?
             putInt("difficulty", difficulty.ordinal)
             encode("dimension_type", dimension, DimensionType.CODEC, registryManager)
-            putString("dimension", dimensionEntry.idAsString)
+            putString("dimension", dimensionEntry.key.map { it.value.toString() }.orElse("[unregistered]"))
             // enabledFeatures - info unobtainable
             // fluidTickScheduler - irrelevant
             // gameRules - not synced
@@ -102,15 +102,6 @@ sealed interface IInteractionData : INbtConvertible {
             // server - irrelevant
             putFloat("spawn_angle", spawnAngle)
             encode("spawn_pos", spawnPos, BlockPos.CODEC, registryManager)
-            put("tick_manager", NbtCompound().apply {
-                putBoolean("is_frozen", tickManager.isFrozen)
-                putBoolean("is_stepping", tickManager.isStepping)
-                putBoolean("should_tick", tickManager.shouldTick())
-                putFloat("millis_per_tick", tickManager.millisPerTick)
-                putFloat("tick_rate", tickManager.tickRate)
-                putInt("step_ticks", tickManager.stepTicks)
-                putLong("nanos_per_tick", tickManager.nanosPerTick)
-            })
             // tickOrder - mutates world
             putLong("time", time)
             putLong("time_of_day", timeOfDay)

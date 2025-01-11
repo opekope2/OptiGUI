@@ -1,6 +1,5 @@
 package opekope2.optigui.internal.resource.loader.json
 
-import com.google.gson.JsonParseException
 import com.mojang.serialization.JsonOps
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.resource.ResourceFinder
@@ -45,7 +44,7 @@ internal object JsonFilterLoader : SinglePreparationResourceReloader<TextureChan
                     JsonHelper.deserialize(it, true)
                 }
                 val filter = JsonFilterResource.PARSED_FILTER_DECODER.parse(JsonOps.INSTANCE, json)
-                    .getOrThrow(::JsonParseException)
+                    .getOrThrow(false) { }
 
                 val missingTextures = filter.filters.flatMapTo(mutableSetOf()) { it.textureChanges.values }
                     .filter { manager.getResource(it).isEmpty }
