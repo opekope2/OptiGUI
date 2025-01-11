@@ -86,9 +86,9 @@ data class JsonFilterResource(
                     .forGetter(JsonFilterResource::containers),
                 Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).fieldOf(TEXTURES_KEY)
                     .forGetter(JsonFilterResource::textures),
-                JavaOps.BASIC_OBJECT_CODEC.optionalFieldOf(LOAD_FILTER_KEY, listOf<Any>())
+                JavaOps.BASIC_OBJECT_CODEC.optionalFieldOf(LOAD_FILTER_KEY, mapOf<String, Any>())
                     .forGetter(JsonFilterResource::loadFilter),
-                JavaOps.BASIC_OBJECT_CODEC.optionalFieldOf(FILTER_KEY, listOf<Any>())
+                JavaOps.BASIC_OBJECT_CODEC.optionalFieldOf(FILTER_KEY, mapOf<String, Any>())
                     .forGetter(JsonFilterResource::filter)
             ).apply(instance, ::JsonFilterResource)
         }
