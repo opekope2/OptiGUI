@@ -328,6 +328,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#file-location" class="md-nav__link">
+    <span class="md-ellipsis">
+      File location
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#file-structure" class="md-nav__link">
     <span class="md-ellipsis">
       File structure
@@ -912,6 +921,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#file-location" class="md-nav__link">
+    <span class="md-ellipsis">
+      File location
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#file-structure" class="md-nav__link">
     <span class="md-ellipsis">
       File structure
@@ -1371,6 +1389,12 @@
 <p>OptiGUI ships with an inspector.
 Press <code>F12</code> (default key binding) while a GUI screen is open, and OptiGUI will generate and copy a JSON resource to your clipboard.</p>
 </div>
+<h2 id="file-location">File location</h2>
+<p>Each file in a resource pack must only contain characters <code>a-z 0-9 _</code>. All lowercase, no whitespace. Otherwise, the game will not recognize it.</p>
+<blockquote>
+<p>Each file name must match the regular expression <code>^[a-z0-9_]+$</code></p>
+</blockquote>
+<p>OptiGUI loads <code>.json</code> files from a resource pack's <code>assets/&lt;namespace&gt;/optigui/gui</code> folder, including its subfolders in any depth. The namespace can be anything as long as it's valid, not just <code>optigui</code>.</p>
 <h2 id="file-structure">File structure</h2>
 <p>OptiGUI 3 adds support for a new, <a href="https://json.org">JSON</a>-based resource format, with the following deviations allowed from the JSON standard (see <a href="https://github.com/google/gson/blob/gson-parent-2.10.1/gson/src/main/java/com/google/gson/stream/JsonReader.java#L300-L331">GSON code</a> for the full list):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="err">#</span><span class="w"> </span><span class="err">Comme</span><span class="kc">nts</span>
@@ -1444,7 +1468,7 @@ For example, <code>waxed_lightly_weathered_cut_copper_stairs</code> is the same 
 <h3 id="if"><code>if</code></h3>
 <p><strong class="chip-lightblue">Optional</strong>
 <strong class="chip-darkgreen">OptiGUI 3.0.0-alpha.1+</strong></p>
-<p>An <a href="#filter">NBT filter</a> evaluated when loading the JSON resuorce. If it doesn't match, the JSON resource is not loaded.</p>
+<p>An <a href="#filter">NBT filter</a> evaluated when loading the JSON resource. If it doesn't match, the JSON resource is not loaded.</p>
 <h3 id="match"><code>match</code></h3>
 <p><strong class="chip-lightblue">Optional</strong>
 <strong class="chip-darkgreen">OptiGUI 3.0.0-alpha.1+</strong></p>
