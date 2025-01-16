@@ -161,7 +161,7 @@ If the matcher name is `@tag`, matches an NBT element, if any of the following i
 
 If the matcher name is `#n`, matches an NBT element, if any of the following is true:
 
-* it is an NBT List/Array, `n>=0`, has at least `n-1` elements, and the given [filter](#filter) matches its `n`th element (starting from 0).
+* it is an NBT List/Array, `n>=0`, has at least `n+1` elements, and the given [filter](#filter) matches its `n`th element (starting from 0).
   If the filter is an empty JSON object, then only the element count is checked
 * it is an NBT List/Array, `n<0`, has at least [`|n|`](https://en.wikipedia.org/wiki/Absolute_value) elements, and the given [filter](#filter) matches its `size-|n|`th element (starting from 0).
   If the filter is an empty JSON object, then only the element count is checked
