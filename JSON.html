@@ -1511,7 +1511,7 @@ See <a href="#syntax-shortcut"><code>=</code> matcher's syntax shortcut</a>.</p>
 <h3 id="nbt-listarray-nth-element">NBT List/Array <code>n</code>th element</h3>
 <p>If the matcher name is <code>#n</code>, matches an NBT element, if any of the following is true:</p>
 <ul>
-<li>it is an NBT List/Array, <code>n&gt;=0</code>, has at least <code>n-1</code> elements, and the given <a href="#filter">filter</a> matches its <code>n</code>th element (starting from 0).
+<li>it is an NBT List/Array, <code>n&gt;=0</code>, has at least <code>n+1</code> elements, and the given <a href="#filter">filter</a> matches its <code>n</code>th element (starting from 0).
   If the filter is an empty JSON object, then only the element count is checked</li>
 <li>it is an NBT List/Array, <code>n&lt;0</code>, has at least <a href="https://en.wikipedia.org/wiki/Absolute_value"><code>|n|</code></a> elements, and the given <a href="#filter">filter</a> matches its <code>size-|n|</code>th element (starting from 0).
   If the filter is an empty JSON object, then only the element count is checked</li>
