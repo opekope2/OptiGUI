@@ -1,7 +1,8 @@
 {
-  "optigui.inspector.description": "Click to inspect interaction",
-  "optigui.inspector.description.clicked": "Inspection copied to clipboard",
-  "optigui.inspector.hint": "You can hide this in OptiGUI settings",
+  "optigui.inspector": "OptiGUI Inspector",
+  "optigui.inspector.description": "Click to inspect interaction.",
+  "optigui.inspector.description.clicked": "Inspection copied to clipboard.",
+  "optigui.inspector.tip": "Tip: you can hide this in OptiGUI settings.",
   "optigui.inspector.title": "OptiGUI (%s)",
   "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
   "optigui.inspector.title.beta": "OptiGUI beta (%s)",
