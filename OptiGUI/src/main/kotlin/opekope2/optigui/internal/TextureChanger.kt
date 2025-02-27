@@ -16,6 +16,8 @@ internal object TextureChanger : SynchronousResourceReloader {
     private var textureChanges: Map<Identifier, Identifier> = mapOf()
     var renderingScreen = false
     val renderedTextures = mutableSetOf<Identifier>()
+    var renderedCustomTextures = false
+        private set
 
     @JvmStatic
     fun changeTexture(texture: Identifier): Identifier {
@@ -24,6 +26,7 @@ internal object TextureChanger : SynchronousResourceReloader {
         renderedTextures += texture
 
         if (texture !in textureChanges) return texture
+        renderedCustomTextures = true
         return textureChanges[texture]!!
     }
 
@@ -32,6 +35,7 @@ internal object TextureChanger : SynchronousResourceReloader {
             filters[it.data.id]?.promoteFirstOrNull(it.createNbt())?.textureChanges
         } ?: mapOf()
         renderedTextures.clear()
+        renderedCustomTextures = false
     }
 
     override fun reload(manager: ResourceManager?) {
