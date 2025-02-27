@@ -2,7 +2,7 @@ package opekope2.optigui.internal.resource.load.nbt_supplier
 
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.nbt.NbtCompound
-import opekope2.optigui.resource.load.ILoadTimeNbtSupplier
+import opekope2.optigui.resource.format.json.ILoadTimeNbtSupplier
 
 internal object ModListsNbtSupplier : ILoadTimeNbtSupplier {
     override fun get() = NbtCompound().apply {

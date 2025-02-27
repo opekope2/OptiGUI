@@ -11,8 +11,8 @@ import net.minecraft.util.JsonHelper
 import net.minecraft.util.profiler.Profiler
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.TextureChangerFilter
+import opekope2.optigui.resource.format.json.ILoadTimeNbtSupplier
 import opekope2.optigui.resource.format.json.JsonFilterResource
-import opekope2.optigui.resource.load.ILoadTimeNbtSupplier
 import opekope2.optigui.util.MOD_ID
 import opekope2.optigui.util.OPTIGUI_JSON_RESOURCES_ROOT
 import opekope2.optigui.util.push

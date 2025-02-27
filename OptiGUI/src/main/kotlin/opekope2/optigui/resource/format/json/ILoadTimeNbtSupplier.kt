@@ -1,4 +1,4 @@
-package opekope2.optigui.resource.load
+package opekope2.optigui.resource.format.json
 
 import net.minecraft.nbt.NbtElement
 import opekope2.optigui.registry.RegistryBase

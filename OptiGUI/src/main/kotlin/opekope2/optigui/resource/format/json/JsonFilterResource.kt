@@ -11,7 +11,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.dynamic.Codecs
 import opekope2.optigui.filter.*
 import opekope2.optigui.internal.resource.matcher.NbtComparableFilter
-import opekope2.optigui.resource.matcher.NbtMatcherRegistry
 import opekope2.optigui.util.unwrap
 
 /**
