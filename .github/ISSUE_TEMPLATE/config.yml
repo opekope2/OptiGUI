@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: OptiGUI JSON resource pack help
+    url: https://github.com/opekope2/OptiGUI/discussions/categories/q-a
+    about: If you have a question about creating OptiGUI JSON resource packs, ask it here
