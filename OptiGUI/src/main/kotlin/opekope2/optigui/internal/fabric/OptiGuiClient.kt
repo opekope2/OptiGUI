@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
+import net.fabricmc.fabric.api.client.screen.v1.Screens
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.loader.api.FabricLoader
@@ -19,10 +20,10 @@ import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.IOptiGuiPlatform
 import opekope2.optigui.internal.TextureChanger
-import opekope2.optigui.internal.fabric.inspector.FabricInteractionInspector
 import opekope2.optigui.internal.initializer.ClientInitializer
 import opekope2.optigui.internal.resource.loader.json.JsonFilterLoader
 import opekope2.optigui.resource.format.json.ILoadTimeNbtSupplier
+import opekope2.optigui.screen.ITextureChangeableScreen
 import opekope2.optigui.util.MOD_ID
 import kotlin.jvm.optionals.getOrNull
 
@@ -30,18 +31,17 @@ internal class OptiGuiClient :
     ClientModInitializer,
     ClientTickEvents.EndWorldTick,
     ClientPlayConnectionEvents.Disconnect,
-    ScreenEvents.BeforeInit,
+    ScreenEvents.AfterInit,
     ScreenEvents.BeforeRender,
     ScreenEvents.AfterRender {
     override fun onInitializeClient() {
         ClientInitializer
         FabricInteractionHandler
-        FabricInteractionInspector
         registerLoadTimeNbtSuppliers()
         registerResourceLoaders(ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES))
         ClientTickEvents.END_WORLD_TICK.register(this)
         ClientPlayConnectionEvents.DISCONNECT.register(this)
-        ScreenEvents.BEFORE_INIT.register(this)
+        ScreenEvents.AFTER_INIT.register(this)
     }
 
     private fun registerLoadTimeNbtSuppliers() {
@@ -62,9 +62,15 @@ internal class OptiGuiClient :
         InteractionManager.end(disconnected = true)
     }
 
-    override fun beforeInit(client: MinecraftClient?, screen: Screen?, scaledWidth: Int, scaledHeight: Int) {
+    override fun afterInit(client: MinecraftClient?, screen: Screen?, scaledWidth: Int, scaledHeight: Int) {
         ScreenEvents.beforeRender(screen).register(this)
         ScreenEvents.afterRender(screen).register(this)
+
+        if (screen is ITextureChangeableScreen) {
+            val widget = FabricInspectorWidget()
+            Screens.getButtons(screen).add(widget)
+            ScreenEvents.beforeRender(screen).register(widget)
+        }
     }
 
     override fun beforeRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
