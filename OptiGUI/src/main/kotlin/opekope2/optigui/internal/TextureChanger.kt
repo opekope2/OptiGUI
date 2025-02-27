@@ -13,7 +13,6 @@ internal typealias ContainerId2FiltersMap = Map<Identifier, LinkedMruCollection<
 
 internal object TextureChanger : SynchronousResourceReloader {
     private var filters: ContainerId2FiltersMap = mapOf()
-    private var changeableTextures: Set<Identifier> = setOf()
     private var textureChanges: Map<Identifier, Identifier> = mapOf()
     var renderingScreen = false
     val renderedTextures = mutableSetOf<Identifier>()
@@ -24,8 +23,8 @@ internal object TextureChanger : SynchronousResourceReloader {
         if (!InteractionManager.isInteracting) return texture
         renderedTextures += texture
 
-        return if (texture !in changeableTextures) texture
-        else textureChanges[texture] ?: texture
+        if (texture !in textureChanges) return texture
+        return textureChanges[texture]!!
     }
 
     fun clearCache() {
@@ -36,9 +35,7 @@ internal object TextureChanger : SynchronousResourceReloader {
     }
 
     override fun reload(manager: ResourceManager?) {
-        val filters = IFilterLoader.flatMap { it.value.get() }
-
-        this.filters = filters.groupBy { it.container }.mapValues { (_, list) -> LinkedMruCollection(list) }
-        this.changeableTextures = filters.flatMapTo(HashSet(filters.size)) { it.textureChanges.keys }
+        filters = IFilterLoader.flatMap { it.value.get() }.groupBy { it.container }
+            .mapValues { (_, list) -> LinkedMruCollection(list) }
     }
 }
