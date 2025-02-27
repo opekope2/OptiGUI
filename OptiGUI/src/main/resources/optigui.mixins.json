@@ -15,6 +15,7 @@
     "screen.BookEditScreenMixin",
     "screen.BookScreenMixin",
     "screen.BrewingStandScreenHandlerMixin",
+    "screen.CreativeInventoryScreenMixin",
     "screen.Generic3x3ContainerScreenHandlerMixin",
     "screen.GenericContainerScreenHandlerMixin",
     "screen.HangingSignEditScreenMixin",
