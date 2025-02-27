@@ -22,6 +22,7 @@ import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.fabric.inspector.FabricInteractionInspector
 import opekope2.optigui.internal.initializer.ClientInitializer
 import opekope2.optigui.internal.resource.loader.json.JsonFilterLoader
+import opekope2.optigui.resource.format.json.ILoadTimeNbtSupplier
 import opekope2.optigui.util.MOD_ID
 import kotlin.jvm.optionals.getOrNull
 
@@ -36,10 +37,15 @@ internal class OptiGuiClient :
         ClientInitializer
         FabricInteractionHandler
         FabricInteractionInspector
+        registerLoadTimeNbtSuppliers()
         registerResourceLoaders(ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES))
         ClientTickEvents.END_WORLD_TICK.register(this)
         ClientPlayConnectionEvents.DISCONNECT.register(this)
         ScreenEvents.BEFORE_INIT.register(this)
+    }
+
+    private fun registerLoadTimeNbtSuppliers() {
+        ILoadTimeNbtSupplier.register("mods", FabricModsNbtSupplier)
     }
 
     private fun registerResourceLoaders(manager: ResourceManagerHelper) {

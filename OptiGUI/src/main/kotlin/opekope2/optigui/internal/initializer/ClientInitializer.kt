@@ -2,9 +2,7 @@ package opekope2.optigui.internal.initializer
 
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.TextureChanger
-import opekope2.optigui.internal.resource.load.nbt_supplier.ModListsNbtSupplier
 import opekope2.optigui.internal.resource.matcher.*
-import opekope2.optigui.resource.format.json.ILoadTimeNbtSupplier
 import opekope2.optigui.resource.format.json.NbtMatcherRegistry
 
 internal object ClientInitializer {
@@ -12,12 +10,7 @@ internal object ClientInitializer {
         TextureChanger
         InteractionManager
 
-        registerLoadTimeNbtSuppliers()
         registerNbtMatchers()
-    }
-
-    private fun registerLoadTimeNbtSuppliers() {
-        ILoadTimeNbtSupplier.register("mods", ModListsNbtSupplier)
     }
 
     private fun registerNbtMatchers() {
