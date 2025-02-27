@@ -39,6 +39,11 @@ const val LOG_KEY_RESOURCE = "resource"
 const val SCREEN_TITLE_KEY = "title"
 
 /**
+ * NBT key for a hanging sign edit screen's text.
+ */
+const val SCREEN_TEXT_KEY = "text"
+
+/**
  * NBT key for redstone comparator output calculated from an inventory screen.
  */
 const val COMPARATOR_OUTPUT_KEY = "comparator_output"

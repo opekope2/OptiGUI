@@ -1,5 +1,5 @@
 name: Submit a resource pack
-description: Add a supported resource pack to the README
+description: Get your resource pack featured in the OptiGUI README, Modrinth page, and CurseForge page
 body:
   - type: markdown
     attributes:

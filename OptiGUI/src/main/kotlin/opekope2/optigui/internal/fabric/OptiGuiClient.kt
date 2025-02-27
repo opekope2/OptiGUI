@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
@@ -16,10 +17,14 @@ import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraft.util.Identifier
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.interaction.InteractionManager
+import opekope2.optigui.internal.IOptiGuiPlatform
 import opekope2.optigui.internal.TextureChanger
+import opekope2.optigui.internal.fabric.inspector.FabricInteractionInspector
 import opekope2.optigui.internal.initializer.ClientInitializer
 import opekope2.optigui.internal.resource.loader.json.JsonFilterLoader
+import opekope2.optigui.resource.format.json.ILoadTimeNbtSupplier
 import opekope2.optigui.util.MOD_ID
+import kotlin.jvm.optionals.getOrNull
 
 internal class OptiGuiClient :
     ClientModInitializer,
@@ -32,10 +37,15 @@ internal class OptiGuiClient :
         ClientInitializer
         FabricInteractionHandler
         FabricInteractionInspector
+        registerLoadTimeNbtSuppliers()
         registerResourceLoaders(ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES))
         ClientTickEvents.END_WORLD_TICK.register(this)
         ClientPlayConnectionEvents.DISCONNECT.register(this)
         ScreenEvents.BEFORE_INIT.register(this)
+    }
+
+    private fun registerLoadTimeNbtSuppliers() {
+        ILoadTimeNbtSupplier.register("mods", FabricModsNbtSupplier)
     }
 
     private fun registerResourceLoaders(manager: ResourceManagerHelper) {
@@ -70,5 +80,10 @@ internal class OptiGuiClient :
         override fun getFabricId(): Identifier = Identifier.of(MOD_ID, "texture_changer")
 
         override fun getFabricDependencies() = IFilterLoader.map { it.key }
+    }
+
+    internal object Platform : IOptiGuiPlatform {
+        override val version =
+            FabricLoader.getInstance().getModContainer(MOD_ID).getOrNull()?.metadata?.version.toString()
     }
 }

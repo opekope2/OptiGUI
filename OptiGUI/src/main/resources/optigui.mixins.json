@@ -11,11 +11,13 @@
     "HandledScreenMixin",
     "MinecraftClientMixin",
     "screen.AbstractFurnaceScreenHandlerMixin",
+    "screen.AbstractSignEditScreenMixin",
     "screen.BookEditScreenMixin",
     "screen.BookScreenMixin",
     "screen.BrewingStandScreenHandlerMixin",
     "screen.Generic3x3ContainerScreenHandlerMixin",
     "screen.GenericContainerScreenHandlerMixin",
+    "screen.HangingSignEditScreenMixin",
     "screen.HopperScreenHandlerMixin",
     "screen.LecternScreenMixin",
     "screen.ShulkerBoxScreenHandlerMixin"

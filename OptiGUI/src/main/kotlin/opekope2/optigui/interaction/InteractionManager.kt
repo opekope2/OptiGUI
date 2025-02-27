@@ -36,6 +36,15 @@ object InteractionManager {
     val renderedTextures: Set<Identifier> = Collections.unmodifiableSet(TextureChanger.renderedTextures)
 
     /**
+     * Returns if custom textures were rendered since the previous call to [clearCache] or world tick (whichever was
+     * later). This may include textures rendered throughout multiple frames.
+     */
+    @JvmStatic
+    val hasRenderedCustomTextures: Boolean
+        @JvmName("hasRenderedCustomTextures")
+        get() = TextureChanger.renderedCustomTextures
+
+    /**
      * Tells OptiGUI the details about the next interaction. If called multiple times before a [Screen] is opened, the
      * last call takes effect. If called while a [Screen] is open, it will only take effect when the next [Screen] is
      * opened.

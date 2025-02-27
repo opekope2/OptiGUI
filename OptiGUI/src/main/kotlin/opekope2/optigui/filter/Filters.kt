@@ -9,9 +9,9 @@ import net.minecraft.nbt.AbstractNbtList
  *
  * @param filters The filters to evaluate
  */
-fun <T> matchNoneOf(filters: Collection<IFilter<T>>): IFilter<T> {
+fun matchNoneOf(filters: Collection<INbtFilter>): INbtFilter {
     val filterList = filters.toList()
-    return IFilter {
+    return INbtFilter {
         filterList.none { filter -> filter.test(it) }
     }
 }
@@ -21,9 +21,9 @@ fun <T> matchNoneOf(filters: Collection<IFilter<T>>): IFilter<T> {
  *
  * @param filters The filters to evaluate
  */
-fun <T> matchAnyOf(filters: Collection<IFilter<T>>): IFilter<T> {
+fun matchAnyOf(filters: Collection<INbtFilter>): INbtFilter {
     val filterList = filters.toList()
-    return IFilter {
+    return INbtFilter {
         filterList.any { filter -> filter.test(it) }
     }
 }
@@ -34,9 +34,9 @@ fun <T> matchAnyOf(filters: Collection<IFilter<T>>): IFilter<T> {
  *
  * @param filters The filters to evaluate
  */
-fun <T> matchSomeOf(filters: Collection<IFilter<T>>): IFilter<T> {
+fun matchSomeOf(filters: Collection<INbtFilter>): INbtFilter {
     val filterList = filters.toList()
-    return IFilter {
+    return INbtFilter {
         !filterList.all { filter -> filter.test(it) }
     }
 }
@@ -46,9 +46,9 @@ fun <T> matchSomeOf(filters: Collection<IFilter<T>>): IFilter<T> {
  *
  * @param filters The filters to evaluate
  */
-fun <T> matchAllOf(filters: Collection<IFilter<T>>): IFilter<T> {
+fun matchAllOf(filters: Collection<INbtFilter>): INbtFilter {
     val filterList = filters.toList()
-    return IFilter {
+    return INbtFilter {
         filterList.all { filter -> filter.test(it) }
     }
 }
