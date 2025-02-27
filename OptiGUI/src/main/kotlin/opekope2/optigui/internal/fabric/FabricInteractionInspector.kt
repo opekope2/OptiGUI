@@ -20,8 +20,8 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.data.IInteractionData
+import opekope2.optigui.resource.format.json.ILoadTimeNbtSupplier
 import opekope2.optigui.resource.format.json.JsonFilterResource
-import opekope2.optigui.resource.load.ILoadTimeNbtSupplier
 import opekope2.optigui.screen.ITextureChangeableScreen
 import opekope2.optigui.toast.InspectorToast
 import opekope2.optigui.util.MOD_ID

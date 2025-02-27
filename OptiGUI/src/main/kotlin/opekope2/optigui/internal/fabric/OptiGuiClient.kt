@@ -19,7 +19,6 @@ import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.IOptiGuiPlatform
 import opekope2.optigui.internal.TextureChanger
-import opekope2.optigui.internal.fabric.inspector.FabricInteractionInspector
 import opekope2.optigui.internal.initializer.ClientInitializer
 import opekope2.optigui.internal.resource.loader.json.JsonFilterLoader
 import opekope2.optigui.resource.format.json.ILoadTimeNbtSupplier
