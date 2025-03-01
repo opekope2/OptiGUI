@@ -1,4 +1,4 @@
-package opekope2.optigui.internal.resource.matcher
+package opekope2.optigui.internal.filter
 
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtString

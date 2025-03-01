@@ -14,6 +14,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.dynamic.Codecs
 import opekope2.optigui.filter.*
 import opekope2.optigui.internal.filter.NbtComparableFilter
+import opekope2.optigui.operator.INbtOperator
 import opekope2.optigui.util.mapMessage
 import opekope2.optigui.util.unwrap
 
@@ -104,7 +105,7 @@ data class JsonFilterResource(
             return when (rawFilter) {
                 is JsonObject -> decodeJsonObjectFilter(rawFilter, depth)
                 is JsonArray -> decodeJsonArrayFilter(rawFilter, depth)
-                else -> NbtComparableFilter.EQUAL_TO_DECODER.parse(JsonOps.INSTANCE, rawFilter)
+                else -> NbtComparableFilter.EQUAL_TO.createFilter(JsonOps.INSTANCE, rawFilter)
             }
         }
 
@@ -133,9 +134,9 @@ data class JsonFilterResource(
                     }
 
                     else -> {
-                        if (key !in NbtMatcherRegistry) return DataResult.error { "No such matcher: $key" }
-                        val decoder = NbtMatcherRegistry.getValue(key)
-                        decoder.parse(JsonOps.INSTANCE, value).unwrap { return it }
+                        if (key !in INbtOperator.Registry) return DataResult.error { "No such operator: $key" }
+                        val matchOperator = INbtOperator.getValue(key)
+                        matchOperator.createFilter(JsonOps.INSTANCE, value).unwrap { return it }
                     }
                 }
             }
