@@ -5,6 +5,12 @@ package opekope2.optigui.filter
 import net.minecraft.nbt.AbstractNbtList
 
 /**
+ * Matches exactly when [filter] doesn't match.
+ */
+fun matchNot(filter: INbtFilter) = INbtFilter { !filter.test(it) }
+
+
+/**
  * Matches only if no filters match in the collection. Matches if [filters][filters] [is empty][isEmpty].
  *
  * @param filters The filters to evaluate

@@ -35,6 +35,7 @@ internal object ClientInitializer {
 
         INbtOperator.register("type", NbtTypeOperator)
 
+        INbtOperator.register("not", FilterNegationOperator)
         INbtOperator.register("none_of", FilterCollectionOperator.NONE_OF)
         INbtOperator.register("any_of", FilterCollectionOperator.ANY_OF)
         INbtOperator.register("some_of", FilterCollectionOperator.SOME_OF)
