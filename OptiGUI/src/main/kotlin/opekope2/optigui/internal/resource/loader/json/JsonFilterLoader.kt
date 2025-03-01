@@ -44,15 +44,15 @@ internal object JsonFilterLoader : SinglePreparationResourceReloader<TextureChan
                 val json = resource.reader.use {
                     JsonHelper.deserialize(it, true)
                 }
-                val filter = JsonFilterResource.PARSED_FILTER_DECODER.parse(JsonOps.INSTANCE, json)
-                    .getOrThrow(::JsonParseException)
+                val filter = JsonFilterResource.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(::JsonParseException)
+                if (!filter.testLoadFilter(loadTimeNbt).getOrThrow(::JsonParseException)) return@flatMap listOf()
 
-                val missingTextures = filter.filters.flatMapTo(mutableSetOf()) { it.textureChanges.values }
+                val filters = filter.createTextureChangerFilters().getOrThrow(::JsonParseException)
+                val missingTextures = filters.flatMapTo(mutableSetOf()) { it.textureChanges.values }
                     .filter { manager.getResource(it).isEmpty }
                 if (missingTextures.isNotEmpty()) throw FileNotFoundException("Missing textures: ${missingTextures.joinToString()}")
 
-                if (filter.loadTimeFilter.test(loadTimeNbt)) filter.filters
-                else listOf()
+                filters
             } catch (e: Exception) {
                 LOGGER.error("Error loading resource {}", id, e)
                 listOf()

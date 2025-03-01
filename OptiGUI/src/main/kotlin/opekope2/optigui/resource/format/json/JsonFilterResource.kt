@@ -1,10 +1,13 @@
 package opekope2.optigui.resource.format.json
 
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.Decoder
-import com.mojang.serialization.JavaOps
+import com.mojang.serialization.JsonOps
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.nbt.NbtElement
 import net.minecraft.util.Identifier
@@ -24,28 +27,23 @@ import opekope2.optigui.util.unwrap
 data class JsonFilterResource(
     val containers: Either<Identifier, List<Identifier>>,
     val textures: Map<Identifier, Identifier>,
-    val loadFilter: Any,
-    val filter: Any
+    val loadFilter: JsonElement,
+    val filter: JsonElement
 ) {
-    private fun process(): DataResult<ParsedFilters> {
-        val containers = containers.map(::listOf) { it }
-        val textures = textures
-        val loadFilter =
-            NBT_FILTER_DECODER.parse(JavaOps.INSTANCE, loadFilter).unwrap { return DataResult.error { it.message() } }
-        val filter =
-            NBT_FILTER_DECODER.parse(JavaOps.INSTANCE, filter).unwrap { return DataResult.error { it.message() } }
-        val filters = containers.map { TextureChangerFilter(it, filter, textures) }
-
-        return DataResult.success(ParsedFilters(filters, loadFilter))
+    fun testLoadFilter(nbt: NbtElement): DataResult<Boolean> {
+        val loadFilter = decodeNbtFilter(loadFilter).unwrap { return DataResult.error { it.message() } }
+        return DataResult.success(loadFilter.test(nbt))
     }
 
-    /**
-     * Represents the parsed filters from a JSON resource.
-     *
-     * @param filters The filters loaded from the JSON
-     * @param loadTimeFilter The filter determining if [filters] should be loaded
-     */
-    data class ParsedFilters(val filters: Collection<TextureChangerFilter>, val loadTimeFilter: INbtFilter)
+    fun createTextureChangerFilters(): DataResult<Collection<TextureChangerFilter>> {
+        val containers = containers.map(::listOf) { it }
+        val filter = decodeNbtFilter(filter).unwrap { return DataResult.error { it.message() } }
+        val filters = containers.map { TextureChangerFilter(it, filter, textures) }
+
+        return DataResult.success(filters)
+    }
+
+    private fun decodeNbtFilter(json: JsonElement) = NBT_FILTER_DECODER.parse(JsonOps.INSTANCE, json)
 
     companion object {
         /**
@@ -86,9 +84,9 @@ data class JsonFilterResource(
                     .forGetter(JsonFilterResource::containers),
                 Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).fieldOf(TEXTURES_KEY)
                     .forGetter(JsonFilterResource::textures),
-                Codecs.BASIC_OBJECT.optionalFieldOf(LOAD_FILTER_KEY, mapOf<String, Any>())
+                Codecs.JSON_ELEMENT.optionalFieldOf(LOAD_FILTER_KEY, JsonObject())
                     .forGetter(JsonFilterResource::loadFilter),
-                Codecs.BASIC_OBJECT.optionalFieldOf(FILTER_KEY, mapOf<String, Any>())
+                Codecs.JSON_ELEMENT.optionalFieldOf(FILTER_KEY, JsonObject())
                     .forGetter(JsonFilterResource::filter)
             ).apply(instance, ::JsonFilterResource)
         }
@@ -97,54 +95,46 @@ data class JsonFilterResource(
          * Decoder for an [INbtFilter] from [JsonFilterResource.loadFilter] and [JsonFilterResource.filter].
          */
         @JvmField
-        val NBT_FILTER_DECODER: Decoder<INbtFilter> = Codecs.BASIC_OBJECT.flatMap(::decodeFilter)
+        val NBT_FILTER_DECODER: Decoder<INbtFilter> = Codecs.JSON_ELEMENT.flatMap(::decodeJsonFilter)
 
-        /**
-         * Decoder for [ParsedFilters].
-         */
-        @JvmField
-        val PARSED_FILTER_DECODER: Decoder<ParsedFilters> = CODEC.flatMap(JsonFilterResource::process)
-
-        private fun decodeFilter(rawFilter: Any?, depth: Int = 0): DataResult<INbtFilter> {
+        private fun decodeJsonFilter(rawFilter: JsonElement?, depth: Int = 0): DataResult<INbtFilter> {
             if (depth >= NbtElement.MAX_DEPTH) return DataResult.error { "Nesting too deep: $rawFilter" }
 
             return when (rawFilter) {
-                is Map<*, *> -> decodeMapFilter(rawFilter, depth)
-                is List<*> -> decodeListFilter(rawFilter, depth)
-                else -> NbtComparableFilter.EQUAL_TO_DECODER.parse(JavaOps.INSTANCE, rawFilter)
+                is JsonObject -> decodeJsonObjectFilter(rawFilter, depth)
+                is JsonArray -> decodeJsonArrayFilter(rawFilter, depth)
+                else -> NbtComparableFilter.EQUAL_TO_DECODER.parse(JsonOps.INSTANCE, rawFilter)
             }
         }
 
         @Suppress("NOTHING_TO_INLINE") // Stack size
-        private inline fun decodeMapFilter(map: Map<*, *>, depth: Int): DataResult<INbtFilter> {
+        private inline fun decodeJsonObjectFilter(obj: JsonObject, depth: Int): DataResult<INbtFilter> {
             val filters = mutableListOf<INbtFilter>()
 
-            for ((key, value) in map) {
-                if (key !is String) return DataResult.error { "Not a string: $key" }
-
+            for ((key, value) in obj.asMap()) {
                 filters += when {
                     key.startsWith('@') -> {
-                        val subFilter = decodeFilter(value, depth + 1).unwrap { return it }
+                        val subFilter = decodeJsonFilter(value, depth + 1).unwrap { return it }
                         SubNbtFilter(key.substring(1), subFilter)
                     }
 
-                    key == "#none" -> matchNone(decodeFilter(value, depth + 1).unwrap { return it })
-                    key == "#any" -> matchAny(decodeFilter(value, depth + 1).unwrap { return it })
-                    key == "#some" -> matchSome(decodeFilter(value, depth + 1).unwrap { return it })
-                    key == "#all" -> matchAll(decodeFilter(value, depth + 1).unwrap { return it })
+                    key == "#none" -> matchNone(decodeJsonFilter(value, depth + 1).unwrap { return it })
+                    key == "#any" -> matchAny(decodeJsonFilter(value, depth + 1).unwrap { return it })
+                    key == "#some" -> matchSome(decodeJsonFilter(value, depth + 1).unwrap { return it })
+                    key == "#all" -> matchAll(decodeJsonFilter(value, depth + 1).unwrap { return it })
 
                     key.startsWith('#') -> {
                         val subNbtKey = key.substring(1)
                         val subNbtIndex =
                             subNbtKey.toIntOrNull() ?: return DataResult.error { "Not a number: $subNbtKey" }
-                        val subFilter = decodeFilter(value, depth + 1).unwrap { return it }
+                        val subFilter = decodeJsonFilter(value, depth + 1).unwrap { return it }
                         NbtListIndexFilter(subNbtIndex, subFilter)
                     }
 
                     else -> {
                         if (key !in NbtMatcherRegistry) return DataResult.error { "No such matcher: $key" }
                         val decoder = NbtMatcherRegistry.getValue(key)
-                        decoder.parse(JavaOps.INSTANCE, value).unwrap { return it }
+                        decoder.parse(JsonOps.INSTANCE, value).unwrap { return it }
                     }
                 }
             }
@@ -153,9 +143,9 @@ data class JsonFilterResource(
         }
 
         @Suppress("NOTHING_TO_INLINE") // Stack size
-        private inline fun decodeListFilter(list: List<*>, depth: Int): DataResult<INbtFilter> {
-            val filters = list.map {
-                decodeFilter(it, depth + 1).unwrap { error -> return error }
+        private inline fun decodeJsonArrayFilter(array: JsonArray, depth: Int): DataResult<INbtFilter> {
+            val filters = array.map {
+                decodeJsonFilter(it, depth + 1).unwrap { error -> return error }
             }
 
             return DataResult.success(matchAnyOf(filters))
