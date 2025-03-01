@@ -13,7 +13,8 @@ import net.minecraft.nbt.NbtElement
 import net.minecraft.util.Identifier
 import net.minecraft.util.dynamic.Codecs
 import opekope2.optigui.filter.*
-import opekope2.optigui.internal.resource.matcher.NbtComparableFilter
+import opekope2.optigui.internal.filter.NbtComparableFilter
+import opekope2.optigui.util.mapMessage
 import opekope2.optigui.util.unwrap
 
 /**
@@ -31,13 +32,13 @@ data class JsonFilterResource(
     val filter: JsonElement
 ) {
     fun testLoadFilter(nbt: NbtElement): DataResult<Boolean> {
-        val loadFilter = decodeNbtFilter(loadFilter).unwrap { return DataResult.error { it.message() } }
+        val loadFilter = decodeNbtFilter(loadFilter).unwrap { return it.mapMessage() }
         return DataResult.success(loadFilter.test(nbt))
     }
 
     fun createTextureChangerFilters(): DataResult<Collection<TextureChangerFilter>> {
         val containers = containers.map(::listOf) { it }
-        val filter = decodeNbtFilter(filter).unwrap { return DataResult.error { it.message() } }
+        val filter = decodeNbtFilter(filter).unwrap { return it.mapMessage() }
         val filters = containers.map { TextureChangerFilter(it, filter, textures) }
 
         return DataResult.success(filters)
