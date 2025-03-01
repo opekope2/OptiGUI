@@ -21,6 +21,7 @@ import opekope2.optigui.internal.IOptiGuiPlatform
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.initializer.ClientInitializer
 import opekope2.optigui.internal.resource.loader.json.JsonFilterLoader
+import opekope2.optigui.operator.INbtOperator
 import opekope2.optigui.resource.format.json.ILoadTimeNbtSupplier
 import opekope2.optigui.util.MOD_ID
 import kotlin.jvm.optionals.getOrNull
@@ -34,6 +35,7 @@ internal class OptiGuiClient :
     ScreenEvents.AfterRender {
     override fun onInitializeClient() {
         ClientInitializer
+        registerNbtOperators()
         FabricInteractionHandler
         FabricInteractionInspector
         registerLoadTimeNbtSuppliers()
@@ -41,6 +43,17 @@ internal class OptiGuiClient :
         ClientTickEvents.END_WORLD_TICK.register(this)
         ClientPlayConnectionEvents.DISCONNECT.register(this)
         ScreenEvents.BEFORE_INIT.register(this)
+    }
+
+    private fun registerNbtOperators() {
+        INbtOperator.register(">v", NbtVersionOperator.MORE_THAN)
+        INbtOperator.register(">=v", NbtVersionOperator.AT_LEAST)
+        INbtOperator.register("=v", NbtVersionOperator.EQUAL_TO)
+        INbtOperator.register("!=v", NbtVersionOperator.NOT_EQUAL_TO)
+        INbtOperator.register("<=v", NbtVersionOperator.AT_MOST)
+        INbtOperator.register("<v", NbtVersionOperator.LESS_THAN)
+        INbtOperator.register("~v", NbtVersionOperator.AT_LEAST_SAME_MINOR)
+        INbtOperator.register("^v", NbtVersionOperator.AT_LEAST_SAME_MAJOR)
     }
 
     private fun registerLoadTimeNbtSuppliers() {
