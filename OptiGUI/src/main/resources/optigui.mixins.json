@@ -8,7 +8,6 @@
   "client": [
     "ClientPlayerEntityMixin",
     "DrawContextMixin",
-    "HandledScreenMixin",
     "MinecraftClientMixin",
     "screen.AbstractFurnaceScreenHandlerMixin",
     "screen.AbstractSignEditScreenMixin",
@@ -17,6 +16,7 @@
     "screen.BrewingStandScreenHandlerMixin",
     "screen.Generic3x3ContainerScreenHandlerMixin",
     "screen.GenericContainerScreenHandlerMixin",
+    "screen.HandledScreenMixin",
     "screen.HangingSignEditScreenMixin",
     "screen.HopperScreenHandlerMixin",
     "screen.LecternScreenMixin",
