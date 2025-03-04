@@ -1,0 +1,36 @@
+{
+  "required": true,
+  "package": "opekope2.optigui.mixin.screen",
+  "compatibilityLevel": "JAVA_$java",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "AbstractFurnaceScreenHandlerMixin",
+    "AbstractSignEditScreenMixin",
+    "AnvilScreenHandlerMixin",
+    "BeaconScreenHandlerMixin",
+    "BookEditScreenMixin",
+    "BookScreenMixin",
+    "BrewingStandScreenHandlerMixin",
+    "CartographyTableScreenHandlerMixin",
+    "CrafterScreenHandlerMixin",
+    "CraftingScreenHandlerMixin",
+    "EnchantmentScreenHandlerMixin",
+    "ForgingScreenHandlerMixin",
+    "Generic3x3ContainerScreenHandlerMixin",
+    "GenericContainerScreenHandlerMixin",
+    "GrindstoneScreenHandlerMixin",
+    "HandledScreenMixin",
+    "HangingSignEditScreenMixin",
+    "HopperScreenHandlerMixin",
+    "HorseScreenHandlerMixin",
+    "LecternScreenHandlerMixin",
+    "LecternScreenMixin",
+    "LoomScreenHandlerMixin",
+    "MerchantScreenHandlerMixin",
+    "PlayerScreenHandlerMixin",
+    "ShulkerBoxScreenHandlerMixin",
+    "StonecutterScreenHandlerMixin"
+  ]
+}

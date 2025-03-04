@@ -54,6 +54,11 @@ const val COMPARATOR_OUTPUT_KEY = "comparator_output"
 const val INVENTORY_KEY = "inventory"
 
 /**
+ * NBT key for an inventory screen's result inventory.
+ */
+const val RESULT_INVENTORY_KEY = "result"
+
+/**
  * NBT key for a book screen's current page.
  */
 const val CURRENT_PAGE_KEY = "current_page"
