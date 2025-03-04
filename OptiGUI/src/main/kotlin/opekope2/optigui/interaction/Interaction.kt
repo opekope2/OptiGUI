@@ -22,10 +22,10 @@ data class Interaction(val screen: ITextureChangeableScreen, val data: IInteract
     val playerData: InteractionPlayerData
         get() = data.playerData
 
-    override fun writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
+    override fun optiGui_writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
         screen.optiGui_writeNbt(compound.subCompound("screen"), lookup)
         compound.put("time", createTimeNbt())
-        data.writeNbt(compound, lookup)
+        data.optiGui_writeNbt(compound, lookup)
     }
 
     private fun createTimeNbt() = NbtCompound().apply {
@@ -39,5 +39,5 @@ data class Interaction(val screen: ITextureChangeableScreen, val data: IInteract
         putInt("second", now.second)
     }
 
-    fun createNbt() = NbtCompound().also { writeNbt(it, playerData.player.world.registryManager) }
+    fun createNbt() = NbtCompound().also { optiGui_writeNbt(it, playerData.player.world.registryManager) }
 }
