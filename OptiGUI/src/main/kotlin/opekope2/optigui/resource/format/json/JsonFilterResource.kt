@@ -27,7 +27,7 @@ import opekope2.optigui.util.unwrap
  * @param filter Raw representation of a filter filtering an interaction NBT
  */
 data class JsonFilterResource(
-    val containers: Either<Identifier, List<Identifier>>,
+    val containers: Either<Identifier, Set<Identifier>>,
     val textures: Map<Identifier, Identifier>,
     val loadFilter: JsonElement,
     val filter: JsonElement
@@ -38,7 +38,7 @@ data class JsonFilterResource(
     }
 
     fun createTextureChangerFilters(): DataResult<Collection<TextureChangerFilter>> {
-        val containers = containers.map(::listOf) { it }
+        val containers = containers.map(::setOf) { it }
         val filter = decodeNbtFilter(filter).unwrap { return it.mapMessage() }
         val filters = containers.map { TextureChangerFilter(it, filter, textures) }
 
@@ -82,8 +82,10 @@ data class JsonFilterResource(
         @JvmField
         val CODEC: Codec<JsonFilterResource> = RecordCodecBuilder.create { instance ->
             instance.group(
-                Codec.either(Identifier.CODEC, Identifier.CODEC.listOf()).fieldOf(CONTAINERS_KEY)
-                    .forGetter(JsonFilterResource::containers),
+                Codec.either(
+                    Identifier.CODEC,
+                    Identifier.CODEC.listOf().xmap(List<Identifier>::toSet, Set<Identifier>::toList)
+                ).fieldOf(CONTAINERS_KEY).forGetter(JsonFilterResource::containers),
                 Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).fieldOf(TEXTURES_KEY)
                     .forGetter(JsonFilterResource::textures),
                 Codecs.JSON_ELEMENT.optionalFieldOf(LOAD_FILTER_KEY, JsonObject())
