@@ -1,6 +1,5 @@
 package opekope2.optigui.internal.operator
 
-import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.DynamicOps
@@ -26,8 +25,7 @@ internal object NbtTypeOperator : INbtOperator {
     )
     private val type2Name = name2Type.map { it.value to it.key }.toMap()
     private val STRINGIFIED_CODEC = Codec.STRING.flatXmap({ map(name2Type, it) }, { map(type2Name, it) })
-    private val CODEC = Codec.either(Codec.BYTE, STRINGIFIED_CODEC).map { either ->
-        val type = Either.unwrap(either)
+    private val CODEC = Codec.withAlternative(Codec.BYTE, STRINGIFIED_CODEC).map { type ->
         INbtFilter { it.type == type }
     }
 
