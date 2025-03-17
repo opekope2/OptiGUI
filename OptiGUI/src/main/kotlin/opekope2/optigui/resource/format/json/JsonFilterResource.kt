@@ -137,7 +137,7 @@ data class JsonFilterResource(
 
                     else -> {
                         if (key !in INbtOperator.Registry) return DataResult.error { "No such operator: $key" }
-                        val matchOperator = INbtOperator.getValue(key)
+                        val matchOperator = INbtOperator.Registry.getValue(key)
                         matchOperator.createFilter(JsonOps.INSTANCE, value).unwrap { return it }
                     }
                 }

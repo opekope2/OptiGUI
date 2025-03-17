@@ -1,6 +1,3 @@
-// SPDX-License-Identifier: LGPL-3.0-or-later
-// Copyright (c) 2025 opekope2 & OptiGUI contributors
-
 package opekope2.optigui.util;
 
 import net.minecraft.nbt.NbtCompound;

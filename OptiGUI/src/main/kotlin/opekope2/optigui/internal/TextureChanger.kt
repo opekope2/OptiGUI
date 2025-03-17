@@ -9,10 +9,8 @@ import opekope2.optigui.filter.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.util.LinkedMruCollection
 
-internal typealias ContainerId2FiltersMap = Map<Identifier, LinkedMruCollection<TextureChangerFilter, NbtElement>>
-
 internal object TextureChanger : SynchronousResourceReloader {
-    private var filters: ContainerId2FiltersMap = mapOf()
+    private var filters = mapOf<Identifier, LinkedMruCollection<TextureChangerFilter, NbtElement>>()
     private var textureChanges = mapOf<Identifier, Identifier>()
     private var spriteChanges = mapOf<Identifier, Identifier>()
     var renderingScreen = false
@@ -54,7 +52,7 @@ internal object TextureChanger : SynchronousResourceReloader {
     }
 
     override fun reload(manager: ResourceManager?) {
-        filters = IFilterLoader.flatMap { it.value.get() }.groupBy { it.container }
+        filters = IFilterLoader.Registry.flatMap { it.value.get() }.groupBy { it.container }
             .mapValues { (_, list) -> LinkedMruCollection(list) }
     }
 }

@@ -91,7 +91,7 @@ internal class OptiGuiClient :
         SynchronousResourceReloader by TextureChanger {
         override fun getFabricId(): Identifier = Identifier.of(MOD_ID, "texture_changer")
 
-        override fun getFabricDependencies() = IFilterLoader.map { it.key }
+        override fun getFabricDependencies() = IFilterLoader.Registry.map { it.key }
     }
 
     internal object Platform : IOptiGuiPlatform {
