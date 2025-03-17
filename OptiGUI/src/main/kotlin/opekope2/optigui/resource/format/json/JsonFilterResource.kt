@@ -37,10 +37,10 @@ data class JsonFilterResource(
         return DataResult.success(loadFilter.test(nbt))
     }
 
-    fun createTextureChangerFilters(): DataResult<Collection<TextureChangerFilter>> {
+    fun createTextureChangerFilters(resourceId: Identifier): DataResult<Collection<TextureChangerFilter>> {
         val containers = containers.map(::setOf) { it }
         val filter = decodeNbtFilter(filter).unwrap { return it.mapMessage() }
-        val filters = containers.map { TextureChangerFilter(it, filter, textures) }
+        val filters = containers.map { TextureChangerFilter(it, resourceId, filter, textures, mapOf()) }
 
         return DataResult.success(filters)
     }
