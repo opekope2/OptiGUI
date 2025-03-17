@@ -2,6 +2,7 @@ package opekope2.optigui.interaction
 
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.util.Identifier
+import opekope2.optigui.interaction.InteractionManager.clearCache
 import opekope2.optigui.interaction.data.IInteractionData
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.screen.ITextureChangeableScreen
@@ -34,6 +35,13 @@ object InteractionManager {
      */
     @JvmStatic
     val renderedTextures: Set<Identifier> = Collections.unmodifiableSet(TextureChanger.renderedTextures)
+
+    /**
+     * Returns the non-changed sprites rendered since the previous call to [clearCache] or world tick (whichever was
+     * later). This may include sprites rendered throughout multiple frames.
+     */
+    @JvmStatic
+    val renderedSprites: Set<Identifier> = Collections.unmodifiableSet(TextureChanger.renderedSprites)
 
     /**
      * Returns if custom textures were rendered since the previous call to [clearCache] or world tick (whichever was

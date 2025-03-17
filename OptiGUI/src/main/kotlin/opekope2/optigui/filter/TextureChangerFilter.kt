@@ -6,16 +6,15 @@ import net.minecraft.util.Identifier
  * An [INbtFilter] specifying which GUI textures it can change to which other textures.
  *
  * @param container The container to change GUI textures of
+ * @param resourceId The resource ID this filter is loaded from
  * @param filter The filter, which decides whether to change the GUI textures of the container
  * @param textureChanges A map containing the original and the changed textures
+ * @param spriteChanges A map containing the original and the changed sprites
  */
-class TextureChangerFilter(
+data class TextureChangerFilter(
     val container: Identifier,
-    filter: INbtFilter,
-    textureChanges: Map<Identifier, Identifier>
-) : INbtFilter by filter {
-    /**
-     * A map containing the original and the changed textures.
-     */
-    val textureChanges = textureChanges.toMap()
-}
+    val resourceId: Identifier,
+    private val filter: INbtFilter,
+    val textureChanges: Map<Identifier, Identifier>,
+    val spriteChanges: Map<Identifier, Identifier>
+) : INbtFilter by filter
