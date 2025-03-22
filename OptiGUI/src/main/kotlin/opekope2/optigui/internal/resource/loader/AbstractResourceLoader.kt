@@ -46,10 +46,15 @@ internal abstract class AbstractResourceLoader(val id: Identifier) :
         val missingSprite = guiAtlasManager.getSprite(MissingSprite.getMissingSpriteId())
 
         filters = prepared.map { filter ->
-            val missingTextures = filter.textureChanges.values.filter { manager.getResource(it).isEmpty }
+            val missingTextures = filter.textureChanges.values.filterTo(mutableSetOf()) {
+                manager.getResource(it).isEmpty
+            }
             if (missingTextures.isNotEmpty())
                 logger.warn("Missing textures in {}: {}", filter.resourceId, missingTextures.joinToString())
-            val missingSprites = filter.spriteChanges.values.filter { guiAtlasManager.getSprite(it) === missingSprite }
+
+            val missingSprites = filter.spriteChanges.values.filterTo(mutableSetOf()) {
+                guiAtlasManager.getSprite(it) === missingSprite
+            }
             if (missingSprites.isNotEmpty())
                 logger.warn("Missing sprites in {}: {}", filter.resourceId, missingTextures.joinToString())
 
