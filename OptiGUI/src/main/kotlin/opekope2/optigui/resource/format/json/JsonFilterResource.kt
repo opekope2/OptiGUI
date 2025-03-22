@@ -3,7 +3,6 @@ package opekope2.optigui.resource.format.json
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.Decoder
@@ -15,32 +14,43 @@ import net.minecraft.util.dynamic.Codecs
 import opekope2.optigui.filter.*
 import opekope2.optigui.internal.filter.NbtComparableFilter
 import opekope2.optigui.operator.INbtOperator
+import opekope2.optigui.resource.format.json.JsonFilterResource.Companion.CODEC1
+import opekope2.optigui.resource.format.json.JsonFilterResource.Companion.CODEC2
 import opekope2.optigui.util.mapMessage
 import opekope2.optigui.util.unwrap
 
 /**
  * Represents an OptiGUI JSON-based filter.
  *
- * @param containers The containers to change the GUI textures of
- * @param textures A map containing the original and the changed textures
+ * @param inventories The identifiers of the blocks, entities, or items to change the GUI textures of
+ * @param textureChanges A map containing the original and the changed textures
+ * @param spriteChanges A map containing the original and the changed sprites
  * @param loadFilter Raw representation of a filter determining if the resource should be loaded
  * @param filter Raw representation of a filter filtering an interaction NBT
  */
 data class JsonFilterResource(
-    val containers: Either<Identifier, Set<Identifier>>,
-    val textures: Map<Identifier, Identifier>,
+    val inventories: Set<Identifier>,
+    val textureChanges: Map<Identifier, Identifier>,
+    val spriteChanges: Map<Identifier, Identifier>,
     val loadFilter: JsonElement,
     val filter: JsonElement
 ) {
+    @Deprecated("For backward-compatibility only")
+    private constructor(
+        inventories: Set<Identifier>,
+        textureChanges: Map<Identifier, Identifier>,
+        loadFilter: JsonElement,
+        filter: JsonElement
+    ) : this(inventories, textureChanges, mapOf(), loadFilter, filter)
+
     fun testLoadFilter(nbt: NbtElement): DataResult<Boolean> {
         val loadFilter = decodeNbtFilter(loadFilter).unwrap { return it.mapMessage() }
         return DataResult.success(loadFilter.test(nbt))
     }
 
     fun createTextureChangerFilters(resourceId: Identifier): DataResult<Collection<TextureChangerFilter>> {
-        val containers = containers.map(::setOf) { it }
         val filter = decodeNbtFilter(filter).unwrap { return it.mapMessage() }
-        val filters = containers.map { TextureChangerFilter(it, resourceId, filter, textures, mapOf()) }
+        val filters = inventories.map { TextureChangerFilter(it, resourceId, filter, textureChanges, spriteChanges) }
 
         return DataResult.success(filters)
     }
@@ -49,25 +59,32 @@ data class JsonFilterResource(
 
     companion object {
         /**
-         * Key of [JsonFilterResource.containers] in a JSON object.
+         * Key of [JsonFilterResource.inventories] in a JSON object.
          *
-         * @see JsonFilterResource.containers
+         * @see JsonFilterResource.inventories
          */
-        const val CONTAINERS_KEY = "containers"
+        const val INVENTORIES_KEY = "inventories"
 
         /**
-         * Key of [JsonFilterResource.textures] in a JSON object.
+         * Key of [JsonFilterResource.textureChanges] in a JSON object.
          *
-         * @see JsonFilterResource.textures
+         * @see JsonFilterResource.textureChanges
          */
-        const val TEXTURES_KEY = "textures"
+        const val TEXTURE_CHANGES_KEY = "change_textures"
+
+        /**
+         * Key of [JsonFilterResource.spriteChanges] in a JSON object.
+         *
+         * @see JsonFilterResource.spriteChanges
+         */
+        const val SPRITE_CHANGES_KEY = "change_sprites"
 
         /**
          * Key of [JsonFilterResource.loadFilter] in a JSON object.
          *
          * @see JsonFilterResource.loadFilter
          */
-        const val LOAD_FILTER_KEY = "if"
+        const val LOAD_FILTER_KEY = "load_if"
 
         /**
          * Key of [JsonFilterResource.filter] in a JSON object.
@@ -77,23 +94,53 @@ data class JsonFilterResource(
         const val FILTER_KEY = "match"
 
         /**
-         * Codec for [JsonFilterResource].
+         * V1 codec for [JsonFilterResource].
          */
         @JvmField
-        val CODEC: Codec<JsonFilterResource> = RecordCodecBuilder.create { instance ->
+        @Deprecated("For backward-compatibility only")
+        val CODEC1: Codec<JsonFilterResource> = RecordCodecBuilder.create { instance ->
             instance.group(
-                Codec.either(
+                Codec.withAlternative(
+                    Identifier.CODEC.listOf().xmap(List<Identifier>::toSet, Set<Identifier>::toList),
                     Identifier.CODEC,
-                    Identifier.CODEC.listOf().xmap(List<Identifier>::toSet, Set<Identifier>::toList)
-                ).fieldOf(CONTAINERS_KEY).forGetter(JsonFilterResource::containers),
-                Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).fieldOf(TEXTURES_KEY)
-                    .forGetter(JsonFilterResource::textures),
+                    ::setOf
+                ).fieldOf("containers").forGetter(JsonFilterResource::inventories),
+                Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).fieldOf("textures")
+                    .forGetter(JsonFilterResource::textureChanges),
+                Codecs.JSON_ELEMENT.optionalFieldOf("if", JsonObject())
+                    .forGetter(JsonFilterResource::loadFilter),
+                Codecs.JSON_ELEMENT.optionalFieldOf("match", JsonObject())
+                    .forGetter(JsonFilterResource::filter)
+            ).apply(instance, ::JsonFilterResource)
+        }
+
+        /**
+         * V2 codec for [JsonFilterResource].
+         */
+        @JvmField
+        val CODEC2: Codec<JsonFilterResource> = RecordCodecBuilder.create { instance ->
+            instance.group(
+                Codec.withAlternative(
+                    Identifier.CODEC.listOf().xmap(List<Identifier>::toSet, Set<Identifier>::toList),
+                    Identifier.CODEC,
+                    ::setOf
+                ).fieldOf(INVENTORIES_KEY).forGetter(JsonFilterResource::inventories),
+                Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).optionalFieldOf(TEXTURE_CHANGES_KEY, mapOf())
+                    .forGetter(JsonFilterResource::textureChanges),
+                Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).optionalFieldOf(SPRITE_CHANGES_KEY, mapOf())
+                    .forGetter(JsonFilterResource::spriteChanges),
                 Codecs.JSON_ELEMENT.optionalFieldOf(LOAD_FILTER_KEY, JsonObject())
                     .forGetter(JsonFilterResource::loadFilter),
                 Codecs.JSON_ELEMENT.optionalFieldOf(FILTER_KEY, JsonObject())
                     .forGetter(JsonFilterResource::filter)
             ).apply(instance, ::JsonFilterResource)
         }
+
+        /**
+         * Codec for [JsonFilterResource], unifying [CODEC1] and [CODEC2].
+         */
+        @JvmField
+        val CODEC: Codec<JsonFilterResource> = Codec.withAlternative(CODEC2, CODEC1)
 
         /**
          * Decoder for an [INbtFilter] from [JsonFilterResource.loadFilter] and [JsonFilterResource.filter].

@@ -44,7 +44,7 @@ internal object JsonFilterLoader : AbstractResourceLoader(Identifier.of(MOD_ID, 
         val json = resource.reader.use {
             JsonHelper.deserialize(it, true)
         }
-        val filter = JsonFilterResource.Companion.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(::JsonParseException)
+        val filter = JsonFilterResource.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(::JsonParseException)
         return if (!filter.testLoadFilter(loadTimeNbt).getOrThrow(::NbtFilterParseException)) listOf()
         else filter.createTextureChangerFilters(resourceId).getOrThrow(::NbtFilterParseException)
     }

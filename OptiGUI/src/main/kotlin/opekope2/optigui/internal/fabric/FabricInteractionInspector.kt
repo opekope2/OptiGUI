@@ -91,8 +91,9 @@ object FabricInteractionInspector : ScreenEvents.BeforeInit, ScreenKeyboardEvent
     private fun createJsonResource(interactionData: IInteractionData): JsonElement? = JsonObject().apply {
         addProperty("generated_by", GENERATED_BY)
         addProperty("docs", "https://opekope2.dev/OptiGUI/JSON.html")
-        addProperty(JsonFilterResource.CONTAINERS_KEY, interactionData.id.toString())
-        add(JsonFilterResource.TEXTURES_KEY, getLastRenderedTextures())
+        addProperty(JsonFilterResource.INVENTORIES_KEY, interactionData.id.toString())
+        add(JsonFilterResource.TEXTURE_CHANGES_KEY, getLastRenderedTextures())
+        add(JsonFilterResource.SPRITE_CHANGES_KEY, getLastRenderedSprites())
         add(JsonFilterResource.LOAD_FILTER_KEY, getLoadTimeNbtFilter())
         add(JsonFilterResource.FILTER_KEY, getInteractionNbtFilter() ?: return null)
     }
@@ -103,9 +104,15 @@ object FabricInteractionInspector : ScreenEvents.BeforeInit, ScreenKeyboardEvent
         }
     }
 
+    private fun getLastRenderedSprites() = JsonObject().apply {
+        for (texture in InteractionManager.renderedSprites) {
+            addProperty(texture.toString(), "example:path/to/changed/sprite")
+        }
+    }
+
     private fun getLoadTimeNbtFilter(): JsonElement? {
         val loadTimeNbt = NbtCompound()
-        for ((key, supplier) in ILoadTimeNbtSupplier) {
+        for ((key, supplier) in ILoadTimeNbtSupplier.Registry) {
             loadTimeNbt.put(key, supplier.get())
         }
 
