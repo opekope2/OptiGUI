@@ -11,7 +11,7 @@ import opekope2.optigui.util.encode
 import opekope2.optigui.util.identifier
 
 /**
- * Details about an interaction with a container block.
+ * Details about an interaction with a block.
  *
  * @param blockPos The interaction position
  * @param blockState The block state at [blockPos]

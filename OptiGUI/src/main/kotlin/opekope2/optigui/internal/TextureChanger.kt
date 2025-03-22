@@ -52,7 +52,7 @@ internal object TextureChanger : SynchronousResourceReloader {
     }
 
     override fun reload(manager: ResourceManager?) {
-        filters = IFilterLoader.Registry.flatMap { it.value.get() }.groupBy { it.container }
+        filters = IFilterLoader.Registry.flatMap { it.value.get() }.groupBy { it.inventoryId }
             .mapValues { (_, list) -> LinkedMruCollection(list) }
     }
 }

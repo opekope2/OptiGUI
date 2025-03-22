@@ -16,7 +16,7 @@ import opekope2.optigui.util.getBiomeId
  */
 sealed interface IInteractionData : INbtConvertible {
     /**
-     * The identifier of the interacted container.
+     * The identifier of the interacted block, entity, or item.
      */
     val id: Identifier
 

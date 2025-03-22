@@ -10,7 +10,7 @@ import opekope2.optigui.util.subCompound
 import java.time.LocalDateTime
 
 /**
- * Interaction between a player and a container.
+ * Interaction between a player and a block, entity, or item.
  *
  * @param screen The active GUI screen
  * @param data The details of the interaction
