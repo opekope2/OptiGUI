@@ -34,7 +34,7 @@ internal class HorseSaddleSelector : ISelector {
     )
 
     private fun isHorseSaddled(interaction: Interaction) =
-        (interaction.data.entityOrRiddenEntity as? AbstractHorseEntity)?.isSaddled
+        (interaction.data.entityOrRiddenEntity as? AbstractHorseEntity)?.hasSaddleEquipped()
 
     override fun getRawSelector(interaction: Interaction): String? = isHorseSaddled(interaction)?.toString()
 }
@@ -53,7 +53,7 @@ internal class HorseVariantSelector : AbstractListSelector<HorseColor>() {
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        (interaction.data.entityOrRiddenEntity as? HorseEntity)?.variant
+        (interaction.data.entityOrRiddenEntity as? HorseEntity)?.horseColor
 }
 
 internal class HorseMarkingSelector : AbstractListSelector<HorseMarking>() {
@@ -74,7 +74,7 @@ internal class HorseMarkingSelector : AbstractListSelector<HorseMarking>() {
 }
 
 internal class LlamaCarpetColorSelector : AbstractListSelector<DyeColor>() {
-    override fun parseSelector(selector: String) = DyeColor.byName(selector, null)
+    override fun parseSelector(selector: String) = DyeColor.byId(selector, null)
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
         throw RuntimeException("Invalid llama carpet colors: ${joinNotFound(invalidSelectors)}")
@@ -89,7 +89,7 @@ internal class LlamaCarpetColorSelector : AbstractListSelector<DyeColor>() {
     private fun getLlamaCarpetColor(interaction: Interaction) =
         (((interaction.data.entityOrRiddenEntity as? LlamaEntity)?.bodyArmor?.item as? BlockItem)?.block as? DyedCarpetBlock)?.dyeColor
 
-    override fun transformInteraction(interaction: Interaction) = getLlamaCarpetColor(interaction)?.getName()
+    override fun transformInteraction(interaction: Interaction) = getLlamaCarpetColor(interaction)?.id
 }
 
 internal class LlamaVariantSelector : AbstractListSelector<LlamaEntity.Variant>() {

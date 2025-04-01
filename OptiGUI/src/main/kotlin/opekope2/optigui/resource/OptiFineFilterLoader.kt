@@ -142,7 +142,7 @@ private fun createFilterData(
             val shulkerBoxes = properties["colors"]
                 ?.splitIgnoreEmpty(*delimiters)
                 ?.toSet()
-                ?.filter { DyeColor.byName(it, null) != null }
+                ?.filter { DyeColor.byId(it, null) != null }
                 ?.map { "${it}_shulker_box" }
                 ?: listOf("shulker_box")
             for (shulkerBox in shulkerBoxes) {
