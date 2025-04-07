@@ -21,7 +21,8 @@ import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.IOptiGuiPlatform
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.initializer.ClientInitializer
-import opekope2.optigui.internal.resource.loader.json.JsonFilterLoader
+import opekope2.optigui.internal.resource.loader.JsonFilterLoader
+import opekope2.optigui.operator.INbtOperator
 import opekope2.optigui.resource.format.json.ILoadTimeNbtSupplier
 import opekope2.optigui.screen.ITextureChangeableScreen
 import opekope2.optigui.util.MOD_ID
@@ -36,6 +37,7 @@ internal class OptiGuiClient :
     ScreenEvents.AfterRender {
     override fun onInitializeClient() {
         ClientInitializer
+        registerNbtOperators()
         FabricInteractionHandler
         registerLoadTimeNbtSuppliers()
         registerResourceLoaders(ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES))
@@ -44,12 +46,23 @@ internal class OptiGuiClient :
         ScreenEvents.AFTER_INIT.register(this)
     }
 
+    private fun registerNbtOperators() {
+        INbtOperator.register(">v", NbtVersionOperator.MORE_THAN)
+        INbtOperator.register(">=v", NbtVersionOperator.AT_LEAST)
+        INbtOperator.register("=v", NbtVersionOperator.EQUAL_TO)
+        INbtOperator.register("!=v", NbtVersionOperator.NOT_EQUAL_TO)
+        INbtOperator.register("<=v", NbtVersionOperator.AT_MOST)
+        INbtOperator.register("<v", NbtVersionOperator.LESS_THAN)
+        INbtOperator.register("~v", NbtVersionOperator.AT_LEAST_SAME_MINOR)
+        INbtOperator.register("^v", NbtVersionOperator.AT_LEAST_SAME_MAJOR)
+    }
+
     private fun registerLoadTimeNbtSuppliers() {
         ILoadTimeNbtSupplier.register("mods", FabricModsNbtSupplier)
     }
 
     private fun registerResourceLoaders(manager: ResourceManagerHelper) {
-        manager.registerReloadListener(FabricResourceReloadListener(JsonFilterLoader.ID, JsonFilterLoader))
+        manager.registerReloadListener(FabricResourceReloadListener(JsonFilterLoader.id, JsonFilterLoader))
         manager.registerReloadListener(TextureChangerReloadListener)
     }
 
@@ -85,7 +98,7 @@ internal class OptiGuiClient :
         SynchronousResourceReloader by TextureChanger {
         override fun getFabricId(): Identifier = Identifier.of(MOD_ID, "texture_changer")
 
-        override fun getFabricDependencies() = IFilterLoader.map { it.key }
+        override fun getFabricDependencies() = IFilterLoader.Registry.map { it.key }
     }
 
     internal object Platform : IOptiGuiPlatform {

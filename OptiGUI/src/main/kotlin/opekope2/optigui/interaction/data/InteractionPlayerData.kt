@@ -23,7 +23,7 @@ data class InteractionPlayerData(val player: PlayerEntity, val hand: Hand) : INb
     val vehicle: Entity?
         get() = player.vehicle.takeIf { it is RideableInventory }
 
-    override fun writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
+    override fun optiGui_writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
         player.writeNbt(compound.subCompound("player"))
         vehicle?.writeNbt(compound.subCompound("vehicle"))
         compound.putString("player_biome", player.world.getBiomeId(player.blockPos).toString())

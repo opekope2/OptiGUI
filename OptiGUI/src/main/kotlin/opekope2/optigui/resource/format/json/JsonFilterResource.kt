@@ -1,73 +1,90 @@
 package opekope2.optigui.resource.format.json
 
-import com.mojang.datafixers.util.Either
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.Decoder
-import com.mojang.serialization.JavaOps
+import com.mojang.serialization.JsonOps
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.nbt.NbtElement
 import net.minecraft.util.Identifier
 import net.minecraft.util.dynamic.Codecs
 import opekope2.optigui.filter.*
-import opekope2.optigui.internal.resource.matcher.NbtComparableFilter
+import opekope2.optigui.internal.filter.NbtComparableFilter
+import opekope2.optigui.operator.INbtOperator
+import opekope2.optigui.resource.format.json.JsonFilterResource.Companion.CODEC1
+import opekope2.optigui.resource.format.json.JsonFilterResource.Companion.CODEC2
+import opekope2.optigui.util.mapMessage
 import opekope2.optigui.util.unwrap
 
 /**
  * Represents an OptiGUI JSON-based filter.
  *
- * @param containers The containers to change the GUI textures of
- * @param textures A map containing the original and the changed textures
+ * @param inventories The identifiers of the blocks, entities, or items to change the GUI textures of
+ * @param textureChanges A map containing the original and the changed textures
+ * @param spriteChanges A map containing the original and the changed sprites
  * @param loadFilter Raw representation of a filter determining if the resource should be loaded
  * @param filter Raw representation of a filter filtering an interaction NBT
  */
 data class JsonFilterResource(
-    val containers: Either<Identifier, List<Identifier>>,
-    val textures: Map<Identifier, Identifier>,
-    val loadFilter: Any,
-    val filter: Any
+    val inventories: Set<Identifier>,
+    val textureChanges: Map<Identifier, Identifier>,
+    val spriteChanges: Map<Identifier, Identifier>,
+    val loadFilter: JsonElement,
+    val filter: JsonElement
 ) {
-    private fun process(): DataResult<ParsedFilters> {
-        val containers = containers.map(::listOf) { it }
-        val textures = textures
-        val loadFilter =
-            NBT_FILTER_DECODER.parse(JavaOps.INSTANCE, loadFilter).unwrap { return DataResult.error { it.message() } }
-        val filter =
-            NBT_FILTER_DECODER.parse(JavaOps.INSTANCE, filter).unwrap { return DataResult.error { it.message() } }
-        val filters = containers.map { TextureChangerFilter(it, filter, textures) }
+    @Deprecated("For backward-compatibility only")
+    private constructor(
+        inventories: Set<Identifier>,
+        textureChanges: Map<Identifier, Identifier>,
+        loadFilter: JsonElement,
+        filter: JsonElement
+    ) : this(inventories, textureChanges, mapOf(), loadFilter, filter)
 
-        return DataResult.success(ParsedFilters(filters, loadFilter))
+    fun testLoadFilter(nbt: NbtElement): DataResult<Boolean> {
+        val loadFilter = decodeNbtFilter(loadFilter).unwrap { return it.mapMessage() }
+        return DataResult.success(loadFilter.test(nbt))
     }
 
-    /**
-     * Represents the parsed filters from a JSON resource.
-     *
-     * @param filters The filters loaded from the JSON
-     * @param loadTimeFilter The filter determining if [filters] should be loaded
-     */
-    data class ParsedFilters(val filters: Collection<TextureChangerFilter>, val loadTimeFilter: INbtFilter)
+    fun createTextureChangerFilters(resourceId: Identifier): DataResult<Collection<TextureChangerFilter>> {
+        val filter = decodeNbtFilter(filter).unwrap { return it.mapMessage() }
+        val filters = inventories.map { TextureChangerFilter(it, resourceId, filter, textureChanges, spriteChanges) }
+
+        return DataResult.success(filters)
+    }
+
+    private fun decodeNbtFilter(json: JsonElement) = NBT_FILTER_DECODER.parse(JsonOps.INSTANCE, json)
 
     companion object {
         /**
-         * Key of [JsonFilterResource.containers] in a JSON object.
+         * Key of [JsonFilterResource.inventories] in a JSON object.
          *
-         * @see JsonFilterResource.containers
+         * @see JsonFilterResource.inventories
          */
-        const val CONTAINERS_KEY = "containers"
+        const val INVENTORIES_KEY = "inventories"
 
         /**
-         * Key of [JsonFilterResource.textures] in a JSON object.
+         * Key of [JsonFilterResource.textureChanges] in a JSON object.
          *
-         * @see JsonFilterResource.textures
+         * @see JsonFilterResource.textureChanges
          */
-        const val TEXTURES_KEY = "textures"
+        const val TEXTURE_CHANGES_KEY = "change_textures"
+
+        /**
+         * Key of [JsonFilterResource.spriteChanges] in a JSON object.
+         *
+         * @see JsonFilterResource.spriteChanges
+         */
+        const val SPRITE_CHANGES_KEY = "change_sprites"
 
         /**
          * Key of [JsonFilterResource.loadFilter] in a JSON object.
          *
          * @see JsonFilterResource.loadFilter
          */
-        const val LOAD_FILTER_KEY = "if"
+        const val LOAD_FILTER_KEY = "load_if"
 
         /**
          * Key of [JsonFilterResource.filter] in a JSON object.
@@ -77,74 +94,98 @@ data class JsonFilterResource(
         const val FILTER_KEY = "match"
 
         /**
-         * Codec for [JsonFilterResource].
+         * V1 codec for [JsonFilterResource].
          */
         @JvmField
-        val CODEC: Codec<JsonFilterResource> = RecordCodecBuilder.create { instance ->
+        @Deprecated("For backward-compatibility only")
+        val CODEC1: Codec<JsonFilterResource> = RecordCodecBuilder.create { instance ->
             instance.group(
-                Codec.either(Identifier.CODEC, Identifier.CODEC.listOf()).fieldOf(CONTAINERS_KEY)
-                    .forGetter(JsonFilterResource::containers),
-                Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).fieldOf(TEXTURES_KEY)
-                    .forGetter(JsonFilterResource::textures),
-                Codecs.BASIC_OBJECT.optionalFieldOf(LOAD_FILTER_KEY, mapOf<String, Any>())
+                Codec.withAlternative(
+                    Identifier.CODEC.listOf().xmap(List<Identifier>::toSet, Set<Identifier>::toList),
+                    Identifier.CODEC,
+                    ::setOf
+                ).fieldOf("containers").forGetter(JsonFilterResource::inventories),
+                Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).fieldOf("textures")
+                    .forGetter(JsonFilterResource::textureChanges),
+                Codecs.JSON_ELEMENT.optionalFieldOf("if", JsonObject())
                     .forGetter(JsonFilterResource::loadFilter),
-                Codecs.BASIC_OBJECT.optionalFieldOf(FILTER_KEY, mapOf<String, Any>())
+                Codecs.JSON_ELEMENT.optionalFieldOf("match", JsonObject())
                     .forGetter(JsonFilterResource::filter)
             ).apply(instance, ::JsonFilterResource)
         }
 
         /**
+         * V2 codec for [JsonFilterResource].
+         */
+        @JvmField
+        val CODEC2: Codec<JsonFilterResource> = RecordCodecBuilder.create { instance ->
+            instance.group(
+                Codec.withAlternative(
+                    Identifier.CODEC.listOf().xmap(List<Identifier>::toSet, Set<Identifier>::toList),
+                    Identifier.CODEC,
+                    ::setOf
+                ).fieldOf(INVENTORIES_KEY).forGetter(JsonFilterResource::inventories),
+                Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).optionalFieldOf(TEXTURE_CHANGES_KEY, mapOf())
+                    .forGetter(JsonFilterResource::textureChanges),
+                Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).optionalFieldOf(SPRITE_CHANGES_KEY, mapOf())
+                    .forGetter(JsonFilterResource::spriteChanges),
+                Codecs.JSON_ELEMENT.optionalFieldOf(LOAD_FILTER_KEY, JsonObject())
+                    .forGetter(JsonFilterResource::loadFilter),
+                Codecs.JSON_ELEMENT.optionalFieldOf(FILTER_KEY, JsonObject())
+                    .forGetter(JsonFilterResource::filter)
+            ).apply(instance, ::JsonFilterResource)
+        }
+
+        /**
+         * Codec for [JsonFilterResource], unifying [CODEC1] and [CODEC2].
+         */
+        @JvmField
+        val CODEC: Codec<JsonFilterResource> = Codec.withAlternative(CODEC2, CODEC1)
+
+        /**
          * Decoder for an [INbtFilter] from [JsonFilterResource.loadFilter] and [JsonFilterResource.filter].
          */
         @JvmField
-        val NBT_FILTER_DECODER: Decoder<INbtFilter> = Codecs.BASIC_OBJECT.flatMap(::decodeFilter)
+        val NBT_FILTER_DECODER: Decoder<INbtFilter> = Codecs.JSON_ELEMENT.flatMap(::decodeJsonFilter)
 
-        /**
-         * Decoder for [ParsedFilters].
-         */
-        @JvmField
-        val PARSED_FILTER_DECODER: Decoder<ParsedFilters> = CODEC.flatMap(JsonFilterResource::process)
-
-        private fun decodeFilter(rawFilter: Any?, depth: Int = 0): DataResult<INbtFilter> {
+        private fun decodeJsonFilter(rawFilter: JsonElement?, depth: Int = 0): DataResult<INbtFilter> {
             if (depth >= NbtElement.MAX_DEPTH) return DataResult.error { "Nesting too deep: $rawFilter" }
 
             return when (rawFilter) {
-                is Map<*, *> -> decodeMapFilter(rawFilter, depth)
-                is List<*> -> decodeListFilter(rawFilter, depth)
-                else -> NbtComparableFilter.EQUAL_TO_DECODER.parse(JavaOps.INSTANCE, rawFilter)
+                is JsonObject -> decodeJsonObjectFilter(rawFilter, depth)
+                is JsonArray -> decodeJsonArrayFilter(rawFilter, depth)
+                else -> NbtComparableFilter.EQUAL_TO.createFilter(JsonOps.INSTANCE, rawFilter)
             }
         }
 
         @Suppress("NOTHING_TO_INLINE") // Stack size
-        private inline fun decodeMapFilter(map: Map<*, *>, depth: Int): DataResult<INbtFilter> {
+        private inline fun decodeJsonObjectFilter(obj: JsonObject, depth: Int): DataResult<INbtFilter> {
             val filters = mutableListOf<INbtFilter>()
 
-            for ((key, value) in map) {
-                if (key !is String) return DataResult.error { "Not a string: $key" }
-
+            for ((key, value) in obj.asMap()) {
                 filters += when {
                     key.startsWith('@') -> {
-                        val subFilter = decodeFilter(value, depth + 1).unwrap { return it }
+                        val subFilter = decodeJsonFilter(value, depth + 1).unwrap { return it }
                         SubNbtFilter(key.substring(1), subFilter)
                     }
 
-                    key == "#none" -> matchNone(decodeFilter(value, depth + 1).unwrap { return it })
-                    key == "#any" -> matchAny(decodeFilter(value, depth + 1).unwrap { return it })
-                    key == "#some" -> matchSome(decodeFilter(value, depth + 1).unwrap { return it })
-                    key == "#all" -> matchAll(decodeFilter(value, depth + 1).unwrap { return it })
+                    key == "#none" -> matchNone(decodeJsonFilter(value, depth + 1).unwrap { return it })
+                    key == "#any" -> matchAny(decodeJsonFilter(value, depth + 1).unwrap { return it })
+                    key == "#some" -> matchSome(decodeJsonFilter(value, depth + 1).unwrap { return it })
+                    key == "#all" -> matchAll(decodeJsonFilter(value, depth + 1).unwrap { return it })
 
                     key.startsWith('#') -> {
                         val subNbtKey = key.substring(1)
                         val subNbtIndex =
                             subNbtKey.toIntOrNull() ?: return DataResult.error { "Not a number: $subNbtKey" }
-                        val subFilter = decodeFilter(value, depth + 1).unwrap { return it }
+                        val subFilter = decodeJsonFilter(value, depth + 1).unwrap { return it }
                         NbtListIndexFilter(subNbtIndex, subFilter)
                     }
 
                     else -> {
-                        if (key !in NbtMatcherRegistry) return DataResult.error { "No such matcher: $key" }
-                        val decoder = NbtMatcherRegistry.getValue(key)
-                        decoder.parse(JavaOps.INSTANCE, value).unwrap { return it }
+                        if (key !in INbtOperator.Registry) return DataResult.error { "No such operator: $key" }
+                        val matchOperator = INbtOperator.Registry.getValue(key)
+                        matchOperator.createFilter(JsonOps.INSTANCE, value).unwrap { return it }
                     }
                 }
             }
@@ -153,9 +194,9 @@ data class JsonFilterResource(
         }
 
         @Suppress("NOTHING_TO_INLINE") // Stack size
-        private inline fun decodeListFilter(list: List<*>, depth: Int): DataResult<INbtFilter> {
-            val filters = list.map {
-                decodeFilter(it, depth + 1).unwrap { error -> return error }
+        private inline fun decodeJsonArrayFilter(array: JsonArray, depth: Int): DataResult<INbtFilter> {
+            val filters = array.map {
+                decodeJsonFilter(it, depth + 1).unwrap { error -> return error }
             }
 
             return DataResult.success(matchAnyOf(filters))

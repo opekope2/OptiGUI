@@ -13,3 +13,10 @@ inline fun <T> DataResult<T>.unwrap(onError: (DataResult.Error<T>) -> Nothing): 
     if (isError) onError(error().get())
     return result().get()
 }
+
+/**
+ * Creates a new [DataResult.error] with the message of the receiver [DataResult.Error].
+ */
+fun <T, U> DataResult.Error<T>.mapMessage(): DataResult<U> {
+    return DataResult.error(::message)
+}

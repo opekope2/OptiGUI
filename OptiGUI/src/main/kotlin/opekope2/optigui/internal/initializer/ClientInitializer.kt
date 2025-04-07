@@ -2,47 +2,49 @@ package opekope2.optigui.internal.initializer
 
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.TextureChanger
-import opekope2.optigui.internal.resource.matcher.*
-import opekope2.optigui.resource.format.json.NbtMatcherRegistry
+import opekope2.optigui.internal.filter.NbtComparableFilter
+import opekope2.optigui.internal.operator.*
+import opekope2.optigui.operator.INbtOperator
 
 internal object ClientInitializer {
     init {
         TextureChanger
         InteractionManager
 
-        registerNbtMatchers()
+        registerNbtOperators()
     }
 
-    private fun registerNbtMatchers() {
-        NbtMatcherRegistry.register(">", NbtComparableFilter.MORE_THAN_DECODER)
-        NbtMatcherRegistry.register(">*", NbtComparableFilter.MORE_THAN_IGNORE_CASE_DECODER)
-        NbtMatcherRegistry.register(">=", NbtComparableFilter.AT_LEAST_DECODER)
-        NbtMatcherRegistry.register(">=*", NbtComparableFilter.AT_LEAST_IGNORE_CASE_DECODER)
-        NbtMatcherRegistry.register("=", NbtComparableFilter.EQUAL_TO_DECODER)
-        NbtMatcherRegistry.register("=*", NbtComparableFilter.EQUAL_TO_IGNORE_CASE_DECODER)
-        NbtMatcherRegistry.register("!=", NbtComparableFilter.NOT_EQUAL_TO_DECODER)
-        NbtMatcherRegistry.register("!=*", NbtComparableFilter.NOT_EQUAL_TO_IGNORE_CASE_DECODER)
-        NbtMatcherRegistry.register("<=", NbtComparableFilter.AT_MOST_DECODER)
-        NbtMatcherRegistry.register("<=*", NbtComparableFilter.AT_MOST_IGNORE_CASE_DECODER)
-        NbtMatcherRegistry.register("<", NbtComparableFilter.LESS_THAN_DECODER)
-        NbtMatcherRegistry.register("<*", NbtComparableFilter.LESS_THAN_IGNORE_CASE_DECODER)
+    private fun registerNbtOperators() {
+        INbtOperator.register(">", NbtComparableFilter.MORE_THAN)
+        INbtOperator.register(">*", NbtComparableFilter.MORE_THAN_IGNORE_CASE)
+        INbtOperator.register(">=", NbtComparableFilter.AT_LEAST)
+        INbtOperator.register(">=*", NbtComparableFilter.AT_LEAST_IGNORE_CASE)
+        INbtOperator.register("=", NbtComparableFilter.EQUAL_TO)
+        INbtOperator.register("=*", NbtComparableFilter.EQUAL_TO_IGNORE_CASE)
+        INbtOperator.register("!=", NbtComparableFilter.NOT_EQUAL_TO)
+        INbtOperator.register("!=*", NbtComparableFilter.NOT_EQUAL_TO_IGNORE_CASE)
+        INbtOperator.register("<=", NbtComparableFilter.AT_MOST)
+        INbtOperator.register("<=*", NbtComparableFilter.AT_MOST_IGNORE_CASE)
+        INbtOperator.register("<", NbtComparableFilter.LESS_THAN)
+        INbtOperator.register("<*", NbtComparableFilter.LESS_THAN_IGNORE_CASE)
 
-        NbtMatcherRegistry.register("regex", NbtStringRegexFilter.REGEX_DECODER)
-        NbtMatcherRegistry.register("regex*", NbtStringRegexFilter.REGEX_IGNORE_CASE_DECODER)
-        NbtMatcherRegistry.register("wildcard", NbtStringRegexFilter.WILDCARD_DECODER)
-        NbtMatcherRegistry.register("wildcard*", NbtStringRegexFilter.WILDCARD_IGNORE_CASE_DECODER)
+        INbtOperator.register("regex", NbtStringRegexOperator.REGEX)
+        INbtOperator.register("regex*", NbtStringRegexOperator.REGEX_IGNORE_CASE)
+        INbtOperator.register("wildcard", NbtStringRegexOperator.WILDCARD)
+        INbtOperator.register("wildcard*", NbtStringRegexOperator.WILDCARD_IGNORE_CASE)
 
-        NbtMatcherRegistry.register("type", NbtTypeFilter.DECODER)
+        INbtOperator.register("type", NbtTypeOperator)
 
-        NbtMatcherRegistry.register("none_of", NONE_OF_DECODER)
-        NbtMatcherRegistry.register("any_of", ANY_OF_DECODER)
-        NbtMatcherRegistry.register("some_of", SOME_OF_DECODER)
-        NbtMatcherRegistry.register("all_of", ALL_OF_DECODER)
+        INbtOperator.register("not", FilterNegationOperator)
+        INbtOperator.register("none_of", FilterCollectionOperator.NONE_OF)
+        INbtOperator.register("any_of", FilterCollectionOperator.ANY_OF)
+        INbtOperator.register("some_of", FilterCollectionOperator.SOME_OF)
+        INbtOperator.register("all_of", FilterCollectionOperator.ALL_OF)
 
-        NbtMatcherRegistry.register("keys", NbtKeysFilter.DECODER)
+        INbtOperator.register("keys", NbtCompoundKeysOperator)
 
-        NbtMatcherRegistry.register("values", NbtValuesFilter.DECODER)
+        INbtOperator.register("values", NbtCompoundValuesOperator)
 
-        NbtMatcherRegistry.register("size", NbtCollectionSizeFilter.DECODER)
+        INbtOperator.register("size", NbtCollectionSizeOperator)
     }
 }

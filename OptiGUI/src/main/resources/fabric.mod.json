@@ -74,7 +74,8 @@
     ]
   },
   "mixins": [
-    "optigui.mixins.json"
+    "optigui.mixins.json",
+    "optigui-vanilla-screen-info.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=$fabric_loader",

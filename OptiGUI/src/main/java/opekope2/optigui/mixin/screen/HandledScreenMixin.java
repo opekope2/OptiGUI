@@ -1,16 +1,15 @@
-package opekope2.optigui.mixin;
+package opekope2.optigui.mixin.screen;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.inventory.Inventory;
+import net.minecraft.client.gui.screen.recipebook.RecipeBookProvider;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import opekope2.optigui.screen.ITextureChangeableScreen;
-import opekope2.optigui.screen.handler.IInventoryScreenHandler;
-import opekope2.optigui.util.Constants;
+import opekope2.optigui.util.INbtConvertible;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -44,13 +43,9 @@ public abstract class HandledScreenMixin extends Screen implements ITextureChang
     @Override
     public void optiGui_writeNbt(@NotNull NbtCompound compound, @NotNull RegistryWrapper.WrapperLookup lookup) {
         ITextureChangeableScreen.super.optiGui_writeNbt(compound, lookup);
-
-        ScreenHandler screenHandler = getScreenHandler();
-        if (screenHandler instanceof IInventoryScreenHandler inventoryScreenHandler) {
-            Inventory inventory = inventoryScreenHandler.optiGui_getInventory();
-
-            compound.putInt(Constants.COMPARATOR_OUTPUT_KEY, ScreenHandler.calculateComparatorOutput(inventory));
-            // compound.put(Constants.INVENTORY_KEY, InventoryUtil.createNbt(inventory, lookup));
-        }
+        if (getScreenHandler() instanceof INbtConvertible nbtConvertible)
+            nbtConvertible.optiGui_writeNbt(compound, lookup);
+        if (this instanceof RecipeBookProvider recipeBookProvider)
+            compound.putBoolean("recipe_book_open", recipeBookProvider.getRecipeBookWidget().isOpen());
     }
 }

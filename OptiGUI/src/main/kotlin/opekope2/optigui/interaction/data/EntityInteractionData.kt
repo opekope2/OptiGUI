@@ -27,8 +27,8 @@ data class EntityInteractionData(
     override val blockPos: BlockPos
         get() = entity.blockPos
 
-    override fun writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
-        super.writeNbt(compound, lookup)
+    override fun optiGui_writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
+        super.optiGui_writeNbt(compound, lookup)
 
         entity.writeNbt(compound.subCompound("entity"))
     }

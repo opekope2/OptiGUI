@@ -10,8 +10,17 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(value = DrawContext.class, priority = 800)
 abstract class DrawContextMixin {
     @ModifyVariable(
+            method = "drawTexture(Lnet/minecraft/util/Identifier;IIIIIIIFFII)V",
+            at = @At("HEAD"),
+            index = 1,
+            argsOnly = true
+    )
+    private Identifier changeTexture(Identifier texture) {
+        return texture != null ? TextureChanger.changeTexture(texture) : null;
+    }
+
+    @ModifyVariable(
             method = {
-                    "drawTexture(Lnet/minecraft/util/Identifier;IIIIIIIFFII)V",
                     "drawGuiTexture(Lnet/minecraft/util/Identifier;IIIII)V",
                     "drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIIII)V"
             },
@@ -19,7 +28,7 @@ abstract class DrawContextMixin {
             index = 1,
             argsOnly = true
     )
-    private Identifier changeTexture(Identifier texture) {
-        return texture != null ? TextureChanger.changeTexture(texture) : null;
+    private Identifier changeSprite(Identifier sprite) {
+        return sprite != null ? TextureChanger.changeSprite(sprite) : null;
     }
 }

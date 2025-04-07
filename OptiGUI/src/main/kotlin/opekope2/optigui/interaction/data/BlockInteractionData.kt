@@ -11,7 +11,7 @@ import opekope2.optigui.util.encode
 import opekope2.optigui.util.identifier
 
 /**
- * Details about an interaction with a container block.
+ * Details about an interaction with a block.
  *
  * @param blockPos The interaction position
  * @param blockState The block state at [blockPos]
@@ -29,8 +29,8 @@ data class BlockInteractionData(
     override val id: Identifier
         get() = blockState.block.identifier
 
-    override fun writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
-        super.writeNbt(compound, lookup)
+    override fun optiGui_writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
+        super.optiGui_writeNbt(compound, lookup)
 
         compound.encode("block_state", blockState, BlockState.CODEC, lookup)
         if (blockEntity != null) compound.put("block_entity", blockEntity.createNbtWithId(lookup))

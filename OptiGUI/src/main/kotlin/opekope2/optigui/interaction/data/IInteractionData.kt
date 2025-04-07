@@ -16,7 +16,7 @@ import opekope2.optigui.util.getBiomeId
  */
 sealed interface IInteractionData : INbtConvertible {
     /**
-     * The identifier of the interacted container.
+     * The identifier of the interacted block, entity, or item.
      */
     val id: Identifier
 
@@ -41,12 +41,12 @@ sealed interface IInteractionData : INbtConvertible {
     val world: World
         get() = playerData.player.entityWorld
 
-    override fun writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
+    override fun optiGui_writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
         compound.putString("container", id.toString())
         compound.encode("pos", blockPos, BlockPos.CODEC, lookup)
         compound.putString("biome", world.getBiomeId(blockPos).toString())
         compound.put("item", item.encodeAllowEmpty(lookup))
-        playerData.writeNbt(compound, lookup)
+        playerData.optiGui_writeNbt(compound, lookup)
         compound.put("world", createWorldNbt())
         // TODO structures
     }

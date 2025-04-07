@@ -22,8 +22,6 @@ dependencies {
     modImplementation(libs.fabric.language.kotlin)
     modImplementation(libs.fabric.api)
 
-    implementation(libs.apache.commons.text)
-    include(libs.apache.commons.text)
     implementation(libs.ini4j)
     include(libs.ini4j)
 
