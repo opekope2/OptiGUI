@@ -2,6 +2,7 @@ package opekope2.optigui.mixin.screen;
 
 import net.minecraft.block.entity.SignText;
 import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
@@ -15,6 +16,11 @@ import org.spongepowered.asm.mixin.Mixin;
 public abstract class HangingSignEditScreenMixin extends AbstractSignEditScreenMixin implements ITextureChangeableScreen {
     protected HangingSignEditScreenMixin(Text title) {
         super(title);
+    }
+
+    @Override
+    public void optiGui_positionInspectorWidget(Widget inspectorButton) {
+        inspectorButton.setPosition(width / 2 + 100 - inspectorButton.getWidth(), 40 - inspectorButton.getHeight());
     }
 
     @Override

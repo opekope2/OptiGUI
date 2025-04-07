@@ -5,6 +5,7 @@ import net.minecraft.client.gui.screen.ingame.BookEditScreen;
 import net.minecraft.client.gui.screen.ingame.BookScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
@@ -22,6 +23,13 @@ import org.jetbrains.annotations.NotNull;
  * Mixed into {@link HandledScreen}, {@link BookScreen}, {@link BookEditScreen}, and {@link HangingSignEditScreen}.
  */
 public interface ITextureChangeableScreen extends INbtConvertible {
+    /**
+     * {@link Widget#setPosition(int, int) Sets the position} of the OptiGUI Inspector button.
+     *
+     * @param inspectorButton The OptiGUI Inspector button
+     * @implNote It sits right on top of a (vanilla) screen, and is aligned to the right of it.
+     */
+    void optiGui_positionInspectorWidget(Widget inspectorButton);
     /**
      * Writes the screen's content to {@code compound}.
      * By default, it writes {@link Screen#getTitle()} to key {@link Constants#SCREEN_TITLE_KEY}.

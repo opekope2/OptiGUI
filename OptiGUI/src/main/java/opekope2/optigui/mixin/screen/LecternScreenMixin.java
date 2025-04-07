@@ -4,6 +4,7 @@ import net.minecraft.client.gui.screen.ingame.LecternScreen;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.LecternScreenHandler;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import opekope2.optigui.util.Constants;
 import opekope2.optigui.util.INbtConvertible;
@@ -13,6 +14,10 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(LecternScreen.class)
 public abstract class LecternScreenMixin extends BookScreenMixin {
+    protected LecternScreenMixin(Text title) {
+        super(title);
+    }
+
     @Shadow
     public abstract LecternScreenHandler getScreenHandler();
 

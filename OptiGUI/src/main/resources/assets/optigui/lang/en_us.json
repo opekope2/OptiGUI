@@ -1,6 +1,11 @@
 {
-  "key.categories.optigui": "OptiGUI",
-  "key.optigui.inspect": "Copy inspection to clipboard",
-  "optigui.toast.inspector.title": "OptiGUI Inspector",
-  "optigui.toast.inspector.description": "Inspection copied to clipboard"
+  "optigui.inspector": "OptiGUI Inspector",
+  "optigui.inspector.description": "Click to inspect interaction.",
+  "optigui.inspector.description.clicked": "Inspection copied to clipboard.",
+  "optigui.inspector.tip": "Tip: you can hide this in OptiGUI settings.",
+  "optigui.inspector.title": "OptiGUI (%s)",
+  "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
+  "optigui.inspector.title.beta": "OptiGUI beta (%s)",
+  "optigui.inspector.title.custom_textures": "custom textures",
+  "optigui.inspector.title.original_textures": "original textures"
 }
