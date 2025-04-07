@@ -44,8 +44,9 @@ internal fun generateJsonResource(generatedBy: String): JsonElement? {
 
     json.addProperty("generated_by", generatedBy)
     json.addProperty("docs", "https://opekope2.dev/OptiGUI/JSON.html")
-    json.addProperty(JsonFilterResource.CONTAINERS_KEY, interaction.data.id.toString())
-    json.add(JsonFilterResource.TEXTURES_KEY, getLastRenderedTextures())
+    json.addProperty(JsonFilterResource.INVENTORIES_KEY, interaction.data.id.toString())
+    json.add(JsonFilterResource.TEXTURE_CHANGES_KEY, getLastRenderedTextures())
+    json.add(JsonFilterResource.SPRITE_CHANGES_KEY, getLastRenderedSprites())
     json.add(JsonFilterResource.LOAD_FILTER_KEY, getLoadTimeNbtFilter() ?: return null)
     json.add(JsonFilterResource.FILTER_KEY, getInteractionNbtFilter(interaction) ?: return null)
 
@@ -55,6 +56,12 @@ internal fun generateJsonResource(generatedBy: String): JsonElement? {
 private fun getLastRenderedTextures() = JsonObject().apply {
     for (texture in InteractionManager.renderedTextures) {
         addProperty(texture.toString(), "example:path/to/changed/texture.png")
+    }
+}
+
+private fun getLastRenderedSprites() = JsonObject().apply {
+    for (texture in InteractionManager.renderedSprites) {
+        addProperty(texture.toString(), "example:path/to/changed/sprite")
     }
 }
 
