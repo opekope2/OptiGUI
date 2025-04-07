@@ -78,7 +78,7 @@
     "optigui-vanilla-screen-info.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=$fabric_loader",
+    "fabricloader": ">=0.15.0",
     "fabric-api": ">=$fabric_api",
     "fabric-language-kotlin": ">=$fabric_language_kotlin",
     "minecraft": ">=$minecraft <1.21.2",
