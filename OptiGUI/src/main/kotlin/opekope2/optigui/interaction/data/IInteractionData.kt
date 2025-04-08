@@ -42,7 +42,6 @@ sealed interface IInteractionData : INbtConvertible {
         get() = playerData.player.entityWorld
 
     override fun optiGui_writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
-        compound.putString("container", id.toString())
         compound.encode("pos", blockPos, BlockPos.CODEC, lookup)
         compound.putString("biome", world.getBiomeId(blockPos).toString())
         compound.put("item", item.encodeAllowEmpty(lookup))
