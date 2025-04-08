@@ -7,5 +7,9 @@
   "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
   "optigui.inspector.title.beta": "OptiGUI beta (%s)",
   "optigui.inspector.title.custom_textures": "custom textures",
-  "optigui.inspector.title.original_textures": "original textures"
+  "optigui.inspector.title.original_textures": "original textures",
+  "yacl3.config.optigui.category.optiGui": "OptiGUI Settings",
+  "yacl3.config.optigui.category.optiGui.group.inspectorOptions": "OptiGUI Inspector",
+  "yacl3.config.optigui.category.optiGui.group.inspectorOptions.option.enableInspectorOption": "Enable",
+  "yacl3.config.optigui.category.optiGui.group.inspectorOptions.option.enableInspectorOption.description": "Show a button on supported inventory screens to inspect NBT",
 }

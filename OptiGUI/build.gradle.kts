@@ -13,7 +13,14 @@ base {
 version = libs.versions.optigui.get()
 group = "opekope2.optigui"
 
-repositories {}
+repositories {
+    maven("https://maven.terraformersmc.com/") {
+        name = "Terraformers"
+    }
+    maven("https://maven.isxander.dev/releases") {
+        name = "Xander Maven"
+    }
+}
 
 dependencies {
     minecraft(libs.minecraft)
@@ -21,6 +28,9 @@ dependencies {
     modImplementation(libs.fabric.loader)
     modImplementation(libs.fabric.language.kotlin)
     modImplementation(libs.fabric.api)
+
+    modImplementation(libs.yacl)
+    modImplementation(libs.modmenu)
 
     implementation(libs.ini4j)
     include(libs.ini4j)
@@ -63,7 +73,8 @@ tasks {
                     "fabric_api" to libs.versions.fabric.api.get(),
                     "fabric_language_kotlin" to libs.versions.fabric.language.kotlin.get(),
                     "minecraft" to libs.versions.minecraft.get(),
-                    "java" to javaVersion
+                    "java" to javaVersion,
+                    "yacl" to libs.versions.yacl.get(),
                 )
             )
         }

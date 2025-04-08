@@ -71,6 +71,12 @@
         "adapter": "kotlin",
         "value": "opekope2.optigui.internal.fabric.OptiGuiClient"
       }
+    ],
+    "modmenu": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.fabric.ModMenuIntegration"
+      }
     ]
   },
   "mixins": [
@@ -82,7 +88,8 @@
     "fabric-api": ">=$fabric_api",
     "fabric-language-kotlin": ">=$fabric_language_kotlin",
     "minecraft": ">=$minecraft <1.21.2",
-    "java": ">=$java"
+    "java": ">=$java",
+    "yet_another_config_lib_v3": ">=$yacl"
   },
   "custom": {
     "mc-publish": {
