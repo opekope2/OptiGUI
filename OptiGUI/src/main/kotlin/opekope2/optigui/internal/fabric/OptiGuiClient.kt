@@ -16,7 +16,7 @@ import net.minecraft.client.world.ClientWorld
 import net.minecraft.resource.ResourceType
 import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraft.util.Identifier
-import opekope2.optigui.config.Config
+import opekope2.optigui.config.IConfig
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.IOptiGuiPlatform
@@ -80,7 +80,7 @@ internal class OptiGuiClient :
         ScreenEvents.beforeRender(screen).register(this)
         ScreenEvents.afterRender(screen).register(this)
 
-        if (screen is ITextureChangeableScreen && Config.enableInspector.get()) {
+        if (screen is ITextureChangeableScreen && IConfig.get().enableInspector) {
             val widget = FabricInspectorWidget()
             Screens.getButtons(screen).add(widget)
             ScreenEvents.beforeRender(screen).register(widget)

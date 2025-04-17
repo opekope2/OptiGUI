@@ -17,8 +17,8 @@ repositories {
     maven("https://maven.terraformersmc.com/") {
         name = "Terraformers"
     }
-    maven("https://maven.isxander.dev/releases") {
-        name = "Xander Maven"
+    maven("https://maven.shedaniel.me/") {
+        name = "Shedaniel"
     }
 }
 
@@ -29,7 +29,9 @@ dependencies {
     modImplementation(libs.fabric.language.kotlin)
     modImplementation(libs.fabric.api)
 
-    modImplementation(libs.yacl)
+    modApi(libs.cloth.config.fabric) {
+        exclude(group = "net.fabricmc.fabric-api")
+    }
     modImplementation(libs.modmenu)
 
     implementation(libs.ini4j)
@@ -74,7 +76,7 @@ tasks {
                     "fabric_language_kotlin" to libs.versions.fabric.language.kotlin.get(),
                     "minecraft" to libs.versions.minecraft.get(),
                     "java" to javaVersion,
-                    "yacl" to libs.versions.yacl.get(),
+                    "cloth_config" to libs.versions.cloth.config.fabric.get(),
                 )
             )
         }

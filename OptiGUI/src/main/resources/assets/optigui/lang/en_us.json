@@ -1,4 +1,7 @@
 {
+  "optigui.enum.ResourceLoadingErrorFilter.ERRORS_AND_WARNINGS": "Errors & warnings",
+  "optigui.enum.ResourceLoadingErrorFilter.ERRORS_ONLY": "Errors only",
+  "optigui.enum.ResourceLoadingErrorFilter.NOTHING": "Never",
   "optigui.inspector": "OptiGUI Inspector",
   "optigui.inspector.description": "Click to inspect interaction.",
   "optigui.inspector.description.clicked": "Inspection copied to clipboard.",
@@ -8,8 +11,8 @@
   "optigui.inspector.title.beta": "OptiGUI beta (%s)",
   "optigui.inspector.title.custom_textures": "custom textures",
   "optigui.inspector.title.original_textures": "original textures",
-  "yacl3.config.optigui.category.optiGui": "OptiGUI Settings",
-  "yacl3.config.optigui.category.optiGui.group.inspectorOptions": "OptiGUI Inspector",
-  "yacl3.config.optigui.category.optiGui.group.inspectorOptions.option.enableInspectorOption": "Enable",
-  "yacl3.config.optigui.category.optiGui.group.inspectorOptions.option.enableInspectorOption.description": "Show a button on supported inventory screens to inspect NBT",
+  "text.autoconfig.optigui.category.inspector": "Inspector",
+  "text.autoconfig.optigui.option.enableInspector": "Enable",
+  "text.autoconfig.optigui.option.enableInspector.@Tooltip": "Show a button on supported inventory screens to inspect NBT",
+  "text.autoconfig.optigui.title": "OptiGUI Settings"
 }

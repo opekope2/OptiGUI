@@ -89,7 +89,7 @@
     "fabric-language-kotlin": ">=$fabric_language_kotlin",
     "minecraft": ">=$minecraft <1.21.2",
     "java": ">=$java",
-    "yet_another_config_lib_v3": ">=$yacl"
+    "cloth-config": ">=$cloth_config"
   },
   "custom": {
     "mc-publish": {

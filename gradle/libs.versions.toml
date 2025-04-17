@@ -9,7 +9,7 @@ fabric-loader = "0.16.10"
 fabric-api = "0.102.0+1.21"
 fabric-language-kotlin = "1.13.0+kotlin.2.1.0"
 ini4j = "0.5.4"
-yacl = "3.5.0+1.21-fabric"
+cloth-config-fabric = "15.0.127"
 modmenu = "11.0.0"
 
 [libraries]
@@ -19,7 +19,7 @@ fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = 
 fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric-api" }
 fabric-language-kotlin = { group = "net.fabricmc", name = "fabric-language-kotlin", version.ref = "fabric-language-kotlin" }
 ini4j = { group = "org.ini4j", name = "ini4j", version.ref = "ini4j" }
-yacl = { group = "dev.isxander", name = "yet-another-config-lib", version.ref = "yacl" }
+cloth-config-fabric = { group = "me.shedaniel.cloth", name = "cloth-config-fabric", version.ref = "cloth-config-fabric" }
 modmenu = { group = "com.terraformersmc", name = "modmenu", version.ref = "modmenu" }
 
 [plugins]
