@@ -29,7 +29,10 @@ dependencies {
     modImplementation(libs.fabric.language.kotlin)
     modImplementation(libs.fabric.api)
 
-    modApi(libs.cloth.config.fabric) {
+    api(project(":ScreenAPI", configuration = "namedElements"))
+    include(project(":ScreenAPI"))
+
+    modImplementation(libs.cloth.config.fabric) {
         exclude(group = "net.fabricmc.fabric-api")
     }
     modImplementation(libs.modmenu)

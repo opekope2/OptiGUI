@@ -17,4 +17,7 @@ dependencyResolutionManagement {
     }
 }
 
-include("OptiGUI")
+include(
+    "OptiGUI",
+    "ScreenAPI",
+)

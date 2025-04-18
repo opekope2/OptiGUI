@@ -32,38 +32,3 @@ const val OF_TILDE_PATH = "optifine/."
  * Log key to tell OptiGUI about the resource being loaded.
  */
 const val LOG_KEY_RESOURCE = "resource"
-
-/**
- * NBT key for a screen's title.
- */
-const val SCREEN_TITLE_KEY = "title"
-
-/**
- * NBT key for a hanging sign edit screen's text.
- */
-const val SCREEN_TEXT_KEY = "text"
-
-/**
- * NBT key for redstone comparator output calculated from an inventory screen.
- */
-const val COMPARATOR_OUTPUT_KEY = "comparator_output"
-
-/**
- * NBT key for an inventory screen's inventory.
- */
-const val INVENTORY_KEY = "inventory"
-
-/**
- * NBT key for an inventory screen's result inventory.
- */
-const val RESULT_INVENTORY_KEY = "result"
-
-/**
- * NBT key for a book screen's current page.
- */
-const val CURRENT_PAGE_KEY = "current_page"
-
-/**
- * NBT key for a book screen's page count.
- */
-const val PAGE_COUNT_KEY = "page_count"

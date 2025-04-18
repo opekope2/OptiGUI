@@ -23,7 +23,7 @@ data class Interaction(val screen: ITextureChangeableScreen, val data: IInteract
         get() = data.playerData
 
     override fun optiGui_writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
-        screen.optiGui_writeNbt(compound.subCompound("screen"), lookup)
+        if (screen is INbtConvertible) screen.optiGui_writeNbt(compound.subCompound("screen"), lookup)
         compound.put("time", createTimeNbt())
         data.optiGui_writeNbt(compound, lookup)
     }

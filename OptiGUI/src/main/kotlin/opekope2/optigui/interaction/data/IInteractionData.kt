@@ -50,7 +50,7 @@ sealed interface IInteractionData : INbtConvertible {
         // TODO structures
     }
 
-    private fun createWorldNbt() = NbtCompound().apply {
+    private fun createWorldNbt() = NbtCompound().apply compound@{
         world.apply {
             // TODO update when porting to a different version
             putInt("ambient_darkness", ambientDarkness)
