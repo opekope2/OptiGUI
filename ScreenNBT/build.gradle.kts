@@ -1,13 +1,9 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.fabric.loom)
 }
 
 base {
-    archivesName = "optigui"
+    archivesName = "optigui-screen-nbt"
 }
 
 version = libs.versions.optigui.get()
@@ -26,22 +22,7 @@ dependencies {
     minecraft(libs.minecraft)
     mappings(variantOf(libs.yarn) { classifier("v2") })
     modImplementation(libs.fabric.loader)
-    modImplementation(libs.fabric.language.kotlin)
-    modImplementation(libs.fabric.api)
-    localRuntime(project(":ScreenNBT", configuration = "namedElements"))
-
-    api(project(":ScreenAPI", configuration = "namedElements"))
-    include(project(":ScreenAPI"))
-
-    modImplementation(libs.cloth.config.fabric) {
-        exclude(group = "net.fabricmc.fabric-api")
-    }
-    modImplementation(libs.modmenu)
-
-    implementation(libs.ini4j)
-    include(libs.ini4j)
-
-    testImplementation(kotlin("test"))
+    implementation(project(":ScreenAPI", configuration = "namedElements"))
 }
 
 loom {
@@ -58,13 +39,6 @@ tasks {
         options.release = javaVersion.toInt()
     }
 
-    withType<KotlinCompile>().configureEach {
-        compilerOptions {
-            jvmTarget = JvmTarget.fromTarget(javaVersion)
-            freeCompilerArgs = listOf("-Xjvm-default=all")
-        }
-    }
-
     jar {
         from(rootDir.resolve("COPYING"))
         from(rootDir.resolve("COPYING.LESSER"))
@@ -75,12 +49,8 @@ tasks {
             expand(
                 mapOf(
                     "version" to version as String,
-                    "fabric_loader" to libs.versions.fabric.loader.get(),
-                    "fabric_api" to libs.versions.fabric.api.get(),
-                    "fabric_language_kotlin" to libs.versions.fabric.language.kotlin.get(),
                     "minecraft" to libs.versions.minecraft.get(),
                     "java" to javaVersion,
-                    "cloth_config" to libs.versions.cloth.config.fabric.get(),
                 )
             )
         }

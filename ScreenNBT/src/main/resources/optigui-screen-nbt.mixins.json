@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "opekope2.optigui.mixin.screen",
+  "package": "opekope2.optigui.screen_nbt.mixin",
   "compatibilityLevel": "JAVA_$java",
   "injectors": {
     "defaultRequire": 1

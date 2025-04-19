@@ -1,4 +1,4 @@
-package opekope2.optigui.mixin.screen;
+package opekope2.optigui.screen_nbt.mixin;
 
 import net.minecraft.block.entity.SignText;
 import net.minecraft.client.gui.screen.Screen;

@@ -1,9 +1,8 @@
-package opekope2.optigui.mixin.screen;
+package opekope2.optigui.screen_nbt.mixin;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.AnvilScreenHandler;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -18,7 +17,7 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandlerMixin 
     private String newItemName;
 
     @Override
-    public void optiGui_writeNbt(@NotNull NbtCompound compound, @NotNull RegistryWrapper.WrapperLookup lookup) {
+    public void optiGui_writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup lookup) {
         super.optiGui_writeNbt(compound, lookup);
         if (newItemName != null) compound.putString("new_name", newItemName);
         compound.putInt("cost", getLevelCost());

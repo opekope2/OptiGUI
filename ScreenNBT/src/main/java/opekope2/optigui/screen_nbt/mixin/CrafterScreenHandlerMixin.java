@@ -1,4 +1,4 @@
-package opekope2.optigui.mixin.screen;
+package opekope2.optigui.screen_nbt.mixin;
 
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.Inventory;
@@ -7,10 +7,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.CrafterScreenHandler;
-import opekope2.optigui.util.Constants;
+import opekope2.optigui.screen_nbt.util.NbtUtil;
 import opekope2.optigui.util.INbtConvertible;
-import opekope2.optigui.util.InventoryUtil;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -32,10 +30,10 @@ public abstract class CrafterScreenHandlerMixin implements INbtConvertible {
     public abstract boolean isTriggered();
 
     @Override
-    public void optiGui_writeNbt(@NotNull NbtCompound compound, @NotNull RegistryWrapper.WrapperLookup lookup) {
-        compound.putInt(Constants.COMPARATOR_OUTPUT_KEY, calculateComparatorOutput(getInputInventory()));
-        compound.put(Constants.INVENTORY_KEY, InventoryUtil.createNbt(getInputInventory(), lookup));
-        compound.put(Constants.RESULT_INVENTORY_KEY, InventoryUtil.createNbt(resultInventory, lookup));
+    public void optiGui_writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup lookup) {
+        compound.putInt(COMPARATOR_OUTPUT_KEY, calculateComparatorOutput(getInputInventory()));
+        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(getInputInventory(), lookup));
+        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(resultInventory, lookup));
         var enabledSlots = new NbtList();
         for (int i = 0; i < 9; i++) enabledSlots.add(NbtByte.of(!isSlotDisabled(i)));
         compound.put("enabled_slots", enabledSlots);

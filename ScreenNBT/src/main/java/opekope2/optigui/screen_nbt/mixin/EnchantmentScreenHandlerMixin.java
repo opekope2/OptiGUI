@@ -1,4 +1,4 @@
-package opekope2.optigui.mixin.screen;
+package opekope2.optigui.screen_nbt.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.inventory.Inventory;
@@ -7,10 +7,8 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.EnchantmentScreenHandler;
-import opekope2.optigui.util.Constants;
+import opekope2.optigui.screen_nbt.util.NbtUtil;
 import opekope2.optigui.util.INbtConvertible;
-import opekope2.optigui.util.InventoryUtil;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,8 +32,8 @@ public abstract class EnchantmentScreenHandlerMixin implements INbtConvertible {
     public int[] enchantmentPower;
 
     @Override
-    public void optiGui_writeNbt(@NotNull NbtCompound compound, @NotNull RegistryWrapper.WrapperLookup lookup) {
-        compound.put(Constants.INVENTORY_KEY, InventoryUtil.createNbt(inventory, lookup));
+    public void optiGui_writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup lookup) {
+        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(inventory, lookup));
         var world = MinecraftClient.getInstance().world;
         if (world == null) return;
         var enchantmentRegistry = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
