@@ -13,6 +13,10 @@ internal class Config : IConfig, ConfigData {
     @ConfigEntry.Gui.Tooltip
     override var enableInspector = true
 
+    @ConfigEntry.Category("inspector")
+    @ConfigEntry.Gui.Tooltip
+    override var dumpNbt: Boolean = false
+
     override fun save() {
         AutoConfig.getConfigHolder(javaClass).save()
     }

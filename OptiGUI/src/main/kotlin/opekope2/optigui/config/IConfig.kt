@@ -13,6 +13,11 @@ interface IConfig {
     var enableInspector: Boolean
 
     /**
+     * Includes NBT data in the generated JSON resource.
+     */
+    var dumpNbt: Boolean
+
+    /**
      * Saves the configuration to the disk.
      */
     fun save()

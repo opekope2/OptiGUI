@@ -7,6 +7,8 @@ import com.mojang.serialization.JsonOps
 import net.minecraft.nbt.AbstractNbtList
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
+import net.minecraft.text.Text
+import opekope2.optigui.config.IConfig
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.resource.format.json.ILoadTimeNbtSupplier
@@ -47,8 +49,14 @@ internal fun generateJsonResource(generatedBy: String): JsonElement? {
     json.addProperty(JsonFilterResource.INVENTORIES_KEY, interaction.data.id.toString())
     json.add(JsonFilterResource.TEXTURE_CHANGES_KEY, getLastRenderedTextures())
     json.add(JsonFilterResource.SPRITE_CHANGES_KEY, getLastRenderedSprites())
-    json.add(JsonFilterResource.LOAD_FILTER_KEY, getLoadTimeNbtFilter() ?: return null)
-    json.add(JsonFilterResource.FILTER_KEY, getInteractionNbtFilter(interaction) ?: return null)
+    if (IConfig.get().dumpNbt) {
+        json.add(JsonFilterResource.LOAD_FILTER_KEY, getLoadTimeNbtFilter() ?: return null)
+        json.add(JsonFilterResource.FILTER_KEY, getInteractionNbtFilter(interaction) ?: return null)
+    } else {
+        val disabledText = Text.translatable("optigui.inspector.nbt_dumping_disabled").string
+        json.add(JsonFilterResource.LOAD_FILTER_KEY, JsonPrimitive(disabledText))
+        json.add(JsonFilterResource.FILTER_KEY, JsonPrimitive(disabledText))
+    }
 
     return json
 }

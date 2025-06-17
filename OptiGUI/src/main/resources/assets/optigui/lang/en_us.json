@@ -5,6 +5,7 @@
   "optigui.inspector": "OptiGUI Inspector",
   "optigui.inspector.description": "Click to inspect interaction.",
   "optigui.inspector.description.clicked": "Inspection copied to clipboard.",
+  "optigui.inspector.nbt_dumping_disabled": "NBT dumping is disabled in OptiGUI settings",
   "optigui.inspector.tip": "Tip: you can hide this in OptiGUI settings.",
   "optigui.inspector.title": "OptiGUI (%s)",
   "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
@@ -14,5 +15,7 @@
   "text.autoconfig.optigui.category.inspector": "Inspector",
   "text.autoconfig.optigui.option.enableInspector": "Enable",
   "text.autoconfig.optigui.option.enableInspector.@Tooltip": "Show a button on supported inventory screens to inspect NBT",
+  "text.autoconfig.optigui.option.dumpNbt": "Dump NBT",
+  "text.autoconfig.optigui.option.dumpNbt.@Tooltip": "Include NBT data in the generated resource",
   "text.autoconfig.optigui.title": "OptiGUI Settings"
 }
