@@ -16,7 +16,7 @@ public abstract class BookEditScreenMixin {
     @Shadow
     public abstract int countPages();
 
-    @Inject(method = "changePage", at = @At("RETURN"))
+    @Inject(method = "updatePage", at = @At("RETURN"))
     private void setPageMixin(CallbackInfo ci) {
         InteractionHandler.tryUpdateBookProperties(currentPage + 1, countPages());
     }

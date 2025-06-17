@@ -1,8 +1,8 @@
 package opekope2.optigui.toast
 
 import net.minecraft.client.font.TextRenderer
+import net.minecraft.client.gl.RenderPipelines
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.toast.Toast
 import net.minecraft.client.toast.ToastManager
 import net.minecraft.text.Text
@@ -22,7 +22,7 @@ class InspectorToast : Toast {
     }
 
     override fun draw(context: DrawContext, textRenderer: TextRenderer, startTime: Long) {
-        context.drawGuiTexture(RenderLayer::getGuiTextured, TEXTURE, 0, 0, width, height)
+        context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, 0, 0, width, height)
         context.drawText(textRenderer, TITLE, 7, 7, 0xFF00FFFF.toInt(), false)
         context.drawText(textRenderer, DESCRIPTION, 7, 18, 0xFFFFFFFF.toInt(), false)
     }

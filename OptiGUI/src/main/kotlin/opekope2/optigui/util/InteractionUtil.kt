@@ -2,7 +2,8 @@
 
 package opekope2.optigui.util
 
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.storage.NbtWriteView
+import net.minecraft.util.ErrorReporter
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.registry.SelectorRegistry
@@ -47,7 +48,8 @@ fun inspectInteraction(): String? {
 
             data.entity != null -> {
                 appendLine("# NBT (for more detailed inspection purposes, as there is no selector for NBT):")
-                appendLine("# ${data.entity.writeNbt(NbtCompound())}")
+                val nbtWriter = NbtWriteView.create(ErrorReporter.EMPTY, data.world.registryManager)
+                appendLine("# ${data.entity.writeData(nbtWriter)}")
                 appendLine()
             }
 

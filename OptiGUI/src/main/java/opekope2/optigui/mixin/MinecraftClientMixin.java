@@ -24,8 +24,8 @@ abstract class MinecraftClientMixin {
 
     @Inject(method = "setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("TAIL"))
     private void setScreenMixin(Screen screen, CallbackInfo ci) {
-        if (player != null && player.getEntityWorld() != null && currentScreen != null) {
-            InteractionHandler.interact(player, player.getEntityWorld(), currentScreen);
+        if (player != null && player.getWorld() != null && currentScreen != null) {
+            InteractionHandler.interact(player, player.getWorld(), currentScreen);
         }
 
         TextureReplacer.handleScreenChange(currentScreen);
