@@ -1,0 +1,11 @@
+{
+  "optigui.inspector": "Inspector de OptiGUI",
+  "optigui.inspector.description": "Hacé clic para inspeccionar la interacción.",
+  "optigui.inspector.description.clicked": "Inspección copiada al portapapeles.",
+  "optigui.inspector.tip": "Consejo: podés ocultar esto en la configuración de OptiGUI.",
+  "optigui.inspector.title": "OptiGUI (%s)",
+  "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
+  "optigui.inspector.title.beta": "OptiGUI beta (%s)",
+  "optigui.inspector.title.custom_textures": "texturas personalizadas",
+  "optigui.inspector.title.original_textures": "texturas originales"
+}
