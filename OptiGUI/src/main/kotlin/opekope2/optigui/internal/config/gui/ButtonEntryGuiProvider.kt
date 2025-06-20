@@ -5,7 +5,6 @@ import me.shedaniel.autoconfig.gui.registry.api.GuiProvider
 import me.shedaniel.autoconfig.gui.registry.api.GuiRegistryAccess
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import net.minecraft.text.Text
-import opekope2.optigui.config.gui.ButtonListEntry
 import java.lang.reflect.Field
 
 internal object ButtonEntryGuiProvider : GuiProvider {

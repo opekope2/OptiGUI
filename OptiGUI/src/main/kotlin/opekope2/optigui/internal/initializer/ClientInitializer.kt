@@ -2,7 +2,6 @@ package opekope2.optigui.internal.initializer
 
 import me.shedaniel.autoconfig.AutoConfig
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer
-import opekope2.optigui.config.gui.ButtonListEntry
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.config.Config

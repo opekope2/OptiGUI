@@ -1,4 +1,4 @@
-package opekope2.optigui.config.gui
+package opekope2.optigui.internal.config.gui
 
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.Tooltip
