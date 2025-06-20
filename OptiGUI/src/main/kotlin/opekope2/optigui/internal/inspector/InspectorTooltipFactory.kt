@@ -6,6 +6,8 @@ import net.minecraft.client.gui.tooltip.Tooltip
 import net.minecraft.screen.ScreenTexts
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
+import opekope2.optigui.config.IConfig
+import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.IOptiGuiPlatform
 
 @Environment(EnvType.CLIENT)
@@ -14,13 +16,19 @@ internal enum class InspectorTooltipFactory(private val translationKey: String, 
     BETA("optigui.inspector.title.beta", Formatting.GOLD),
     STABLE("optigui.inspector.title", Formatting.GREEN);
 
+    private fun getTipText(customTextures: Boolean) =
+        if (customTextures && IConfig.get().verboseInspector && InteractionManager.textureChangerFilter != null)
+            Text.translatable("optigui.inspector.tip.verbose", InteractionManager.textureChangerFilter!!.resourceId)
+                .formatted(Formatting.DARK_GRAY)
+        else TIP_TEXT
+
     private fun getTooltipText(customTextures: Boolean, clickedDescription: Boolean) = ScreenTexts.joinLines(
         Text.translatable(
             translationKey,
             if (customTextures) CUSTOM_TEXTURES_TEXT else ORIGINAL_TEXTURES_TEXT
         ).formatted(formatting),
         if (clickedDescription) CLICKED_DESCRIPTION_TEXT else DESCRIPTION_TEXT,
-        TIP_TEXT
+        getTipText(customTextures)
     )
 
     fun createTooltip(customTextures: Boolean, clickedDescription: Boolean): Tooltip =

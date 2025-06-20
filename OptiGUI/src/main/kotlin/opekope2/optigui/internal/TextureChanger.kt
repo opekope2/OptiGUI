@@ -8,11 +8,19 @@ import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.util.LinkedMruCollection
+import opekope2.optigui.util.MOD_ID
 
 internal object TextureChanger : SynchronousResourceReloader {
+    private val noOpFilter = TextureChangerFilter(
+        Identifier.of(MOD_ID, "none"),
+        Identifier.of(MOD_ID, "none"),
+        { false },
+        mapOf(),
+        mapOf()
+    )
+    var filter: TextureChangerFilter = noOpFilter
+        private set
     private var filters = mapOf<Identifier, LinkedMruCollection<TextureChangerFilter, NbtElement>>()
-    private var textureChanges = mapOf<Identifier, Identifier>()
-    private var spriteChanges = mapOf<Identifier, Identifier>()
     var renderingScreen = false
     val renderedTextures = mutableSetOf<Identifier>()
     val renderedSprites = mutableSetOf<Identifier>()
@@ -25,9 +33,9 @@ internal object TextureChanger : SynchronousResourceReloader {
         if (!InteractionManager.isInteracting) return texture
         renderedTextures += texture
 
-        if (texture !in textureChanges) return texture
+        if (texture !in filter.textureChanges) return texture
         renderedCustomTextures = true
-        return textureChanges.getValue(texture)
+        return filter.textureChanges.getValue(texture)
     }
 
     @JvmStatic
@@ -36,17 +44,15 @@ internal object TextureChanger : SynchronousResourceReloader {
         if (!InteractionManager.isInteracting) return sprite
         renderedSprites += sprite
 
-        if (sprite !in spriteChanges) return sprite
+        if (sprite !in filter.spriteChanges) return sprite
         renderedCustomTextures = true
-        return spriteChanges.getValue(sprite)
+        return filter.spriteChanges.getValue(sprite)
     }
 
     fun clearCache() {
-        val filter = InteractionManager.interaction?.let {
+        filter = InteractionManager.interaction?.let {
             filters[it.data.id]?.promoteFirstOrNull(it.createNbt())
-        }
-        textureChanges = filter?.textureChanges ?: mapOf()
-        spriteChanges = filter?.spriteChanges ?: mapOf()
+        } ?: noOpFilter
         renderedTextures.clear()
         renderedCustomTextures = false
     }

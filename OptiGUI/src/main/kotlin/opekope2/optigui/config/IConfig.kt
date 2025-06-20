@@ -13,6 +13,11 @@ interface IConfig {
     var enableInspector: Boolean
 
     /**
+     * Shows extra information on the inspector button's tooltip.
+     */
+    var verboseInspector: Boolean
+
+    /**
      * Includes NBT data in the generated JSON resource.
      */
     var dumpNbt: Boolean

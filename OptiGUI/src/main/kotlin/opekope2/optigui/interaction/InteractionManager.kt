@@ -2,7 +2,9 @@ package opekope2.optigui.interaction
 
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.util.Identifier
+import opekope2.optigui.filter.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager.clearCache
+import opekope2.optigui.interaction.InteractionManager.interaction
 import opekope2.optigui.interaction.data.IInteractionData
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.screen.ITextureChangeableScreen
@@ -28,6 +30,14 @@ object InteractionManager {
     @JvmStatic
     var interaction: Interaction? = null
         private set
+
+    /**
+     * Returns the filter which matches the current [interaction] and changes its textures and sprites or `null`, if no
+     * interaction is ongoing.
+     */
+    @JvmStatic
+    val textureChangerFilter: TextureChangerFilter?
+        get() = TextureChanger.filter.takeIf { isInteracting }
 
     /**
      * Returns the non-changed textures rendered since the previous call to [clearCache] or world tick (whichever was
