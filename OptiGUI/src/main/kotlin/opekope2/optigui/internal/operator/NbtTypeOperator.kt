@@ -6,6 +6,7 @@ import com.mojang.serialization.DynamicOps
 import net.minecraft.nbt.NbtElement
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.operator.INbtOperator
+import opekope2.optigui.util.i18n
 
 internal object NbtTypeOperator : INbtOperator {
     private val name2Type = mapOf(
@@ -31,7 +32,7 @@ internal object NbtTypeOperator : INbtOperator {
 
     private fun <TKey, TValue> map(map: Map<TKey, TValue>, key: TKey): DataResult<TValue> =
         if (key in map) DataResult.success(map[key])
-        else DataResult.error { "Invalid type: $key" }
+        else DataResult.error { i18n("optigui.rp_loader.error.invalid_type", "Invalid type: %s", key) }
 
     override fun <T> createFilter(ops: DynamicOps<T>, input: T): DataResult<INbtFilter> = CODEC.parse(ops, input)
 }
