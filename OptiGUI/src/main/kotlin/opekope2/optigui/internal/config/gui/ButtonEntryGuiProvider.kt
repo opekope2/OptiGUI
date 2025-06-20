@@ -10,7 +10,7 @@ import java.lang.reflect.Field
 
 internal object ButtonEntryGuiProvider : GuiProvider {
     override fun get(
-        i13n: String,
+        i18n: String,
         field: Field,
         config: Any,
         defaults: Any,
@@ -19,9 +19,9 @@ internal object ButtonEntryGuiProvider : GuiProvider {
         field.isAccessible = true
         return listOf(
             ButtonListEntry(
-                Text.translatable(i13n),
-                Text.translatable("$i13n.button"),
-                Text.translatable("$i13n.@Tooltip")
+                Text.translatable(i18n),
+                Text.translatable("$i18n.button"),
+                Text.translatable("$i18n.@Tooltip")
                     .takeIf { field.getAnnotation(ConfigEntry.Gui.Tooltip::class.java) != null },
                 field.get(config) as ButtonListEntry.IAction
             )
