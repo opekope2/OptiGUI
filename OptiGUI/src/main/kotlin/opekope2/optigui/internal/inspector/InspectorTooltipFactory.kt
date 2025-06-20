@@ -38,9 +38,11 @@ internal enum class InspectorTooltipFactory(private val translationKey: String, 
         private val DESCRIPTION_TEXT = Text.translatable("optigui.inspector.description")
         private val CLICKED_DESCRIPTION_TEXT = Text.translatable("optigui.inspector.description.clicked")
         private val TIP_TEXT = Text.translatable("optigui.inspector.tip").formatted(Formatting.DARK_GRAY)
-        private val CUSTOM_TEXTURES_TEXT = Text.translatable("optigui.inspector.title.custom_textures")
+        private val CUSTOM_TEXTURES_TEXT =
+            Text.translatable("optigui.inspector.title.custom_textures").formatted(Formatting.ITALIC)
         private val ORIGINAL_TEXTURES_TEXT = Text.translatable("optigui.inspector.title.original_textures")
 
+        @JvmField
         val CURRENT = when {
             "alpha" in IOptiGuiPlatform.version -> ALPHA
             "beta" in IOptiGuiPlatform.version -> BETA
