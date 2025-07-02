@@ -1,5 +1,7 @@
 package opekope2.optigui.registry
 
+import opekope2.optigui.internal.I18n
+
 /**
  * OptiGUI base registration utility.
  * This is not to be confused with Minecraft registries.
@@ -13,7 +15,7 @@ abstract class RegistryBase<TKey, TValue> : Iterable<Map.Entry<TKey, TValue>> {
      * Implementors must call the super method to check if the key is not already registered.
      */
     open fun validateEntry(key: TKey, value: TValue) {
-        require(key !in entries) { "Key `$key` is already registered" }
+        require(key !in entries) { I18n.OPTIGUI_REGISTRY_ERROR_KEY_ALREADY_REGISTERED.getTranslation(key) }
     }
 
     /**

@@ -8,10 +8,10 @@ import com.mojang.serialization.JsonOps
 import net.minecraft.nbt.AbstractNbtList
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
-import net.minecraft.text.Text
 import opekope2.optigui.config.IConfig
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.interaction.InteractionManager
+import opekope2.optigui.internal.I18n
 import opekope2.optigui.resource.format.json.ILoadTimeNbtSupplier
 import opekope2.optigui.resource.format.json.JsonFilterResource
 import opekope2.optigui.util.set
@@ -55,7 +55,7 @@ internal fun generateJsonResource(generatedBy: String): JsonElement? {
         json[JsonFilterResource.LOAD_FILTER_KEY] = getLoadTimeNbtFilter() ?: return null
         json[JsonFilterResource.FILTER_KEY] = getInteractionNbtFilter(interaction) ?: return null
     } else {
-        val disabledText = Text.translatable("optigui.inspector.nbt_dumping_disabled").string
+        val disabledText = I18n.OPTIGUI_INSPECTOR_NBT_DUMPING_DISABLED.getTranslation()
         json[JsonFilterResource.LOAD_FILTER_KEY] = JsonPrimitive(disabledText)
         json[JsonFilterResource.FILTER_KEY] = JsonPrimitive(disabledText)
     }

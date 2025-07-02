@@ -92,7 +92,9 @@ internal sealed class NbtComparableFilter(signBitMask: Int) : INbtFilter {
         val EQUAL_DECODER = Decoder(Result.EQUAL.mask, false)
 
         @JvmField
-        val NON_ENCODING_CODEC: Codec<NbtComparableFilter> =
-            Codec.of(Encoder.error("Cannot encode NbtComparableFilter"), EQUAL_DECODER)
+        val NON_ENCODING_CODEC: Codec<NbtComparableFilter> = Codec.of(
+            Encoder.error(I18n.OPTIGUI_CODEC_ERROR_CANNOT_ENCODE.getTranslation("NbtComparableFilter")),
+            EQUAL_DECODER
+        )
     }
 }

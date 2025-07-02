@@ -4,29 +4,26 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.gui.tooltip.Tooltip
 import net.minecraft.screen.ScreenTexts
-import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import opekope2.optigui.config.IConfig
 import opekope2.optigui.interaction.InteractionManager
+import opekope2.optigui.internal.I18n
 import opekope2.optigui.internal.IOptiGuiPlatform
 
 @Environment(EnvType.CLIENT)
-internal enum class InspectorTooltipFactory(private val translationKey: String, private val formatting: Formatting) {
-    ALPHA("optigui.inspector.title.alpha", Formatting.RED),
-    BETA("optigui.inspector.title.beta", Formatting.GOLD),
-    STABLE("optigui.inspector.title", Formatting.GREEN);
+internal enum class InspectorTooltipFactory(private val i18n: I18n, private val formatting: Formatting) {
+    ALPHA(I18n.OPTIGUI_INSPECTOR_TITLE_ALPHA, Formatting.RED),
+    BETA(I18n.OPTIGUI_INSPECTOR_TITLE_BETA, Formatting.GOLD),
+    STABLE(I18n.OPTIGUI_INSPECTOR_TITLE, Formatting.GREEN);
 
     private fun getTipText(customTextures: Boolean) =
         if (customTextures && IConfig.get().verboseInspector && InteractionManager.textureChangerFilter != null)
-            Text.translatable("optigui.inspector.tip.verbose", InteractionManager.textureChangerFilter!!.resourceId)
+            I18n.OPTIGUI_INSPECTOR_TIP_VERBOSE.getText(InteractionManager.textureChangerFilter!!.resourceId)
                 .formatted(Formatting.DARK_GRAY)
         else TIP_TEXT
 
     private fun getTooltipText(customTextures: Boolean, clickedDescription: Boolean) = ScreenTexts.joinLines(
-        Text.translatable(
-            translationKey,
-            if (customTextures) CUSTOM_TEXTURES_TEXT else ORIGINAL_TEXTURES_TEXT
-        ).formatted(formatting),
+        i18n.getText(if (customTextures) CUSTOM_TEXTURES_TEXT else ORIGINAL_TEXTURES_TEXT).formatted(formatting),
         if (clickedDescription) CLICKED_DESCRIPTION_TEXT else DESCRIPTION_TEXT,
         getTipText(customTextures)
     )
@@ -35,12 +32,12 @@ internal enum class InspectorTooltipFactory(private val translationKey: String, 
         Tooltip.of(getTooltipText(customTextures, clickedDescription))
 
     companion object {
-        private val DESCRIPTION_TEXT = Text.translatable("optigui.inspector.description")
-        private val CLICKED_DESCRIPTION_TEXT = Text.translatable("optigui.inspector.description.clicked")
-        private val TIP_TEXT = Text.translatable("optigui.inspector.tip").formatted(Formatting.DARK_GRAY)
+        private val DESCRIPTION_TEXT = I18n.OPTIGUI_INSPECTOR_DESCRIPTION.getText()
+        private val CLICKED_DESCRIPTION_TEXT = I18n.OPTIGUI_INSPECTOR_DESCRIPTION_CLICKED.getText()
+        private val TIP_TEXT = I18n.OPTIGUI_INSPECTOR_TIP.getText().formatted(Formatting.DARK_GRAY)
         private val CUSTOM_TEXTURES_TEXT =
-            Text.translatable("optigui.inspector.title.custom_textures").formatted(Formatting.ITALIC)
-        private val ORIGINAL_TEXTURES_TEXT = Text.translatable("optigui.inspector.title.original_textures")
+            I18n.OPTIGUI_INSPECTOR_TITLE_CUSTOM_TEXTURES.getText().formatted(Formatting.ITALIC)
+        private val ORIGINAL_TEXTURES_TEXT = I18n.OPTIGUI_INSPECTOR_TITLE_ORIGINAL_TEXTURES.getText()
 
         @JvmField
         val CURRENT = when {

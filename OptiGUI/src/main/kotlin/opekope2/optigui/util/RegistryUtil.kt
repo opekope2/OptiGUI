@@ -9,6 +9,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import opekope2.optigui.internal.I18n
 import kotlin.jvm.optionals.getOrNull
 
 /**
@@ -35,4 +36,4 @@ val Item.identifier: Identifier
  * @param pos The position to look up the biome
  */
 fun World.getBiomeId(pos: BlockPos) = getBiome(pos).key.getOrNull()?.value
-    ?: throw RuntimeException("Cannot load biome at $pos in world $this!")
+    ?: throw RuntimeException(I18n.OPTIGUI_REGISTRY_ERROR_BIOME_NOT_FOUND.getTranslation(pos, this))

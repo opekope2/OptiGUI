@@ -57,14 +57,16 @@ fun interface INbtFilter : Predicate<NbtElement> {
 
         override fun validateEntry(key: String, value: Decoder<out INbtFilter>) {
             super.validateEntry(key, value)
-            require(!key.startsWith('@')) { "Key must not start with @" }
-            require(!key.startsWith('#') || key == "#none" || key == "#any" || key == "#some" || key == "#all") { "Key must not start with #" }
+            require(!key.startsWith('@')) { I18n.OPTIGUI_REGISTRY_ERROR_KEY_STARTS_WITH.getTranslation(key, "@") }
+            require(!key.startsWith('#') || key == "#none" || key == "#any" || key == "#some" || key == "#all") {
+                I18n.OPTIGUI_REGISTRY_ERROR_KEY_STARTS_WITH.getTranslation(key, "#")
+            }
         }
     }
 
     private class NonEncodingJsonObjectCodec(private val selfDecoder: Decoder<INbtFilter>) : Codec<INbtFilter> {
         override fun <T> encode(input: INbtFilter, ops: DynamicOps<T>, prefix: T): DataResult<T> =
-            DataResult.error { "Cannot encode INbtFilter $input" }
+            DataResult.error { "${I18n.OPTIGUI_CODEC_ERROR_CANNOT_ENCODE.getTranslation("INbtFilter")} $input" }
 
         override fun <T> decode(ops: DynamicOps<T>, input: T): DataResult<Pair<INbtFilter, T>> =
             ops.getMap(input).flatMap { decodeMap(ops, it) }.map { Pair.of(it, ops.empty()) }
