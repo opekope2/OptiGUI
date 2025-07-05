@@ -1,0 +1,11 @@
+{
+  "optigui.inspector": "OptiGUI-inspektör",
+  "optigui.inspector.description": "Klicka för att inspektera interaktion.",
+  "optigui.inspector.description.clicked": "Inspektion kopierad till urklipp.",
+  "optigui.inspector.tip": "Tips: du kan dölja detta i OptiGUI-inställningarna.",
+  "optigui.inspector.title": "OptiGUI (%s)",
+  "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
+  "optigui.inspector.title.beta": "OptiGUI beta (%s)",
+  "optigui.inspector.title.custom_textures": "anpassade texturer",
+  "optigui.inspector.title.original_textures": "ursprungliga texturer"
+}
