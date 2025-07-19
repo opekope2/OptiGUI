@@ -1,0 +1,11 @@
+{
+  "optigui.inspector": "Инспектор OptiGUI",
+  "optigui.inspector.description": "Нажмите для проверки взаимодействия.",
+  "optigui.inspector.description.clicked": "Данные проверки скопированы в буфер.",
+  "optigui.inspector.tip": "Подсказка: Вы можете убрать это в настройках OptiGUI.",
+  "optigui.inspector.title": "OptiGUI (%s)",
+  "optigui.inspector.title.alpha": "OptiGUI альфа (%s)",
+  "optigui.inspector.title.beta": "OptiGUI бета (%s)",
+  "optigui.inspector.title.custom_textures": "пользовательские текстуры",
+  "optigui.inspector.title.original_textures": "оригинальные текстуры"
+}
