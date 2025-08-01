@@ -2,7 +2,7 @@ package opekope2.optigui.interaction
 
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.util.Identifier
-import opekope2.optigui.filter.TextureChangerFilter
+import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager.clearCache
 import opekope2.optigui.interaction.InteractionManager.interaction
 import opekope2.optigui.interaction.data.IInteractionData

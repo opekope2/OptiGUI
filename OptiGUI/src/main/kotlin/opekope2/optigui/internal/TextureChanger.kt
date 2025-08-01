@@ -5,20 +5,12 @@ import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraft.util.Identifier
 import opekope2.optigui.filter.IFilterLoader
-import opekope2.optigui.filter.TextureChangerFilter
+import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.util.LinkedMruCollection
-import opekope2.optigui.util.MOD_ID
 
 internal object TextureChanger : SynchronousResourceReloader {
-    private val noOpFilter = TextureChangerFilter(
-        Identifier.of(MOD_ID, "none"),
-        Identifier.of(MOD_ID, "none"),
-        { false },
-        mapOf(),
-        mapOf()
-    )
-    var filter: TextureChangerFilter = noOpFilter
+    var filter: TextureChangerFilter = TextureChangerFilter.NO_OP
         private set
     private var filters = mapOf<Identifier, LinkedMruCollection<TextureChangerFilter, NbtElement>>()
     var renderingScreen = false
@@ -33,9 +25,9 @@ internal object TextureChanger : SynchronousResourceReloader {
         if (!InteractionManager.isInteracting) return texture
         renderedTextures += texture
 
-        if (texture !in filter.textureChanges) return texture
+        if (texture !in filter.textureChangers) return texture
         renderedCustomTextures = true
-        return filter.textureChanges.getValue(texture)
+        return filter.textureChangers.getValue(texture).apply(texture)
     }
 
     @JvmStatic
@@ -44,15 +36,15 @@ internal object TextureChanger : SynchronousResourceReloader {
         if (!InteractionManager.isInteracting) return sprite
         renderedSprites += sprite
 
-        if (sprite !in filter.spriteChanges) return sprite
+        if (sprite !in filter.spriteChangers) return sprite
         renderedCustomTextures = true
-        return filter.spriteChanges.getValue(sprite)
+        return filter.spriteChangers.getValue(sprite).apply(sprite)
     }
 
     fun clearCache() {
         filter = InteractionManager.interaction?.let {
             filters[it.data.id]?.promoteFirstOrNull(it.createNbt())
-        } ?: noOpFilter
+        } ?: TextureChangerFilter.NO_OP
         renderedTextures.clear()
         renderedCustomTextures = false
     }
