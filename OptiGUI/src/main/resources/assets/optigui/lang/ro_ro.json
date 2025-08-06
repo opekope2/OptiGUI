@@ -1,0 +1,11 @@
+{
+  "optigui.inspector": "Inspectorul OptiGUI",
+  "optigui.inspector.description": "Apasă pentru a inspecta interacția.",
+  "optigui.inspector.description.clicked": "Inspecția a fost copiată în clipboard.",
+  "optigui.inspector.tip": "Sfat: poți ascunde asta în setările OptiGUI.",
+  "optigui.inspector.title": "OptiGUI (%s)",
+  "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
+  "optigui.inspector.title.beta": "OptiGUI beta (%s)",
+  "optigui.inspector.title.custom_textures": "texturi personalizate",
+  "optigui.inspector.title.original_textures": "texturi originale"
+}
