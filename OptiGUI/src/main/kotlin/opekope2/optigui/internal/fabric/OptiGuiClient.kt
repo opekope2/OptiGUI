@@ -39,7 +39,7 @@ internal class OptiGuiClient :
     ScreenEvents.AfterRender {
     override fun onInitializeClient() {
         ClientInitializer
-        registerNbtOperators()
+        registerNbtFilters()
         FabricInteractionHandler
         registerLoadTimeNbtSuppliers()
         registerResourceLoaders(ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES))
@@ -48,7 +48,7 @@ internal class OptiGuiClient :
         ScreenEvents.AFTER_INIT.register(this)
     }
 
-    private fun registerNbtOperators() {
+    private fun registerNbtFilters() {
         INbtFilter.register(">v", NbtVersionFilter.Decoder(VersionComparisonOperator.GREATER))
         INbtFilter.register(">=v", NbtVersionFilter.Decoder(VersionComparisonOperator.GREATER_EQUAL))
         INbtFilter.register("=v", NbtVersionFilter.Decoder(VersionComparisonOperator.EQUAL))

@@ -39,21 +39,25 @@ fun interface INbtFilter : Predicate<NbtElement> {
          * A [Codec] for [INbtFilter], which can only decode. Useful for creating decoders for other types.
          */
         @JvmField
-        val NON_ENCODING_CODEC: Codec<INbtFilter> = Codec.recursive("INbtFilter") { selfCodec ->
-            Codec.withAlternative(
+        val CODEC: Codec<INbtFilter> = Codec.recursive("INbtFilter") { selfCodec ->
+            val encoder = Encoder.error<INbtFilter>("Cannot encode INbtFilter")
+            Codec.of(
+                encoder,
                 Codec.withAlternative(
-                    NonEncodingJsonObjectCodec(selfCodec),
-                    selfCodec.listOf().xmap(FilterCollectionFilter::anyOf, FilterCollectionFilter::filters)
-                ),
-                NbtComparableFilter.NON_ENCODING_CODEC
+                    Codec.withAlternative(
+                        Codec.of(
+                            encoder,
+                            JsonObjectDecoder(selfCodec)
+                        ),
+                        selfCodec.listOf().xmap(FilterCollectionFilter::anyOf, FilterCollectionFilter::filters)
+                    ),
+                    Codec.of(
+                        Encoder.error("Cannot encode NbtComparableFilter"),
+                        NbtComparableFilter.Decoder(false, NbtComparableFilter.Result.EQUAL)
+                    )
+                )
             )
         }
-
-        /**
-         * A [Decoder] to decode [INbtFilter] from a JSON resource.
-         */
-        @JvmField
-        val DECODER: Decoder<INbtFilter> = NON_ENCODING_CODEC
 
         override fun validateEntry(key: String, value: Decoder<out INbtFilter>) {
             super.validateEntry(key, value)
@@ -64,10 +68,7 @@ fun interface INbtFilter : Predicate<NbtElement> {
         }
     }
 
-    private class NonEncodingJsonObjectCodec(private val selfDecoder: Decoder<INbtFilter>) : Codec<INbtFilter> {
-        override fun <T> encode(input: INbtFilter, ops: DynamicOps<T>, prefix: T): DataResult<T> =
-            DataResult.error { "${I18n.OPTIGUI_CODEC_ERROR_CANNOT_ENCODE.getTranslation("INbtFilter")} $input" }
-
+    private class JsonObjectDecoder(private val selfDecoder: Decoder<INbtFilter>) : Decoder<INbtFilter> {
         override fun <T> decode(ops: DynamicOps<T>, input: T): DataResult<Pair<INbtFilter, T>> =
             ops.getMap(input).flatMap { decodeMap(ops, it) }.map { Pair.of(it, ops.empty()) }
 
@@ -76,22 +77,21 @@ fun interface INbtFilter : Predicate<NbtElement> {
             .collect(DataResultAccumulator.createCollector(FilterCollectionFilter::allOf))
 
         private fun <T> decodeFilter(ops: DynamicOps<T>, key: String, value: T): DataResult<INbtFilter> = when {
-            key.startsWith('@') -> decodeSubNbtFilter(ops, key, value)
             key in JsonDecoderRegistry -> decodeNbtFilter(ops, key, value)
-            key.startsWith('#') -> decodeListIndexFilter(ops, key, value)
+            key.startsWith('@') -> decodeSubNbtFilter(ops, key.substring(1), value)
+            key.startsWith('#') -> decodeListIndexFilter(ops, key.substring(1), value)
             else -> DataResult.error { I18n.OPTIGUI_RP_LOADER_ERROR_NO_OPERATOR.getTranslation(key) }
         }
 
         private fun <T> decodeSubNbtFilter(ops: DynamicOps<T>, key: String, value: T): DataResult<INbtFilter> =
-            selfDecoder.parse(ops, value).map { SubNbtFilter(key.substring(1), it) }
+            selfDecoder.parse(ops, value).map { SubNbtFilter(key, it) }
 
         private fun <T> decodeNbtFilter(ops: DynamicOps<T>, key: String, value: T): DataResult<INbtFilter> =
             getValue(key).parse(ops, value) as DataResult<INbtFilter>
 
         private fun <T> decodeListIndexFilter(ops: DynamicOps<T>, key: String, value: T): DataResult<INbtFilter> {
-            val indexKey = key.substring(1)
-            val index = indexKey.toIntOrNull() ?: return DataResult.error {
-                I18n.OPTIGUI_RP_LOADER_ERROR_NOT_A_NUMBER.getTranslation(indexKey)
+            val index = key.toIntOrNull() ?: return DataResult.error {
+                I18n.OPTIGUI_RP_LOADER_ERROR_NOT_A_NUMBER.getTranslation(key)
             }
 
             return selfDecoder.parse(ops, value).map { NbtListIndexFilter(index, it) }

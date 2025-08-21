@@ -76,8 +76,10 @@ internal sealed class NbtComparableFilter(signBitMask: Int) : INbtFilter {
         }
     }
 
-    class Decoder(private val signBitMask: Int, private val ignoreCase: Boolean) :
+    class Decoder(private val ignoreCase: Boolean, vararg acceptedResults: Result) :
         com.mojang.serialization.Decoder<NbtComparableFilter> {
+        private val signBitMask = acceptedResults.fold(0) { acc, result -> acc or result.mask }
+
         override fun <T> decode(ops: DynamicOps<T>, input: T): DataResult<Pair<NbtComparableFilter, T>> =
             when (val param = ops.convertTo(JavaOps.INSTANCE, input)) {
                 is String -> DataResult.success(NbtStringFilter(signBitMask, param, ignoreCase))
@@ -87,16 +89,5 @@ internal sealed class NbtComparableFilter(signBitMask: Int) : INbtFilter {
                 is Double -> DataResult.success(NbtDoubleFilter(signBitMask, param))
                 else -> DataResult.error { I18n.OPTIGUI_RP_LOADER_ERROR_NOT_A_NUMBER_OR_STRING.getTranslation(param) }
             }.map { Pair.of(it, ops.empty()) }
-    }
-
-    companion object {
-        @JvmField
-        val EQUAL_DECODER = Decoder(Result.EQUAL.mask, false)
-
-        @JvmField
-        val NON_ENCODING_CODEC: Codec<NbtComparableFilter> = Codec.of(
-            Encoder.error(I18n.OPTIGUI_CODEC_ERROR_CANNOT_ENCODE.getTranslation("NbtComparableFilter")),
-            EQUAL_DECODER
-        )
     }
 }

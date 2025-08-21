@@ -38,18 +38,18 @@ internal object ClientInitializer {
         INbtFilter.register("#some", NbtListFilter.decoder(AggregateOperator.SOME_OF))
         INbtFilter.register("#all", NbtListFilter.decoder(AggregateOperator.ALL_OF))
 
-        INbtFilter.register(">", NbtComparableFilter.Decoder(Result.MORE.mask, false))
-        INbtFilter.register(">*", NbtComparableFilter.Decoder(Result.MORE.mask, true))
-        INbtFilter.register(">=", NbtComparableFilter.Decoder(Result.MORE.mask or Result.EQUAL.mask, false))
-        INbtFilter.register(">=*", NbtComparableFilter.Decoder(Result.MORE.mask or Result.EQUAL.mask, true))
-        INbtFilter.register("=", NbtComparableFilter.EQUAL_DECODER)
-        INbtFilter.register("=*", NbtComparableFilter.Decoder(Result.EQUAL.mask, true))
-        INbtFilter.register("!=", NbtComparableFilter.Decoder(Result.MORE.mask or Result.LESS.mask, false))
-        INbtFilter.register("!=*", NbtComparableFilter.Decoder(Result.MORE.mask or Result.LESS.mask, true))
-        INbtFilter.register("<=", NbtComparableFilter.Decoder(Result.EQUAL.mask or Result.LESS.mask, false))
-        INbtFilter.register("<=*", NbtComparableFilter.Decoder(Result.EQUAL.mask or Result.LESS.mask, true))
-        INbtFilter.register("<", NbtComparableFilter.Decoder(Result.LESS.mask, false))
-        INbtFilter.register("<*", NbtComparableFilter.Decoder(Result.LESS.mask, true))
+        INbtFilter.register(">", NbtComparableFilter.Decoder(false, Result.MORE))
+        INbtFilter.register(">*", NbtComparableFilter.Decoder(true, Result.MORE))
+        INbtFilter.register(">=", NbtComparableFilter.Decoder(false, Result.MORE, Result.EQUAL))
+        INbtFilter.register(">=*", NbtComparableFilter.Decoder(true, Result.MORE, Result.EQUAL))
+        INbtFilter.register("=", NbtComparableFilter.Decoder(false, Result.EQUAL))
+        INbtFilter.register("=*", NbtComparableFilter.Decoder(true, Result.EQUAL))
+        INbtFilter.register("!=", NbtComparableFilter.Decoder(false, Result.MORE, Result.LESS))
+        INbtFilter.register("!=*", NbtComparableFilter.Decoder(true, Result.MORE, Result.LESS))
+        INbtFilter.register("<=", NbtComparableFilter.Decoder(false, Result.EQUAL, Result.LESS))
+        INbtFilter.register("<=*", NbtComparableFilter.Decoder(true, Result.EQUAL, Result.LESS))
+        INbtFilter.register("<", NbtComparableFilter.Decoder(false, Result.LESS))
+        INbtFilter.register("<*", NbtComparableFilter.Decoder(true, Result.LESS))
 
         INbtFilter.register("regex", NbtStringRegexFilter.Decoder.Regex(false))
         INbtFilter.register("regex*", NbtStringRegexFilter.Decoder.Regex(true))
@@ -58,16 +58,16 @@ internal object ClientInitializer {
 
         INbtFilter.register("type", NbtTypeFilter.DECODER)
 
-        INbtFilter.register("not", INbtFilter.DECODER.map(::NegatedFilter))
+        INbtFilter.register("not", INbtFilter.CODEC.map(::NegatedFilter))
         INbtFilter.register("none_of", FilterCollectionFilter.Decoder(AggregateOperator.NONE_OF))
         INbtFilter.register("any_of", FilterCollectionFilter.Decoder(AggregateOperator.ANY_OF))
         INbtFilter.register("some_of", FilterCollectionFilter.Decoder(AggregateOperator.SOME_OF))
         INbtFilter.register("all_of", FilterCollectionFilter.Decoder(AggregateOperator.ALL_OF))
 
-        INbtFilter.register("keys", INbtFilter.DECODER.map(::NbtCompoundKeysFilter))
+        INbtFilter.register("keys", INbtFilter.CODEC.map(::NbtCompoundKeysFilter))
 
-        INbtFilter.register("values", INbtFilter.DECODER.map(::NbtCompoundValuesFilter))
+        INbtFilter.register("values", INbtFilter.CODEC.map(::NbtCompoundValuesFilter))
 
-        INbtFilter.register("size", INbtFilter.DECODER.map(::NbtCollectionSizeFilter))
+        INbtFilter.register("size", INbtFilter.CODEC.map(::NbtCollectionSizeFilter))
     }
 }
