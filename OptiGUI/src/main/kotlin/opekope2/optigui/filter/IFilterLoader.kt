@@ -1,19 +1,20 @@
 package opekope2.optigui.filter
 
+import com.google.common.collect.Multimap
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.util.Identifier
+import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.registry.RegistryBase
-import java.util.function.Supplier
 
 /**
  * A filter supplier that loads [filters][TextureChangerFilter] from resources.
- * [IFilterLoader.get] should return the filters loaded in [IFilterLoader.reload].
+ * [IFilterLoader.filters] should return the filters loaded in [IFilterLoader.reload].
  */
-interface IFilterLoader : ResourceReloader, Supplier<List<TextureChangerFilter>> {
+interface IFilterLoader : ResourceReloader {
     /**
      * Gets the filters loaded in [IFilterLoader.reload].
      */
-    override fun get(): List<TextureChangerFilter>
+    val filters: Multimap<Identifier, TextureChangerFilter>
 
     /**
      * Filter supplier registry.

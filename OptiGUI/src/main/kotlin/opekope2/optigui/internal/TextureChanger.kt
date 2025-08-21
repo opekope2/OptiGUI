@@ -1,5 +1,6 @@
 package opekope2.optigui.internal
 
+import com.google.common.collect.LinkedListMultimap
 import net.minecraft.nbt.NbtElement
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SynchronousResourceReloader
@@ -50,7 +51,10 @@ internal object TextureChanger : SynchronousResourceReloader {
     }
 
     override fun reload(manager: ResourceManager?) {
-        filters = IFilterLoader.Registry.flatMap { it.value.get() }.groupBy { it.inventoryId }
-            .mapValues { (_, list) -> LinkedMruCollection(list) }
+        val map = LinkedListMultimap.create<Identifier, TextureChangerFilter>()
+        for ((_, filterLoader) in IFilterLoader.Registry) {
+            map.putAll(filterLoader.filters)
+        }
+        filters = map.asMap().mapValues { (_, list) -> LinkedMruCollection(list) }
     }
 }
