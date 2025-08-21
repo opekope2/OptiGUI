@@ -17,6 +17,6 @@ class NbtListFilter(private val filter: INbtFilter, private val operator: Aggreg
 
     companion object {
         fun decoder(operator: AggregateOperator): Decoder<NbtListFilter> =
-            INbtFilter.DECODER.map { NbtListFilter(it, operator) }
+            INbtFilter.CODEC.map { NbtListFilter(it, operator) }
     }
 }

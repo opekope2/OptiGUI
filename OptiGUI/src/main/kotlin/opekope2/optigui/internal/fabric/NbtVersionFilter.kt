@@ -10,7 +10,6 @@ import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtString
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.internal.I18n
-import com.mojang.serialization.Decoder as DfuDecoder
 
 internal class NbtVersionFilter(
     private val version: Version,
@@ -24,7 +23,7 @@ internal class NbtVersionFilter(
     }
 
     class Decoder(private val operator: VersionComparisonOperator, private val invert: Boolean = false) :
-        DfuDecoder<NbtVersionFilter> {
+        com.mojang.serialization.Decoder<NbtVersionFilter> {
         override fun <T> decode(ops: DynamicOps<T>, input: T): DataResult<Pair<NbtVersionFilter, T>> =
             ops.getStringValue(input).flatMap {
                 parseVersion(it)?.let(DataResult<Version>::success)

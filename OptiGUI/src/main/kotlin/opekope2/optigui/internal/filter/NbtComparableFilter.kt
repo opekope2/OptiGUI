@@ -1,11 +1,12 @@
 package opekope2.optigui.internal.filter
 
 import com.mojang.datafixers.util.Pair
-import com.mojang.serialization.*
+import com.mojang.serialization.DataResult
+import com.mojang.serialization.DynamicOps
+import com.mojang.serialization.JavaOps
 import net.minecraft.nbt.*
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.internal.I18n
-import com.mojang.serialization.Decoder as DfuDecoder
 
 internal sealed class NbtComparableFilter(signBitMask: Int) : INbtFilter {
     private val signBitMask = signBitMask and 0b111
@@ -75,7 +76,8 @@ internal sealed class NbtComparableFilter(signBitMask: Int) : INbtFilter {
         }
     }
 
-    class Decoder(private val signBitMask: Int, private val ignoreCase: Boolean) : DfuDecoder<NbtComparableFilter> {
+    class Decoder(private val signBitMask: Int, private val ignoreCase: Boolean) :
+        com.mojang.serialization.Decoder<NbtComparableFilter> {
         override fun <T> decode(ops: DynamicOps<T>, input: T): DataResult<Pair<NbtComparableFilter, T>> =
             when (val param = ops.convertTo(JavaOps.INSTANCE, input)) {
                 is String -> DataResult.success(NbtStringFilter(signBitMask, param, ignoreCase))
