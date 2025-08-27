@@ -90,7 +90,7 @@
     "fabric-lifecycle-events-v1": "*",
     "fabric-networking-api-v1": "*",
     "fabric-resource-loader-v0": "*",
-    "fabric-language-kotlin": ">=$fabric_language_kotlin",
+    "fabric-language-kotlin": ">=$fabric_language_kotlin <=1.13.4",
     "minecraft": ">=$minecraft",
     "java": ">=$java"
   },
