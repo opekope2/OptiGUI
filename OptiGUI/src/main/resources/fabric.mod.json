@@ -80,7 +80,7 @@
   "depends": {
     "fabricloader": ">=$fabric_loader",
     "fabric-api": ">=$fabric_api",
-    "fabric-language-kotlin": ">=$fabric_language_kotlin",
+    "fabric-language-kotlin": ">=$fabric_language_kotlin <=1.13.4",
     "minecraft": ">=$minecraft <1.21.2",
     "java": ">=$java"
   },
