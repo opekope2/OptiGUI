@@ -80,7 +80,7 @@ fun interface INbtFilter : Predicate<NbtElement> {
             key in JsonDecoderRegistry -> decodeNbtFilter(ops, key, value)
             key.startsWith('@') -> decodeSubNbtFilter(ops, key.substring(1), value)
             key.startsWith('#') -> decodeListIndexFilter(ops, key.substring(1), value)
-            else -> DataResult.error { I18n.OPTIGUI_RP_LOADER_ERROR_NO_OPERATOR.getTranslation(key) }
+            else -> DataResult.error({ I18n.OPTIGUI_RP_LOADER_ERROR_NO_OPERATOR.getTranslation(key) }, NEVER_MATCH)
         }
 
         private fun <T> decodeSubNbtFilter(ops: DynamicOps<T>, key: String, value: T): DataResult<INbtFilter> =
