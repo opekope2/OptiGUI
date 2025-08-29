@@ -37,8 +37,8 @@ class DataResultAccumulator<T> {
         fun <TStream, TResult> createCollector(finisher: Function<List<TStream>, TResult>): Collector<DataResult<TStream>, DataResultAccumulator<TStream>, DataResult<TResult>> =
             Collector.of(
                 ::DataResultAccumulator,
-                DataResultAccumulator<TStream>::add,
-                DataResultAccumulator<TStream>::combine,
+                { acc, result -> acc.add(result) }, // FIXME kotlin compiler crashes when using method reference
+                { acc1, acc2 -> acc1.combine(acc2) }, // FIXME kotlin compiler crashes when using method reference
                 { it.finish(finisher) }
             )
     }
