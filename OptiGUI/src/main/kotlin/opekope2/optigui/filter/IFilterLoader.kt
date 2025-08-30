@@ -4,6 +4,7 @@ import com.google.common.collect.Multimap
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.util.Identifier
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
+import opekope2.optigui.interaction.IInteractionTarget
 import opekope2.optigui.registry.RegistryBase
 
 /**
@@ -14,7 +15,7 @@ interface IFilterLoader : ResourceReloader {
     /**
      * Gets the filters loaded in [IFilterLoader.reload].
      */
-    val filters: Multimap<Identifier, TextureChangerFilter>
+    val filters: Multimap<IInteractionTarget, TextureChangerFilter>
 
     /**
      * Filter supplier registry.

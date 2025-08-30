@@ -5,10 +5,9 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.registry.RegistryWrapper
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import opekope2.optigui.interaction.IInteractionTarget
 import opekope2.optigui.util.encode
-import opekope2.optigui.util.identifier
 
 /**
  * Details about an interaction with a block.
@@ -26,8 +25,7 @@ data class BlockInteractionData(
     override val item: ItemStack,
     override val playerData: InteractionPlayerData
 ) : IInteractionData {
-    override val id: Identifier
-        get() = blockState.block.identifier
+    override val target = IInteractionTarget.Block(blockState)
 
     override fun optiGui_writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
         super.optiGui_writeNbt(compound, lookup)

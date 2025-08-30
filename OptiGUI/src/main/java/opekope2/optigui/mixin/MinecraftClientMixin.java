@@ -5,9 +5,10 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.Hand;
+import opekope2.optigui.interaction.IInteractionTarget;
 import opekope2.optigui.interaction.InteractionManager;
+import opekope2.optigui.interaction.data.GeneralInteractionData;
 import opekope2.optigui.interaction.data.InteractionPlayerData;
-import opekope2.optigui.interaction.data.InventoryInteractionData;
 import opekope2.optigui.screen.ITextureChangeableScreen;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -30,9 +31,10 @@ public abstract class MinecraftClientMixin {
     private void manageInteraction(CallbackInfo ci) {
         if (player != null && currentScreen instanceof AbstractInventoryScreen<?>) {
             InteractionManager.prepare(
-                    new InventoryInteractionData(
+                    new GeneralInteractionData(
                             player.getMainHandStack(),
-                            new InteractionPlayerData(player, Hand.MAIN_HAND)
+                            new InteractionPlayerData(player, Hand.MAIN_HAND),
+                            IInteractionTarget.Inventory.INSTANCE
                     )
             );
         }

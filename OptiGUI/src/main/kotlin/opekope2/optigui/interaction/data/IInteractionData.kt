@@ -3,22 +3,23 @@ package opekope2.optigui.interaction.data
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.registry.RegistryWrapper
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.dimension.DimensionType
+import opekope2.optigui.interaction.IInteractionTarget
 import opekope2.optigui.util.INbtConvertible
 import opekope2.optigui.util.encode
 import opekope2.optigui.util.getBiomeId
+import opekope2.optigui.util.subCompound
 
 /**
  * Details about an interaction.
  */
 sealed interface IInteractionData : INbtConvertible {
     /**
-     * The identifier of the interacted block, entity, or item.
+     * The target of the interaction.
      */
-    val id: Identifier
+    val target: IInteractionTarget
 
     /**
      * The interaction position.
@@ -42,6 +43,7 @@ sealed interface IInteractionData : INbtConvertible {
         get() = playerData.player.entityWorld
 
     override fun optiGui_writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
+        target.optiGui_writeNbt(compound.subCompound("target"), lookup)
         compound.encode("pos", blockPos, BlockPos.CODEC, lookup)
         compound.putString("biome", world.getBiomeId(blockPos).toString())
         compound.put("item", item.encodeAllowEmpty(lookup))
