@@ -8,6 +8,7 @@ import opekope2.optigui.interaction.InteractionManager.interaction
 import opekope2.optigui.interaction.data.IInteractionData
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.screen.ITextureChangeableScreen
+import org.jetbrains.annotations.ApiStatus
 import java.util.*
 
 /**
@@ -76,6 +77,8 @@ object InteractionManager {
      * @suppress
      */
     @JvmStatic
+    @JvmName("begin")
+    @ApiStatus.Internal
     internal fun begin(screen: ITextureChangeableScreen) {
         // TODO handle screen change (no end() between two begin()s)
         interaction = nextInteractionData?.let { Interaction(screen, it) }
@@ -89,6 +92,8 @@ object InteractionManager {
      */
     @JvmStatic
     @JvmOverloads
+    @JvmName("end")
+    @ApiStatus.Internal
     internal fun end(disconnected: Boolean = false) {
         interaction = null
         screen = null

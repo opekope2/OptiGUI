@@ -38,9 +38,9 @@ public abstract class MinecraftClientMixin {
         }
 
         if (currentScreen instanceof ITextureChangeableScreen textureChangeableScreen) {
-            InteractionManager.begin$optigui(textureChangeableScreen);
+            InteractionManager.begin(textureChangeableScreen);
         } else {
-            InteractionManager.end$optigui();
+            InteractionManager.end();
         }
     }
 }
