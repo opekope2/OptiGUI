@@ -84,7 +84,7 @@
   ],
   "accessWidener": "optigui.accesswidener",
   "depends": {
-    "fabricloader": ">=$fabric_loader",
+    "fabricloader": ">=0.15.0",
     "fabric-events-interaction-v0": "*",
     "fabric-key-binding-api-v1": "*",
     "fabric-lifecycle-events-v1": "*",
