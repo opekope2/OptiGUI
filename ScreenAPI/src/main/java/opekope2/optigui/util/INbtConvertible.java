@@ -4,7 +4,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 
 /**
- * Represents an object, which can be written to an [NbtCompound].
+ * Represents an object, which can be written to an {@link NbtCompound}.
  */
 public interface INbtConvertible {
     /**
