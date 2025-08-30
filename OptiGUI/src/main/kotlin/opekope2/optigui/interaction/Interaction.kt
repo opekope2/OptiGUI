@@ -24,19 +24,19 @@ data class Interaction(val screen: ITextureChangeableScreen, val data: IInteract
 
     override fun optiGui_writeNbt(compound: NbtCompound, lookup: RegistryWrapper.WrapperLookup) {
         if (screen is INbtConvertible) screen.optiGui_writeNbt(compound.subCompound("screen"), lookup)
-        compound.put("time", createTimeNbt())
+        writeTimeNbt(compound.subCompound("time"))
         data.optiGui_writeNbt(compound, lookup)
     }
 
-    private fun createTimeNbt() = NbtCompound().apply {
+    private fun writeTimeNbt(compound: NbtCompound) {
         val now = LocalDateTime.now()
-        putInt("year", now.year)
-        putInt("month", now.month.value)
-        putInt("day", now.dayOfMonth)
-        putInt("weekday", now.dayOfWeek.value)
-        putInt("hour", now.hour)
-        putInt("minute", now.minute)
-        putInt("second", now.second)
+        compound.putInt("year", now.year)
+        compound.putInt("month", now.month.value)
+        compound.putInt("day", now.dayOfMonth)
+        compound.putInt("weekday", now.dayOfWeek.value)
+        compound.putInt("hour", now.hour)
+        compound.putInt("minute", now.minute)
+        compound.putInt("second", now.second)
     }
 
     fun createNbt() = NbtCompound().also { optiGui_writeNbt(it, playerData.player.world.registryManager) }
