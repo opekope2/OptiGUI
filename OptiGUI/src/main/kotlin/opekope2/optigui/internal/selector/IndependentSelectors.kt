@@ -1,6 +1,5 @@
 package opekope2.optigui.internal.selector
 
-import kotlinx.datetime.*
 import opekope2.optigui.filter.ConjunctionFilter
 import opekope2.optigui.filter.DisjunctionFilter
 import opekope2.optigui.filter.EqualityFilter
@@ -8,10 +7,12 @@ import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.util.joinNotFound
 import opekope2.optigui.util.NumberOrRange
+import java.time.LocalDate
+import java.time.Month
 
 internal class DateSelector : AbstractListSelector<Pair<Month, NumberOrRange?>>() {
     private val today: LocalDate
-        get() = Clock.System.todayIn(TimeZone.currentSystemDefault())
+        get() = LocalDate.now()
 
     override fun parseSelector(selector: String): Pair<Month, NumberOrRange?>? {
         val parts = selector.split('@')
