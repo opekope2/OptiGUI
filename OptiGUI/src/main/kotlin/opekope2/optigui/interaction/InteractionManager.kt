@@ -1,11 +1,15 @@
 package opekope2.optigui.interaction
 
 import net.minecraft.client.gui.screen.Screen
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager.clearCache
 import opekope2.optigui.interaction.InteractionManager.interaction
+import opekope2.optigui.interaction.data.GeneralInteractionData
 import opekope2.optigui.interaction.data.IInteractionData
+import opekope2.optigui.interaction.data.InteractionPlayerData
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.screen.ITextureChangeableScreen
 import org.jetbrains.annotations.ApiStatus
@@ -79,9 +83,13 @@ object InteractionManager {
     @JvmStatic
     @JvmName("begin")
     @ApiStatus.Internal
-    internal fun begin(screen: ITextureChangeableScreen) {
-        // TODO handle screen change (no end() between two begin()s)
-        interaction = nextInteractionData?.let { Interaction(screen, it) }
+    internal fun begin(screen: ITextureChangeableScreen, player: PlayerEntity) {
+        val interactionData = nextInteractionData ?: GeneralInteractionData(
+            player.mainHandStack,
+            InteractionPlayerData(player, Hand.MAIN_HAND),
+            IInteractionTarget.Unknown
+        )
+        interaction = Interaction(screen, interactionData)
         nextInteractionData = null
         this.screen = screen
         clearCache()

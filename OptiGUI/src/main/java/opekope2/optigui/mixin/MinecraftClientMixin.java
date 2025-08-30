@@ -29,7 +29,9 @@ public abstract class MinecraftClientMixin {
 
     @Inject(method = "setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("TAIL"))
     private void manageInteraction(CallbackInfo ci) {
-        if (player != null && currentScreen instanceof AbstractInventoryScreen<?>) {
+        if (player == null) return;
+
+        if (currentScreen instanceof AbstractInventoryScreen<?>) {
             InteractionManager.prepare(
                     new GeneralInteractionData(
                             player.getMainHandStack(),
@@ -40,7 +42,7 @@ public abstract class MinecraftClientMixin {
         }
 
         if (currentScreen instanceof ITextureChangeableScreen textureChangeableScreen) {
-            InteractionManager.begin(textureChangeableScreen);
+            InteractionManager.begin(textureChangeableScreen, player);
         } else {
             InteractionManager.end();
         }
