@@ -112,7 +112,7 @@ tasks {
 
     val generateI18n by registering {
         val jsonPath = "src/main/resources/assets/optigui/lang/en_us.json"
-        val outFile = project.layout.buildDirectory.file("generated/opekope2/optigui/internal/I18n.kt")
+        val outFile = project.layout.buildDirectory.file("generated/src/main/kotlin/opekope2/optigui/internal/I18n.kt")
 
         inputs.file(jsonPath)
         outputs.file(outFile)
@@ -149,7 +149,7 @@ tasks {
 sourceSets {
     main {
         kotlin {
-            srcDir(project.layout.buildDirectory.dir("generated"))
+            srcDir(project.layout.buildDirectory.dir("generated/src/main/kotlin"))
         }
     }
 }
