@@ -40,5 +40,4 @@ val Item.identifier: Identifier
  *
  * @param pos The position to look up the biome
  */
-fun World.getBiomeId(pos: BlockPos) = getBiome(pos).key.getOrNull()?.value
-    ?: throw RuntimeException(I18n.OPTIGUI_REGISTRY_ERROR_BIOME_NOT_FOUND.getTranslation(pos, this))
+fun World.getBiomeId(pos: BlockPos): Identifier = getBiome(pos).key.get().value

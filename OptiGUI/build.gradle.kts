@@ -126,8 +126,10 @@ tasks {
             val enum = """
                 package opekope2.optigui.internal
                 
+                import com.google.common.base.Suppliers
                 import net.minecraft.text.MutableText
                 import net.minecraft.text.Text
+                import java.util.function.Supplier
                 
                 internal enum class I18n(private val key: String, private val fallback: String) {
                     %s;
@@ -135,6 +137,8 @@ tasks {
                     fun getText(vararg args: Any?): MutableText = Text.translatableWithFallback(key, fallback, *args)
 
                     fun getTranslation(vararg args: Any?): String = getText(*args).getString()
+                    
+                    fun supplyTranslation(vararg args: Any?): Supplier<String> = Suppliers.memoize { getTranslation(*args) }
                 }
             """.trimIndent().format(members)
 

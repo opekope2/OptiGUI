@@ -61,10 +61,8 @@ fun interface INbtFilter : Predicate<NbtElement> {
 
         override fun validateEntry(key: String, value: Decoder<out INbtFilter>) {
             super.validateEntry(key, value)
-            require(!key.startsWith('@')) { I18n.OPTIGUI_REGISTRY_ERROR_KEY_STARTS_WITH.getTranslation(key, "@") }
-            require(!key.startsWith('#') || key == "#none" || key == "#any" || key == "#some" || key == "#all") {
-                I18n.OPTIGUI_REGISTRY_ERROR_KEY_STARTS_WITH.getTranslation(key, "#")
-            }
+            require(!key.startsWith('@')) { "Key must not start with @: $key" }
+            require(!key.startsWith('#') || key == "#none" || key == "#any" || key == "#some" || key == "#all") { "Key must not start with #: $key" }
         }
     }
 
