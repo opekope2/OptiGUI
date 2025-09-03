@@ -7,6 +7,7 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.ButtonTextures
+import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.input.KeyCodes
@@ -18,6 +19,7 @@ import opekope2.optigui.util.MOD_ID
 @Environment(EnvType.CLIENT)
 internal abstract class InspectorWidget : ClickableWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT, TEXT) {
     private var customTextures = false
+    private var prevAlt = false
     private var prevHovered = false
     private var prevFocused = false
 
@@ -28,18 +30,25 @@ internal abstract class InspectorWidget : ClickableWidget(0, 0, TEXTURE_WIDTH, T
     }
 
     private fun updateTooltip(clickedDescription: Boolean) {
-        tooltip = InspectorTooltipFactory.CURRENT.createTooltip(customTextures, clickedDescription)
+        tooltip = InspectorTooltipFactory.CURRENT.createTooltip(customTextures, clickedDescription, Screen.hasAltDown())
     }
 
     override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        if (customTextures != InteractionManager.hasRenderedCustomTextures) {
-            customTextures = InteractionManager.hasRenderedCustomTextures
-            updateTooltip(false)
-        } else if (prevHovered != hovered || prevFocused && !isFocused) {
-            updateTooltip(false)
+        val updateTooltip = when {
+            customTextures != InteractionManager.hasRenderedCustomTextures -> {
+                customTextures = InteractionManager.hasRenderedCustomTextures
+                true
+            }
+
+            prevHovered != isHovered || prevFocused && !isFocused -> true
+            prevAlt != Screen.hasAltDown() -> true
+            else -> false
         }
         prevHovered = isHovered
         prevFocused = isFocused
+        prevAlt = Screen.hasAltDown()
+
+        if (updateTooltip) updateTooltip(false)
 
         val x = x + width / 2 - TEXTURE_WIDTH / 2
         val y = y + height / 2 - TEXTURE_HEIGHT / 2

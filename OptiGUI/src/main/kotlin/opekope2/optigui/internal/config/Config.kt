@@ -15,10 +15,6 @@ internal class Config : IConfig, ConfigData {
 
     @ConfigEntry.Category("inspector")
     @ConfigEntry.Gui.Tooltip
-    override var verboseInspector = false
-
-    @ConfigEntry.Category("inspector")
-    @ConfigEntry.Gui.Tooltip
     override var dumpNbt: Boolean = false
 
     override fun save() {
