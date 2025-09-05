@@ -1,0 +1,10 @@
+{
+  "optigui.inspector": "OptiGUI Denetleyici",
+  "optigui.inspector.description": "Etkileşimi denetlemek için tıklayın.",
+  "optigui.inspector.description.clicked": "Denetim panoya kopyalandı.",
+  "optigui.inspector.tip": "İpucu: OptiGUI ayarlarında bunu gizleyebilirsiniz.",
+  "optigui.inspector.title": "OptiGUI (%s)",
+  "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
+  "optigui.inspector.title.beta": "OptiGUI beta (%s)",
+  "optigui.inspector.title.custom_textures": "özel dokular",
+  "optigui.inspector.title.original_textures": "orijinal dokular"}
