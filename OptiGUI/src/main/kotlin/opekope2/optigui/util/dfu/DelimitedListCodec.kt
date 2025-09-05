@@ -8,7 +8,7 @@ import opekope2.optigui.util.DataResultAccumulator
 import kotlin.streams.asStream
 
 /**
- * A [Codec], which serializes objects to a [String] delimited by any of [delimiters].
+ * A codec, which serializes objects to a [String] delimited by any of [delimiters].
  *
  * @param delimiters Characters separating serialized objects in a string
  * @param codec The list codec of the object to serialize

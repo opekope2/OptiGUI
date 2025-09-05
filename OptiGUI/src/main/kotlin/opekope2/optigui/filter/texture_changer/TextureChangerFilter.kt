@@ -5,7 +5,7 @@ import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.util.MOD_ID
 
 /**
- * An [INbtFilter] specifying which GUI textures it can change to which other textures.
+ * An NBT filter specifying which GUI textures it can change to which other textures.
  *
  * @param resourceId The resource ID this filter is loaded from
  * @param filter The filter, which decides whether to change the GUI textures of the inventory GUI

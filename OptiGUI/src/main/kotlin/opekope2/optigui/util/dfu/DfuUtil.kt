@@ -48,7 +48,7 @@ fun <TClass, TField> Codec<TField>.optionalField(field: KProperty1<TClass, Optio
     optionalFieldOf(field.name).forGetter(field::get)
 
 /**
- * Creates a [DelimitedListCodec] for the given [Codec].
+ * Creates a [DelimitedListCodec] for the given codec.
  *
  * @see DelimitedListCodec
  */
