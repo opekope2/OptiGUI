@@ -32,6 +32,7 @@ class RandomizedTextureChanger(weights: Map<Identifier, Int>) : ITextureChanger 
         val n = n.toLong()
 
         weights.onEachIndexed { i, (choice, weight) -> // 4
+            require(weight > 0) { "Weight must be positive: $weight" }
             choices[i] = choice
             val scaledProb = (weight * n / totalWeight).toFloat() // 3
             p[i] = scaledProb
