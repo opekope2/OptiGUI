@@ -1,16 +1,15 @@
-@file: JvmName("RegistryUtil")
+@file:JvmName("RegistryUtil")
 
 package opekope2.optigui.util
 
 import net.minecraft.block.Block
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import opekope2.optigui.internal.I18n
-import kotlin.jvm.optionals.getOrNull
 
 /**
  * Finds the ID of the given block in the registry.
@@ -22,7 +21,13 @@ val Block.identifier: Identifier
  * Finds the ID of the given entity in the registry.
  */
 val Entity.identifier: Identifier
-    get() = Registries.ENTITY_TYPE.getId(type)
+    get() = type.identifier
+
+/**
+ * Finds the ID of the given entity type in the registry.
+ */
+val EntityType<*>.identifier: Identifier
+    get() = Registries.ENTITY_TYPE.getId(this)
 
 /**
  * Finds the ID of the given item in the registry.
