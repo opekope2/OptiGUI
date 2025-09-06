@@ -49,14 +49,14 @@ internal class OptiGuiClient :
     }
 
     private fun registerNbtFilters() {
-        INbtFilter.register(">v", NbtVersionFilter.Decoder(VersionComparisonOperator.GREATER))
-        INbtFilter.register(">=v", NbtVersionFilter.Decoder(VersionComparisonOperator.GREATER_EQUAL))
-        INbtFilter.register("=v", NbtVersionFilter.Decoder(VersionComparisonOperator.EQUAL))
-        INbtFilter.register("!=v", NbtVersionFilter.Decoder(VersionComparisonOperator.EQUAL, invert = true))
-        INbtFilter.register("<=v", NbtVersionFilter.Decoder(VersionComparisonOperator.LESS_EQUAL))
-        INbtFilter.register("<v", NbtVersionFilter.Decoder(VersionComparisonOperator.LESS))
-        INbtFilter.register("~v", NbtVersionFilter.Decoder(VersionComparisonOperator.SAME_TO_NEXT_MINOR))
-        INbtFilter.register("^v", NbtVersionFilter.Decoder(VersionComparisonOperator.SAME_TO_NEXT_MAJOR))
+        INbtFilter.register(">v", NbtVersionFilter.codec(VersionComparisonOperator.GREATER))
+        INbtFilter.register(">=v", NbtVersionFilter.codec(VersionComparisonOperator.GREATER_EQUAL))
+        INbtFilter.register("=v", NbtVersionFilter.codec(VersionComparisonOperator.EQUAL))
+        INbtFilter.register("!=v", NbtVersionFilter.codec(VersionComparisonOperator.EQUAL, invert = true))
+        INbtFilter.register("<=v", NbtVersionFilter.codec(VersionComparisonOperator.LESS_EQUAL))
+        INbtFilter.register("<v", NbtVersionFilter.codec(VersionComparisonOperator.LESS))
+        INbtFilter.register("~v", NbtVersionFilter.codec(VersionComparisonOperator.SAME_TO_NEXT_MINOR))
+        INbtFilter.register("^v", NbtVersionFilter.codec(VersionComparisonOperator.SAME_TO_NEXT_MAJOR))
     }
 
     private fun registerLoadTimeNbtSuppliers() {

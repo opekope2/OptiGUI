@@ -2,8 +2,8 @@ package opekope2.optigui.internal.initializer
 
 import me.shedaniel.autoconfig.AutoConfig
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer
-import opekope2.optigui.filter.FilterCollectionFilter
-import opekope2.optigui.filter.INbtFilter
+import opekope2.optigui.filter.*
+import opekope2.optigui.filter.NbtComparableFilter.Result
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.config.Config
@@ -11,8 +11,7 @@ import opekope2.optigui.internal.config.annotation.RequiresMod
 import opekope2.optigui.internal.config.gui.ButtonEntryGuiProvider
 import opekope2.optigui.internal.config.gui.ButtonListEntry
 import opekope2.optigui.internal.config.gui.ModDependencyGuiTransformer
-import opekope2.optigui.internal.filter.*
-import opekope2.optigui.internal.filter.NbtComparableFilter.Result
+import opekope2.optigui.resource.format.json.JsonFilterResource
 import opekope2.optigui.util.AggregateOperator
 
 internal object ClientInitializer {
@@ -33,41 +32,41 @@ internal object ClientInitializer {
     }
 
     private fun registerNbtFilters() {
-        INbtFilter.register("#none", NbtListFilter.decoder(AggregateOperator.NONE_OF))
-        INbtFilter.register("#any", NbtListFilter.decoder(AggregateOperator.ANY_OF))
-        INbtFilter.register("#some", NbtListFilter.decoder(AggregateOperator.SOME_OF))
-        INbtFilter.register("#all", NbtListFilter.decoder(AggregateOperator.ALL_OF))
+        INbtFilter.register("#none", NbtListFilter.codec(AggregateOperator.NONE_OF))
+        INbtFilter.register("#any", NbtListFilter.codec(AggregateOperator.ANY_OF))
+        INbtFilter.register("#some", NbtListFilter.codec(AggregateOperator.SOME_OF))
+        INbtFilter.register("#all", NbtListFilter.codec(AggregateOperator.ALL_OF))
 
-        INbtFilter.register(">", NbtComparableFilter.Decoder(false, Result.MORE))
-        INbtFilter.register(">*", NbtComparableFilter.Decoder(true, Result.MORE))
-        INbtFilter.register(">=", NbtComparableFilter.Decoder(false, Result.MORE, Result.EQUAL))
-        INbtFilter.register(">=*", NbtComparableFilter.Decoder(true, Result.MORE, Result.EQUAL))
-        INbtFilter.register("=", NbtComparableFilter.Decoder(false, Result.EQUAL))
-        INbtFilter.register("=*", NbtComparableFilter.Decoder(true, Result.EQUAL))
-        INbtFilter.register("!=", NbtComparableFilter.Decoder(false, Result.MORE, Result.LESS))
-        INbtFilter.register("!=*", NbtComparableFilter.Decoder(true, Result.MORE, Result.LESS))
-        INbtFilter.register("<=", NbtComparableFilter.Decoder(false, Result.EQUAL, Result.LESS))
-        INbtFilter.register("<=*", NbtComparableFilter.Decoder(true, Result.EQUAL, Result.LESS))
-        INbtFilter.register("<", NbtComparableFilter.Decoder(false, Result.LESS))
-        INbtFilter.register("<*", NbtComparableFilter.Decoder(true, Result.LESS))
+        INbtFilter.register(">", NbtComparableFilter.codec(false, Result.MORE))
+        INbtFilter.register(">*", NbtComparableFilter.codec(true, Result.MORE))
+        INbtFilter.register(">=", NbtComparableFilter.codec(false, Result.MORE, Result.EQUAL))
+        INbtFilter.register(">=*", NbtComparableFilter.codec(true, Result.MORE, Result.EQUAL))
+        INbtFilter.register("=", NbtComparableFilter.codec(false, Result.EQUAL))
+        INbtFilter.register("=*", NbtComparableFilter.codec(true, Result.EQUAL))
+        INbtFilter.register("!=", NbtComparableFilter.codec(false, Result.MORE, Result.LESS))
+        INbtFilter.register("!=*", NbtComparableFilter.codec(true, Result.MORE, Result.LESS))
+        INbtFilter.register("<=", NbtComparableFilter.codec(false, Result.EQUAL, Result.LESS))
+        INbtFilter.register("<=*", NbtComparableFilter.codec(true, Result.EQUAL, Result.LESS))
+        INbtFilter.register("<", NbtComparableFilter.codec(false, Result.LESS))
+        INbtFilter.register("<*", NbtComparableFilter.codec(true, Result.LESS))
 
-        INbtFilter.register("regex", NbtStringRegexFilter.Decoder.Regex(false))
-        INbtFilter.register("regex*", NbtStringRegexFilter.Decoder.Regex(true))
-        INbtFilter.register("wildcard", NbtStringRegexFilter.Decoder.Wildcard(false))
-        INbtFilter.register("wildcard*", NbtStringRegexFilter.Decoder.Wildcard(true))
+        INbtFilter.register("regex", NbtStringRegexFilter.CASE_SENSITIVE_REGEX_CODEC)
+        INbtFilter.register("regex*", NbtStringRegexFilter.CASE_INSENSITIVE_REGEX_CODEC)
+        INbtFilter.register("wildcard", NbtStringRegexFilter.CASE_SENSITIVE_WILDCARD_CODEC)
+        INbtFilter.register("wildcard*", NbtStringRegexFilter.CASE_INSENSITIVE_WILDCARD_CODEC)
 
-        INbtFilter.register("type", NbtTypeFilter.DECODER)
+        INbtFilter.register("type", INbtTransformerFilter.codec(::NbtTypeFilter))
 
-        INbtFilter.register("not", INbtFilter.CODEC.map(::NegatedFilter))
-        INbtFilter.register("none_of", FilterCollectionFilter.Decoder(AggregateOperator.NONE_OF))
-        INbtFilter.register("any_of", FilterCollectionFilter.Decoder(AggregateOperator.ANY_OF))
-        INbtFilter.register("some_of", FilterCollectionFilter.Decoder(AggregateOperator.SOME_OF))
-        INbtFilter.register("all_of", FilterCollectionFilter.Decoder(AggregateOperator.ALL_OF))
+        INbtFilter.register("not", JsonFilterResource.FILTER_CODEC.xmap(::NegatedFilter, NegatedFilter::subFilter))
+        INbtFilter.register("none_of", FilterCollectionFilter.codec(AggregateOperator.NONE_OF))
+        INbtFilter.register("any_of", FilterCollectionFilter.codec(AggregateOperator.ANY_OF))
+        INbtFilter.register("some_of", FilterCollectionFilter.codec(AggregateOperator.SOME_OF))
+        INbtFilter.register("all_of", FilterCollectionFilter.codec(AggregateOperator.ALL_OF))
 
-        INbtFilter.register("keys", INbtFilter.CODEC.map(::NbtCompoundKeysFilter))
+        INbtFilter.register("keys", INbtTransformerFilter.codec(::NbtCompoundKeysFilter))
 
-        INbtFilter.register("values", INbtFilter.CODEC.map(::NbtCompoundValuesFilter))
+        INbtFilter.register("values", INbtTransformerFilter.codec(::NbtCompoundValuesFilter))
 
-        INbtFilter.register("size", INbtFilter.CODEC.map(::NbtCollectionSizeFilter))
+        INbtFilter.register("size", INbtTransformerFilter.codec(::NbtCollectionSizeFilter))
     }
 }
