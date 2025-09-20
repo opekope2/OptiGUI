@@ -1,0 +1,6 @@
+{
+  "key.categories.optigui": "OptiGUI",
+  "key.optigui.inspect": "インスペクト結果をクリップボードにコピー",
+  "optigui.toast.inspector.title": "OptiGUI インスペクター",
+  "optigui.toast.inspector.description": "インスペクト結果をクリップボードにコピーしました"
+}
