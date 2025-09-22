@@ -1,7 +1,6 @@
 package opekope2.optigui.internal
 
 import com.google.common.collect.LinkedListMultimap
-import net.minecraft.nbt.NbtElement
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraft.util.Identifier
@@ -14,7 +13,7 @@ import opekope2.optigui.util.LinkedMruCollection
 internal object TextureChanger : SynchronousResourceReloader {
     var filter: TextureChangerFilter = TextureChangerFilter.NO_OP
         private set
-    private var filters = mapOf<IInteractionTarget, LinkedMruCollection<TextureChangerFilter, NbtElement>>()
+    private var filters = mapOf<IInteractionTarget, LinkedMruCollection<TextureChangerFilter>>()
     var renderingScreen = false
     val renderedTextures = mutableSetOf<Identifier>()
     val renderedSprites = mutableSetOf<Identifier>()
@@ -44,8 +43,9 @@ internal object TextureChanger : SynchronousResourceReloader {
     }
 
     fun clearCache() {
-        filter = InteractionManager.interaction?.let {
-            filters[it.data.target]?.promoteFirstOrNull(it.createNbt())
+        filter = InteractionManager.interaction?.let { interaction ->
+            val nbt = interaction.createNbt()
+            filters[interaction.data.target]?.promoteFirstOrNull { it.test(nbt, nbt) }
         } ?: TextureChangerFilter.NO_OP
         renderedTextures.clear()
         renderedCustomTextures = false
