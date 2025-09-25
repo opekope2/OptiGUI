@@ -3,9 +3,7 @@ package opekope2.optigui.util
 import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
-import com.mojang.serialization.JavaOps
 import net.minecraft.util.Identifier
-import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.dynamic.Codecs
 import opekope2.optigui.internal.I18n
 
@@ -13,12 +11,12 @@ import opekope2.optigui.internal.I18n
  * A relative version of [Identifier].
  *
  * @param path The relative path of the identifier. Must start with `./` and must be
- * [a valid path][Identifier.isPathValid].
+ *   [a valid path][Identifier.isPathValid]
  */
 data class RelativeIdentifier(val path: String) {
     init {
-        Codecs.IDENTIFIER_PATH.parse(JavaOps.INSTANCE, path).getOrThrow(::InvalidIdentifierException)
-        require(path.startsWith("./")) { I18n.OPTIGUI_VALIDATION_ERROR_NOT_A_RELATIVE_IDENTIFIER.getTranslation(path) }
+        require(Identifier.isPathValid(path)) { "Invalid characters in path: $path" }
+        require(path.startsWith("./")) { "Path must start with './': $path" }
     }
 
     /**
