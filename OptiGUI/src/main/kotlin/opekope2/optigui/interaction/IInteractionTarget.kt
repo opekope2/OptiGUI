@@ -16,7 +16,7 @@ sealed interface IInteractionTarget : INbtConvertible {
     /**
      * Represents a block the player interacts with.
      *
-     * @param id The registry ID of the block.
+     * @param id The registry ID of the block
      */
     data class Block(val id: Identifier) : IInteractionTarget {
         constructor(block: net.minecraft.block.Block) : this(block.identifier)
@@ -31,7 +31,7 @@ sealed interface IInteractionTarget : INbtConvertible {
     /**
      * Represents an entity the player interacts with.
      *
-     * @param id The registry ID of the entity.
+     * @param id The registry ID of the entity
      */
     data class Entity(val id: Identifier) : IInteractionTarget {
         constructor(entityType: EntityType<*>) : this(entityType.identifier)
@@ -46,7 +46,7 @@ sealed interface IInteractionTarget : INbtConvertible {
     /**
      * Represents an item the player interacts with.
      *
-     * @param id The registry ID of the item.
+     * @param id The registry ID of the item
      */
     data class Item(val id: Identifier) : IInteractionTarget {
         constructor(item: net.minecraft.item.Item) : this(item.identifier)

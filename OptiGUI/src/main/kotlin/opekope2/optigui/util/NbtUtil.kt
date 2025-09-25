@@ -1,4 +1,4 @@
-@file: JvmName("NbtUtil")
+@file:JvmName("NbtUtil")
 
 package opekope2.optigui.util
 
