@@ -16,6 +16,8 @@ import opekope2.optigui.internal.config.annotation.RequiresMod
 import opekope2.optigui.internal.config.gui.ButtonEntryGuiProvider
 import opekope2.optigui.internal.config.gui.ButtonListEntry
 import opekope2.optigui.internal.config.gui.ModDependencyGuiTransformer
+import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
+import opekope2.optigui.nbt_provider.NbtFilterNamesNbtProvider
 
 internal object ClientInitializer {
     init {
@@ -24,6 +26,7 @@ internal object ClientInitializer {
 
         registerConfig()
         registerNbtFilters()
+        registerLoadTimeNbtProviders()
     }
 
     private fun registerConfig() {
@@ -73,5 +76,9 @@ internal object ClientInitializer {
         INbtFilter.register("size", NbtTransformerFilter.Type(NbtCollectionSizeTransformer))
 
         INbtFilter.register("if", ConditionalFilter.TYPE)
+    }
+
+    private fun registerLoadTimeNbtProviders() {
+        ILoadTimeNbtProvider.register("filters", NbtFilterNamesNbtProvider)
     }
 }

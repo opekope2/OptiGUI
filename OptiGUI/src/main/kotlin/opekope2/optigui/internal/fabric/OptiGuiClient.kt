@@ -24,7 +24,7 @@ import opekope2.optigui.internal.IOptiGuiPlatform
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.initializer.ClientInitializer
 import opekope2.optigui.internal.resource.loader.JsonFilterLoader
-import opekope2.optigui.resource.format.json.ILoadTimeNbtSupplier
+import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import opekope2.optigui.screen.ITextureChangeableScreen
 import opekope2.optigui.util.MOD_ID
 import kotlin.jvm.optionals.getOrNull
@@ -59,7 +59,7 @@ internal class OptiGuiClient :
     }
 
     private fun registerLoadTimeNbtSuppliers() {
-        ILoadTimeNbtSupplier.register("mods", FabricModsNbtSupplier)
+        ILoadTimeNbtProvider.register("mods", FabricModsNbtProvider)
     }
 
     private fun registerResourceLoaders(manager: ResourceManagerHelper) {
