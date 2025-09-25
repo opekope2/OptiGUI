@@ -1,17 +1,27 @@
 package opekope2.optigui.filter
 
-import com.google.common.collect.Iterators
 import net.minecraft.nbt.NbtElement
+import opekope2.optigui.util.NbtFilterEvaluation
 
 /**
- * An NBT filter, which negates the output of another filter.
+ * An NBT filter, which negates the result of another filter.
  *
- * @param subFilter The filter to negate the output of
+ * @param subFilter The filter to negate the result of
  */
-class NegatedFilter(val subFilter: INbtFilter) : INbtFilter, Iterable<INbtFilter> {
-    override fun test(nbt: NbtElement) = !subFilter.test(nbt)
+class NegatedFilter(val subFilter: INbtFilter) : INbtFilter {
+    override val type: INbtFilter.Type<NegatedFilter>
+        get() = TYPE
 
-    override fun negate() = subFilter
+    override fun test(nbt: NbtElement, root: NbtElement) = !subFilter.test(nbt, root)
 
-    override fun iterator(): Iterator<INbtFilter> = Iterators.forArray(subFilter)
+    override fun testSubFilters(nbt: NbtElement, root: NbtElement) = listOf(NbtFilterEvaluation(subFilter, nbt, root))
+
+    companion object {
+        /**
+         * A type describing a [NegatedFilter].
+         */
+        @JvmField
+        val TYPE =
+            INbtFilter.Type(NegatedFilter::class.java, INbtFilter.codec.xmap(::NegatedFilter, NegatedFilter::subFilter))
+    }
 }

@@ -1,6 +1,7 @@
 package opekope2.optigui.filter.texture_changer
 
 import net.minecraft.util.Identifier
+import opekope2.optigui.filter.ConditionalFilter
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.util.MOD_ID
 
@@ -22,7 +23,7 @@ data class TextureChangerFilter(
         @JvmField
         val NO_OP = TextureChangerFilter(
             Identifier.of(MOD_ID, ""),
-            INbtFilter.NEVER_MATCH,
+            ConditionalFilter.NEVER,
             mapOf(),
             mapOf()
         )

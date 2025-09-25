@@ -1,16 +1,15 @@
-package opekope2.optigui.filter
+package opekope2.optigui.filter.transformer
 
 import net.minecraft.nbt.*
 
 /**
- * An NBT transformer filter, which tests for the input NBT's size using the given subfilter.
+ * An NBT transformer, which transforms the input NBT to an [NbtInt] containing its size.
  *
- * @param subFilter The subfilter to test the collection size with
  * @see NbtCompound.getSize
  * @see AbstractNbtList.size
  * @see String.length
  */
-class NbtCollectionSizeFilter(override val subFilter: INbtFilter) : INbtTransformerFilter {
+data object NbtCollectionSizeTransformer : INbtTransformer {
     override fun transform(nbt: NbtElement): NbtInt? = when (nbt) {
         is NbtCompound -> NbtInt.of(nbt.size)
         is AbstractNbtList<*> -> NbtInt.of(nbt.size)

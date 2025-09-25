@@ -1,40 +1,62 @@
 package opekope2.optigui.filter
 
-import com.google.common.collect.Iterators
 import com.mojang.serialization.Codec
 import net.minecraft.nbt.AbstractNbtList
 import net.minecraft.nbt.NbtElement
-import opekope2.optigui.resource.format.json.JsonFilterResource
 import opekope2.optigui.util.AggregateOperator
+import opekope2.optigui.util.NbtFilterEvaluation
 
 /**
  * An NBT filter, which tests a subfilter for an NBT list's elements, and combines the results using an
  * [AggregateOperator].
  *
  * @param filter The filter testing the NBT list
- * @param operator The operator that describes the way to combine the results of [filter]
- * @see FilterCollectionFilter
+ * @param type The type describing this filter
+ * @see AggregateFilter
  */
-class NbtListFilter(val filter: INbtFilter, val operator: AggregateOperator) : INbtFilter,
-    Iterable<INbtFilter> {
-    override fun test(nbt: NbtElement): Boolean {
+class NbtListFilter(val filter: INbtFilter, override val type: Type) : INbtFilter {
+    override fun test(nbt: NbtElement, root: NbtElement): Boolean {
         if (nbt !is AbstractNbtList<*>) return false
-        for (elem in nbt) {
-            if (operator shortCircuitsOn filter.test(elem)) return operator.shortCircuitResult
-        }
-        return !operator.shortCircuitResult
+
+        val operator = type.operator
+        return if (nbt.any { operator shortCircuitsOn filter.test(it, root) }) operator.shortCircuitResult
+        else !operator.shortCircuitResult
     }
 
-    override fun iterator(): Iterator<INbtFilter> = Iterators.forArray(filter)
+    override fun testSubFilters(nbt: NbtElement, root: NbtElement): Collection<NbtFilterEvaluation> {
+        if (nbt !is AbstractNbtList<*>) return emptyList()
+        return nbt.map { NbtFilterEvaluation(filter, it, root) }
+    }
 
-    companion object {
+    /**
+     * A type describing an [NbtListFilter].
+     *
+     * @param operator The aggregate operator specifying how to combine the results of multiple filters
+     */
+    enum class Type(val operator: AggregateOperator) : INbtFilter.IType<NbtListFilter> {
         /**
-         * Creates a codec of [NbtListFilter] for the given [AggregateOperator].
-         *
-         * @param operator An aggregate operator combining the results of an NBT list's elements
+         * An [NbtListFilter] type, which requires the filter to return `false` for all NBT list elements.
          */
-        @JvmStatic
-        fun codec(operator: AggregateOperator): Codec<NbtListFilter> =
-            JsonFilterResource.FILTER_CODEC.xmap({ NbtListFilter(it, operator) }, NbtListFilter::filter)
+        NONE_OF_LIST(AggregateOperator.NONE_OF),
+
+        /**
+         * An [NbtListFilter] type, which requires the filter to return `true` for at least one NBT list element.
+         */
+        ANY_OF_LIST(AggregateOperator.ANY_OF),
+
+        /**
+         * An [NbtListFilter] type, which requires the filter to return `false` for at least one NBT list element.
+         */
+        SOME_OF_LIST(AggregateOperator.SOME_OF),
+
+        /**
+         * An [NbtListFilter] type, which requires the filter to return `true` for all NBT list elements.
+         */
+        ALL_OF_LIST(AggregateOperator.ALL_OF);
+
+        override val codec: Codec<NbtListFilter> = INbtFilter.codec.xmap(
+            { NbtListFilter(it, this) },
+            NbtListFilter::filter
+        )
     }
 }

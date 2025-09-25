@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.client.screen.v1.Screens
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.loader.api.FabricLoader
-import net.fabricmc.loader.api.metadata.version.VersionComparisonOperator
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
@@ -49,14 +48,14 @@ internal class OptiGuiClient :
     }
 
     private fun registerNbtFilters() {
-        INbtFilter.register(">v", NbtVersionFilter.codec(VersionComparisonOperator.GREATER))
-        INbtFilter.register(">=v", NbtVersionFilter.codec(VersionComparisonOperator.GREATER_EQUAL))
-        INbtFilter.register("=v", NbtVersionFilter.codec(VersionComparisonOperator.EQUAL))
-        INbtFilter.register("!=v", NbtVersionFilter.codec(VersionComparisonOperator.EQUAL, invert = true))
-        INbtFilter.register("<=v", NbtVersionFilter.codec(VersionComparisonOperator.LESS_EQUAL))
-        INbtFilter.register("<v", NbtVersionFilter.codec(VersionComparisonOperator.LESS))
-        INbtFilter.register("~v", NbtVersionFilter.codec(VersionComparisonOperator.SAME_TO_NEXT_MINOR))
-        INbtFilter.register("^v", NbtVersionFilter.codec(VersionComparisonOperator.SAME_TO_NEXT_MAJOR))
+        INbtFilter.register(">v", NbtVersionFilter.Type.VERSION_GREATER)
+        INbtFilter.register(">=v", NbtVersionFilter.Type.VERSION_GREATER_EQUAL)
+        INbtFilter.register("=v", NbtVersionFilter.Type.VERSION_EQUAL)
+        INbtFilter.register("!=v", NbtVersionFilter.Type.VERSION_NOT_EQUAL)
+        INbtFilter.register("<=v", NbtVersionFilter.Type.VERSION_LESS_EQUAL)
+        INbtFilter.register("<v", NbtVersionFilter.Type.VERSION_LESS)
+        INbtFilter.register("~v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MINOR)
+        INbtFilter.register("^v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MAJOR)
     }
 
     private fun registerLoadTimeNbtSuppliers() {
@@ -100,7 +99,7 @@ internal class OptiGuiClient :
         SynchronousResourceReloader by TextureChanger {
         override fun getFabricId(): Identifier = Identifier.of(MOD_ID, "texture_changer")
 
-        override fun getFabricDependencies() = IFilterLoader.Registry.map { it.key }
+        override fun getFabricDependencies() = IFilterLoader.map { it.key }
     }
 
     internal object Platform : IOptiGuiPlatform {

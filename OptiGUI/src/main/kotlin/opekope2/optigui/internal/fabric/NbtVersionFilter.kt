@@ -9,28 +9,34 @@ import net.minecraft.nbt.NbtString
 import net.minecraft.util.dynamic.Codecs
 import opekope2.optigui.filter.INbtFilter
 
-internal class NbtVersionFilter(
-    private val version: Version,
-    private val operator: VersionComparisonOperator,
-    private val invert: Boolean
-) : INbtFilter {
-    override fun test(nbt: NbtElement): Boolean {
+internal class NbtVersionFilter(private val version: Version, override val type: Type) : INbtFilter {
+    override fun test(nbt: NbtElement, root: NbtElement): Boolean {
         if (nbt !is NbtString) return false
         val nbtVersion = try {
             Version.parse(nbt.asString())
         } catch (_: VersionParsingException) {
             return false
         }
-        return operator.test(nbtVersion, version) xor invert
+        return type.operator.test(nbtVersion, version) xor type.invert
     }
 
-    companion object {
-        fun codec(operator: VersionComparisonOperator, invert: Boolean = false): Codec<NbtVersionFilter> =
-            Codecs.exceptionCatching(
-                Codec.STRING.xmap(
-                    { NbtVersionFilter(Version.parse(it), operator, invert) },
-                    { it.version.friendlyString }
-                )
+    enum class Type(val operator: VersionComparisonOperator, val invert: Boolean = false) :
+        INbtFilter.IType<NbtVersionFilter> {
+        VERSION_GREATER_EQUAL(VersionComparisonOperator.GREATER_EQUAL),
+        VERSION_LESS_EQUAL(VersionComparisonOperator.LESS_EQUAL),
+        VERSION_GREATER(VersionComparisonOperator.GREATER),
+        VERSION_LESS(VersionComparisonOperator.LESS),
+        VERSION_EQUAL(VersionComparisonOperator.EQUAL),
+        VERSION_SAME_TO_NEXT_MINOR(VersionComparisonOperator.SAME_TO_NEXT_MINOR),
+        VERSION_SAME_TO_NEXT_MAJOR(VersionComparisonOperator.SAME_TO_NEXT_MAJOR),
+
+        VERSION_NOT_EQUAL(VersionComparisonOperator.EQUAL, invert = true);
+
+        override val codec: Codec<NbtVersionFilter> = Codecs.exceptionCatching(
+            Codec.STRING.xmap(
+                { NbtVersionFilter(Version.parse(it), this) },
+                { it.version.friendlyString }
             )
+        )
     }
 }

@@ -4,78 +4,84 @@ import com.mojang.serialization.Codec
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtString
 import net.minecraft.util.dynamic.Codecs
-import java.util.function.Function
+import java.util.function.UnaryOperator
+import java.util.regex.PatternSyntaxException
 
 /**
  * An NBT filter, which matches an NBT string against a regular expression.
  *
- * @param regex The regular expression to match NBT with
+ * @param pattern The wildcard or regular expression (determined by [type]) to match NBT with
+ * @param type The type describing this filter
+ * @throws PatternSyntaxException If [pattern] is not a valid wildcard or regex
  */
-class NbtStringRegexFilter(val regex: Regex) : INbtFilter {
-    override fun test(nbt: NbtElement) =
+class NbtStringRegexFilter(val pattern: String, override val type: Type) : INbtFilter {
+    private val regex: Regex = type.toRegex.apply(pattern).toRegex(type.regexOptions)
+
+    override fun test(nbt: NbtElement, root: NbtElement) =
         if (nbt !is NbtString) false
         else regex.matches(nbt.asString())
 
-    companion object {
+    /**
+     * A type describing an [NbtStringRegexFilter].
+     *
+     * @param toRegex A function which converts the input to a regular expression
+     * @param regexOptions Flags which control how a regex matches a string
+     */
+    enum class Type(val toRegex: UnaryOperator<String>, val regexOptions: Set<RegexOption>) :
+        INbtFilter.IType<NbtStringRegexFilter> {
         /**
-         * A case-sensitive regular expression codec for [NbtStringRegexFilter].
+         * An [NbtStringRegexFilter] type, which represents a case-sensitive regex.
          */
-        @JvmField
-        val CASE_SENSITIVE_REGEX_CODEC: Codec<NbtStringRegexFilter> = createCodec { it.toRegex() }
+        CASE_SENSITIVE_REGEX(UnaryOperator.identity(), emptySet()),
 
         /**
-         * A case-insensitive regular expression codec for [NbtStringRegexFilter].
+         * An [NbtStringRegexFilter] type, which represents a case-insensitive regex.
          */
-        @JvmField
-        val CASE_INSENSITIVE_REGEX_CODEC: Codec<NbtStringRegexFilter> = createCodec {
-            it.toRegex(RegexOption.IGNORE_CASE)
-        }
+        CASE_INSENSITIVE_REGEX(UnaryOperator.identity(), setOf(RegexOption.IGNORE_CASE)),
 
         /**
-         * A case-sensitive wildcard codec for [NbtStringRegexFilter].
+         * An [NbtStringRegexFilter] type, which represents a case-sensitive wildcard.
          */
-        @JvmField
-        val CASE_SENSITIVE_WILDCARD_CODEC: Codec<NbtStringRegexFilter> = createCodec { wildcardToRegex(it).toRegex() }
+        CASE_SENSITIVE_WILDCARD(::wildcardToRegex, emptySet()),
 
         /**
-         * A case-insensitive wildcard codec for [NbtStringRegexFilter].
+         * An [NbtStringRegexFilter] type, which represents a case-insensitive wildcard.
          */
-        @JvmField
-        val CASE_INSENSITIVE_WILDCARD_CODEC: Codec<NbtStringRegexFilter> = createCodec {
-            wildcardToRegex(it).toRegex(RegexOption.IGNORE_CASE)
-        }
+        CASE_INSENSITIVE_WILDCARD(::wildcardToRegex, setOf(RegexOption.IGNORE_CASE));
 
-        private fun createCodec(toRegex: Function<String, Regex>) = Codecs.exceptionCatching(
-            Codec.STRING.xmap(toRegex, Regex::pattern).xmap(::NbtStringRegexFilter, NbtStringRegexFilter::regex)
+        override val codec: Codec<NbtStringRegexFilter> = Codecs.exceptionCatching(
+            Codec.STRING.xmap({ NbtStringRegexFilter(it, this) }, NbtStringRegexFilter::pattern)
         )
 
-        private fun wildcardToRegex(wildcard: String) = buildString {
-            append('^')
+        private companion object {
+            private fun wildcardToRegex(wildcard: String) = buildString {
+                append('^')
 
-            for (char in wildcard) {
-                append(
-                    when (char) {
-                        '*' -> ".*"
-                        '?' -> "."
-                        '.' -> "\\."
-                        '\\' -> "\\\\"
-                        '+' -> "\\+"
-                        '^' -> "\\^"
-                        '$' -> "\\$"
-                        '[' -> "\\["
-                        ']' -> "\\]"
-                        '{' -> "\\{"
-                        '}' -> "\\}"
-                        '(' -> "\\("
-                        ')' -> "\\)"
-                        '|' -> "\\|"
-                        '/' -> "\\/"
-                        else -> char.toString()
-                    }
-                )
+                for (char in wildcard) {
+                    append(
+                        when (char) {
+                            '*' -> ".*"
+                            '?' -> "."
+                            '.' -> "\\."
+                            '\\' -> "\\\\"
+                            '+' -> "\\+"
+                            '^' -> "\\^"
+                            '$' -> "\\$"
+                            '[' -> "\\["
+                            ']' -> "\\]"
+                            '{' -> "\\{"
+                            '}' -> "\\}"
+                            '(' -> "\\("
+                            ')' -> "\\)"
+                            '|' -> "\\|"
+                            '/' -> "\\/"
+                            else -> char.toString()
+                        }
+                    )
+                }
+
+                append('$')
             }
-
-            append('$')
         }
     }
 }
