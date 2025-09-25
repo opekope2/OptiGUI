@@ -6,14 +6,14 @@ import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraft.util.Identifier
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
-import opekope2.optigui.interaction.IInteractionTarget
 import opekope2.optigui.interaction.InteractionManager
+import opekope2.optigui.interaction.InteractionTarget
 import opekope2.optigui.util.LinkedMruCollection
 
 internal object TextureChanger : SynchronousResourceReloader {
     var filter: TextureChangerFilter = TextureChangerFilter.NO_OP
         private set
-    private var filters = mapOf<IInteractionTarget, LinkedMruCollection<TextureChangerFilter>>()
+    private var filters = mapOf<InteractionTarget, LinkedMruCollection<TextureChangerFilter>>()
     var renderingScreen = false
     val renderedTextures = mutableSetOf<Identifier>()
     val renderedSprites = mutableSetOf<Identifier>()
@@ -52,7 +52,7 @@ internal object TextureChanger : SynchronousResourceReloader {
     }
 
     override fun reload(manager: ResourceManager?) {
-        val map = LinkedListMultimap.create<IInteractionTarget, TextureChangerFilter>()
+        val map = LinkedListMultimap.create<InteractionTarget, TextureChangerFilter>()
         for ((_, filterLoader) in IFilterLoader.Registry) {
             map.putAll(filterLoader.filters)
         }
