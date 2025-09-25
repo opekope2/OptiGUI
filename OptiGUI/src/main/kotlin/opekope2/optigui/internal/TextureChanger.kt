@@ -45,7 +45,7 @@ internal object TextureChanger : SynchronousResourceReloader {
     fun clearCache() {
         filter = InteractionManager.interaction?.let { interaction ->
             val nbt = interaction.createNbt()
-            filters[interaction.data.target]?.promoteFirstOrNull { it.test(nbt, nbt) }
+            filters[interaction.target]?.promoteFirstOrNull { it.test(nbt, nbt) }
         } ?: TextureChangerFilter.NO_OP
         renderedTextures.clear()
         renderedCustomTextures = false

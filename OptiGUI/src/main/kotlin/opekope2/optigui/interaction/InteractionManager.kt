@@ -7,9 +7,6 @@ import net.minecraft.util.Identifier
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager.clearCache
 import opekope2.optigui.interaction.InteractionManager.interaction
-import opekope2.optigui.interaction.data.GeneralInteractionData
-import opekope2.optigui.interaction.data.IInteractionData
-import opekope2.optigui.interaction.data.InteractionPlayerData
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.screen.ITextureChangeableScreen
 import org.jetbrains.annotations.ApiStatus
@@ -20,7 +17,7 @@ import java.util.*
  */
 object InteractionManager {
     private var screen: ITextureChangeableScreen? = null
-    private var nextInteractionData: IInteractionData? = null
+    private var nextInteractionFactory: IInteraction.IFactory? = null
 
     /**
      * Returns if an interaction is ongoing.
@@ -33,7 +30,7 @@ object InteractionManager {
      * Returns the ongoing interaction or `null`, if no interaction is ongoing.
      */
     @JvmStatic
-    var interaction: Interaction? = null
+    var interaction: IInteraction? = null
         private set
 
     /**
@@ -73,8 +70,8 @@ object InteractionManager {
      * opened.
      */
     @JvmStatic
-    fun prepare(data: IInteractionData) {
-        nextInteractionData = data
+    fun prepare(factory: IInteraction.IFactory) {
+        nextInteractionFactory = factory
     }
 
     /**
@@ -84,13 +81,9 @@ object InteractionManager {
     @JvmName("begin")
     @ApiStatus.Internal
     internal fun begin(screen: ITextureChangeableScreen, player: PlayerEntity) {
-        val interactionData = nextInteractionData ?: GeneralInteractionData(
-            player.mainHandStack,
-            InteractionPlayerData(player, Hand.MAIN_HAND),
-            IInteractionTarget.Unknown
-        )
-        interaction = Interaction(screen, interactionData)
-        nextInteractionData = null
+        interaction = nextInteractionFactory?.apply(screen)
+            ?: GeneralInteraction(screen, player.mainHandStack, InteractionTarget.Unknown, player, Hand.MAIN_HAND)
+        nextInteractionFactory = null
         this.screen = screen
         clearCache()
     }
@@ -106,7 +99,7 @@ object InteractionManager {
         interaction = null
         screen = null
         clearCache()
-        if (disconnected) nextInteractionData = null
+        if (disconnected) nextInteractionFactory = null
     }
 
     /**

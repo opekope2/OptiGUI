@@ -12,12 +12,7 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
-import opekope2.optigui.interaction.IInteractionTarget
-import opekope2.optigui.interaction.InteractionManager
-import opekope2.optigui.interaction.data.BlockInteractionData
-import opekope2.optigui.interaction.data.EntityInteractionData
-import opekope2.optigui.interaction.data.GeneralInteractionData
-import opekope2.optigui.interaction.data.InteractionPlayerData
+import opekope2.optigui.interaction.*
 
 internal object FabricInteractionHandler : UseBlockCallback, UseEntityCallback, UseItemCallback {
     init {
@@ -33,15 +28,7 @@ internal object FabricInteractionHandler : UseBlockCallback, UseEntityCallback, 
         val blockState = world.getBlockState(blockPos)
         val blockEntity = world.getBlockEntity(blockPos)
 
-        InteractionManager.prepare(
-            BlockInteractionData(
-                blockPos,
-                blockState,
-                blockEntity,
-                player.getStackInHand(hand),
-                InteractionPlayerData(player, hand)
-            )
-        )
+        InteractionManager.prepare(BlockInteraction.factory(blockPos, blockState, blockEntity, player, hand))
 
         return ActionResult.PASS
     }
@@ -55,9 +42,7 @@ internal object FabricInteractionHandler : UseBlockCallback, UseEntityCallback, 
     ): ActionResult {
         if (!world.isClient) return ActionResult.PASS
 
-        InteractionManager.prepare(
-            EntityInteractionData(entity, player.getStackInHand(hand), InteractionPlayerData(player, hand))
-        )
+        InteractionManager.prepare(EntityInteraction.factory(entity, player, hand))
 
         return ActionResult.PASS
     }
@@ -68,9 +53,7 @@ internal object FabricInteractionHandler : UseBlockCallback, UseEntityCallback, 
 
         if (!world.isClient) return result
 
-        InteractionManager.prepare(
-            GeneralInteractionData(stack, InteractionPlayerData(player, hand), IInteractionTarget.Item(stack))
-        )
+        InteractionManager.prepare(GeneralInteraction.factory(InteractionTarget.Item(stack), player, hand))
 
         return result
     }
