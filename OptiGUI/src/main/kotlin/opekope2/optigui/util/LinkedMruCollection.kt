@@ -7,11 +7,7 @@ package opekope2.optigui.util
  * @param collection The elements of the collection
  */
 class LinkedMruCollection<T>(collection: Collection<T>) : AbstractCollection<T>() {
-    /**
-     * The most recently used element in the collection.
-     */
-    var head: Link? = null
-        private set
+    private var head: Link? = null
 
     override val size = collection.size
 
@@ -23,42 +19,37 @@ class LinkedMruCollection<T>(collection: Collection<T>) : AbstractCollection<T>(
         }
     }
 
-    // Must be set to true after creating all Links
-    private val initialized = true
-
     /**
-     * Finds and [promotes][Link.promote] the first element which matches [predicate].
+     * Finds and [promotes][IIterator.promote] the first element which matches [predicate].
      *
      * @return `true` if such element was found, `false` otherwise
      */
     inline fun promoteFirst(predicate: (T) -> Boolean): Boolean {
-        var link = head
+        val itr = iterator()
 
-        while (link != null) {
-            if (predicate(link.element)) {
-                link.promote()
-                return true
-            }
-            link = link.next
+        for (elem in itr) {
+            if (!predicate(elem)) continue
+
+            itr.promote()
+            return true
         }
 
         return false
     }
 
     /**
-     * Gets and [promotes][Link.promote] the first element which matches [predicate].
+     * Gets and [promotes][IIterator.promote] the first element which matches [predicate].
      *
      * @return The element if found, `null` otherwise
      */
     inline fun promoteFirstOrNull(predicate: (T) -> Boolean): T? {
-        var link = head
+        val itr = iterator()
 
-        while (link != null) {
-            if (predicate(link.element)) {
-                link.promote()
-                return link.element
-            }
-            link = link.next
+        for (elem in itr) {
+            if (!predicate(elem)) continue
+
+            itr.promote()
+            return elem
         }
 
         return null
@@ -66,37 +57,46 @@ class LinkedMruCollection<T>(collection: Collection<T>) : AbstractCollection<T>(
 
     override fun isEmpty() = head == null
 
-    override fun iterator() = iterator {
-        var link = head
+    override fun iterator() = object : IIterator<T> {
+        private lateinit var current: Link
+        private var next: Link? = head
 
-        while (link != null) {
-            yield(link.element)
-            link = link.next
+        override fun hasNext() = next != null
+
+        override fun next(): T {
+            if (!hasNext()) throw NoSuchElementException()
+            current = next!!
+            next = current.next
+            return current.element
+        }
+
+        override fun promote() {
+            current.promote()
         }
     }
 
     /**
-     * A link of the [LinkedMruCollection].
+     * An iterator over a [LinkedMruCollection]. Provides the ability to promote elements while iterating.
      *
-     * @param prev The previous link or `null`, if this is the first link
-     * @param element A value stored in the collection
+     * @see iterator
      */
-    inner class Link internal constructor(private var prev: Link?, val element: T) {
+    interface IIterator<T> : Iterator<T> {
         /**
-         * The subsequent link or `null`, if this is the last link.
+         * Moves the last element returned by this iterator to the head of the collection.
+         * The iteration continues from the element previously after the promoted element.
          */
+        fun promote()
+    }
+
+    private inner class Link(private var prev: Link?, val element: T) {
         var next: Link? = null
             private set
 
         init {
-            check(!initialized) { "Collection must not be initialized" }
-            require(prev?.next == null) { "Previous link must not have a subsequent link" }
+            assert(prev?.next == null) { "Previous link must not have a subsequent link" }
             prev?.next = this
         }
 
-        /**
-         * Moves this link to the [head] of the collection.
-         */
         fun promote() {
             val prev = this.prev ?: return // already first
             val next = this.next
