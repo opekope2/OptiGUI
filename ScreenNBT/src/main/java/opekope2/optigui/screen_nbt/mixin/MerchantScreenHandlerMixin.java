@@ -44,6 +44,6 @@ public abstract class MerchantScreenHandlerMixin implements INbtConvertible {
         compound.putInt("future_xp", getMerchantRewardedExperience());
         compound.putInt("trader_level", getLevelProgress());
         compound.putBoolean("show_progress_bar", isLeveled());
-        NbtUtil.encode(compound, "offers", getRecipes(), TradeOfferList.CODEC, lookup);
+        compound.put("offers", NbtUtil.encode(getRecipes(), TradeOfferList.CODEC, lookup));
     }
 }
