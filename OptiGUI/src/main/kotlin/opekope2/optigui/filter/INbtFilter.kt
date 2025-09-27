@@ -11,6 +11,7 @@ import opekope2.optigui.filter.transformer.SubNbtTransformer
 import opekope2.optigui.internal.I18n
 import opekope2.optigui.registry.RegistryBase
 import opekope2.optigui.util.NbtFilterEvaluation
+import opekope2.optigui.util.dfu.EitherCodec
 
 /**
  * Interface for filtering [NbtElement]s.
@@ -99,12 +100,12 @@ interface INbtFilter {
         // Lazy-initialized codec to avoid circular reference during class loading
         val codec: Codec<INbtFilter> = Codec.lazyInitialized {
             Codec.either(
-                Codec.withAlternative(
+                EitherCodec(
                     AggregateFilter.Type.JSON_OBJECT.typeValidatedCodec(),
                     AggregateFilter.Type.ANY_OF.typeValidatedCodec()
                 ),
                 NbtStringOrNumberComparer.CaseSensitive.constantType(EQUAL).typeValidatedCodec()
-            ).flatComapMap(Either<AggregateFilter, INbtFilter>::unwrap) {
+            ).flatComapMap(Either<*, *>::unwrap) {
                 when (it) {
                     is AggregateFilter -> DataResult.success(Either.left(it))
                     is ConstantNbtComparerFilter -> DataResult.success(Either.right(it))
