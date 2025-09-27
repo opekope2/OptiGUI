@@ -1,17 +1,21 @@
 package opekope2.optigui.internal.filter
 
-import net.minecraft.nbt.NbtElement
+import com.mojang.datafixers.util.Pair
+import com.mojang.serialization.DataResult
+import com.mojang.serialization.DynamicOps
+import com.mojang.serialization.JavaOps
+import net.minecraft.nbt.*
 import opekope2.optigui.filter.INbtFilter
-import opekope2.optigui.internal.operator.NbtComparableOperator
+import opekope2.optigui.internal.I18n
 
-internal abstract class NbtComparableFilter(signBitMask: Int) : INbtFilter {
+internal sealed class NbtComparableFilter(signBitMask: Int) : INbtFilter {
     private val signBitMask = signBitMask and 0b111
 
     override fun test(nbt: NbtElement) = compareTo(nbt).matchesBits(signBitMask)
 
     protected abstract fun compareTo(nbt: NbtElement): Result
 
-    protected enum class Result(val mask: Int) {
+    enum class Result(val mask: Int) {
         LESS(1 shl 2),
         EQUAL(1 shl 1),
         MORE(1 shl 0),
@@ -29,41 +33,61 @@ internal abstract class NbtComparableFilter(signBitMask: Int) : INbtFilter {
         }
     }
 
-    companion object {
-        @JvmField
-        val MORE_THAN = NbtComparableOperator(Result.MORE.mask, false)
+    private class NbtStringFilter(signBitMask: Int, private val reference: String, private val ignoreCase: Boolean) :
+        NbtComparableFilter(signBitMask) {
+        override fun compareTo(nbt: NbtElement): Result =
+            if (nbt is NbtString) Result.ofComparison(reference.compareTo(nbt.asString(), ignoreCase))
+            else Result.INCOMPARABLE
+    }
 
-        @JvmField
-        val MORE_THAN_IGNORE_CASE = NbtComparableOperator(Result.MORE.mask, true)
+    private class NbtIntFilter(signBitMask: Int, private val threshold: Int) : NbtComparableFilter(signBitMask) {
+        override fun compareTo(nbt: NbtElement) = when (nbt) {
+            is NbtByte, is NbtShort, is NbtInt -> Result.ofComparison(threshold.compareTo(nbt.intValue()))
+            is NbtLong -> Result.ofComparison(threshold.compareTo(nbt.longValue()))
+            is NbtFloat -> Result.ofComparison(threshold.compareTo(nbt.floatValue()))
+            is NbtDouble -> Result.ofComparison(threshold.compareTo(nbt.doubleValue()))
+            else -> Result.INCOMPARABLE
+        }
+    }
 
-        @JvmField
-        val AT_LEAST = NbtComparableOperator(Result.MORE.mask or Result.EQUAL.mask, false)
+    private class NbtLongFilter(signBitMask: Int, private val threshold: Long) : NbtComparableFilter(signBitMask) {
+        override fun compareTo(nbt: NbtElement) = when (nbt) {
+            is NbtByte, is NbtShort, is NbtInt, is NbtLong -> Result.ofComparison(threshold.compareTo(nbt.longValue()))
+            is NbtFloat -> Result.ofComparison(threshold.compareTo(nbt.floatValue()))
+            is NbtDouble -> Result.ofComparison(threshold.compareTo(nbt.doubleValue()))
+            else -> Result.INCOMPARABLE
+        }
+    }
 
-        @JvmField
-        val AT_LEAST_IGNORE_CASE = NbtComparableOperator(Result.MORE.mask or Result.EQUAL.mask, true)
+    private class NbtFloatFilter(signBitMask: Int, private val threshold: Float) : NbtComparableFilter(signBitMask) {
+        override fun compareTo(nbt: NbtElement) = when (nbt) {
+            is NbtByte, is NbtShort, is NbtInt, is NbtLong, is NbtFloat -> Result.ofComparison(threshold.compareTo(nbt.floatValue()))
+            is NbtDouble -> Result.ofComparison(threshold.compareTo(nbt.doubleValue()))
+            else -> Result.INCOMPARABLE
+        }
+    }
 
-        @JvmField
-        val EQUAL_TO = NbtComparableOperator(Result.EQUAL.mask, false)
+    private class NbtDoubleFilter(signBitMask: Int, private val threshold: Double) : NbtComparableFilter(signBitMask) {
+        override fun compareTo(nbt: NbtElement) = when (nbt) {
+            is NbtByte, is NbtShort, is NbtInt, is NbtLong, is NbtFloat, is NbtDouble ->
+                Result.ofComparison(threshold.compareTo(nbt.doubleValue()))
 
-        @JvmField
-        val EQUAL_TO_IGNORE_CASE = NbtComparableOperator(Result.EQUAL.mask, true)
+            else -> Result.INCOMPARABLE
+        }
+    }
 
-        @JvmField
-        val NOT_EQUAL_TO = NbtComparableOperator(Result.MORE.mask or Result.LESS.mask, false)
+    class Decoder(private val ignoreCase: Boolean, vararg acceptedResults: Result) :
+        com.mojang.serialization.Decoder<NbtComparableFilter> {
+        private val signBitMask = acceptedResults.fold(0) { acc, result -> acc or result.mask }
 
-        @JvmField
-        val NOT_EQUAL_TO_IGNORE_CASE = NbtComparableOperator(Result.MORE.mask or Result.LESS.mask, true)
-
-        @JvmField
-        val AT_MOST = NbtComparableOperator(Result.EQUAL.mask or Result.LESS.mask, false)
-
-        @JvmField
-        val AT_MOST_IGNORE_CASE = NbtComparableOperator(Result.EQUAL.mask or Result.LESS.mask, true)
-
-        @JvmField
-        val LESS_THAN = NbtComparableOperator(Result.LESS.mask, false)
-
-        @JvmField
-        val LESS_THAN_IGNORE_CASE = NbtComparableOperator(Result.LESS.mask, true)
+        override fun <T> decode(ops: DynamicOps<T>, input: T): DataResult<Pair<NbtComparableFilter, T>> =
+            when (val param = ops.convertTo(JavaOps.INSTANCE, input)) {
+                is String -> DataResult.success(NbtStringFilter(signBitMask, param, ignoreCase))
+                is Byte, is Short, is Int -> DataResult.success(NbtIntFilter(signBitMask, param.toInt()))
+                is Long -> DataResult.success(NbtLongFilter(signBitMask, param))
+                is Float -> DataResult.success(NbtFloatFilter(signBitMask, param))
+                is Double -> DataResult.success(NbtDoubleFilter(signBitMask, param))
+                else -> DataResult.error { I18n.OPTIGUI_RP_LOADER_ERROR_NOT_A_NUMBER_OR_STRING.getTranslation(param) }
+            }.map { Pair.of(it, ops.empty()) }
     }
 }

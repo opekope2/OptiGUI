@@ -13,7 +13,7 @@ abstract class RegistryBase<TKey, TValue> : Iterable<Map.Entry<TKey, TValue>> {
      * Implementors must call the super method to check if the key is not already registered.
      */
     open fun validateEntry(key: TKey, value: TValue) {
-        require(key !in entries) { "Key `$key` is already registered" }
+        require(key !in entries) { "Key is already registered: $key" }
     }
 
     /**

@@ -23,6 +23,11 @@ Other mods' developers can add their custom containers and customization options
 ## Supported languages
 
 * 🇺🇸 by [opekope2](https://github.com/opekope2)
+
+## Supported languages (until OptiGUI 3 alpha 3)
+
+These were removed in OptiGUI 3 alpha 4 due to being outdated
+
 * 🇹🇼 by [dirtTW](https://github.com/yichifauzi), [notlin4](https://github.com/notlin4)
 * 🇨🇳 by [dirtTW](https://github.com/yichifauzi), [notlin4](https://github.com/notlin4)
 * 🇩🇪 by [Lucanoria](https://github.com/Lucanoria)

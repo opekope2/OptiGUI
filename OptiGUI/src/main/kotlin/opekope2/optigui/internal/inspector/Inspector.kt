@@ -2,15 +2,19 @@ package opekope2.optigui.internal.inspector
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import com.mojang.serialization.Encoder
 import com.mojang.serialization.JsonOps
 import net.minecraft.nbt.AbstractNbtList
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
+import opekope2.optigui.config.IConfig
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.interaction.InteractionManager
+import opekope2.optigui.internal.I18n
 import opekope2.optigui.resource.format.json.ILoadTimeNbtSupplier
 import opekope2.optigui.resource.format.json.JsonFilterResource
+import opekope2.optigui.util.set
 
 private val NBT_FILTER_JSON_ENCODER: Encoder<NbtCompound> = NbtCompound.CODEC.comap(::transformNbtFilterKeys)
 
@@ -42,26 +46,32 @@ internal fun generateJsonResource(generatedBy: String): JsonElement? {
     val interaction = InteractionManager.interaction ?: return null
     val json = JsonObject()
 
-    json.addProperty("generated_by", generatedBy)
-    json.addProperty("docs", "https://opekope2.dev/OptiGUI/JSON.html")
-    json.addProperty(JsonFilterResource.INVENTORIES_KEY, interaction.data.id.toString())
-    json.add(JsonFilterResource.TEXTURE_CHANGES_KEY, getLastRenderedTextures())
-    json.add(JsonFilterResource.SPRITE_CHANGES_KEY, getLastRenderedSprites())
-    json.add(JsonFilterResource.LOAD_FILTER_KEY, getLoadTimeNbtFilter() ?: return null)
-    json.add(JsonFilterResource.FILTER_KEY, getInteractionNbtFilter(interaction) ?: return null)
+    json["generated_by"] = generatedBy
+    json["docs"] = "https://opekope2.dev/OptiGUI/JSON.html"
+    json[JsonFilterResource.INVENTORIES_KEY] = interaction.data.id.toString()
+    json[JsonFilterResource.TEXTURE_CHANGES_KEY] = getLastRenderedTextures()
+    json[JsonFilterResource.SPRITE_CHANGES_KEY] = getLastRenderedSprites()
+    if (IConfig.get().dumpNbt) {
+        json[JsonFilterResource.LOAD_FILTER_KEY] = getLoadTimeNbtFilter() ?: return null
+        json[JsonFilterResource.FILTER_KEY] = getInteractionNbtFilter(interaction) ?: return null
+    } else {
+        val disabledText = I18n.OPTIGUI_INSPECTOR_NBT_DUMPING_DISABLED.getTranslation()
+        json[JsonFilterResource.LOAD_FILTER_KEY] = JsonPrimitive(disabledText)
+        json[JsonFilterResource.FILTER_KEY] = JsonPrimitive(disabledText)
+    }
 
     return json
 }
 
-private fun getLastRenderedTextures() = JsonObject().apply {
+private fun getLastRenderedTextures() = JsonObject().also { json ->
     for (texture in InteractionManager.renderedTextures) {
-        addProperty(texture.toString(), "example:path/to/changed/texture.png")
+        json[texture.toString()] = "example:path/to/changed/texture.png"
     }
 }
 
-private fun getLastRenderedSprites() = JsonObject().apply {
+private fun getLastRenderedSprites() = JsonObject().also { json ->
     for (texture in InteractionManager.renderedSprites) {
-        addProperty(texture.toString(), "example:path/to/changed/sprite")
+        json[texture.toString()] = "example:path/to/changed/sprite"
     }
 }
 

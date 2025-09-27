@@ -1,11 +1,18 @@
 package opekope2.optigui.interaction
 
 import net.minecraft.client.gui.screen.Screen
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager.clearCache
+import opekope2.optigui.interaction.InteractionManager.interaction
+import opekope2.optigui.interaction.data.GeneralInteractionData
 import opekope2.optigui.interaction.data.IInteractionData
+import opekope2.optigui.interaction.data.InteractionPlayerData
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.screen.ITextureChangeableScreen
+import org.jetbrains.annotations.ApiStatus
 import java.util.*
 
 /**
@@ -28,6 +35,14 @@ object InteractionManager {
     @JvmStatic
     var interaction: Interaction? = null
         private set
+
+    /**
+     * Returns the filter which matches the current [interaction] and changes its textures and sprites or `null`, if no
+     * interaction is ongoing.
+     */
+    @JvmStatic
+    val textureChangerFilter: TextureChangerFilter?
+        get() = TextureChanger.filter.takeIf { isInteracting }
 
     /**
      * Returns the non-changed textures rendered since the previous call to [clearCache] or world tick (whichever was
@@ -66,9 +81,15 @@ object InteractionManager {
      * @suppress
      */
     @JvmStatic
-    internal fun begin(screen: ITextureChangeableScreen) {
-        // TODO handle screen change (no end() between two begin()s)
-        interaction = nextInteractionData?.let { Interaction(screen, it) }
+    @JvmName("begin")
+    @ApiStatus.Internal
+    internal fun begin(screen: ITextureChangeableScreen, player: PlayerEntity) {
+        val interactionData = nextInteractionData ?: GeneralInteractionData(
+            player.mainHandStack,
+            InteractionPlayerData(player, Hand.MAIN_HAND),
+            IInteractionTarget.Unknown
+        )
+        interaction = Interaction(screen, interactionData)
         nextInteractionData = null
         this.screen = screen
         clearCache()
@@ -79,6 +100,8 @@ object InteractionManager {
      */
     @JvmStatic
     @JvmOverloads
+    @JvmName("end")
+    @ApiStatus.Internal
     internal fun end(disconnected: Boolean = false) {
         interaction = null
         screen = null
