@@ -24,8 +24,8 @@ data class TextureChangerFilter(
         val NO_OP = TextureChangerFilter(
             Identifier.of(MOD_ID, ""),
             ConditionalFilter.NEVER,
-            mapOf(),
-            mapOf()
+            emptyMap(),
+            emptyMap()
         )
     }
 }
