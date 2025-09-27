@@ -56,7 +56,7 @@
   "optigui.validation.error.wrong_filter_type": "se aștepta la filtru de tip %s, primit %s",
   "text.autoconfig.optigui.category.inspector": "Inspector",
   "text.autoconfig.optigui.category.network": "Funcționalități de rețea",
-  "text.autoconfig.optigui.category.resourceLoading": "Resursele se încarcă",C
+  "text.autoconfig.optigui.category.resourceLoading": "Resursele se încarcă",
   "text.autoconfig.optigui.category.utils": "Utilități",
   "text.autoconfig.optigui.option.dumpNbt": "Dump NBT",
   "text.autoconfig.optigui.option.dumpNbt.@Tooltip": "Adaugă date NBT in resursele JSON generate",
