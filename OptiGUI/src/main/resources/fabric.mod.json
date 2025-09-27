@@ -63,7 +63,7 @@
     "issues": "https://github.com/opekope2/OptiGUI/issues"
   },
   "license": "LGPL-3.0-or-later",
-  "icon": "assets/optigui/icon.png",
+  "icon": "icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
@@ -71,25 +71,28 @@
         "adapter": "kotlin",
         "value": "opekope2.optigui.internal.fabric.OptiGuiClient"
       }
+    ],
+    "modmenu": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.optigui.internal.fabric.ModMenuIntegration"
+      }
     ]
   },
   "mixins": [
     "optigui.mixins.json",
-    "optigui-vanilla-screen-info.mixins.json"
+    "optigui-screens.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=$fabric_loader",
+    "cloth-config": ">=$cloth_config",
     "fabric-api": ">=$fabric_api",
     "fabric-language-kotlin": ">=$fabric_language_kotlin",
+    "fabricloader": ">=0.15.0",
+    "java": ">=$java",
     "minecraft": ">=$minecraft <1.21.2",
-    "java": ">=$java"
+    "optigui-screen-api": "$version"
   },
-  "custom": {
-    "mc-publish": {
-      "loaders": [
-        "fabric",
-        "quilt"
-      ]
-    }
+  "suggests": {
+    "optigui-screen-nbt": "*"
   }
 }

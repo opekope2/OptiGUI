@@ -16,6 +16,7 @@ import opekope2.optigui.internal.filter.NbtComparableFilter
 import opekope2.optigui.operator.INbtOperator
 import opekope2.optigui.resource.format.json.JsonFilterResource.Companion.CODEC1
 import opekope2.optigui.resource.format.json.JsonFilterResource.Companion.CODEC2
+import opekope2.optigui.util.i18n
 import opekope2.optigui.util.mapMessage
 import opekope2.optigui.util.unwrap
 
@@ -149,7 +150,9 @@ data class JsonFilterResource(
         val NBT_FILTER_DECODER: Decoder<INbtFilter> = Codecs.JSON_ELEMENT.flatMap(::decodeJsonFilter)
 
         private fun decodeJsonFilter(rawFilter: JsonElement?, depth: Int = 0): DataResult<INbtFilter> {
-            if (depth >= NbtElement.MAX_DEPTH) return DataResult.error { "Nesting too deep: $rawFilter" }
+            if (depth >= NbtElement.MAX_DEPTH) return DataResult.error {
+                i18n("optigui.rp_loader.error.nesting_too_deep", "Nesting too deep: %s", rawFilter.toString())
+            }
 
             return when (rawFilter) {
                 is JsonObject -> decodeJsonObjectFilter(rawFilter, depth)
@@ -177,13 +180,17 @@ data class JsonFilterResource(
                     key.startsWith('#') -> {
                         val subNbtKey = key.substring(1)
                         val subNbtIndex =
-                            subNbtKey.toIntOrNull() ?: return DataResult.error { "Not a number: $subNbtKey" }
+                            subNbtKey.toIntOrNull() ?: return DataResult.error {
+                                i18n("optigui.rp_loader.error.not_a_number", "Not a number: %s", subNbtKey)
+                            }
                         val subFilter = decodeJsonFilter(value, depth + 1).unwrap { return it }
                         NbtListIndexFilter(subNbtIndex, subFilter)
                     }
 
                     else -> {
-                        if (key !in INbtOperator.Registry) return DataResult.error { "No such operator: $key" }
+                        if (key !in INbtOperator.Registry) return DataResult.error {
+                            i18n("optigui.rp_loader.error.no_operator", "No such operator: %s", key)
+                        }
                         val matchOperator = INbtOperator.Registry.getValue(key)
                         matchOperator.createFilter(JsonOps.INSTANCE, value).unwrap { return it }
                     }

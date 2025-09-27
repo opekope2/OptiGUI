@@ -7,6 +7,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
+import javax.annotation.Nullable;
+
 @Mixin(value = DrawContext.class, priority = 800)
 abstract class DrawContextMixin {
     @ModifyVariable(
@@ -15,7 +17,7 @@ abstract class DrawContextMixin {
             index = 1,
             argsOnly = true
     )
-    private Identifier changeTexture(Identifier texture) {
+    private Identifier changeTexture(@Nullable Identifier texture) {
         return texture != null ? TextureChanger.changeTexture(texture) : null;
     }
 
@@ -28,7 +30,7 @@ abstract class DrawContextMixin {
             index = 1,
             argsOnly = true
     )
-    private Identifier changeSprite(Identifier sprite) {
+    private Identifier changeSprite(@Nullable Identifier sprite) {
         return sprite != null ? TextureChanger.changeSprite(sprite) : null;
     }
 }

@@ -10,9 +10,9 @@ import net.minecraft.client.gui.screen.ButtonTextures
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.input.KeyCodes
-import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import opekope2.optigui.interaction.InteractionManager
+import opekope2.optigui.internal.I18n
 import opekope2.optigui.util.MOD_ID
 
 @Environment(EnvType.CLIENT)
@@ -77,7 +77,7 @@ internal abstract class InspectorWidget : ClickableWidget(0, 0, TEXTURE_WIDTH, T
 
     private companion object {
         private val GSON = GsonBuilder().setPrettyPrinting().create()
-        private val TEXT = Text.translatable("optigui.inspector")
+        private val TEXT = I18n.OPTIGUI_INSPECTOR.getText()
         private const val TEXTURE_WIDTH = 38
         private const val TEXTURE_HEIGHT = 10
         private val TEXTURES = ButtonTextures(

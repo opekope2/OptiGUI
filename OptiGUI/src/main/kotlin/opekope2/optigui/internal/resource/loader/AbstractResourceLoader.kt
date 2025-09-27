@@ -10,6 +10,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.profiler.Profiler
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.TextureChangerFilter
+import opekope2.optigui.util.i18n
 import org.slf4j.Logger
 
 private typealias TextureChangerFilterList = List<TextureChangerFilter>
@@ -30,7 +31,9 @@ internal abstract class AbstractResourceLoader(val id: Identifier) :
             try {
                 loadFilters(id, resource, manager)
             } catch (e: Exception) {
-                logger.error("Error loading resource {}", id, e)
+                logger.error(
+                    i18n("optigui.rp_loader.error.loading_error", "Error loading resource %s: %s", id, e.message)
+                )
                 listOf()
             }
         }
@@ -50,13 +53,27 @@ internal abstract class AbstractResourceLoader(val id: Identifier) :
                 manager.getResource(it).isEmpty
             }
             if (missingTextures.isNotEmpty())
-                logger.warn("Missing textures in {}: {}", filter.resourceId, missingTextures.joinToString())
+                logger.warn(
+                    i18n(
+                        "optigui.rp_loader.error.missing_textures",
+                        "Missing textures in {}: {}",
+                        filter.resourceId,
+                        missingTextures.joinToString()
+                    )
+                )
 
             val missingSprites = filter.spriteChanges.values.filterTo(mutableSetOf()) {
                 guiAtlasManager.getSprite(it) === missingSprite
             }
             if (missingSprites.isNotEmpty())
-                logger.warn("Missing sprites in {}: {}", filter.resourceId, missingTextures.joinToString())
+                logger.warn(
+                    i18n(
+                        "optigui.rp_loader.error.missing_sprites",
+                        "Missing sprites in {}: {}",
+                        filter.resourceId,
+                        missingSprites.joinToString()
+                    )
+                )
 
             filter.copy(
                 textureChanges = filter.textureChanges.filter { (_, value) -> manager.getResource(value).isPresent },
