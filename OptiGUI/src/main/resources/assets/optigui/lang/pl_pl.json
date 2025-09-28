@@ -1,11 +1,11 @@
 {
-  "optigui.inspector": "Inspektor OptiGUI",
+  "optigui.inspector": "Inspektor OptiGUI ",
   "optigui.inspector.description": "Kliknij, aby sprawdzić interakcję.",
-  "optigui.inspector.description.clicked": "Dane z inspekcji skopiowane do schowka.",
-  "optigui.inspector.tip": "Porada: możesz to ukryć w ustawieniach OptiGUI.",
+  "optigui.inspector.description.clicked": "Dane inspekcji zostały skopiowane do schowka.",
+  "optigui.inspector.tip": "Wskazówka: możesz ukryć to w ustawieniach OptiGUI.",
   "optigui.inspector.title": "OptiGUI (%s)",
-  "optigui.inspector.title.alpha": "OptiGUI alfa (%s)",
+  "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
   "optigui.inspector.title.beta": "OptiGUI beta (%s)",
-  "optigui.inspector.title.custom_textures": "niestandardowe tekstury",
+  "optigui.inspector.title.custom_textures": "tekstury niestandardowe",
   "optigui.inspector.title.original_textures": "oryginalne tekstury"
 }
