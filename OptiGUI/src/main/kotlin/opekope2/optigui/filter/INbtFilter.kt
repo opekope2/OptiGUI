@@ -175,9 +175,10 @@ interface INbtFilter {
          * @param key The key to check
          */
         fun getType(key: String) = when {
+            key in this -> getValue(key)
             key.startsWith('@') -> SubNbtTransformer.Type(key.substring(1))
             key.startsWith('#') -> NbtListIndexTransformer.Type(key.substring(1).toInt())
-            else -> super.getValue(key)
+            else -> getValue(key)
         }
     }
 }
