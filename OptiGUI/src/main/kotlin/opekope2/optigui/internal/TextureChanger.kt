@@ -1,18 +1,20 @@
 package opekope2.optigui.internal
 
+import com.google.common.collect.LinkedListMultimap
 import net.minecraft.nbt.NbtElement
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraft.util.Identifier
 import opekope2.optigui.filter.IFilterLoader
-import opekope2.optigui.filter.TextureChangerFilter
+import opekope2.optigui.filter.texture_changer.TextureChangerFilter
+import opekope2.optigui.interaction.IInteractionTarget
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.util.LinkedMruCollection
 
 internal object TextureChanger : SynchronousResourceReloader {
-    private var filters = mapOf<Identifier, LinkedMruCollection<TextureChangerFilter, NbtElement>>()
-    private var textureChanges = mapOf<Identifier, Identifier>()
-    private var spriteChanges = mapOf<Identifier, Identifier>()
+    var filter: TextureChangerFilter = TextureChangerFilter.NO_OP
+        private set
+    private var filters = mapOf<IInteractionTarget, LinkedMruCollection<TextureChangerFilter, NbtElement>>()
     var renderingScreen = false
     val renderedTextures = mutableSetOf<Identifier>()
     val renderedSprites = mutableSetOf<Identifier>()
@@ -25,9 +27,9 @@ internal object TextureChanger : SynchronousResourceReloader {
         if (!InteractionManager.isInteracting) return texture
         renderedTextures += texture
 
-        if (texture !in textureChanges) return texture
+        if (texture !in filter.textureChangers) return texture
         renderedCustomTextures = true
-        return textureChanges.getValue(texture)
+        return filter.textureChangers.getValue(texture).apply(texture)
     }
 
     @JvmStatic
@@ -36,23 +38,24 @@ internal object TextureChanger : SynchronousResourceReloader {
         if (!InteractionManager.isInteracting) return sprite
         renderedSprites += sprite
 
-        if (sprite !in spriteChanges) return sprite
+        if (sprite !in filter.spriteChangers) return sprite
         renderedCustomTextures = true
-        return spriteChanges.getValue(sprite)
+        return filter.spriteChangers.getValue(sprite).apply(sprite)
     }
 
     fun clearCache() {
-        val filter = InteractionManager.interaction?.let {
-            filters[it.data.id]?.promoteFirstOrNull(it.createNbt())
-        }
-        textureChanges = filter?.textureChanges ?: mapOf()
-        spriteChanges = filter?.spriteChanges ?: mapOf()
+        filter = InteractionManager.interaction?.let {
+            filters[it.data.target]?.promoteFirstOrNull(it.createNbt())
+        } ?: TextureChangerFilter.NO_OP
         renderedTextures.clear()
         renderedCustomTextures = false
     }
 
     override fun reload(manager: ResourceManager?) {
-        filters = IFilterLoader.Registry.flatMap { it.value.get() }.groupBy { it.inventoryId }
-            .mapValues { (_, list) -> LinkedMruCollection(list) }
+        val map = LinkedListMultimap.create<IInteractionTarget, TextureChangerFilter>()
+        for ((_, filterLoader) in IFilterLoader.Registry) {
+            map.putAll(filterLoader.filters)
+        }
+        filters = map.asMap().mapValues { (_, list) -> LinkedMruCollection(list) }
     }
 }

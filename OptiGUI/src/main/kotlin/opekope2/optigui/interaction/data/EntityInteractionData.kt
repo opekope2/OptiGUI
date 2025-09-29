@@ -4,9 +4,8 @@ import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.registry.RegistryWrapper
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
-import opekope2.optigui.util.identifier
+import opekope2.optigui.interaction.IInteractionTarget
 import opekope2.optigui.util.subCompound
 
 /**
@@ -21,8 +20,7 @@ data class EntityInteractionData(
     override val item: ItemStack,
     override val playerData: InteractionPlayerData
 ) : IInteractionData {
-    override val id: Identifier
-        get() = entity.identifier
+    override val target = IInteractionTarget.Entity(entity)
 
     override val blockPos: BlockPos
         get() = entity.blockPos

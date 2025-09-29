@@ -12,11 +12,12 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
+import opekope2.optigui.interaction.IInteractionTarget
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.data.BlockInteractionData
 import opekope2.optigui.interaction.data.EntityInteractionData
+import opekope2.optigui.interaction.data.GeneralInteractionData
 import opekope2.optigui.interaction.data.InteractionPlayerData
-import opekope2.optigui.interaction.data.ItemInteractionData
 
 internal object FabricInteractionHandler : UseBlockCallback, UseEntityCallback, UseItemCallback {
     init {
@@ -68,7 +69,7 @@ internal object FabricInteractionHandler : UseBlockCallback, UseEntityCallback, 
         if (!world.isClient) return result
 
         InteractionManager.prepare(
-            ItemInteractionData(stack, InteractionPlayerData(player, hand))
+            GeneralInteractionData(stack, InteractionPlayerData(player, hand), IInteractionTarget.Item(stack))
         )
 
         return result
