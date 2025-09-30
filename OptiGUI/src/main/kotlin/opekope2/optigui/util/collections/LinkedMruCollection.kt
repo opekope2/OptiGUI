@@ -1,4 +1,4 @@
-package opekope2.optigui.util
+package opekope2.optigui.util.collections
 
 /**
  * A read-only collection, which stores elements in most recently used order.

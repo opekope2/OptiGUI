@@ -8,7 +8,7 @@ import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.InteractionTarget
-import opekope2.optigui.util.LinkedMruCollection
+import opekope2.optigui.util.collections.LinkedMruCollection
 
 internal object TextureChanger : SynchronousResourceReloader {
     var filter: TextureChangerFilter = TextureChangerFilter.NO_OP

@@ -7,8 +7,8 @@ import opekope2.optigui.filter.transformer.NbtListIndexTransformer
 import opekope2.optigui.filter.transformer.SubNbtTransformer
 import opekope2.optigui.internal.I18n
 import opekope2.optigui.util.AggregateOperator
-import opekope2.optigui.util.LinkedMruCollection
 import opekope2.optigui.util.NbtFilterEvaluation
+import opekope2.optigui.util.collections.LinkedMruCollection
 
 /**
  * An NBT filter aggregating multiple filters using an [AggregateOperator].
