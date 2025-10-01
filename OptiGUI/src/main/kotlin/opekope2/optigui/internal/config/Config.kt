@@ -14,8 +14,9 @@ internal class Config : IConfig, ConfigData {
     override var enableInspector = true
 
     @ConfigEntry.Category("inspector")
+    @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
     @ConfigEntry.Gui.Tooltip
-    override var dumpNbt: Boolean = false
+    override var dumpNbt: IConfig.InspectorNbtDumpOptions = IConfig.InspectorNbtDumpOptions.DISABLED
 
     override fun save() {
         AutoConfig.getConfigHolder(javaClass).save()

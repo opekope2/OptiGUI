@@ -1,4 +1,7 @@
 {
+  "optigui.enum.InspectorNbtDumper.DISABLED": "Disabled",
+  "optigui.enum.InspectorNbtDumper.ENABLED_VALUES_AND_TYPES": "Values & types",
+  "optigui.enum.InspectorNbtDumper.ENABLED_VALUES_ONLY": "Values only",
   "optigui.enum.ResourceLoadingErrorFilter.ERRORS_AND_WARNINGS": "Errors & warnings",
   "optigui.enum.ResourceLoadingErrorFilter.ERRORS_ONLY": "Errors only",
   "optigui.enum.ResourceLoadingErrorFilter.NOTHING": "Never",
