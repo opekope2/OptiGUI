@@ -23,7 +23,15 @@ data object NbtTypeTransformer : INbtTransformer {
         NbtElement.COMPOUND_TYPE to NbtString.of("compound"),
         NbtElement.INT_ARRAY_TYPE to NbtString.of("int_array"),
         NbtElement.LONG_ARRAY_TYPE to NbtString.of("long_array"),
+        NbtElement.NUMBER_TYPE to NbtString.of("number"),
     )
 
-    override fun transform(nbt: NbtElement) = type2name[nbt.type]
+    /**
+     * Gets the string representation of the given NBT type as an [NbtString].
+     *
+     * @param type One of the `TYPE` fields in [NbtElement]
+     */
+    fun transform(type: Byte) = type2name[type]
+
+    override fun transform(nbt: NbtElement) = transform(nbt.type)
 }

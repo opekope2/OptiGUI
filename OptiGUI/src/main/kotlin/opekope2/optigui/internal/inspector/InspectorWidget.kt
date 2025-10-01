@@ -61,7 +61,8 @@ internal abstract class InspectorWidget : ClickableWidget(0, 0, TEXTURE_WIDTH, T
     }
 
     private fun inspectInteraction() {
-        val json = generateJsonResource(generatedBy) ?: return
+        val interaction = InteractionManager.interaction ?: return
+        val json = Inspector.generateJsonResource(interaction, generatedBy)
 
         MinecraftClient.getInstance().keyboard.clipboard = GSON.toJson(json)
         updateTooltip(true)
@@ -85,7 +86,7 @@ internal abstract class InspectorWidget : ClickableWidget(0, 0, TEXTURE_WIDTH, T
     }
 
     private companion object {
-        private val GSON = GsonBuilder().setPrettyPrinting().create()
+        private val GSON = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
         private val TEXT = I18n.OPTIGUI_INSPECTOR.getText()
         private const val TEXTURE_WIDTH = 38
         private const val TEXTURE_HEIGHT = 10
