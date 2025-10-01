@@ -8,8 +8,6 @@ import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
 
 /**
  * Finds the ID of the given block in the registry.
@@ -34,10 +32,3 @@ val EntityType<*>.identifier: Identifier
  */
 val Item.identifier: Identifier
     get() = Registries.ITEM.getId(this)
-
-/**
- * Finds the biome ID at the given world position.
- *
- * @param pos The position to look up the biome
- */
-fun World.getBiomeId(pos: BlockPos): Identifier = getBiome(pos).key.get().value

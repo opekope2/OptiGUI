@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.client.screen.v1.Screens
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.loader.api.FabricLoader
-import net.fabricmc.loader.api.metadata.version.VersionComparisonOperator
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
@@ -25,7 +24,7 @@ import opekope2.optigui.internal.IOptiGuiPlatform
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.initializer.ClientInitializer
 import opekope2.optigui.internal.resource.loader.JsonFilterLoader
-import opekope2.optigui.resource.format.json.ILoadTimeNbtSupplier
+import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import opekope2.optigui.screen.ITextureChangeableScreen
 import opekope2.optigui.util.MOD_ID
 import kotlin.jvm.optionals.getOrNull
@@ -49,18 +48,18 @@ internal class OptiGuiClient :
     }
 
     private fun registerNbtFilters() {
-        INbtFilter.register(">v", NbtVersionFilter.Decoder(VersionComparisonOperator.GREATER))
-        INbtFilter.register(">=v", NbtVersionFilter.Decoder(VersionComparisonOperator.GREATER_EQUAL))
-        INbtFilter.register("=v", NbtVersionFilter.Decoder(VersionComparisonOperator.EQUAL))
-        INbtFilter.register("!=v", NbtVersionFilter.Decoder(VersionComparisonOperator.EQUAL, invert = true))
-        INbtFilter.register("<=v", NbtVersionFilter.Decoder(VersionComparisonOperator.LESS_EQUAL))
-        INbtFilter.register("<v", NbtVersionFilter.Decoder(VersionComparisonOperator.LESS))
-        INbtFilter.register("~v", NbtVersionFilter.Decoder(VersionComparisonOperator.SAME_TO_NEXT_MINOR))
-        INbtFilter.register("^v", NbtVersionFilter.Decoder(VersionComparisonOperator.SAME_TO_NEXT_MAJOR))
+        INbtFilter.register(">v", NbtVersionFilter.Type.VERSION_GREATER)
+        INbtFilter.register(">=v", NbtVersionFilter.Type.VERSION_GREATER_EQUAL)
+        INbtFilter.register("=v", NbtVersionFilter.Type.VERSION_EQUAL)
+        INbtFilter.register("!=v", NbtVersionFilter.Type.VERSION_NOT_EQUAL)
+        INbtFilter.register("<=v", NbtVersionFilter.Type.VERSION_LESS_EQUAL)
+        INbtFilter.register("<v", NbtVersionFilter.Type.VERSION_LESS)
+        INbtFilter.register("~v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MINOR)
+        INbtFilter.register("^v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MAJOR)
     }
 
     private fun registerLoadTimeNbtSuppliers() {
-        ILoadTimeNbtSupplier.register("mods", FabricModsNbtSupplier)
+        ILoadTimeNbtProvider.register("mods", FabricModsNbtProvider)
     }
 
     private fun registerResourceLoaders(manager: ResourceManagerHelper) {
@@ -100,7 +99,7 @@ internal class OptiGuiClient :
         SynchronousResourceReloader by TextureChanger {
         override fun getFabricId(): Identifier = Identifier.of(MOD_ID, "texture_changer")
 
-        override fun getFabricDependencies() = IFilterLoader.Registry.map { it.key }
+        override fun getFabricDependencies() = IFilterLoader.map { it.key }
     }
 
     internal object Platform : IOptiGuiPlatform {

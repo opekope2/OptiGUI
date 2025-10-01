@@ -1,0 +1,103 @@
+package opekope2.optigui.interaction.nbt_provider
+
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.RegistryWrapper
+import net.minecraft.resource.featuretoggle.FeatureFlags
+import net.minecraft.scoreboard.ScoreboardState
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.dimension.DimensionType
+import opekope2.optigui.interaction.IInteraction
+import opekope2.optigui.util.encode
+
+/**
+ * Provides the world NBT of an interaction.
+ */
+object WorldNbtProvider : IInteractionNbtProvider {
+    override fun get(interaction: IInteraction, lookup: RegistryWrapper.WrapperLookup) = NbtCompound().apply {
+        interaction.world.apply {
+            // TODO update when porting to a different version
+            putInt("ambient_darkness", ambientDarkness)
+            // asString - debug info
+            // biomeAccess - no properties
+            // bottomSectionCoord - no additional info
+            // bottomY - no additional info
+            // brewingRecipeRegistry - no properties
+            // chunkManager - no additional properties
+            putInt("vertical_section_count", countVerticalSections())
+            // damageSources - irrelevant? data pack detection?
+            putInt("difficulty", difficulty.ordinal)
+            put("dimension", encode(dimension, DimensionType.CODEC, registryManager))
+            putString("dimension_id", dimensionEntry.idAsString)
+            put("enabled_features", encode(enabledFeatures, FeatureFlags.CODEC, lookup))
+            // fluidTickScheduler - irrelevant
+            // gameRules - not synced
+            // getClass - irrelevant
+            // getEntityLookup - irrelevant
+            // getRandom - irrelevant
+            // hashCode - irrelevant
+            putInt("height", height)
+            // increaseAndGetMapId - mutates world
+            // isClient - true
+            putBoolean("is_day", isDay)
+            putBoolean("is_debug_world", isDebugWorld)
+            putBoolean("is_difficulty_locked", levelProperties.isDifficultyLocked) // from levelProperties
+            putBoolean("is_hardcore", levelProperties.isHardcore) // from levelProperties
+            putBoolean("is_night", isNight)
+            putBoolean("is_raining", isRaining)
+            putBoolean("is_saving_disabled", isSavingDisabled)
+            putBoolean("is_thundering", isThundering)
+            // levelProperties - no additional info
+            // lightingProvider - no additional info
+            putInt("loaded_chunk_count", chunkManager.loadedChunkCount) // from chunkManager
+            putLong("lunar_time", lunarTime)
+            putInt("max_light_level", maxLightLevel)
+            putInt("moon_phase", moonPhase)
+            putFloat("moon_size", moonSize)
+            // players - irrelevant? too much info
+            // profiler - irrelevant
+            // profilerSupplier - irrelevant
+            // recipeManager - irrelevant
+            // registryKey - irrelevant
+            // registryManager - irrelevant
+            put("scoreboard", ScoreboardState(scoreboard).writeNbt(NbtCompound(), lookup))
+            putInt("sea_level", seaLevel)
+            // server - irrelevant
+            putFloat("spawn_angle", spawnAngle)
+            put("spawn_pos", encode(spawnPos, BlockPos.CODEC, registryManager))
+            put("tick_manager", NbtCompound().apply {
+                putBoolean("is_frozen", tickManager.isFrozen)
+                putBoolean("is_stepping", tickManager.isStepping)
+                putBoolean("should_tick", tickManager.shouldTick())
+                putFloat("millis_per_tick", tickManager.millisPerTick)
+                putFloat("tick_rate", tickManager.tickRate)
+                putInt("step_ticks", tickManager.stepTicks)
+                putLong("nanos_per_tick", tickManager.nanosPerTick)
+            })
+            // tickOrder - mutates world
+            putLong("time", time)
+            putLong("time_of_day", timeOfDay)
+            // toString - irrelevant
+            // topSectionCoord - no additional info
+            // topY - no additional info
+            put("border", NbtCompound().apply {
+                // Mojmap keys, because it makes more sense
+                putDouble("max_x", worldBorder.boundEast)
+                putDouble("min_z", worldBorder.boundNorth)
+                putDouble("max_z", worldBorder.boundSouth)
+                putDouble("min_x", worldBorder.boundWest)
+                putDouble("center_x", worldBorder.centerX)
+                putDouble("center_z", worldBorder.centerZ)
+                putDouble("damage_per_block", worldBorder.damagePerBlock)
+                putInt("absolute_max_size", worldBorder.maxRadius)
+                putDouble("damage_safe_zone", worldBorder.safeZone)
+                putDouble("lerp_speed", worldBorder.shrinkingSpeed)
+                putDouble("size", worldBorder.size)
+                putDouble("lerp_target", worldBorder.sizeLerpTarget)
+                putLong("lerp_remaining_time", worldBorder.sizeLerpTime)
+                putString("status", worldBorder.stage.name)
+                putInt("warning_blocks", worldBorder.warningBlocks)
+                putInt("warning_time", worldBorder.warningTime)
+            })
+        }
+    }
+}

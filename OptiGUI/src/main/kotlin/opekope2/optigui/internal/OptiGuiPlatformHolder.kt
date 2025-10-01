@@ -1,4 +1,4 @@
-@file: JvmName("OptiGuiPlatformHolder")
+@file:JvmName("OptiGuiPlatformHolder")
 
 package opekope2.optigui.internal
 

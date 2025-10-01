@@ -1,4 +1,4 @@
-@file: JvmName("Constants")
+@file:JvmName("Constants")
 
 package opekope2.optigui.util
 
