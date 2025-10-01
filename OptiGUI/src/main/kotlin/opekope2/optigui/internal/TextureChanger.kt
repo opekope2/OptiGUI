@@ -42,13 +42,20 @@ internal object TextureChanger : SynchronousResourceReloader {
         return filter.spriteChangers.getValue(sprite).apply(sprite)
     }
 
-    fun clearCache() {
-        filter = InteractionManager.interaction?.let { interaction ->
-            val nbt = interaction.createNbt()
-            filters[interaction.target]?.promoteFirstOrNull { it.test(nbt, nbt) }
-        } ?: TextureChangerFilter.NO_OP
+    fun clearCache(disconnected: Boolean) {
+        val prevFilter = filter
+        filter = updateFilter()
         renderedTextures.clear()
         renderedCustomTextures = false
+
+        TextStyler.clearCache(prevFilter.textStyleChangers !== filter.textStyleChangers, disconnected)
+    }
+
+    private fun updateFilter(): TextureChangerFilter {
+        val interaction = InteractionManager.interaction ?: return TextureChangerFilter.NO_OP
+        val filters = filters[interaction.target] ?: return TextureChangerFilter.NO_OP
+        val nbt = interaction.createNbt()
+        return filters.promoteFirstOrNull { it.test(nbt, nbt) } ?: TextureChangerFilter.NO_OP
     }
 
     override fun reload(manager: ResourceManager?) {

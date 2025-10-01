@@ -9,6 +9,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.dynamic.Codecs
 import opekope2.optigui.filter.ConditionalFilter
 import opekope2.optigui.filter.INbtFilter
+import opekope2.optigui.filter.text_style_changer.TextStyleChanger
 import opekope2.optigui.util.dfu.field
 import opekope2.optigui.util.dfu.optionalField
 import opekope2.optigui.util.dfu.toSet
@@ -47,6 +48,7 @@ sealed class JsonFilterResource {
                 .map { (key, value) -> key to JsonTextureChanger(value) }.toMap(),
             textures.asSequence().filter { (key) -> !key.path.endsWith(".png") }
                 .map { (key, value) -> key to JsonTextureChanger(value) }.toMap(),
+            emptyList(),
             loadFilter,
             filter
         )
@@ -109,6 +111,7 @@ sealed class JsonFilterResource {
      *   screens opened by the server)
      * @param textureChangers A map containing the original textures and texture changers
      * @param spriteChangers A map containing the original sprites and sprite changers
+     * @param textStyleChangers A list containing the text style changers
      * @param loadFilter Raw representation of a filter determining if the resource should be loaded
      * @param filter Raw representation of a filter filtering an interaction NBT
      */
@@ -120,6 +123,7 @@ sealed class JsonFilterResource {
         val unknown: Boolean,
         val textureChangers: Map<Identifier, JsonTextureChanger>,
         val spriteChangers: Map<Identifier, JsonTextureChanger>,
+        val textStyleChangers: List<TextStyleChanger>,
         val loadFilter: INbtFilter,
         val filter: INbtFilter,
     ) : JsonFilterResource() {
@@ -177,6 +181,13 @@ sealed class JsonFilterResource {
             const val SPRITE_CHANGERS_KEY = "change_sprites"
 
             /**
+             * Key of [V2.textStyleChangers] in a JSON object.
+             *
+             * @see V2.textStyleChangers
+             */
+            const val TEXT_STYLE_CHANGERS_KEY = "change_text_styles"
+
+            /**
              * Key of [V2.loadFilter] in a JSON object.
              *
              * @see V2.loadFilter
@@ -205,6 +216,8 @@ sealed class JsonFilterResource {
                         .optionalField(TEXTURE_CHANGERS_KEY, V2::textureChangers, emptyMap()),
                     Codec.unboundedMap(Identifier.CODEC, JsonTextureChanger.CODEC)
                         .optionalField(SPRITE_CHANGERS_KEY, V2::spriteChangers, emptyMap()),
+                    TextStyleChanger.CODEC.listOf()
+                        .optionalField(TEXT_STYLE_CHANGERS_KEY, V2::textStyleChangers, emptyList()),
                     INbtFilter.codec.optionalField(LOAD_FILTER_KEY, V2::loadFilter, ConditionalFilter.ALWAYS),
                     INbtFilter.codec.optionalField(FILTER_KEY, V2::filter, ConditionalFilter.ALWAYS),
                 ).apply(instance, ::V2)
