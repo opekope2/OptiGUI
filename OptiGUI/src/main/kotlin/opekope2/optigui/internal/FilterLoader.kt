@@ -31,14 +31,14 @@ internal object FilterLoader : IdentifiableResourceReloadListener, ClientModInit
     override fun getFabricId(): Identifier = Identifier.of(MOD_ID, "filter_loader")
 
     override fun reload(
-        synchronizer: ResourceReloader.Synchronizer,
-        manager: ResourceManager,
+        store: ResourceReloader.Store,
         prepareExecutor: Executor,
+        reloadSynchronizer: ResourceReloader.Synchronizer,
         applyExecutor: Executor
     ): CompletableFuture<Void> {
-        return CompletableFuture.supplyAsync({ loadRawFilters(manager, LOGGER) }, prepareExecutor)
-            .thenCompose(synchronizer::whenPrepared)
-            .thenAcceptAsync({ loadFilters(manager, it, LOGGER) }, applyExecutor)
+        return CompletableFuture.supplyAsync({ loadRawFilters(store.resourceManager, LOGGER) }, prepareExecutor)
+            .thenCompose(reloadSynchronizer::whenPrepared)
+            .thenAcceptAsync({ loadFilters(store.resourceManager, it, LOGGER) }, applyExecutor)
     }
 
     override fun onInitializeClient() {

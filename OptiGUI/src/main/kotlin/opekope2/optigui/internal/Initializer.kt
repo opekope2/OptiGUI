@@ -7,11 +7,16 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
+import net.minecraft.util.Identifier
 import opekope2.optigui.registry.FilterLoaderRegistry
 import opekope2.optigui.registry.RetexturableScreenRegistry
 import opekope2.optigui.resource.OptiFineFilterLoader
 import opekope2.optigui.resource.OptiGuiFilterLoader
+import opekope2.optigui.util.MOD_ID
 import org.lwjgl.glfw.GLFW
+
+@JvmField
+internal val OPTIGUI_INSPECTOR_CATEGORY = KeyBinding.Category.create(Identifier.of(MOD_ID, "inspector"))
 
 @JvmField
 internal val INSPECTOR_KEY_BINDING: KeyBinding = KeyBindingHelper.registerKeyBinding(
@@ -19,7 +24,7 @@ internal val INSPECTOR_KEY_BINDING: KeyBinding = KeyBindingHelper.registerKeyBin
         "key.optigui.inspect",
         InputUtil.Type.KEYSYM,
         GLFW.GLFW_KEY_F12,
-        "key.categories.optigui"
+        OPTIGUI_INSPECTOR_CATEGORY
     )
 )
 

@@ -2,6 +2,7 @@ package opekope2.optigui.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.input.KeyInput;
 import opekope2.optigui.internal.InitializerKt;
 import opekope2.optigui.registry.RetexturableScreenRegistry;
 import opekope2.optigui.toast.InspectorToast;
@@ -18,11 +19,11 @@ public abstract class ScreenMixin {
     protected MinecraftClient client;
 
     @Inject(method = "keyPressed", at = @At("TAIL"))
-    void handleKeyPress(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+    void handleKeyPress(KeyInput input, CallbackInfoReturnable<Boolean> cir) {
         Screen thiz = (Screen) (Object) this;
         if (!RetexturableScreenRegistry.contains(thiz)) return;
 
-        if (!InitializerKt.INSPECTOR_KEY_BINDING.matchesKey(keyCode, scanCode)) return;
+        if (!InitializerKt.INSPECTOR_KEY_BINDING.matchesKey(input)) return;
 
         String inspection = InteractionUtil.inspectInteraction();
         if (inspection == null) return;
