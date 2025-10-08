@@ -40,6 +40,7 @@ public abstract class LoomScreenHandlerMixin implements INbtConvertible {
         for (var pattern : bannerPatterns) patterns.add(NbtString.of(pattern.getIdAsString()));
         compound.put("banner_patterns", patterns);
         var selected = getSelectedPattern();
-        if (selected >= 0) compound.putString("selected_banner_pattern", bannerPatterns.get(selected).getIdAsString());
+        if (selected >= 0 && selected < bannerPatterns.size())
+            compound.putString("selected_banner_pattern", bannerPatterns.get(selected).getIdAsString());
     }
 }

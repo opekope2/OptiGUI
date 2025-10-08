@@ -5,10 +5,9 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.Hand;
-import opekope2.optigui.interaction.IInteractionTarget;
+import opekope2.optigui.interaction.GeneralInteraction;
 import opekope2.optigui.interaction.InteractionManager;
-import opekope2.optigui.interaction.data.GeneralInteractionData;
-import opekope2.optigui.interaction.data.InteractionPlayerData;
+import opekope2.optigui.interaction.InteractionTarget;
 import opekope2.optigui.screen.ITextureChangeableScreen;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,13 +31,7 @@ public abstract class MinecraftClientMixin {
         if (player == null) return;
 
         if (currentScreen instanceof AbstractInventoryScreen<?>) {
-            InteractionManager.prepare(
-                    new GeneralInteractionData(
-                            player.getMainHandStack(),
-                            new InteractionPlayerData(player, Hand.MAIN_HAND),
-                            IInteractionTarget.Inventory.INSTANCE
-                    )
-            );
+            InteractionManager.prepare(GeneralInteraction.factory(InteractionTarget.Inventory.INSTANCE, player, Hand.MAIN_HAND));
         }
 
         if (currentScreen instanceof ITextureChangeableScreen textureChangeableScreen) {

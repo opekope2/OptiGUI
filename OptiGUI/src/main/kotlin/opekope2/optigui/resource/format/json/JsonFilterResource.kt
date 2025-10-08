@@ -1,212 +1,276 @@
 package opekope2.optigui.resource.format.json
 
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import com.mojang.serialization.Codec
-import com.mojang.serialization.DataResult
-import com.mojang.serialization.Decoder
-import com.mojang.serialization.JsonOps
+import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.nbt.NbtElement
+import net.minecraft.entity.EntityType
+import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 import net.minecraft.util.dynamic.Codecs
-import opekope2.optigui.filter.*
-import opekope2.optigui.internal.filter.NbtComparableFilter
-import opekope2.optigui.operator.INbtOperator
-import opekope2.optigui.resource.format.json.JsonFilterResource.Companion.CODEC1
-import opekope2.optigui.resource.format.json.JsonFilterResource.Companion.CODEC2
-import opekope2.optigui.util.i18n
-import opekope2.optigui.util.mapMessage
-import opekope2.optigui.util.unwrap
+import opekope2.optigui.filter.ConditionalFilter
+import opekope2.optigui.filter.INbtFilter
+import opekope2.optigui.filter.text_style_changer.TextStyleChanger
+import opekope2.optigui.util.dfu.field
+import opekope2.optigui.util.dfu.optionalField
+import opekope2.optigui.util.dfu.toSet
+import opekope2.optigui.util.identifier
 
 /**
- * Represents an OptiGUI JSON-based filter.
- *
- * @param inventories The identifiers of the blocks, entities, or items to change the GUI textures of
- * @param textureChanges A map containing the original and the changed textures
- * @param spriteChanges A map containing the original and the changed sprites
- * @param loadFilter Raw representation of a filter determining if the resource should be loaded
- * @param filter Raw representation of a filter filtering an interaction NBT
+ * Represents an OptiGUI JSON filter resource.
  */
-data class JsonFilterResource(
-    val inventories: Set<Identifier>,
-    val textureChanges: Map<Identifier, Identifier>,
-    val spriteChanges: Map<Identifier, Identifier>,
-    val loadFilter: JsonElement,
-    val filter: JsonElement
-) {
-    @Deprecated("For backward-compatibility only")
-    private constructor(
-        inventories: Set<Identifier>,
-        textureChanges: Map<Identifier, Identifier>,
-        loadFilter: JsonElement,
-        filter: JsonElement
-    ) : this(inventories, textureChanges, mapOf(), loadFilter, filter)
+sealed class JsonFilterResource {
+    /**
+     * The format version of the JSON filter resource.
+     */
+    abstract val format: Int
 
-    fun testLoadFilter(nbt: NbtElement): DataResult<Boolean> {
-        val loadFilter = decodeNbtFilter(loadFilter).unwrap { return it.mapMessage() }
-        return DataResult.success(loadFilter.test(nbt))
+    /**
+     * Represents a version 1 OptiGUI JSON filter resource.
+     *
+     * @param containers The containers to change the GUI textures of
+     * @param textures A map containing the original and the changed textures
+     * @param loadFilter Raw representation of a filter determining if the resource should be loaded
+     * @param filter Raw representation of a filter filtering an interaction NBT
+     */
+    data class V1(
+        val containers: Set<Identifier>,
+        val textures: Map<Identifier, Identifier>,
+        val loadFilter: INbtFilter,
+        val filter: INbtFilter
+    ) : JsonFilterResource() {
+        fun toV2() = V2(
+            containers.filterTo(mutableSetOf(), Registries.BLOCK::containsId),
+            containers.filterTo(mutableSetOf(), Registries.ENTITY_TYPE::containsId),
+            containers.filterTo(mutableSetOf(), Registries.ITEM::containsId),
+            EntityType.PLAYER.identifier in containers,
+            false,
+            textures.asSequence().filter { (key) -> key.path.endsWith(".png") }
+                .map { (key, value) -> key to JsonTextureChanger(value) }.toMap(),
+            textures.asSequence().filter { (key) -> !key.path.endsWith(".png") }
+                .map { (key, value) -> key to JsonTextureChanger(value) }.toMap(),
+            emptyList(),
+            loadFilter,
+            filter
+        )
+
+        override val format: Int
+            get() = 1
+
+        companion object {
+            /**
+             * Key of [V1.containers] in a JSON object.
+             *
+             * @see V1.containers
+             */
+            const val CONTAINERS_KEY = "containers"
+
+            /**
+             * Key of [V1.textures] in a JSON object.
+             *
+             * @see V1.textures
+             */
+            const val TEXTURES_KEY = "textures"
+
+            /**
+             * Key of [V1.loadFilter] in a JSON object.
+             *
+             * @see V1.loadFilter
+             */
+            const val LOAD_FILTER_KEY = "if"
+
+            /**
+             * Key of [V1.filter] in a JSON object.
+             *
+             * @see V1.filter
+             */
+            const val FILTER_KEY = "match"
+
+            /**
+             * A map codec for [JsonFilterResource.V1].
+             */
+            @JvmField
+            val MAP_CODEC: MapCodec<V1> = RecordCodecBuilder.mapCodec { instance ->
+                instance.group(
+                    inventoryIdCodec().field(CONTAINERS_KEY, V1::containers),
+                    Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).field(TEXTURES_KEY, V1::textures),
+                    INbtFilter.codec.optionalField(LOAD_FILTER_KEY, V1::loadFilter, ConditionalFilter.ALWAYS),
+                    INbtFilter.codec.optionalField(FILTER_KEY, V1::filter, ConditionalFilter.ALWAYS),
+                ).apply(instance, ::V1)
+            }
+        }
     }
 
-    fun createTextureChangerFilters(resourceId: Identifier): DataResult<Collection<TextureChangerFilter>> {
-        val filter = decodeNbtFilter(filter).unwrap { return it.mapMessage() }
-        val filters = inventories.map { TextureChangerFilter(it, resourceId, filter, textureChanges, spriteChanges) }
+    /**
+     * Represents a version 2 OptiGUI JSON filter resource.
+     *
+     * @param blocks The identifiers of the blocks to change the GUI textures of
+     * @param entities The identifiers of the entities to change the GUI textures of
+     * @param items The identifiers of the items to change the GUI textures of
+     * @param inventory Whether to change the GUI textures of the inventory screen (creative, survival, or modded)
+     * @param unknown Whether to change the GUI textures of inventory screens not initiated by player action (including
+     *   screens opened by the server)
+     * @param textureChangers A map containing the original textures and texture changers
+     * @param spriteChangers A map containing the original sprites and sprite changers
+     * @param textStyleChangers A list containing the text style changers
+     * @param loadFilter Raw representation of a filter determining if the resource should be loaded
+     * @param filter Raw representation of a filter filtering an interaction NBT
+     */
+    data class V2(
+        val blocks: Set<Identifier>,
+        val entities: Set<Identifier>,
+        val items: Set<Identifier>,
+        val inventory: Boolean,
+        val unknown: Boolean,
+        val textureChangers: Map<Identifier, JsonTextureChanger>,
+        val spriteChangers: Map<Identifier, JsonTextureChanger>,
+        val textStyleChangers: List<TextStyleChanger>,
+        val loadFilter: INbtFilter,
+        val filter: INbtFilter,
+    ) : JsonFilterResource() {
+        override val format: Int
+            get() = 2
 
-        return DataResult.success(filters)
+        companion object {
+            /**
+             * Key of [V2.blocks] in a JSON object.
+             *
+             * @see V2.blocks
+             */
+            const val BLOCKS_KEY = "blocks"
+
+            /**
+             * Key of [V2.entities] in a JSON object.
+             *
+             * @see V2.entities
+             */
+            const val ENTITIES_KEY = "entities"
+
+            /**
+             * Key of [V2.items] in a JSON object.
+             *
+             * @see V2.items
+             */
+            const val ITEMS_KEY = "items"
+
+            /**
+             * Key of [V2.inventory] in a JSON object.
+             *
+             * @see V2.inventory
+             */
+            const val INVENTORY_KEY = "inventory"
+
+            /**
+             * Key of [V2.unknown] in a JSON object.
+             *
+             * @see V2.unknown
+             */
+            const val UNKNOWN_KEY = "unknown"
+
+            /**
+             * Key of [V2.textureChangers] in a JSON object.
+             *
+             * @see V2.textureChangers
+             */
+            const val TEXTURE_CHANGERS_KEY = "change_textures"
+
+            /**
+             * Key of [V2.spriteChangers] in a JSON object.
+             *
+             * @see V2.spriteChangers
+             */
+            const val SPRITE_CHANGERS_KEY = "change_sprites"
+
+            /**
+             * Key of [V2.textStyleChangers] in a JSON object.
+             *
+             * @see V2.textStyleChangers
+             */
+            const val TEXT_STYLE_CHANGERS_KEY = "change_text_styles"
+
+            /**
+             * Key of [V2.loadFilter] in a JSON object.
+             *
+             * @see V2.loadFilter
+             */
+            const val LOAD_FILTER_KEY = "load_if"
+
+            /**
+             * Key of [V2.filter] in a JSON object.
+             *
+             * @see V2.filter
+             */
+            const val FILTER_KEY = "match"
+
+            /**
+             * A map codec for [JsonFilterResource.V2].
+             */
+            @JvmField
+            val MAP_CODEC: MapCodec<V2> = RecordCodecBuilder.mapCodec { instance ->
+                instance.group(
+                    inventoryIdCodec().optionalField(BLOCKS_KEY, V2::blocks, emptySet()),
+                    inventoryIdCodec().optionalField(ENTITIES_KEY, V2::entities, emptySet()),
+                    inventoryIdCodec().optionalField(ITEMS_KEY, V2::items, emptySet()),
+                    Codec.BOOL.optionalField(INVENTORY_KEY, V2::inventory, false),
+                    Codec.BOOL.optionalField(UNKNOWN_KEY, V2::unknown, false),
+                    Codec.unboundedMap(Identifier.CODEC, JsonTextureChanger.CODEC)
+                        .optionalField(TEXTURE_CHANGERS_KEY, V2::textureChangers, emptyMap()),
+                    Codec.unboundedMap(Identifier.CODEC, JsonTextureChanger.CODEC)
+                        .optionalField(SPRITE_CHANGERS_KEY, V2::spriteChangers, emptyMap()),
+                    TextStyleChanger.CODEC.listOf()
+                        .optionalField(TEXT_STYLE_CHANGERS_KEY, V2::textStyleChangers, emptyList()),
+                    INbtFilter.codec.optionalField(LOAD_FILTER_KEY, V2::loadFilter, ConditionalFilter.ALWAYS),
+                    INbtFilter.codec.optionalField(FILTER_KEY, V2::filter, ConditionalFilter.ALWAYS),
+                ).apply(instance, ::V2)
+            }
+        }
     }
 
-    private fun decodeNbtFilter(json: JsonElement) = NBT_FILTER_DECODER.parse(JsonOps.INSTANCE, json)
+    /**
+     * Represents a future version of OptiGUI JSON filter resource.
+     */
+    data class Future(override val format: Int) : JsonFilterResource() {
+        companion object {
+            /**
+             * A map codec for [JsonFilterResource.Future].
+             */
+            @JvmField
+            val MAP_CODEC: MapCodec<Future> = RecordCodecBuilder.mapCodec { instance ->
+                instance.group(
+                    Codecs.POSITIVE_INT.optionalField(FORMAT_KEY, Future::format, 1)
+                ).apply(instance, ::Future)
+            }
+        }
+    }
 
     companion object {
         /**
-         * Key of [JsonFilterResource.inventories] in a JSON object.
+         * Key of [JsonFilterResource.format] in a JSON object.
          *
-         * @see JsonFilterResource.inventories
+         * @see JsonFilterResource.format
          */
-        const val INVENTORIES_KEY = "inventories"
+        const val FORMAT_KEY = "format"
 
         /**
-         * Key of [JsonFilterResource.textureChanges] in a JSON object.
-         *
-         * @see JsonFilterResource.textureChanges
+         * The newest supported JSON filter resource format.
          */
-        const val TEXTURE_CHANGES_KEY = "change_textures"
+        const val NEWEST_FORMAT = 2
 
         /**
-         * Key of [JsonFilterResource.spriteChanges] in a JSON object.
-         *
-         * @see JsonFilterResource.spriteChanges
-         */
-        const val SPRITE_CHANGES_KEY = "change_sprites"
-
-        /**
-         * Key of [JsonFilterResource.loadFilter] in a JSON object.
-         *
-         * @see JsonFilterResource.loadFilter
-         */
-        const val LOAD_FILTER_KEY = "load_if"
-
-        /**
-         * Key of [JsonFilterResource.filter] in a JSON object.
-         *
-         * @see JsonFilterResource.filter
-         */
-        const val FILTER_KEY = "match"
-
-        /**
-         * V1 codec for [JsonFilterResource].
+         * A codec for [JsonFilterResource].
          */
         @JvmField
-        @Deprecated("For backward-compatibility only")
-        val CODEC1: Codec<JsonFilterResource> = RecordCodecBuilder.create { instance ->
-            instance.group(
-                Codec.withAlternative(
-                    Identifier.CODEC.listOf().xmap(List<Identifier>::toSet, Set<Identifier>::toList),
-                    Identifier.CODEC,
-                    ::setOf
-                ).fieldOf("containers").forGetter(JsonFilterResource::inventories),
-                Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).fieldOf("textures")
-                    .forGetter(JsonFilterResource::textureChanges),
-                Codecs.JSON_ELEMENT.optionalFieldOf("if", JsonObject())
-                    .forGetter(JsonFilterResource::loadFilter),
-                Codecs.JSON_ELEMENT.optionalFieldOf("match", JsonObject())
-                    .forGetter(JsonFilterResource::filter)
-            ).apply(instance, ::JsonFilterResource)
+        val CODEC: Codec<JsonFilterResource> = Codec.withAlternative(
+            Codecs.POSITIVE_INT.dispatch(FORMAT_KEY, JsonFilterResource::format, ::getMapCodecForFormat),
+            V1.MAP_CODEC.codec() // Codec.dispatch does not allow default typeKey if it is missing
+        )
+
+        private fun getMapCodecForFormat(format: Int) = when (format) {
+            1 -> V1.MAP_CODEC
+            2 -> V2.MAP_CODEC
+            else -> Future.MAP_CODEC
         }
 
-        /**
-         * V2 codec for [JsonFilterResource].
-         */
-        @JvmField
-        val CODEC2: Codec<JsonFilterResource> = RecordCodecBuilder.create { instance ->
-            instance.group(
-                Codec.withAlternative(
-                    Identifier.CODEC.listOf().xmap(List<Identifier>::toSet, Set<Identifier>::toList),
-                    Identifier.CODEC,
-                    ::setOf
-                ).fieldOf(INVENTORIES_KEY).forGetter(JsonFilterResource::inventories),
-                Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).optionalFieldOf(TEXTURE_CHANGES_KEY, mapOf())
-                    .forGetter(JsonFilterResource::textureChanges),
-                Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).optionalFieldOf(SPRITE_CHANGES_KEY, mapOf())
-                    .forGetter(JsonFilterResource::spriteChanges),
-                Codecs.JSON_ELEMENT.optionalFieldOf(LOAD_FILTER_KEY, JsonObject())
-                    .forGetter(JsonFilterResource::loadFilter),
-                Codecs.JSON_ELEMENT.optionalFieldOf(FILTER_KEY, JsonObject())
-                    .forGetter(JsonFilterResource::filter)
-            ).apply(instance, ::JsonFilterResource)
-        }
-
-        /**
-         * Codec for [JsonFilterResource], unifying [CODEC1] and [CODEC2].
-         */
-        @JvmField
-        val CODEC: Codec<JsonFilterResource> = Codec.withAlternative(CODEC2, CODEC1)
-
-        /**
-         * Decoder for an [INbtFilter] from [JsonFilterResource.loadFilter] and [JsonFilterResource.filter].
-         */
-        @JvmField
-        val NBT_FILTER_DECODER: Decoder<INbtFilter> = Codecs.JSON_ELEMENT.flatMap(::decodeJsonFilter)
-
-        private fun decodeJsonFilter(rawFilter: JsonElement?, depth: Int = 0): DataResult<INbtFilter> {
-            if (depth >= NbtElement.MAX_DEPTH) return DataResult.error {
-                i18n("optigui.rp_loader.error.nesting_too_deep", "Nesting too deep: %s", rawFilter.toString())
-            }
-
-            return when (rawFilter) {
-                is JsonObject -> decodeJsonObjectFilter(rawFilter, depth)
-                is JsonArray -> decodeJsonArrayFilter(rawFilter, depth)
-                else -> NbtComparableFilter.EQUAL_TO.createFilter(JsonOps.INSTANCE, rawFilter)
-            }
-        }
-
-        @Suppress("NOTHING_TO_INLINE") // Stack size
-        private inline fun decodeJsonObjectFilter(obj: JsonObject, depth: Int): DataResult<INbtFilter> {
-            val filters = mutableListOf<INbtFilter>()
-
-            for ((key, value) in obj.asMap()) {
-                filters += when {
-                    key.startsWith('@') -> {
-                        val subFilter = decodeJsonFilter(value, depth + 1).unwrap { return it }
-                        SubNbtFilter(key.substring(1), subFilter)
-                    }
-
-                    key == "#none" -> matchNone(decodeJsonFilter(value, depth + 1).unwrap { return it })
-                    key == "#any" -> matchAny(decodeJsonFilter(value, depth + 1).unwrap { return it })
-                    key == "#some" -> matchSome(decodeJsonFilter(value, depth + 1).unwrap { return it })
-                    key == "#all" -> matchAll(decodeJsonFilter(value, depth + 1).unwrap { return it })
-
-                    key.startsWith('#') -> {
-                        val subNbtKey = key.substring(1)
-                        val subNbtIndex =
-                            subNbtKey.toIntOrNull() ?: return DataResult.error {
-                                i18n("optigui.rp_loader.error.not_a_number", "Not a number: %s", subNbtKey)
-                            }
-                        val subFilter = decodeJsonFilter(value, depth + 1).unwrap { return it }
-                        NbtListIndexFilter(subNbtIndex, subFilter)
-                    }
-
-                    else -> {
-                        if (key !in INbtOperator.Registry) return DataResult.error {
-                            i18n("optigui.rp_loader.error.no_operator", "No such operator: %s", key)
-                        }
-                        val matchOperator = INbtOperator.Registry.getValue(key)
-                        matchOperator.createFilter(JsonOps.INSTANCE, value).unwrap { return it }
-                    }
-                }
-            }
-
-            return DataResult.success(matchAllOf(filters))
-        }
-
-        @Suppress("NOTHING_TO_INLINE") // Stack size
-        private inline fun decodeJsonArrayFilter(array: JsonArray, depth: Int): DataResult<INbtFilter> {
-            val filters = array.map {
-                decodeJsonFilter(it, depth + 1).unwrap { error -> return error }
-            }
-
-            return DataResult.success(matchAnyOf(filters))
-        }
+        private fun inventoryIdCodec() =
+            Codec.withAlternative(Identifier.CODEC.listOf().toSet(), Identifier.CODEC, ::setOf)
     }
 }

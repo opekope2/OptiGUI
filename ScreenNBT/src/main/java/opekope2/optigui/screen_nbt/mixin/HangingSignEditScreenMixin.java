@@ -18,7 +18,7 @@ public abstract class HangingSignEditScreenMixin extends AbstractSignEditScreenM
 
     @Override
     public void optiGui_writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup lookup) {
-        NbtUtil.encode(compound, SCREEN_TITLE_KEY, getTitle(), TextCodecs.CODEC, lookup);
-        NbtUtil.encode(compound, SCREEN_TEXT_KEY, getText(), SignText.CODEC, lookup);
+        compound.put(SCREEN_TITLE_KEY, NbtUtil.encode(getTitle(), TextCodecs.CODEC, lookup));
+        compound.put(SCREEN_TEXT_KEY, NbtUtil.encode(getText(), SignText.CODEC, lookup));
     }
 }
