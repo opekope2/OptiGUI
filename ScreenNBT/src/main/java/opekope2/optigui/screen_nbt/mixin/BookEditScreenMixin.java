@@ -26,7 +26,7 @@ public abstract class BookEditScreenMixin extends Screen implements INbtConverti
 
     @Override
     public void optiGui_writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup lookup) {
-        NbtUtil.encode(compound, SCREEN_TITLE_KEY, getTitle(), TextCodecs.CODEC, lookup);
+        compound.put(SCREEN_TITLE_KEY, NbtUtil.encode(getTitle(), TextCodecs.CODEC, lookup));
         compound.putInt(CURRENT_PAGE_KEY, getCurrentPage() + 1);
         compound.putInt(PAGE_COUNT_KEY, callCountPages());
     }

@@ -2,18 +2,23 @@ package opekope2.optigui.internal.initializer
 
 import me.shedaniel.autoconfig.AutoConfig
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer
-import opekope2.optigui.filter.FilterCollectionFilter
-import opekope2.optigui.filter.INbtFilter
+import opekope2.optigui.filter.*
+import opekope2.optigui.filter.comparer.INbtComparer.ComparisonResult.*
+import opekope2.optigui.filter.comparer.NbtStringOrNumberComparer
+import opekope2.optigui.filter.transformer.NbtCollectionSizeTransformer
+import opekope2.optigui.filter.transformer.NbtCompoundKeysTransformer
+import opekope2.optigui.filter.transformer.NbtCompoundValuesTransformer
+import opekope2.optigui.filter.transformer.NbtTypeTransformer
 import opekope2.optigui.interaction.InteractionManager
+import opekope2.optigui.interaction.nbt_provider.*
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.config.Config
 import opekope2.optigui.internal.config.annotation.RequiresMod
 import opekope2.optigui.internal.config.gui.ButtonEntryGuiProvider
 import opekope2.optigui.internal.config.gui.ButtonListEntry
 import opekope2.optigui.internal.config.gui.ModDependencyGuiTransformer
-import opekope2.optigui.internal.filter.*
-import opekope2.optigui.internal.filter.NbtComparableFilter.Result
-import opekope2.optigui.util.AggregateOperator
+import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
+import opekope2.optigui.nbt_provider.NbtFilterNamesNbtProvider
 
 internal object ClientInitializer {
     init {
@@ -21,7 +26,9 @@ internal object ClientInitializer {
         InteractionManager
 
         registerConfig()
+        registerInteractionNbtProviders()
         registerNbtFilters()
+        registerLoadTimeNbtProviders()
     }
 
     private fun registerConfig() {
@@ -32,42 +39,67 @@ internal object ClientInitializer {
         AutoConfig.register(Config::class.java, ::GsonConfigSerializer)
     }
 
+    private fun registerInteractionNbtProviders() {
+        IInteractionNbtProvider.register("biome", BiomeNbtProvider)
+        IInteractionNbtProvider.register("biome_id", BiomeIdNbtProvider)
+        IInteractionNbtProvider.register("block_entity", BlockEntityNbtProvider)
+        IInteractionNbtProvider.register("block_state", BlockStateNbtProvider)
+        IInteractionNbtProvider.register("entity", EntityNbtProvider)
+        IInteractionNbtProvider.register("hand", HandNbtProvider)
+        IInteractionNbtProvider.register("item", ItemNbtProvider)
+        IInteractionNbtProvider.register("player", PlayerNbtProvider)
+        IInteractionNbtProvider.register("player_extra", ExtraPlayerNbtProvider)
+        IInteractionNbtProvider.register("pos", PositionNbtProvider)
+        IInteractionNbtProvider.register("screen", ScreenNbtProvider)
+        IInteractionNbtProvider.register("structures", StructureBoundingBoxProvider)
+        IInteractionNbtProvider.register("target", TargetNbtProvider)
+        IInteractionNbtProvider.register("time", TimeNbtProvider)
+        IInteractionNbtProvider.register("vehicle", VehicleNbtProvider)
+        IInteractionNbtProvider.register("world", WorldNbtProvider)
+    }
+
     private fun registerNbtFilters() {
-        INbtFilter.register("#none", NbtListFilter.decoder(AggregateOperator.NONE_OF))
-        INbtFilter.register("#any", NbtListFilter.decoder(AggregateOperator.ANY_OF))
-        INbtFilter.register("#some", NbtListFilter.decoder(AggregateOperator.SOME_OF))
-        INbtFilter.register("#all", NbtListFilter.decoder(AggregateOperator.ALL_OF))
+        INbtFilter.register("#none", NbtListFilter.Type.NONE_OF_LIST)
+        INbtFilter.register("#any", NbtListFilter.Type.ANY_OF_LIST)
+        INbtFilter.register("#some", NbtListFilter.Type.SOME_OF_LIST)
+        INbtFilter.register("#all", NbtListFilter.Type.ALL_OF_LIST)
 
-        INbtFilter.register(">", NbtComparableFilter.Decoder(false, Result.MORE))
-        INbtFilter.register(">*", NbtComparableFilter.Decoder(true, Result.MORE))
-        INbtFilter.register(">=", NbtComparableFilter.Decoder(false, Result.MORE, Result.EQUAL))
-        INbtFilter.register(">=*", NbtComparableFilter.Decoder(true, Result.MORE, Result.EQUAL))
-        INbtFilter.register("=", NbtComparableFilter.Decoder(false, Result.EQUAL))
-        INbtFilter.register("=*", NbtComparableFilter.Decoder(true, Result.EQUAL))
-        INbtFilter.register("!=", NbtComparableFilter.Decoder(false, Result.MORE, Result.LESS))
-        INbtFilter.register("!=*", NbtComparableFilter.Decoder(true, Result.MORE, Result.LESS))
-        INbtFilter.register("<=", NbtComparableFilter.Decoder(false, Result.EQUAL, Result.LESS))
-        INbtFilter.register("<=*", NbtComparableFilter.Decoder(true, Result.EQUAL, Result.LESS))
-        INbtFilter.register("<", NbtComparableFilter.Decoder(false, Result.LESS))
-        INbtFilter.register("<*", NbtComparableFilter.Decoder(true, Result.LESS))
+        INbtFilter.register(">", NbtStringOrNumberComparer.CaseSensitive.constantType(MORE))
+        INbtFilter.register(">*", NbtStringOrNumberComparer.CaseInsensitive.constantType(MORE))
+        INbtFilter.register(">=", NbtStringOrNumberComparer.CaseSensitive.constantType(MORE, EQUAL))
+        INbtFilter.register(">=*", NbtStringOrNumberComparer.CaseInsensitive.constantType(MORE, EQUAL))
+        INbtFilter.register("=", NbtStringOrNumberComparer.CaseSensitive.constantType(EQUAL))
+        INbtFilter.register("=*", NbtStringOrNumberComparer.CaseInsensitive.constantType(EQUAL))
+        INbtFilter.register("!=", NbtStringOrNumberComparer.CaseSensitive.constantType(MORE, LESS))
+        INbtFilter.register("!=*", NbtStringOrNumberComparer.CaseInsensitive.constantType(MORE, LESS))
+        INbtFilter.register("<=", NbtStringOrNumberComparer.CaseSensitive.constantType(EQUAL, LESS))
+        INbtFilter.register("<=*", NbtStringOrNumberComparer.CaseInsensitive.constantType(EQUAL, LESS))
+        INbtFilter.register("<", NbtStringOrNumberComparer.CaseSensitive.constantType(LESS))
+        INbtFilter.register("<*", NbtStringOrNumberComparer.CaseInsensitive.constantType(LESS))
 
-        INbtFilter.register("regex", NbtStringRegexFilter.Decoder.Regex(false))
-        INbtFilter.register("regex*", NbtStringRegexFilter.Decoder.Regex(true))
-        INbtFilter.register("wildcard", NbtStringRegexFilter.Decoder.Wildcard(false))
-        INbtFilter.register("wildcard*", NbtStringRegexFilter.Decoder.Wildcard(true))
+        INbtFilter.register("regex", NbtStringRegexFilter.Type.CASE_SENSITIVE_REGEX)
+        INbtFilter.register("regex*", NbtStringRegexFilter.Type.CASE_INSENSITIVE_REGEX)
+        INbtFilter.register("wildcard", NbtStringRegexFilter.Type.CASE_SENSITIVE_WILDCARD)
+        INbtFilter.register("wildcard*", NbtStringRegexFilter.Type.CASE_INSENSITIVE_WILDCARD)
 
-        INbtFilter.register("type", NbtTypeFilter.DECODER)
+        INbtFilter.register("type", NbtTransformerFilter.Type(NbtTypeTransformer))
 
-        INbtFilter.register("not", INbtFilter.CODEC.map(::NegatedFilter))
-        INbtFilter.register("none_of", FilterCollectionFilter.Decoder(AggregateOperator.NONE_OF))
-        INbtFilter.register("any_of", FilterCollectionFilter.Decoder(AggregateOperator.ANY_OF))
-        INbtFilter.register("some_of", FilterCollectionFilter.Decoder(AggregateOperator.SOME_OF))
-        INbtFilter.register("all_of", FilterCollectionFilter.Decoder(AggregateOperator.ALL_OF))
+        INbtFilter.register("not", NegatedFilter.TYPE)
+        INbtFilter.register("none_of", AggregateFilter.Type.NONE_OF)
+        INbtFilter.register("any_of", AggregateFilter.Type.ANY_OF)
+        INbtFilter.register("some_of", AggregateFilter.Type.SOME_OF)
+        INbtFilter.register("all_of", AggregateFilter.Type.ALL_OF)
 
-        INbtFilter.register("keys", INbtFilter.CODEC.map(::NbtCompoundKeysFilter))
+        INbtFilter.register("keys", NbtTransformerFilter.Type(NbtCompoundKeysTransformer))
 
-        INbtFilter.register("values", INbtFilter.CODEC.map(::NbtCompoundValuesFilter))
+        INbtFilter.register("values", NbtTransformerFilter.Type(NbtCompoundValuesTransformer))
 
-        INbtFilter.register("size", INbtFilter.CODEC.map(::NbtCollectionSizeFilter))
+        INbtFilter.register("size", NbtTransformerFilter.Type(NbtCollectionSizeTransformer))
+
+        INbtFilter.register("if", ConditionalFilter.TYPE)
+    }
+
+    private fun registerLoadTimeNbtProviders() {
+        ILoadTimeNbtProvider.register("filters", NbtFilterNamesNbtProvider)
     }
 }

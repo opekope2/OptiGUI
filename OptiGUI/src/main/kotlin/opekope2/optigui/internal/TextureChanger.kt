@@ -1,20 +1,19 @@
 package opekope2.optigui.internal
 
 import com.google.common.collect.LinkedListMultimap
-import net.minecraft.nbt.NbtElement
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraft.util.Identifier
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
-import opekope2.optigui.interaction.IInteractionTarget
 import opekope2.optigui.interaction.InteractionManager
-import opekope2.optigui.util.LinkedMruCollection
+import opekope2.optigui.interaction.InteractionTarget
+import opekope2.optigui.util.collections.LinkedMruCollection
 
 internal object TextureChanger : SynchronousResourceReloader {
     var filter: TextureChangerFilter = TextureChangerFilter.NO_OP
         private set
-    private var filters = mapOf<IInteractionTarget, LinkedMruCollection<TextureChangerFilter, NbtElement>>()
+    private var filters = mapOf<InteractionTarget, LinkedMruCollection<TextureChangerFilter>>()
     var renderingScreen = false
     val renderedTextures = mutableSetOf<Identifier>()
     val renderedSprites = mutableSetOf<Identifier>()
@@ -43,16 +42,24 @@ internal object TextureChanger : SynchronousResourceReloader {
         return filter.spriteChangers.getValue(sprite).apply(sprite)
     }
 
-    fun clearCache() {
-        filter = InteractionManager.interaction?.let {
-            filters[it.data.target]?.promoteFirstOrNull(it.createNbt())
-        } ?: TextureChangerFilter.NO_OP
+    fun clearCache(disconnected: Boolean) {
+        val prevFilter = filter
+        filter = updateFilter()
         renderedTextures.clear()
         renderedCustomTextures = false
+
+        TextStyler.clearCache(prevFilter.textStyleChangers !== filter.textStyleChangers, disconnected)
+    }
+
+    private fun updateFilter(): TextureChangerFilter {
+        val interaction = InteractionManager.interaction ?: return TextureChangerFilter.NO_OP
+        val filters = filters[interaction.target] ?: return TextureChangerFilter.NO_OP
+        val nbt = interaction.createNbt()
+        return filters.promoteFirstOrNull { it.test(nbt, nbt) } ?: TextureChangerFilter.NO_OP
     }
 
     override fun reload(manager: ResourceManager?) {
-        val map = LinkedListMultimap.create<IInteractionTarget, TextureChangerFilter>()
+        val map = LinkedListMultimap.create<InteractionTarget, TextureChangerFilter>()
         for ((_, filterLoader) in IFilterLoader.Registry) {
             map.putAll(filterLoader.filters)
         }

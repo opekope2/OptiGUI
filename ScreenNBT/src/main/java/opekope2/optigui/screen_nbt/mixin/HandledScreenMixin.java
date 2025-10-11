@@ -24,7 +24,7 @@ public abstract class HandledScreenMixin extends Screen implements INbtConvertib
 
     @Override
     public void optiGui_writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup lookup) {
-        NbtUtil.encode(compound, SCREEN_TITLE_KEY, getTitle(), TextCodecs.CODEC, lookup);
+        compound.put(SCREEN_TITLE_KEY, NbtUtil.encode(getTitle(), TextCodecs.CODEC, lookup));
         if (getScreenHandler() instanceof INbtConvertible nbtConvertible)
             nbtConvertible.optiGui_writeNbt(compound, lookup);
         if (this instanceof RecipeBookProvider recipeBookProvider)
