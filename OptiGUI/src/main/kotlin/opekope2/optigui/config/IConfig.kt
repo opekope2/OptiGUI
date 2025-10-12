@@ -1,7 +1,23 @@
 package opekope2.optigui.config
 
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
+import com.mojang.datafixers.util.Pair
+import com.mojang.serialization.JsonOps
 import me.shedaniel.autoconfig.AutoConfig
+import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.NbtOps
+import net.minecraft.text.Style
+import opekope2.optigui.filter.text_style_changer.TextStyleChanger
+import opekope2.optigui.interaction.IInteraction
+import opekope2.optigui.interaction.InteractionManager
+import opekope2.optigui.internal.I18n
+import opekope2.optigui.internal.TextStyler
 import opekope2.optigui.internal.config.Config
+import opekope2.optigui.internal.inspector.JsonInspectorOps
+import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 
 /**
  * OptiGUI Configuration
@@ -16,6 +32,11 @@ interface IConfig {
      * Includes NBT data in the generated JSON filter resources.
      */
     var dumpNbt: InspectorNbtDumpOptions
+
+    /**
+     * If there are problems loading resources, shows a screen with the details.
+     */
+    var showResourceLoadingErrors: ResourceLoadingErrorFilter
 
     /**
      * Saves the configuration to the disk.
@@ -90,6 +111,28 @@ interface IConfig {
         private fun NbtElement.toJson() = NbtOps.INSTANCE.convertTo(ops, this)
 
         override fun toString() = translation.getTranslation()
+    }
+
+    /**
+     * Resource loading problem filter.
+     */
+    enum class ResourceLoadingErrorFilter(private val translation: I18n) {
+        /**
+         * Filter for no problems
+         */
+        NOTHING(I18n.OPTIGUI_ENUM_RESOURCELOADINGERRORFILTER_NOTHING),
+
+        /**
+         * Filter for errors only
+         */
+        ERRORS_ONLY(I18n.OPTIGUI_ENUM_RESOURCELOADINGERRORFILTER_ERRORS_ONLY),
+
+        /**
+         * Filter for errors and warnings
+         */
+        ERRORS_AND_WARNINGS(I18n.OPTIGUI_ENUM_RESOURCELOADINGERRORFILTER_ERRORS_AND_WARNINGS);
+
+        override fun toString(): String = translation.getTranslation()
     }
 
     companion object {

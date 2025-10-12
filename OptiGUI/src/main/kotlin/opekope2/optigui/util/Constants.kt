@@ -32,3 +32,8 @@ const val OF_TILDE_PATH = "optifine/."
  * Log key to tell OptiGUI about the resource being loaded.
  */
 const val LOG_KEY_RESOURCE = "resource"
+
+/**
+ * Log key to tell OptiGUI about the resource pack being loaded.
+ */
+const val LOG_KEY_RESOURCE_PACK = "pack"
