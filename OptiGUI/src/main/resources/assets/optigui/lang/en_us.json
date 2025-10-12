@@ -9,7 +9,7 @@
   "optigui.inspector.description": "Click to inspect interaction",
   "optigui.inspector.description.clicked": "Inspection copied to clipboard",
   "optigui.inspector.description.custom_textures": "Using custom textures from %s",
-  "optigui.inspector.description.debug": "Click to open filter debugger in browser",
+  "optigui.inspector.description.debug": "Click to open the filter debugger in your browser",
   "optigui.inspector.description.hide": "You can hide this in OptiGUI settings",
   "optigui.inspector.key.more_info": "Hold %s for more information",
   "optigui.inspector.nbt_dumping_disabled": "NBT dumping is disabled in OptiGUI settings",
