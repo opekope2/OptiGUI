@@ -2,6 +2,7 @@ package opekope2.optigui.filter
 
 import com.mojang.serialization.Codec
 import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.NbtString
 import opekope2.optigui.filter.comparer.INbtComparer
 import opekope2.optigui.filter.transformer.NbtTransformerChain
 import java.util.*
@@ -20,6 +21,12 @@ class DynamicNbtComparerFilter(private val transformerChain: NbtTransformerChain
         val reference = transformerChain.transform(nbt) ?: return false
         return type.comparer.compare(nbt, reference) in type.acceptedResults
     }
+
+    override fun asString() = super.asString() + " " + transformerChain.transformerChain.joinToString(
+        prefix = "[",
+        postfix = "]",
+        transform = { NbtString.escape(INbtFilter.getKey(it)) }
+    )
 
     /**
      * A type describing a [DynamicNbtComparerFilter].

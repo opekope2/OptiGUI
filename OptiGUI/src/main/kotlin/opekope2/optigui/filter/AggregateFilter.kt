@@ -24,7 +24,9 @@ class AggregateFilter(val filters: LinkedMruCollection<INbtFilter>, override val
         else !operator.shortCircuitResult
     }
 
-    override fun testSubFilters(nbt: NbtElement, root: NbtElement) = filters.map { NbtFilterEvaluation(it, nbt, root) }
+    override fun testSubFilters(nbt: NbtElement?, root: NbtElement) = filters.map { NbtFilterEvaluation(it, nbt, root) }
+
+    override fun asString() = type.operator.toString()
 
     /**
      * A type describing an [AggregateFilter].

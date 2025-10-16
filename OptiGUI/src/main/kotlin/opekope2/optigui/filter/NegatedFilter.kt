@@ -14,7 +14,7 @@ class NegatedFilter(val subFilter: INbtFilter) : INbtFilter {
 
     override fun test(nbt: NbtElement, root: NbtElement) = !subFilter.test(nbt, root)
 
-    override fun testSubFilters(nbt: NbtElement, root: NbtElement) = listOf(NbtFilterEvaluation(subFilter, nbt, root))
+    override fun testSubFilters(nbt: NbtElement?, root: NbtElement) = listOf(NbtFilterEvaluation(subFilter, nbt, root))
 
     companion object {
         /**
