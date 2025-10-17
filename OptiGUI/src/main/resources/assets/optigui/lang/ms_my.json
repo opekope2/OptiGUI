@@ -4,7 +4,7 @@
   "optigui.enum.InspectorNbtDumper.ENABLED_VALUES_ONLY": "Nilai sahaja",
   "optigui.enum.ResourceLoadingErrorFilter.ERRORS_AND_WARNINGS": "Ralat & amaran",
   "optigui.enum.ResourceLoadingErrorFilter.ERRORS_ONLY": "Ralat sahaja",
-  "optigui.enum.ResourceLoadingErrorFilter.NOTHING": "Tidak Perlu",
+  "optigui.enum.ResourceLoadingErrorFilter.NOTHING": "Tidak perlu",
   "optigui.inspector": "Pemeriksa OptiGUI",
   "optigui.inspector.description": "Klik untuk memeriksa interaksi",
   "optigui.inspector.description.clicked": "Pemeriksaan telah disalin ke papan keratan",
