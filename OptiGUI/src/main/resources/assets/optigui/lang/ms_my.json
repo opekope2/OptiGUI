@@ -60,7 +60,7 @@
   "optigui.validation.error.of_invalid_bool": "Boolean tidak sah: %s",
   "optigui.validation.error.of_invalid_profession": "Pekerjaan penduduk kampung tidak sah: %s",
   "optigui.validation.error.of_invalid_range": "Julat tidak sah: %s",
-  "optigui.validation.error.of_texture_required": "Sekurang-kurangnya satu texture atau tekstur.PATH diperlukan",
+  "optigui.validation.error.of_texture_required": "Sekurang-kurangnya satu texture atau texture.PATH diperlukan",
   "optigui.validation.error.unsupported_filter": "Penapis tidak disokong: %s",
   "optigui.validation.error.wrong_filter_type": "Jenis penapis %s dijangka, sebaliknya mendapat %s",
   "text.autoconfig.optigui.category.inspector": "Pemeriksa",

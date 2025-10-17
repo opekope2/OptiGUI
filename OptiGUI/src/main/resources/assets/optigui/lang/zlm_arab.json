@@ -60,7 +60,7 @@
   "optigui.validation.error.of_invalid_bool": "بوليئن تيدق صح: %s",
   "optigui.validation.error.of_invalid_profession": "ڤکرجاٴن ڤندودوق کامڤوڠ تيدق صح: %s",
   "optigui.validation.error.of_invalid_range": "جولت تيدق صح: %s",
-  "optigui.validation.error.of_texture_required": "سکورڠ٢ڽ ساتو texture اتاو tekstur.PATH دڤرلوکن",
+  "optigui.validation.error.of_texture_required": "سکورڠ٢ڽ ساتو texture اتاو texture.PATH دڤرلوکن",
   "optigui.validation.error.unsupported_filter": "ڤناڤيس تيدق دسوکوڠ: %s",
   "optigui.validation.error.wrong_filter_type": "جنيس ڤناڤيس %s دجڠک⹁ سباليقڽ منداڤت %s",
   "text.autoconfig.optigui.category.inspector": "ڤمريقسا",
