@@ -8,6 +8,21 @@ package opekope2.optigui.util
 const val MOD_ID = "optigui"
 
 /**
+ * OptiGUI JSON filter resource documentation URL.
+ */
+const val JSON_RESOURCE_DOCS_URL = "https://opekope2.dev/OptiGUI/JSON.html"
+
+/**
+ * OptiGUI JSON filter resource V2 schema URL.
+ */
+const val JSON_SCHEMA_V2_URL = "https://opekope2.dev/OptiGUI/json_v2.schema.json"
+
+/**
+ * OptiGUI filter debugger URL.
+ */
+const val DEBUGGER_URL = "https://opekope2.dev/OptiGUI/Debug.html"
+
+/**
  * Root folder to look for OptiGUI custom GUI INI resources.
  */
 const val OPTIGUI_INI_RESOURCES_ROOT = "gui"

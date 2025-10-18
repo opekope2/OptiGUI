@@ -94,5 +94,14 @@
   },
   "suggests": {
     "optigui-screen-nbt": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/optigui",
+        "modmenu.kofi": "https://ko-fi.com/opekope2",
+        "modmenu.modrinth": "https://modrinth.com/mod/optigui"
+      }
+    }
   }
 }

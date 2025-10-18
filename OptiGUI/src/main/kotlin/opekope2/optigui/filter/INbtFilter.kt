@@ -35,11 +35,19 @@ interface INbtFilter {
 
     /**
      * Collects the sub-filters of this filter and the inputs passed to those.
+     * If the input and the root NBT is `null`, the filter should propagate these to any subfilters in order to generate
+     * the complete filter tree for debuggability.
      *
-     * @param nbt The current NBT element to test
+     * @param nbt The current NBT element to test or `null`, if no NBT element could be passed to this filter
      * @param root The root NBT element
      */
-    fun testSubFilters(nbt: NbtElement, root: NbtElement): Collection<NbtFilterEvaluation> = listOf()
+    fun testSubFilters(nbt: NbtElement?, root: NbtElement): List<NbtFilterEvaluation> = listOf()
+
+    /**
+     * Returns a string representation of this filter used for debugging purposes.
+     * The resulting string should contain [type] and the JSON element this filter was decoded from.
+     */
+    fun asString() = getKey(type)
 
     /**
      * An interface describing a filter.
