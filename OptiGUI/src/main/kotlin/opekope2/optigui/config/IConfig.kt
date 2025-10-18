@@ -69,7 +69,7 @@ interface IConfig {
         /**
          * Only NBT values are dumped, not types.
          */
-        ENABLED_VALUES_ONLY(
+        VALUES_ONLY(
             JsonInspectorOps.WITHOUT_TYPE,
             I18n.OPTIGUI_ENUM_INSPECTORNBTDUMPER_ENABLED_VALUES_ONLY
         ),
@@ -77,7 +77,7 @@ interface IConfig {
         /**
          * Both NBT values and types are dumped.
          */
-        ENABLED_VALUES_AND_TYPES(
+        VALUES_AND_TYPES(
             JsonInspectorOps.WITH_TYPE,
             I18n.OPTIGUI_ENUM_INSPECTORNBTDUMPER_ENABLED_VALUES_AND_TYPES
         );
