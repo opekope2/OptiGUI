@@ -13,7 +13,8 @@ import opekope2.optigui.util.collections.LinkedMruCollection
 internal object TextureChanger : SynchronousResourceReloader {
     var filter: TextureChangerFilter = TextureChangerFilter.NO_OP
         private set
-    private var filters = mapOf<InteractionTarget, LinkedMruCollection<TextureChangerFilter>>()
+    var filters = mapOf<InteractionTarget, LinkedMruCollection<TextureChangerFilter>>()
+        private set
     var renderingScreen = false
     val renderedTextures = mutableSetOf<Identifier>()
     val renderedSprites = mutableSetOf<Identifier>()

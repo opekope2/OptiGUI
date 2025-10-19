@@ -21,6 +21,8 @@ class NbtStringRegexFilter(val pattern: String, override val type: Type) : INbtF
         if (nbt !is NbtString) false
         else regex.matches(nbt.asString())
 
+    override fun toString() = super.asString() + " " + pattern
+
     /**
      * A type describing an [NbtStringRegexFilter].
      *

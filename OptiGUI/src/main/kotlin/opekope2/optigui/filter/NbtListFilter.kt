@@ -29,10 +29,10 @@ class NbtListFilter(val filter: INbtFilter, override val type: Type) : INbtFilte
         else !operator.shortCircuitResult
     }
 
-    override fun testSubFilters(nbt: NbtElement, root: NbtElement) = when (nbt) {
+    override fun testSubFilters(nbt: NbtElement?, root: NbtElement) = when (nbt) {
         is NbtCompound -> nbt.keys.map { NbtFilterEvaluation(filter, nbt[it]!!, root) }
         is AbstractNbtList<*> -> nbt.map { NbtFilterEvaluation(filter, it, root) }
-        else -> emptyList()
+        else -> listOf(NbtFilterEvaluation(filter, null, root))
     }
 
     /**

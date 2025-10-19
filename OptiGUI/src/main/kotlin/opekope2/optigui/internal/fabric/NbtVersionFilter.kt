@@ -20,6 +20,8 @@ internal class NbtVersionFilter(private val version: Version, override val type:
         return type.operator.test(nbtVersion, version) xor type.invert
     }
 
+    override fun asString() = super.asString() + " " + version.friendlyString
+
     enum class Type(val operator: VersionComparisonOperator, val invert: Boolean = false) :
         INbtFilter.IType<NbtVersionFilter> {
         VERSION_GREATER_EQUAL(VersionComparisonOperator.GREATER_EQUAL),

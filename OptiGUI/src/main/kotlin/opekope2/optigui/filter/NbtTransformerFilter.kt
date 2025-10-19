@@ -17,8 +17,9 @@ class NbtTransformerFilter(val subFilter: INbtFilter, override val type: TypeBas
         return subFilter.test(type.transformer.transform(nbt) ?: return false, root)
     }
 
-    override fun testSubFilters(nbt: NbtElement, root: NbtElement): Collection<NbtFilterEvaluation> {
-        return listOf(NbtFilterEvaluation(subFilter, type.transformer.transform(nbt) ?: return emptyList(), root))
+    override fun testSubFilters(nbt: NbtElement?, root: NbtElement): List<NbtFilterEvaluation> {
+        val transformed = nbt?.let(type.transformer::transform)
+        return listOf(NbtFilterEvaluation(subFilter, transformed, root))
     }
 
     /**

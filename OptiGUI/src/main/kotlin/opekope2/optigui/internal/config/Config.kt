@@ -4,7 +4,10 @@ import me.shedaniel.autoconfig.AutoConfig
 import me.shedaniel.autoconfig.ConfigData
 import me.shedaniel.autoconfig.annotation.Config
 import me.shedaniel.autoconfig.annotation.ConfigEntry
+import net.minecraft.client.MinecraftClient
 import opekope2.optigui.config.IConfig
+import opekope2.optigui.gui.screen.ResourceLoadingErrorScreen
+import opekope2.optigui.internal.config.gui.ButtonListEntry
 import opekope2.optigui.util.MOD_ID
 
 @Config(name = MOD_ID)
@@ -17,6 +20,21 @@ internal class Config : IConfig, ConfigData {
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
     @ConfigEntry.Gui.Tooltip
     override var dumpNbt: IConfig.InspectorNbtDumpOptions = IConfig.InspectorNbtDumpOptions.DISABLED
+
+    @ConfigEntry.Category("resourceLoading")
+    @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
+    @ConfigEntry.Gui.Tooltip
+    override var showResourceLoadingErrors = IConfig.ResourceLoadingErrorFilter.ERRORS_ONLY
+
+    @ConfigEntry.Category("utils")
+    @ConfigEntry.Gui.Tooltip
+    @Transient
+    @Suppress("unused")
+    val errorsAndWarnings = ButtonListEntry.IAction {
+        val client = MinecraftClient.getInstance()
+        val screen = client.currentScreen
+        client.setScreen(ResourceLoadingErrorScreen.create(ResourceLoadingErrorScreen.setScreen(screen)))
+    }
 
     override fun save() {
         AutoConfig.getConfigHolder(javaClass).save()
