@@ -7,12 +7,15 @@ import net.minecraft.text.OrderedText
 import net.minecraft.text.Text
 import net.minecraft.text.TextCodecs
 import opekope2.optigui.filter.text_style_changer.TextStyleChanger
+import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.util.TextOrigin
 import opekope2.optigui.util.collections.EnumObjectPairMutableSet
 import java.util.*
 
 internal object TextStyler {
+    private var prevFilter = TextureChangerFilter.NO_OP
+
     private var stringCache = Cache<String, OrderedText>()
     private var prevStringCache = Cache<String, OrderedText>()
     private var textCache = Cache<Text, Text>()
@@ -81,9 +84,12 @@ internal object TextStyler {
         return null
     }
 
-    fun clearCache(filterChanged: Boolean, disconnected: Boolean) {
+    fun clearCache(disconnected: Boolean) {
         renderedStrings.clear()
         renderedTexts.clear()
+
+        val filterChanged = prevFilter.textStyleChangers !== TextureChanger.filter.textStyleChangers
+        prevFilter = TextureChanger.filter
 
         // Unlike interaction NBT, text codec is deterministic, so clearing the cache is only required if the filter changed
         if (!filterChanged && !disconnected) return

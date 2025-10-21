@@ -43,13 +43,10 @@ internal object TextureChanger : SynchronousResourceReloader {
         return filter.spriteChangers.getValue(sprite).apply(sprite)
     }
 
-    fun clearCache(disconnected: Boolean) {
-        val prevFilter = filter
+    fun clearCache() {
         filter = updateFilter()
         renderedTextures.clear()
         renderedCustomTextures = false
-
-        TextStyler.clearCache(prevFilter.textStyleChangers !== filter.textStyleChangers, disconnected)
     }
 
     private fun updateFilter(): TextureChangerFilter {

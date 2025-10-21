@@ -129,6 +129,7 @@ object InteractionManager {
     @JvmStatic
     @JvmOverloads
     fun clearCache(disconnected: Boolean = false) {
-        TextureChanger.clearCache(disconnected)
+        TextureChanger.clearCache()
+        TextStyler.clearCache(disconnected)
     }
 }
