@@ -50,7 +50,7 @@
   "optigui.rp_loader.warn.missing_textures": "Missing textures: %s",
   "optigui.rp_loader.warn.newest_supported_json_format": "newest supported format",
   "optigui.rp_loader.warn.no_interaction_target": "No interaction targets (blocks, entities, items, inventory, unknown) were specified",
-  "optigui.rp_loader.warn.no_textures": "No valid textures were specified",
+  "optigui.rp_loader.warn.no_textures_or_sprites": "No valid textures or sprites were specified",
   "optigui.rp_loader.warn.unsupported_json_format": "Unsupported JSON resource format",
   "optigui.validation.error.duplicate_filters": "Duplicate filters: %s",
   "optigui.validation.error.empty_map": "Empty map",
