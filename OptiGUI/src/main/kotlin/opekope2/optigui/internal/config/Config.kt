@@ -19,7 +19,7 @@ internal class Config : IConfig, ConfigData {
     @ConfigEntry.Category("inspector")
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
     @ConfigEntry.Gui.Tooltip
-    override var dumpNbt = IConfig.InspectorNbtDumpOptions.DISABLED
+    override var dumpNbt = IConfig.InspectorNbtDumpOption.DISABLED
 
     @ConfigEntry.Category("interaction")
     @ConfigEntry.Gui.Tooltip(count = 2)

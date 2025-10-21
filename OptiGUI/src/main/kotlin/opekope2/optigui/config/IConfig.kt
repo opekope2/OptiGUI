@@ -31,7 +31,7 @@ interface IConfig {
     /**
      * Includes NBT data in the generated JSON filter resources.
      */
-    var dumpNbt: InspectorNbtDumpOptions
+    var dumpNbt: InspectorNbtDumpOption
 
     /**
      * Attacking blocks, entities, or in the air also starts an interaction.
@@ -61,14 +61,11 @@ interface IConfig {
     /**
      * Options specifying what NBT to include the generated JSON filter resource.
      */
-    enum class InspectorNbtDumpOptions(private val ops: JsonInspectorOps, private val translation: I18n) {
+    enum class InspectorNbtDumpOption(private val ops: JsonInspectorOps, private val translation: I18n) {
         /**
          * No NBT is dumped.
          */
-        DISABLED(
-            JsonInspectorOps.WITHOUT_TYPE,
-            I18n.OPTIGUI_ENUM_INSPECTORNBTDUMPER_DISABLED
-        ) {
+        DISABLED(JsonInspectorOps.WITHOUT_TYPE, I18n.OPTIGUI_ENUM_INSPECTORNBTDUMPOPTION_DISABLED) {
             private val disabledText = JsonPrimitive(I18n.OPTIGUI_INSPECTOR_NBT_DUMPING_DISABLED.getTranslation())
 
             override fun getLastRenderedTexts() = disabledText
@@ -79,18 +76,12 @@ interface IConfig {
         /**
          * Only NBT values are dumped, not types.
          */
-        VALUES_ONLY(
-            JsonInspectorOps.WITHOUT_TYPE,
-            I18n.OPTIGUI_ENUM_INSPECTORNBTDUMPER_ENABLED_VALUES_ONLY
-        ),
+        VALUES_ONLY(JsonInspectorOps.WITHOUT_TYPE, I18n.OPTIGUI_ENUM_INSPECTORNBTDUMPOPTION_VALUES_ONLY),
 
         /**
          * Both NBT values and types are dumped.
          */
-        VALUES_AND_TYPES(
-            JsonInspectorOps.WITH_TYPE,
-            I18n.OPTIGUI_ENUM_INSPECTORNBTDUMPER_ENABLED_VALUES_AND_TYPES
-        );
+        VALUES_AND_TYPES(JsonInspectorOps.WITH_TYPE, I18n.OPTIGUI_ENUM_INSPECTORNBTDUMPOPTION_VALUES_AND_TYPES);
 
         open fun getLastRenderedTexts(): JsonElement = JsonArray().also { json ->
             InteractionManager.renderedStrings.forEach { source, text ->
