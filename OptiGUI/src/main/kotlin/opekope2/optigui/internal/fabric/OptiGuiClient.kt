@@ -40,6 +40,7 @@ internal class OptiGuiClient :
         ClientInitializer
         registerNbtFilters()
         FabricInteractionHandler
+        FabricAttackHandler
         registerLoadTimeNbtSuppliers()
         registerResourceLoaders(ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES))
         ClientTickEvents.END_WORLD_TICK.register(this)

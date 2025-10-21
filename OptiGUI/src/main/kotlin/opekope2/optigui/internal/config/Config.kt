@@ -19,7 +19,15 @@ internal class Config : IConfig, ConfigData {
     @ConfigEntry.Category("inspector")
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
     @ConfigEntry.Gui.Tooltip
-    override var dumpNbt: IConfig.InspectorNbtDumpOptions = IConfig.InspectorNbtDumpOptions.DISABLED
+    override var dumpNbt = IConfig.InspectorNbtDumpOptions.DISABLED
+
+    @ConfigEntry.Category("interaction")
+    @ConfigEntry.Gui.Tooltip(count = 2)
+    override var interactWithAttackKey: Boolean = false
+
+    @ConfigEntry.Category("interaction")
+    @ConfigEntry.Gui.Tooltip(count = 2)
+    override var keepInteractionFactory: Boolean = false
 
     @ConfigEntry.Category("resourceLoading")
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)

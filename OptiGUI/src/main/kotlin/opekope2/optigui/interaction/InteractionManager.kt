@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import opekope2.optigui.config.IConfig
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager.clearCache
 import opekope2.optigui.interaction.InteractionManager.interaction
@@ -99,9 +100,10 @@ object InteractionManager {
     @JvmName("begin")
     @ApiStatus.Internal
     internal fun begin(screen: ITextureChangeableScreen, player: PlayerEntity) {
+        if (this.screen != null) return
         interaction = nextInteractionFactory?.apply(screen)
             ?: GeneralInteraction(screen, player.mainHandStack, InteractionTarget.Unknown, player, Hand.MAIN_HAND)
-        nextInteractionFactory = null
+        if (!IConfig.get().keepInteractionFactory) nextInteractionFactory = null
         this.screen = screen
         clearCache()
     }

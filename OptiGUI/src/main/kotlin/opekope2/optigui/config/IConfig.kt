@@ -34,6 +34,16 @@ interface IConfig {
     var dumpNbt: InspectorNbtDumpOptions
 
     /**
+     * Attacking blocks, entities, or in the air also starts an interaction.
+     */
+    var interactWithAttackKey: Boolean
+
+    /**
+     * Keep [IInteraction.IFactory] after an interaction ends.
+     */
+    var keepInteractionFactory: Boolean
+
+    /**
      * If there are problems loading resources, shows a screen with the details.
      */
     var showResourceLoadingErrors: ResourceLoadingErrorFilter
