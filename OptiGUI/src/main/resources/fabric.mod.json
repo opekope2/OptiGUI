@@ -93,6 +93,7 @@
     "optigui-screen-api": "$version"
   },
   "suggests": {
+    "modmenu": "*",
     "optigui-screen-nbt": "*"
   },
   "custom": {
