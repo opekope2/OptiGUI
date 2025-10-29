@@ -28,7 +28,7 @@ class ErrorListWidget(
     y: Int,
     w: Int,
     h: Int
-) : ScrollableWidget(x, y, w, h, I18n.OPTIGUI_RP_LOADER_NARRATION_ERROR_LIST.getText()) {
+) : ScrollableWidget(x, y, w, h, I18n.OPTIGUI_NARRATION_RP_LOADER_ERROR_LIST.getText()) {
     val errors: List<ResourceLoadingLoggingEvent> = log
         .filterTo(mutableListOf()) { it.level == Level.ERROR || it.level == Level.WARN }
         .apply { sort() }
@@ -41,7 +41,7 @@ class ErrorListWidget(
         var contentHeight = PADDING - padding
         var lastPack: String? = null
         var lastRes: Identifier? = null
-        var lastResText: Text = I18n.OPTIGUI_RP_LOADER_UNKNOWN_RESOURCE.getText()
+        var lastResText: Text = I18n.OPTIGUI_GUI_RP_LOADER_UNKNOWN_RESOURCE.getText()
         var addHeaders = true
         val entryWidth = width - PADDING - PADDING
 
@@ -53,20 +53,20 @@ class ErrorListWidget(
                 addHeaders = true // Always add resource header after resource pack header
 
                 val pack = if (error.packName == null) null else packManager.getProfile(error.packName)
-                val title = pack?.displayName ?: I18n.OPTIGUI_RP_LOADER_UNKNOWN_PACK.getText()
+                val title = pack?.displayName ?: I18n.OPTIGUI_GUI_RP_LOADER_UNKNOWN_PACK.getText()
                 val description = pack?.description ?: Text.empty()
                 val icon = pack?.let(iconLoader::loadIcon) ?: ResourcePackIconLoader.UNKNOWN_PACK
                 val entry = ResourcePackEntry(title, description, icon, entryWidth, textRenderer)
 
                 entries.add(entry)
-                narration += I18n.OPTIGUI_RP_LOADER_NARRATION_RESOURCE_PACK.getText(title)
+                narration += I18n.OPTIGUI_NARRATION_RP_LOADER_RESOURCE_PACK.getText(title)
                 contentHeight += entry.height + PADDING
             }
 
             if (addHeaders || lastRes != error.resourceId) {
                 lastRes = error.resourceId
                 lastResText = error.resourceId?.toString()?.let(Text::literal)
-                    ?: I18n.OPTIGUI_RP_LOADER_UNKNOWN_RESOURCE.getText()
+                    ?: I18n.OPTIGUI_GUI_RP_LOADER_UNKNOWN_RESOURCE.getText()
                 val entry = ResourceEntry(lastResText, entryWidth, textRenderer)
 
                 entries.add(entry)
@@ -210,8 +210,8 @@ class ErrorListWidget(
         }
 
         private fun getNarration(logLevel: Level) = when (logLevel) {
-            Level.ERROR -> I18n.OPTIGUI_RP_LOADER_NARRATION_ERROR
-            Level.WARN -> I18n.OPTIGUI_RP_LOADER_NARRATION_WARNING
+            Level.ERROR -> I18n.OPTIGUI_NARRATION_RP_LOADER_ERROR
+            Level.WARN -> I18n.OPTIGUI_NARRATION_RP_LOADER_WARNING
             else -> throw IllegalArgumentException("Unsupported error level $logLevel")
         }
     }

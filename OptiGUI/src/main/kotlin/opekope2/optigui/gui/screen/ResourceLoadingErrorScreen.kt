@@ -27,7 +27,7 @@ import org.slf4j.event.Level
  * @param onClose The action that gets called when this screen is closed
  */
 class ResourceLoadingErrorScreen(private val log: List<ResourceLoadingLoggingEvent>, private val onClose: Runnable) :
-    Screen(I18n.OPTIGUI_RP_LOADER_LOAD_FAIL.getText()) {
+    Screen(I18n.OPTIGUI_GUI_RP_LOADER_LOAD_FAIL.getText()) {
     private val layout = ThreePartsLayoutWidget(this, ThreePartsLayoutWidget.DEFAULT_HEADER_FOOTER_HEIGHT, 58)
     private lateinit var errorsWidget: ErrorListWidget
     private lateinit var doNotShowAgainCheckbox: CheckboxWidget
@@ -40,10 +40,10 @@ class ResourceLoadingErrorScreen(private val log: List<ResourceLoadingLoggingEve
         val result = buildMap {
             for (error in errors) {
                 getOrPut(
-                    error.packName ?: I18n.OPTIGUI_RP_LOADER_UNKNOWN_PACK.getTranslation(),
+                    error.packName ?: I18n.OPTIGUI_GUI_RP_LOADER_UNKNOWN_PACK.getTranslation(),
                     ::mutableMapOf
                 ).getOrPut(
-                    error.resourceId?.toString() ?: I18n.OPTIGUI_RP_LOADER_UNKNOWN_RESOURCE.getTranslation(),
+                    error.resourceId?.toString() ?: I18n.OPTIGUI_GUI_RP_LOADER_UNKNOWN_RESOURCE.getTranslation(),
                     ::mutableMapOf
                 ).getOrPut(
                     error.level.toString(),
@@ -80,14 +80,14 @@ class ResourceLoadingErrorScreen(private val log: List<ResourceLoadingLoggingEve
         val footer = layout.addFooter(DirectionalLayoutWidget.vertical().spacing(5))
         footer.mainPositioner.alignHorizontalCenter()
         doNotShowAgainCheckbox = footer.add(
-            CheckboxWidget.builder(I18n.OPTIGUI_RP_LOADER_DO_NOT_SHOW_AGAIN.getText(), textRenderer)
-                .tooltip(Tooltip.of(I18n.OPTIGUI_RP_LOADER_DO_NOT_SHOW_AGAIN_TOOLTIP.getText()))
+            CheckboxWidget.builder(I18n.OPTIGUI_GUI_RP_LOADER_DO_NOT_SHOW_AGAIN.getText(), textRenderer)
+                .tooltip(Tooltip.of(I18n.OPTIGUI_GUI_RP_LOADER_DO_NOT_SHOW_AGAIN_TOOLTIP.getText()))
                 .build()
         )
 
         val buttonBar = footer.add(DirectionalLayoutWidget.horizontal().spacing(5))
         copyButton = buttonBar.add(
-            ButtonWidget.builder(I18n.OPTIGUI_RP_LOADER_COPY_TO_CLIPBOARD.getText()) { copyErrors() }
+            ButtonWidget.builder(I18n.OPTIGUI_GUI_RP_LOADER_COPY_TO_CLIPBOARD.getText()) { copyErrors() }
                 .build()
         )
         doneButton = buttonBar.add(

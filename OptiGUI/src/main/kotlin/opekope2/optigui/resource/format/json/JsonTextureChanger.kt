@@ -1,6 +1,5 @@
 package opekope2.optigui.resource.format.json
 
-import com.google.common.base.Suppliers
 import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
@@ -50,15 +49,15 @@ data class JsonTextureChanger(val newTextureChances: Map<Either<RelativeIdentifi
                 if (newTextureChances.size == 1) DataResult.success(SimpleTextureChanger(found.keys.single()))
                 else DataResult.success(RandomizedTextureChanger(found))
 
-            0 -> DataResult.error(Suppliers.memoize { notFound.joinToString(prefix = "Missing textures: ") })
+            0 -> DataResult.error { notFound.joinToString(prefix = "Missing textures: ") }
 
             1 -> DataResult.error(
-                Suppliers.memoize { notFound.joinToString(prefix = "Missing textures: ") },
+                { notFound.joinToString(prefix = "Missing textures: ") },
                 SimpleTextureChanger(found.keys.single())
             )
 
             else -> DataResult.error(
-                Suppliers.memoize { notFound.joinToString(prefix = "Missing textures: ") },
+                { notFound.joinToString(prefix = "Missing textures: ") },
                 RandomizedTextureChanger(found)
             )
         }

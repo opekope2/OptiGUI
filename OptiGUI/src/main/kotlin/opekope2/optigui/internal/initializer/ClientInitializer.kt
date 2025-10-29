@@ -13,10 +13,8 @@ import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.nbt_provider.*
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.config.Config
-import opekope2.optigui.internal.config.annotation.RequiresMod
 import opekope2.optigui.internal.config.gui.ButtonEntryGuiProvider
 import opekope2.optigui.internal.config.gui.ButtonListEntry
-import opekope2.optigui.internal.config.gui.ModDependencyGuiTransformer
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import opekope2.optigui.nbt_provider.NbtFilterNamesNbtProvider
 
@@ -34,8 +32,6 @@ internal object ClientInitializer {
     private fun registerConfig() {
         AutoConfig.getGuiRegistry(Config::class.java)
             .registerTypeProvider(ButtonEntryGuiProvider, ButtonListEntry.IAction::class.java)
-        AutoConfig.getGuiRegistry(Config::class.java)
-            .registerAnnotationTransformer(ModDependencyGuiTransformer, RequiresMod::class.java)
         AutoConfig.register(Config::class.java, ::GsonConfigSerializer)
     }
 
