@@ -14,11 +14,11 @@ import opekope2.optigui.util.NbtFilterEvaluation
  */
 class NbtTransformerFilter(val subFilter: INbtFilter, override val type: TypeBase) : INbtFilter {
     override fun test(nbt: NbtElement, root: NbtElement): Boolean {
-        return subFilter.test(type.transformer.transform(nbt) ?: return false, root)
+        return subFilter.test(type.transformer.transform(nbt, root) ?: return false, root)
     }
 
     override fun testSubFilters(nbt: NbtElement?, root: NbtElement): List<NbtFilterEvaluation> {
-        val transformed = nbt?.let(type.transformer::transform)
+        val transformed = if (nbt != null) type.transformer.transform(nbt, root) else null
         return listOf(NbtFilterEvaluation(subFilter, transformed, root))
     }
 

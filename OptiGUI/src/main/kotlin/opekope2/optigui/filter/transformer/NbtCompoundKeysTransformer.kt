@@ -11,7 +11,7 @@ import net.minecraft.nbt.NbtString
  * @see NbtCompound.getKeys
  */
 data object NbtCompoundKeysTransformer : INbtTransformer {
-    override fun transform(nbt: NbtElement): NbtList? =
+    override fun transform(nbt: NbtElement, root: NbtElement): NbtList? =
         if (nbt !is NbtCompound) null
         else nbt.keys.mapTo(NbtList(), NbtString::of)
 }

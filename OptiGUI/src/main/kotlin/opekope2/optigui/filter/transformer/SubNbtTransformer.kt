@@ -11,7 +11,7 @@ import opekope2.optigui.filter.NbtTransformerFilter
  * @see NbtListIndexTransformer
  */
 data class SubNbtTransformer(val subNbtKey: String) : INbtTransformer {
-    override fun transform(nbt: NbtElement): NbtElement? =
+    override fun transform(nbt: NbtElement, root: NbtElement): NbtElement? =
         if (nbt is NbtCompound) nbt[subNbtKey]
         else null
 

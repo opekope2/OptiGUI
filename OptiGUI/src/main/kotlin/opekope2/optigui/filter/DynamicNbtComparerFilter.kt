@@ -18,7 +18,7 @@ import java.util.*
 class DynamicNbtComparerFilter(private val transformerChain: NbtTransformerChain, override val type: Type) :
     INbtFilter {
     override fun test(nbt: NbtElement, root: NbtElement): Boolean {
-        val reference = transformerChain.transform(nbt) ?: return false
+        val reference = transformerChain.transform(nbt, root) ?: return false
         return type.comparer.compare(nbt, reference) in type.acceptedResults
     }
 

@@ -10,7 +10,8 @@ fun interface INbtTransformer {
      * Transforms an NBT element.
      *
      * @param nbt The NBT element to transform
+     * @param root The root NBT element
      * @return The transformed NBT element or `null`, if it can't be transformed
      */
-    fun transform(nbt: NbtElement): NbtElement?
+    fun transform(nbt: NbtElement, root: NbtElement): NbtElement?
 }

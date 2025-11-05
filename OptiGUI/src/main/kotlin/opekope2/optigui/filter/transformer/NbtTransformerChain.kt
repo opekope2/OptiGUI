@@ -12,8 +12,8 @@ import java.util.function.Function
  * An NBT transformer, which transforms an NBT element using multiple other NBT transformers after one another.
  */
 class NbtTransformerChain(val transformerChain: List<NbtTransformerFilter.TypeBase>) : INbtTransformer {
-    override fun transform(nbt: NbtElement): NbtElement? =
-        transformerChain.fold(nbt) { nbt, transformer -> transformer.transformer.transform(nbt) ?: return null }
+    override fun transform(nbt: NbtElement, root: NbtElement): NbtElement? =
+        transformerChain.fold(nbt) { nbt, transformer -> transformer.transformer.transform(nbt, root) ?: return null }
 
     /**
      * Merges two NBT transformer chains.
