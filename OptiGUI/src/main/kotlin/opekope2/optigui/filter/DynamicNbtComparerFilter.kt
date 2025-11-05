@@ -22,11 +22,8 @@ class DynamicNbtComparerFilter(private val transformerChain: NbtTransformerChain
         return type.comparer.compare(nbt, reference) in type.acceptedResults
     }
 
-    override fun asString() = super.asString() + " " + transformerChain.transformerChain.joinToString(
-        prefix = "[",
-        postfix = "]",
-        transform = { NbtString.escape(INbtFilter.getKey(it)) }
-    )
+    override fun asString() = super.asString() + " " + transformerChain.transformerChain
+        .joinToString(prefix = "[", postfix = "]", transform = { NbtString.escape(INbtFilter.getKey(it)) })
 
     /**
      * A type describing a [DynamicNbtComparerFilter].
