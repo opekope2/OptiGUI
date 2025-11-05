@@ -5,10 +5,7 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer
 import opekope2.optigui.filter.*
 import opekope2.optigui.filter.comparer.INbtComparer.ComparisonResult.*
 import opekope2.optigui.filter.comparer.NbtStringOrNumberComparer
-import opekope2.optigui.filter.transformer.NbtCollectionSizeTransformer
-import opekope2.optigui.filter.transformer.NbtCompoundKeysTransformer
-import opekope2.optigui.filter.transformer.NbtCompoundValuesTransformer
-import opekope2.optigui.filter.transformer.NbtTypeTransformer
+import opekope2.optigui.filter.transformer.*
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.nbt_provider.*
 import opekope2.optigui.internal.TextureChanger
@@ -105,6 +102,8 @@ internal object ClientInitializer {
         INbtFilter.register("size", NbtTransformerFilter.Type(NbtCollectionSizeTransformer))
 
         INbtFilter.register("if", ConditionalFilter.TYPE)
+
+        INbtFilter.register("root", NbtTransformerFilter.Type(RootNbtTransformer))
     }
 
     private fun registerLoadTimeNbtProviders() {
