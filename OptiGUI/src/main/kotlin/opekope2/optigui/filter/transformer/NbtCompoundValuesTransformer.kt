@@ -14,7 +14,7 @@ data object NbtCompoundValuesTransformer : INbtTransformer {
         if (nbt !is NbtCompound) null
         else NbtList().apply {
             // Collection::mapTo uses MutableCollection::add
-            // NbtList::add throws, but NbtList::addElement not
+            // NbtList::add throws, but NbtList::addElement does not
             for (key in nbt.keys) if (!addElement(size, nbt[key])) return null
         }
 }
