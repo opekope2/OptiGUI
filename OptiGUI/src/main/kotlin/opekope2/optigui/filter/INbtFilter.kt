@@ -248,6 +248,7 @@ interface INbtFilter {
          * A codec for [INbtFilter].
          */
         // Lazy-initialized codec to avoid circular reference during class loading
+        // INbtFilter::CODEC -> AggregateFilter.Type::codec -> INbtFilter::LIST_CODEC -> INbtFilter::CODEC
         @JvmField
         val CODEC: Codec<INbtFilter> = Codec.lazyInitialized {
             Codec.either(
