@@ -49,14 +49,14 @@ internal class OptiGuiClient :
     }
 
     private fun registerNbtFilters() {
-        INbtFilter.register(">v", NbtVersionFilter.Type.VERSION_GREATER)
-        INbtFilter.register(">=v", NbtVersionFilter.Type.VERSION_GREATER_EQUAL)
-        INbtFilter.register("=v", NbtVersionFilter.Type.VERSION_EQUAL)
-        INbtFilter.register("!=v", NbtVersionFilter.Type.VERSION_NOT_EQUAL)
-        INbtFilter.register("<=v", NbtVersionFilter.Type.VERSION_LESS_EQUAL)
-        INbtFilter.register("<v", NbtVersionFilter.Type.VERSION_LESS)
-        INbtFilter.register("~v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MINOR)
-        INbtFilter.register("^v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MAJOR)
+        INbtFilter.Registry.register(">v", NbtVersionFilter.Type.VERSION_GREATER)
+        INbtFilter.Registry.register(">=v", NbtVersionFilter.Type.VERSION_GREATER_EQUAL)
+        INbtFilter.Registry.register("=v", NbtVersionFilter.Type.VERSION_EQUAL)
+        INbtFilter.Registry.register("!=v", NbtVersionFilter.Type.VERSION_NOT_EQUAL)
+        INbtFilter.Registry.register("<=v", NbtVersionFilter.Type.VERSION_LESS_EQUAL)
+        INbtFilter.Registry.register("<v", NbtVersionFilter.Type.VERSION_LESS)
+        INbtFilter.Registry.register("~v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MINOR)
+        INbtFilter.Registry.register("^v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MAJOR)
     }
 
     private fun registerLoadTimeNbtSuppliers() {

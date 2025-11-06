@@ -275,8 +275,5 @@ interface INbtFilter {
             if (it.type == this) DataResult.success(it)
             else DataResult.error { I18n.OPTIGUI_VALIDATION_ERROR_WRONG_FILTER_TYPE.getTranslation(this, it.type) }
         }
-
-        fun register(key: String, value: IType<*>) = Registry.register(key, value)
-        fun registerPrefix(key: Char, value: IPrefixType.IFactory<*>) = PrefixRegistry.register(key, value)
     }
 }
