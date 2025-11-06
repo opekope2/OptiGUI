@@ -22,6 +22,7 @@ internal object ClientInitializer {
 
         registerConfig()
         registerInteractionNbtProviders()
+        registerPrefixNbtFilters()
         registerNbtFilters()
         registerLoadTimeNbtProviders()
     }
@@ -51,12 +52,12 @@ internal object ClientInitializer {
         IInteractionNbtProvider.register("world", WorldNbtProvider)
     }
 
-    private fun registerNbtFilters() {
-        INbtFilter.register("#none", NbtListFilter.Type.NONE_OF_LIST)
-        INbtFilter.register("#any", NbtListFilter.Type.ANY_OF_LIST)
-        INbtFilter.register("#some", NbtListFilter.Type.SOME_OF_LIST)
-        INbtFilter.register("#all", NbtListFilter.Type.ALL_OF_LIST)
+    private fun registerPrefixNbtFilters() {
+        INbtFilter.registerPrefix('@', SubNbtTransformer.Type.Factory)
+        INbtFilter.registerPrefix('#', INbtListFilter.IType.Factory)
+    }
 
+    private fun registerNbtFilters() {
         INbtFilter.register(">", NbtStringOrNumberComparer.CaseSensitive.constantType(MORE))
         INbtFilter.register(">?", NbtStringOrNumberComparer.CaseSensitive.dynamicType(MORE))
         INbtFilter.register(">*", NbtStringOrNumberComparer.CaseInsensitive.constantType(MORE))

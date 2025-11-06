@@ -61,19 +61,24 @@ class AggregateFilter(val filters: LinkedMruCollection<INbtFilter>, override val
          */
         JSON_OBJECT(AggregateOperator.ALL_OF) {
             override val codec: Codec<AggregateFilter> =
-                Codec.dispatchedMap(INbtFilter.keyCodec) { INbtFilter.getType(it).codec }.xmap(
+                Codec.dispatchedMap(INbtFilter.KEY_CODEC, ::getCodec).xmap(
                     { AggregateFilter(LinkedMruCollection(it.values), this) },
-                    { filter -> filter.filters.associateBy { INbtFilter.getKey(it.type) } }
+                    { filter -> filter.filters.associateBy { it.type.key } }
                 ).validate(::validate)
 
+            private fun getCodec(key: String) = when (key) {
+                in INbtFilter.Registry -> INbtFilter.Registry.getValue(key)
+                in INbtFilter.PrefixRegistry -> INbtFilter.PrefixRegistry.createType(key)
+                else -> throw NoSuchElementException("Type is not registered: $key") // Shouldn't happen as INbtFilter.KEY_CODEC takes care of these
+            }.codec
+
             private fun validate(filter: AggregateFilter): DataResult<AggregateFilter> {
-                val missing = filter.filters.filter { !INbtFilter.containsType(it.type) }
+                val missing = filter.filters.filter { !it.type.isRegistered }
                 if (missing.isNotEmpty()) return DataResult.error {
                     I18n.OPTIGUI_VALIDATION_ERROR_NO_FILTER_TYPE.getTranslation(missing.joinToString { it.type.toString() })
                 }
 
-                val duplicates =
-                    filter.filters.groupingBy { INbtFilter.getKey(it.type) }.eachCount().filter { it.value > 1 }.keys
+                val duplicates = filter.filters.groupingBy { it.type.key }.eachCount().filter { it.value > 1 }.keys
                 if (duplicates.isNotEmpty()) return DataResult.error {
                     I18n.OPTIGUI_VALIDATION_ERROR_DUPLICATE_FILTERS.getTranslation(duplicates.joinToString())
                 }
@@ -82,7 +87,7 @@ class AggregateFilter(val filters: LinkedMruCollection<INbtFilter>, override val
             }
         };
 
-        override val codec: Codec<AggregateFilter> = INbtFilter.listCodec.xmap(
+        override val codec: Codec<AggregateFilter> = INbtFilter.LIST_CODEC.xmap(
             { AggregateFilter(LinkedMruCollection(it), this) },
             { it.filters.toList() }
         )

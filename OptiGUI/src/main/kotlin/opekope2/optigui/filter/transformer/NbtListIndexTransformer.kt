@@ -23,5 +23,7 @@ data class NbtListIndexTransformer(val index: Int) : INbtTransformer {
      *
      * @param index The index in the NBT list. If it's negative, indexing starts from the back
      */
-    data class Type(val index: Int) : NbtTransformerFilter.TypeBase(NbtListIndexTransformer(index))
+    data class Type(val index: Int) : NbtTransformerFilter.IType {
+        override val transformer = NbtListIndexTransformer(index)
+    }
 }
