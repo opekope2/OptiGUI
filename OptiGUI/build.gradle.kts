@@ -1,78 +1,42 @@
-import groovy.json.JsonSlurper
+import opekope2.optigui.buildscript.task.GenerateI18nEnum
+import opekope2.optigui.buildscript.task.GenerateInternalPackageInfos
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
 }
 
+architectury {
+    injectInjectables = false
+    common("fabric")
+}
+
 repositories {
-    maven("https://maven.terraformersmc.com/") { name = "Terraformers" }
-    maven("https://maven.shedaniel.me/") { name = "Shedaniel" }
+    maven("https://maven.shedaniel.me") { name = "Shedaniel" }
 }
 
 dependencies {
-    modImplementation(libs.fabric.loader)
-    modImplementation(libs.fabric.language.kotlin)
-    modImplementation(libs.fabric.api)
-    localRuntime(project(":ScreenNBT", configuration = "namedElements"))
+    api(libs.ini4j)
+    modApi(libs.cloth.config.fabric) { exclude(group = "net.fabricmc.fabric-api") }
 
     api(project(":ScreenAPI", configuration = "namedElements"))
-    include(project(":ScreenAPI"))
-
-    modImplementation(libs.cloth.config.fabric) {
-        exclude(group = "net.fabricmc.fabric-api")
-    }
-    modImplementation(libs.modmenu)
-
-    implementation(libs.ini4j)
-    include(libs.ini4j)
-
-    testImplementation(kotlin("test"))
 }
 
 tasks {
-    val generateI18n by registering {
-        val jsonPath = "src/main/resources/assets/optigui/lang/en_us.json"
-        val outFile = project.layout.buildDirectory.file("generated/src/main/kotlin/opekope2/optigui/internal/I18n.kt")
-
-        inputs.file(jsonPath)
-        outputs.file(outFile)
-
-        doLast {
-            val json = JsonSlurper().parse(file(jsonPath)) as Map<String, String>
-            val members = json.entries.joinToString(separator = ",\n    ") { (key, value) ->
-                val k = key.uppercase().replace("""[^a-zA-Z0-9]""".toRegex(), "_")
-                """$k("$key", "$value")"""
-            }
-            val enum = """
-                package opekope2.optigui.internal
-                
-                import net.minecraft.text.MutableText
-                import net.minecraft.text.Text
-                import java.util.function.Supplier
-                
-                internal enum class I18n(private val key: String, private val fallback: String) {
-                    %s;
-                    
-                    fun getText(vararg args: Any?): MutableText = Text.translatableWithFallback(key, fallback, *args)
-
-                    fun getTranslation(vararg args: Any?): String = getText(*args).getString()
-                    
-                    fun supplyTranslation(vararg args: Any?): Supplier<String> = Supplier { getTranslation(*args) }
-                }
-            """.trimIndent().format(members)
-
-            file(outFile).writeText(enum)
-        }
+    val generateI18n by registering(GenerateI18nEnum::class) {
+        langFile = projectDir.resolve("src/main/resources/assets/optigui/lang/en_us.json")
+        packageName = "opekope2.optigui.internal"
     }
 
-    val compileKotlin by getting { dependsOn(generateI18n) }
-    val sourcesJar by getting { dependsOn(generateI18n) }
-}
+    val generateInternalPackageInfos by registering(GenerateInternalPackageInfos::class) {
+        sourceRoot = projectDir.resolve("src/main/kotlin")
+        matchPackages = """^opekope2\.optigui\.internal(\..+)?$""".toRegex()
+    }
 
-sourceSets {
-    main {
-        kotlin {
-            srcDir(project.layout.buildDirectory.dir("generated/src/main/kotlin"))
-        }
+    named("compileKotlin") { dependsOn(generateI18n, generateInternalPackageInfos) }
+    named("sourcesJar") { dependsOn(generateI18n, generateInternalPackageInfos) }
+
+    sourceSets.main {
+        java.srcDir(generateInternalPackageInfos)
+        kotlin.srcDir(generateI18n)
     }
 }

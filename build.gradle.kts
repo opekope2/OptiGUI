@@ -46,9 +46,7 @@ subprojects {
         withSourcesJar()
         sourceCompatibility = JavaVersion.toVersion(rootProject.libs.versions.java.get())
         targetCompatibility = JavaVersion.toVersion(rootProject.libs.versions.java.get())
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(rootProject.libs.versions.java.get())
-        }
+        toolchain.languageVersion = JavaLanguageVersion.of(rootProject.libs.versions.java.get())
     }
 
     tasks {
@@ -62,7 +60,7 @@ subprojects {
         withType<KotlinCompile>().configureEach {
             compilerOptions {
                 jvmTarget = JvmTarget.fromTarget(rootProject.libs.versions.java.get())
-                freeCompilerArgs.add("-Xjvm-default=all")
+                freeCompilerArgs.addAll("-Xjvm-default=all", "-Xjsr305=strict")
             }
         }
 
@@ -82,12 +80,8 @@ subprojects {
                 "cloth_config" to libs.versions.cloth.config.fabric.get(),
             )
 
-            filesMatching("fabric.mod.json") {
-                expand(properties)
-            }
-            filesMatching("*.mixins.json") {
-                expand(properties)
-            }
+            filesMatching("fabric.mod.json") { expand(properties) }
+            filesMatching("*.mixins.json") { expand(properties) }
         }
     }
 }
