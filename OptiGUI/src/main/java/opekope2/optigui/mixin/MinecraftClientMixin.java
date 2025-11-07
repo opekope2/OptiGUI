@@ -10,7 +10,7 @@ import opekope2.optigui.interaction.GeneralInteraction;
 import opekope2.optigui.interaction.InteractionManager;
 import opekope2.optigui.interaction.InteractionTarget;
 import opekope2.optigui.screen_api.screen.ITextureChangeableScreen;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,12 +25,10 @@ import java.util.function.Function;
 @Mixin(value = MinecraftClient.class)
 public abstract class MinecraftClientMixin {
     @Shadow
-    @Nullable
-    public ClientPlayerEntity player;
+    public @Nullable ClientPlayerEntity player;
 
     @Shadow
-    @Nullable
-    public Screen currentScreen;
+    public @Nullable Screen currentScreen;
 
     @Inject(method = "setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("TAIL"))
     private void manageInteraction(CallbackInfo ci) {

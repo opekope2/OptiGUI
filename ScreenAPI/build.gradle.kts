@@ -15,7 +15,7 @@ repositories {
 dependencies {
     minecraft(libs.minecraft)
     mappings(variantOf(libs.yarn) { classifier("v2") })
-    api(libs.jsr305)
+    compileOnly(libs.jspecify)
     modImplementation(libs.fabric.loader)
 }
 

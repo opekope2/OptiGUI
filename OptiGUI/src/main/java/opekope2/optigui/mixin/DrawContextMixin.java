@@ -9,14 +9,13 @@ import net.minecraft.util.Identifier;
 import opekope2.optigui.internal.TextStyler;
 import opekope2.optigui.internal.TextureChanger;
 import opekope2.optigui.util.TextOrigin;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import javax.annotation.Nullable;
 
 @Mixin(value = DrawContext.class, priority = 800)
 public abstract class DrawContextMixin {
@@ -29,7 +28,7 @@ public abstract class DrawContextMixin {
             index = 1,
             argsOnly = true
     )
-    private Identifier changeTexture(@Nullable Identifier texture) {
+    private @Nullable Identifier changeTexture(@Nullable Identifier texture) {
         return texture != null ? TextureChanger.changeTexture(texture) : null;
     }
 
@@ -42,7 +41,7 @@ public abstract class DrawContextMixin {
             index = 1,
             argsOnly = true
     )
-    private Identifier changeSprite(@Nullable Identifier sprite) {
+    private @Nullable Identifier changeSprite(@Nullable Identifier sprite) {
         return sprite != null ? TextureChanger.changeSprite(sprite) : null;
     }
 

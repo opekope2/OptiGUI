@@ -20,7 +20,7 @@ public abstract class AnvilScreenMixin {
 
     @Inject(method = "setup", at = @At("TAIL"))
     private void makeNameFieldStyleable(CallbackInfo ci) {
-        if (nameField != null) nameField.setRenderTextProvider(this::styleNameField);
+        nameField.setRenderTextProvider(this::styleNameField);
     }
 
     @Unique
