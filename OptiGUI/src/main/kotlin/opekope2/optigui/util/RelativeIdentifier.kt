@@ -42,7 +42,7 @@ data class RelativeIdentifier(val path: String) {
         @JvmField
         val CODEC: Codec<RelativeIdentifier> = Codecs.IDENTIFIER_PATH.validate {
             if (it.startsWith("./")) DataResult.success(it)
-            else DataResult.error { I18n.OPTIGUI_VALIDATION_ERROR_NOT_A_RELATIVE_IDENTIFIER.getTranslation(it) }
+            else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_NOT_A_RELATIVE_IDENTIFIER.supplyTranslation(it))
         }.xmap(::RelativeIdentifier, RelativeIdentifier::path)
 
         /**

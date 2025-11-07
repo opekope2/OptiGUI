@@ -40,7 +40,7 @@ class NbtTransformerChain(val transformerChain: List<NbtTransformerFilter.IType>
         val CODEC: Codec<NbtTransformerChain> = INbtFilter.TYPE_CODEC.comapFlatMap(
             {
                 if (it is NbtTransformerFilter.IType) DataResult.success(it)
-                else DataResult.error { I18n.OPTIGUI_VALIDATION_ERROR_NOT_AN_NBT_TRANSFORMER.getTranslation(it) }
+                else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_NOT_AN_NBT_TRANSFORMER.supplyTranslation(it))
             },
             Function.identity()
         ).listOf().xmap(::NbtTransformerChain, NbtTransformerChain::transformerChain)

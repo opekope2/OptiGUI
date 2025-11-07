@@ -261,7 +261,7 @@ interface INbtFilter {
                 when (it) {
                     is AggregateFilter -> DataResult.success(Either.left(it))
                     is ConstantNbtComparerFilter -> DataResult.success(Either.right(it))
-                    else -> DataResult.error { I18n.OPTIGUI_VALIDATION_ERROR_UNSUPPORTED_FILTER.getTranslation(it) }
+                    else -> DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_UNSUPPORTED_FILTER.supplyTranslation(it))
                 }
             }
         }
@@ -274,7 +274,7 @@ interface INbtFilter {
 
         private fun <T : INbtFilter> IType<T>.typeValidatedCodec(): Codec<T> = codec.validate {
             if (it.type == this) DataResult.success(it)
-            else DataResult.error { I18n.OPTIGUI_VALIDATION_ERROR_WRONG_FILTER_TYPE.getTranslation(this, it.type) }
+            else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_WRONG_FILTER_TYPE.supplyTranslation(this, it.type))
         }
     }
 }
