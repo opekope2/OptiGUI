@@ -219,7 +219,7 @@ interface INbtFilter {
         operator fun contains(key: String) = containsKey(key)
 
         override fun containsKey(key: String) =
-            key.isNotEmpty() && key[0] in this && getValue(key[0]).canCreateType(key)
+            key.isNotEmpty() && key[0] in this && getValue(key[0]).canCreateType(key.substring(1))
     }
 
     companion object {
