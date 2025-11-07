@@ -113,9 +113,8 @@ object InteractionManager {
      */
     @JvmStatic
     @JvmOverloads
-    @JvmName("end")
     @ApiStatus.Internal
-    internal fun end(disconnected: Boolean = false) {
+    fun end(disconnected: Boolean = false) {
         interaction = null
         screen = null
         clearCache(disconnected)

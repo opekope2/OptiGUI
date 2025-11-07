@@ -1,4 +1,4 @@
-package opekope2.optigui.internal.fabric
+package opekope2.optigui.internal.fabric.gui.widget
 
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.loader.api.FabricLoader

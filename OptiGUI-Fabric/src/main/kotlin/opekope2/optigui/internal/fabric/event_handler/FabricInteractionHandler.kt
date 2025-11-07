@@ -1,4 +1,4 @@
-package opekope2.optigui.internal.fabric
+package opekope2.optigui.internal.fabric.event_handler
 
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback

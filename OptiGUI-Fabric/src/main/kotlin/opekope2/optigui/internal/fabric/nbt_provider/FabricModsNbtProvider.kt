@@ -1,4 +1,4 @@
-package opekope2.optigui.internal.fabric
+package opekope2.optigui.internal.fabric.nbt_provider
 
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.nbt.NbtCompound

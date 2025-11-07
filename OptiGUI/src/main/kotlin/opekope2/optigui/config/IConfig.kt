@@ -133,7 +133,7 @@ interface IConfig {
          */
         ERRORS_AND_WARNINGS(I18n.OPTIGUI_ENUM_RESOURCELOADINGERRORFILTER_ERRORS_AND_WARNINGS);
 
-        override fun toString(): String = translation.getTranslation()
+        override fun toString() = translation.getTranslation()
     }
 
     companion object {

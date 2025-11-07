@@ -13,6 +13,7 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.network.ClientPlayNetworkHandler
 import net.minecraft.client.world.ClientWorld
+import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
 import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraft.util.Identifier
@@ -21,9 +22,11 @@ import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.IOptiGuiPlatform
-import opekope2.optigui.internal.TextureChanger
-import opekope2.optigui.internal.initializer.ClientInitializer
-import opekope2.optigui.internal.resource.loader.JsonFilterLoader
+import opekope2.optigui.internal.fabric.event_handler.FabricAttackHandler
+import opekope2.optigui.internal.fabric.event_handler.FabricInteractionHandler
+import opekope2.optigui.internal.fabric.filter.NbtVersionFilter
+import opekope2.optigui.internal.fabric.gui.widget.FabricInspectorWidget
+import opekope2.optigui.internal.fabric.nbt_provider.FabricModsNbtProvider
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 import opekope2.optigui.util.MOD_ID
@@ -37,7 +40,7 @@ internal class OptiGuiClient :
     ScreenEvents.BeforeRender,
     ScreenEvents.AfterRender {
     override fun onInitializeClient() {
-        ClientInitializer
+        IOptiGuiPlatform.initialize(Platform)
         registerNbtFilters()
         FabricInteractionHandler
         FabricAttackHandler
@@ -64,7 +67,7 @@ internal class OptiGuiClient :
     }
 
     private fun registerResourceLoaders(manager: ResourceManagerHelper) {
-        manager.registerReloadListener(FabricResourceReloadListener(JsonFilterLoader.id, JsonFilterLoader))
+        for ((id, loader) in IFilterLoader) manager.registerReloadListener(FabricResourceReloadListener(id, loader))
         manager.registerReloadListener(TextureChangerReloadListener)
     }
 
@@ -89,18 +92,21 @@ internal class OptiGuiClient :
     }
 
     override fun beforeRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
-        TextureChanger.renderingScreen = true
+        IOptiGuiPlatform.renderingScreen = true
     }
 
     override fun afterRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
-        TextureChanger.renderingScreen = false
+        IOptiGuiPlatform.renderingScreen = false
     }
 
-    private object TextureChangerReloadListener : IdentifiableResourceReloadListener,
-        SynchronousResourceReloader by TextureChanger {
+    private object TextureChangerReloadListener : IdentifiableResourceReloadListener, SynchronousResourceReloader {
         override fun getFabricId(): Identifier = Identifier.of(MOD_ID, "texture_changer")
 
         override fun getFabricDependencies() = IFilterLoader.map { it.key }
+
+        override fun reload(manager: ResourceManager) {
+            IOptiGuiPlatform.textureChanger.reload(manager)
+        }
     }
 
     internal object Platform : IOptiGuiPlatform {

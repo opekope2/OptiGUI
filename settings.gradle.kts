@@ -21,6 +21,7 @@ dependencyResolutionManagement {
 
 include(
     "OptiGUI",
+    "OptiGUI-Fabric",
     "ScreenAPI",
     "ScreenNBT",
 )

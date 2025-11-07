@@ -1,4 +1,4 @@
-package opekope2.optigui.internal.fabric
+package opekope2.optigui.internal.fabric.filter
 
 import com.mojang.serialization.Codec
 import net.fabricmc.loader.api.Version

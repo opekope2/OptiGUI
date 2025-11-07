@@ -16,9 +16,11 @@ import opekope2.optigui.internal.I18n
 import opekope2.optigui.internal.debugger.Debugger
 import opekope2.optigui.util.DEBUGGER_URL
 import opekope2.optigui.util.MOD_ID
+import org.jetbrains.annotations.ApiStatus
 import java.util.concurrent.CompletableFuture
 
-internal abstract class InspectorWidget : ClickableWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT, TEXT) {
+@ApiStatus.Internal
+abstract class InspectorWidget : ClickableWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT, TEXT) {
     private var customTextures = false
     private var prevFilter = InteractionManager.textureChangerFilter
     private var prevAlt = false
