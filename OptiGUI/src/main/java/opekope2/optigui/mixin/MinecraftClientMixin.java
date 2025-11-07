@@ -9,7 +9,7 @@ import opekope2.optigui.gui.screen.ResourceLoadingErrorScreen;
 import opekope2.optigui.interaction.GeneralInteraction;
 import opekope2.optigui.interaction.InteractionManager;
 import opekope2.optigui.interaction.InteractionTarget;
-import opekope2.optigui.screen.ITextureChangeableScreen;
+import opekope2.optigui.screen_api.screen.ITextureChangeableScreen;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

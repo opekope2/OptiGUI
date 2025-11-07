@@ -4,7 +4,7 @@ import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.client.gui.screen.ingame.AbstractSignEditScreen;
 import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen;
 import net.minecraft.client.gui.widget.Widget;
-import opekope2.optigui.screen.ITextureChangeableScreen;
+import opekope2.optigui.screen_api.screen.ITextureChangeableScreen;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(HangingSignEditScreen.class)

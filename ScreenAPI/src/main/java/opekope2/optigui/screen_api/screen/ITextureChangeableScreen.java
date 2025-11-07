@@ -1,4 +1,4 @@
-package opekope2.optigui.screen;
+package opekope2.optigui.screen_api.screen;
 
 import net.minecraft.client.gui.screen.ingame.BookEditScreen;
 import net.minecraft.client.gui.screen.ingame.BookScreen;
@@ -9,7 +9,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
-import opekope2.optigui.util.INbtConvertible;
+import opekope2.optigui.screen_api.util.INbtConvertible;
 
 /**
  * Marker interface for allowing OptiGUI to change textures on a screen (and its subclasses).

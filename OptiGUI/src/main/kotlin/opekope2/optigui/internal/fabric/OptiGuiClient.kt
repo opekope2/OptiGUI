@@ -25,7 +25,7 @@ import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.initializer.ClientInitializer
 import opekope2.optigui.internal.resource.loader.JsonFilterLoader
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
-import opekope2.optigui.screen.ITextureChangeableScreen
+import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 import opekope2.optigui.util.MOD_ID
 import kotlin.jvm.optionals.getOrNull
 

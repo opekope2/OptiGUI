@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
-import opekope2.optigui.screen.ITextureChangeableScreen
+import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 
 /**
  * Details about an interaction with a block.

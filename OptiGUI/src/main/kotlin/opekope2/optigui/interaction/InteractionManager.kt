@@ -11,7 +11,7 @@ import opekope2.optigui.interaction.InteractionManager.clearCache
 import opekope2.optigui.interaction.InteractionManager.interaction
 import opekope2.optigui.internal.TextStyler
 import opekope2.optigui.internal.TextureChanger
-import opekope2.optigui.screen.ITextureChangeableScreen
+import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 import opekope2.optigui.util.TextOrigin
 import opekope2.optigui.util.collections.IEnumObjectPairSet
 import org.jetbrains.annotations.ApiStatus
