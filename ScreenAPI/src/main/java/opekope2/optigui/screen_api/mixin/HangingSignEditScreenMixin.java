@@ -1,4 +1,4 @@
-package opekope2.optigui.mixin.screen;
+package opekope2.optigui.screen_api.mixin;
 
 import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.client.gui.screen.ingame.AbstractSignEditScreen;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(HangingSignEditScreen.class)
 public abstract class HangingSignEditScreenMixin extends AbstractSignEditScreen implements ITextureChangeableScreen {
-    public HangingSignEditScreenMixin(SignBlockEntity blockEntity, boolean front, boolean filtered) {
+    private HangingSignEditScreenMixin(SignBlockEntity blockEntity, boolean front, boolean filtered) {
         super(blockEntity, front, filtered);
     }
 

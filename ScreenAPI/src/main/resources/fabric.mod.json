@@ -21,6 +21,9 @@
   "license": "MIT",
   "icon": "icon.png",
   "environment": "client",
+  "mixins": [
+    "optigui-screen-api.mixins.json"
+  ],
   "depends": {
     "minecraft": ">=$minecraft",
     "java": ">=$java"

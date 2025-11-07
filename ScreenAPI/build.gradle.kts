@@ -47,6 +47,13 @@ tasks {
                 )
             )
         }
+        filesMatching("*.mixins.json") {
+            expand(
+                mapOf(
+                    "java" to javaVersion
+                )
+            )
+        }
     }
 
     java {

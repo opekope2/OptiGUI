@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import javax.annotation.Nullable;
 
 @Mixin(value = DrawContext.class, priority = 800)
-abstract class DrawContextMixin {
+public abstract class DrawContextMixin {
     @Shadow
     public abstract int drawText(TextRenderer textRenderer, OrderedText text, int x, int y, int color, boolean shadow);
 

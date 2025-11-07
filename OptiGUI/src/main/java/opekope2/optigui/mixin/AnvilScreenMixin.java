@@ -1,4 +1,4 @@
-package opekope2.optigui.mixin.screen;
+package opekope2.optigui.mixin;
 
 import net.minecraft.client.gui.screen.ingame.AnvilScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;

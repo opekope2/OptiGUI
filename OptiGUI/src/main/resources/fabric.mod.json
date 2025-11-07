@@ -80,8 +80,7 @@
     ]
   },
   "mixins": [
-    "optigui.mixins.json",
-    "optigui-screens.mixins.json"
+    "optigui.mixins.json"
   ],
   "depends": {
     "cloth-config": ">=$cloth_config",
