@@ -71,11 +71,10 @@ tasks {
 
     val generateInternalPackageInfos by registering(GenerateInternalPackageInfos::class) {
         sourceRoot = projectDir.resolve("src/main/kotlin")
-        matchPackages = """^opekope2\.optigui\.internal\.fabric(\..+)?$""".toRegex()
+        packageMatcher("""^opekope2\.optigui\.internal\.fabric(\..+)?$""")
     }
 
-    named("compileJava") { dependsOn(generateInternalPackageInfos) }
-    named("sourcesJar") { dependsOn(generateInternalPackageInfos) }
+    codegen { dependsOn(generateInternalPackageInfos) }
 
     sourceSets.main {
         java.srcDir(generateInternalPackageInfos)

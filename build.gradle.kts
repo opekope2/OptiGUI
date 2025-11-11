@@ -22,8 +22,9 @@ allprojects {
 }
 
 subprojects {
-    apply(plugin = "dev.architectury.loom")
-    apply(plugin = "architectury-plugin")
+    apply(plugin = rootProject.libs.plugins.kotlin.jvm.get().pluginId)
+    apply(plugin = rootProject.libs.plugins.loom.get().pluginId)
+    apply(plugin = rootProject.libs.plugins.architectury.get().pluginId)
 
     base {
         archivesName = "optigui"
@@ -83,5 +84,10 @@ subprojects {
             filesMatching("fabric.mod.json") { expand(properties) }
             filesMatching("*.mixins.json") { expand(properties) }
         }
+
+        val codegen by registering
+        named("compileJava") { dependsOn(codegen) }
+        named("compileKotlin") { dependsOn(codegen) }
+        named("sourcesJar") { dependsOn(codegen) }
     }
 }

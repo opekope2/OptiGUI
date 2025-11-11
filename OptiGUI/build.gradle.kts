@@ -23,20 +23,19 @@ dependencies {
 
 tasks {
     val generateI18n by registering(GenerateI18nEnum::class) {
-        langFile = projectDir.resolve("src/main/resources/assets/optigui/lang/en_us.json")
-        packageName = "opekope2.optigui.internal"
+        inputs.file(projectDir.resolve("src/main/resources/assets/optigui/lang/en_us.json"))
+        enumPackage = "opekope2.optigui.internal"
     }
 
     val generateInternalPackageInfos by registering(GenerateInternalPackageInfos::class) {
         sourceRoot = projectDir.resolve("src/main/kotlin")
-        matchPackages = """^opekope2\.optigui\.internal(\..+)?$""".toRegex()
+        packageMatcher("""^opekope2\.optigui\.internal(\..+)?$""")
     }
 
-    named("compileKotlin") { dependsOn(generateI18n, generateInternalPackageInfos) }
-    named("sourcesJar") { dependsOn(generateI18n, generateInternalPackageInfos) }
+    codegen { dependsOn(generateI18n, generateInternalPackageInfos) }
 
     sourceSets.main {
-        java.srcDir(generateInternalPackageInfos)
-        kotlin.srcDir(generateI18n)
+        java.srcDirs(generateInternalPackageInfos)
+        kotlin.srcDirs(generateI18n)
     }
 }

@@ -1,6 +1,5 @@
 package opekope2.optigui.buildscript.task
 
-import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
@@ -8,32 +7,33 @@ import java.nio.file.Files
 import kotlin.io.path.isDirectory
 import kotlin.io.path.relativeTo
 
-abstract class GenerateInternalPackageInfos : DefaultTask() {
-    init {
-        outputDir.convention(project.layout.buildDirectory.dir("generated/$name"))
-    }
-
+@CacheableTask
+abstract class GenerateInternalPackageInfos : AbstractCodegenTask() {
     @get:Input
-    abstract val matchPackages: Property<Regex>
+    abstract val packageMatcher: Property<Regex>
 
     @get:SkipWhenEmpty
     @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.RELATIVE)
     abstract val sourceRoot: DirectoryProperty
 
-    @get:OutputDirectory
-    abstract val outputDir: DirectoryProperty
+    fun packageMatcher(packageMatcher: String) {
+        this.packageMatcher.set(packageMatcher.toRegex())
+    }
 
     @TaskAction
     fun run() {
-        outputDir.get().asFile.deleteRecursively()
-        val root = sourceRoot.get().asFile.toPath()
+        deleteOutputDir()
 
-        for (path in Files.walk(root)) {
+        val packageMatcher = packageMatcher.get()
+        val sourceRoot = sourceRoot.asFile.get().toPath()
+
+        for (path in Files.walk(sourceRoot)) {
             if (!path.isDirectory()) continue
 
-            val dir = path.relativeTo(root).toString()
+            val dir = path.relativeTo(sourceRoot).toString()
             val packageName = dir.replace(path.fileSystem.separator, ".")
-            if (!matchPackages.get().matches(packageName)) continue
+            if (!packageMatcher.matches(packageName)) continue
 
             generatePackageInfo(dir, packageName)
         }
@@ -44,6 +44,7 @@ abstract class GenerateInternalPackageInfos : DefaultTask() {
         val packageInfo = packageDir.file("package-info.java")
         packageDir.asFile.mkdirs()
 
+        //language=java
         val content = """
             @ApiStatus.Internal
             package $packageName;
