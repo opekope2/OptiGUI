@@ -18,13 +18,16 @@ abstract class RegistryBase<TKey, TValue> : Iterable<Map.Entry<TKey, TValue>> {
 
     /**
      * Registers an entry to this registry.
+     * This method is thread-safe.
      *
      * @param key The key to associate a value with
      * @param value The value to register
      */
     open fun register(key: TKey, value: TValue) {
-        validateEntry(key, value)
-        entries[key] = value
+        synchronized(entries) {
+            validateEntry(key, value)
+            entries[key] = value
+        }
     }
 
     /**
