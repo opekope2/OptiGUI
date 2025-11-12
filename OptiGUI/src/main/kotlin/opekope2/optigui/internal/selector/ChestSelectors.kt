@@ -1,8 +1,8 @@
 package opekope2.optigui.internal.selector
 
+import net.minecraft.block.ChestBlock
 import net.minecraft.block.entity.ChestBlockEntity
 import net.minecraft.block.enums.ChestType
-import net.minecraft.state.property.EnumProperty
 import opekope2.optigui.filter.EqualityFilter
 import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.interaction.Interaction
@@ -20,12 +20,8 @@ internal class LargeChestSelector : ISelector {
         val world = interaction.data.world
         val blockEntity = interaction.data.blockEntity as? ChestBlockEntity ?: return null
         val state = world.getBlockState(blockEntity.pos)
-        return state.entries[chestTypeEnum] != ChestType.SINGLE
+        return state.entries[ChestBlock.CHEST_TYPE] != ChestType.SINGLE
     }
 
     override fun getRawSelector(interaction: Interaction) = isChestLarge(interaction)?.toString()
-
-    private companion object {
-        private val chestTypeEnum = EnumProperty.of("type", ChestType::class.java)
-    }
 }
