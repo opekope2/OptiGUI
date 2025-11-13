@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(AbstractFurnaceMenu.class)
-public abstract class AbstractFurnaceScreenHandlerMixin implements INbtConvertible {
+public abstract class AbstractFurnaceMenuMixin implements INbtConvertible {
     @Shadow
     @Final
     private Container container;

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(BrewingStandMenu.class)
-public abstract class BrewingStandScreenHandlerMixin implements INbtConvertible {
+public abstract class BrewingStandMenuMixin implements INbtConvertible {
     @Shadow
     @Final
     private Container brewingStand;

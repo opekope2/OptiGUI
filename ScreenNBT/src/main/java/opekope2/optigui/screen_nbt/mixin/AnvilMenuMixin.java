@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(AnvilMenu.class)
-public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandlerMixin {
+public abstract class AnvilMenuMixin extends ItemCombinerMenuMixin {
     @Shadow
     public abstract int getCost();
 

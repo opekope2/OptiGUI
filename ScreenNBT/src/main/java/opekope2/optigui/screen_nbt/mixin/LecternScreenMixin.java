@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(LecternScreen.class)
-public abstract class LecternScreenMixin extends BookScreenMixin {
+public abstract class LecternScreenMixin extends BookViewScreenMixin {
     protected LecternScreenMixin(Component title) {
         super(title);
     }

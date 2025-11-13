@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(MerchantMenu.class)
-public abstract class MerchantScreenHandlerMixin implements INbtConvertible {
+public abstract class MerchantMenuMixin implements INbtConvertible {
     @Shadow
     @Final
     private MerchantContainer tradeContainer;

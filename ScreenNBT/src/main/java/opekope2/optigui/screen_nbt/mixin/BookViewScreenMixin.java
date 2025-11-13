@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(BookViewScreen.class)
-public abstract class BookScreenMixin extends Screen implements INbtConvertible {
-    protected BookScreenMixin(Component title) {
+public abstract class BookViewScreenMixin extends Screen implements INbtConvertible {
+    protected BookViewScreenMixin(Component title) {
         super(title);
     }
 

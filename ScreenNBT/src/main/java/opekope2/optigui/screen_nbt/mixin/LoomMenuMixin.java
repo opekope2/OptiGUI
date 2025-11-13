@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.List;
 
 @Mixin(LoomMenu.class)
-public abstract class LoomScreenHandlerMixin implements INbtConvertible {
+public abstract class LoomMenuMixin implements INbtConvertible {
     @Shadow
     @Final
     private Container inputContainer;
