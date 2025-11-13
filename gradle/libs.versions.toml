@@ -3,7 +3,7 @@ java = "21"
 kotlin = "2.1.0"
 optigui = "3.0.0-alpha.3"
 minecraft = "1.21"
-yarn = "1.21+build.9"
+parchment = "2024.11.10"
 jspecify = "1.0.0"
 architectury = "3.4-SNAPSHOT"
 loom = "1.11-SNAPSHOT"
@@ -17,7 +17,7 @@ modmenu = "11.0.0"
 
 [libraries]
 minecraft = { group = "com.mojang", name = "minecraft", version.ref = "minecraft" }
-yarn = { group = "net.fabricmc", name = "yarn", version.ref = "yarn" }
+parchment = { group = "org.parchmentmc.data", name = "parchment-1.21", version.ref = "parchment" }
 jspecify = { group = "org.jspecify", name = "jspecify", version.ref = "jspecify" }
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric-loader" }
 fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric-api" }

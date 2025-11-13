@@ -1,4 +1,10 @@
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
+import net.fabricmc.loom.api.processor.MinecraftJarProcessor
+import net.fabricmc.loom.api.processor.ProcessorContext
+import net.fabricmc.loom.api.processor.SpecContext
+import net.fabricmc.loom.util.TinyRemapperLoggerAdapter
+import net.fabricmc.tinyremapper.OutputConsumerPath
+import net.fabricmc.tinyremapper.TinyRemapper
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -33,13 +39,24 @@ subprojects {
     repositories {
     }
 
+    val jetbrainsToJsr305 = mapOf(
+        "org/jetbrains/annotations/Nullable" to "javax/annotation/Nullable",
+        "org/jetbrains/annotations/NotNull" to "javax/annotation/Nonnull",
+        "org/jetbrains/annotations/Unmodifiable" to "javax/annotation/concurrent/Immutable"
+    )
     project.extensions.configure<LoomGradleExtensionAPI>("loom") {
         runtimeOnlyLog4j = true
+        silentMojangMappingsLicense()
+        // Unfuck MethodsReturnNonnullByDefault
+        addMinecraftJarProcessor(RemappingJarProcessor::class.java, "optigui:jsr305-annotations", jetbrainsToJsr305)
     }
 
     dependencies {
         "minecraft"(rootProject.libs.minecraft)
-        "mappings"(variantOf(rootProject.libs.yarn) { classifier("v2") })
+        "mappings"(project.extensions.getByName<LoomGradleExtensionAPI>("loom").layered {
+            officialMojangMappings()
+            parchment(rootProject.libs.parchment)
+        })
         api(rootProject.libs.jspecify)
     }
 
@@ -90,4 +107,33 @@ subprojects {
         named("compileKotlin") { dependsOn(codegen) }
         named("sourcesJar") { dependsOn(codegen) }
     }
+}
+
+
+abstract class RemappingJarProcessor @Inject constructor(
+    private val name: String,
+    private val mappings: Map<String, String>
+) : MinecraftJarProcessor<RemappingJarProcessor.Spec> {
+    override fun buildSpec(context: SpecContext?) = Spec(mappings)
+
+    override fun processJar(jar: java.nio.file.Path, spec: Spec, context: ProcessorContext?) {
+        val tinyRemapper: TinyRemapper = TinyRemapper.newRemapper(TinyRemapperLoggerAdapter.INSTANCE)
+            .withMappings { out -> spec.mappings.forEach(out::acceptClass) }
+            .build()
+
+        try {
+            OutputConsumerPath.Builder(jar).build().use { outputConsumer ->
+                tinyRemapper.readInputs(jar)
+                tinyRemapper.apply(outputConsumer)
+            }
+        } catch (e: Exception) {
+            throw RuntimeException("Failed to remap JAR $jar", e)
+        } finally {
+            tinyRemapper.finish()
+        }
+    }
+
+    override fun getName() = name
+
+    data class Spec(val mappings: Map<String, String>) : MinecraftJarProcessor.Spec
 }
