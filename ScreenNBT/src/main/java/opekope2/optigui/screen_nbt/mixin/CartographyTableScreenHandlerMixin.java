@@ -1,29 +1,29 @@
 package opekope2.optigui.screen_nbt.mixin;
 
-import net.minecraft.inventory.CraftingResultInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.screen.CartographyTableScreenHandler;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.CartographyTableMenu;
+import net.minecraft.world.inventory.ResultContainer;
 import opekope2.optigui.screen_api.util.INbtConvertible;
 import opekope2.optigui.screen_nbt.util.NbtUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(CartographyTableScreenHandler.class)
+@Mixin(CartographyTableMenu.class)
 public abstract class CartographyTableScreenHandlerMixin implements INbtConvertible {
     @Shadow
     @Final
-    public Inventory inventory;
+    public Container container;
 
     @Shadow
     @Final
-    private CraftingResultInventory resultInventory;
+    private ResultContainer resultContainer;
 
     @Override
-    public void optiGui_writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup lookup) {
-        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(inventory, lookup));
-        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(resultInventory, lookup));
+    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
+        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(container, lookup));
+        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(resultContainer, lookup));
     }
 }

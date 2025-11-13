@@ -1,28 +1,28 @@
 package opekope2.optigui.screen_nbt.mixin;
 
-import net.minecraft.inventory.Inventory;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.screen.GrindstoneScreenHandler;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.GrindstoneMenu;
 import opekope2.optigui.screen_api.util.INbtConvertible;
 import opekope2.optigui.screen_nbt.util.NbtUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(GrindstoneScreenHandler.class)
+@Mixin(GrindstoneMenu.class)
 public abstract class GrindstoneScreenHandlerMixin implements INbtConvertible {
     @Shadow
     @Final
-    Inventory input;
+    Container repairSlots;
 
     @Shadow
     @Final
-    private Inventory result;
+    private Container resultSlots;
 
     @Override
-    public void optiGui_writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup lookup) {
-        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(input, lookup));
-        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(result, lookup));
+    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
+        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(repairSlots, lookup));
+        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(resultSlots, lookup));
     }
 }

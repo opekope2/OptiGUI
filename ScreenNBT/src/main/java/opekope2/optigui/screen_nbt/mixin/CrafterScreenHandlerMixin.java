@@ -1,12 +1,12 @@
 package opekope2.optigui.screen_nbt.mixin;
 
-import net.minecraft.inventory.CraftingResultInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.nbt.NbtByte;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.screen.CrafterScreenHandler;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.ByteTag;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.CrafterMenu;
+import net.minecraft.world.inventory.ResultContainer;
 import opekope2.optigui.screen_api.util.INbtConvertible;
 import opekope2.optigui.screen_nbt.util.NbtUtil;
 import org.spongepowered.asm.mixin.Final;
@@ -14,37 +14,37 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(CrafterScreenHandler.class)
+@Mixin(CrafterMenu.class)
 public abstract class CrafterScreenHandlerMixin implements INbtConvertible {
     @Shadow
-    public abstract Inventory getInputInventory();
+    public abstract Container getContainer();
 
     @Shadow
     @Final
-    private CraftingResultInventory resultInventory;
+    private ResultContainer resultContainer;
 
     @Shadow
     public abstract boolean isSlotDisabled(int slot);
 
     @Shadow
-    public abstract boolean isTriggered();
+    public abstract boolean isPowered();
 
     @Override
-    public void optiGui_writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup lookup) {
-        compound.putInt(COMPARATOR_OUTPUT_KEY, calculateComparatorOutput(getInputInventory()));
-        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(getInputInventory(), lookup));
-        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(resultInventory, lookup));
-        var enabledSlots = new NbtList();
-        for (int i = 0; i < 9; i++) enabledSlots.add(NbtByte.of(!isSlotDisabled(i)));
+    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
+        compound.putInt(COMPARATOR_OUTPUT_KEY, calculateComparatorOutput(getContainer()));
+        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(getContainer(), lookup));
+        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(resultContainer, lookup));
+        var enabledSlots = new ListTag();
+        for (int i = 0; i < 9; i++) enabledSlots.add(ByteTag.valueOf(!isSlotDisabled(i)));
         compound.put("enabled_slots", enabledSlots);
-        compound.putBoolean("is_triggered", isTriggered());
+        compound.putBoolean("powered", isPowered());
     }
 
     @Unique
-    private int calculateComparatorOutput(Inventory inventory) {
+    private int calculateComparatorOutput(Container inventory) {
         var output = 0;
-        for (int i = 0; i < inventory.size(); i++) {
-            if (!inventory.getStack(i).isEmpty() || isSlotDisabled(i)) output++;
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            if (!inventory.getItem(i).isEmpty() || isSlotDisabled(i)) output++;
         }
         return output;
     }

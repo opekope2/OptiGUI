@@ -1,51 +1,51 @@
 package opekope2.optigui.screen_nbt.mixin;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.screen.EnchantmentScreenHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.EnchantmentMenu;
 import opekope2.optigui.screen_api.util.INbtConvertible;
 import opekope2.optigui.screen_nbt.util.NbtUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(EnchantmentScreenHandler.class)
+@Mixin(EnchantmentMenu.class)
 public abstract class EnchantmentScreenHandlerMixin implements INbtConvertible {
     @Shadow
     @Final
-    private Inventory inventory;
+    private Container enchantSlots;
 
     @Shadow
     @Final
-    public int[] enchantmentId;
+    public int[] enchantClue;
 
     @Shadow
     @Final
-    public int[] enchantmentLevel;
+    public int[] levelClue;
 
     @Shadow
     @Final
-    public int[] enchantmentPower;
+    public int[] costs;
 
     @Override
-    public void optiGui_writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup lookup) {
-        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(inventory, lookup));
-        var world = MinecraftClient.getInstance().world;
+    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
+        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(enchantSlots, lookup));
+        var world = Minecraft.getInstance().level;
         if (world == null) return;
-        var enchantmentRegistry = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
-        var enchantments = new NbtList();
+        var enchantmentRegistry = world.registryAccess().registryOrThrow(Registries.ENCHANTMENT);
+        var enchantments = new ListTag();
         for (int i = 0; i < 3; i++) {
-            var enchantmentReference = enchantmentRegistry.getEntry(enchantmentId[i]);
+            var enchantmentReference = enchantmentRegistry.getHolder(enchantClue[i]);
             if (enchantmentReference.isEmpty()) continue;
 
-            var enchantment = new NbtCompound();
-            enchantment.putString("id", enchantmentReference.get().getIdAsString());
-            enchantment.putInt("level", enchantmentLevel[i]);
-            enchantment.putInt("required_xp_level", enchantmentPower[i]);
+            var enchantment = new CompoundTag();
+            enchantment.putString("id", enchantmentReference.get().getRegisteredName());
+            enchantment.putInt("level", levelClue[i]);
+            enchantment.putInt("cost", costs[i]);
             enchantments.add(enchantment);
         }
         compound.put("enchantments", enchantments);

@@ -1,13 +1,13 @@
 package opekope2.optigui.screen_nbt.mixin;
 
-import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.screen.LoomScreenHandler;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.LoomMenu;
+import net.minecraft.world.level.block.entity.BannerPattern;
 import opekope2.optigui.screen_api.util.INbtConvertible;
 import opekope2.optigui.screen_nbt.util.NbtUtil;
 import org.spongepowered.asm.mixin.Final;
@@ -16,31 +16,35 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.List;
 
-@Mixin(LoomScreenHandler.class)
+@Mixin(LoomMenu.class)
 public abstract class LoomScreenHandlerMixin implements INbtConvertible {
     @Shadow
     @Final
-    private Inventory input;
+    private Container inputContainer;
 
     @Shadow
     @Final
-    private Inventory output;
+    private Container outputContainer;
 
     @Shadow
-    private List<RegistryEntry<BannerPattern>> bannerPatterns;
+    private List<Holder<BannerPattern>> selectablePatterns;
 
     @Shadow
-    public abstract int getSelectedPattern();
+    public abstract int getSelectedBannerPatternIndex();
+
+    @Shadow
+    protected abstract boolean isValidPatternIndex(int index);
 
     @Override
-    public void optiGui_writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup lookup) {
-        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(input, lookup));
-        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(output, lookup));
-        var patterns = new NbtList();
-        for (var pattern : bannerPatterns) patterns.add(NbtString.of(pattern.getIdAsString()));
+    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
+        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(inputContainer, lookup));
+        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(outputContainer, lookup));
+
+        var patterns = new ListTag();
+        for (var pattern : selectablePatterns) patterns.add(StringTag.valueOf(pattern.getRegisteredName()));
         compound.put("banner_patterns", patterns);
-        var selected = getSelectedPattern();
-        if (selected >= 0 && selected < bannerPatterns.size())
-            compound.putString("selected_banner_pattern", bannerPatterns.get(selected).getIdAsString());
+
+        var i = getSelectedBannerPatternIndex();
+        if (isValidPatternIndex(i)) compound.put("selected", patterns.get(i));
     }
 }

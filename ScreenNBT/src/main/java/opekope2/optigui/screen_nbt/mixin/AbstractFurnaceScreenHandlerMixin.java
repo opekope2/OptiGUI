@@ -1,37 +1,37 @@
 package opekope2.optigui.screen_nbt.mixin;
 
-import net.minecraft.inventory.Inventory;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.screen.AbstractFurnaceScreenHandler;
-import net.minecraft.screen.ScreenHandler;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.AbstractFurnaceMenu;
 import opekope2.optigui.screen_api.util.INbtConvertible;
 import opekope2.optigui.screen_nbt.util.NbtUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(AbstractFurnaceScreenHandler.class)
+@Mixin(AbstractFurnaceMenu.class)
 public abstract class AbstractFurnaceScreenHandlerMixin implements INbtConvertible {
     @Shadow
     @Final
-    private Inventory inventory;
+    private Container container;
 
     @Shadow
-    public abstract float getCookProgress();
+    public abstract float getBurnProgress();
 
     @Shadow
-    public abstract float getFuelProgress();
+    public abstract float getLitProgress();
 
     @Shadow
-    public abstract boolean isBurning();
+    public abstract boolean isLit();
 
     @Override
-    public void optiGui_writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup lookup) {
-        compound.putInt(COMPARATOR_OUTPUT_KEY, ScreenHandler.calculateComparatorOutput(inventory));
-        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(inventory, lookup));
-        compound.putFloat("cook_progress", getCookProgress());
-        compound.putFloat("fuel_progress", getFuelProgress());
-        compound.putBoolean("is_burning", isBurning());
+    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
+        compound.putInt(COMPARATOR_OUTPUT_KEY, AbstractContainerMenu.getRedstoneSignalFromContainer(container));
+        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(container, lookup));
+        compound.putFloat("burn_progress", getBurnProgress());
+        compound.putFloat("lit_progress", getLitProgress());
+        compound.putBoolean("lit", isLit());
     }
 }

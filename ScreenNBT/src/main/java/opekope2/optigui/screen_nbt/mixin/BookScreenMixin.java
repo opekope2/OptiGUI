@@ -1,33 +1,33 @@
 package opekope2.optigui.screen_nbt.mixin;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.BookScreen;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.text.Text;
-import net.minecraft.text.TextCodecs;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.BookViewScreen;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import opekope2.optigui.screen_api.util.INbtConvertible;
 import opekope2.optigui.screen_nbt.util.NbtUtil;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;
-import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(BookScreen.class)
+@Mixin(BookViewScreen.class)
 public abstract class BookScreenMixin extends Screen implements INbtConvertible {
-    protected BookScreenMixin(Text title) {
+    protected BookScreenMixin(Component title) {
         super(title);
     }
 
     @Accessor
-    protected abstract int getPageIndex();
+    protected abstract int getCurrentPage();
 
-    @Invoker
-    protected abstract int callGetPageCount();
+    @Shadow
+    protected abstract int getNumPages();
 
     @Override
-    public void optiGui_writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup lookup) {
-        compound.put(SCREEN_TITLE_KEY, NbtUtil.encode(getTitle(), TextCodecs.CODEC, lookup));
-        compound.putInt(CURRENT_PAGE_KEY, getPageIndex() + 1);
-        compound.putInt(PAGE_COUNT_KEY, callGetPageCount());
+    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
+        compound.put(SCREEN_TITLE_KEY, NbtUtil.encode(getTitle(), ComponentSerialization.CODEC, lookup));
+        compound.putInt(CURRENT_PAGE_KEY, getCurrentPage() + 1);
+        compound.putInt(NUM_PAGES_KEY, getNumPages());
     }
 }

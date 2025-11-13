@@ -40,7 +40,7 @@ public interface INbtConvertible {
     /**
      * NBT key for a book screen's page count.
      */
-    String PAGE_COUNT_KEY = "page_count";
+    String NUM_PAGES_KEY = "num_pages";
 
     /**
      * Writes the object's content to {@code compound}.
