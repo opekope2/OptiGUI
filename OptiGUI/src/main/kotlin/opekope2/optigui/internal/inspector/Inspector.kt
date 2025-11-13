@@ -6,12 +6,14 @@ import opekope2.optigui.interaction.IInteraction
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.InteractionTarget
 import opekope2.optigui.resource.format.json.JsonFilterResource
+import opekope2.optigui.util.JSON_RESOURCE_DOCS_URL
+import opekope2.optigui.util.JSON_SCHEMA_V2_URL
 
 internal object Inspector {
     fun generateJsonResource(interaction: IInteraction, generatedBy: String) = JsonObject().also { json ->
-        json.addProperty("\$schema", "https://opekope2.dev/OptiGUI/json_v2.schema.json")
+        json.addProperty("\$schema", JSON_SCHEMA_V2_URL)
         json.addProperty("generated_by", generatedBy)
-        json.addProperty("docs", "https://opekope2.dev/OptiGUI/JSON.html")
+        json.addProperty("docs", JSON_RESOURCE_DOCS_URL)
         json.addProperty(JsonFilterResource.FORMAT_KEY, JsonFilterResource.NEWEST_FORMAT)
         json.addTarget(interaction.target)
         json.add(JsonFilterResource.V2.TEXTURE_CHANGERS_KEY, getLastRenderedTextures())

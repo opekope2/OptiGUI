@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "opekope2.optigui.screen_api.mixin",
+  "compatibilityLevel": "JAVA_$java",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "BookEditScreenMixin",
+    "BookScreenMixin",
+    "CreativeInventoryScreenMixin",
+    "HandledScreenMixin",
+    "HangingSignEditScreenMixin"
+  ]
+}

@@ -11,17 +11,17 @@ import opekope2.optigui.util.NbtFilterEvaluation
  * An NBT filter, which tests a subfilter for an NBT list's elements, and combines the results using an
  * [AggregateOperator].
  *
- * @param filter The filter testing the NBT list
+ * @param subFilter The filter testing the NBT list
  * @param type The type describing this filter
  * @see AggregateFilter
  */
-class NbtListFilter(val filter: INbtFilter, override val type: Type) : INbtFilter {
+class NbtListFilter(override val subFilter: INbtFilter, override val type: Type) : INbtListFilter {
     override fun test(nbt: NbtElement, root: NbtElement): Boolean {
         val operator = type.operator
 
         val shortCircuit = when (nbt) {
-            is NbtCompound -> nbt.keys.any { operator shortCircuitsOn filter.test(nbt[it]!!, root) }
-            is AbstractNbtList<*> -> nbt.any { operator shortCircuitsOn filter.test(it, root) }
+            is NbtCompound -> nbt.keys.any { operator shortCircuitsOn subFilter.test(nbt[it]!!, root) }
+            is AbstractNbtList<*> -> nbt.any { operator shortCircuitsOn subFilter.test(it, root) }
             else -> return false
         }
 
@@ -29,10 +29,10 @@ class NbtListFilter(val filter: INbtFilter, override val type: Type) : INbtFilte
         else !operator.shortCircuitResult
     }
 
-    override fun testSubFilters(nbt: NbtElement, root: NbtElement) = when (nbt) {
-        is NbtCompound -> nbt.keys.map { NbtFilterEvaluation(filter, nbt[it]!!, root) }
-        is AbstractNbtList<*> -> nbt.map { NbtFilterEvaluation(filter, it, root) }
-        else -> emptyList()
+    override fun testSubFilters(nbt: NbtElement?, root: NbtElement) = when (nbt) {
+        is NbtCompound -> nbt.keys.map { NbtFilterEvaluation(subFilter, nbt[it]!!, root) }
+        is AbstractNbtList<*> -> nbt.map { NbtFilterEvaluation(subFilter, it, root) }
+        else -> listOf(NbtFilterEvaluation(subFilter, null, root))
     }
 
     /**
@@ -40,30 +40,30 @@ class NbtListFilter(val filter: INbtFilter, override val type: Type) : INbtFilte
      *
      * @param operator The aggregate operator specifying how to combine the results of multiple filters
      */
-    enum class Type(val operator: AggregateOperator) : INbtFilter.IType<NbtListFilter> {
+    enum class Type(val operator: AggregateOperator, override val nonPrefixedKey: String) : INbtListFilter.IType {
         /**
          * An [NbtListFilter] type, which requires the filter to return `false` for all NBT list elements.
          */
-        NONE_OF_LIST(AggregateOperator.NONE_OF),
+        NONE_OF(AggregateOperator.NONE_OF, "none"),
 
         /**
          * An [NbtListFilter] type, which requires the filter to return `true` for at least one NBT list element.
          */
-        ANY_OF_LIST(AggregateOperator.ANY_OF),
+        ANY_OF(AggregateOperator.ANY_OF, "any"),
 
         /**
          * An [NbtListFilter] type, which requires the filter to return `false` for at least one NBT list element.
          */
-        SOME_OF_LIST(AggregateOperator.SOME_OF),
+        SOME_OF(AggregateOperator.SOME_OF, "some"),
 
         /**
          * An [NbtListFilter] type, which requires the filter to return `true` for all NBT list elements.
          */
-        ALL_OF_LIST(AggregateOperator.ALL_OF);
+        ALL_OF(AggregateOperator.ALL_OF, "all");
 
-        override val codec: Codec<NbtListFilter> = INbtFilter.codec.xmap(
+        override val codec: Codec<INbtListFilter> = INbtFilter.CODEC.xmap(
             { NbtListFilter(it, this) },
-            NbtListFilter::filter
+            INbtListFilter::subFilter
         )
     }
 }

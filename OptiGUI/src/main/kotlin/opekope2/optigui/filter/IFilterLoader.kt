@@ -6,11 +6,20 @@ import net.minecraft.util.Identifier
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionTarget
 import opekope2.optigui.registry.RegistryBase
+import opekope2.optigui.util.EventCollectorLogger
+import opekope2.optigui.util.ResourceLoadingLoggingEvent
 
 /**
  * A filter supplier that loads [filters][TextureChangerFilter] from resources.
  */
 interface IFilterLoader : ResourceReloader {
+    /**
+     * Gets the warnings and errors occurred while loading filters in [IFilterLoader.reload].
+     *
+     * @see [EventCollectorLogger.events]
+     */
+    val errors: List<ResourceLoadingLoggingEvent>
+
     /**
      * Gets the filters loaded in [IFilterLoader.reload].
      */

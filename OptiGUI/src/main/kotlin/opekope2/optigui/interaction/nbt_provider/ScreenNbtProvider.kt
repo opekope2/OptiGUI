@@ -4,7 +4,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.registry.RegistryWrapper
 import opekope2.optigui.interaction.IInteraction
-import opekope2.optigui.util.INbtConvertible
+import opekope2.optigui.screen_api.util.INbtConvertible
 
 /**
  * Provides the screen NBT of an interaction.

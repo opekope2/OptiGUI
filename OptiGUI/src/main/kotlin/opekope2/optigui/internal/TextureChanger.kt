@@ -13,7 +13,8 @@ import opekope2.optigui.util.collections.LinkedMruCollection
 internal object TextureChanger : SynchronousResourceReloader {
     var filter: TextureChangerFilter = TextureChangerFilter.NO_OP
         private set
-    private var filters = mapOf<InteractionTarget, LinkedMruCollection<TextureChangerFilter>>()
+    var filters = mapOf<InteractionTarget, LinkedMruCollection<TextureChangerFilter>>()
+        private set
     var renderingScreen = false
     val renderedTextures = mutableSetOf<Identifier>()
     val renderedSprites = mutableSetOf<Identifier>()
@@ -42,13 +43,10 @@ internal object TextureChanger : SynchronousResourceReloader {
         return filter.spriteChangers.getValue(sprite).apply(sprite)
     }
 
-    fun clearCache(disconnected: Boolean) {
-        val prevFilter = filter
+    fun clearCache() {
         filter = updateFilter()
         renderedTextures.clear()
         renderedCustomTextures = false
-
-        TextStyler.clearCache(prevFilter.textStyleChangers !== filter.textStyleChangers, disconnected)
     }
 
     private fun updateFilter(): TextureChangerFilter {

@@ -25,7 +25,7 @@ import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.initializer.ClientInitializer
 import opekope2.optigui.internal.resource.loader.JsonFilterLoader
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
-import opekope2.optigui.screen.ITextureChangeableScreen
+import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 import opekope2.optigui.util.MOD_ID
 import kotlin.jvm.optionals.getOrNull
 
@@ -40,6 +40,7 @@ internal class OptiGuiClient :
         ClientInitializer
         registerNbtFilters()
         FabricInteractionHandler
+        FabricAttackHandler
         registerLoadTimeNbtSuppliers()
         registerResourceLoaders(ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES))
         ClientTickEvents.END_WORLD_TICK.register(this)
@@ -48,14 +49,14 @@ internal class OptiGuiClient :
     }
 
     private fun registerNbtFilters() {
-        INbtFilter.register(">v", NbtVersionFilter.Type.VERSION_GREATER)
-        INbtFilter.register(">=v", NbtVersionFilter.Type.VERSION_GREATER_EQUAL)
-        INbtFilter.register("=v", NbtVersionFilter.Type.VERSION_EQUAL)
-        INbtFilter.register("!=v", NbtVersionFilter.Type.VERSION_NOT_EQUAL)
-        INbtFilter.register("<=v", NbtVersionFilter.Type.VERSION_LESS_EQUAL)
-        INbtFilter.register("<v", NbtVersionFilter.Type.VERSION_LESS)
-        INbtFilter.register("~v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MINOR)
-        INbtFilter.register("^v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MAJOR)
+        INbtFilter.Registry.register(">v", NbtVersionFilter.Type.VERSION_GREATER)
+        INbtFilter.Registry.register(">=v", NbtVersionFilter.Type.VERSION_GREATER_EQUAL)
+        INbtFilter.Registry.register("=v", NbtVersionFilter.Type.VERSION_EQUAL)
+        INbtFilter.Registry.register("!=v", NbtVersionFilter.Type.VERSION_NOT_EQUAL)
+        INbtFilter.Registry.register("<=v", NbtVersionFilter.Type.VERSION_LESS_EQUAL)
+        INbtFilter.Registry.register("<v", NbtVersionFilter.Type.VERSION_LESS)
+        INbtFilter.Registry.register("~v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MINOR)
+        INbtFilter.Registry.register("^v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MAJOR)
     }
 
     private fun registerLoadTimeNbtSuppliers() {

@@ -16,6 +16,8 @@ import java.util.*
 class ConstantNbtComparerFilter(val value: NbtElement, override val type: Type) : INbtFilter {
     override fun test(nbt: NbtElement, root: NbtElement) = type.comparer.compare(nbt, value) in type.acceptedResults
 
+    override fun asString() = super.asString() + " " + value.asString()
+
     /**
      * A type describing a [ConstantNbtComparerFilter].
      *

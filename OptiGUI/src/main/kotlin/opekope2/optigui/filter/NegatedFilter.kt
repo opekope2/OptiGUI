@@ -14,7 +14,7 @@ class NegatedFilter(val subFilter: INbtFilter) : INbtFilter {
 
     override fun test(nbt: NbtElement, root: NbtElement) = !subFilter.test(nbt, root)
 
-    override fun testSubFilters(nbt: NbtElement, root: NbtElement) = listOf(NbtFilterEvaluation(subFilter, nbt, root))
+    override fun testSubFilters(nbt: NbtElement?, root: NbtElement) = listOf(NbtFilterEvaluation(subFilter, nbt, root))
 
     companion object {
         /**
@@ -22,6 +22,6 @@ class NegatedFilter(val subFilter: INbtFilter) : INbtFilter {
          */
         @JvmField
         val TYPE =
-            INbtFilter.Type(NegatedFilter::class.java, INbtFilter.codec.xmap(::NegatedFilter, NegatedFilter::subFilter))
+            INbtFilter.Type(NegatedFilter::class.java, INbtFilter.CODEC.xmap(::NegatedFilter, NegatedFilter::subFilter))
     }
 }

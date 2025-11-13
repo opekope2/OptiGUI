@@ -5,18 +5,13 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer
 import opekope2.optigui.filter.*
 import opekope2.optigui.filter.comparer.INbtComparer.ComparisonResult.*
 import opekope2.optigui.filter.comparer.NbtStringOrNumberComparer
-import opekope2.optigui.filter.transformer.NbtCollectionSizeTransformer
-import opekope2.optigui.filter.transformer.NbtCompoundKeysTransformer
-import opekope2.optigui.filter.transformer.NbtCompoundValuesTransformer
-import opekope2.optigui.filter.transformer.NbtTypeTransformer
+import opekope2.optigui.filter.transformer.*
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.nbt_provider.*
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.config.Config
-import opekope2.optigui.internal.config.annotation.RequiresMod
 import opekope2.optigui.internal.config.gui.ButtonEntryGuiProvider
 import opekope2.optigui.internal.config.gui.ButtonListEntry
-import opekope2.optigui.internal.config.gui.ModDependencyGuiTransformer
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import opekope2.optigui.nbt_provider.NbtFilterNamesNbtProvider
 
@@ -27,6 +22,7 @@ internal object ClientInitializer {
 
         registerConfig()
         registerInteractionNbtProviders()
+        registerPrefixNbtFilters()
         registerNbtFilters()
         registerLoadTimeNbtProviders()
     }
@@ -34,8 +30,6 @@ internal object ClientInitializer {
     private fun registerConfig() {
         AutoConfig.getGuiRegistry(Config::class.java)
             .registerTypeProvider(ButtonEntryGuiProvider, ButtonListEntry.IAction::class.java)
-        AutoConfig.getGuiRegistry(Config::class.java)
-            .registerAnnotationTransformer(ModDependencyGuiTransformer, RequiresMod::class.java)
         AutoConfig.register(Config::class.java, ::GsonConfigSerializer)
     }
 
@@ -58,45 +52,59 @@ internal object ClientInitializer {
         IInteractionNbtProvider.register("world", WorldNbtProvider)
     }
 
+    private fun registerPrefixNbtFilters() {
+        INbtFilter.PrefixRegistry.register('@', SubNbtTransformer.Type.Factory)
+        INbtFilter.PrefixRegistry.register('#', INbtListFilter.IType.Factory)
+    }
+
     private fun registerNbtFilters() {
-        INbtFilter.register("#none", NbtListFilter.Type.NONE_OF_LIST)
-        INbtFilter.register("#any", NbtListFilter.Type.ANY_OF_LIST)
-        INbtFilter.register("#some", NbtListFilter.Type.SOME_OF_LIST)
-        INbtFilter.register("#all", NbtListFilter.Type.ALL_OF_LIST)
+        INbtFilter.Registry.register(">", NbtStringOrNumberComparer.CaseSensitive.constantType(MORE))
+        INbtFilter.Registry.register(">?", NbtStringOrNumberComparer.CaseSensitive.dynamicType(MORE))
+        INbtFilter.Registry.register(">*", NbtStringOrNumberComparer.CaseInsensitive.constantType(MORE))
+        INbtFilter.Registry.register(">*?", NbtStringOrNumberComparer.CaseInsensitive.dynamicType(MORE))
+        INbtFilter.Registry.register(">=", NbtStringOrNumberComparer.CaseSensitive.constantType(MORE, EQUAL))
+        INbtFilter.Registry.register(">=?", NbtStringOrNumberComparer.CaseSensitive.dynamicType(MORE, EQUAL))
+        INbtFilter.Registry.register(">=*", NbtStringOrNumberComparer.CaseInsensitive.constantType(MORE, EQUAL))
+        INbtFilter.Registry.register(">=*?", NbtStringOrNumberComparer.CaseInsensitive.dynamicType(MORE, EQUAL))
+        INbtFilter.Registry.register("=", NbtStringOrNumberComparer.CaseSensitive.constantType(EQUAL))
+        INbtFilter.Registry.register("=?", NbtStringOrNumberComparer.CaseSensitive.dynamicType(EQUAL))
+        INbtFilter.Registry.register("=*", NbtStringOrNumberComparer.CaseInsensitive.constantType(EQUAL))
+        INbtFilter.Registry.register("=*?", NbtStringOrNumberComparer.CaseInsensitive.dynamicType(EQUAL))
+        INbtFilter.Registry.register("!=", NbtStringOrNumberComparer.CaseSensitive.constantType(MORE, LESS))
+        INbtFilter.Registry.register("!=?", NbtStringOrNumberComparer.CaseSensitive.dynamicType(MORE, LESS))
+        INbtFilter.Registry.register("!=*", NbtStringOrNumberComparer.CaseInsensitive.constantType(MORE, LESS))
+        INbtFilter.Registry.register("!=*?", NbtStringOrNumberComparer.CaseInsensitive.dynamicType(MORE, LESS))
+        INbtFilter.Registry.register("<=", NbtStringOrNumberComparer.CaseSensitive.constantType(EQUAL, LESS))
+        INbtFilter.Registry.register("<=?", NbtStringOrNumberComparer.CaseSensitive.dynamicType(EQUAL, LESS))
+        INbtFilter.Registry.register("<=*", NbtStringOrNumberComparer.CaseInsensitive.constantType(EQUAL, LESS))
+        INbtFilter.Registry.register("<=*?", NbtStringOrNumberComparer.CaseInsensitive.dynamicType(EQUAL, LESS))
+        INbtFilter.Registry.register("<", NbtStringOrNumberComparer.CaseSensitive.constantType(LESS))
+        INbtFilter.Registry.register("<?", NbtStringOrNumberComparer.CaseSensitive.dynamicType(LESS))
+        INbtFilter.Registry.register("<*", NbtStringOrNumberComparer.CaseInsensitive.constantType(LESS))
+        INbtFilter.Registry.register("<*?", NbtStringOrNumberComparer.CaseInsensitive.dynamicType(LESS))
 
-        INbtFilter.register(">", NbtStringOrNumberComparer.CaseSensitive.constantType(MORE))
-        INbtFilter.register(">*", NbtStringOrNumberComparer.CaseInsensitive.constantType(MORE))
-        INbtFilter.register(">=", NbtStringOrNumberComparer.CaseSensitive.constantType(MORE, EQUAL))
-        INbtFilter.register(">=*", NbtStringOrNumberComparer.CaseInsensitive.constantType(MORE, EQUAL))
-        INbtFilter.register("=", NbtStringOrNumberComparer.CaseSensitive.constantType(EQUAL))
-        INbtFilter.register("=*", NbtStringOrNumberComparer.CaseInsensitive.constantType(EQUAL))
-        INbtFilter.register("!=", NbtStringOrNumberComparer.CaseSensitive.constantType(MORE, LESS))
-        INbtFilter.register("!=*", NbtStringOrNumberComparer.CaseInsensitive.constantType(MORE, LESS))
-        INbtFilter.register("<=", NbtStringOrNumberComparer.CaseSensitive.constantType(EQUAL, LESS))
-        INbtFilter.register("<=*", NbtStringOrNumberComparer.CaseInsensitive.constantType(EQUAL, LESS))
-        INbtFilter.register("<", NbtStringOrNumberComparer.CaseSensitive.constantType(LESS))
-        INbtFilter.register("<*", NbtStringOrNumberComparer.CaseInsensitive.constantType(LESS))
+        INbtFilter.Registry.register("regex", NbtStringRegexFilter.Type.CASE_SENSITIVE_REGEX)
+        INbtFilter.Registry.register("regex*", NbtStringRegexFilter.Type.CASE_INSENSITIVE_REGEX)
+        INbtFilter.Registry.register("wildcard", NbtStringRegexFilter.Type.CASE_SENSITIVE_WILDCARD)
+        INbtFilter.Registry.register("wildcard*", NbtStringRegexFilter.Type.CASE_INSENSITIVE_WILDCARD)
 
-        INbtFilter.register("regex", NbtStringRegexFilter.Type.CASE_SENSITIVE_REGEX)
-        INbtFilter.register("regex*", NbtStringRegexFilter.Type.CASE_INSENSITIVE_REGEX)
-        INbtFilter.register("wildcard", NbtStringRegexFilter.Type.CASE_SENSITIVE_WILDCARD)
-        INbtFilter.register("wildcard*", NbtStringRegexFilter.Type.CASE_INSENSITIVE_WILDCARD)
+        INbtFilter.Registry.register("type", NbtTransformerFilter.Type(NbtTypeTransformer))
 
-        INbtFilter.register("type", NbtTransformerFilter.Type(NbtTypeTransformer))
+        INbtFilter.Registry.register("not", NegatedFilter.TYPE)
+        INbtFilter.Registry.register("none_of", AggregateFilter.Type.NONE_OF)
+        INbtFilter.Registry.register("any_of", AggregateFilter.Type.ANY_OF)
+        INbtFilter.Registry.register("some_of", AggregateFilter.Type.SOME_OF)
+        INbtFilter.Registry.register("all_of", AggregateFilter.Type.ALL_OF)
 
-        INbtFilter.register("not", NegatedFilter.TYPE)
-        INbtFilter.register("none_of", AggregateFilter.Type.NONE_OF)
-        INbtFilter.register("any_of", AggregateFilter.Type.ANY_OF)
-        INbtFilter.register("some_of", AggregateFilter.Type.SOME_OF)
-        INbtFilter.register("all_of", AggregateFilter.Type.ALL_OF)
+        INbtFilter.Registry.register("keys", NbtTransformerFilter.Type(NbtCompoundKeysTransformer))
 
-        INbtFilter.register("keys", NbtTransformerFilter.Type(NbtCompoundKeysTransformer))
+        INbtFilter.Registry.register("values", NbtTransformerFilter.Type(NbtCompoundValuesTransformer))
 
-        INbtFilter.register("values", NbtTransformerFilter.Type(NbtCompoundValuesTransformer))
+        INbtFilter.Registry.register("size", NbtTransformerFilter.Type(NbtCollectionSizeTransformer))
 
-        INbtFilter.register("size", NbtTransformerFilter.Type(NbtCollectionSizeTransformer))
+        INbtFilter.Registry.register("if", ConditionalFilter.TYPE)
 
-        INbtFilter.register("if", ConditionalFilter.TYPE)
+        INbtFilter.Registry.register("root", NbtTransformerFilter.Type(RootNbtTransformer))
     }
 
     private fun registerLoadTimeNbtProviders() {

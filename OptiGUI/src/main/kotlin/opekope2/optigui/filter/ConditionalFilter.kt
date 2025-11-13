@@ -16,6 +16,8 @@ class ConditionalFilter private constructor(val match: Boolean) : INbtFilter {
 
     override fun test(nbt: NbtElement, root: NbtElement) = match
 
+    override fun asString() = super.asString() + " " + match
+
     companion object {
         @JvmField
         val CODEC: Codec<ConditionalFilter> = Codec.BOOL.xmap(::of, ConditionalFilter::match)

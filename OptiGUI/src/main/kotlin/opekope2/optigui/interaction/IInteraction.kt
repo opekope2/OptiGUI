@@ -8,7 +8,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import opekope2.optigui.interaction.nbt_provider.IInteractionNbtProvider
-import opekope2.optigui.screen.ITextureChangeableScreen
+import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 import java.util.function.Function
 
 /**

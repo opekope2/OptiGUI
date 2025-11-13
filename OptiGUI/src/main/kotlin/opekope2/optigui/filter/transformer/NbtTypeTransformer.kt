@@ -33,5 +33,5 @@ data object NbtTypeTransformer : INbtTransformer {
      */
     fun transform(type: Byte) = type2name[type]
 
-    override fun transform(nbt: NbtElement) = transform(nbt.type)
+    override fun transform(nbt: NbtElement, root: NbtElement) = transform(nbt.type)
 }

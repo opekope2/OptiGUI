@@ -73,7 +73,7 @@ sealed class NbtStringOrNumberComparer(val ignoreCase: Boolean) : INbtComparer {
     private companion object {
         private val nbtStringOrNumberCodec: Codec<NbtElement> = Codecs.fromOps(NbtOps.INSTANCE).validate {
             if (it is NbtString || it is AbstractNbtNumber) DataResult.success(it)
-            else DataResult.error { I18n.OPTIGUI_RP_LOADER_ERROR_NOT_A_NUMBER_OR_STRING.getTranslation(it.asString()) }
+            else DataResult.error { I18n.OPTIGUI_VALIDATION_ERROR_NOT_A_NUMBER_OR_STRING.getTranslation(it.asString()) }
         }
     }
 }

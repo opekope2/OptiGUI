@@ -10,11 +10,11 @@ import net.minecraft.nbt.NbtList
  * @see NbtCompound.get
  */
 data object NbtCompoundValuesTransformer : INbtTransformer {
-    override fun transform(nbt: NbtElement) =
+    override fun transform(nbt: NbtElement, root: NbtElement) =
         if (nbt !is NbtCompound) null
         else NbtList().apply {
             // Collection::mapTo uses MutableCollection::add
-            // NbtList::add throws, but NbtList::addElement not
+            // NbtList::add throws, but NbtList::addElement does not
             for (key in nbt.keys) if (!addElement(size, nbt[key])) return null
         }
 }

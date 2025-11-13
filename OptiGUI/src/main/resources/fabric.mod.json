@@ -80,8 +80,7 @@
     ]
   },
   "mixins": [
-    "optigui.mixins.json",
-    "optigui-screens.mixins.json"
+    "optigui.mixins.json"
   ],
   "depends": {
     "cloth-config": ">=$cloth_config",
@@ -93,6 +92,16 @@
     "optigui-screen-api": "$version"
   },
   "suggests": {
+    "modmenu": "*",
     "optigui-screen-nbt": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/optigui",
+        "modmenu.kofi": "https://ko-fi.com/opekope2",
+        "modmenu.modrinth": "https://modrinth.com/mod/optigui"
+      }
+    }
   }
 }
