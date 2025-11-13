@@ -30,7 +30,9 @@
   },
   "custom": {
     "modmenu": {
-      "badges": ["library"],
+      "badges": [
+        "library"
+      ],
       "parent": "optigui"
     }
   }

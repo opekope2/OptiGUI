@@ -1,27 +1,27 @@
 package opekope2.optigui.screen_api.mixin;
 
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.layouts.LayoutElement;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import opekope2.optigui.screen_api.screen.ITextureChangeableScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(HandledScreen.class)
+@Mixin(AbstractContainerScreen.class)
 public abstract class HandledScreenMixin implements ITextureChangeableScreen {
     @Shadow
-    protected int backgroundWidth;
+    protected int imageWidth;
 
     @Shadow
-    protected int x;
+    protected int leftPos;
 
     @Shadow
-    protected int y;
+    protected int topPos;
 
     @Override
-    public void optiGui_positionInspectorWidget(Widget inspectorButton) {
+    public void optiGui_positionInspectorWidget(LayoutElement inspectorButton) {
         inspectorButton.setPosition(
-                x + backgroundWidth - inspectorButton.getWidth(),
-                y - inspectorButton.getHeight()
+                leftPos + imageWidth - inspectorButton.getWidth(),
+                topPos - inspectorButton.getHeight()
         );
     }
 }

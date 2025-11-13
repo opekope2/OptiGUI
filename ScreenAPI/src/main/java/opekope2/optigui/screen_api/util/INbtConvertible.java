@@ -1,10 +1,10 @@
 package opekope2.optigui.screen_api.util;
 
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 
 /**
- * Represents an object, which can be written to an {@link NbtCompound}.
+ * Represents an object, which can be written to an {@link CompoundTag}.
  */
 public interface INbtConvertible {
     /**
@@ -45,8 +45,8 @@ public interface INbtConvertible {
     /**
      * Writes the object's content to {@code compound}.
      *
-     * @param compound The output {@link NbtCompound} to write contents to
+     * @param compound The output {@link CompoundTag} to write contents to
      * @param lookup   The registry lookup used to encode NBT
      */
-    void optiGui_writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup lookup);
+    void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup);
 }
