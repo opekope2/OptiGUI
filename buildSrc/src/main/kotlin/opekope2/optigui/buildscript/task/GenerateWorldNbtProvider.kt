@@ -113,7 +113,7 @@ abstract class GenerateWorldNbtProvider : AbstractCodegenTask() {
             "net.minecraft.world.scores.Scoreboard",
             "net.minecraft.world.scores.ScoreboardSaveData",
             "opekope2.optigui.interaction.IInteraction",
-            "opekope2.optigui.util.encode",
+            "opekope2.optigui.util.encodeAsNbt",
         )
         imports.sort()
 
@@ -144,13 +144,13 @@ abstract class GenerateWorldNbtProvider : AbstractCodegenTask() {
             |$members
             |
             |    private fun encodeBlockPos(value: BlockPos, lookup: HolderLookup.Provider) =
-            |        encode(value, BlockPos.CODEC, lookup)
+            |        encodeAsNbt(value, BlockPos.CODEC, lookup)
             |
             |    private fun encodeDimensionType(value: DimensionType, lookup: HolderLookup.Provider) =
-            |        encode(value, DimensionType.DIRECT_CODEC, lookup)
+            |        encodeAsNbt(value, DimensionType.DIRECT_CODEC, lookup)
             |
             |    private fun encodeFeatureFlagSet(value: FeatureFlagSet, lookup: HolderLookup.Provider) =
-            |        encode(value, FeatureFlags.CODEC, lookup)
+            |        encodeAsNbt(value, FeatureFlags.CODEC, lookup)
             |
             |    private fun encodeHolder(value: Holder<*>, lookup: HolderLookup.Provider) =
             |        StringTag.valueOf(value.getRegisteredName())

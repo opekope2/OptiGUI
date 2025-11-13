@@ -1,4 +1,4 @@
-package opekope2.optigui.util
+package opekope2.optigui.util.collections
 
 import com.google.common.collect.ImmutableList
 import com.mojang.serialization.DataResult

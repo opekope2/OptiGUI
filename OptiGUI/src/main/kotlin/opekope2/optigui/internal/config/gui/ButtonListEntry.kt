@@ -3,10 +3,10 @@ package opekope2.optigui.internal.config.gui
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.Tooltip
 import me.shedaniel.math.Point
-import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Button
 import net.minecraft.network.chat.Component
+import opekope2.optigui.util.mc
 import java.util.*
 
 /**
@@ -47,30 +47,19 @@ class ButtonListEntry(
     ) {
         super.render(graphics, index, y, x, entryWidth, entryHeight, mouseX, mouseY, isHovered, delta)
 
-        val window = Minecraft.getInstance().window
-        this.buttonWidget.y = y
-        val displayedFieldName = this.displayedFieldName
-        if (Minecraft.getInstance().font.isBidirectional) {
-            graphics.drawString(
-                Minecraft.getInstance().font,
-                displayedFieldName.visualOrderText,
-                window.guiScaledWidth - x - Minecraft.getInstance().font.width(displayedFieldName),
-                y + 6,
-                0xFFFFFF
-            )
-            this.buttonWidget.x = x + 2
+        val window = mc.window
+        buttonWidget.y = y
+        val displayedFieldName = displayedFieldName
+        if (mc.font.isBidirectional) {
+            val textX = window.guiScaledWidth - x - mc.font.width(displayedFieldName)
+            graphics.drawString(mc.font, displayedFieldName.visualOrderText, textX, y + 6, 0xFFFFFF)
+            buttonWidget.x = x + 2
         } else {
-            graphics.drawString(
-                Minecraft.getInstance().font,
-                displayedFieldName.visualOrderText,
-                x,
-                y + 6,
-                this.preferredTextColor
-            )
-            this.buttonWidget.x = x + entryWidth - 150
+            graphics.drawString(mc.font, displayedFieldName.visualOrderText, x, y + 6, preferredTextColor)
+            buttonWidget.x = x + entryWidth - 150
         }
 
-        this.buttonWidget.render(graphics, mouseX, mouseY, delta)
+        buttonWidget.render(graphics, mouseX, mouseY, delta)
 
         if (tooltipText != null && isMouseInside(mouseX, mouseY, x, y, entryWidth, entryHeight)) {
             addTooltip(Tooltip.of(Point(mouseX, mouseY), tooltipText))

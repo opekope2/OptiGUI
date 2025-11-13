@@ -1,7 +1,6 @@
 package opekope2.optigui.util
 
 import com.mojang.serialization.Codec
-import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 import net.minecraft.util.StringRepresentable
 
@@ -53,7 +52,7 @@ enum class TextOrigin(private val id: String) : StringRepresentable {
          */
         @JvmStatic
         fun of(text: Component) =
-            if (text === Minecraft.getInstance().screen?.title) TITLE
+            if (text === mc.screen?.title) TITLE
             else UNKNOWN_TEXT
     }
 }

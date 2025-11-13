@@ -2,7 +2,6 @@ package opekope2.optigui.internal.resource.loader
 
 import com.google.common.collect.LinkedListMultimap
 import com.google.common.collect.Multimap
-import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
@@ -37,10 +36,7 @@ internal abstract class AbstractResourceLoader<TResource>(val id: ResourceLocati
 
     final override val errors: List<ResourceLoadingLoggingEvent>
         get() = logger.events.map {
-            ResourceLoadingLoggingEvent.fromLoggingEvent(
-                it,
-                Minecraft.getInstance().resourcePackRepository::isAvailable
-            )
+            ResourceLoadingLoggingEvent.fromLoggingEvent(it, mc.resourcePackRepository::isAvailable)
         }
 
     final override lateinit var filters: Multimap<InteractionTarget, TextureChangerFilter>
@@ -110,7 +106,7 @@ internal abstract class AbstractResourceLoader<TResource>(val id: ResourceLocati
     }
 
     final override fun apply(prepared: Resources<TResource>, manager: ResourceManager, profiler: ProfilerFiller) {
-        val guiAtlasManager = Minecraft.getInstance().guiSprites
+        val guiAtlasManager = mc.guiSprites
         val missingSprite = guiAtlasManager.getSprite(MissingTextureAtlasSprite.getLocation())
         val resourceCollector = ResourceCollector(logger, loadTimeNbt)
 

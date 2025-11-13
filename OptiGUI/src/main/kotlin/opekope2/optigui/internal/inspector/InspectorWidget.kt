@@ -3,7 +3,6 @@ package opekope2.optigui.internal.inspector
 import com.google.gson.GsonBuilder
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.Util
-import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.AbstractWidget
 import net.minecraft.client.gui.components.WidgetSprites
@@ -16,6 +15,7 @@ import opekope2.optigui.internal.I18n
 import opekope2.optigui.internal.debugger.Debugger
 import opekope2.optigui.util.DEBUGGER_URL
 import opekope2.optigui.util.MOD_ID
+import opekope2.optigui.util.mc
 import org.jetbrains.annotations.ApiStatus
 import java.util.concurrent.CompletableFuture
 
@@ -37,7 +37,7 @@ abstract class InspectorWidget : AbstractWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEI
 
             updateTooltip(DescriptionState.PROCESSING)
             CompletableFuture.supplyAsync(::generateDebugData)
-                .thenApplyAsync(::openInBrowser, Minecraft.getInstance())
+                .thenApplyAsync(::openInBrowser, mc)
         }
 
         // Run on thread pool, because encoding a lot of filters to JSON can take up to hundreds of milliseconds
@@ -48,7 +48,7 @@ abstract class InspectorWidget : AbstractWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEI
         // Run on main thread because we're interacting with the UI and the clipboard
         private fun openInBrowser(debugData: String?) {
             if (debugData != null) {
-                Minecraft.getInstance().keyboardHandler.clipboard = debugData
+                mc.keyboardHandler.clipboard = debugData
                 Util.getPlatform().openUri(DEBUGGER_URL)
             }
 
@@ -94,7 +94,7 @@ abstract class InspectorWidget : AbstractWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEI
         val interaction = InteractionManager.interaction ?: return
         val json = Inspector.generateJsonResource(interaction, generatedBy)
 
-        Minecraft.getInstance().keyboardHandler.clipboard = GSON.toJson(json)
+        mc.keyboardHandler.clipboard = GSON.toJson(json)
         updateTooltip(DescriptionState.CLICKED)
     }
 
@@ -107,7 +107,7 @@ abstract class InspectorWidget : AbstractWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEI
         if (!active || !visible) return false
         if (!CommonInputs.selected(keyCode)) return false
 
-        playDownSound(Minecraft.getInstance().soundManager)
+        playDownSound(mc.soundManager)
         inspectInteraction()
         return true
     }

@@ -4,7 +4,6 @@ import com.google.gson.GsonBuilder
 import com.mojang.serialization.Dynamic
 import com.mojang.serialization.JavaOps
 import com.mojang.serialization.JsonOps
-import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.Checkbox
 import net.minecraft.client.gui.components.Tooltip
@@ -18,6 +17,7 @@ import opekope2.optigui.gui.widget.ErrorListWidget
 import opekope2.optigui.internal.I18n
 import opekope2.optigui.util.ResourceLoadingLoggingEvent
 import opekope2.optigui.util.ResourcePackIconLoader
+import opekope2.optigui.util.mc
 import org.slf4j.event.Level
 
 /**
@@ -125,7 +125,7 @@ class ResourceLoadingErrorScreen(private val log: List<ResourceLoadingLoggingEve
          * @param screen The screen to change to
          */
         @JvmStatic
-        fun setScreen(screen: Screen?) = Runnable { Minecraft.getInstance().setScreen(screen) }
+        fun setScreen(screen: Screen?) = Runnable { mc.setScreen(screen) }
 
         /**
          * Creates a [ResourceLoadingErrorScreen] from the errors of the filter loaders registered in
@@ -153,8 +153,7 @@ class ResourceLoadingErrorScreen(private val log: List<ResourceLoadingLoggingEve
         @JvmStatic
         fun showIfErrorsOccurred() {
             if (!shouldShow()) return
-            val client = Minecraft.getInstance()
-            client.setScreen(create(setScreen(client.screen)))
+            mc.setScreen(create(setScreen(mc.screen)))
         }
     }
 }
