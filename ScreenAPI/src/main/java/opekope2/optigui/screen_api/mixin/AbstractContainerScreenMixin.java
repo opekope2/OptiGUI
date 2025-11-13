@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(AbstractContainerScreen.class)
-public abstract class HandledScreenMixin implements ITextureChangeableScreen {
+public abstract class AbstractContainerScreenMixin implements ITextureChangeableScreen {
     @Shadow
     protected int imageWidth;
 

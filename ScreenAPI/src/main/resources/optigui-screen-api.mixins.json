@@ -6,10 +6,10 @@
     "defaultRequire": 1
   },
   "client": [
+    "AbstractContainerScreenMixin",
     "BookEditScreenMixin",
-    "BookScreenMixin",
-    "CreativeInventoryScreenMixin",
-    "HandledScreenMixin",
+    "BookViewScreenMixin",
+    "CreativeModeInventoryScreenMixin",
     "HangingSignEditScreenMixin"
   ]
 }

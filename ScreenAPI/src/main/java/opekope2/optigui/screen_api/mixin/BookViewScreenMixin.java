@@ -10,12 +10,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(BookViewScreen.class)
-public abstract class BookScreenMixin extends Screen implements ITextureChangeableScreen {
+public abstract class BookViewScreenMixin extends Screen implements ITextureChangeableScreen {
     @Shadow
     @Final
     protected static int IMAGE_WIDTH;
 
-    private BookScreenMixin(Component title) {
+    private BookViewScreenMixin(Component title) {
         super(title);
     }
 
