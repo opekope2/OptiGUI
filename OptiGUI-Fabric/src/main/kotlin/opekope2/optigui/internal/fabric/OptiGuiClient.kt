@@ -8,15 +8,15 @@ import net.fabricmc.fabric.api.client.screen.v1.Screens
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.network.ClientPlayNetworkHandler
-import net.minecraft.client.world.ClientWorld
-import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.ResourceType
-import net.minecraft.resource.SynchronousResourceReloader
-import net.minecraft.util.Identifier
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.screens.Screen
+import net.minecraft.client.multiplayer.ClientLevel
+import net.minecraft.client.multiplayer.ClientPacketListener
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.packs.PackType
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener
 import opekope2.optigui.config.IConfig
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.INbtFilter
@@ -45,7 +45,7 @@ internal class OptiGuiClient :
         FabricInteractionHandler
         FabricAttackHandler
         registerLoadTimeNbtSuppliers()
-        registerResourceLoaders(ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES))
+        registerResourceLoaders(ResourceManagerHelper.get(PackType.CLIENT_RESOURCES))
         ClientTickEvents.END_WORLD_TICK.register(this)
         ClientPlayConnectionEvents.DISCONNECT.register(this)
         ScreenEvents.AFTER_INIT.register(this)
@@ -71,16 +71,16 @@ internal class OptiGuiClient :
         manager.registerReloadListener(TextureChangerReloadListener)
     }
 
-    override fun onEndTick(world: ClientWorld?) {
+    override fun onEndTick(world: ClientLevel?) {
         if (!InteractionManager.isInteracting) return
         InteractionManager.clearCache()
     }
 
-    override fun onPlayDisconnect(handler: ClientPlayNetworkHandler?, client: MinecraftClient?) {
+    override fun onPlayDisconnect(handler: ClientPacketListener?, client: Minecraft?) {
         InteractionManager.end(disconnected = true)
     }
 
-    override fun afterInit(client: MinecraftClient?, screen: Screen?, scaledWidth: Int, scaledHeight: Int) {
+    override fun afterInit(client: Minecraft?, screen: Screen?, scaledWidth: Int, scaledHeight: Int) {
         ScreenEvents.beforeRender(screen).register(this)
         ScreenEvents.afterRender(screen).register(this)
 
@@ -91,21 +91,21 @@ internal class OptiGuiClient :
         }
     }
 
-    override fun beforeRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
+    override fun beforeRender(screen: Screen?, drawContext: GuiGraphics?, mouseX: Int, mouseY: Int, tickDelta: Float) {
         IOptiGuiPlatform.renderingScreen = true
     }
 
-    override fun afterRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
+    override fun afterRender(screen: Screen?, drawContext: GuiGraphics?, mouseX: Int, mouseY: Int, tickDelta: Float) {
         IOptiGuiPlatform.renderingScreen = false
     }
 
-    private object TextureChangerReloadListener : IdentifiableResourceReloadListener, SynchronousResourceReloader {
-        override fun getFabricId(): Identifier = Identifier.of(MOD_ID, "texture_changer")
+    private object TextureChangerReloadListener : IdentifiableResourceReloadListener, ResourceManagerReloadListener {
+        override fun getFabricId() = ResourceLocation.fromNamespaceAndPath(MOD_ID, "texture_changer")
 
         override fun getFabricDependencies() = IFilterLoader.map { it.key }
 
-        override fun reload(manager: ResourceManager) {
-            IOptiGuiPlatform.textureChanger.reload(manager)
+        override fun onResourceManagerReload(manager: ResourceManager) {
+            IOptiGuiPlatform.textureChanger.onResourceManagerReload(manager)
         }
     }
 

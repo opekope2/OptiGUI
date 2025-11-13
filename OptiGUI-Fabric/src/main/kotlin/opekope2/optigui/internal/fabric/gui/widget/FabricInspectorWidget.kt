@@ -2,8 +2,8 @@ package opekope2.optigui.internal.fabric.gui.widget
 
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.screens.Screen
 import opekope2.optigui.internal.inspector.InspectorWidget
 import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 import opekope2.optigui.util.MOD_ID
@@ -13,7 +13,7 @@ internal class FabricInspectorWidget : InspectorWidget(), ScreenEvents.BeforeRen
     override val generatedBy: String
         get() = GENERATED_BY
 
-    override fun beforeRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
+    override fun beforeRender(screen: Screen?, drawContext: GuiGraphics?, mouseX: Int, mouseY: Int, tickDelta: Float) {
         if (screen is ITextureChangeableScreen) screen.optiGui_positionInspectorWidget(this)
     }
 

@@ -1,12 +1,14 @@
 package opekope2.optigui.internal.fabric
 
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
-import net.minecraft.resource.ResourceReloader
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.packs.resources.PreparableReloadListener
 
-internal class FabricResourceReloadListener(private val id: Identifier, private val delegate: ResourceReloader) :
-    IdentifiableResourceReloadListener, ResourceReloader by delegate {
+internal class FabricResourceReloadListener(
+    private val id: ResourceLocation,
+    private val delegate: PreparableReloadListener
+) : IdentifiableResourceReloadListener, PreparableReloadListener by delegate {
     override fun getFabricId() = id
 
-    override fun getName(): String = "${javaClass.simpleName}[${delegate.name}]"
+    override fun getName() = "${javaClass.simpleName}[${delegate.name}]"
 }

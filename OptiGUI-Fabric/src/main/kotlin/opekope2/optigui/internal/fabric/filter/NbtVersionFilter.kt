@@ -4,16 +4,16 @@ import com.mojang.serialization.Codec
 import net.fabricmc.loader.api.Version
 import net.fabricmc.loader.api.VersionParsingException
 import net.fabricmc.loader.api.metadata.version.VersionComparisonOperator
-import net.minecraft.nbt.NbtElement
-import net.minecraft.nbt.NbtString
-import net.minecraft.util.dynamic.Codecs
+import net.minecraft.nbt.StringTag
+import net.minecraft.nbt.Tag
+import net.minecraft.util.ExtraCodecs
 import opekope2.optigui.filter.INbtFilter
 
 internal class NbtVersionFilter(private val version: Version, override val type: Type) : INbtFilter {
-    override fun test(nbt: NbtElement, root: NbtElement): Boolean {
-        if (nbt !is NbtString) return false
+    override fun test(nbt: Tag, root: Tag): Boolean {
+        if (nbt !is StringTag) return false
         val nbtVersion = try {
-            Version.parse(nbt.asString())
+            Version.parse(nbt.asString)
         } catch (_: VersionParsingException) {
             return false
         }
@@ -34,7 +34,7 @@ internal class NbtVersionFilter(private val version: Version, override val type:
 
         VERSION_NOT_EQUAL(VersionComparisonOperator.EQUAL, invert = true);
 
-        override val codec: Codec<NbtVersionFilter> = Codecs.exceptionCatching(
+        override val codec: Codec<NbtVersionFilter> = ExtraCodecs.catchDecoderException(
             Codec.STRING.xmap(
                 { NbtVersionFilter(Version.parse(it), this) },
                 { it.version.friendlyString }
