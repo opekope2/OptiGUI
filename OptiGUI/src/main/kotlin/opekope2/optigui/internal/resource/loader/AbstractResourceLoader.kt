@@ -25,6 +25,8 @@ private typealias Resources<T> = List<IdentifiableResource<T>>
 
 internal abstract class AbstractResourceLoader<TResource>(val id: ResourceLocation) :
     SimplePreparableReloadListener<Resources<TResource>>(), IFilterLoader {
+    constructor(id: String) : this(ResourceLocation.fromNamespaceAndPath(MOD_ID, id))
+
     init {
         IFilterLoader.register(id, this)
     }

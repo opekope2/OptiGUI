@@ -8,11 +8,9 @@ import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.util.GsonHelper
 import opekope2.optigui.resource.format.json.JsonFilterResource
-import opekope2.optigui.util.MOD_ID
 import opekope2.optigui.util.OPTIGUI_JSON_RESOURCES_ROOT
 
-internal object JsonFilterLoader :
-    AbstractResourceLoader<JsonObject>(ResourceLocation.fromNamespaceAndPath(MOD_ID, "json_loader")) {
+internal object JsonFilterLoader : AbstractResourceLoader<JsonObject>("json_loader") {
     private val jsonFinder = FileToIdConverter.json(OPTIGUI_JSON_RESOURCES_ROOT)
 
     override fun findResources(manager: ResourceManager) = jsonFinder.listMatchingResources(manager)
