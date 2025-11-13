@@ -1,10 +1,10 @@
 package opekope2.optigui.mixin;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.util.Hand;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.InteractionHand;
 import opekope2.optigui.gui.screen.ResourceLoadingErrorScreen;
 import opekope2.optigui.interaction.GeneralInteraction;
 import opekope2.optigui.interaction.InteractionManager;
@@ -22,35 +22,35 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
-@Mixin(value = MinecraftClient.class)
+@Mixin(value = Minecraft.class)
 public abstract class MinecraftClientMixin {
     @Shadow
-    public @Nullable ClientPlayerEntity player;
+    public @Nullable LocalPlayer player;
 
     @Shadow
-    public @Nullable Screen currentScreen;
+    public @Nullable Screen screen;
 
-    @Inject(method = "setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("TAIL"))
+    @Inject(method = "setScreen(Lnet/minecraft/client/gui/screens/Screen;)V", at = @At("TAIL"))
     private void manageInteraction(CallbackInfo ci) {
         if (player == null) return;
 
-        if (currentScreen instanceof AbstractInventoryScreen<?>) {
-            InteractionManager.prepare(GeneralInteraction.factory(InteractionTarget.Inventory.INSTANCE, player, Hand.MAIN_HAND));
+        if (screen instanceof EffectRenderingInventoryScreen<?>) {
+            InteractionManager.prepare(GeneralInteraction.factory(InteractionTarget.Inventory.INSTANCE, player, InteractionHand.MAIN_HAND));
         }
 
-        if (currentScreen instanceof ITextureChangeableScreen textureChangeableScreen) {
+        if (screen instanceof ITextureChangeableScreen textureChangeableScreen) {
             InteractionManager.begin(textureChangeableScreen, player);
         } else {
             InteractionManager.end();
         }
     }
 
-    @Inject(method = "createInitScreens", at = @At("TAIL"))
+    @Inject(method = "addInitialScreens", at = @At("TAIL"))
     private void showResourceLoadingErrors(List<Function<Runnable, Screen>> list, CallbackInfo ci) {
         if (ResourceLoadingErrorScreen.shouldShow()) list.add(ResourceLoadingErrorScreen::create);
     }
 
-    @Inject(method = "reloadResources()Ljava/util/concurrent/CompletableFuture;", at = @At("RETURN"))
+    @Inject(method = "reloadResourcePacks()Ljava/util/concurrent/CompletableFuture;", at = @At("RETURN"))
     private void showResourceLoadingErrors(CallbackInfoReturnable<CompletableFuture<Void>> cir) {
         cir.getReturnValue().thenRun(ResourceLoadingErrorScreen::showIfErrorsOccurred);
     }
