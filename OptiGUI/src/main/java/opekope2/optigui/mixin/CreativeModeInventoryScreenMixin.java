@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(CreativeModeInventoryScreen.class)
-public abstract class CreativeInventoryScreenMixin {
+public abstract class CreativeModeInventoryScreenMixin {
     @Shadow
     private @Nullable EditBox searchBox;
 

@@ -23,7 +23,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
 @Mixin(value = Minecraft.class)
-public abstract class MinecraftClientMixin {
+public abstract class MinecraftMixin {
     @Shadow
     public @Nullable LocalPlayer player;
 

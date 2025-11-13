@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BookViewScreen.class)
-public abstract class BookScreenMixin {
+public abstract class BookViewScreenMixin {
     @Inject(method = "setPage", at = @At("RETURN"))
     private void clearInteractionCacheAfterPageChange(CallbackInfoReturnable<Boolean> cir) {
         InteractionManager.clearCache();

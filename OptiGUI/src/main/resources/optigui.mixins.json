@@ -8,10 +8,10 @@
   "client": [
     "AnvilScreenMixin",
     "BookEditScreenMixin",
-    "BookScreenMixin",
-    "ClientPlayerEntityMixin",
-    "CreativeInventoryScreenMixin",
-    "DrawContextMixin",
-    "MinecraftClientMixin"
+    "BookViewScreenMixin",
+    "CreativeModeInventoryScreenMixin",
+    "GuiGraphicsMixin",
+    "LocalPlayerMixin",
+    "MinecraftMixin"
   ]
 }

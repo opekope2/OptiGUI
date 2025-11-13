@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = GuiGraphics.class, priority = 800)
-public abstract class DrawContextMixin {
+public abstract class GuiGraphicsMixin {
     @Shadow
     public abstract int drawString(Font textRenderer, FormattedCharSequence text, int x, int y, int color, boolean shadow);
 
