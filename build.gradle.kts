@@ -37,6 +37,7 @@ subprojects {
     }
 
     repositories {
+        maven("https://maven.parchmentmc.org") { name = "Parchment" }
     }
 
     val jetbrainsToJsr305 = mapOf(

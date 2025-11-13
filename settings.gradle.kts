@@ -3,7 +3,6 @@ pluginManagement {
         maven("https://maven.fabricmc.net") { name = "Fabric" }
         maven("https://maven.architectury.dev") { name = "Architectury" }
         maven("https://files.minecraftforge.net/maven") { name = "MinecraftForge" }
-        maven("https://maven.parchmentmc.org") { name = "Parchment" }
         mavenCentral()
         gradlePluginPortal()
     }
