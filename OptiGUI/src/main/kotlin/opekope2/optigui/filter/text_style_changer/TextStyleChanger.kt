@@ -2,9 +2,9 @@ package opekope2.optigui.filter.text_style_changer
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.text.MutableText
-import net.minecraft.text.Style
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.MutableComponent
+import net.minecraft.network.chat.Style
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.util.dfu.field
 
@@ -22,9 +22,9 @@ data class TextStyleChanger(val filter: INbtFilter, val style: Style, val overri
      * @param text The text to change the style of
      * @return [text] itself with updated style
      */
-    fun changeStyleOf(text: MutableText): MutableText =
+    fun changeStyleOf(text: MutableComponent) =
         if (override) text.setStyle(style)
-        else text.fillStyle(style)
+        else text.withStyle(style)
 
     /**
      * Applies [style] to the given text.
@@ -32,7 +32,7 @@ data class TextStyleChanger(val filter: INbtFilter, val style: Style, val overri
      * @param text The text to change the style of
      * @return A copy of [text] with changed style
      */
-    fun applyStyleTo(text: Text): MutableText = changeStyleOf(text.copy())
+    fun applyStyleTo(text: Component) = changeStyleOf(text.copy())
 
     companion object {
         /**
@@ -63,7 +63,7 @@ data class TextStyleChanger(val filter: INbtFilter, val style: Style, val overri
         val CODEC: Codec<TextStyleChanger> = RecordCodecBuilder.create { instance ->
             instance.group(
                 INbtFilter.CODEC.field(FILTER_KEY, TextStyleChanger::filter),
-                Style.Codecs.CODEC.field(SET_STYLE_KEY, TextStyleChanger::style),
+                Style.Serializer.CODEC.field(SET_STYLE_KEY, TextStyleChanger::style),
                 Codec.BOOL.field(OVERRIDE_KEY, TextStyleChanger::override),
             ).apply(instance, ::TextStyleChanger)
         }

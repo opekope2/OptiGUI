@@ -1,7 +1,7 @@
 package opekope2.optigui.interaction.nbt_provider
 
-import net.minecraft.nbt.NbtElement
-import net.minecraft.registry.RegistryWrapper
+import net.minecraft.core.HolderLookup
+import net.minecraft.nbt.Tag
 import opekope2.optigui.interaction.IInteraction
 
 /**
@@ -9,5 +9,5 @@ import opekope2.optigui.interaction.IInteraction
  */
 object StructureBoundingBoxProvider : IInteractionNbtProvider {
     // TODO implement
-    override fun get(interaction: IInteraction, lookup: RegistryWrapper.WrapperLookup): NbtElement? = null
+    override fun get(interaction: IInteraction, lookup: HolderLookup.Provider): Tag? = null
 }

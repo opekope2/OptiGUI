@@ -1,7 +1,7 @@
 package opekope2.optigui.filter
 
 import com.mojang.serialization.Codec
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.comparer.INbtComparer
 import java.util.*
 
@@ -13,10 +13,10 @@ import java.util.*
  * @see INbtComparer
  * @see DynamicNbtComparerFilter
  */
-class ConstantNbtComparerFilter(val value: NbtElement, override val type: Type) : INbtFilter {
-    override fun test(nbt: NbtElement, root: NbtElement) = type.comparer.compare(nbt, value) in type.acceptedResults
+class ConstantNbtComparerFilter(val value: Tag, override val type: Type) : INbtFilter {
+    override fun test(nbt: Tag, root: Tag) = type.comparer.compare(nbt, value) in type.acceptedResults
 
-    override fun asString() = super.asString() + " " + value.asString()
+    override fun asString() = super.asString() + " " + value.asString
 
     /**
      * A type describing a [ConstantNbtComparerFilter].
@@ -29,7 +29,7 @@ class ConstantNbtComparerFilter(val value: NbtElement, override val type: Type) 
     data class Type(
         val comparer: INbtComparer,
         val acceptedResults: EnumSet<INbtComparer.ComparisonResult>,
-        val valueCodec: Codec<NbtElement>
+        val valueCodec: Codec<Tag>
     ) : INbtFilter.IType<ConstantNbtComparerFilter> {
         override val codec: Codec<ConstantNbtComparerFilter> =
             valueCodec.xmap({ ConstantNbtComparerFilter(it, this) }, ConstantNbtComparerFilter::value)

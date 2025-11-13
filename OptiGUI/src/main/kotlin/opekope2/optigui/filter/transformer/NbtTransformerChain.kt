@@ -2,7 +2,7 @@ package opekope2.optigui.filter.transformer
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.filter.NbtTransformerFilter
 import opekope2.optigui.internal.I18n
@@ -12,7 +12,7 @@ import java.util.function.Function
  * An NBT transformer, which transforms an NBT element using multiple other NBT transformers after one another.
  */
 class NbtTransformerChain(val transformerChain: List<NbtTransformerFilter.IType>) : INbtTransformer {
-    override fun transform(nbt: NbtElement, root: NbtElement): NbtElement? =
+    override fun transform(nbt: Tag, root: Tag): Tag? =
         transformerChain.fold(nbt) { nbt, transformer -> transformer.transformer.transform(nbt, root) ?: return null }
 
     /**

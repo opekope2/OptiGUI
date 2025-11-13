@@ -1,10 +1,10 @@
 package opekope2.optigui.interaction
 
-import net.minecraft.client.gui.screen.Screen
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.text.Text
-import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
+import net.minecraft.client.gui.screens.Screen
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.InteractionHand.MAIN_HAND
+import net.minecraft.world.entity.player.Player
 import opekope2.optigui.config.IConfig
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager.clearCache
@@ -51,14 +51,14 @@ object InteractionManager {
      * later). This may include textures rendered throughout multiple frames.
      */
     @JvmStatic
-    val renderedTextures: Set<Identifier> = Collections.unmodifiableSet(TextureChanger.renderedTextures)
+    val renderedTextures: Set<ResourceLocation> = Collections.unmodifiableSet(TextureChanger.renderedTextures)
 
     /**
      * Returns the non-changed sprites rendered since the previous call to [clearCache] or world tick (whichever was
      * later). This may include sprites rendered throughout multiple frames.
      */
     @JvmStatic
-    val renderedSprites: Set<Identifier> = Collections.unmodifiableSet(TextureChanger.renderedSprites)
+    val renderedSprites: Set<ResourceLocation> = Collections.unmodifiableSet(TextureChanger.renderedSprites)
 
     /**
      * Returns the strings rendered since the previous call to [clearCache] or world tick (whichever was later). This
@@ -72,7 +72,7 @@ object InteractionManager {
      * include texts rendered throughout multiple frames.
      */
     @JvmStatic
-    val renderedTexts: IEnumObjectPairSet<TextOrigin, Text> = TextStyler.renderedTexts.View()
+    val renderedTexts: IEnumObjectPairSet<TextOrigin, Component> = TextStyler.renderedTexts.View()
 
     /**
      * Returns if custom textures were rendered since the previous call to [clearCache] or world tick (whichever was
@@ -99,10 +99,10 @@ object InteractionManager {
     @JvmStatic
     @JvmName("begin")
     @ApiStatus.Internal
-    internal fun begin(screen: ITextureChangeableScreen, player: PlayerEntity) {
+    internal fun begin(screen: ITextureChangeableScreen, player: Player) {
         if (this.screen != null) return
         interaction = nextInteractionFactory?.apply(screen)
-            ?: GeneralInteraction(screen, player.mainHandStack, InteractionTarget.Unknown, player, Hand.MAIN_HAND)
+            ?: GeneralInteraction(screen, player.mainHandItem, InteractionTarget.Unknown, player, MAIN_HAND)
         if (!IConfig.get().keepInteractionFactory) nextInteractionFactory = null
         this.screen = screen
         clearCache()

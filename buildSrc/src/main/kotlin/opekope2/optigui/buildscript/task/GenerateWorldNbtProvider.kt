@@ -12,7 +12,7 @@ import java.net.URLClassLoader
 import java.util.*
 
 @CacheableTask
-abstract class GenerateLevelNbtProvider : AbstractCodegenTask() {
+abstract class GenerateWorldNbtProvider : AbstractCodegenTask() {
     @get:Input
     abstract val packageName: Property<String>
 
@@ -28,8 +28,8 @@ abstract class GenerateLevelNbtProvider : AbstractCodegenTask() {
         val urls = minecraftClasspath.files.map { it.toURI().toURL() }.toTypedArray()
         val minecraftClassLoader = URLClassLoader(urls, javaClass.classLoader)
 
-        val content = generateLevelNbtProvider(minecraftClassLoader)
-        packageDir.file("LevelNbtProvider.kt").asFile.writeText(content)
+        val content = generateWorldNbtProvider(minecraftClassLoader)
+        packageDir.file("WorldNbtProvider.kt").asFile.writeText(content)
     }
 
     private fun String.snakeCase(): String {
@@ -48,7 +48,7 @@ abstract class GenerateLevelNbtProvider : AbstractCodegenTask() {
 
     private val javaExcludedMethods = setOf("getClass", "hashCode", "toString")
 
-    private fun generateLevelNbtProvider(classLoader: ClassLoader): String {
+    private fun generateWorldNbtProvider(classLoader: ClassLoader): String {
         val levelExcludedMethods = javaExcludedMethods + setOf(
             "damageSources", // no additional info
             "dimension", // no additional info
@@ -130,11 +130,14 @@ abstract class GenerateLevelNbtProvider : AbstractCodegenTask() {
             |
             |${imports.joinToString(separator = "\n") { "import $it" }.replace('$', '.')}
             |
-            |object LevelNbtProvider : IInteractionNbtProvider {
+            |/**
+            | * Provides the world NBT of an interaction.
+            | */            
+            |object WorldNbtProvider : IInteractionNbtProvider {
             |    override fun get(interaction: IInteraction, lookup: HolderLookup.Provider): CompoundTag {
-            |        val level = interaction.level
-            |        val result = encodeLevel(level, lookup)
-            |        if (level is ClientLevel) result.merge(encodeClientLevel(level, lookup))
+            |        val world = interaction.world
+            |        val result = encodeLevel(world, lookup)
+            |        if (world is ClientLevel) result.merge(encodeClientLevel(world, lookup))
             |        return result
             |    }
             |

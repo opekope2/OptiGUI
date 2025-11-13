@@ -1,9 +1,9 @@
 package opekope2.optigui.interaction
 
-import net.minecraft.block.BlockState
-import net.minecraft.entity.EntityType
-import net.minecraft.item.ItemStack
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.block.state.BlockState
 import opekope2.optigui.util.identifier
 
 /**
@@ -15,8 +15,8 @@ sealed class InteractionTarget(val type: String) {
      *
      * @param id The registry ID of the block
      */
-    data class Block(val id: Identifier) : InteractionTarget("block") {
-        constructor(block: net.minecraft.block.Block) : this(block.identifier)
+    data class Block(val id: ResourceLocation) : InteractionTarget("block") {
+        constructor(block: net.minecraft.world.level.block.Block) : this(block.identifier)
         constructor(blockState: BlockState) : this(blockState.block)
     }
 
@@ -25,9 +25,9 @@ sealed class InteractionTarget(val type: String) {
      *
      * @param id The registry ID of the entity
      */
-    data class Entity(val id: Identifier) : InteractionTarget("entity") {
+    data class Entity(val id: ResourceLocation) : InteractionTarget("entity") {
         constructor(entityType: EntityType<*>) : this(entityType.identifier)
-        constructor(entity: net.minecraft.entity.Entity) : this(entity.type)
+        constructor(entity: net.minecraft.world.entity.Entity) : this(entity.type)
     }
 
     /**
@@ -35,8 +35,8 @@ sealed class InteractionTarget(val type: String) {
      *
      * @param id The registry ID of the item
      */
-    data class Item(val id: Identifier) : InteractionTarget("item") {
-        constructor(item: net.minecraft.item.Item) : this(item.identifier)
+    data class Item(val id: ResourceLocation) : InteractionTarget("item") {
+        constructor(item: net.minecraft.world.item.Item) : this(item.identifier)
         constructor(stack: ItemStack) : this(stack.item)
     }
 

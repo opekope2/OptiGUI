@@ -3,9 +3,9 @@
 package opekope2.optigui.util
 
 import com.mojang.serialization.Encoder
-import net.minecraft.nbt.NbtElement
+import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.NbtOps
-import net.minecraft.registry.RegistryWrapper
+import net.minecraft.nbt.Tag
 
 /**
  * Encodes [input] using [encoder] as NBT.
@@ -15,5 +15,5 @@ import net.minecraft.registry.RegistryWrapper
  * @param encoder The codec used to encode [input]
  * @param lookup The registry lookup to get [NbtOps] from
  */
-fun <T> encode(input: T, encoder: Encoder<T>, lookup: RegistryWrapper.WrapperLookup): NbtElement =
-    encoder.encodeStart(lookup.getOps(NbtOps.INSTANCE), input).getOrThrow()
+fun <T> encode(input: T, encoder: Encoder<T>, lookup: HolderLookup.Provider): Tag =
+    encoder.encodeStart(lookup.createSerializationContext(NbtOps.INSTANCE), input).getOrThrow()

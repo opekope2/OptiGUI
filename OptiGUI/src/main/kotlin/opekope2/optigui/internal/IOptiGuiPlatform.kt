@@ -1,7 +1,7 @@
 package opekope2.optigui.internal
 
 import me.shedaniel.autoconfig.ConfigData
-import net.minecraft.resource.SynchronousResourceReloader
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener
 import opekope2.optigui.internal.config.Config
 import opekope2.optigui.internal.initializer.ClientInitializer
 import org.jetbrains.annotations.ApiStatus
@@ -31,7 +31,7 @@ interface IOptiGuiPlatform {
                 TextureChanger.renderingScreen = value
             }
 
-        val textureChanger: SynchronousResourceReloader
+        val textureChanger: ResourceManagerReloadListener
             get() = TextureChanger
 
         fun initialize(platform: IOptiGuiPlatform) {

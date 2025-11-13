@@ -1,7 +1,7 @@
 package opekope2.optigui.internal.resource.loader
 
 import com.mojang.serialization.DataResult
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.CompoundTag
 import opekope2.optigui.internal.I18n
 import opekope2.optigui.resource.format.json.JsonFilterResource
 import opekope2.optigui.util.LOG_KEY_RESOURCE
@@ -9,7 +9,7 @@ import opekope2.optigui.util.LOG_KEY_RESOURCE_PACK
 import org.slf4j.Logger
 import kotlin.jvm.optionals.getOrNull
 
-internal class ResourceCollector(private val logger: Logger, private val loadTimeNbt: NbtCompound) :
+internal class ResourceCollector(private val logger: Logger, private val loadTimeNbt: CompoundTag) :
     Iterable<IdentifiableResource<JsonFilterResource.V2>> {
     private val resources = mutableListOf<IdentifiableResource<JsonFilterResource.V2>>()
 

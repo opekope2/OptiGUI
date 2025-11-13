@@ -1,5 +1,7 @@
 import opekope2.optigui.buildscript.task.GenerateI18nEnum
 import opekope2.optigui.buildscript.task.GenerateInternalPackageInfos
+import opekope2.optigui.buildscript.task.GenerateWorldNbtProvider
+import opekope2.optigui.buildscript.task.VerifyChecksum
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
@@ -32,10 +34,23 @@ tasks {
         packageMatcher("""^opekope2\.optigui\.internal(\..+)?$""")
     }
 
-    codegen { dependsOn(generateI18n, generateInternalPackageInfos) }
+    val generateWorldNbtProvider by registering(GenerateWorldNbtProvider::class) {
+        packageName = "opekope2.optigui.interaction.nbt_provider"
+        minecraftClasspath.from(configurations.named("runtimeClasspath"))
+    }
+
+    val worldNbtProviderChecksum by registering(VerifyChecksum::class) {
+        dependsOn(generateWorldNbtProvider)
+        inputs.files(generateWorldNbtProvider)
+        checksum("942a97b88af15d47e394bef153ffd3f9")
+    }
+
+    codegen { dependsOn(generateI18n, generateInternalPackageInfos, generateWorldNbtProvider) }
+
+    check { dependsOn(worldNbtProviderChecksum) }
 
     sourceSets.main {
         java.srcDirs(generateInternalPackageInfos)
-        kotlin.srcDirs(generateI18n)
+        kotlin.srcDirs(generateI18n, generateWorldNbtProvider)
     }
 }

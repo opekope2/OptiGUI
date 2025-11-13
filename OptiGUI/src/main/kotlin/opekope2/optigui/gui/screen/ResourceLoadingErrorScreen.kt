@@ -4,14 +4,14 @@ import com.google.gson.GsonBuilder
 import com.mojang.serialization.Dynamic
 import com.mojang.serialization.JavaOps
 import com.mojang.serialization.JsonOps
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.gui.tooltip.Tooltip
-import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.client.gui.widget.CheckboxWidget
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget
-import net.minecraft.client.gui.widget.ThreePartsLayoutWidget
-import net.minecraft.screen.ScreenTexts
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.components.Button
+import net.minecraft.client.gui.components.Checkbox
+import net.minecraft.client.gui.components.Tooltip
+import net.minecraft.client.gui.layouts.HeaderAndFooterLayout
+import net.minecraft.client.gui.layouts.LinearLayout
+import net.minecraft.client.gui.screens.Screen
+import net.minecraft.network.chat.CommonComponents
 import opekope2.optigui.config.IConfig
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.gui.widget.ErrorListWidget
@@ -28,11 +28,11 @@ import org.slf4j.event.Level
  */
 class ResourceLoadingErrorScreen(private val log: List<ResourceLoadingLoggingEvent>, private val onClose: Runnable) :
     Screen(I18n.OPTIGUI_GUI_RP_LOADER_LOAD_FAIL.getText()) {
-    private val layout = ThreePartsLayoutWidget(this, ThreePartsLayoutWidget.DEFAULT_HEADER_FOOTER_HEIGHT, 58)
+    private val layout = HeaderAndFooterLayout(this, HeaderAndFooterLayout.DEFAULT_HEADER_AND_FOOTER_HEIGHT, 58)
     private lateinit var errorsWidget: ErrorListWidget
-    private lateinit var doNotShowAgainCheckbox: CheckboxWidget
-    private lateinit var copyButton: ButtonWidget
-    private lateinit var doneButton: ButtonWidget
+    private lateinit var doNotShowAgainCheckbox: Checkbox
+    private lateinit var copyButton: Button
+    private lateinit var doneButton: Button
 
     private lateinit var iconLoader: ResourcePackIconLoader
 
@@ -55,19 +55,20 @@ class ResourceLoadingErrorScreen(private val log: List<ResourceLoadingLoggingEve
     }
 
     private fun copyErrors() {
-        client!!.keyboard.clipboard = GSON.toJson(encodeErrors(errorsWidget.errors).convert(JsonOps.INSTANCE).value)
+        minecraft!!.keyboardHandler.clipboard =
+            GSON.toJson(encodeErrors(errorsWidget.errors).convert(JsonOps.INSTANCE).value)
     }
 
     override fun init() {
         if (::iconLoader.isInitialized) iconLoader.close()
-        iconLoader = ResourcePackIconLoader("resource_loading_error_screen", client!!.textureManager)
+        iconLoader = ResourcePackIconLoader("resource_loading_error_screen", minecraft!!.textureManager)
 
-        layout.addHeader(title, textRenderer)
+        layout.addTitleHeader(title, font)
 
-        errorsWidget = layout.addBody(
+        errorsWidget = layout.addToContents(
             ErrorListWidget(
-                textRenderer,
-                client!!.resourcePackManager,
+                font,
+                minecraft!!.resourcePackRepository,
                 iconLoader,
                 log,
                 0,
@@ -77,41 +78,41 @@ class ResourceLoadingErrorScreen(private val log: List<ResourceLoadingLoggingEve
             )
         )
 
-        val footer = layout.addFooter(DirectionalLayoutWidget.vertical().spacing(5))
-        footer.mainPositioner.alignHorizontalCenter()
-        doNotShowAgainCheckbox = footer.add(
-            CheckboxWidget.builder(I18n.OPTIGUI_GUI_RP_LOADER_DO_NOT_SHOW_AGAIN.getText(), textRenderer)
-                .tooltip(Tooltip.of(I18n.OPTIGUI_GUI_RP_LOADER_DO_NOT_SHOW_AGAIN_TOOLTIP.getText()))
+        val footer = layout.addToFooter(LinearLayout.vertical().spacing(5))
+        footer.defaultCellSetting().alignHorizontallyCenter()
+        doNotShowAgainCheckbox = footer.addChild(
+            Checkbox.builder(I18n.OPTIGUI_GUI_RP_LOADER_DO_NOT_SHOW_AGAIN.getText(), font)
+                .tooltip(Tooltip.create(I18n.OPTIGUI_GUI_RP_LOADER_DO_NOT_SHOW_AGAIN_TOOLTIP.getText()))
                 .build()
         )
 
-        val buttonBar = footer.add(DirectionalLayoutWidget.horizontal().spacing(5))
-        copyButton = buttonBar.add(
-            ButtonWidget.builder(I18n.OPTIGUI_GUI_RP_LOADER_COPY_TO_CLIPBOARD.getText()) { copyErrors() }
+        val buttonBar = footer.addChild(LinearLayout.horizontal().spacing(5))
+        copyButton = buttonBar.addChild(
+            Button.builder(I18n.OPTIGUI_GUI_RP_LOADER_COPY_TO_CLIPBOARD.getText()) { copyErrors() }
                 .build()
         )
-        doneButton = buttonBar.add(
-            ButtonWidget.builder(ScreenTexts.DONE) { close() }
+        doneButton = buttonBar.addChild(
+            Button.builder(CommonComponents.GUI_DONE) { onClose() }
                 .build()
         )
 
-        layout.forEachChild(::addDrawableChild)
-        initTabNavigation()
+        layout.visitWidgets(::addRenderableWidget)
+        repositionElements()
     }
 
     override fun removed() {
         if (::iconLoader.isInitialized) iconLoader.close()
-        if (doNotShowAgainCheckbox.isChecked) {
+        if (doNotShowAgainCheckbox.selected()) {
             IConfig.get().showResourceLoadingErrors = IConfig.ResourceLoadingErrorFilter.NOTHING
             IConfig.get().save()
         }
     }
 
-    override fun initTabNavigation() {
-        layout.refreshPositions()
+    override fun repositionElements() {
+        layout.arrangeElements()
     }
 
-    override fun close() {
+    override fun onClose() {
         onClose.run()
     }
 
@@ -124,7 +125,7 @@ class ResourceLoadingErrorScreen(private val log: List<ResourceLoadingLoggingEve
          * @param screen The screen to change to
          */
         @JvmStatic
-        fun setScreen(screen: Screen?) = Runnable { MinecraftClient.getInstance().setScreen(screen) }
+        fun setScreen(screen: Screen?) = Runnable { Minecraft.getInstance().setScreen(screen) }
 
         /**
          * Creates a [ResourceLoadingErrorScreen] from the errors of the filter loaders registered in
@@ -140,7 +141,7 @@ class ResourceLoadingErrorScreen(private val log: List<ResourceLoadingLoggingEve
          * [IConfig.showResourceLoadingErrors].
          */
         @JvmStatic
-        fun shouldShow(): Boolean = when (IConfig.get().showResourceLoadingErrors) {
+        fun shouldShow() = when (IConfig.get().showResourceLoadingErrors) {
             IConfig.ResourceLoadingErrorFilter.NOTHING -> false
             IConfig.ResourceLoadingErrorFilter.ERRORS_ONLY -> IFilterLoader.any { (_, loader) -> loader.errors.any { it.level == Level.ERROR } }
             IConfig.ResourceLoadingErrorFilter.ERRORS_AND_WARNINGS -> IFilterLoader.any { (_, loader) -> loader.errors.any { it.level == Level.ERROR || it.level == Level.WARN } }
@@ -152,8 +153,8 @@ class ResourceLoadingErrorScreen(private val log: List<ResourceLoadingLoggingEve
         @JvmStatic
         fun showIfErrorsOccurred() {
             if (!shouldShow()) return
-            val client = MinecraftClient.getInstance()
-            client.setScreen(create(setScreen(client.currentScreen)))
+            val client = Minecraft.getInstance()
+            client.setScreen(create(setScreen(client.screen)))
         }
     }
 }

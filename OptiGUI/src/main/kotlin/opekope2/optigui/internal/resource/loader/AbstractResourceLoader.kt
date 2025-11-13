@@ -2,14 +2,14 @@ package opekope2.optigui.internal.resource.loader
 
 import com.google.common.collect.LinkedListMultimap
 import com.google.common.collect.Multimap
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.texture.MissingSprite
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.resource.Resource
-import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.SinglePreparationResourceReloader
-import net.minecraft.util.Identifier
-import net.minecraft.util.profiler.Profiler
+import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.packs.resources.Resource
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.server.packs.resources.SimplePreparableReloadListener
+import net.minecraft.util.profiling.ProfilerFiller
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionTarget
@@ -23,13 +23,13 @@ import kotlin.jvm.optionals.getOrNull
 
 private typealias Resources<T> = List<IdentifiableResource<T>>
 
-internal abstract class AbstractResourceLoader<TResource>(val id: Identifier) :
-    SinglePreparationResourceReloader<Resources<TResource>>(), IFilterLoader {
+internal abstract class AbstractResourceLoader<TResource>(val id: ResourceLocation) :
+    SimplePreparableReloadListener<Resources<TResource>>(), IFilterLoader {
     init {
         IFilterLoader.register(id, this)
     }
 
-    private lateinit var loadTimeNbt: NbtCompound
+    private lateinit var loadTimeNbt: CompoundTag
 
     protected val logger: EventCollectorLogger = EventCollectorLogger(LoggerFactory.getLogger(javaClass))
 
@@ -37,34 +37,34 @@ internal abstract class AbstractResourceLoader<TResource>(val id: Identifier) :
         get() = logger.events.map {
             ResourceLoadingLoggingEvent.fromLoggingEvent(
                 it,
-                MinecraftClient.getInstance().resourcePackManager::hasProfile
+                Minecraft.getInstance().resourcePackRepository::isAvailable
             )
         }
 
     final override lateinit var filters: Multimap<InteractionTarget, TextureChangerFilter>
 
-    protected abstract fun findResources(manager: ResourceManager): Map<Identifier, Resource>
+    protected abstract fun findResources(manager: ResourceManager): Map<ResourceLocation, Resource>
 
-    final override fun prepare(manager: ResourceManager, profiler: Profiler): Resources<TResource> {
+    final override fun prepare(manager: ResourceManager, profiler: ProfilerFiller): Resources<TResource> {
         logger.events.clear()
-        loadTimeNbt = NbtCompound()
+        loadTimeNbt = CompoundTag()
         for ((key, supplier) in ILoadTimeNbtProvider.Registry) loadTimeNbt.put(key, supplier.get())
 
         return buildList {
             for ((resourceId, resource) in findResources(manager)) {
                 try {
                     logger.atDebug()
-                        .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.packId)
+                        .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.sourcePackId())
                         .addKeyValue(LOG_KEY_RESOURCE, resourceId)
                         .addArgument(I18n.OPTIGUI_RP_LOADER_INFO_LOADING_RESOURCE.supplyTranslation())
                         .addArgument(resourceId)
                         .log("{} {}")
-                    val loadedResource = loadResource(resource.packId, resourceId, resource, manager)
-                    add(IdentifiableResource(resource.packId, resourceId, loadedResource))
+                    val loadedResource = loadResource(resource.sourcePackId(), resourceId, resource, manager)
+                    add(IdentifiableResource(resource.sourcePackId(), resourceId, loadedResource))
                 } catch (e: Exception) {
                     logger.atError()
                         .setCause(e)
-                        .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.packId)
+                        .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.sourcePackId())
                         .addKeyValue(LOG_KEY_RESOURCE, resourceId)
                         .log("{}", e.message)
                 }
@@ -74,7 +74,7 @@ internal abstract class AbstractResourceLoader<TResource>(val id: Identifier) :
 
     protected abstract fun loadResource(
         packId: String,
-        resourceId: Identifier,
+        resourceId: ResourceLocation,
         resource: Resource,
         manager: ResourceManager
     ): TResource
@@ -83,9 +83,9 @@ internal abstract class AbstractResourceLoader<TResource>(val id: Identifier) :
 
     private inline fun createTextureChangers(
         resource: IdentifiableResource<*>,
-        jsonTextureChangers: Map<Identifier, JsonTextureChanger>,
+        jsonTextureChangers: Map<ResourceLocation, JsonTextureChanger>,
         message: I18n,
-        crossinline textureValidator: (Identifier) -> Boolean
+        crossinline textureValidator: (ResourceLocation) -> Boolean
     ) = buildMap {
         val missing = mutableSetOf<String>()
 
@@ -107,9 +107,9 @@ internal abstract class AbstractResourceLoader<TResource>(val id: Identifier) :
             .log("{}")
     }
 
-    final override fun apply(prepared: Resources<TResource>, manager: ResourceManager, profiler: Profiler) {
-        val guiAtlasManager = MinecraftClient.getInstance().guiAtlasManager
-        val missingSprite = guiAtlasManager.getSprite(MissingSprite.getMissingSpriteId())
+    final override fun apply(prepared: Resources<TResource>, manager: ResourceManager, profiler: ProfilerFiller) {
+        val guiAtlasManager = Minecraft.getInstance().guiSprites
+        val missingSprite = guiAtlasManager.getSprite(MissingTextureAtlasSprite.getLocation())
         val resourceCollector = ResourceCollector(logger, loadTimeNbt)
 
         for (resource in prepared) {

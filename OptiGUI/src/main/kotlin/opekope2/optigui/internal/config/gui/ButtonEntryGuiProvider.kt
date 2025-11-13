@@ -4,7 +4,7 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry
 import me.shedaniel.autoconfig.gui.registry.api.GuiProvider
 import me.shedaniel.autoconfig.gui.registry.api.GuiRegistryAccess
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 import java.lang.reflect.Field
 
 internal object ButtonEntryGuiProvider : GuiProvider {
@@ -18,9 +18,9 @@ internal object ButtonEntryGuiProvider : GuiProvider {
         field.isAccessible = true
         return listOf(
             ButtonListEntry(
-                Text.translatable(i18n),
-                Text.translatable("$i18n.button"),
-                Text.translatable("$i18n.@Tooltip")
+                Component.translatable(i18n),
+                Component.translatable("$i18n.button"),
+                Component.translatable("$i18n.@Tooltip")
                     .takeIf { field.getAnnotation(ConfigEntry.Gui.Tooltip::class.java) != null },
                 field.get(config) as ButtonListEntry.IAction
             )
