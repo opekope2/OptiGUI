@@ -6,7 +6,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.LecternScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
-import opekope2.optigui.util.INbtConvertible;
+import opekope2.optigui.screen_api.util.INbtConvertible;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 

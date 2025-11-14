@@ -4,14 +4,13 @@ import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import net.minecraft.nbt.NbtElement
+import opekope2.optigui.filter.INbtFilter.PrefixRegistry.containsKey
 import opekope2.optigui.filter.comparer.INbtComparer.ComparisonResult.EQUAL
 import opekope2.optigui.filter.comparer.NbtStringOrNumberComparer
-import opekope2.optigui.filter.transformer.NbtListIndexTransformer
-import opekope2.optigui.filter.transformer.SubNbtTransformer
 import opekope2.optigui.internal.I18n
-import opekope2.optigui.registry.RegistryBase
 import opekope2.optigui.util.NbtFilterEvaluation
 import opekope2.optigui.util.dfu.EitherCodec
+import org.jetbrains.annotations.ApiStatus
 
 /**
  * Interface for filtering [NbtElement]s.
@@ -47,7 +46,7 @@ interface INbtFilter {
      * Returns a string representation of this filter used for debugging purposes.
      * The resulting string should contain [type] and the JSON element this filter was decoded from.
      */
-    fun asString() = getKey(type)
+    fun asString() = type.key
 
     /**
      * An interface describing a filter.
@@ -57,6 +56,20 @@ interface INbtFilter {
      * @see Type
      */
     interface IType<T : INbtFilter> {
+        /**
+         * Checks if this NBT filter type is registered in [Registry].
+         */
+        val isRegistered: Boolean
+            @ApiStatus.NonExtendable
+            get() = Registry.containsValue(this)
+
+        /**
+         * Gets the key this type is registered in [Registry] or throws an exception, if not registered.
+         */
+        val key: String
+            @ApiStatus.NonExtendable
+            get() = Registry.getKey(this)
+
         /**
          * The codec used to encode and decode a filter.
          */
@@ -68,45 +81,176 @@ interface INbtFilter {
      *
      * @param name An identifying name for the filter, usually the [Class.getSimpleName]
      * @param codec The codec used to encode and decode a filter
-     *
      */
     data class Type<T : INbtFilter>(val name: String, override val codec: Codec<T>) : IType<T> {
         constructor(klass: Class<T>, codec: Codec<T>) : this(klass.simpleName, codec)
     }
 
     /**
-     * NBT filter registry.
+     * An interface describing a prefixed filter, that is, which has an additional string input with a prefix character.
+     *
+     * @param T The class of the filter
      */
-    companion object Registry : RegistryBase<String, IType<*>>() {
-        private val reverseEntries = mutableMapOf<IType<*>, String>()
+    interface IPrefixType<T : INbtFilter> : IType<T> {
+        override val isRegistered: Boolean
+            @ApiStatus.NonExtendable
+            get() = PrefixRegistry.containsValue(factory)
+
+        override val key: String
+            @ApiStatus.NonExtendable
+            get() = "${factory.prefix}$nonPrefixedKey"
 
         /**
-         * A codec for the keys present in this registry.
+         * [key] without the prefix character.
+         */
+        val nonPrefixedKey: String
+
+        /**
+         * The factory that created this prefixed NBT filter type.
+         */
+        val factory: IFactory<out IPrefixType<T>>
+
+        /**
+         * A factory that creates [IPrefixType]
+         *
+         * @param T The type this factory creates
+         */
+        fun interface IFactory<T : IPrefixType<*>> {
+            /**
+             * Gets the key this type is registered in [Registry] or throws an exception, if not registered.
+             */
+            val prefix: Char
+                get() = PrefixRegistry.getKey(this)
+
+            /**
+             * Checks if a type can be created from the given input string.
+             *
+             * @param input The input string without prefix to create a type from
+             */
+            fun canCreateType(input: String) = createType(input) != null
+
+            /**
+             * Creates a prefixed NBT filter type from the given string.
+             *
+             * @param input The input string without prefix to create a type from
+             * @return The created type or `null`, if a type couldn't be created
+             */
+            fun createType(input: String): T?
+        }
+    }
+
+    /**
+     * Base registry for NBT filter registry and prefixed NBT filter registry.
+     */
+    sealed class RegistryBase<TKey, TValue> : opekope2.optigui.registry.RegistryBase<TKey, TValue>() {
+        private val reverseEntries = mutableMapOf<TValue, TKey>()
+
+        /**
+         * A codec for the registered keys in this registry.
          */
         val keyCodec: Codec<String> = Codec.STRING.validate {
             if (containsKey(it)) DataResult.success(it)
             else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_NO_FILTER.supplyTranslation(it))
         }
 
+        override fun validateEntry(key: TKey, value: TValue) {
+            super.validateEntry(key, value)
+            require(value !in reverseEntries) { "Type is already registered: $value" }
+        }
+
+        override fun register(key: TKey, value: TValue) {
+            super.register(key, value)
+            reverseEntries[value] = key
+        }
+
+        /**
+         * Checks if the given key is present in the registry
+         *
+         * @param key The key to check
+         */
+        // I cannot name this "contains" because contains is final, and Registry won't be able to implement, which sucks
+        protected abstract fun containsKey(key: String): Boolean
+
+        /**
+         * Checks if the given value is registered in this registry.
+         *
+         * @param value The value to check
+         */
+        fun containsValue(value: TValue) = value in reverseEntries
+
+        @ApiStatus.Internal
+        internal fun getKey(value: TValue) = reverseEntries.getValue(value)
+    }
+
+    /**
+     * NBT filter registry.
+     */
+    object Registry : RegistryBase<String, IType<*>>() {
+        override fun validateEntry(key: String, value: IType<*>) {
+            super.validateEntry(key, value)
+            require(key.isNotEmpty()) { "Key must not be empty" }
+            require(key[0] !in PrefixRegistry) { "Prefix is already registered: ${key[0]}" }
+        }
+
+        override fun containsKey(key: String) = key in this
+    }
+
+    /**
+     * Prefixed NBT filter registry.
+     */
+    object PrefixRegistry : RegistryBase<Char, IPrefixType.IFactory<*>>() {
+        override fun validateEntry(key: Char, value: IPrefixType.IFactory<*>) {
+            super.validateEntry(key, value)
+            require(Registry.none { it.key.startsWith(key) }) { "A type is already registered with prefix $key" }
+        }
+
+        /**
+         * Creates a prefixed NBT filter type for the given string, or throws if the prefix is not registered or a type
+         * couldn't be created.
+         *
+         * @param key The prefixed string to create a type from
+         */
+        fun createType(key: String) =
+            requireNotNull(getValue(key[0]).createType(key.substring(1))) { "Failed to create type" }
+
+        /**
+         * @see containsKey
+         */
+        operator fun contains(key: String) = containsKey(key)
+
+        override fun containsKey(key: String) =
+            key.isNotEmpty() && key[0] in this && getValue(key[0]).canCreateType(key.substring(1))
+    }
+
+    companion object {
+        /**
+         * A codec for the keys present in this registry.
+         */
+        @JvmField
+        val KEY_CODEC: Codec<String> = EitherCodec(Registry.keyCodec, PrefixRegistry.keyCodec)
+
         /**
          * A codec for the types registered in this registry.
          */
-        val typeCodec: Codec<IType<*>> = Codec.STRING.flatXmap(
-            {
-                if (containsKey(it)) DataResult.success(getType(it))
-                else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_NO_FILTER.supplyTranslation(it))
-            },
-            {
-                if (containsType(it)) DataResult.success(getKey(it))
-                else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_NO_FILTER_TYPE.supplyTranslation(it))
+        @JvmField
+        val TYPE_CODEC: Codec<IType<*>> = Codec.STRING.flatXmap({
+            when (it) {
+                in Registry -> DataResult.success(Registry.getValue(it))
+                in PrefixRegistry -> DataResult.success(PrefixRegistry.createType(it))
+                else -> DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_NO_FILTER.supplyTranslation(it))
             }
-        )
+        }, {
+            if (it.isRegistered) DataResult.success(it.key)
+            else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_NO_FILTER_TYPE.supplyTranslation(it))
+        })
 
         /**
          * A codec for [INbtFilter].
          */
         // Lazy-initialized codec to avoid circular reference during class loading
-        val codec: Codec<INbtFilter> = Codec.lazyInitialized {
+        // INbtFilter::CODEC -> AggregateFilter.Type::codec -> INbtFilter::LIST_CODEC -> INbtFilter::CODEC
+        @JvmField
+        val CODEC: Codec<INbtFilter> = Codec.lazyInitialized {
             Codec.either(
                 EitherCodec(
                     AggregateFilter.Type.JSON_OBJECT.typeValidatedCodec(),
@@ -117,7 +261,7 @@ interface INbtFilter {
                 when (it) {
                     is AggregateFilter -> DataResult.success(Either.left(it))
                     is ConstantNbtComparerFilter -> DataResult.success(Either.right(it))
-                    else -> DataResult.error { I18n.OPTIGUI_VALIDATION_ERROR_UNSUPPORTED_FILTER.getTranslation(it) }
+                    else -> DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_UNSUPPORTED_FILTER.supplyTranslation(it))
                 }
             }
         }
@@ -125,68 +269,12 @@ interface INbtFilter {
         /**
          * A codec for a list of [INbtFilter].
          */
-        val listCodec: Codec<List<INbtFilter>> = codec.listOf()
+        @JvmField
+        val LIST_CODEC: Codec<List<INbtFilter>> = CODEC.listOf()
 
         private fun <T : INbtFilter> IType<T>.typeValidatedCodec(): Codec<T> = codec.validate {
             if (it.type == this) DataResult.success(it)
-            else DataResult.error { I18n.OPTIGUI_VALIDATION_ERROR_WRONG_FILTER_TYPE.getTranslation(this, it.type) }
-        }
-
-        override fun validateEntry(key: String, value: IType<*>) {
-            super.validateEntry(key, value)
-            require(value !in reverseEntries) { "Type is already registered: $value" }
-            require(!key.startsWith('@')) { "Key must not start with @: $key" }
-            require(!key.startsWith('#') || key == "#none" || key == "#any" || key == "#some" || key == "#all") { "Key must not start with #: $key" }
-            require(value !is SubNbtTransformer.Type) { "Type must not be a sub-NBT transformer" }
-            require(value !is NbtListIndexTransformer.Type) { "Type must not be a list index transformer" }
-        }
-
-        override fun register(key: String, value: IType<*>) {
-            super.register(key, value)
-            reverseEntries[value] = key
-        }
-
-        /**
-         * Checks if the given key is present in this registry, or it represents a [SubNbtTransformer.Type] or
-         *   [NbtListIndexTransformer.Type].
-         *
-         * @param key The key to check
-         */
-        fun containsKey(key: String) =
-            key in super || key.startsWith('@') || key.startsWith('#') && key.substring(1).toIntOrNull() != null
-
-        /**
-         * Checks if the given type is registered in this registry, or it is a [SubNbtTransformer.Type] or
-         *   [NbtListIndexTransformer.Type].
-         *
-         * @param type The type to check
-         */
-        fun containsType(type: IType<*>) =
-            type in reverseEntries || type is SubNbtTransformer.Type || type is NbtListIndexTransformer.Type
-
-        /**
-         * Gets the key associated with the given type or throws an exception, if the key is not present in this
-         *   registry, and it's not a [SubNbtTransformer.Type] or [NbtListIndexTransformer.Type].
-         *
-         * @param type The type to check
-         */
-        fun getKey(type: IType<*>) = when (type) {
-            is SubNbtTransformer.Type -> "@${type.subNbtKey}"
-            is NbtListIndexTransformer.Type -> "#${type.index}"
-            else -> reverseEntries.getValue(type)
-        }
-
-        /**
-         * Gets the type associated with the given key or throws an exception, if the key is not present in this
-         *   registry, and it doesn't represent a [SubNbtTransformer.Type] or [NbtListIndexTransformer.Type].
-         *
-         * @param key The key to check
-         */
-        fun getType(key: String) = when {
-            key in this -> getValue(key)
-            key.startsWith('@') -> SubNbtTransformer.Type(key.substring(1))
-            key.startsWith('#') -> NbtListIndexTransformer.Type(key.substring(1).toInt())
-            else -> getValue(key)
+            else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_WRONG_FILTER_TYPE.supplyTranslation(this, it.type))
         }
     }
 }

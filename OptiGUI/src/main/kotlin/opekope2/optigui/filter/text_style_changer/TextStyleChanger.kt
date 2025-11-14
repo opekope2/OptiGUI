@@ -62,7 +62,7 @@ data class TextStyleChanger(val filter: INbtFilter, val style: Style, val overri
         @JvmField
         val CODEC: Codec<TextStyleChanger> = RecordCodecBuilder.create { instance ->
             instance.group(
-                INbtFilter.codec.field(FILTER_KEY, TextStyleChanger::filter),
+                INbtFilter.CODEC.field(FILTER_KEY, TextStyleChanger::filter),
                 Style.Codecs.CODEC.field(SET_STYLE_KEY, TextStyleChanger::style),
                 Codec.BOOL.field(OVERRIDE_KEY, TextStyleChanger::override),
             ).apply(instance, ::TextStyleChanger)

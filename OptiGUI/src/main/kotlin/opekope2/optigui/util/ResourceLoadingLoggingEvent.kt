@@ -4,7 +4,6 @@ import net.minecraft.util.Identifier
 import org.slf4j.event.Level
 import org.slf4j.event.LoggingEvent
 import org.slf4j.helpers.MessageFormatter
-import java.util.function.Predicate
 
 /**
  * A logging event, which contains information about the resource pack and resource where it occurred, and has a total
@@ -21,19 +20,6 @@ data class ResourceLoadingLoggingEvent(
     val packName: String?,
     val resourceId: Identifier?
 ) : Comparable<ResourceLoadingLoggingEvent> {
-    /**
-     * Creates a new [ResourceLoadingLoggingEvent] from a [LoggingEvent].
-     *
-     * @param event The logging event to extract information from
-     * @param packExists A predicate testing if a resource pack with a name exists
-     */
-    constructor(event: LoggingEvent, packExists: Predicate<String>) : this(
-        MessageFormatter.basicArrayFormat(event.message, event.argumentArray),
-        event.level,
-        event.keyValuePairs?.firstOrNull { it.key == LOG_KEY_RESOURCE_PACK && it.value is String && packExists.test(it.value as String) }?.value as? String,
-        event.keyValuePairs?.firstOrNull { it.key == LOG_KEY_RESOURCE && it.value is Identifier }?.value as? Identifier
-    )
-
     // Unknown pack is last
     private fun comparePackName(second: ResourceLoadingLoggingEvent): Int {
         val pack1 = packName ?: return if (second.packName == null) 0 else 1
@@ -51,5 +37,20 @@ data class ResourceLoadingLoggingEvent(
     override fun compareTo(other: ResourceLoadingLoggingEvent) = when (val result = comparePackName(other)) {
         0 -> compareResourceId(other)
         else -> result
+    }
+
+    companion object {
+        /**
+         * Creates a new [ResourceLoadingLoggingEvent] from a [LoggingEvent].
+         *
+         * @param event The logging event to extract information from
+         * @param packExists A predicate testing if a resource pack with a name exists
+         */
+        inline fun fromLoggingEvent(event: LoggingEvent, packExists: (String) -> Boolean) = ResourceLoadingLoggingEvent(
+            MessageFormatter.basicArrayFormat(event.message, event.argumentArray),
+            event.level,
+            event.keyValuePairs?.firstOrNull { it.key == LOG_KEY_RESOURCE_PACK && it.value is String && packExists(it.value as String) }?.value as? String,
+            event.keyValuePairs?.firstOrNull { it.key == LOG_KEY_RESOURCE && it.value is Identifier }?.value as? Identifier
+        )
     }
 }

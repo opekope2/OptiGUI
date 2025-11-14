@@ -26,6 +26,7 @@ repositories {
 dependencies {
     minecraft(libs.minecraft)
     mappings(variantOf(libs.yarn) { classifier("v2") })
+    compileOnly(libs.jspecify)
     modImplementation(libs.fabric.loader)
     modImplementation(libs.fabric.language.kotlin)
     modImplementation(libs.fabric.api)
@@ -126,7 +127,6 @@ tasks {
             val enum = """
                 package opekope2.optigui.internal
                 
-                import com.google.common.base.Suppliers
                 import net.minecraft.text.MutableText
                 import net.minecraft.text.Text
                 import java.util.function.Supplier
@@ -138,7 +138,7 @@ tasks {
 
                     fun getTranslation(vararg args: Any?): String = getText(*args).getString()
                     
-                    fun supplyTranslation(vararg args: Any?): Supplier<String> = Suppliers.memoize { getTranslation(*args) }
+                    fun supplyTranslation(vararg args: Any?): Supplier<String> = Supplier { getTranslation(*args) }
                 }
             """.trimIndent().format(members)
 

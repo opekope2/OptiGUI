@@ -22,6 +22,6 @@ class NegatedFilter(val subFilter: INbtFilter) : INbtFilter {
          */
         @JvmField
         val TYPE =
-            INbtFilter.Type(NegatedFilter::class.java, INbtFilter.codec.xmap(::NegatedFilter, NegatedFilter::subFilter))
+            INbtFilter.Type(NegatedFilter::class.java, INbtFilter.CODEC.xmap(::NegatedFilter, NegatedFilter::subFilter))
     }
 }

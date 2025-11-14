@@ -37,8 +37,10 @@ internal object Debugger {
 
     fun getEncodedDebugData(interaction: IInteraction): String? = try {
         val debugData = getDebugData(JsonOps.INSTANCE, interaction).ifError {
-            val errorText = I18n.OPTIGUI_INSPECTOR_DESCRIPTION_DEBUG_CLICKED_ERROR.getTranslation()
-            LOGGER.error("{}: {}", errorText, it.message())
+            LOGGER.atError()
+                .addArgument(I18n.OPTIGUI_INSPECTOR_DESCRIPTION_DEBUG_CLICKED_ERROR.supplyTranslation())
+                .addArgument(it.messageSupplier)
+                .log("{}: {}")
         }.resultOrPartial().getOrNull() ?: return null
 
         ByteArrayOutputStream(BUFFER_SIZE).use { buffer ->
@@ -50,7 +52,10 @@ internal object Debugger {
             buffer.toString(Charsets.UTF_8)
         }
     } catch (e: IOException) {
-        LOGGER.error("{}", I18n.OPTIGUI_INSPECTOR_DESCRIPTION_DEBUG_CLICKED_ERROR.getTranslation(), e)
+        LOGGER.atError()
+            .addArgument(I18n.OPTIGUI_INSPECTOR_DESCRIPTION_DEBUG_CLICKED_ERROR.supplyTranslation())
+            .setCause(e)
+            .log("{}")
         null
     }
 

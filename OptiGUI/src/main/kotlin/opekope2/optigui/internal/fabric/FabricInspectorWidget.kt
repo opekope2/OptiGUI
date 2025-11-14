@@ -5,7 +5,7 @@ import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import opekope2.optigui.internal.inspector.InspectorWidget
-import opekope2.optigui.screen.ITextureChangeableScreen
+import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 import opekope2.optigui.util.MOD_ID
 import kotlin.jvm.optionals.getOrNull
 

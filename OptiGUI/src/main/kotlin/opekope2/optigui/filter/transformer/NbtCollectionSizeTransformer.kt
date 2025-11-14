@@ -10,7 +10,7 @@ import net.minecraft.nbt.*
  * @see String.length
  */
 data object NbtCollectionSizeTransformer : INbtTransformer {
-    override fun transform(nbt: NbtElement): NbtInt? = when (nbt) {
+    override fun transform(nbt: NbtElement, root: NbtElement): NbtInt? = when (nbt) {
         is NbtCompound -> NbtInt.of(nbt.size)
         is AbstractNbtList<*> -> NbtInt.of(nbt.size)
         is NbtString -> NbtInt.of(nbt.asString().length)

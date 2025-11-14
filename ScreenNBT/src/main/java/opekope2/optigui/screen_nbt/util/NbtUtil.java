@@ -7,8 +7,6 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.registry.RegistryWrapper;
 
-import javax.annotation.Nonnull;
-
 public class NbtUtil {
     private NbtUtil() {
         throw new UnsupportedOperationException();
@@ -18,7 +16,6 @@ public class NbtUtil {
         return encoder.encodeStart(lookup.getOps(NbtOps.INSTANCE), input).getOrThrow();
     }
 
-    @Nonnull
     public static NbtList createInventoryNbt(Inventory inventory, RegistryWrapper.WrapperLookup lookup) {
         NbtList list = new NbtList();
         for (int i = 0; i < inventory.size(); i++) {

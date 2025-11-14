@@ -11,9 +11,9 @@ import java.util.function.Function
 /**
  * An NBT transformer, which transforms an NBT element using multiple other NBT transformers after one another.
  */
-class NbtTransformerChain(val transformerChain: List<NbtTransformerFilter.TypeBase>) : INbtTransformer {
-    override fun transform(nbt: NbtElement): NbtElement? =
-        transformerChain.fold(nbt) { nbt, transformer -> transformer.transformer.transform(nbt) ?: return null }
+class NbtTransformerChain(val transformerChain: List<NbtTransformerFilter.IType>) : INbtTransformer {
+    override fun transform(nbt: NbtElement, root: NbtElement): NbtElement? =
+        transformerChain.fold(nbt) { nbt, transformer -> transformer.transformer.transform(nbt, root) ?: return null }
 
     /**
      * Merges two NBT transformer chains.
@@ -30,17 +30,17 @@ class NbtTransformerChain(val transformerChain: List<NbtTransformerFilter.TypeBa
      * @param type representing the NBT transformer to append to the end of the current transformer chain
      * @return A new [NbtTransformerChain] with [type] appended to the end of [transformerChain]
      */
-    operator fun plus(type: NbtTransformerFilter.TypeBase) = NbtTransformerChain(transformerChain + type)
+    operator fun plus(type: NbtTransformerFilter.IType) = NbtTransformerChain(transformerChain + type)
 
     companion object {
         /**
          * A codec for [NbtTransformerChain].
          */
         @JvmField
-        val CODEC: Codec<NbtTransformerChain> = INbtFilter.typeCodec.comapFlatMap(
+        val CODEC: Codec<NbtTransformerChain> = INbtFilter.TYPE_CODEC.comapFlatMap(
             {
-                if (it is NbtTransformerFilter.TypeBase) DataResult.success(it)
-                else DataResult.error { I18n.OPTIGUI_VALIDATION_ERROR_NOT_AN_NBT_TRANSFORMER.getTranslation(it) }
+                if (it is NbtTransformerFilter.IType) DataResult.success(it)
+                else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_NOT_AN_NBT_TRANSFORMER.supplyTranslation(it))
             },
             Function.identity()
         ).listOf().xmap(::NbtTransformerChain, NbtTransformerChain::transformerChain)

@@ -2,8 +2,6 @@ package opekope2.optigui.internal.inspector
 
 import com.google.gson.GsonBuilder
 import com.mojang.blaze3d.systems.RenderSystem
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.ButtonTextures
@@ -20,7 +18,6 @@ import opekope2.optigui.util.DEBUGGER_URL
 import opekope2.optigui.util.MOD_ID
 import java.util.concurrent.CompletableFuture
 
-@Environment(EnvType.CLIENT)
 internal abstract class InspectorWidget : ClickableWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT, TEXT) {
     private var customTextures = false
     private var prevFilter = InteractionManager.textureChangerFilter

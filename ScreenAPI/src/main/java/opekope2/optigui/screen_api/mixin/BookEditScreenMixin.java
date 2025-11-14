@@ -1,17 +1,13 @@
-package opekope2.optigui.mixin.screen;
+package opekope2.optigui.screen_api.mixin;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.BookEditScreen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.text.Text;
-import opekope2.optigui.interaction.InteractionManager;
-import opekope2.optigui.screen.ITextureChangeableScreen;
+import opekope2.optigui.screen_api.screen.ITextureChangeableScreen;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BookEditScreen.class)
 public abstract class BookEditScreenMixin extends Screen implements ITextureChangeableScreen {
@@ -19,13 +15,8 @@ public abstract class BookEditScreenMixin extends Screen implements ITextureChan
     @Final
     private static int WIDTH;
 
-    protected BookEditScreenMixin(Text title) {
+    private BookEditScreenMixin(Text title) {
         super(title);
-    }
-
-    @Inject(method = "changePage", at = @At("RETURN"))
-    private void clearInteractionCacheAfterPageChange(CallbackInfo ci) {
-        InteractionManager.clearCache();
     }
 
     @Override

@@ -11,7 +11,7 @@ import opekope2.optigui.filter.NbtTransformerFilter
  * @see SubNbtTransformer
  */
 data class NbtListIndexTransformer(val index: Int) : INbtTransformer {
-    override fun transform(nbt: NbtElement): NbtElement? = when {
+    override fun transform(nbt: NbtElement, root: NbtElement): NbtElement? = when {
         nbt !is AbstractNbtList<*> -> null
         index in 0 until nbt.size -> nbt[index]
         index in -nbt.size until 0 -> nbt[index + nbt.size]
@@ -23,5 +23,7 @@ data class NbtListIndexTransformer(val index: Int) : INbtTransformer {
      *
      * @param index The index in the NBT list. If it's negative, indexing starts from the back
      */
-    data class Type(val index: Int) : NbtTransformerFilter.TypeBase(NbtListIndexTransformer(index))
+    data class Type(val index: Int) : NbtTransformerFilter.IType {
+        override val transformer = NbtListIndexTransformer(index)
+    }
 }

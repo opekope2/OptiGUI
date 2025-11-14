@@ -1,7 +1,5 @@
 package opekope2.optigui.internal.inspector
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.client.gui.tooltip.Tooltip
 import net.minecraft.screen.ScreenTexts
 import net.minecraft.text.MutableText
@@ -11,7 +9,6 @@ import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.I18n
 import opekope2.optigui.internal.IOptiGuiPlatform
 
-@Environment(EnvType.CLIENT)
 internal enum class InspectorTooltipStyle(private val translation: I18n, private val titleFormatting: Formatting) {
     ALPHA(I18n.OPTIGUI_INSPECTOR_TITLE_ALPHA, Formatting.RED),
     BETA(I18n.OPTIGUI_INSPECTOR_TITLE_BETA, Formatting.GOLD),

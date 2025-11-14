@@ -15,7 +15,7 @@ repositories {
 dependencies {
     minecraft(libs.minecraft)
     mappings(variantOf(libs.yarn) { classifier("v2") })
-    api(libs.jsr305)
+    compileOnly(libs.jspecify)
     modImplementation(libs.fabric.loader)
 }
 
@@ -44,6 +44,13 @@ tasks {
                     "version" to version as String,
                     "minecraft" to libs.versions.minecraft.get(),
                     "java" to javaVersion,
+                )
+            )
+        }
+        filesMatching("*.mixins.json") {
+            expand(
+                mapOf(
+                    "java" to javaVersion
                 )
             )
         }

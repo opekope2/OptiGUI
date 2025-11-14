@@ -1,4 +1,4 @@
-package opekope2.optigui.util;
+package opekope2.optigui.screen_api.util;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;

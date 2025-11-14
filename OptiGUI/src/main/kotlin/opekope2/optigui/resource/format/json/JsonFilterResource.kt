@@ -93,8 +93,8 @@ sealed class JsonFilterResource {
                 instance.group(
                     inventoryIdCodec().field(CONTAINERS_KEY, V1::containers),
                     Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).field(TEXTURES_KEY, V1::textures),
-                    INbtFilter.codec.optionalField(LOAD_FILTER_KEY, V1::loadFilter, ConditionalFilter.ALWAYS),
-                    INbtFilter.codec.optionalField(FILTER_KEY, V1::filter, ConditionalFilter.ALWAYS),
+                    INbtFilter.CODEC.optionalField(LOAD_FILTER_KEY, V1::loadFilter, ConditionalFilter.ALWAYS),
+                    INbtFilter.CODEC.optionalField(FILTER_KEY, V1::filter, ConditionalFilter.ALWAYS),
                 ).apply(instance, ::V1)
             }
         }
@@ -218,8 +218,8 @@ sealed class JsonFilterResource {
                         .optionalField(SPRITE_CHANGERS_KEY, V2::spriteChangers, emptyMap()),
                     TextStyleChanger.CODEC.listOf()
                         .optionalField(TEXT_STYLE_CHANGERS_KEY, V2::textStyleChangers, emptyList()),
-                    INbtFilter.codec.optionalField(LOAD_FILTER_KEY, V2::loadFilter, ConditionalFilter.ALWAYS),
-                    INbtFilter.codec.optionalField(FILTER_KEY, V2::filter, ConditionalFilter.ALWAYS),
+                    INbtFilter.CODEC.optionalField(LOAD_FILTER_KEY, V2::loadFilter, ConditionalFilter.ALWAYS),
+                    INbtFilter.CODEC.optionalField(FILTER_KEY, V2::filter, ConditionalFilter.ALWAYS),
                 ).apply(instance, ::V2)
             }
         }
