@@ -17,8 +17,8 @@ import opekope2.optigui.screen_api.util.INbtConvertible;
  * If {@link INbtConvertible} is implemented into your {@link ITextureChangeableScreen}, OptiGUI will automatically call
  * {@link INbtConvertible#optiGui_writeNbt(CompoundTag, HolderLookup.Provider)} on it.
  * <p>
- * If OptiGUI Screen NBT Extension mod is installed, and {@link INbtConvertible} is implemented into your
- * {@link AbstractContainerMenu}, the mod will automatically call
+ * If OptiGUI Screen NBT mod is loaded (bundled by OptiGUI by default), and {@link INbtConvertible} is implemented into
+ * your {@link AbstractContainerMenu}, the mod will automatically call
  * {@link INbtConvertible#optiGui_writeNbt(CompoundTag, HolderLookup.Provider)} on it.
  * <p>
  * Example implementation of {@link INbtConvertible#optiGui_writeNbt(CompoundTag, HolderLookup.Provider)}
@@ -27,6 +27,7 @@ import opekope2.optigui.screen_api.util.INbtConvertible;
  * {@code
  * compound.put(SCREEN_TITLE_KEY, TextCodecs.CODEC.encodeStart(lookup.getOps(NbtOps.INSTANCE), getTitle()).getOrThrow());
  * compound.putInt(COMPARATOR_OUTPUT_KEY, ScreenHandler.calculateComparatorOutput(inventory));
+ * compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(inventory, lookup));
  * }
  * </pre>
  * <p>

@@ -5,7 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.LecternMenu;
 import opekope2.optigui.screen_api.util.INbtConvertible;
-import opekope2.optigui.screen_nbt.util.NbtUtil;
+import opekope2.optigui.screen_api.util.NbtUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

@@ -5,7 +5,7 @@ import net.minecraft.nbt.Tag
 import net.minecraft.world.level.block.state.BlockState
 import opekope2.optigui.interaction.BlockInteraction
 import opekope2.optigui.interaction.IInteraction
-import opekope2.optigui.util.encodeAsNbt
+import opekope2.optigui.screen_api.util.NbtUtil
 
 /**
  * Provides the block state NBT of an interaction.
@@ -13,6 +13,6 @@ import opekope2.optigui.util.encodeAsNbt
 object BlockStateNbtProvider : IInteractionNbtProvider {
     override fun get(interaction: IInteraction, lookup: HolderLookup.Provider): Tag? {
         val data = interaction as? BlockInteraction ?: return null
-        return encodeAsNbt(data.blockState, BlockState.CODEC, lookup)
+        return NbtUtil.encode(data.blockState, BlockState.CODEC, lookup)
     }
 }

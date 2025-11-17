@@ -5,7 +5,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.level.GameType
 import net.minecraft.world.level.biome.Biome
 import opekope2.optigui.interaction.IInteraction
-import opekope2.optigui.util.encodeAsNbt
+import opekope2.optigui.screen_api.util.NbtUtil
 import opekope2.optigui.util.mc
 
 /**
@@ -16,9 +16,9 @@ object ExtraPlayerNbtProvider : IInteractionNbtProvider {
         val player = interaction.player
         val biome = interaction.world.getBiome(player.blockPosition())
 
-        put("biome", encodeAsNbt(biome.value(), Biome.DIRECT_CODEC, lookup))
+        put("biome", NbtUtil.encode(biome.value(), Biome.DIRECT_CODEC, lookup))
         putString("biome_registration", biome.registeredName)
-        mc.gameMode?.let { put("game_mode", encodeAsNbt(it.playerMode, GameType.CODEC, lookup)) }
+        mc.gameMode?.let { put("game_mode", NbtUtil.encode(it.playerMode, GameType.CODEC, lookup)) }
         putString("name", player.name.string)
         // TODO structures
     }

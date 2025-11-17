@@ -7,7 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import opekope2.optigui.screen_api.util.INbtConvertible;
-import opekope2.optigui.screen_nbt.util.NbtUtil;
+import opekope2.optigui.screen_api.util.NbtUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;

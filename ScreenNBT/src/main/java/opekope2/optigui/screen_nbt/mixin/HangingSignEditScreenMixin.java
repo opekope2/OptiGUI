@@ -7,7 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.world.level.block.entity.SignText;
 import opekope2.optigui.screen_api.util.INbtConvertible;
-import opekope2.optigui.screen_nbt.util.NbtUtil;
+import opekope2.optigui.screen_api.util.NbtUtil;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(HangingSignEditScreen.class)
