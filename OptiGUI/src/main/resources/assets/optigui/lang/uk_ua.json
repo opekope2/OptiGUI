@@ -8,21 +8,21 @@
   "optigui.enum.ResourceLoadingErrorFilter.NOTHING": "Ніколи",
 
   "optigui.gui.rp_converter.conversion_fail": "OptiGUI не вдалося конвертувати деякі ресурси",
-  "optigui.gui.rp_converter.conversion_success": "Ресурс пак успішно конвертовано",
-  "optigui.gui.rp_converter.convert": "Конвертувати ресурс пак",
+  "optigui.gui.rp_converter.conversion_success": "Ресурс-пак успішно конвертовано",
+  "optigui.gui.rp_converter.convert": "Конвертувати ресурс-пак",
   "optigui.gui.rp_converter.convert_ini": "Конвертувати OptiGUI .ini",
   "optigui.gui.rp_converter.convert_properties": "Конвертувати OptiFine .properties",
-  "optigui.gui.rp_converter.converting": "Конвертування ресурс паку",
+  "optigui.gui.rp_converter.converting": "Конвертування ресурс-паку",
   "optigui.gui.rp_converter.description": "Конвертувати OptiFine .properties та OptiGUI .ini у OptiGUI JSON-ресурси",
   "optigui.gui.rp_converter.output_file": "Назва вихідного файлу",
   "optigui.gui.rp_converter.target_namespace": "Цільовий простір назв",
-  "optigui.gui.rp_converter.title": "Конвертер ресурс паків OptiGUI",
+  "optigui.gui.rp_converter.title": "Конвертер ресурс-паків OptiGUI",
 
   "optigui.gui.rp_loader.copy_to_clipboard": "Копіювати в буфер обміну",
   "optigui.gui.rp_loader.do_not_show_again": "Більше не показувати",
   "optigui.gui.rp_loader.do_not_show_again.tooltip": "Це можна змінити будь-коли в налаштуваннях OptiGUI",
   "optigui.gui.rp_loader.load_fail": "OptiGUI не вдалося завантажити деякі ресурси",
-  "optigui.gui.rp_loader.unknown_pack": "Невідомий ресурс пак",
+  "optigui.gui.rp_loader.unknown_pack": "Невідомий ресурс-пак",
   "optigui.gui.rp_loader.unknown_resource": "Невідомий ресурс",
 
   "optigui.inspector": "Інспектор OptiGUI",
@@ -43,7 +43,7 @@
 
   "optigui.narration.rp_loader.error": "Помилка в ресурсі %s: %s",
   "optigui.narration.rp_loader.error_list": "Список помилок",
-  "optigui.narration.rp_loader.resource_pack": "Помилки в ресурс паку %s",
+  "optigui.narration.rp_loader.resource_pack": "Помилки в ресурс-паку %s",
   "optigui.narration.rp_loader.warning": "Попередження в ресурсі %s: %s",
 
   "optigui.rp_loader.info.load_success": "Ресурс завантажено",
@@ -96,7 +96,7 @@
   "text.autoconfig.optigui.option.keepInteractionFactory.@Tooltip[0]": "Не завершувати взаємодію при закритті екрану",
   "text.autoconfig.optigui.option.keepInteractionFactory.@Tooltip[1]": "§8Деякі сервери можуть відкривати нові меню з попередніх",
 
-  "text.autoconfig.optigui.option.resourcePackConverter": "Конвертер ресурс паків",
+  "text.autoconfig.optigui.option.resourcePackConverter": "Конвертер ресурс-паків",
   "text.autoconfig.optigui.option.resourcePackConverter.@Tooltip": "Конвертувати OptiFine .properties та OptiGUI .ini у OptiGUI JSON-ресурси",
   "text.autoconfig.optigui.option.resourcePackConverter.button": "Відкрити",
 
