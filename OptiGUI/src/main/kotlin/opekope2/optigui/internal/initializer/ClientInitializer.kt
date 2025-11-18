@@ -47,7 +47,6 @@ internal object ClientInitializer {
         IInteractionNbtProvider.register("player", PlayerNbtProvider)
         IInteractionNbtProvider.register("player_extra", ExtraPlayerNbtProvider)
         IInteractionNbtProvider.register("pos", PositionNbtProvider)
-        IInteractionNbtProvider.register("screen", ScreenNbtProvider)
         IInteractionNbtProvider.register("structures", StructureBoundingBoxProvider)
         IInteractionNbtProvider.register("target", TargetNbtProvider)
         IInteractionNbtProvider.register("time", TimeNbtProvider)

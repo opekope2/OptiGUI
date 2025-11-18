@@ -21,6 +21,11 @@
   "license": "LGPL-3.0-or-later",
   "icon": "icon.png",
   "environment": "client",
+  "entrypoints": {
+    "client": [
+      "opekope2.optigui.screen_nbt.internal.fabric.OptiGuiScreenNbtClient"
+    ]
+  },
   "mixins": [
     "optigui-screen-nbt.mixins.json"
   ],
