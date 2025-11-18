@@ -31,7 +31,7 @@ public abstract class CrafterMenuMixin implements INbtConvertible {
 
     @Override
     public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
-        compound.putInt(COMPARATOR_OUTPUT_KEY, calculateComparatorOutput(getContainer()));
+        compound.putInt(COMPARATOR_OUTPUT_KEY, optiGui_calculateComparatorOutput(getContainer()));
         compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(getContainer(), lookup));
         compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(resultContainer, lookup));
         var enabledSlots = new ListTag();
@@ -41,7 +41,7 @@ public abstract class CrafterMenuMixin implements INbtConvertible {
     }
 
     @Unique
-    private int calculateComparatorOutput(Container inventory) {
+    private int optiGui_calculateComparatorOutput(Container inventory) {
         var output = 0;
         for (int i = 0; i < inventory.getContainerSize(); i++) {
             if (!inventory.getItem(i).isEmpty() || isSlotDisabled(i)) output++;
