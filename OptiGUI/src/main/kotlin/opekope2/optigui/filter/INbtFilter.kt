@@ -178,6 +178,9 @@ interface INbtFilter {
          */
         fun containsValue(value: TValue) = value in reverseEntries
 
+        /**
+         * @suppress
+         */
         @ApiStatus.Internal
         internal fun getKey(value: TValue) = reverseEntries.getValue(value)
     }
