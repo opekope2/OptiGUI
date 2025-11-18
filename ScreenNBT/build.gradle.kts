@@ -1,8 +1,25 @@
+import opekope2.optigui.buildscript.extension.Version
+
+plugins {
+    id("opekope2.optigui.buildscript.plugin.Common")
+    alias(libs.plugins.moddev)
+}
+
+version = Version.common(libs.versions.optigui, libs.versions.minecraft)
+
 base {
-    archivesName = "optigui-screen-nbt"
+    archivesName = "screen-nbt"
 }
 
 dependencies {
-    modImplementation(libs.fabric.loader)
-    implementation(project(":ScreenAPI", configuration = "namedElements"))
+    api(project(":ScreenAPI"))
+    api(project(":OptiGUI"))
+}
+
+neoForge {
+    neoFormVersion = libs.versions.neoform.get()
+    parchment {
+        minecraftVersion = libs.versions.minecraft
+        mappingsVersion = libs.versions.parchment
+    }
 }

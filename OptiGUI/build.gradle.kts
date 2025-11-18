@@ -1,26 +1,36 @@
+import opekope2.optigui.buildscript.extension.Version
 import opekope2.optigui.buildscript.task.GenerateI18nEnum
 import opekope2.optigui.buildscript.task.GenerateInternalPackageInfos
 import opekope2.optigui.buildscript.task.GenerateWorldNbtProvider
 import opekope2.optigui.buildscript.task.VerifyChecksum
 
 plugins {
+    id("opekope2.optigui.buildscript.plugin.Common")
+    alias(libs.plugins.moddev)
     alias(libs.plugins.kotlin.jvm)
 }
 
-architectury {
-    injectInjectables = false
-    common("fabric")
-}
+version = Version.common(libs.versions.optigui, libs.versions.minecraft)
 
-repositories {
-    maven("https://maven.shedaniel.me") { name = "Shedaniel" }
+val commonKotlin by configurations.registering { isCanBeResolved = false; isCanBeConsumed = true }
+
+base {
+    archivesName = "optigui"
 }
 
 dependencies {
     api(libs.ini4j)
-    modApi(libs.cloth.config.fabric) { exclude(group = "net.fabricmc.fabric-api") }
+    compileOnly(libs.cloth.config.neoforge) // fabric build is intermediary, neoforge build is mojmap
 
-    api(project(":ScreenAPI", configuration = "namedElements"))
+    api(project(":ScreenAPI"))
+}
+
+neoForge {
+    neoFormVersion = libs.versions.neoform.get()
+    parchment {
+        minecraftVersion = libs.versions.minecraft
+        mappingsVersion = libs.versions.parchment
+    }
 }
 
 tasks {
@@ -52,5 +62,15 @@ tasks {
     sourceSets.main {
         java.srcDirs(generateInternalPackageInfos)
         kotlin.srcDirs(generateI18n, generateWorldNbtProvider)
+    }
+
+    artifacts {
+        commonJava(generateInternalPackageInfos)
+    }
+}
+
+artifacts {
+    sourceSets.main {
+        kotlin.sourceDirectories.forEach { add("commonKotlin", it) }
     }
 }

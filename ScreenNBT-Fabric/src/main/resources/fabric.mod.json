@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "optigui-screen-nbt",
   "version": "$version",
-  "name": "OptiGUI Screen NBT Extension",
-  "description": "OptiGUI extension adding GUI screen information as NBT to match using OptiGUI JSON resources",
+  "name": "OptiGUI Screen NBT",
+  "description": "OptiGUI Screen NBT mod provides GUI screen information as NBT, which can be filtered with JSON resources.",
   "authors": [
     {
       "name": "opekope2",
@@ -30,11 +30,12 @@
     "optigui-screen-nbt.mixins.json"
   ],
   "depends": {
-    "java": ">=$java",
     "minecraft": ">=$minecraft",
-    "optigui-screen-api": "$version"
+    "java": ">=$java"
   },
-  "recommends": {
-    "optigui": "*"
+  "custom": {
+    "modmenu": {
+      "parent": "optigui"
+    }
   }
 }

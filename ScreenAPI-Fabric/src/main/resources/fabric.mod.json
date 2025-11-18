@@ -3,7 +3,7 @@
   "id": "optigui-screen-api",
   "version": "$version",
   "name": "OptiGUI Screen API",
-  "description": "API for modders to make GUI screens compatible with OptiGUI",
+  "description": "OptiGUI Screen API allows developers to add OptiGUI compatibility to GUI screens.\nOptiGUI Screen API adds OptiGUI compatibility to relevant vanilla GUI screens.",
   "authors": [
     {
       "name": "opekope2",

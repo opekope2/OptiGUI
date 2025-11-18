@@ -89,7 +89,7 @@
     "fabricloader": ">=0.15.0",
     "java": ">=$java",
     "minecraft": ">=$minecraft <1.21.2",
-    "optigui-screen-api": "$version"
+    "optigui-screen-api": ">=$version"
   },
   "suggests": {
     "modmenu": "*",
