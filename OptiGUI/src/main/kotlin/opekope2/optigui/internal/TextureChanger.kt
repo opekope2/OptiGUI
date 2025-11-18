@@ -9,8 +9,10 @@ import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.InteractionTarget
 import opekope2.optigui.util.collections.LinkedMruCollection
+import org.jetbrains.annotations.ApiStatus
 
-internal object TextureChanger : ResourceManagerReloadListener {
+@ApiStatus.Internal
+object TextureChanger : ResourceManagerReloadListener {
     var filter: TextureChangerFilter = TextureChangerFilter.NO_OP
         private set
     var filters = mapOf<InteractionTarget, LinkedMruCollection<TextureChangerFilter>>()

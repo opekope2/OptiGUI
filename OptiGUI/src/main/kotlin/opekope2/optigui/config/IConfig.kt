@@ -7,6 +7,7 @@ import com.google.gson.JsonPrimitive
 import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.JsonOps
 import me.shedaniel.autoconfig.AutoConfig
+import net.minecraft.client.gui.screens.Screen
 import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.Tag
 import net.minecraft.network.chat.Style
@@ -142,5 +143,11 @@ interface IConfig {
          */
         @JvmStatic
         fun get(): IConfig = AutoConfig.getConfigHolder(Config::class.java).config
+
+        /**
+         * Creates an OptiGUI config screen.
+         */
+        @JvmStatic
+        fun createConfigScreen(parent: Screen): Screen = AutoConfig.getConfigScreen(Config::class.java, parent).get()
     }
 }

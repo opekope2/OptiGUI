@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screens.Screen
 import net.minecraft.resources.ResourceLocation
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.I18n
+import opekope2.optigui.internal.IOptiGuiPlatform
 import opekope2.optigui.internal.debugger.Debugger
 import opekope2.optigui.util.DEBUGGER_URL
 import opekope2.optigui.util.MOD_ID
@@ -20,7 +21,7 @@ import org.jetbrains.annotations.ApiStatus
 import java.util.concurrent.CompletableFuture
 
 @ApiStatus.Internal
-abstract class InspectorWidget : AbstractWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT, TEXT) {
+open class InspectorWidget : AbstractWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT, TEXT) {
     private var customTextures = false
     private var prevFilter = InteractionManager.textureChangerFilter
     private var prevAlt = false
@@ -57,8 +58,6 @@ abstract class InspectorWidget : AbstractWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEI
         }
     }
 
-    protected abstract val generatedBy: String
-
     private fun updateTooltip(descriptionState: DescriptionState) {
         tooltip = InspectorTooltipStyle.CURRENT.createTooltip(customTextures, descriptionState)
     }
@@ -92,7 +91,7 @@ abstract class InspectorWidget : AbstractWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEI
 
     private fun inspectInteraction() {
         val interaction = InteractionManager.interaction ?: return
-        val json = Inspector.generateJsonResource(interaction, generatedBy)
+        val json = Inspector.generateJsonResource(interaction, "OptiGUI ${IOptiGuiPlatform.get().version}")
 
         mc.keyboardHandler.clipboard = GSON.toJson(json)
         updateTooltip(DescriptionState.CLICKED)

@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.fabric.api.client.screen.v1.Screens
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.Minecraft
@@ -15,13 +14,12 @@ import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.multiplayer.ClientPacketListener
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.PackType
-import net.minecraft.server.packs.resources.ResourceManager
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener
 import opekope2.optigui.config.IConfig
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.IOptiGuiPlatform
+import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.fabric.event_handler.FabricAttackHandler
 import opekope2.optigui.internal.fabric.event_handler.FabricInteractionHandler
 import opekope2.optigui.internal.fabric.filter.NbtVersionFilter
@@ -34,14 +32,19 @@ import opekope2.optigui.util.MOD_ID
 import kotlin.jvm.optionals.getOrNull
 
 internal class OptiGuiClient :
+    IOptiGuiPlatform,
     ClientModInitializer,
     ClientTickEvents.EndWorldTick,
     ClientPlayConnectionEvents.Disconnect,
     ScreenEvents.AfterInit,
     ScreenEvents.BeforeRender,
     ScreenEvents.AfterRender {
+    override val version = FabricLoader.getInstance().getModContainer(MOD_ID).getOrNull()?.metadata?.version.toString()
+
+    override fun isModInstalled(modId: String) = FabricLoader.getInstance().isModLoaded(modId)
+
     override fun onInitializeClient() {
-        IOptiGuiPlatform.initialize(Platform)
+        IOptiGuiPlatform.initialize(this)
         registerNbtFilters()
         registerLoadTimeNbtSuppliers()
         registerResourceLoaders(ResourceManagerHelper.get(PackType.CLIENT_RESOURCES))
@@ -68,8 +71,13 @@ internal class OptiGuiClient :
     }
 
     private fun registerResourceLoaders(manager: ResourceManagerHelper) {
-        for ((id, loader) in IFilterLoader) manager.registerReloadListener(FabricResourceReloadListener(id, loader))
-        manager.registerReloadListener(TextureChangerReloadListener)
+        val id = ResourceLocation.fromNamespaceAndPath(MOD_ID, "texture_changer")
+        val textureChanger = FabricResourceReloadListener(id, TextureChanger) { IFilterLoader.map { it.key } }
+        manager.registerReloadListener(textureChanger)
+
+        for ((id, loader) in IFilterLoader) {
+            manager.registerReloadListener(FabricResourceReloadListener(id, loader, ::emptyList))
+        }
     }
 
     override fun onEndTick(world: ClientLevel?) {
@@ -93,27 +101,10 @@ internal class OptiGuiClient :
     }
 
     override fun beforeRender(screen: Screen?, drawContext: GuiGraphics?, mouseX: Int, mouseY: Int, tickDelta: Float) {
-        IOptiGuiPlatform.renderingScreen = true
+        TextureChanger.renderingScreen = true
     }
 
     override fun afterRender(screen: Screen?, drawContext: GuiGraphics?, mouseX: Int, mouseY: Int, tickDelta: Float) {
-        IOptiGuiPlatform.renderingScreen = false
-    }
-
-    private object TextureChangerReloadListener : IdentifiableResourceReloadListener, ResourceManagerReloadListener {
-        override fun getFabricId() = ResourceLocation.fromNamespaceAndPath(MOD_ID, "texture_changer")
-
-        override fun getFabricDependencies() = IFilterLoader.map { it.key }
-
-        override fun onResourceManagerReload(manager: ResourceManager) {
-            IOptiGuiPlatform.textureChanger.onResourceManagerReload(manager)
-        }
-    }
-
-    internal object Platform : IOptiGuiPlatform {
-        override val version =
-            FabricLoader.getInstance().getModContainer(MOD_ID).getOrNull()?.metadata?.version.toString()
-
-        override fun isModInstalled(modId: String) = FabricLoader.getInstance().isModLoaded(modId)
+        TextureChanger.renderingScreen = false
     }
 }

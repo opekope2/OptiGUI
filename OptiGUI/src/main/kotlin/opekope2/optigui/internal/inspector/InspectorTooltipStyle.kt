@@ -53,8 +53,8 @@ internal enum class InspectorTooltipStyle(private val translation: I18n, private
 
         @JvmField
         val CURRENT = when {
-            "alpha" in IOptiGuiPlatform.version -> ALPHA
-            "beta" in IOptiGuiPlatform.version -> BETA
+            "alpha" in IOptiGuiPlatform.get().version -> ALPHA
+            "beta" in IOptiGuiPlatform.get().version -> BETA
             else -> STABLE
         }
     }

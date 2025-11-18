@@ -1,8 +1,5 @@
 package opekope2.optigui.internal
 
-import me.shedaniel.autoconfig.ConfigData
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener
-import opekope2.optigui.internal.config.Config
 import opekope2.optigui.internal.initializer.ClientInitializer
 import opekope2.optigui.internal.initializer.initialize
 import org.jetbrains.annotations.ApiStatus
@@ -13,28 +10,13 @@ interface IOptiGuiPlatform {
 
     fun isModInstalled(modId: String): Boolean
 
-    @ApiStatus.Internal
-    companion object Instance : IOptiGuiPlatform {
+    companion object Holder {
         private lateinit var instance: IOptiGuiPlatform
 
-        override val version: String
-            get() = instance.version
+        @JvmStatic
+        fun get() = instance
 
-        override fun isModInstalled(modId: String) = instance.isModInstalled(modId)
-
-
-        val configClass: Class<out ConfigData>
-            get() = Config::class.java
-
-        var renderingScreen: Boolean
-            get() = TextureChanger.renderingScreen
-            set(value) {
-                TextureChanger.renderingScreen = value
-            }
-
-        val textureChanger: ResourceManagerReloadListener
-            get() = TextureChanger
-
+        @JvmStatic
         fun initialize(platform: IOptiGuiPlatform) {
             check(!::instance.isInitialized) { "Tried to initialize OptiGUI platform twice" }
 
