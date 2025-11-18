@@ -18,8 +18,8 @@ import opekope2.optigui.nbt_provider.NbtFilterNamesNbtProvider
 
 internal object ClientInitializer {
     init {
-        TextureChanger
-        InteractionManager
+        TextureChanger.initialize()
+        InteractionManager.initialize()
 
         registerConfig()
         registerInteractionNbtProviders()
@@ -113,6 +113,6 @@ internal object ClientInitializer {
     }
 
     private fun registerFilterLoaders() {
-        JsonFilterLoader
+        JsonFilterLoader.initialize()
     }
 }

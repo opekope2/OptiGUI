@@ -27,6 +27,7 @@ import opekope2.optigui.internal.fabric.event_handler.FabricInteractionHandler
 import opekope2.optigui.internal.fabric.filter.NbtVersionFilter
 import opekope2.optigui.internal.fabric.gui.widget.FabricInspectorWidget
 import opekope2.optigui.internal.fabric.nbt_provider.FabricModsNbtProvider
+import opekope2.optigui.internal.initializer.initialize
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 import opekope2.optigui.util.MOD_ID
@@ -42,10 +43,10 @@ internal class OptiGuiClient :
     override fun onInitializeClient() {
         IOptiGuiPlatform.initialize(Platform)
         registerNbtFilters()
-        FabricInteractionHandler
-        FabricAttackHandler
         registerLoadTimeNbtSuppliers()
         registerResourceLoaders(ResourceManagerHelper.get(PackType.CLIENT_RESOURCES))
+        FabricInteractionHandler.initialize()
+        FabricAttackHandler.initialize()
         ClientTickEvents.END_WORLD_TICK.register(this)
         ClientPlayConnectionEvents.DISCONNECT.register(this)
         ScreenEvents.AFTER_INIT.register(this)

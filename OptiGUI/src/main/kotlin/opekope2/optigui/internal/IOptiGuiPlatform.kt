@@ -4,6 +4,7 @@ import me.shedaniel.autoconfig.ConfigData
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener
 import opekope2.optigui.internal.config.Config
 import opekope2.optigui.internal.initializer.ClientInitializer
+import opekope2.optigui.internal.initializer.initialize
 import org.jetbrains.annotations.ApiStatus
 
 @ApiStatus.Internal
@@ -38,7 +39,7 @@ interface IOptiGuiPlatform {
             check(!::instance.isInitialized) { "Tried to initialize OptiGUI platform twice" }
 
             instance = platform
-            ClientInitializer
+            ClientInitializer.initialize()
         }
     }
 }
