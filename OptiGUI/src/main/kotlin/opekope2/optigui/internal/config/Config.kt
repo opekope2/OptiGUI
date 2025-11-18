@@ -8,6 +8,7 @@ import opekope2.optigui.config.IConfig
 import opekope2.optigui.gui.screen.ResourceLoadingErrorScreen
 import opekope2.optigui.internal.config.gui.ButtonListEntry
 import opekope2.optigui.util.MOD_ID
+import opekope2.optigui.util.mc
 
 @Config(name = MOD_ID)
 internal class Config : IConfig, ConfigData {
