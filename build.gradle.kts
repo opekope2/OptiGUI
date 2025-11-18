@@ -121,11 +121,13 @@ subprojects {
 
         named<Jar>("sourcesJar") { withLicense() }
 
-        register<Jar>("javadocJar") {
+        val javadocJar by registering(Jar::class) {
             dependsOn(dokkaGeneratePublicationHtml)
             from(dokkaGeneratePublicationHtml)
             archiveClassifier = "javadoc"
         }
+
+        assemble { dependsOn(javadocJar) }
 
         processResources {
             val properties = mapOf(
@@ -153,6 +155,7 @@ subprojects {
             register<MavenPublication>("maven") {
                 artifactId = base.archivesName.get()
                 from(components["java"])
+                artifact(tasks.named("javadocJar"))
             }
         }
     }
