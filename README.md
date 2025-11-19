@@ -22,6 +22,7 @@ Other mods' developers can add their custom containers and customization options
 
 ## Supported languages
 
+* 🇵🇱 by [lumiscosity](https://github.com/lumiscosity), [Nadios_kox](https://github.com/Fhilips613)
 * 🇺🇸 by [opekope2](https://github.com/opekope2)
 
 ## Supported languages (until OptiGUI 3 alpha 3)
