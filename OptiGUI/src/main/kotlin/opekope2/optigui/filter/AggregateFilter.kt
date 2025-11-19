@@ -2,7 +2,7 @@ package opekope2.optigui.filter
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.transformer.NbtListIndexTransformer
 import opekope2.optigui.filter.transformer.SubNbtTransformer
 import opekope2.optigui.internal.I18n
@@ -18,13 +18,13 @@ import opekope2.optigui.util.collections.LinkedMruCollection
  * @see NbtListFilter
  */
 class AggregateFilter(val filters: LinkedMruCollection<INbtFilter>, override val type: Type) : INbtFilter {
-    override fun test(nbt: NbtElement, root: NbtElement): Boolean {
+    override fun test(nbt: Tag, root: Tag): Boolean {
         val operator = type.operator
         return if (filters.promoteFirst { operator shortCircuitsOn it.test(nbt, root) }) operator.shortCircuitResult
         else !operator.shortCircuitResult
     }
 
-    override fun testSubFilters(nbt: NbtElement?, root: NbtElement) = filters.map { NbtFilterEvaluation(it, nbt, root) }
+    override fun testSubFilters(nbt: Tag?, root: Tag) = filters.map { NbtFilterEvaluation(it, nbt, root) }
 
     override fun asString() = type.operator.toString()
 

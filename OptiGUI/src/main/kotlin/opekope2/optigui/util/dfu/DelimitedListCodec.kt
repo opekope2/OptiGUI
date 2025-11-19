@@ -4,7 +4,7 @@ import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.DynamicOps
-import opekope2.optigui.util.sequence
+import opekope2.optigui.util.collections.sequence
 import kotlin.streams.asSequence
 import kotlin.streams.asStream
 

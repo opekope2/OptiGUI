@@ -1,8 +1,8 @@
 package opekope2.optigui.filter
 
 import com.google.common.collect.Multimap
-import net.minecraft.resource.ResourceReloader
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.packs.resources.PreparableReloadListener
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionTarget
 import opekope2.optigui.registry.RegistryBase
@@ -12,7 +12,7 @@ import opekope2.optigui.util.ResourceLoadingLoggingEvent
 /**
  * A filter supplier that loads [filters][TextureChangerFilter] from resources.
  */
-interface IFilterLoader : ResourceReloader {
+interface IFilterLoader : PreparableReloadListener {
     /**
      * Gets the warnings and errors occurred while loading filters in [IFilterLoader.reload].
      *
@@ -28,5 +28,5 @@ interface IFilterLoader : ResourceReloader {
     /**
      * Filter supplier registry.
      */
-    companion object Registry : RegistryBase<Identifier, IFilterLoader>()
+    companion object Registry : RegistryBase<ResourceLocation, IFilterLoader>()
 }

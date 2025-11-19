@@ -1,7 +1,7 @@
 package opekope2.optigui.filter
 
 import com.mojang.serialization.Codec
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.transformer.INbtTransformer
 import opekope2.optigui.util.NbtFilterEvaluation
 
@@ -13,11 +13,11 @@ import opekope2.optigui.util.NbtFilterEvaluation
  * @see INbtTransformer
  */
 class NbtTransformerFilter(val subFilter: INbtFilter, override val type: IType) : INbtFilter {
-    override fun test(nbt: NbtElement, root: NbtElement): Boolean {
+    override fun test(nbt: Tag, root: Tag): Boolean {
         return subFilter.test(type.transformer.transform(nbt, root) ?: return false, root)
     }
 
-    override fun testSubFilters(nbt: NbtElement?, root: NbtElement): List<NbtFilterEvaluation> {
+    override fun testSubFilters(nbt: Tag?, root: Tag): List<NbtFilterEvaluation> {
         val transformed = if (nbt != null) type.transformer.transform(nbt, root) else null
         return listOf(NbtFilterEvaluation(subFilter, transformed, root))
     }

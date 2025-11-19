@@ -3,10 +3,10 @@ package opekope2.optigui.resource.format.json
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.entity.EntityType
-import net.minecraft.registry.Registries
-import net.minecraft.util.Identifier
-import net.minecraft.util.dynamic.Codecs
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.ExtraCodecs
+import net.minecraft.world.entity.EntityType
 import opekope2.optigui.filter.ConditionalFilter
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.filter.text_style_changer.TextStyleChanger
@@ -33,15 +33,15 @@ sealed class JsonFilterResource {
      * @param filter Raw representation of a filter filtering an interaction NBT
      */
     data class V1(
-        val containers: Set<Identifier>,
-        val textures: Map<Identifier, Identifier>,
+        val containers: Set<ResourceLocation>,
+        val textures: Map<ResourceLocation, ResourceLocation>,
         val loadFilter: INbtFilter,
         val filter: INbtFilter
     ) : JsonFilterResource() {
         fun toV2() = V2(
-            containers.filterTo(mutableSetOf(), Registries.BLOCK::containsId),
-            containers.filterTo(mutableSetOf(), Registries.ENTITY_TYPE::containsId),
-            containers.filterTo(mutableSetOf(), Registries.ITEM::containsId),
+            containers.filterTo(mutableSetOf(), BuiltInRegistries.BLOCK::containsKey),
+            containers.filterTo(mutableSetOf(), BuiltInRegistries.ENTITY_TYPE::containsKey),
+            containers.filterTo(mutableSetOf(), BuiltInRegistries.ITEM::containsKey),
             EntityType.PLAYER.identifier in containers,
             false,
             textures.asSequence().filter { (key) -> key.path.endsWith(".png") }
@@ -92,7 +92,8 @@ sealed class JsonFilterResource {
             val MAP_CODEC: MapCodec<V1> = RecordCodecBuilder.mapCodec { instance ->
                 instance.group(
                     inventoryIdCodec().field(CONTAINERS_KEY, V1::containers),
-                    Codec.unboundedMap(Identifier.CODEC, Identifier.CODEC).field(TEXTURES_KEY, V1::textures),
+                    Codec.unboundedMap(ResourceLocation.CODEC, ResourceLocation.CODEC)
+                        .field(TEXTURES_KEY, V1::textures),
                     INbtFilter.CODEC.optionalField(LOAD_FILTER_KEY, V1::loadFilter, ConditionalFilter.ALWAYS),
                     INbtFilter.CODEC.optionalField(FILTER_KEY, V1::filter, ConditionalFilter.ALWAYS),
                 ).apply(instance, ::V1)
@@ -116,13 +117,13 @@ sealed class JsonFilterResource {
      * @param filter Raw representation of a filter filtering an interaction NBT
      */
     data class V2(
-        val blocks: Set<Identifier>,
-        val entities: Set<Identifier>,
-        val items: Set<Identifier>,
+        val blocks: Set<ResourceLocation>,
+        val entities: Set<ResourceLocation>,
+        val items: Set<ResourceLocation>,
         val inventory: Boolean,
         val unknown: Boolean,
-        val textureChangers: Map<Identifier, JsonTextureChanger>,
-        val spriteChangers: Map<Identifier, JsonTextureChanger>,
+        val textureChangers: Map<ResourceLocation, JsonTextureChanger>,
+        val spriteChangers: Map<ResourceLocation, JsonTextureChanger>,
         val textStyleChangers: List<TextStyleChanger>,
         val loadFilter: INbtFilter,
         val filter: INbtFilter,
@@ -212,9 +213,9 @@ sealed class JsonFilterResource {
                     inventoryIdCodec().optionalField(ITEMS_KEY, V2::items, emptySet()),
                     Codec.BOOL.optionalField(INVENTORY_KEY, V2::inventory, false),
                     Codec.BOOL.optionalField(UNKNOWN_KEY, V2::unknown, false),
-                    Codec.unboundedMap(Identifier.CODEC, JsonTextureChanger.CODEC)
+                    Codec.unboundedMap(ResourceLocation.CODEC, JsonTextureChanger.CODEC)
                         .optionalField(TEXTURE_CHANGERS_KEY, V2::textureChangers, emptyMap()),
-                    Codec.unboundedMap(Identifier.CODEC, JsonTextureChanger.CODEC)
+                    Codec.unboundedMap(ResourceLocation.CODEC, JsonTextureChanger.CODEC)
                         .optionalField(SPRITE_CHANGERS_KEY, V2::spriteChangers, emptyMap()),
                     TextStyleChanger.CODEC.listOf()
                         .optionalField(TEXT_STYLE_CHANGERS_KEY, V2::textStyleChangers, emptyList()),
@@ -236,7 +237,7 @@ sealed class JsonFilterResource {
             @JvmField
             val MAP_CODEC: MapCodec<Future> = RecordCodecBuilder.mapCodec { instance ->
                 instance.group(
-                    Codecs.POSITIVE_INT.optionalField(FORMAT_KEY, Future::format, 1)
+                    ExtraCodecs.POSITIVE_INT.optionalField(FORMAT_KEY, Future::format, 1)
                 ).apply(instance, ::Future)
             }
         }
@@ -260,7 +261,7 @@ sealed class JsonFilterResource {
          */
         @JvmField
         val CODEC: Codec<JsonFilterResource> = Codec.withAlternative(
-            Codecs.POSITIVE_INT.dispatch(FORMAT_KEY, JsonFilterResource::format, ::getMapCodecForFormat),
+            ExtraCodecs.POSITIVE_INT.dispatch(FORMAT_KEY, JsonFilterResource::format, ::getMapCodecForFormat),
             V1.MAP_CODEC.codec() // Codec.dispatch does not allow default typeKey if it is missing
         )
 
@@ -271,6 +272,6 @@ sealed class JsonFilterResource {
         }
 
         private fun inventoryIdCodec() =
-            Codec.withAlternative(Identifier.CODEC.listOf().toSet(), Identifier.CODEC, ::setOf)
+            Codec.withAlternative(ResourceLocation.CODEC.listOf().toSet(), ResourceLocation.CODEC, ::setOf)
     }
 }

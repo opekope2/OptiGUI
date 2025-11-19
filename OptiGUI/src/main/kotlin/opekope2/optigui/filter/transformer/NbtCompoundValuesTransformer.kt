@@ -1,20 +1,20 @@
 package opekope2.optigui.filter.transformer
 
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtElement
-import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.Tag
 
 /**
- * An NBT transformer, which transforms the input NBT compound to an [NbtList] containing its values.
+ * An NBT transformer, which transforms the input NBT compound to an [ListTag] containing its values.
  *
- * @see NbtCompound.get
+ * @see CompoundTag.get
  */
 data object NbtCompoundValuesTransformer : INbtTransformer {
-    override fun transform(nbt: NbtElement, root: NbtElement) =
-        if (nbt !is NbtCompound) null
-        else NbtList().apply {
+    override fun transform(nbt: Tag, root: Tag) =
+        if (nbt !is CompoundTag) null
+        else ListTag().apply {
             // Collection::mapTo uses MutableCollection::add
             // NbtList::add throws, but NbtList::addElement does not
-            for (key in nbt.keys) if (!addElement(size, nbt[key])) return null
+            for (key in nbt.allKeys) if (!addTag(size, nbt[key]!!)) return null
         }
 }

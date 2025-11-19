@@ -1,7 +1,7 @@
 package opekope2.optigui.filter.transformer
 
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.filter.NbtTransformerFilter
 
@@ -12,9 +12,7 @@ import opekope2.optigui.filter.NbtTransformerFilter
  * @see NbtListIndexTransformer
  */
 data class SubNbtTransformer(val subNbtKey: String) : INbtTransformer {
-    override fun transform(nbt: NbtElement, root: NbtElement): NbtElement? =
-        if (nbt is NbtCompound) nbt[subNbtKey]
-        else null
+    override fun transform(nbt: Tag, root: Tag) = if (nbt is CompoundTag) nbt[subNbtKey] else null
 
     /**
      * A type describing an [NbtTransformerFilter] with this transformer.

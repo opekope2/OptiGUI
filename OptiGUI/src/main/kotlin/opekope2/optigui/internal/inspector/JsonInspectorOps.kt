@@ -8,8 +8,8 @@ import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.JsonOps
 import com.mojang.serialization.RecordBuilder
-import net.minecraft.nbt.NbtElement
-import net.minecraft.util.dynamic.ForwardingDynamicOps
+import net.minecraft.nbt.Tag
+import net.minecraft.resources.DelegatingOps
 import opekope2.optigui.filter.transformer.NbtTypeTransformer
 import java.nio.ByteBuffer
 import java.util.stream.IntStream
@@ -18,9 +18,9 @@ import java.util.stream.Stream
 import kotlin.streams.asSequence
 
 internal class JsonInspectorOps private constructor(private val withType: Boolean) :
-    ForwardingDynamicOps<JsonElement>(JsonOps.INSTANCE) {
+    DelegatingOps<JsonElement>(JsonOps.INSTANCE) {
     fun create(type: Byte) = JsonObject().apply {
-        if (withType) addProperty("type", NbtTypeTransformer.transform(type)?.asString())
+        if (withType) addProperty("type", NbtTypeTransformer.transform(type)?.asString)
     }
 
     fun create(type: Byte, json: JsonElement) =
@@ -29,25 +29,25 @@ internal class JsonInspectorOps private constructor(private val withType: Boolea
 
     fun create(json: JsonElement) = when {
         json !is JsonPrimitive -> json
-        json.isBoolean -> create(NbtElement.BYTE_TYPE, json)
-        json.isString -> create(NbtElement.STRING_TYPE, json)
+        json.isBoolean -> create(Tag.TAG_BYTE, json)
+        json.isString -> create(Tag.TAG_STRING, json)
         !json.isNumber -> json
-        json.asNumber is Byte -> create(NbtElement.BYTE_TYPE, json)
-        json.asNumber is Short -> create(NbtElement.SHORT_TYPE, json)
-        json.asNumber is Int -> create(NbtElement.INT_TYPE, json)
-        json.asNumber is Long -> create(NbtElement.LONG_TYPE, json)
-        json.asNumber is Float -> create(NbtElement.FLOAT_TYPE, json)
-        json.asNumber is Double -> create(NbtElement.DOUBLE_TYPE, json)
+        json.asNumber is Byte -> create(Tag.TAG_BYTE, json)
+        json.asNumber is Short -> create(Tag.TAG_SHORT, json)
+        json.asNumber is Int -> create(Tag.TAG_INT, json)
+        json.asNumber is Long -> create(Tag.TAG_LONG, json)
+        json.asNumber is Float -> create(Tag.TAG_FLOAT, json)
+        json.asNumber is Double -> create(Tag.TAG_DOUBLE, json)
         else -> json
     }
 
-    override fun createMap(map: Stream<Pair<JsonElement, JsonElement>>) = create(NbtElement.COMPOUND_TYPE).apply {
+    override fun createMap(map: Stream<Pair<JsonElement, JsonElement>>) = create(Tag.TAG_COMPOUND).apply {
         map.forEachOrdered { pair -> add("@${pair.first.asString}", create(pair.second)) }
     }
 
     override fun createBoolean(bl: Boolean): JsonElement = createByte(if (bl) 1 else 0)
 
-    override fun createMap(map: Map<JsonElement, JsonElement>) = create(NbtElement.COMPOUND_TYPE).apply {
+    override fun createMap(map: Map<JsonElement, JsonElement>) = create(Tag.TAG_COMPOUND).apply {
         map.forEach { (key, value) -> add("@$key", create(value)) }
     }
 
@@ -55,17 +55,17 @@ internal class JsonInspectorOps private constructor(private val withType: Boolea
         stream.asSequence().withIndex().forEach { (index, element) -> add("#$index", create(element)) }
     }
 
-    override fun createList(stream: Stream<JsonElement>) = createList(NbtElement.LIST_TYPE, stream)
+    override fun createList(stream: Stream<JsonElement>) = createList(Tag.TAG_LIST, stream)
 
-    override fun createByteList(buf: ByteBuffer) = create(NbtElement.BYTE_ARRAY_TYPE).apply {
+    override fun createByteList(buf: ByteBuffer) = create(Tag.TAG_BYTE_ARRAY).apply {
         for (i in 0 until buf.limit()) add("#$i", create(buf[i]))
     }
 
     override fun createIntList(stream: IntStream) =
-        createList(NbtElement.INT_ARRAY_TYPE, stream.mapToObj(::JsonPrimitive))
+        createList(Tag.TAG_INT_ARRAY, stream.mapToObj(::JsonPrimitive))
 
     override fun createLongList(stream: LongStream) =
-        createList(NbtElement.LONG_ARRAY_TYPE, stream.mapToObj(::JsonPrimitive))
+        createList(Tag.TAG_LONG_ARRAY, stream.mapToObj(::JsonPrimitive))
 
     override fun mapBuilder(): RecordBuilder<JsonElement> = JsonRecordBuilder()
 
@@ -74,7 +74,7 @@ internal class JsonInspectorOps private constructor(private val withType: Boolea
             add("@$key", create(value))
         }
 
-        override fun initBuilder() = create(NbtElement.COMPOUND_TYPE)
+        override fun initBuilder() = create(Tag.TAG_COMPOUND)
 
         override fun build(builder: JsonObject, prefix: JsonElement?): DataResult<JsonElement?> {
             return when (prefix) {

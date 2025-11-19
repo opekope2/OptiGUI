@@ -1,9 +1,9 @@
 package opekope2.optigui.filter
 
 import com.mojang.serialization.Codec
-import net.minecraft.nbt.AbstractNbtList
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.CollectionTag
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.Tag
 import opekope2.optigui.util.AggregateOperator
 import opekope2.optigui.util.NbtFilterEvaluation
 
@@ -16,12 +16,12 @@ import opekope2.optigui.util.NbtFilterEvaluation
  * @see AggregateFilter
  */
 class NbtListFilter(override val subFilter: INbtFilter, override val type: Type) : INbtListFilter {
-    override fun test(nbt: NbtElement, root: NbtElement): Boolean {
+    override fun test(nbt: Tag, root: Tag): Boolean {
         val operator = type.operator
 
         val shortCircuit = when (nbt) {
-            is NbtCompound -> nbt.keys.any { operator shortCircuitsOn subFilter.test(nbt[it]!!, root) }
-            is AbstractNbtList<*> -> nbt.any { operator shortCircuitsOn subFilter.test(it, root) }
+            is CompoundTag -> nbt.allKeys.any { operator shortCircuitsOn subFilter.test(nbt[it]!!, root) }
+            is CollectionTag<*> -> nbt.any { operator shortCircuitsOn subFilter.test(it, root) }
             else -> return false
         }
 
@@ -29,9 +29,9 @@ class NbtListFilter(override val subFilter: INbtFilter, override val type: Type)
         else !operator.shortCircuitResult
     }
 
-    override fun testSubFilters(nbt: NbtElement?, root: NbtElement) = when (nbt) {
-        is NbtCompound -> nbt.keys.map { NbtFilterEvaluation(subFilter, nbt[it]!!, root) }
-        is AbstractNbtList<*> -> nbt.map { NbtFilterEvaluation(subFilter, it, root) }
+    override fun testSubFilters(nbt: Tag?, root: Tag) = when (nbt) {
+        is CompoundTag -> nbt.allKeys.map { NbtFilterEvaluation(subFilter, nbt[it]!!, root) }
+        is CollectionTag<*> -> nbt.map { NbtFilterEvaluation(subFilter, it, root) }
         else -> listOf(NbtFilterEvaluation(subFilter, null, root))
     }
 

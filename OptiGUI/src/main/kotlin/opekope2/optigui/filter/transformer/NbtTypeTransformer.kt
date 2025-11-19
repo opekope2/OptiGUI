@@ -1,37 +1,37 @@
 package opekope2.optigui.filter.transformer
 
-import net.minecraft.nbt.NbtElement
-import net.minecraft.nbt.NbtString
+import net.minecraft.nbt.StringTag
+import net.minecraft.nbt.Tag
 
 /**
- * An NBT transformer, which transforms the input NBT to an [NbtString] describing its type.
+ * An NBT transformer, which transforms the input NBT to an [StringTag] describing its type.
  *
- * @see NbtElement.getType
+ * @see Tag.getId
  */
 data object NbtTypeTransformer : INbtTransformer {
     private val type2name = mapOf(
-        NbtElement.END_TYPE to NbtString.of("end"),
-        NbtElement.BYTE_TYPE to NbtString.of("byte"),
-        NbtElement.SHORT_TYPE to NbtString.of("short"),
-        NbtElement.INT_TYPE to NbtString.of("int"),
-        NbtElement.LONG_TYPE to NbtString.of("long"),
-        NbtElement.FLOAT_TYPE to NbtString.of("float"),
-        NbtElement.DOUBLE_TYPE to NbtString.of("double"),
-        NbtElement.BYTE_ARRAY_TYPE to NbtString.of("byte_array"),
-        NbtElement.STRING_TYPE to NbtString.of("string"),
-        NbtElement.LIST_TYPE to NbtString.of("list"),
-        NbtElement.COMPOUND_TYPE to NbtString.of("compound"),
-        NbtElement.INT_ARRAY_TYPE to NbtString.of("int_array"),
-        NbtElement.LONG_ARRAY_TYPE to NbtString.of("long_array"),
-        NbtElement.NUMBER_TYPE to NbtString.of("number"),
+        Tag.TAG_END to StringTag.valueOf("end"),
+        Tag.TAG_BYTE to StringTag.valueOf("byte"),
+        Tag.TAG_SHORT to StringTag.valueOf("short"),
+        Tag.TAG_INT to StringTag.valueOf("int"),
+        Tag.TAG_LONG to StringTag.valueOf("long"),
+        Tag.TAG_FLOAT to StringTag.valueOf("float"),
+        Tag.TAG_DOUBLE to StringTag.valueOf("double"),
+        Tag.TAG_BYTE_ARRAY to StringTag.valueOf("byte_array"),
+        Tag.TAG_STRING to StringTag.valueOf("string"),
+        Tag.TAG_LIST to StringTag.valueOf("list"),
+        Tag.TAG_COMPOUND to StringTag.valueOf("compound"),
+        Tag.TAG_INT_ARRAY to StringTag.valueOf("int_array"),
+        Tag.TAG_LONG_ARRAY to StringTag.valueOf("long_array"),
+        Tag.TAG_ANY_NUMERIC to StringTag.valueOf("number"),
     )
 
     /**
-     * Gets the string representation of the given NBT type as an [NbtString].
+     * Gets the string representation of the given NBT type as an [StringTag].
      *
-     * @param type One of the `TYPE` fields in [NbtElement]
+     * @param type One of the `TAG_` fields in [Tag]
      */
     fun transform(type: Byte) = type2name[type]
 
-    override fun transform(nbt: NbtElement, root: NbtElement) = transform(nbt.type)
+    override fun transform(nbt: Tag, root: Tag) = transform(nbt.id)
 }

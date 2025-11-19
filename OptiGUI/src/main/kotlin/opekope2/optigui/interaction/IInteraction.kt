@@ -1,12 +1,12 @@
 package opekope2.optigui.interaction
 
-import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.util.Hand
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
 import opekope2.optigui.interaction.nbt_provider.IInteractionNbtProvider
 import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 import java.util.function.Function
@@ -38,18 +38,18 @@ sealed interface IInteraction {
     /**
      * The interacting player.
      */
-    val player: PlayerEntity
+    val player: Player
 
     /**
      * The hand the player interacted with.
      */
-    val hand: Hand
+    val hand: InteractionHand
 
     /**
      * The world the interaction happened in.
      */
-    val world: World
-        get() = player.entityWorld
+    val world: Level
+        get() = player.commandSenderWorld
 
     /**
      * The entity the player is rinding or `null`, if the player is not riding anything.
@@ -60,8 +60,8 @@ sealed interface IInteraction {
     /**
      * Converts the interaction to NBT for filtering.
      */
-    fun createNbt() = NbtCompound().also {
-        val lookup = player.world.registryManager
+    fun createNbt() = CompoundTag().also {
+        val lookup = player.level().registryAccess()
         for ((key, value) in IInteractionNbtProvider.Registry) {
             it.put(key, value.get(this, lookup) ?: continue)
         }

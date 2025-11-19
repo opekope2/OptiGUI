@@ -1,7 +1,7 @@
 package opekope2.optigui.filter.transformer
 
-import net.minecraft.nbt.AbstractNbtList
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.CollectionTag
+import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.NbtTransformerFilter
 
 /**
@@ -11,8 +11,8 @@ import opekope2.optigui.filter.NbtTransformerFilter
  * @see SubNbtTransformer
  */
 data class NbtListIndexTransformer(val index: Int) : INbtTransformer {
-    override fun transform(nbt: NbtElement, root: NbtElement): NbtElement? = when {
-        nbt !is AbstractNbtList<*> -> null
+    override fun transform(nbt: Tag, root: Tag) = when {
+        nbt !is CollectionTag<*> -> null
         index in 0 until nbt.size -> nbt[index]
         index in -nbt.size until 0 -> nbt[index + nbt.size]
         else -> null

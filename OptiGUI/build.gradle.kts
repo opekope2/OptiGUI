@@ -1,159 +1,90 @@
-import groovy.json.JsonSlurper
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import opekope2.optigui.buildscript.extension.Version
+import opekope2.optigui.buildscript.task.GenerateI18nEnum
+import opekope2.optigui.buildscript.task.GenerateInternalPackageInfos
+import opekope2.optigui.buildscript.task.GenerateWorldNbtProvider
+import opekope2.optigui.buildscript.task.VerifyChecksum
 
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.fabric.loom)
+    id("opekope2.optigui.buildscript.plugin.Common")
+    id("opekope2.optigui.buildscript.plugin.Dokka")
+    alias(libs.plugins.moddev)
+    id("org.jetbrains.kotlin.jvm")
 }
+
+version = Version.common(libs.versions.optigui, libs.versions.minecraft)
+
+val commonKotlin by configurations.registering { isCanBeResolved = false; isCanBeConsumed = true }
 
 base {
     archivesName = "optigui"
 }
 
-version = libs.versions.optigui.get()
-group = "opekope2.optigui"
-
-repositories {
-    maven("https://maven.terraformersmc.com/") {
-        name = "Terraformers"
-    }
-    maven("https://maven.shedaniel.me/") {
-        name = "Shedaniel"
-    }
-}
-
 dependencies {
-    minecraft(libs.minecraft)
-    mappings(variantOf(libs.yarn) { classifier("v2") })
-    compileOnly(libs.jspecify)
-    modImplementation(libs.fabric.loader)
-    modImplementation(libs.fabric.language.kotlin)
-    modImplementation(libs.fabric.api)
-    localRuntime(project(":ScreenNBT", configuration = "namedElements"))
+    api(libs.ini4j)
+    compileOnly(libs.cloth.config.neoforge) // fabric build is intermediary, neoforge build is mojmap
 
-    api(project(":ScreenAPI", configuration = "namedElements"))
-    include(project(":ScreenAPI"))
-
-    modImplementation(libs.cloth.config.fabric) {
-        exclude(group = "net.fabricmc.fabric-api")
-    }
-    modImplementation(libs.modmenu)
-
-    implementation(libs.ini4j)
-    include(libs.ini4j)
-
-    testImplementation(kotlin("test"))
+    api(project(":ScreenAPI"))
 }
 
-loom {
-    runtimeOnlyLog4j = true
+neoForge {
+    neoFormVersion = libs.versions.neoform.get()
+    parchment {
+        minecraftVersion = libs.versions.minecraft
+        mappingsVersion = libs.versions.parchment
+    }
+}
+
+dokka {
+    moduleName = "OptiGUI"
+
+    dokkaSourceSets.configureEach {
+        perPackageOption {
+            // language=RegExp
+            matchingRegex = """opekope2\.optigui\.(internal|mixin)(\..+)?"""
+            suppress = true
+            documentedVisibilities()
+        }
+    }
 }
 
 tasks {
-    val javaVersion = libs.versions.java.get()
-
-    withType<JavaCompile>().configureEach {
-        options.encoding = "UTF-8"
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
-        options.release = javaVersion.toInt()
+    val generateI18n by registering(GenerateI18nEnum::class) {
+        inputs.file(projectDir.resolve("src/main/resources/assets/optigui/lang/en_us.json"))
+        enumPackage = "opekope2.optigui.internal"
     }
 
-    withType<KotlinCompile>().configureEach {
-        compilerOptions {
-            jvmTarget = JvmTarget.fromTarget(javaVersion)
-            freeCompilerArgs = listOf("-Xjvm-default=all")
-        }
+    val generateInternalPackageInfos by registering(GenerateInternalPackageInfos::class) {
+        sourceRoot = projectDir.resolve("src/main/kotlin")
+        packageMatcher("""^opekope2\.optigui\.internal(\..+)?$""")
     }
 
-    jar {
-        from(rootDir.resolve("COPYING"))
-        from(rootDir.resolve("COPYING.LESSER"))
+    val generateWorldNbtProvider by registering(GenerateWorldNbtProvider::class) {
+        packageName = "opekope2.optigui.interaction.nbt_provider"
+        minecraftClasspath.from(configurations.named("runtimeClasspath"))
     }
 
-    processResources {
-        filesMatching("fabric.mod.json") {
-            expand(
-                mapOf(
-                    "version" to version as String,
-                    "fabric_loader" to libs.versions.fabric.loader.get(),
-                    "fabric_api" to libs.versions.fabric.api.get(),
-                    "fabric_language_kotlin" to libs.versions.fabric.language.kotlin.get(),
-                    "minecraft" to libs.versions.minecraft.get(),
-                    "java" to javaVersion,
-                    "cloth_config" to libs.versions.cloth.config.fabric.get(),
-                )
-            )
-        }
-        filesMatching("*.mixins.json") {
-            expand(
-                mapOf(
-                    "java" to javaVersion
-                )
-            )
-        }
+    val worldNbtProviderChecksum by registering(VerifyChecksum::class) {
+        dependsOn(generateWorldNbtProvider)
+        inputs.files(generateWorldNbtProvider)
+        checksum("705ce6e75b45837db284062965154c40")
     }
 
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(javaVersion)
-        }
-        sourceCompatibility = JavaVersion.toVersion(javaVersion)
-        targetCompatibility = JavaVersion.toVersion(javaVersion)
-        withSourcesJar()
+    codegen { dependsOn(generateI18n, generateInternalPackageInfos, generateWorldNbtProvider) }
+
+    check { dependsOn(worldNbtProviderChecksum) }
+
+    sourceSets.main {
+        java.srcDirs(generateInternalPackageInfos)
+        kotlin.srcDirs(generateI18n, generateWorldNbtProvider)
     }
 
-    test {
-        useJUnitPlatform()
-        testLogging {
-            events("PASSED", "SKIPPED", "FAILED")
-        }
+    artifacts {
+        commonJava(generateInternalPackageInfos)
     }
-
-    val generateI18n by registering {
-        val jsonPath = "src/main/resources/assets/optigui/lang/en_us.json"
-        val outFile = project.layout.buildDirectory.file("generated/src/main/kotlin/opekope2/optigui/internal/I18n.kt")
-
-        inputs.file(jsonPath)
-        outputs.file(outFile)
-
-        doLast {
-            val json = JsonSlurper().parse(file(jsonPath)) as Map<String, String>
-            val members = json.entries.joinToString(separator = ",\n    ") { (key, value) ->
-                val k = key.uppercase().replace("""[^a-zA-Z0-9]""".toRegex(), "_")
-                """$k("$key", "$value")"""
-            }
-            val enum = """
-                package opekope2.optigui.internal
-                
-                import net.minecraft.text.MutableText
-                import net.minecraft.text.Text
-                import java.util.function.Supplier
-                
-                internal enum class I18n(private val key: String, private val fallback: String) {
-                    %s;
-                    
-                    fun getText(vararg args: Any?): MutableText = Text.translatableWithFallback(key, fallback, *args)
-
-                    fun getTranslation(vararg args: Any?): String = getText(*args).getString()
-                    
-                    fun supplyTranslation(vararg args: Any?): Supplier<String> = Supplier { getTranslation(*args) }
-                }
-            """.trimIndent().format(members)
-
-            file(outFile).writeText(enum)
-        }
-    }
-
-    val compileKotlin by getting { dependsOn(generateI18n) }
-    val sourcesJar by getting { dependsOn(generateI18n) }
 }
 
-sourceSets {
-    main {
-        kotlin {
-            srcDir(project.layout.buildDirectory.dir("generated/src/main/kotlin"))
-        }
+artifacts {
+    sourceSets.main {
+        kotlin.sourceDirectories.forEach { add("commonKotlin", it) }
     }
 }

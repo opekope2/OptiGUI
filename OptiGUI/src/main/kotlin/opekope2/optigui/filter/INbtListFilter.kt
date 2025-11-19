@@ -24,7 +24,7 @@ sealed interface INbtListFilter : INbtFilter {
          * The factory for [IType].
          */
         companion object Factory : INbtFilter.IPrefixType.IFactory<IType> {
-            override fun createType(input: String): IType? = when (input) {
+            override fun createType(input: String) = when (input) {
                 "none" -> NbtListFilter.Type.NONE_OF
                 "any" -> NbtListFilter.Type.ANY_OF
                 "some" -> NbtListFilter.Type.SOME_OF

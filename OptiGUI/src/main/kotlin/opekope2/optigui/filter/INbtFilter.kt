@@ -3,7 +3,7 @@ package opekope2.optigui.filter
 import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.INbtFilter.PrefixRegistry.containsKey
 import opekope2.optigui.filter.comparer.INbtComparer.ComparisonResult.EQUAL
 import opekope2.optigui.filter.comparer.NbtStringOrNumberComparer
@@ -13,7 +13,7 @@ import opekope2.optigui.util.dfu.EitherCodec
 import org.jetbrains.annotations.ApiStatus
 
 /**
- * Interface for filtering [NbtElement]s.
+ * Interface for filtering [Tag]s.
  *
  * Any NBT filter, which tests subfilters must implement [Iterable], which returns the subfilters.
  * This is required for proper macro support.
@@ -30,7 +30,7 @@ interface INbtFilter {
      * @param nbt The current NBT element to test
      * @param root The root NBT element
      */
-    fun test(nbt: NbtElement, root: NbtElement): Boolean
+    fun test(nbt: Tag, root: Tag): Boolean
 
     /**
      * Collects the sub-filters of this filter and the inputs passed to those.
@@ -40,7 +40,7 @@ interface INbtFilter {
      * @param nbt The current NBT element to test or `null`, if no NBT element could be passed to this filter
      * @param root The root NBT element
      */
-    fun testSubFilters(nbt: NbtElement?, root: NbtElement): List<NbtFilterEvaluation> = listOf()
+    fun testSubFilters(nbt: Tag?, root: Tag): List<NbtFilterEvaluation> = listOf()
 
     /**
      * Returns a string representation of this filter used for debugging purposes.
@@ -178,6 +178,9 @@ interface INbtFilter {
          */
         fun containsValue(value: TValue) = value in reverseEntries
 
+        /**
+         * @suppress
+         */
         @ApiStatus.Internal
         internal fun getKey(value: TValue) = reverseEntries.getValue(value)
     }

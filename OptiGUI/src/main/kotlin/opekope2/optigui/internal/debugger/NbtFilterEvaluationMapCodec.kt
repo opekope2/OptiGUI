@@ -19,7 +19,7 @@ internal object NbtFilterEvaluationMapCodec : MapCodec<NbtFilterEvaluation>() {
         prefix: RecordBuilder<T>
     ): RecordBuilder<T> = prefix
         .add(FILTER_KEY, ops.createString(input.filter.asString()))
-        .add(INPUT_KEY, input.nbt?.asString()?.let(ops::createString) ?: ops.empty())
+        .add(INPUT_KEY, input.nbt?.asString?.let(ops::createString) ?: ops.empty())
         .add(MATCH_KEY, ops.createBoolean(input.test()))
         .add(SUBFILTERS_KEY, listEncoder.encodeStart(ops, input.testSubFilters()))
 
