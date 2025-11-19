@@ -77,6 +77,8 @@ subprojects {
                 "fabric_loader" to libs.versions.fabric.loader.get(),
                 "fabric_api" to libs.versions.fabric.api.get(),
                 "fabric_language_kotlin" to libs.versions.fabric.language.kotlin.get(),
+                "neoforge" to libs.versions.neoforge.get(),
+                "kotlin_for_forge" to libs.versions.kotlinforforge.get(),
                 "minecraft" to libs.versions.minecraft.get(),
                 "java" to libs.versions.java.get(),
                 "cloth_config" to libs.versions.cloth.config.get(),
@@ -84,6 +86,7 @@ subprojects {
 
             inputs.properties(properties)
             filesMatching("fabric.mod.json") { expand(properties) }
+            filesMatching("META-INF/neoforge.mods.toml") { expand(properties) }
             filesMatching("*.mixins.json") { expand(properties) }
         }
 

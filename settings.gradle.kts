@@ -21,8 +21,11 @@ dependencyResolutionManagement {
 include(
     "OptiGUI",
     "OptiGUI-Fabric",
+    "OptiGUI-NeoForge",
     "ScreenAPI",
     "ScreenAPI-Fabric",
+    "ScreenAPI-NeoForge",
     "ScreenNBT",
     "ScreenNBT-Fabric",
+    "ScreenNBT-NeoForge",
 )
