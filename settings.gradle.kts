@@ -25,5 +25,4 @@ include(
     "ScreenAPI-Fabric",
     "ScreenNBT",
     "ScreenNBT-Fabric",
-    "Kdoc",
 )
