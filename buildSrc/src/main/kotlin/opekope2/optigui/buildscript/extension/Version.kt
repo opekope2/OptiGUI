@@ -2,18 +2,21 @@ package opekope2.optigui.buildscript.extension
 
 import org.gradle.api.provider.Provider
 
-object Version {
-    fun of(mod: Provider<String>, loader: String?, minecraft: Provider<String>) =
-        of(mod.get(), loader, minecraft.get())
+class Version(val mod: Provider<String>, val loader: String?, val minecraft: Provider<String>) {
+    override fun toString(): String {
+        val mod = mod.get()
+        val minecraft = minecraft.get()
 
-    fun of(mod: String, loader: String?, minecraft: String) =
-        if (loader == null) "$mod+$minecraft"
+        return if (loader == null) "$mod+$minecraft"
         else "$mod+$loader.$minecraft"
+    }
 
-    fun common(mod: Provider<String>, minecraft: Provider<String>) = of(mod, null, minecraft)
-    fun common(mod: String, minecraft: String) = of(mod, null, minecraft)
-    fun fabric(mod: Provider<String>, minecraft: Provider<String>) = of(mod, "fabric", minecraft)
-    fun fabric(mod: String, minecraft: String) = of(mod, "fabric", minecraft)
-    fun neoForge(mod: Provider<String>, minecraft: Provider<String>) = of(mod, "neoforge", minecraft)
-    fun neoForge(mod: String, minecraft: String) = of(mod, "neoforge", minecraft)
+    companion object {
+        fun common(mod: Provider<String>, minecraft: Provider<String>) = Version(mod, null, minecraft)
+        fun fabric(mod: Provider<String>, minecraft: Provider<String>) = Version(mod, "fabric", minecraft)
+        fun neoForge(mod: Provider<String>, minecraft: Provider<String>) = Version(mod, "neoforge", minecraft)
+        fun lazy(versionProvider: Provider<String>) = object {
+            override fun toString() = versionProvider.get()
+        }
+    }
 }

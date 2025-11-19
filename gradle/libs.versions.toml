@@ -20,6 +20,8 @@ jspecify = "1.0.0"
 modmenu = "11.0.0"
 
 [libraries]
+kotlin-jvm-gradle-plugin = { group = "org.jetbrains.kotlin.jvm", name = "org.jetbrains.kotlin.jvm.gradle.plugin", version.ref = "kotlin" }
+dokka-gradle-plugin = { group = "org.jetbrains.dokka", name = "dokka-gradle-plugin", version.ref = "dokka" }
 minecraft = { group = "com.mojang", name = "minecraft", version.ref = "minecraft" }
 parchment = { group = "org.parchmentmc.data", name = "parchment-1.21", version.ref = "parchment" }
 mixin = { group = "org.spongepowered", name = "mixin", version.ref = "mixin" }
@@ -34,7 +36,5 @@ jspecify = { group = "org.jspecify", name = "jspecify", version.ref = "jspecify"
 modmenu = { group = "com.terraformersmc", name = "modmenu", version.ref = "modmenu" }
 
 [plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 fabric-loom = { id = "fabric-loom", version.ref = "loom" }
 moddev = { id = "net.neoforged.moddev", version.ref = "moddev" }

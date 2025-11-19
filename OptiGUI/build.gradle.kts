@@ -6,8 +6,9 @@ import opekope2.optigui.buildscript.task.VerifyChecksum
 
 plugins {
     id("opekope2.optigui.buildscript.plugin.Common")
+    id("opekope2.optigui.buildscript.plugin.Dokka")
     alias(libs.plugins.moddev)
-    alias(libs.plugins.kotlin.jvm)
+    id("org.jetbrains.kotlin.jvm")
 }
 
 version = Version.common(libs.versions.optigui, libs.versions.minecraft)
@@ -30,6 +31,19 @@ neoForge {
     parchment {
         minecraftVersion = libs.versions.minecraft
         mappingsVersion = libs.versions.parchment
+    }
+}
+
+dokka {
+    moduleName = "OptiGUI"
+
+    dokkaSourceSets.configureEach {
+        perPackageOption {
+            // language=RegExp
+            matchingRegex = """opekope2\.optigui\.(internal|mixin)(\..+)?"""
+            suppress = true
+            documentedVisibilities()
+        }
     }
 }
 

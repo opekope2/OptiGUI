@@ -10,7 +10,7 @@ import opekope2.optigui.buildscript.task.GenerateInternalPackageInfos
 plugins {
     id("opekope2.optigui.buildscript.plugin.Loader")
     alias(libs.plugins.fabric.loom)
-    alias(libs.plugins.kotlin.jvm)
+    id("org.jetbrains.kotlin.jvm")
 }
 
 version = Version.fabric(libs.versions.optigui, libs.versions.minecraft)
