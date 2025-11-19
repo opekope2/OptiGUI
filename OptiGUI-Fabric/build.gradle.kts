@@ -35,10 +35,12 @@ dependencies {
 
     commonProject(":OptiGUI", kotlin = true)
 
-    include(libs.ini4j)
+    runtimeOnly(libs.ini4j)
     localRuntime(project(":ScreenAPI-Fabric", configuration = "namedElements"))
-    include(project(":ScreenAPI-Fabric"))
     localRuntime(project(":ScreenNBT-Fabric", configuration = "namedElements"))
+
+    include(libs.ini4j)
+    include(project(":ScreenAPI-Fabric"))
     include(project(":ScreenNBT-Fabric"))
 }
 
