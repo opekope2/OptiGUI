@@ -4,11 +4,14 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import opekope2.optigui.interaction.IInteraction
 import opekope2.optigui.screen_api.util.NbtUtil
+import java.util.function.Function
 
 /**
- * Provides the block position NBT of an interaction.
+ * Provides a [BlockPos] as NBT.
+ *
+ * @param blockPosGetter A function that gets the [BlockPos] from the interaction
  */
-object PositionNbtProvider : IInteractionNbtProvider {
+class PositionNbtProvider(private val blockPosGetter: Function<IInteraction, BlockPos>) : IInteractionNbtProvider {
     override fun get(interaction: IInteraction, lookup: HolderLookup.Provider) =
-        NbtUtil.encode(interaction.blockPos, BlockPos.CODEC, lookup)
+        NbtUtil.encode(blockPosGetter.apply(interaction), BlockPos.CODEC, lookup)
 }

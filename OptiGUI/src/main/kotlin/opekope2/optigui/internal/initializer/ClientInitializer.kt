@@ -6,6 +6,8 @@ import opekope2.optigui.filter.*
 import opekope2.optigui.filter.comparer.INbtComparer.ComparisonResult.*
 import opekope2.optigui.filter.comparer.NbtStringOrNumberComparer
 import opekope2.optigui.filter.transformer.*
+import opekope2.optigui.interaction.EntityInteraction
+import opekope2.optigui.interaction.IInteraction
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.nbt_provider.*
 import opekope2.optigui.internal.TextureChanger
@@ -36,21 +38,19 @@ internal object ClientInitializer {
     }
 
     private fun registerInteractionNbtProviders() {
-        IInteractionNbtProvider.register("biome", BiomeNbtProvider)
-        IInteractionNbtProvider.register("biome_registration", BiomeIdNbtProvider)
+        IInteractionNbtProvider.register("biome", BiomeNbtProvider(IInteraction::blockPos))
+        IInteractionNbtProvider.register("biome_registration", BiomeIdNbtProvider(IInteraction::blockPos))
         IInteractionNbtProvider.register("block_entity", BlockEntityNbtProvider)
         IInteractionNbtProvider.register("block_state", BlockStateNbtProvider)
-        IInteractionNbtProvider.register("entity", EntityNbtProvider)
+        IInteractionNbtProvider.register("entity", EntityNbtProvider { (it as? EntityInteraction)?.entity })
         IInteractionNbtProvider.register("hand", HandNbtProvider)
         IInteractionNbtProvider.register("item", ItemNbtProvider)
         IInteractionNbtProvider.register("level", WorldNbtProvider)
         IInteractionNbtProvider.register("player", PlayerNbtProvider)
-        IInteractionNbtProvider.register("player_extra", ExtraPlayerNbtProvider)
-        IInteractionNbtProvider.register("pos", PositionNbtProvider)
-        IInteractionNbtProvider.register("structures", StructureBoundingBoxProvider)
+        IInteractionNbtProvider.register("pos", PositionNbtProvider(IInteraction::blockPos))
+        IInteractionNbtProvider.register("structures", StructureBoundingBoxProvider(IInteraction::blockPos))
         IInteractionNbtProvider.register("target", TargetNbtProvider)
         IInteractionNbtProvider.register("time", TimeNbtProvider)
-        IInteractionNbtProvider.register("vehicle", VehicleNbtProvider)
     }
 
     private fun registerPrefixNbtFilters() {
