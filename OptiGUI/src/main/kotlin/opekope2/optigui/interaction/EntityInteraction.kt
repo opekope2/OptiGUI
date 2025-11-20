@@ -1,10 +1,10 @@
 package opekope2.optigui.interaction
 
-import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.util.Hand
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 
 /**
@@ -20,13 +20,13 @@ data class EntityInteraction(
     override val screen: ITextureChangeableScreen,
     val entity: Entity,
     override val item: ItemStack,
-    override val player: PlayerEntity,
-    override val hand: Hand
+    override val player: Player,
+    override val hand: InteractionHand
 ) : IInteraction {
     override val target = InteractionTarget.Entity(entity)
 
     override val blockPos: BlockPos
-        get() = entity.blockPos
+        get() = entity.blockPosition()
 
     companion object {
         /**
@@ -38,7 +38,7 @@ data class EntityInteraction(
          * @param hand The hand the player interacted with
          */
         @JvmStatic
-        fun factory(entity: Entity, item: ItemStack, player: PlayerEntity, hand: Hand) = IInteraction.IFactory {
+        fun factory(entity: Entity, item: ItemStack, player: Player, hand: InteractionHand) = IInteraction.IFactory {
             EntityInteraction(it, entity, item, player, hand)
         }
 
@@ -50,7 +50,7 @@ data class EntityInteraction(
          * @param hand The hand the player interacted with
          */
         @JvmStatic
-        fun factory(entity: Entity, player: PlayerEntity, hand: Hand) =
-            factory(entity, player.getStackInHand(hand), player, hand)
+        fun factory(entity: Entity, player: Player, hand: InteractionHand) =
+            factory(entity, player.getItemInHand(hand), player, hand)
     }
 }

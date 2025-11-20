@@ -3,10 +3,10 @@ package opekope2.optigui.internal.config.gui
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.Tooltip
 import me.shedaniel.math.Point
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.text.Text
+import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.components.Button
+import net.minecraft.network.chat.Component
+import opekope2.optigui.util.mc
 import java.util.*
 
 /**
@@ -18,12 +18,12 @@ import java.util.*
  * @param action The action that gets called when the user clicks the button
  */
 class ButtonListEntry(
-    fieldName: Text,
-    buttonText: Text,
-    private val tooltipText: Text?,
+    fieldName: Component,
+    buttonText: Component,
+    private val tooltipText: Component?,
     private val action: IAction
 ) : AbstractConfigListEntry<ButtonListEntry.IAction>(fieldName, false) {
-    private val buttonWidget = ButtonWidget.builder(buttonText) { action.run() }.dimensions(0, 0, 150, 20).build()
+    private val buttonWidget = Button.builder(buttonText) { action.run() }.bounds(0, 0, 150, 20).build()
 
     override fun getDefaultValue() = Optional.empty<IAction>()
 
@@ -34,7 +34,7 @@ class ButtonListEntry(
     override fun getValue() = action
 
     override fun render(
-        graphics: DrawContext,
+        graphics: GuiGraphics,
         index: Int,
         y: Int,
         x: Int,
@@ -47,30 +47,19 @@ class ButtonListEntry(
     ) {
         super.render(graphics, index, y, x, entryWidth, entryHeight, mouseX, mouseY, isHovered, delta)
 
-        val window = MinecraftClient.getInstance().window
-        this.buttonWidget.y = y
-        val displayedFieldName = this.displayedFieldName
-        if (MinecraftClient.getInstance().textRenderer.isRightToLeft) {
-            graphics.drawTextWithShadow(
-                MinecraftClient.getInstance().textRenderer,
-                displayedFieldName.asOrderedText(),
-                window.scaledWidth - x - MinecraftClient.getInstance().textRenderer.getWidth(displayedFieldName),
-                y + 6,
-                0xFFFFFF
-            )
-            this.buttonWidget.x = x + 2
+        val window = mc.window
+        buttonWidget.y = y
+        val displayedFieldName = displayedFieldName
+        if (mc.font.isBidirectional) {
+            val textX = window.guiScaledWidth - x - mc.font.width(displayedFieldName)
+            graphics.drawString(mc.font, displayedFieldName.visualOrderText, textX, y + 6, 0xFFFFFF)
+            buttonWidget.x = x + 2
         } else {
-            graphics.drawTextWithShadow(
-                MinecraftClient.getInstance().textRenderer,
-                displayedFieldName.asOrderedText(),
-                x,
-                y + 6,
-                this.preferredTextColor
-            )
-            this.buttonWidget.x = x + entryWidth - 150
+            graphics.drawString(mc.font, displayedFieldName.visualOrderText, x, y + 6, preferredTextColor)
+            buttonWidget.x = x + entryWidth - 150
         }
 
-        this.buttonWidget.render(graphics, mouseX, mouseY, delta)
+        buttonWidget.render(graphics, mouseX, mouseY, delta)
 
         if (tooltipText != null && isMouseInside(mouseX, mouseY, x, y, entryWidth, entryHeight)) {
             addTooltip(Tooltip.of(Point(mouseX, mouseY), tooltipText))

@@ -7,9 +7,10 @@ import com.google.gson.JsonPrimitive
 import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.JsonOps
 import me.shedaniel.autoconfig.AutoConfig
-import net.minecraft.nbt.NbtElement
+import net.minecraft.client.gui.screens.Screen
 import net.minecraft.nbt.NbtOps
-import net.minecraft.text.Style
+import net.minecraft.nbt.Tag
+import net.minecraft.network.chat.Style
 import opekope2.optigui.filter.text_style_changer.TextStyleChanger
 import opekope2.optigui.interaction.IInteraction
 import opekope2.optigui.interaction.InteractionManager
@@ -91,7 +92,7 @@ interface IConfig {
             }
             InteractionManager.renderedTexts.forEach { source, text ->
                 val textJson = TextStyler.textWithSourceCodec.encodeStart(ops, Pair(text, source))
-                val styleJson = Style.Codecs.CODEC.encodeStart(JsonOps.INSTANCE, text.style)
+                val styleJson = Style.Serializer.CODEC.encodeStart(JsonOps.INSTANCE, text.style)
                 val textStyleChangerJson = textJson.apply2stable(::textStyleChanger, styleJson)
                 textStyleChangerJson.ifSuccess(json::add)
             }
@@ -109,7 +110,7 @@ interface IConfig {
 
         open fun getInteractionNbt(interaction: IInteraction): JsonElement = interaction.createNbt().toJson()
 
-        private fun NbtElement.toJson() = NbtOps.INSTANCE.convertTo(ops, this)
+        private fun Tag.toJson() = NbtOps.INSTANCE.convertTo(ops, this)
 
         override fun toString() = translation.getTranslation()
     }
@@ -133,7 +134,7 @@ interface IConfig {
          */
         ERRORS_AND_WARNINGS(I18n.OPTIGUI_ENUM_RESOURCELOADINGERRORFILTER_ERRORS_AND_WARNINGS);
 
-        override fun toString(): String = translation.getTranslation()
+        override fun toString() = translation.getTranslation()
     }
 
     companion object {
@@ -142,5 +143,11 @@ interface IConfig {
          */
         @JvmStatic
         fun get(): IConfig = AutoConfig.getConfigHolder(Config::class.java).config
+
+        /**
+         * Creates an OptiGUI config screen.
+         */
+        @JvmStatic
+        fun createConfigScreen(parent: Screen): Screen = AutoConfig.getConfigScreen(Config::class.java, parent).get()
     }
 }

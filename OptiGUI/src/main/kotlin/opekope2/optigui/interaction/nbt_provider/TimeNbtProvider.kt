@@ -1,7 +1,7 @@
 package opekope2.optigui.interaction.nbt_provider
 
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.registry.RegistryWrapper
+import net.minecraft.core.HolderLookup
+import net.minecraft.nbt.CompoundTag
 import opekope2.optigui.interaction.IInteraction
 import java.time.LocalDateTime
 
@@ -9,7 +9,7 @@ import java.time.LocalDateTime
  * Provides the time NBT of an interaction.
  */
 object TimeNbtProvider : IInteractionNbtProvider {
-    override fun get(interaction: IInteraction, lookup: RegistryWrapper.WrapperLookup) = NbtCompound().apply {
+    override fun get(interaction: IInteraction, lookup: HolderLookup.Provider) = CompoundTag().apply {
         val now = LocalDateTime.now()
         putInt("year", now.year)
         putInt("month", now.month.value)

@@ -3,9 +3,9 @@ package opekope2.optigui.internal.debugger
 import com.google.gson.GsonBuilder
 import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.*
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.IInteraction
 import opekope2.optigui.interaction.InteractionTarget
@@ -31,11 +31,11 @@ internal object Debugger {
         it.compressionLevel = Deflater.BEST_COMPRESSION
     }
     private val DEBUG_DATA_CODEC = Codec.mapPair(
-        Identifier.CODEC.fieldOf("resource"),
+        ResourceLocation.CODEC.fieldOf("resource"),
         NbtFilterEvaluationMapCodec
     ).codec()
 
-    fun getEncodedDebugData(interaction: IInteraction): String? = try {
+    fun getEncodedDebugData(interaction: IInteraction) = try {
         val debugData = getDebugData(JsonOps.INSTANCE, interaction).ifError {
             LOGGER.atError()
                 .addArgument(I18n.OPTIGUI_INSPECTOR_DESCRIPTION_DEBUG_CLICKED_ERROR.supplyTranslation())
@@ -67,7 +67,7 @@ internal object Debugger {
             .build(ops.empty())
     }
 
-    private fun <T : Any> getTextureChangerDebugData(ops: DynamicOps<T>, nbt: NbtCompound) = TextureChanger.filters
+    private fun <T : Any> getTextureChangerDebugData(ops: DynamicOps<T>, nbt: CompoundTag) = TextureChanger.filters
         .asSequence()
         .map { (target, filters) ->
             filters.asSequence()
@@ -88,7 +88,7 @@ internal object Debugger {
         InteractionTarget.Unknown -> type
     }.let(ops::createString)
 
-    private fun <T : Any> TextureChangerFilter.getDebugData(ops: DynamicOps<T>, nbt: NbtCompound): DataResult<T> {
+    private fun <T : Any> TextureChangerFilter.getDebugData(ops: DynamicOps<T>, nbt: CompoundTag): DataResult<T> {
         val eval = NbtFilterEvaluation(this, nbt, nbt)
         val pair = Pair(resourceId, eval)
         return DEBUG_DATA_CODEC.encodeStart(ops, pair)

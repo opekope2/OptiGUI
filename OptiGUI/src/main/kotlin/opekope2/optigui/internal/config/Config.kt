@@ -4,11 +4,11 @@ import me.shedaniel.autoconfig.AutoConfig
 import me.shedaniel.autoconfig.ConfigData
 import me.shedaniel.autoconfig.annotation.Config
 import me.shedaniel.autoconfig.annotation.ConfigEntry
-import net.minecraft.client.MinecraftClient
 import opekope2.optigui.config.IConfig
 import opekope2.optigui.gui.screen.ResourceLoadingErrorScreen
 import opekope2.optigui.internal.config.gui.ButtonListEntry
 import opekope2.optigui.util.MOD_ID
+import opekope2.optigui.util.mc
 
 @Config(name = MOD_ID)
 internal class Config : IConfig, ConfigData {
@@ -39,9 +39,7 @@ internal class Config : IConfig, ConfigData {
     @Transient
     @Suppress("unused")
     val errorsAndWarnings = ButtonListEntry.IAction {
-        val client = MinecraftClient.getInstance()
-        val screen = client.currentScreen
-        client.setScreen(ResourceLoadingErrorScreen.create(ResourceLoadingErrorScreen.setScreen(screen)))
+        mc.setScreen(ResourceLoadingErrorScreen.create(ResourceLoadingErrorScreen.setScreen(mc.screen)))
     }
 
     override fun save() {

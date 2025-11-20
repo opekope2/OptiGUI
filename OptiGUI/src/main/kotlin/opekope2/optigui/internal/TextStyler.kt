@@ -3,9 +3,9 @@ package opekope2.optigui.internal
 import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.Codec
 import net.minecraft.nbt.NbtOps
-import net.minecraft.text.OrderedText
-import net.minecraft.text.Text
-import net.minecraft.text.TextCodecs
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.ComponentSerialization
+import net.minecraft.util.FormattedCharSequence
 import opekope2.optigui.filter.text_style_changer.TextStyleChanger
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager
@@ -16,24 +16,24 @@ import java.util.*
 internal object TextStyler {
     private var prevFilter = TextureChangerFilter.NO_OP
 
-    private var stringCache = Cache<String, OrderedText>()
-    private var prevStringCache = Cache<String, OrderedText>()
-    private var textCache = Cache<Text, Text>()
-    private var prevTextCache = Cache<Text, Text>()
+    private var stringCache = Cache<String, FormattedCharSequence>()
+    private var prevStringCache = Cache<String, FormattedCharSequence>()
+    private var textCache = Cache<Component, Component>()
+    private var prevTextCache = Cache<Component, Component>()
 
     val renderedStrings = EnumObjectPairMutableSet<TextOrigin, String>(TextOrigin::class.java)
-    val renderedTexts = EnumObjectPairMutableSet<TextOrigin, Text>(TextOrigin::class.java)
+    val renderedTexts = EnumObjectPairMutableSet<TextOrigin, Component>(TextOrigin::class.java)
 
     const val TEXT_KEY = "text"
     const val ORIGIN_KEY = "origin"
 
     val stringWithSourceCodec: Codec<Pair<String, TextOrigin>> =
         Codec.pair(Codec.STRING.fieldOf(TEXT_KEY).codec(), TextOrigin.CODEC.fieldOf(ORIGIN_KEY).codec())
-    val textWithSourceCodec: Codec<Pair<Text, TextOrigin>> =
-        Codec.pair(TextCodecs.CODEC.fieldOf(TEXT_KEY).codec(), TextOrigin.CODEC.fieldOf(ORIGIN_KEY).codec())
+    val textWithSourceCodec: Codec<Pair<Component, TextOrigin>> =
+        Codec.pair(ComponentSerialization.CODEC.fieldOf(TEXT_KEY).codec(), TextOrigin.CODEC.fieldOf(ORIGIN_KEY).codec())
 
     @JvmStatic
-    fun styleText(text: String, origin: TextOrigin): OrderedText? {
+    fun styleText(text: String, origin: TextOrigin): FormattedCharSequence? {
         if (!TextureChanger.renderingScreen) return null
         if (!InteractionManager.isInteracting) return null
         renderedStrings.add(origin, text)
@@ -44,12 +44,12 @@ internal object TextStyler {
 
         val styler = getStyler(text, origin, stringWithSourceCodec, stringCache) ?: return null
         return stringCache.getOrPut(text, origin) {
-            prevStringCache[text, origin] ?: OrderedText.styledForwardsVisitedString(text, styler.style)
+            prevStringCache[text, origin] ?: FormattedCharSequence.forward(text, styler.style)
         }
     }
 
     @JvmStatic
-    fun styleText(text: Text, origin: TextOrigin): Text {
+    fun styleText(text: Component, origin: TextOrigin): Component {
         if (!TextureChanger.renderingScreen) return text
         if (!InteractionManager.isInteracting) return text
         renderedTexts.add(origin, text)

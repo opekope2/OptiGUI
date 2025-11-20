@@ -1,9 +1,9 @@
 package opekope2.optigui.mixin;
 
-import net.minecraft.client.gui.screen.ingame.AnvilScreen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.text.OrderedText;
-import net.minecraft.text.Style;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.inventory.AnvilScreen;
+import net.minecraft.network.chat.Style;
+import net.minecraft.util.FormattedCharSequence;
 import opekope2.optigui.internal.TextStyler;
 import opekope2.optigui.util.TextOrigin;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,16 +16,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(AnvilScreen.class)
 public abstract class AnvilScreenMixin {
     @Shadow
-    private TextFieldWidget nameField;
+    private EditBox name;
 
-    @Inject(method = "setup", at = @At("TAIL"))
-    private void makeNameFieldStyleable(CallbackInfo ci) {
-        nameField.setRenderTextProvider(this::styleNameField);
+    @Inject(method = "subInit", at = @At("TAIL"))
+    private void makeNameStyleable(CallbackInfo ci) {
+        name.setFormatter(this::optiGui_styleName);
     }
 
     @Unique
-    private OrderedText styleNameField(String string, int firstCharacterIndex) {
+    private FormattedCharSequence optiGui_styleName(String string, int firstCharacterIndex) {
         var text = TextStyler.styleText(string, TextOrigin.ANVIL_NAME_FIELD);
-        return text != null ? text : OrderedText.styledForwardsVisitedString(string, Style.EMPTY);
+        return text != null ? text : FormattedCharSequence.forward(string, Style.EMPTY);
     }
 }

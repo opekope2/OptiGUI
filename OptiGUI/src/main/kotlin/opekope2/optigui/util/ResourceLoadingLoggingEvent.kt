@@ -1,6 +1,6 @@
 package opekope2.optigui.util
 
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import org.slf4j.event.Level
 import org.slf4j.event.LoggingEvent
 import org.slf4j.helpers.MessageFormatter
@@ -18,7 +18,7 @@ data class ResourceLoadingLoggingEvent(
     val message: String,
     val level: Level,
     val packName: String?,
-    val resourceId: Identifier?
+    val resourceId: ResourceLocation?
 ) : Comparable<ResourceLoadingLoggingEvent> {
     // Unknown pack is last
     private fun comparePackName(second: ResourceLoadingLoggingEvent): Int {
@@ -50,7 +50,7 @@ data class ResourceLoadingLoggingEvent(
             MessageFormatter.basicArrayFormat(event.message, event.argumentArray),
             event.level,
             event.keyValuePairs?.firstOrNull { it.key == LOG_KEY_RESOURCE_PACK && it.value is String && packExists(it.value as String) }?.value as? String,
-            event.keyValuePairs?.firstOrNull { it.key == LOG_KEY_RESOURCE && it.value is Identifier }?.value as? Identifier
+            event.keyValuePairs?.firstOrNull { it.key == LOG_KEY_RESOURCE && it.value is ResourceLocation }?.value as? ResourceLocation
         )
     }
 }

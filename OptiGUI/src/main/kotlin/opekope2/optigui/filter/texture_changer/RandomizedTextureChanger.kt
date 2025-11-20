@@ -1,6 +1,6 @@
 package opekope2.optigui.filter.texture_changer
 
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import opekope2.optigui.interaction.InteractionManager
 import java.util.*
 
@@ -11,7 +11,7 @@ import java.util.*
  * @param weights The new textures and associated weights
  */
 // https://www.keithschwarz.com/darts-dice-coins
-class RandomizedTextureChanger(weights: Map<Identifier, Int>) : ITextureChanger {
+class RandomizedTextureChanger(weights: Map<ResourceLocation, Int>) : ITextureChanger {
     init {
         require(weights.isNotEmpty()) { "Weights cannot be empty" }
     }
@@ -21,7 +21,7 @@ class RandomizedTextureChanger(weights: Map<Identifier, Int>) : ITextureChanger 
     private val alias = IntArray(n)
 
     @Suppress("UNCHECKED_CAST") // filled with non-null values
-    private val choices = arrayOfNulls<Identifier>(n) as Array<Identifier>
+    private val choices = arrayOfNulls<ResourceLocation>(n) as Array<ResourceLocation>
     private val random = Random(0)
 
     init {
@@ -61,15 +61,15 @@ class RandomizedTextureChanger(weights: Map<Identifier, Int>) : ITextureChanger 
         }
     }
 
-    override fun apply(texture: Identifier) = choose(randomize(texture))
+    override fun apply(texture: ResourceLocation) = choose(randomize(texture))
 
-    private fun choose(random: Random): Identifier {
+    private fun choose(random: Random): ResourceLocation {
         val i = random.nextInt(n)
         return if (random.nextFloat() < prob[i]) choices[i]
         else choices[alias[i]]
     }
 
-    private fun randomize(textureId: Identifier): Random {
+    private fun randomize(textureId: ResourceLocation): Random {
         val seed = Objects.hash(InteractionManager.interaction, textureId).toLong() and 0xFFFFFFFFL
         return random.apply { setSeed(seed or (seed shl 32)) }
     }

@@ -1,8 +1,8 @@
 package opekope2.optigui.filter
 
 import com.mojang.serialization.Codec
-import net.minecraft.nbt.NbtElement
-import net.minecraft.nbt.NbtString
+import net.minecraft.nbt.StringTag
+import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.comparer.INbtComparer
 import opekope2.optigui.filter.transformer.NbtTransformerChain
 import java.util.*
@@ -17,13 +17,13 @@ import java.util.*
  */
 class DynamicNbtComparerFilter(private val transformerChain: NbtTransformerChain, override val type: Type) :
     INbtFilter {
-    override fun test(nbt: NbtElement, root: NbtElement): Boolean {
+    override fun test(nbt: Tag, root: Tag): Boolean {
         val reference = transformerChain.transform(nbt, root) ?: return false
         return type.comparer.compare(nbt, reference) in type.acceptedResults
     }
 
     override fun asString() = super.asString() + " " + transformerChain.transformerChain
-        .joinToString(prefix = "[", postfix = "]", transform = { NbtString.escape(it.key) })
+        .joinToString(prefix = "[", postfix = "]", transform = { StringTag.quoteAndEscape(it.key) })
 
     /**
      * A type describing a [DynamicNbtComparerFilter].

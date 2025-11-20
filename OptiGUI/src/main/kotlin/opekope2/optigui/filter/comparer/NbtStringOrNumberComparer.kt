@@ -3,7 +3,7 @@ package opekope2.optigui.filter.comparer
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import net.minecraft.nbt.*
-import net.minecraft.util.dynamic.Codecs
+import net.minecraft.util.ExtraCodecs
 import opekope2.optigui.filter.ConstantNbtComparerFilter
 import opekope2.optigui.filter.DynamicNbtComparerFilter
 import opekope2.optigui.internal.I18n
@@ -47,15 +47,15 @@ sealed class NbtStringOrNumberComparer(val ignoreCase: Boolean) : INbtComparer {
     fun dynamicType(vararg acceptedResults: INbtComparer.ComparisonResult) =
         dynamicType(acceptedResults.toCollection(EnumSet.noneOf(INbtComparer.ComparisonResult::class.java)))
 
-    override fun compare(nbt: NbtElement, reference: NbtElement): INbtComparer.ComparisonResult {
+    override fun compare(nbt: Tag, reference: Tag): INbtComparer.ComparisonResult {
         return INbtComparer.ComparisonResult.ofComparison(
             when {
-                nbt is NbtString && reference is NbtString -> reference.asString().compareTo(nbt.asString(), ignoreCase)
-                nbt !is AbstractNbtNumber || reference !is AbstractNbtNumber -> return INbtComparer.ComparisonResult.INCOMPARABLE
-                nbt is NbtDouble || reference is NbtDouble -> reference.doubleValue().compareTo(nbt.doubleValue())
-                nbt is NbtFloat || reference is NbtFloat -> reference.floatValue().compareTo(nbt.floatValue())
-                nbt is NbtLong || reference is NbtLong -> reference.longValue().compareTo(nbt.longValue())
-                else -> nbt.intValue().compareTo(reference.intValue())
+                nbt is StringTag && reference is StringTag -> reference.asString.compareTo(nbt.asString, ignoreCase)
+                nbt !is NumericTag || reference !is NumericTag -> return INbtComparer.ComparisonResult.INCOMPARABLE
+                nbt is DoubleTag || reference is DoubleTag -> reference.asDouble.compareTo(nbt.asDouble)
+                nbt is FloatTag || reference is FloatTag -> reference.asFloat.compareTo(nbt.asFloat)
+                nbt is LongTag || reference is LongTag -> reference.asLong.compareTo(nbt.asLong)
+                else -> nbt.asInt.compareTo(reference.asInt)
             }
         )
     }
@@ -71,9 +71,9 @@ sealed class NbtStringOrNumberComparer(val ignoreCase: Boolean) : INbtComparer {
     data object CaseInsensitive : NbtStringOrNumberComparer(true)
 
     private companion object {
-        private val nbtStringOrNumberCodec: Codec<NbtElement> = Codecs.fromOps(NbtOps.INSTANCE).validate {
-            if (it is NbtString || it is AbstractNbtNumber) DataResult.success(it)
-            else DataResult.error { I18n.OPTIGUI_VALIDATION_ERROR_NOT_A_NUMBER_OR_STRING.getTranslation(it.asString()) }
+        private val nbtStringOrNumberCodec: Codec<Tag> = ExtraCodecs.converter(NbtOps.INSTANCE).validate {
+            if (it is StringTag || it is NumericTag) DataResult.success(it)
+            else DataResult.error { I18n.OPTIGUI_VALIDATION_ERROR_NOT_A_NUMBER_OR_STRING.getTranslation(it.asString) }
         }
     }
 }

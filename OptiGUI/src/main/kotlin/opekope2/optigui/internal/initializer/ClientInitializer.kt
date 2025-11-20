@@ -12,19 +12,21 @@ import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.config.Config
 import opekope2.optigui.internal.config.gui.ButtonEntryGuiProvider
 import opekope2.optigui.internal.config.gui.ButtonListEntry
+import opekope2.optigui.internal.resource.loader.JsonFilterLoader
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import opekope2.optigui.nbt_provider.NbtFilterNamesNbtProvider
 
 internal object ClientInitializer {
     init {
-        TextureChanger
-        InteractionManager
+        TextureChanger.initialize()
+        InteractionManager.initialize()
 
         registerConfig()
         registerInteractionNbtProviders()
         registerPrefixNbtFilters()
         registerNbtFilters()
         registerLoadTimeNbtProviders()
+        registerFilterLoaders()
     }
 
     private fun registerConfig() {
@@ -35,21 +37,20 @@ internal object ClientInitializer {
 
     private fun registerInteractionNbtProviders() {
         IInteractionNbtProvider.register("biome", BiomeNbtProvider)
-        IInteractionNbtProvider.register("biome_id", BiomeIdNbtProvider)
+        IInteractionNbtProvider.register("biome_registration", BiomeIdNbtProvider)
         IInteractionNbtProvider.register("block_entity", BlockEntityNbtProvider)
         IInteractionNbtProvider.register("block_state", BlockStateNbtProvider)
         IInteractionNbtProvider.register("entity", EntityNbtProvider)
         IInteractionNbtProvider.register("hand", HandNbtProvider)
         IInteractionNbtProvider.register("item", ItemNbtProvider)
+        IInteractionNbtProvider.register("level", WorldNbtProvider)
         IInteractionNbtProvider.register("player", PlayerNbtProvider)
         IInteractionNbtProvider.register("player_extra", ExtraPlayerNbtProvider)
         IInteractionNbtProvider.register("pos", PositionNbtProvider)
-        IInteractionNbtProvider.register("screen", ScreenNbtProvider)
         IInteractionNbtProvider.register("structures", StructureBoundingBoxProvider)
         IInteractionNbtProvider.register("target", TargetNbtProvider)
         IInteractionNbtProvider.register("time", TimeNbtProvider)
         IInteractionNbtProvider.register("vehicle", VehicleNbtProvider)
-        IInteractionNbtProvider.register("world", WorldNbtProvider)
     }
 
     private fun registerPrefixNbtFilters() {
@@ -109,5 +110,9 @@ internal object ClientInitializer {
 
     private fun registerLoadTimeNbtProviders() {
         ILoadTimeNbtProvider.register("filters", NbtFilterNamesNbtProvider)
+    }
+
+    private fun registerFilterLoaders() {
+        JsonFilterLoader.initialize()
     }
 }

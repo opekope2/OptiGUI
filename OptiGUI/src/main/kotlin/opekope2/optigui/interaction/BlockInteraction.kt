@@ -1,11 +1,11 @@
 package opekope2.optigui.interaction
 
-import net.minecraft.block.BlockState
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.util.Hand
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.state.BlockState
 import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 
 /**
@@ -25,8 +25,8 @@ data class BlockInteraction(
     val blockState: BlockState,
     val blockEntity: BlockEntity?,
     override val item: ItemStack,
-    override val player: PlayerEntity,
-    override val hand: Hand
+    override val player: Player,
+    override val hand: InteractionHand
 ) : IInteraction {
     override val target = InteractionTarget.Block(blockState)
 
@@ -47,8 +47,8 @@ data class BlockInteraction(
             blockState: BlockState,
             blockEntity: BlockEntity?,
             item: ItemStack,
-            player: PlayerEntity,
-            hand: Hand
+            player: Player,
+            hand: InteractionHand
         ) = IInteraction.IFactory {
             BlockInteraction(it, blockPos, blockState, blockEntity, item, player, hand)
         }
@@ -61,15 +61,15 @@ data class BlockInteraction(
          * @param blockEntity The block entity at [blockPos] or `null`, if there's no block entity
          * @param player The interacting player
          * @param hand The hand the player interacted with
-         * @see PlayerEntity.getStackInHand
+         * @see Player.getItemInHand
          */
         @JvmStatic
         fun factory(
             blockPos: BlockPos,
             blockState: BlockState,
             blockEntity: BlockEntity?,
-            player: PlayerEntity,
-            hand: Hand
-        ) = factory(blockPos, blockState, blockEntity, player.getStackInHand(hand), player, hand)
+            player: Player,
+            hand: InteractionHand
+        ) = factory(blockPos, blockState, blockEntity, player.getItemInHand(hand), player, hand)
     }
 }
