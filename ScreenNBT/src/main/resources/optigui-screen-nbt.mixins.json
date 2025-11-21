@@ -18,6 +18,7 @@
     "ChestMenuMixin",
     "CrafterMenuMixin",
     "CraftingMenuMixin",
+    "CreativeModeInventoryScreenMixin",
     "DispenserMenuMixin",
     "EnchantmentMenuMixin",
     "GrindstoneMenuMixin",
