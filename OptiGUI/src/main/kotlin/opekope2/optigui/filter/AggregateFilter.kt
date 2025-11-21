@@ -37,29 +37,29 @@ class AggregateFilter(val filters: LinkedMruCollection<INbtFilter>, override val
         /**
          * An [AggregateFilter] type, which requires all filters to return `false`.
          */
-        NONE_OF(AggregateOperator.NONE_OF),
+        NONE_OF(AggregateOperator.NONE),
 
         /**
          * An [AggregateFilter] type, which requires at least one filter to return `true`.
          */
-        ANY_OF(AggregateOperator.ANY_OF),
+        ANY_OF(AggregateOperator.ANY),
 
         /**
          * An [AggregateFilter] type, which requires at least one filter to return `false`.
          */
-        SOME_OF(AggregateOperator.SOME_OF),
+        SOME_OF(AggregateOperator.SOME),
 
         /**
          * An [AggregateFilter] type, which requires all filters to return `true`.
          */
-        ALL_OF(AggregateOperator.ALL_OF),
+        ALL_OF(AggregateOperator.ALL),
 
         /**
          * An [AggregateFilter] type, which requires all filters to return `false`, and serializes to and from a map
          * instead of a list. The map format is the only way to serialize and deserialize [SubNbtTransformer] and
          * [NbtListIndexTransformer] filters.
          */
-        JSON_OBJECT(AggregateOperator.ALL_OF) {
+        JSON_OBJECT(AggregateOperator.ALL) {
             override val codec: Codec<AggregateFilter> =
                 Codec.dispatchedMap(INbtFilter.KEY_CODEC, ::getCodec).xmap(
                     { AggregateFilter(LinkedMruCollection(it.values), this) },

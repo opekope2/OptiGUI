@@ -44,22 +44,22 @@ class NbtListFilter(val subFilter: INbtFilter, override val type: Type) : INbtFi
         /**
          * An [NbtListFilter] type, which requires the filter to return `false` for all NBT list elements.
          */
-        NONE(AggregateOperator.NONE_OF),
+        NONE(AggregateOperator.NONE),
 
         /**
          * An [NbtListFilter] type, which requires the filter to return `true` for at least one NBT list element.
          */
-        ANY(AggregateOperator.ANY_OF),
+        ANY(AggregateOperator.ANY),
 
         /**
          * An [NbtListFilter] type, which requires the filter to return `false` for at least one NBT list element.
          */
-        SOME(AggregateOperator.SOME_OF),
+        SOME(AggregateOperator.SOME),
 
         /**
          * An [NbtListFilter] type, which requires the filter to return `true` for all NBT list elements.
          */
-        ALL(AggregateOperator.ALL_OF);
+        ALL(AggregateOperator.ALL);
 
         override val codec: Codec<NbtListFilter> = INbtFilter.CODEC.xmap(
             { NbtListFilter(it, this) },
