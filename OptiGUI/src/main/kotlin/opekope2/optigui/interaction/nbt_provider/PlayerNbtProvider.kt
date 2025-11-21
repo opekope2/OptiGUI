@@ -24,7 +24,7 @@ object PlayerNbtProvider : IInteractionNbtProvider {
 
     override fun get(interaction: IInteraction, registryAccess: RegistryAccess) = CompoundTag().apply {
         put("biome", biomeProvider.get(interaction, registryAccess))
-        put("biome_registration", biomeIdProvider.get(interaction, registryAccess))
+        put("biome_id", biomeIdProvider.get(interaction, registryAccess))
         put("entity", entityProvider.get(interaction, registryAccess)!!)
         put("game_mode", NbtUtil.encode(gameMode.playerMode, GameType.CODEC, registryAccess))
         putString("name", interaction.player.name.string)

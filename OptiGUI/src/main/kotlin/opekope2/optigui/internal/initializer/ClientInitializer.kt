@@ -39,7 +39,7 @@ internal object ClientInitializer {
 
     private fun registerInteractionNbtProviders() {
         IInteractionNbtProvider.register("biome", BiomeNbtProvider(IInteraction::blockPos))
-        IInteractionNbtProvider.register("biome_registration", BiomeIdNbtProvider(IInteraction::blockPos))
+        IInteractionNbtProvider.register("biome_id", BiomeIdNbtProvider(IInteraction::blockPos))
         IInteractionNbtProvider.register("block_entity", BlockEntityNbtProvider)
         IInteractionNbtProvider.register("block_state", BlockStateNbtProvider)
         IInteractionNbtProvider.register("entity", EntityNbtProvider { (it as? EntityInteraction)?.entity })
