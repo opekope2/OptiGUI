@@ -1,6 +1,6 @@
 package opekope2.optigui.interaction.nbt_provider
 
-import net.minecraft.core.HolderLookup
+import net.minecraft.core.RegistryAccess
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.Tag
 import opekope2.optigui.interaction.IInteraction
@@ -14,9 +14,9 @@ fun interface IInteractionNbtProvider {
      * Creates NBT from an interaction.
      *
      * @param interaction The interaction to extract NBT from
-     * @param lookup The registries of the world. Used to encode objects
+     * @param registryAccess The registries of the world
      */
-    fun get(interaction: IInteraction, lookup: HolderLookup.Provider): Tag?
+    fun get(interaction: IInteraction, registryAccess: RegistryAccess): Tag?
 
     /**
      * Interaction NBT provider registry.

@@ -66,7 +66,7 @@ tasks {
     val worldNbtProviderChecksum by registering(VerifyChecksum::class) {
         dependsOn(generateWorldNbtProvider)
         inputs.files(generateWorldNbtProvider)
-        checksum("705ce6e75b45837db284062965154c40")
+        checksum("fbe22add93e1de5ce23f7d506fcf6d70")
     }
 
     codegen { dependsOn(generateI18n, generateInternalPackageInfos, generateWorldNbtProvider) }

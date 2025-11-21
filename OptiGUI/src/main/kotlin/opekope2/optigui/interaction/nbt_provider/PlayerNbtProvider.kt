@@ -1,7 +1,7 @@
 package opekope2.optigui.interaction.nbt_provider
 
 import net.minecraft.client.multiplayer.MultiPlayerGameMode
-import net.minecraft.core.HolderLookup
+import net.minecraft.core.RegistryAccess
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.level.GameType
 import opekope2.optigui.interaction.IInteraction
@@ -22,14 +22,14 @@ object PlayerNbtProvider : IInteractionNbtProvider {
     private inline val gameMode: MultiPlayerGameMode
         get() = requireNotNull(mc.gameMode) { "Minecraft.gameMode was null" }
 
-    override fun get(interaction: IInteraction, lookup: HolderLookup.Provider) = CompoundTag().apply {
-        put("biome", biomeProvider.get(interaction, lookup))
-        put("biome_registration", biomeIdProvider.get(interaction, lookup))
-        put("entity", entityProvider.get(interaction, lookup)!!)
-        put("game_mode", NbtUtil.encode(gameMode.playerMode, GameType.CODEC, lookup))
+    override fun get(interaction: IInteraction, registryAccess: RegistryAccess) = CompoundTag().apply {
+        put("biome", biomeProvider.get(interaction, registryAccess))
+        put("biome_registration", biomeIdProvider.get(interaction, registryAccess))
+        put("entity", entityProvider.get(interaction, registryAccess)!!)
+        put("game_mode", NbtUtil.encode(gameMode.playerMode, GameType.CODEC, registryAccess))
         putString("name", interaction.player.name.string)
-        put("pos", positionProvider.get(interaction, lookup))
-        structureProvider.get(interaction, lookup)?.let { put("structures", it) }
-        vehicleProvider.get(interaction, lookup)?.let { put("vehicle", it) }
+        put("pos", positionProvider.get(interaction, registryAccess))
+        structureProvider.get(interaction, registryAccess)?.let { put("structures", it) }
+        vehicleProvider.get(interaction, registryAccess)?.let { put("vehicle", it) }
     }
 }

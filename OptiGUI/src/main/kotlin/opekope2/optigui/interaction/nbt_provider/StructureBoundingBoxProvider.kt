@@ -1,7 +1,7 @@
 package opekope2.optigui.interaction.nbt_provider
 
 import net.minecraft.core.BlockPos
-import net.minecraft.core.HolderLookup
+import net.minecraft.core.RegistryAccess
 import net.minecraft.nbt.Tag
 import opekope2.optigui.interaction.IInteraction
 import java.util.function.Function
@@ -14,5 +14,5 @@ import java.util.function.Function
 class StructureBoundingBoxProvider(private val blockPosGetter: Function<IInteraction, BlockPos>) :
     IInteractionNbtProvider {
     // TODO implement
-    override fun get(interaction: IInteraction, lookup: HolderLookup.Provider): Tag? = null
+    override fun get(interaction: IInteraction, registryAccess: RegistryAccess): Tag? = null
 }

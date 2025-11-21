@@ -54,9 +54,9 @@ sealed interface IInteraction {
      * Converts the interaction to NBT for filtering.
      */
     fun createNbt() = CompoundTag().also {
-        val lookup = player.level().registryAccess()
+        val registryAccess = player.level().registryAccess()
         for ((key, value) in IInteractionNbtProvider.Registry) {
-            it.put(key, value.get(this, lookup) ?: continue)
+            it.put(key, value.get(this, registryAccess) ?: continue)
         }
     }
 

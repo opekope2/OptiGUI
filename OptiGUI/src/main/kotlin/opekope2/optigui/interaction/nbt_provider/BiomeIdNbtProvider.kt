@@ -1,7 +1,7 @@
 package opekope2.optigui.interaction.nbt_provider
 
 import net.minecraft.core.BlockPos
-import net.minecraft.core.HolderLookup
+import net.minecraft.core.RegistryAccess
 import net.minecraft.nbt.StringTag
 import opekope2.optigui.interaction.IInteraction
 import java.util.function.Function
@@ -12,6 +12,6 @@ import java.util.function.Function
  * @param blockPosGetter A function that gets the [BlockPos] from the interaction where the biome should be checked
  */
 class BiomeIdNbtProvider(private val blockPosGetter: Function<IInteraction, BlockPos>) : IInteractionNbtProvider {
-    override fun get(interaction: IInteraction, lookup: HolderLookup.Provider) =
+    override fun get(interaction: IInteraction, registryAccess: RegistryAccess) =
         StringTag.valueOf(interaction.world.getBiome(blockPosGetter.apply(interaction)).registeredName)
 }
