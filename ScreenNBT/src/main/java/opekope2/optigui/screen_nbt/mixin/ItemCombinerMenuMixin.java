@@ -1,6 +1,6 @@
 package opekope2.optigui.screen_nbt.mixin;
 
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.ItemCombinerMenu;
@@ -22,8 +22,10 @@ public abstract class ItemCombinerMenuMixin implements INbtConvertible {
     protected ResultContainer resultSlots;
 
     @Override
-    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
-        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(inputSlots, lookup));
-        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(resultSlots, lookup));
+    public CompoundTag optiGui_asNbt(RegistryAccess registryAccess) {
+        var compound = INbtConvertible.super.optiGui_asNbt(registryAccess);
+        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(inputSlots, registryAccess));
+        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(resultSlots, registryAccess));
+        return compound;
     }
 }

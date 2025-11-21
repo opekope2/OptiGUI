@@ -1,6 +1,6 @@
 package opekope2.optigui.screen_api.util;
 
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 
 /**
@@ -43,10 +43,12 @@ public interface INbtConvertible {
     String NUM_PAGES_KEY = "num_pages";
 
     /**
-     * Writes the object's content to {@code compound}.
+     * Encodes the object's content to a {@link CompoundTag}
      *
-     * @param compound The output {@link CompoundTag} to write contents to
-     * @param lookup   The registry lookup used to encode NBT
+     * @param registryAccess The registries of the world
+     * @return The {@link CompoundTag} containing the encoded object (an empty compound tag by default)
      */
-    void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup);
+    default CompoundTag optiGui_asNbt(RegistryAccess registryAccess) {
+        return new CompoundTag();
+    }
 }

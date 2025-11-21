@@ -6,11 +6,11 @@
     "defaultRequire": 1
   },
   "client": [
-    "AbstractContainerScreenMixin",
     "AbstractFurnaceMenuMixin",
     "AbstractSignEditScreenMixin",
     "AnvilMenuMixin",
     "BeaconMenuMixin",
+    "BeaconScreenMixin",
     "BookEditScreenMixin",
     "BookViewScreenMixin",
     "BrewingStandMenuMixin",

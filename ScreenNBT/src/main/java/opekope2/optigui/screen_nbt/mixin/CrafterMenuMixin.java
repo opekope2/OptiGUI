@@ -1,6 +1,6 @@
 package opekope2.optigui.screen_nbt.mixin;
 
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -30,14 +30,14 @@ public abstract class CrafterMenuMixin implements INbtConvertible {
     public abstract boolean isPowered();
 
     @Override
-    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
+    public CompoundTag optiGui_asNbt(RegistryAccess registryAccess) {
+        var compound = INbtConvertible.super.optiGui_asNbt(registryAccess);
         compound.putInt(COMPARATOR_OUTPUT_KEY, optiGui_calculateComparatorOutput(getContainer()));
-        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(getContainer(), lookup));
-        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(resultContainer, lookup));
-        var enabledSlots = new ListTag();
-        for (int i = 0; i < 9; i++) enabledSlots.add(ByteTag.valueOf(!isSlotDisabled(i)));
-        compound.put("enabled_slots", enabledSlots);
+        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(getContainer(), registryAccess));
+        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(resultContainer, registryAccess));
+        compound.put("enabled_slots", optiGui_getEnabledSlots());
         compound.putBoolean("powered", isPowered());
+        return compound;
     }
 
     @Unique
@@ -47,5 +47,12 @@ public abstract class CrafterMenuMixin implements INbtConvertible {
             if (!inventory.getItem(i).isEmpty() || isSlotDisabled(i)) output++;
         }
         return output;
+    }
+
+    @Unique
+    private ListTag optiGui_getEnabledSlots() {
+        var enabledSlots = new ListTag();
+        for (int i = 0; i < 9; i++) enabledSlots.add(ByteTag.valueOf(!isSlotDisabled(i)));
+        return enabledSlots;
     }
 }

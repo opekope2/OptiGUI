@@ -1,6 +1,6 @@
 package opekope2.optigui.screen_nbt.mixin;
 
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -27,11 +27,13 @@ public abstract class AbstractFurnaceMenuMixin implements INbtConvertible {
     public abstract boolean isLit();
 
     @Override
-    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
+    public CompoundTag optiGui_asNbt(RegistryAccess registryAccess) {
+        var compound = INbtConvertible.super.optiGui_asNbt(registryAccess);
         compound.putInt(COMPARATOR_OUTPUT_KEY, AbstractContainerMenu.getRedstoneSignalFromContainer(container));
-        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(container, lookup));
+        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(container, registryAccess));
         compound.putFloat("burn_progress", getBurnProgress());
         compound.putFloat("lit_progress", getLitProgress());
         compound.putBoolean("lit", isLit());
+        return compound;
     }
 }

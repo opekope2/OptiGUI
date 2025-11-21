@@ -1,6 +1,6 @@
 package opekope2.optigui.screen_nbt.mixin;
 
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -21,8 +21,10 @@ public abstract class InventoryMenuMixin implements INbtConvertible {
     public abstract CraftingContainer getCraftSlots();
 
     @Override
-    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
-        compound.put("crafting_grid", NbtUtil.createInventoryNbt(getCraftSlots(), lookup));
-        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(resultSlots, lookup));
+    public CompoundTag optiGui_asNbt(RegistryAccess registryAccess) {
+        var compound = INbtConvertible.super.optiGui_asNbt(registryAccess);
+        compound.put("crafting_grid", NbtUtil.createInventoryNbt(getCraftSlots(), registryAccess));
+        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(resultSlots, registryAccess));
+        return compound;
     }
 }

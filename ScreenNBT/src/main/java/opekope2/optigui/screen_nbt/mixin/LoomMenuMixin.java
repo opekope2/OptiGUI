@@ -1,7 +1,7 @@
 package opekope2.optigui.screen_nbt.mixin;
 
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -36,9 +36,11 @@ public abstract class LoomMenuMixin implements INbtConvertible {
     protected abstract boolean isValidPatternIndex(int index);
 
     @Override
-    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
-        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(inputContainer, lookup));
-        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(outputContainer, lookup));
+    public CompoundTag optiGui_asNbt(RegistryAccess registryAccess) {
+        var compound = INbtConvertible.super.optiGui_asNbt(registryAccess);
+
+        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(inputContainer, registryAccess));
+        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(outputContainer, registryAccess));
 
         var patterns = new ListTag();
         for (var pattern : selectablePatterns) patterns.add(StringTag.valueOf(pattern.getRegisteredName()));
@@ -46,5 +48,7 @@ public abstract class LoomMenuMixin implements INbtConvertible {
 
         var i = getSelectedBannerPatternIndex();
         if (isValidPatternIndex(i)) compound.put("selected", patterns.get(i));
+
+        return compound;
     }
 }
