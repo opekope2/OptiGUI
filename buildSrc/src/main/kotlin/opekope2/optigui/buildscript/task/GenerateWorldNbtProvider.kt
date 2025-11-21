@@ -132,7 +132,7 @@ abstract class GenerateWorldNbtProvider : AbstractCodegenTask() {
             |
             |/**
             | * Provides the world NBT of an interaction.
-            | */            
+            | */
             |object WorldNbtProvider : IInteractionNbtProvider {
             |    override fun get(interaction: IInteraction, lookup: HolderLookup.Provider): CompoundTag {
             |        val world = interaction.world

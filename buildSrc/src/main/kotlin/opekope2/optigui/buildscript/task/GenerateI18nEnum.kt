@@ -43,11 +43,11 @@ abstract class GenerateI18nEnum : AbstractCodegenTask() {
             |
             |internal enum class $enumName(private val key: String, private val fallback: String) {
             |    $members;
-            |    
+            |
             |    fun getText(vararg args: Any?) = Component.translatableWithFallback(key, fallback, *args)
             |
             |    fun getTranslation(vararg args: Any?) = getText(*args).getString()
-            |    
+            |
             |    fun supplyTranslation(vararg args: Any?) = Supplier { getTranslation(*args) }
             |}
         """.trimMargin()
