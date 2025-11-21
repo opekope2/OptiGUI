@@ -55,7 +55,7 @@ internal object ClientInitializer {
 
     private fun registerPrefixNbtFilters() {
         INbtFilter.PrefixRegistry.register('@', SubNbtTransformer.Type.Factory)
-        INbtFilter.PrefixRegistry.register('#', INbtListFilter.IType.Factory)
+        INbtFilter.PrefixRegistry.register('#', NbtListIndexTransformer.Type.Factory)
     }
 
     private fun registerNbtFilters() {
@@ -96,6 +96,11 @@ internal object ClientInitializer {
         INbtFilter.Registry.register("any_of", AggregateFilter.Type.ANY_OF)
         INbtFilter.Registry.register("some_of", AggregateFilter.Type.SOME_OF)
         INbtFilter.Registry.register("all_of", AggregateFilter.Type.ALL_OF)
+
+        INbtFilter.Registry.register("none", NbtListFilter.Type.NONE)
+        INbtFilter.Registry.register("any", NbtListFilter.Type.ANY)
+        INbtFilter.Registry.register("some", NbtListFilter.Type.SOME)
+        INbtFilter.Registry.register("all", NbtListFilter.Type.ALL)
 
         INbtFilter.Registry.register("keys", NbtTransformerFilter.Type(NbtCompoundKeysTransformer))
 

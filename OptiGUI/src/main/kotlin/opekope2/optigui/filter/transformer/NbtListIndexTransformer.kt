@@ -2,6 +2,7 @@ package opekope2.optigui.filter.transformer
 
 import net.minecraft.nbt.CollectionTag
 import net.minecraft.nbt.Tag
+import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.filter.NbtTransformerFilter
 
 /**
@@ -23,7 +24,22 @@ data class NbtListIndexTransformer(val index: Int) : INbtTransformer {
      *
      * @param index The index in the NBT list. If it's negative, indexing starts from the back
      */
-    data class Type(val index: Int) : NbtTransformerFilter.IType {
+    data class Type(val index: Int) : NbtTransformerFilter.IPrefixType {
+        override val codec = super.codec
+
         override val transformer = NbtListIndexTransformer(index)
+
+        override val nonPrefixedKey: String
+            get() = index.toString()
+
+        override val factory: Factory
+            get() = Factory
+
+        /**
+         * The factory for [Type].
+         */
+        companion object Factory : INbtFilter.IPrefixType.IFactory<Type> {
+            override fun createType(input: String) = input.toIntOrNull()?.let(::Type)
+        }
     }
 }
