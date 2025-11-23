@@ -50,11 +50,11 @@ sealed class NbtStringOrNumberComparer(val ignoreCase: Boolean) : INbtComparer {
     override fun compare(nbt: Tag, reference: Tag): INbtComparer.ComparisonResult {
         return INbtComparer.ComparisonResult.ofComparison(
             when {
-                nbt is StringTag && reference is StringTag -> reference.asString.compareTo(nbt.asString, ignoreCase)
+                nbt is StringTag && reference is StringTag -> nbt.asString.compareTo(reference.asString, ignoreCase)
                 nbt !is NumericTag || reference !is NumericTag -> return INbtComparer.ComparisonResult.INCOMPARABLE
-                nbt is DoubleTag || reference is DoubleTag -> reference.asDouble.compareTo(nbt.asDouble)
-                nbt is FloatTag || reference is FloatTag -> reference.asFloat.compareTo(nbt.asFloat)
-                nbt is LongTag || reference is LongTag -> reference.asLong.compareTo(nbt.asLong)
+                nbt is DoubleTag || reference is DoubleTag -> nbt.asDouble.compareTo(reference.asDouble)
+                nbt is FloatTag || reference is FloatTag -> nbt.asFloat.compareTo(reference.asFloat)
+                nbt is LongTag || reference is LongTag -> nbt.asLong.compareTo(reference.asLong)
                 else -> nbt.asInt.compareTo(reference.asInt)
             }
         )
