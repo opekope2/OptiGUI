@@ -92,44 +92,4 @@ class AggregateFilter(val filters: LinkedMruCollection<INbtFilter>, override val
             { it.filters.toList() }
         )
     }
-
-    companion object {
-        /**
-         * Matches only if no filters match in the collection. Matches if [filters][filters] [is empty][isEmpty].
-         *
-         * @param filters The filters to evaluate
-         */
-        @JvmStatic
-        fun noneOf(filters: Collection<INbtFilter>) =
-            AggregateFilter(LinkedMruCollection(filters), Type.NONE_OF)
-
-        /**
-         * Matches if at least 1 filter matches in the collection. Doesn't match if [filters][filters]
-         * [is empty][isEmpty].
-         *
-         * @param filters The filters to evaluate
-         */
-        @JvmStatic
-        fun anyOf(filters: Collection<INbtFilter>) =
-            AggregateFilter(LinkedMruCollection(filters), Type.ANY_OF)
-
-        /**
-         * Matches if 0 or more, but not all filters match in the collection. Doesn't match if [filters][filters]
-         * [is empty][isEmpty].
-         *
-         * @param filters The filters to evaluate
-         */
-        @JvmStatic
-        fun someOf(filters: Collection<INbtFilter>) =
-            AggregateFilter(LinkedMruCollection(filters), Type.SOME_OF)
-
-        /**
-         * Matches if every single filter matches in the collection. Matches if [filters][filters] [is empty][isEmpty].
-         *
-         * @param filters The filters to evaluate
-         */
-        @JvmStatic
-        fun allOf(filters: Collection<INbtFilter>) =
-            AggregateFilter(LinkedMruCollection(filters), Type.ALL_OF)
-    }
 }
