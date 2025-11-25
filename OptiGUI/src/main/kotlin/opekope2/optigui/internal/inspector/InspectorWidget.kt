@@ -11,8 +11,8 @@ import net.minecraft.client.gui.navigation.CommonInputs
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.resources.ResourceLocation
 import opekope2.optigui.interaction.InteractionManager
+import opekope2.optigui.internal.AbstractOptiGuiClient
 import opekope2.optigui.internal.I18n
-import opekope2.optigui.internal.IOptiGuiPlatform
 import opekope2.optigui.internal.debugger.Debugger
 import opekope2.optigui.util.DEBUGGER_URL
 import opekope2.optigui.util.MOD_ID
@@ -91,7 +91,8 @@ open class InspectorWidget : AbstractWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT,
 
     private fun inspectInteraction() {
         val interaction = InteractionManager.interaction ?: return
-        val json = Inspector.generateJsonResource(interaction, "OptiGUI ${IOptiGuiPlatform.get().version}")
+        val generatedBy = "OptiGUI ${AbstractOptiGuiClient.implementation.version}"
+        val json = Inspector.generateJsonResource(interaction, generatedBy)
 
         mc.keyboardHandler.clipboard = GSON.toJson(json)
         updateTooltip(DescriptionState.CLICKED)

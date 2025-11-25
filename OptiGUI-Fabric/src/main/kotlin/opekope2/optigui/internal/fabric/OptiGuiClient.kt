@@ -18,21 +18,20 @@ import opekope2.optigui.config.IConfig
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.interaction.InteractionManager
-import opekope2.optigui.internal.IOptiGuiPlatform
+import opekope2.optigui.internal.AbstractOptiGuiClient
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.fabric.event_handler.FabricAttackHandler
 import opekope2.optigui.internal.fabric.event_handler.FabricInteractionHandler
 import opekope2.optigui.internal.fabric.filter.NbtVersionFilter
 import opekope2.optigui.internal.fabric.gui.widget.FabricInspectorWidget
 import opekope2.optigui.internal.fabric.nbt_provider.FabricModsNbtProvider
-import opekope2.optigui.internal.initializer.initialize
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 import opekope2.optigui.util.MOD_ID
 import kotlin.jvm.optionals.getOrNull
 
 internal class OptiGuiClient :
-    IOptiGuiPlatform,
+    AbstractOptiGuiClient(),
     ClientModInitializer,
     ClientTickEvents.EndWorldTick,
     ClientPlayConnectionEvents.Disconnect,
@@ -44,9 +43,8 @@ internal class OptiGuiClient :
     override fun isModInstalled(modId: String) = FabricLoader.getInstance().isModLoaded(modId)
 
     override fun onInitializeClient() {
-        IOptiGuiPlatform.initialize(this)
-        registerNbtFilters()
-        registerLoadTimeNbtSuppliers()
+        super.initialize()
+
         registerResourceLoaders(ResourceManagerHelper.get(PackType.CLIENT_RESOURCES))
         FabricInteractionHandler.initialize()
         FabricAttackHandler.initialize()
@@ -55,7 +53,8 @@ internal class OptiGuiClient :
         ScreenEvents.AFTER_INIT.register(this)
     }
 
-    private fun registerNbtFilters() {
+    override fun registerNbtFilters() {
+        super.registerNbtFilters()
         INbtFilter.register(">v", NbtVersionFilter.Type.VERSION_GREATER)
         INbtFilter.register(">=v", NbtVersionFilter.Type.VERSION_GREATER_EQUAL)
         INbtFilter.register("=v", NbtVersionFilter.Type.VERSION_EQUAL)
@@ -66,7 +65,8 @@ internal class OptiGuiClient :
         INbtFilter.register("^v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MAJOR)
     }
 
-    private fun registerLoadTimeNbtSuppliers() {
+    override fun registerLoadTimeNbtProviders() {
+        super.registerLoadTimeNbtProviders()
         ILoadTimeNbtProvider.register("mods", FabricModsNbtProvider)
     }
 

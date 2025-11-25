@@ -1,4 +1,4 @@
-package opekope2.optigui.internal.initializer
+package opekope2.optigui.internal
 
 import me.shedaniel.autoconfig.AutoConfig
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer
@@ -10,7 +10,6 @@ import opekope2.optigui.interaction.EntityInteraction
 import opekope2.optigui.interaction.IInteraction
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.nbt_provider.*
-import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.config.Config
 import opekope2.optigui.internal.config.gui.ButtonEntryGuiProvider
 import opekope2.optigui.internal.config.gui.ButtonListEntry
@@ -18,9 +17,18 @@ import opekope2.optigui.internal.resource.loader.JsonFilterLoader
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import opekope2.optigui.nbt_provider.NbtFilterNamesNbtProvider
 import opekope2.optigui.nbt_provider.PrefixNbtFilterNamesNbtProvider
+import org.jetbrains.annotations.ApiStatus
+import org.jetbrains.annotations.MustBeInvokedByOverriders
 
-internal object ClientInitializer {
-    init {
+@ApiStatus.Internal
+abstract class AbstractOptiGuiClient {
+    abstract val version: String
+
+    abstract fun isModInstalled(modId: String): Boolean
+
+    protected fun initialize() {
+        initialize(this)
+
         TextureChanger.initialize()
         InteractionManager.initialize()
 
@@ -32,13 +40,15 @@ internal object ClientInitializer {
         registerFilterLoaders()
     }
 
-    private fun registerConfig() {
+    @MustBeInvokedByOverriders
+    protected open fun registerConfig() {
         AutoConfig.getGuiRegistry(Config::class.java)
             .registerTypeProvider(ButtonEntryGuiProvider, ButtonListEntry.IAction::class.java)
         AutoConfig.register(Config::class.java, ::GsonConfigSerializer)
     }
 
-    private fun registerInteractionNbtProviders() {
+    @MustBeInvokedByOverriders
+    protected open fun registerInteractionNbtProviders() {
         IInteractionNbtProvider.register("biome", BiomeNbtProvider(IInteraction::blockPos))
         IInteractionNbtProvider.register("biome_id", BiomeIdNbtProvider(IInteraction::blockPos))
         IInteractionNbtProvider.register("block_entity", BlockEntityNbtProvider)
@@ -54,12 +64,14 @@ internal object ClientInitializer {
         IInteractionNbtProvider.register("time", TimeNbtProvider)
     }
 
-    private fun registerPrefixNbtFilters() {
+    @MustBeInvokedByOverriders
+    protected open fun registerPrefixNbtFilters() {
         IPrefixNbtTransformer.register('@', PrefixSubNbtTransformer.type)
         IPrefixNbtTransformer.register('#', PrefixNbtListIndexTransformer.type)
     }
 
-    private fun registerNbtFilters() {
+    @MustBeInvokedByOverriders
+    protected open fun registerNbtFilters() {
         INbtFilter.register(">", NbtStringOrNumberComparer.CaseSensitive.constantType(MORE))
         INbtFilter.register(">?", NbtStringOrNumberComparer.CaseSensitive.dynamicType(MORE))
         INbtFilter.register(">*", NbtStringOrNumberComparer.CaseInsensitive.constantType(MORE))
@@ -117,12 +129,32 @@ internal object ClientInitializer {
         INbtFilter.register("?#", PrefixNbtTransformerFilter.Type(PrefixNbtListIndexTransformer))
     }
 
-    private fun registerLoadTimeNbtProviders() {
+    @MustBeInvokedByOverriders
+    protected open fun registerLoadTimeNbtProviders() {
         ILoadTimeNbtProvider.register("filters", NbtFilterNamesNbtProvider)
         ILoadTimeNbtProvider.register("prefix_filters", PrefixNbtFilterNamesNbtProvider)
     }
 
-    private fun registerFilterLoaders() {
+    @MustBeInvokedByOverriders
+    protected open fun registerFilterLoaders() {
         JsonFilterLoader.initialize()
+    }
+
+    @ApiStatus.Internal
+    companion object {
+        @JvmStatic
+        lateinit var implementation: AbstractOptiGuiClient
+            private set
+
+        @JvmStatic
+        private fun initialize(instance: AbstractOptiGuiClient) {
+            check(!::implementation.isInitialized) { "Tried to initialize OptiGuiClient twice" }
+            implementation = instance
+        }
+
+        @Suppress("UnusedReceiverParameter")
+        @JvmStatic
+        protected fun Any.initialize() {
+        }
     }
 }
