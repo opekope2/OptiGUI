@@ -3,6 +3,7 @@ package opekope2.optigui.filter
 import com.mojang.serialization.Codec
 import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.transformer.INbtTransformer
+import opekope2.optigui.filter.transformer.IPrefixNbtTransformer
 import opekope2.optigui.util.NbtFilterEvaluation
 
 /**
@@ -26,8 +27,9 @@ class NbtTransformerFilter(val subFilter: INbtFilter, override val type: IType) 
      * The base type describing [NbtTransformerFilter].
      *
      * @see Type
+     * @see PrefixType
      */
-    interface IType : INbtFilter.IType<NbtTransformerFilter> {
+    sealed interface IType : INbtFilter.IType<NbtTransformerFilter> {
         override val codec: Codec<NbtTransformerFilter>
             get() = INbtFilter.CODEC.xmap(
                 { NbtTransformerFilter(it, this) },
@@ -41,7 +43,7 @@ class NbtTransformerFilter(val subFilter: INbtFilter, override val type: IType) 
     }
 
     /**
-     * A type describing an [NbtTransformerFilter], the default implementation of [IType].
+     * A type describing an [NbtTransformerFilter].
      *
      * @param transformer The NBT transformer used to transform the input NBT element
      */
@@ -50,7 +52,21 @@ class NbtTransformerFilter(val subFilter: INbtFilter, override val type: IType) 
     }
 
     /**
-     * The base type describing a prefixed [NbtTransformerFilter].
+     * A type describing a prefix [NbtTransformerFilter].
+     *
+     * @param T The type of the NBT transformer used to transform the input NBT element
+     * @param key The prefixed key of a prefix NBT transformer
+     * @param transformer The NBT transformer created by a prefix NBT transformer by specifying the `key` argument in
+     *   [IPrefixNbtTransformer.transform]
      */
-    interface IPrefixType : IType, INbtFilter.IPrefixType<NbtTransformerFilter>
+    data class PrefixType<T : INbtTransformer>(override val key: String, override val transformer: T) : IType {
+        init {
+            require(isRegistered) { "Prefix NBT filter is not registered" }
+        }
+
+        override val isRegistered: Boolean
+            get() = key.isNotEmpty() && key[0] in IPrefixNbtTransformer
+
+        override val codec = super.codec
+    }
 }

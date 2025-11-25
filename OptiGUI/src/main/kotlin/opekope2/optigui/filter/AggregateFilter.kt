@@ -61,16 +61,10 @@ class AggregateFilter(val filters: LinkedMruCollection<INbtFilter>, override val
          */
         JSON_OBJECT(AggregateOperator.ALL) {
             override val codec: Codec<AggregateFilter> =
-                Codec.dispatchedMap(INbtFilter.KEY_CODEC, ::getCodec).xmap(
+                Codec.dispatchedMap(INbtFilter.TYPE_CODEC, INbtFilter.IType<*>::codec).xmap(
                     { AggregateFilter(LinkedMruCollection(it.values), this) },
-                    { filter -> filter.filters.associateBy { it.type.key } }
+                    { it.filters.associateBy(INbtFilter::type) }
                 ).validate(::validate)
-
-            private fun getCodec(key: String) = when (key) {
-                in INbtFilter.Registry -> INbtFilter.Registry.getValue(key)
-                in INbtFilter.PrefixRegistry -> INbtFilter.PrefixRegistry.createType(key)
-                else -> throw NoSuchElementException("Type is not registered: $key") // Shouldn't happen as INbtFilter.KEY_CODEC takes care of these
-            }.codec
 
             private fun validate(filter: AggregateFilter): DataResult<AggregateFilter> {
                 val missing = filter.filters.filter { !it.type.isRegistered }

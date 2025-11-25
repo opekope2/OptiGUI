@@ -54,8 +54,8 @@ internal object ClientInitializer {
     }
 
     private fun registerPrefixNbtFilters() {
-        INbtFilter.PrefixRegistry.register('@', SubNbtTransformer.Type.Factory)
-        INbtFilter.PrefixRegistry.register('#', NbtListIndexTransformer.Type.Factory)
+        IPrefixNbtTransformer.register('@', PrefixSubNbtTransformer.type)
+        IPrefixNbtTransformer.register('#', PrefixNbtListIndexTransformer.type)
     }
 
     private fun registerNbtFilters() {
