@@ -1,4 +1,4 @@
-package opekope2.optigui.registry
+package opekope2.optigui.util.registry
 
 /**
  * A registry that has a value-to-key mapping in addition to the key-to-value mapping, which means that every value can

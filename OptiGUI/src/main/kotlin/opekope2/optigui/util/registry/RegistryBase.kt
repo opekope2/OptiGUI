@@ -1,4 +1,4 @@
-package opekope2.optigui.registry
+package opekope2.optigui.util.registry
 
 /**
  * OptiGUI base registration utility.

@@ -8,9 +8,9 @@ import opekope2.optigui.filter.comparer.INbtComparer.ComparisonResult.EQUAL
 import opekope2.optigui.filter.comparer.NbtStringOrNumberComparer
 import opekope2.optigui.filter.transformer.IPrefixNbtTransformer
 import opekope2.optigui.internal.I18n
-import opekope2.optigui.registry.BiRegistryBase
 import opekope2.optigui.util.NbtFilterEvaluation
 import opekope2.optigui.util.dfu.EitherCodec
+import opekope2.optigui.util.registry.BiRegistryBase
 import org.jetbrains.annotations.ApiStatus
 
 /**

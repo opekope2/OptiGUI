@@ -7,7 +7,7 @@ import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.filter.NbtTransformerFilter
 import opekope2.optigui.internal.I18n
-import opekope2.optigui.registry.BiRegistryBase
+import opekope2.optigui.util.registry.BiRegistryBase
 import org.jetbrains.annotations.ApiStatus
 
 /**

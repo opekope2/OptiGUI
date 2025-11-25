@@ -4,7 +4,7 @@ import net.minecraft.core.RegistryAccess
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.Tag
 import opekope2.optigui.interaction.IInteraction
-import opekope2.optigui.registry.RegistryBase
+import opekope2.optigui.util.registry.RegistryBase
 
 /**
  * Extracts parts of an interaction as NBT for filtering.

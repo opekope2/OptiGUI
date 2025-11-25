@@ -5,9 +5,9 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.PreparableReloadListener
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionTarget
-import opekope2.optigui.registry.RegistryBase
 import opekope2.optigui.util.EventCollectorLogger
 import opekope2.optigui.util.ResourceLoadingLoggingEvent
+import opekope2.optigui.util.registry.RegistryBase
 
 /**
  * A filter supplier that loads [filters][TextureChangerFilter] from resources.

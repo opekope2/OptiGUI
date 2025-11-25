@@ -1,7 +1,7 @@
 package opekope2.optigui.nbt_provider
 
 import net.minecraft.nbt.Tag
-import opekope2.optigui.registry.RegistryBase
+import opekope2.optigui.util.registry.RegistryBase
 import java.util.function.Supplier
 
 /**
