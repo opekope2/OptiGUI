@@ -111,6 +111,9 @@ internal object ClientInitializer {
         INbtFilter.register("if", ConditionalFilter.TYPE)
 
         INbtFilter.register("root", NbtTransformerFilter.Type(RootNbtTransformer))
+
+        INbtFilter.register("?@", PrefixNbtTransformerFilter.Type(PrefixSubNbtTransformer))
+        INbtFilter.register("?#", PrefixNbtTransformerFilter.Type(PrefixNbtListIndexTransformer))
     }
 
     private fun registerLoadTimeNbtProviders() {

@@ -7,7 +7,8 @@ import net.minecraft.nbt.Tag
  *
  * @param subNbtKey The key of an NBT compound
  * @see NbtListIndexTransformer
+ * @see PrefixSubNbtTransformer
  */
 data class SubNbtTransformer(val subNbtKey: String) : INbtTransformer {
-    override fun transform(nbt: Tag, root: Tag) = if (nbt is CompoundTag) nbt[subNbtKey] else null
+    override fun transform(nbt: Tag, root: Tag) = PrefixSubNbtTransformer.getSubNbt(nbt, subNbtKey)
 }
