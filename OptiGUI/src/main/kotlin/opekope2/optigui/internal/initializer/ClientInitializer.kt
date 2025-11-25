@@ -17,6 +17,7 @@ import opekope2.optigui.internal.config.gui.ButtonListEntry
 import opekope2.optigui.internal.resource.loader.JsonFilterLoader
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import opekope2.optigui.nbt_provider.NbtFilterNamesNbtProvider
+import opekope2.optigui.nbt_provider.PrefixNbtFilterNamesNbtProvider
 
 internal object ClientInitializer {
     init {
@@ -118,6 +119,7 @@ internal object ClientInitializer {
 
     private fun registerLoadTimeNbtProviders() {
         ILoadTimeNbtProvider.register("filters", NbtFilterNamesNbtProvider)
+        ILoadTimeNbtProvider.register("prefix_filters", PrefixNbtFilterNamesNbtProvider)
     }
 
     private fun registerFilterLoaders() {
