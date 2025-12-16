@@ -85,6 +85,6 @@
   "text.autoconfig.optigui.option.resourcePackConverter.@Tooltip": "OptiFine .properties ve OptiGUI .ini dosyalarını OptiGUI JSON kaynaklarına dönüştür",
   "text.autoconfig.optigui.option.resourcePackConverter.button": "Aç",
   "text.autoconfig.optigui.option.showResourceLoadingErrors": "Kaynak yükleme kayıtlarını göster",
-  "text.autoconfig.optigui.option.showResourceLoadingErrors.@Tooltip": "OptiGUI bir kaynağı yükleyemediğinde günlükleri göster",
+  "text.autoconfig.optigui.option.showResourceLoadingErrors.@Tooltip": "OptiGUI bir kaynağı yükleyemediğinde kayıtlarını göster",
   "text.autoconfig.optigui.title": "OptiGUI Ayarları"
 }
