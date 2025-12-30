@@ -14,23 +14,22 @@ internal object Inspector {
         json.addProperty("\$schema", JSON_SCHEMA_V2_URL)
         json.addProperty("generated_by", generatedBy)
         json.addProperty("docs", JSON_RESOURCE_DOCS_URL)
-        json.addProperty(JsonFilterResource.FORMAT_KEY, JsonFilterResource.NEWEST_FORMAT)
         json.addTarget(interaction.target)
-        json.add(JsonFilterResource.V2.TEXTURE_CHANGERS_KEY, getLastRenderedTextures())
-        json.add(JsonFilterResource.V2.SPRITE_CHANGERS_KEY, getLastRenderedSprites())
+        json.add(JsonFilterResource.TEXTURE_CHANGERS_KEY, getLastRenderedTextures())
+        json.add(JsonFilterResource.SPRITE_CHANGERS_KEY, getLastRenderedSprites())
         val nbtDumper = IConfig.get().dumpNbt
-        json.add(JsonFilterResource.V2.TEXT_STYLE_CHANGERS_KEY, nbtDumper.getLastRenderedTexts())
-        json.add(JsonFilterResource.V2.LOAD_FILTER_KEY, nbtDumper.getLoadTimeNbt())
-        json.add(JsonFilterResource.V2.FILTER_KEY, nbtDumper.getInteractionNbt(interaction))
+        json.add(JsonFilterResource.TEXT_STYLE_CHANGERS_KEY, nbtDumper.getLastRenderedTexts())
+        json.add(JsonFilterResource.LOAD_FILTER_KEY, nbtDumper.getLoadTimeNbt())
+        json.add(JsonFilterResource.FILTER_KEY, nbtDumper.getInteractionNbt(interaction))
     }
 
     private fun JsonObject.addTarget(target: InteractionTarget) {
         when (target) {
-            is InteractionTarget.Block -> addProperty(JsonFilterResource.V2.BLOCKS_KEY, target.id.toString())
-            is InteractionTarget.Entity -> addProperty(JsonFilterResource.V2.ENTITIES_KEY, target.id.toString())
-            is InteractionTarget.Item -> addProperty(JsonFilterResource.V2.ITEMS_KEY, target.id.toString())
-            InteractionTarget.Inventory -> addProperty(JsonFilterResource.V2.INVENTORY_KEY, true)
-            InteractionTarget.Unknown -> addProperty(JsonFilterResource.V2.UNKNOWN_KEY, true)
+            is InteractionTarget.Block -> addProperty(JsonFilterResource.BLOCKS_KEY, target.id.toString())
+            is InteractionTarget.Entity -> addProperty(JsonFilterResource.ENTITIES_KEY, target.id.toString())
+            is InteractionTarget.Item -> addProperty(JsonFilterResource.ITEMS_KEY, target.id.toString())
+            InteractionTarget.Inventory -> addProperty(JsonFilterResource.INVENTORY_KEY, true)
+            InteractionTarget.Unknown -> addProperty(JsonFilterResource.UNKNOWN_KEY, true)
         }
     }
 

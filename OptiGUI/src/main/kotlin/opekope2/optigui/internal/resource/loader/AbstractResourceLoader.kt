@@ -132,8 +132,8 @@ internal abstract class AbstractResourceLoader<TResource>(val id: ResourceLocati
 
         filters = LinkedListMultimap.create()
         for (resource in resourceCollector) {
-            val jsonV2 = resource.resource
-            if (jsonV2.blocks.isEmpty() && jsonV2.entities.isEmpty() && jsonV2.items.isEmpty() && !jsonV2.inventory && !jsonV2.unknown) {
+            val json = resource.resource
+            if (json.blocks.isEmpty() && json.entities.isEmpty() && json.items.isEmpty() && !json.inventory && !json.unknown) {
                 logger.atWarn()
                     .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.packId)
                     .addKeyValue(LOG_KEY_RESOURCE, resource.id)
@@ -144,12 +144,12 @@ internal abstract class AbstractResourceLoader<TResource>(val id: ResourceLocati
 
             val textureChangers = createTextureChangers(
                 resource,
-                jsonV2.textureChangers,
+                json.textureChangers,
                 I18n.OPTIGUI_RP_LOADER_WARN_MISSING_TEXTURES
             ) { manager.getResource(it).isPresent }
             val spriteChangers = createTextureChangers(
                 resource,
-                jsonV2.spriteChangers,
+                json.spriteChangers,
                 I18n.OPTIGUI_RP_LOADER_WARN_MISSING_SPRITES
             ) { guiAtlasManager.getSprite(it) !== missingSprite }
 
@@ -164,17 +164,17 @@ internal abstract class AbstractResourceLoader<TResource>(val id: ResourceLocati
 
             val filter = TextureChangerFilter(
                 resource.id,
-                jsonV2.filter,
+                json.filter,
                 textureChangers,
                 spriteChangers,
-                LinkedMruCollection(jsonV2.textStyleChangers)
+                LinkedMruCollection(json.textStyleChangers)
             )
 
-            for (block in jsonV2.blocks) filters[InteractionTarget.Block(block)] += filter
-            for (entity in jsonV2.entities) filters[InteractionTarget.Entity(entity)] += filter
-            for (item in jsonV2.items) filters[InteractionTarget.Item(item)] += filter
-            if (jsonV2.inventory) filters[InteractionTarget.Inventory] += filter
-            if (jsonV2.unknown) filters[InteractionTarget.Unknown] += filter
+            for (block in json.blocks) filters[InteractionTarget.Block(block)] += filter
+            for (entity in json.entities) filters[InteractionTarget.Entity(entity)] += filter
+            for (item in json.items) filters[InteractionTarget.Item(item)] += filter
+            if (json.inventory) filters[InteractionTarget.Inventory] += filter
+            if (json.unknown) filters[InteractionTarget.Unknown] += filter
         }
     }
 }

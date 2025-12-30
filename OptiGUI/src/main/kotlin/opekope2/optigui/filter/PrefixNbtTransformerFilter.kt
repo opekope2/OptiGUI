@@ -40,7 +40,7 @@ class PrefixNbtTransformerFilter(
 
         override val codec: Codec<PrefixNbtTransformerFilter> = RecordCodecBuilder.create { instance ->
             instance.group(
-                INbtFilter.CODEC.field(JsonFilterResource.V2.FILTER_KEY, PrefixNbtTransformerFilter::subFilter),
+                INbtFilter.CODEC.field(JsonFilterResource.FILTER_KEY, PrefixNbtTransformerFilter::subFilter),
                 NbtTransformerChain.CODEC.field("?", PrefixNbtTransformerFilter::transformerChain),
             ).apply(instance, ::createFilter)
         }
