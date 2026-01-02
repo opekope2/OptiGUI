@@ -46,7 +46,7 @@
   "optigui.rp_loader.warn.missing_sprites": "Faltan sprites: %s",
   "optigui.rp_loader.warn.missing_textures": "Faltan texturas: %s",
   "optigui.rp_loader.warn.newest_supported_json_format": "formato más nuevo compatible",
-  "optigui.rp_loader.warn.no_interaction_target": "No se especificaron objetivos de interacción (bloques, entidades, ítems, inventario, desconocido)",
+  "optigui.rp_loader.warn.no_interaction_target": "No se especificaron objetivos de interacción (blocks, entities, items, inventory, unknown)",
   "optigui.rp_loader.warn.no_textures_or_sprites": "No se especificaron texturas o sprites válidos",
   "optigui.rp_loader.warn.unsupported_json_format": "Formato de recurso JSON no compatible",
   "optigui.validation.error.duplicate_filters": "Filtros duplicados: %s",
