@@ -5,7 +5,7 @@
 
   "optigui.enum.ResourceLoadingErrorFilter.ERRORS_AND_WARNINGS": "Памылкі і папярэджанні",
   "optigui.enum.ResourceLoadingErrorFilter.ERRORS_ONLY": "Толькі памылкі",
-  "optigui.enum.ResourceLoadingErrorFilter.NOTHING": "Ніколі",
+  "optigui.enum.ResourceLoadingErrorFilter.NOTHING": "Нічога",
 
   "optigui.gui.rp_converter.conversion_fail": "OptiGUI не ўдалося канвертаваць некаторыя рэсурсы",
   "optigui.gui.rp_converter.conversion_success": "Рэсурс-пак паспяхова канвертаваны",
@@ -15,7 +15,7 @@
   "optigui.gui.rp_converter.converting": "Канвертаванне рэсурс-паку",
   "optigui.gui.rp_converter.description": "Канвертаваць OptiFine .properties і OptiGUI .ini у OptiGUI JSON-рэсурсы",
   "optigui.gui.rp_converter.output_file": "Назва выніковага файла",
-  "optigui.gui.rp_converter.target_namespace": "Мэтавы прастор імёнаў",
+  "optigui.gui.rp_converter.target_namespace": "Мэтавая прастора імёнаў",
   "optigui.gui.rp_converter.title": "Канвертар рэсурс-пакоў OptiGUI",
 
   "optigui.gui.rp_loader.copy_to_clipboard": "Капіраваць у буфер абмену",
@@ -34,7 +34,7 @@
   "optigui.inspector.description.debug.clicked.success": "Адладчык фільтраў адкрыты ў браўзеры",
   "optigui.inspector.description.hide": "Гэта можна схаваць у наладах OptiGUI",
   "optigui.inspector.key.more_info": "Утрымлівайце %s для дадатковай інфармацыі",
-  "optigui.inspector.nbt_dumping_disabled": "Вывад NBT выключаны ў наладах OptiGUI",
+  "optigui.inspector.nbt_dumping_disabled": "Стварэнне дампу NBT выключаны ў наладах OptiGUI",
   "optigui.inspector.title": "OptiGUI (%s)",
   "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
   "optigui.inspector.title.beta": "OptiGUI beta (%s)",
@@ -58,12 +58,12 @@
   "optigui.rp_loader.warn.unsupported_json_format": "Непадтрымоўваны фармат JSON-рэсурсу",
 
   "optigui.validation.error.duplicate_filters": "Дубліраваныя фільтры: %s",
-  "optigui.validation.error.empty_map": "Пустая мапа",
+  "optigui.validation.error.empty_map": "Пусты асацыятыўны масіў",
   "optigui.validation.error.no_filter": "Няма такога фільтра: %s",
   "optigui.validation.error.no_filter_type": "Няма такога тыпу фільтра: %s",
-  "optigui.validation.error.not_a_number": "Не лік: %s",
-  "optigui.validation.error.not_a_number_or_string": "Не лік або радок: %s",
-  "optigui.validation.error.not_a_relative_identifier": "Не адноснае размяшчэнне рэсурсу: %s",
+  "optigui.validation.error.not_a_number": "Не з’яўляецца лікам: %s",
+  "optigui.validation.error.not_a_number_or_string": "Не з’яўляецца лікам або радком: %s",
+  "optigui.validation.error.not_a_relative_identifier": "Не адносная адраса рэсурсу: %s",
   "optigui.validation.error.not_an_nbt_transformer": "Не NBT-трансформер: %s",
   "optigui.validation.error.of_incompatible_variants": "Несумяшчальныя варыянты: %s",
   "optigui.validation.error.of_invalid_bool": "Некарэктнае булева значэнне: %s",
@@ -78,7 +78,7 @@
   "text.autoconfig.optigui.category.resourceLoading": "Загрузка рэсурсаў",
   "text.autoconfig.optigui.category.utils": "Утыліты",
 
-  "text.autoconfig.optigui.option.dumpNbt": "Выводзіць NBT",
+  "text.autoconfig.optigui.option.dumpNbt": "Ствараць дамп NBT",
   "text.autoconfig.optigui.option.dumpNbt.@Tooltip": "Уключаць дадзеныя NBT у згенераваныя JSON-рэсурсы",
 
   "text.autoconfig.optigui.option.enableInspector": "Уключыць інспектар",
@@ -100,8 +100,8 @@
   "text.autoconfig.optigui.option.resourcePackConverter.@Tooltip": "Канвертаваць OptiFine .properties і OptiGUI .ini у OptiGUI JSON-рэсурсы",
   "text.autoconfig.optigui.option.resourcePackConverter.button": "Адкрыць",
 
-  "text.autoconfig.optigui.option.showResourceLoadingErrors": "Паказваць логі загрузкі рэсурсаў",
-  "text.autoconfig.optigui.option.showResourceLoadingErrors.@Tooltip": "Паказваць логі, калі OptiGUI не ўдалося загрузіць рэсурс",
+  "text.autoconfig.optigui.option.showResourceLoadingErrors": "Паказваць журналы загрузкі рэсурсаў",
+  "text.autoconfig.optigui.option.showResourceLoadingErrors.@Tooltip": "Паказваць журналы загрузкі, калі OptiGUI не ўдалося загрузіць рэсурс",
 
   "text.autoconfig.optigui.title": "Налады OptiGUI"
 }
