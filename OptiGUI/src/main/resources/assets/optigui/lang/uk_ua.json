@@ -5,7 +5,7 @@
 
   "optigui.enum.ResourceLoadingErrorFilter.ERRORS_AND_WARNINGS": "Помилки й попередження",
   "optigui.enum.ResourceLoadingErrorFilter.ERRORS_ONLY": "Лише помилки",
-  "optigui.enum.ResourceLoadingErrorFilter.NOTHING": "Ніколи",
+  "optigui.enum.ResourceLoadingErrorFilter.NOTHING": "Нічого",
 
   "optigui.gui.rp_converter.conversion_fail": "OptiGUI не вдалося конвертувати деякі ресурси",
   "optigui.gui.rp_converter.conversion_success": "Ресурс-пак успішно конвертовано",
@@ -34,7 +34,7 @@
   "optigui.inspector.description.debug.clicked.success": "Відлагоджувач фільтрів відкрито у браузері",
   "optigui.inspector.description.hide": "Це можна приховати в налаштуваннях OptiGUI",
   "optigui.inspector.key.more_info": "Утримуйте %s для додаткової інформації",
-  "optigui.inspector.nbt_dumping_disabled": "Вивід NBT вимкнено в налаштуваннях OptiGUI",
+  "optigui.inspector.nbt_dumping_disabled": "Створення дампу NBT вимкнено в налаштуваннях OptiGUI",
   "optigui.inspector.title": "OptiGUI (%s)",
   "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
   "optigui.inspector.title.beta": "OptiGUI beta (%s)",
@@ -58,12 +58,12 @@
   "optigui.rp_loader.warn.unsupported_json_format": "Непідтримуваний формат JSON-ресурсу",
 
   "optigui.validation.error.duplicate_filters": "Дубльовані фільтри: %s",
-  "optigui.validation.error.empty_map": "Порожня мапа",
+  "optigui.validation.error.empty_map": "Порожній асоціативний масив",
   "optigui.validation.error.no_filter": "Нема такого фільтра: %s",
   "optigui.validation.error.no_filter_type": "Нема такого типу фільтра: %s",
-  "optigui.validation.error.not_a_number": "Не число: %s",
-  "optigui.validation.error.not_a_number_or_string": "Не число або строка: %s",
-  "optigui.validation.error.not_a_relative_identifier": "Не відносне розташування ресурсу: %s",
+  "optigui.validation.error.not_a_number": "Не є числом: %s",
+  "optigui.validation.error.not_a_number_or_string": "Не є числом або рядком: %s",
+  "optigui.validation.error.not_a_relative_identifier": "Не відносна адреса ресурсу: %s",
   "optigui.validation.error.not_an_nbt_transformer": "Не NBT-трансформер: %s",
   "optigui.validation.error.of_incompatible_variants": "Несумісні варіанти: %s",
   "optigui.validation.error.of_invalid_bool": "Некоректне булеве значення: %s",
@@ -78,13 +78,13 @@
   "text.autoconfig.optigui.category.resourceLoading": "Завантаження ресурсів",
   "text.autoconfig.optigui.category.utils": "Утиліти",
 
-  "text.autoconfig.optigui.option.dumpNbt": "Виводити NBT",
+  "text.autoconfig.optigui.option.dumpNbt": "Виводити дані NBT",
   "text.autoconfig.optigui.option.dumpNbt.@Tooltip": "Включати дані NBT у згенеровані JSON-ресурси",
 
   "text.autoconfig.optigui.option.enableInspector": "Увімкнути інспектор",
   "text.autoconfig.optigui.option.enableInspector.@Tooltip": "Показувати кнопку інспектора на підтримуваних екранах інвентарю",
 
-  "text.autoconfig.optigui.option.errorsAndWarnings": "Логи завантаження ресурсів",
+  "text.autoconfig.optigui.option.errorsAndWarnings": "Журнали завантаження ресурсів",
   "text.autoconfig.optigui.option.errorsAndWarnings.@Tooltip": "Показувати помилки та попередження, що виникли під час завантаження ресурсів",
   "text.autoconfig.optigui.option.errorsAndWarnings.button": "Переглянути",
 
@@ -100,8 +100,8 @@
   "text.autoconfig.optigui.option.resourcePackConverter.@Tooltip": "Конвертувати OptiFine .properties та OptiGUI .ini у OptiGUI JSON-ресурси",
   "text.autoconfig.optigui.option.resourcePackConverter.button": "Відкрити",
 
-  "text.autoconfig.optigui.option.showResourceLoadingErrors": "Показувати логи завантаження ресурсів",
-  "text.autoconfig.optigui.option.showResourceLoadingErrors.@Tooltip": "Показувати логи, коли OptiGUI не вдалося завантажити ресурс",
+  "text.autoconfig.optigui.option.showResourceLoadingErrors": "Показувати журнали завантаження ресурсів",
+  "text.autoconfig.optigui.option.showResourceLoadingErrors.@Tooltip": "Показувати журнали завантаження, коли OptiGUI не вдалося завантажити ресурс",
 
   "text.autoconfig.optigui.title": "Налаштування OptiGUI"
 }
