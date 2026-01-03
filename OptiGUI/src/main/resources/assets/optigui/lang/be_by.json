@@ -5,7 +5,7 @@
 
   "optigui.enum.ResourceLoadingErrorFilter.ERRORS_AND_WARNINGS": "Памылкі і папярэджанні",
   "optigui.enum.ResourceLoadingErrorFilter.ERRORS_ONLY": "Толькі памылкі",
-  "optigui.enum.ResourceLoadingErrorFilter.NOTHING": "Нічога",
+  "optigui.enum.ResourceLoadingErrorFilter.NOTHING": "Ніколі",
 
   "optigui.gui.rp_converter.conversion_fail": "OptiGUI не ўдалося канвертаваць некаторыя рэсурсы",
   "optigui.gui.rp_converter.conversion_success": "Рэсурс-пак паспяхова канвертаваны",
