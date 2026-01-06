@@ -2,11 +2,68 @@
 
 package opekope2.optigui.util.dfu
 
+import com.mojang.datafixers.util.Function3
 import com.mojang.serialization.Codec
+import com.mojang.serialization.DataResult
+import com.mojang.serialization.Lifecycle
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import java.util.*
+import java.util.function.BiFunction
 import java.util.function.Function
+import java.util.function.Supplier
+
+/**
+ * @see DataResult.success
+ */
+fun <T> success(value: T): DataResult<T> = DataResult.success(value)
+
+/**
+ * @see DataResult.success
+ */
+fun <T> success(value: T, lifecycle: Lifecycle): DataResult<T> = DataResult.success(value, lifecycle)
+
+/**
+ * @see DataResult.error
+ */
+fun <T> error(message: Supplier<String>): DataResult<T> = DataResult.error(message)
+
+/**
+ * @see DataResult.error
+ */
+fun <T> error(lifecycle: Lifecycle, message: Supplier<String>): DataResult<T> = DataResult.error(message, lifecycle)
+
+/**
+ * @see DataResult.error
+ */
+fun <T> error(partial: T, message: Supplier<String>): DataResult<T> = DataResult.error(message, partial)
+
+/**
+ * @see DataResult.error
+ */
+fun <T> error(partial: T, lifecycle: Lifecycle, message: Supplier<String>): DataResult<T> =
+    DataResult.error(message, partial, lifecycle)
+
+/**
+ * @see DataResult.apply2
+ */
+fun <T1, T2, R> DataResult<T1>.apply2(second: DataResult<T2>, function: BiFunction<T1, T2, R>): DataResult<R> =
+    apply2(function, second)
+
+/**
+ * @see DataResult.apply2stable
+ */
+fun <T1, T2, R> DataResult<T1>.apply2stable(second: DataResult<T2>, function: BiFunction<T1, T2, R>): DataResult<R> =
+    apply2stable(function, second)
+
+/**
+ * @see DataResult.apply3
+ */
+fun <T1, T2, T3, R> DataResult<T1>.apply3(
+    second: DataResult<T2>,
+    third: DataResult<T3>,
+    function: Function3<T1, T2, T3, R>
+): DataResult<R> = apply3(function, second, third)
 
 /**
  * Converts a `Codec<List<T>>` to `Codec<Set<T>>`.
