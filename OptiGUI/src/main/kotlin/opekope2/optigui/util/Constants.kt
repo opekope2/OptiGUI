@@ -13,9 +13,9 @@ const val MOD_ID = "optigui"
 const val JSON_RESOURCE_DOCS_URL = "https://opekope2.dev/OptiGUI/JSON.html"
 
 /**
- * OptiGUI JSON filter resource V2 schema URL.
+ * OptiGUI JSON resource schema URL.
  */
-const val JSON_SCHEMA_V2_URL = "https://opekope2.dev/OptiGUI/json_v2.schema.json"
+const val JSON_RESOURCE_SCHEMA_URL = "https://opekope2.dev/OptiGUI/json_resource.schema.json"
 
 /**
  * OptiGUI filter debugger URL.

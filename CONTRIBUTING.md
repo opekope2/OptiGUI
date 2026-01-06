@@ -25,7 +25,7 @@ Cool!
 
 * `optigui.enum.InspectorNbtDumpOption.DISABLED`: Disabled means *off*, not *impaired*
 * `optigui.gui.rp_converter.target_namespace`: Namespace refers to [resource location namespace](https://minecraft.wiki/w/Resource_location#Namespaces)
-* `optigui.rp_loader.warn.no_interaction_target`: `blocks`, `entities`, `items`, `inventory`, and `unknown` are part of the the V2 JSON resources, so these shouldn't be translated
+* `optigui.rp_loader.warn.no_interaction_target`: `blocks`, `entities`, `items`, `inventory`, and `unknown` are parts of JSON resources, so these shouldn't be translated
 * `optigui.validation.error.empty_map`: Map refers to [this data structure](https://en.wikipedia.org/wiki/Associative_array), not a [map item](https://minecraft.wiki/w/Map)
 * `optigui.validation.error.not_a_relative_identifier`: relative resource location refers to an OptiGUI-specific variant of [resource location](https://minecraft.wiki/w/Resource_location), so `./texture.png` can be used instead of `namespace:path/to/texture.png`
 * `optigui.validation.error.of_texture_required`: `texture.PATH` is documented by [OptiFine docs](https://optifine.readthedocs.io/custom_guis.html#texture-texture-path), so it should not be translated
