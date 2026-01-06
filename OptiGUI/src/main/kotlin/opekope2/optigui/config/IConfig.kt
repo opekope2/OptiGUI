@@ -1,11 +1,10 @@
 package opekope2.optigui.config
 
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
-import com.google.gson.JsonPrimitive
 import com.mojang.datafixers.util.Pair
-import com.mojang.serialization.JsonOps
+import dev.runefox.json.JsonArray
+import dev.runefox.json.JsonNode
+import dev.runefox.json.JsonObject
+import dev.runefox.json.JsonString
 import me.shedaniel.autoconfig.AutoConfig
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.nbt.NbtOps
@@ -19,6 +18,7 @@ import opekope2.optigui.internal.TextStyler
 import opekope2.optigui.internal.config.Config
 import opekope2.optigui.internal.inspector.JsonInspectorOps
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
+import opekope2.optigui.util.dfu.Json5Ops
 
 /**
  * OptiGUI Configuration
@@ -67,7 +67,7 @@ interface IConfig {
          * No NBT is dumped.
          */
         DISABLED(JsonInspectorOps.WITHOUT_TYPE, I18n.OPTIGUI_ENUM_INSPECTORNBTDUMPOPTION_DISABLED) {
-            private val disabledText = JsonPrimitive(I18n.OPTIGUI_INSPECTOR_NBT_DUMPING_DISABLED.getTranslation())
+            private val disabledText = JsonString(I18n.OPTIGUI_INSPECTOR_NBT_DUMPING_DISABLED.getTranslation())
 
             override fun getLastRenderedTexts() = disabledText
             override fun getLoadTimeNbt() = disabledText
@@ -84,7 +84,7 @@ interface IConfig {
          */
         VALUES_AND_TYPES(JsonInspectorOps.WITH_TYPE, I18n.OPTIGUI_ENUM_INSPECTORNBTDUMPOPTION_VALUES_AND_TYPES);
 
-        open fun getLastRenderedTexts(): JsonElement = JsonArray().also { json ->
+        open fun getLastRenderedTexts(): JsonNode = JsonArray { json ->
             InteractionManager.renderedStrings.forEach { source, text ->
                 val textJson = TextStyler.stringWithSourceCodec.encodeStart(ops, Pair(text, source))
                 val textStyleChangerJson = textJson.map { textStyleChanger(it, JsonObject()) }
@@ -92,23 +92,23 @@ interface IConfig {
             }
             InteractionManager.renderedTexts.forEach { source, text ->
                 val textJson = TextStyler.textWithSourceCodec.encodeStart(ops, Pair(text, source))
-                val styleJson = Style.Serializer.CODEC.encodeStart(JsonOps.INSTANCE, text.style)
+                val styleJson = Style.Serializer.CODEC.encodeStart(Json5Ops, text.style)
                 val textStyleChangerJson = textJson.apply2stable(::textStyleChanger, styleJson)
                 textStyleChangerJson.ifSuccess(json::add)
             }
         }
 
-        private fun textStyleChanger(text: JsonElement, style: JsonElement) = JsonObject().also { json ->
-            json.add(TextStyleChanger.FILTER_KEY, text)
-            json.add(TextStyleChanger.SET_STYLE_KEY, style)
-            json.addProperty(TextStyleChanger.OVERRIDE_KEY, false)
+        private fun textStyleChanger(text: JsonNode, style: JsonNode) = JsonObject { json ->
+            json[TextStyleChanger.FILTER_KEY] = text
+            json[TextStyleChanger.SET_STYLE_KEY] = style
+            json[TextStyleChanger.OVERRIDE_KEY] = false
         }
 
-        open fun getLoadTimeNbt(): JsonElement = JsonObject().apply {
-            for ((key, supplier) in ILoadTimeNbtProvider.Registry) add(key, supplier.get().toJson())
+        open fun getLoadTimeNbt(): JsonNode = JsonObject().apply {
+            for ((key, supplier) in ILoadTimeNbtProvider.Registry) set(key, supplier.get().toJson())
         }
 
-        open fun getInteractionNbt(interaction: IInteraction): JsonElement = interaction.createNbt().toJson()
+        open fun getInteractionNbt(interaction: IInteraction): JsonNode = interaction.createNbt().toJson()
 
         private fun Tag.toJson() = NbtOps.INSTANCE.convertTo(ops, this)
 

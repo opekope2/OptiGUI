@@ -39,6 +39,10 @@ subprojects {
             forRepository { maven("https://maven.shedaniel.me") { name = "Shedaniel" } }
             filter { includeGroup("me.shedaniel.cloth") }
         }
+        exclusiveContent {
+            forRepository { maven("https://mvn.runefox.dev/releases") { name = "Runefox" } }
+            filter { includeGroup("dev.runefox") }
+        }
     }
 
     dependencies {

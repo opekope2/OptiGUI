@@ -21,6 +21,8 @@ base {
 
 dependencies {
     api(libs.ini4j)
+    api(libs.runefox.json)
+    api(libs.runefox.jsonkt)
     compileOnly(libs.cloth.config.neoforge) // fabric build is intermediary, neoforge build is mojmap
 
     api(project(":ScreenAPI"))

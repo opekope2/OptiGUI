@@ -1,7 +1,8 @@
 package opekope2.optigui.internal.inspector
 
-import com.google.gson.GsonBuilder
 import com.mojang.blaze3d.systems.RenderSystem
+import dev.runefox.json.Json
+import dev.runefox.json.JsonSerializingConfig
 import net.minecraft.Util
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.AbstractWidget
@@ -94,7 +95,7 @@ open class InspectorWidget : AbstractWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT,
         val generatedBy = "OptiGUI ${AbstractOptiGuiClient.implementation.version}"
         val json = Inspector.generateJsonResource(interaction, generatedBy)
 
-        mc.keyboardHandler.clipboard = GSON.toJson(json)
+        mc.keyboardHandler.clipboard = JSON_SERIALIZER.serialize(json)
         updateTooltip(DescriptionState.CLICKED)
     }
 
@@ -117,7 +118,12 @@ open class InspectorWidget : AbstractWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT,
     }
 
     private companion object {
-        private val GSON = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
+        private val JSON_SERIALIZER_CONFIG = JsonSerializingConfig.pretty()
+            .json5(true)
+            .useSingleQuoteStrings(true)
+            .alignObjectValues(true)
+            .addTrailingComma(true)
+        private val JSON_SERIALIZER = Json.jsonBuilder().serializationConfig(JSON_SERIALIZER_CONFIG).build()
         private val TEXT = I18n.OPTIGUI_INSPECTOR.getText()
         private const val TEXTURE_WIDTH = 38
         private const val TEXTURE_HEIGHT = 10
