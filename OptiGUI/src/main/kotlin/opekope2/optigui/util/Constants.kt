@@ -18,11 +18,6 @@ const val JSON_RESOURCE_DOCS_URL = "https://opekope2.dev/OptiGUI/JSON.html"
 const val JSON_RESOURCE_SCHEMA_URL = "https://opekope2.dev/OptiGUI/json_resource.schema.json"
 
 /**
- * OptiGUI filter debugger URL.
- */
-const val DEBUGGER_URL = "https://opekope2.dev/OptiGUI/Debug.html"
-
-/**
  * Root folder to look for OptiGUI custom GUI INI resources.
  */
 const val OPTIGUI_INI_RESOURCES_ROOT = "gui"

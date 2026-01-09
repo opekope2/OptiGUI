@@ -12,6 +12,7 @@
     "CreativeModeInventoryScreenMixin",
     "GuiGraphicsMixin",
     "LocalPlayerMixin",
-    "MinecraftMixin"
+    "MinecraftMixin",
+    "TextComponentTagVisitorAccessor"
   ]
 }
