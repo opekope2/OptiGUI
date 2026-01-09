@@ -36,6 +36,7 @@ dependencies {
     commonProject(":OptiGUI", kotlin = true)
 
     runtimeOnly(libs.ini4j)
+    modImplementation(libs.owo.lib.fabric)
     runtimeOnly(libs.runefox.json)
     runtimeOnly(libs.runefox.jsonkt)
     localRuntime(project(":ScreenAPI-Fabric", configuration = "namedElements"))

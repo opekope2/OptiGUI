@@ -43,6 +43,14 @@ subprojects {
             forRepository { maven("https://mvn.runefox.dev/releases") { name = "Runefox" } }
             filter { includeGroup("dev.runefox") }
         }
+        exclusiveContent {
+            forRepository { maven("https://maven.su5ed.dev/releases") { name = "Sinytra" } }
+            filter { includeGroup("org.sinytra"); includeGroup("org.sinytra.forgified-fabric-api") }
+        }
+        exclusiveContent {
+            forRepository { maven("https://maven.wispforest.io/releases") { name = "Wisp Forest" } }
+            filter { includeGroup("io.wispforest"); includeGroup("io.wispforest.endec") }
+        }
     }
 
     dependencies {
@@ -84,6 +92,7 @@ subprojects {
                 "minecraft" to libs.versions.minecraft.get(),
                 "java" to libs.versions.java.get(),
                 "cloth_config" to libs.versions.cloth.config.get(),
+                "owo_lib" to libs.versions.owo.lib.fabric.get(),
             )
 
             inputs.properties(properties)

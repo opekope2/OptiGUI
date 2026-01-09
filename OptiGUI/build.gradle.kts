@@ -21,6 +21,11 @@ base {
 
 dependencies {
     api(libs.ini4j)
+
+    compileOnly(libs.owo.lib.neoforge)
+    accessTransformers(libs.owo.lib.neoforge)
+    interfaceInjectionData(libs.owo.lib.neoforge)
+
     api(libs.runefox.json)
     api(libs.runefox.jsonkt)
     compileOnly(libs.cloth.config.neoforge) // fabric build is intermediary, neoforge build is mojmap
