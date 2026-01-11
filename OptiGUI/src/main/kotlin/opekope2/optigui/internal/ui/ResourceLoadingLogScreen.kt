@@ -30,7 +30,7 @@ internal class ResourceLoadingLogScreen(
     private var iconLoader: ResourcePackIconLoader? = null
 
     constructor(log: List<ResourceLoadingLoggingEvent>, parent: Screen?) : this(log, { mc.setScreen(parent) })
-    constructor(onClose: Runnable) : this(IFilterLoader.flatMap { it.value.errors }, onClose)
+    constructor(onClose: Runnable) : this(IFilterLoader.lastResourceReloadLog, onClose)
     constructor(parent: Screen?) : this({ mc.setScreen(parent) })
 
     override fun build(rootComponent: FlowLayout) {
@@ -127,8 +127,8 @@ internal class ResourceLoadingLogScreen(
         @JvmStatic
         fun shouldShow() = when (IConfig.get().showResourceLoadingErrors) {
             IConfig.ResourceLoadingErrorFilter.NOTHING -> false
-            IConfig.ResourceLoadingErrorFilter.ERRORS_ONLY -> IFilterLoader.any { (_, loader) -> loader.errors.any { it.level <= Level.ERROR } }
-            IConfig.ResourceLoadingErrorFilter.ERRORS_AND_WARNINGS -> IFilterLoader.any { (_, loader) -> loader.errors.any { it.level <= Level.WARN } }
+            IConfig.ResourceLoadingErrorFilter.ERRORS_ONLY -> IFilterLoader.any { (_, loader) -> loader.log.any { it.level <= Level.ERROR } }
+            IConfig.ResourceLoadingErrorFilter.ERRORS_AND_WARNINGS -> IFilterLoader.any { (_, loader) -> loader.log.any { it.level <= Level.WARN } }
         }
 
         /**

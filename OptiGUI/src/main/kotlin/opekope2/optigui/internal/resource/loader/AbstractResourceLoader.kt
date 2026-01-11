@@ -18,6 +18,7 @@ import opekope2.optigui.resource.format.json.JsonTextureChanger
 import opekope2.optigui.util.*
 import opekope2.optigui.util.collections.LinkedMruCollection
 import org.slf4j.LoggerFactory
+import org.slf4j.event.LoggingEvent
 import kotlin.jvm.optionals.getOrNull
 
 private typealias Resources<T> = List<IdentifiableResource<T>>
@@ -34,10 +35,7 @@ internal abstract class AbstractResourceLoader<TResource>(val id: ResourceLocati
 
     protected val logger: EventCollectorLogger = EventCollectorLogger(LoggerFactory.getLogger(javaClass))
 
-    final override val errors: List<ResourceLoadingLoggingEvent>
-        get() = logger.events.map {
-            ResourceLoadingLoggingEvent.fromLoggingEvent(it, mc.resourcePackRepository::isAvailable)
-        }
+    final override val log: List<LoggingEvent> get() = logger.events
 
     final override lateinit var filters: Multimap<InteractionTarget, TextureChangerFilter>
 
