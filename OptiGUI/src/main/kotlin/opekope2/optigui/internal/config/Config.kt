@@ -5,8 +5,8 @@ import me.shedaniel.autoconfig.ConfigData
 import me.shedaniel.autoconfig.annotation.Config
 import me.shedaniel.autoconfig.annotation.ConfigEntry
 import opekope2.optigui.config.IConfig
-import opekope2.optigui.gui.screen.ResourceLoadingErrorScreen
 import opekope2.optigui.internal.config.gui.ButtonListEntry
+import opekope2.optigui.internal.ui.ResourceLoadingLogScreen
 import opekope2.optigui.util.MOD_ID
 import opekope2.optigui.util.mc
 
@@ -39,7 +39,7 @@ internal class Config : IConfig, ConfigData {
     @Transient
     @Suppress("unused")
     val errorsAndWarnings = ButtonListEntry.IAction {
-        mc.setScreen(ResourceLoadingErrorScreen.create(ResourceLoadingErrorScreen.setScreen(mc.screen)))
+        mc.setScreen(ResourceLoadingLogScreen(mc.screen))
     }
 
     override fun save() {

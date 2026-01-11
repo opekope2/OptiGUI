@@ -1,0 +1,178 @@
+<owo-ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/wisp-forest/owo-lib/1.20/owo-ui.xsd">
+    <components>
+        <flow-layout direction="vertical">
+            <children>
+                <!-- Header -->
+                <flow-layout direction="vertical">
+                    <children>
+                        <label>
+                            <text translate="true">optigui.gui.rp_loader.load_fail</text>
+                            <shadow>true</shadow>
+                            <horizontal-text-alignment>center</horizontal-text-alignment>
+                        </label>
+                    </children>
+
+                    <sizing>
+                        <horizontal method="fill">100</horizontal>
+                        <vertical method="fixed">33</vertical>
+                    </sizing>
+
+                    <horizontal-alignment>center</horizontal-alignment>
+                    <vertical-alignment>center</vertical-alignment>
+                </flow-layout>
+
+                <!-- Content -->
+                <scroll direction="vertical">
+                    <flow-layout direction="vertical" id="content">
+                        <children/>
+                        <sizing>
+                            <horizontal method="fill">100</horizontal>
+                        </sizing>
+                        <padding>
+                            <left>6</left>
+                            <right>6</right>
+                        </padding>
+                    </flow-layout>
+
+                    <scrollbar>
+                        <vanilla-flat/>
+                    </scrollbar>
+                    <scrollbar-thiccness>6</scrollbar-thiccness>
+
+                    <surface>
+                        <vanilla-translucent/>
+                    </surface>
+
+                    <sizing>
+                        <horizontal method="fill">100</horizontal>
+                        <vertical method="expand">100</vertical>
+                    </sizing>
+                    <padding>
+                        <left>20</left>
+                        <right>20</right>
+                    </padding>
+                </scroll>
+
+                <!-- Footer -->
+                <flow-layout direction="vertical">
+                    <children>
+                        <checkbox id="doNotShowAgain">
+                            <text translate="true">optigui.gui.rp_loader.do_not_show_again</text>
+                            <tooltip-text translate="true">optigui.gui.rp_loader.do_not_show_again.tooltip</tooltip-text>
+                        </checkbox>
+
+                        <!-- TODO reload resources button -->
+
+                        <button id="ok">
+                            <text translate="true">gui.ok</text>
+                            <sizing>
+                                <horizontal method="fixed">200</horizontal>
+                            </sizing>
+                        </button>
+                    </children>
+
+                    <sizing>
+                        <horizontal method="fill">100</horizontal>
+                        <vertical method="fixed">58</vertical>
+                    </sizing>
+
+                    <horizontal-alignment>center</horizontal-alignment>
+                    <vertical-alignment>center</vertical-alignment>
+                </flow-layout>
+            </children>
+
+            <surface>
+                <options-background/>
+            </surface>
+        </flow-layout>
+    </components>
+
+    <templates>
+        <template name="packHeader">
+            <flow-layout direction="horizontal">
+                <children>
+                    <texture texture-width="32" texture-height="32" region-width="32" region-height="32"
+                             texture="{{icon}}">
+                        <sizing>
+                            <horizontal method="fixed">32</horizontal>
+                            <vertical method="fixed">32</vertical>
+                        </sizing>
+                    </texture>
+
+                    <flow-layout direction="vertical">
+                        <children>
+                            <label id="title">
+                                <text translate="true">optigui.gui.rp_loader.unknown_pack</text>
+                                <shadow>true</shadow>
+
+                                <margins>
+                                    <top>1</top>
+                                    <bottom>2</bottom>
+                                </margins>
+                            </label>
+
+                            <label id="description">
+                                <color>#808080</color>
+                                <shadow>true</shadow>
+                                <line-spacing>1</line-spacing>
+
+                                <sizing>
+                                    <horizontal method="fill">100</horizontal>
+                                </sizing>
+                            </label>
+                        </children>
+
+                        <sizing>
+                            <horizontal method="expand">100</horizontal>
+                            <vertical method="fixed">32</vertical>
+                        </sizing>
+                        <margins>
+                            <left>4</left>
+                        </margins>
+                    </flow-layout>
+                </children>
+
+                <sizing>
+                    <horizontal method="fill">100</horizontal>
+                </sizing>
+                <margins>
+                    <top>4</top>
+                </margins>
+            </flow-layout>
+        </template>
+
+        <template name="resourceHeader">
+            <label>
+                <text>{{resourceId}}</text>
+                <shadow>true</shadow>
+
+                <sizing>
+                    <horizontal method="fill">100</horizontal>
+                </sizing>
+                <margins>
+                    <top>4</top>
+                    <bottom>4</bottom>
+                </margins>
+
+                <horizontal-text-alignment>center</horizontal-text-alignment>
+            </label>
+        </template>
+
+        <template name="logEntry">
+            <label>
+                <text>{{text}}</text>
+                <color>{{color}}</color>
+                <shadow>true</shadow>
+
+                <sizing>
+                    <horizontal method="fill">100</horizontal>
+                </sizing>
+                <margins>
+                    <top>4</top>
+                    <bottom>4</bottom>
+                </margins>
+            </label>
+        </template>
+    </templates>
+</owo-ui>
