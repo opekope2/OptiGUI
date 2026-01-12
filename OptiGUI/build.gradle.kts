@@ -56,7 +56,7 @@ dokka {
 
 tasks {
     val generateI18n by registering(GenerateI18nEnum::class) {
-        inputs.file(projectDir.resolve("src/main/resources/assets/optigui/lang/en_us.json"))
+        inputs.file(projectDir.resolve("src/main/resources/assets/optigui/lang/en_us.jsonc"))
         enumPackage = "opekope2.optigui.internal"
     }
 

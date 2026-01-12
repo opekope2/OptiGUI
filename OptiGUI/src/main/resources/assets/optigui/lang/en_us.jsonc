@@ -1,4 +1,5 @@
 {
+  // As in OFF, not as in IMPAIRED
   "optigui.enum.InspectorNbtDumpOption.DISABLED": "Disabled",
   "optigui.enum.InspectorNbtDumpOption.VALUES_AND_TYPES": "Values & types",
   "optigui.enum.InspectorNbtDumpOption.VALUES_ONLY": "Values only",
@@ -13,6 +14,7 @@
   "optigui.gui.rp_converter.converting": "Converting resource pack",
   "optigui.gui.rp_converter.description": "Convert OptiFine .properties and OptiGUI .ini to OptiGUI JSON resources",
   "optigui.gui.rp_converter.output_file": "Output file name",
+  // Namespace refers to https://minecraft.wiki/w/Resource_location#Namespaces
   "optigui.gui.rp_converter.target_namespace": "Target namespace",
   "optigui.gui.rp_converter.title": "OptiGUI Resource Pack Converter",
   "optigui.gui.rp_loader.copy_to_clipboard": "Copy to clipboard",
@@ -46,21 +48,25 @@
   "optigui.rp_loader.warn.missing_sprites": "Missing sprites: %s",
   "optigui.rp_loader.warn.missing_textures": "Missing textures: %s",
   "optigui.rp_loader.warn.newest_supported_json_format": "newest supported format",
+  // blocks, entities, items, inventory, and unknown are parts of JSON resources, so these shouldn't be translated
   "optigui.rp_loader.warn.no_interaction_target": "No interaction targets (blocks, entities, items, inventory, unknown) were specified",
   "optigui.rp_loader.warn.no_textures_or_sprites": "No valid textures or sprites were specified",
   "optigui.rp_loader.warn.unsupported_json_format": "Unsupported JSON resource format",
   "optigui.validation.error.duplicate_filters": "Duplicate filters: %s",
+  // Map (aka dictionary) refers to https://en.wikipedia.org/wiki/Associative_array not https://minecraft.wiki/w/Map
   "optigui.validation.error.empty_map": "Empty map",
   "optigui.validation.error.no_filter": "No such filter: %s",
   "optigui.validation.error.no_filter_type": "No such filter type: %s",
   "optigui.validation.error.not_a_number": "Not a number: %s",
   "optigui.validation.error.not_a_number_or_string": "Not a number or string: %s",
+  // Relative resource location refers to an OptiGUI-specific variant of https://minecraft.wiki/w/Resource_location, so ./texture.png can be used instead of namespace:path/to/texture.png
   "optigui.validation.error.not_a_relative_identifier": "Not a relative resource location: %s",
   "optigui.validation.error.not_an_nbt_transformer": "Not an NBT transformer: %s",
   "optigui.validation.error.of_incompatible_variants": "Incompatible variants: %s",
   "optigui.validation.error.of_invalid_bool": "Invalid boolean: %s",
   "optigui.validation.error.of_invalid_profession": "Invalid villager profession: %s",
   "optigui.validation.error.of_invalid_range": "Invalid range: %s",
+  // texture.PATH is documented at https://optifine.readthedocs.io/custom_guis.html#texture-texture-path, so it should not be translated
   "optigui.validation.error.of_texture_required": "At least one texture or texture.PATH is required",
   "optigui.validation.error.unsupported_filter": "Unsupported filter: %s",
   "optigui.validation.error.wrong_filter_type": "Expected filter type %s, got %s",

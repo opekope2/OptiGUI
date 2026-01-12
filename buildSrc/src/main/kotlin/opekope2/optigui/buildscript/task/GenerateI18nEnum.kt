@@ -1,5 +1,6 @@
 package opekope2.optigui.buildscript.task
 
+import groovy.json.JsonParserType
 import groovy.json.JsonSlurper
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
@@ -28,8 +29,8 @@ abstract class GenerateI18nEnum : AbstractCodegenTask() {
         val packageDir = outputDir.dir(enumPackage.replace('.', '/')).get()
         packageDir.asFile.mkdirs()
 
-        val json = JsonSlurper().parse(inputs.files.singleFile) as Map<String, String>
-        val members = json.entries.joinToString(separator = ",\n") { (key, value) ->
+        val json = JsonSlurper().setType(JsonParserType.LAX).parse(inputs.files.singleFile) as Map<String, String>
+        val members = json.entries.sortedBy { it.key }.joinToString(separator = ",\n") { (key, value) ->
             val k = key.uppercase().replace("""[^a-zA-Z0-9]""".toRegex(), "_")
             """    $k("$key", "$value")"""
         }.trimStart()
