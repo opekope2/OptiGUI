@@ -24,11 +24,14 @@ Other mods' developers can add their custom containers and customization options
 
 * 🇦🇷 by [Texaliuz](https://github.com/Texaliuz)
 * 🇧🇾 by [gorr0w7](https://github.com/gorr0w7)
+* 🇩🇪 by [gorr0w7](https://github.com/gorr0w7), [Lucanoria](https://github.com/Lucanoria)
 * 🇪🇸 by [LyriaWintona](https://github.com/LyriaWintona)
-* 🇵🇱 by [lumiscosity](https://github.com/lumiscosity), [Nadios_kox](https://github.com/Fhilips613)
+* 🇵🇱 by [gorr0w7](https://github.com/gorr0w7), [lumiscosity](https://github.com/lumiscosity), [Nadios_kox](https://github.com/Fhilips613)
 * 🇹🇷 by [Creeperucan](https://github.com/Creeperucan)
 * 🇺🇦 by [gorr0w7](https://github.com/gorr0w7)
 * 🇺🇸 by [opekope2](https://github.com/opekope2)
+
+Want to see your name here? [Translate OptiGUI to your native language](https://github.com/opekope2/OptiGUI/blob/dev/CONTRIBUTING.md#i-want-to-add-a-translation).
 
 ## Supported languages (until OptiGUI 3 alpha 3)
 
@@ -36,11 +39,8 @@ These were removed in OptiGUI 3 alpha 4 due to being outdated
 
 * 🇹🇼 by [dirtTW](https://github.com/yichifauzi), [notlin4](https://github.com/notlin4)
 * 🇨🇳 by [dirtTW](https://github.com/yichifauzi), [notlin4](https://github.com/notlin4)
-* 🇩🇪 by [Lucanoria](https://github.com/Lucanoria)
 * 🇮🇹 by [RoberbufDx8105](https://github.com/RoberbufDx8105)
 * 🇲🇾 by [NuruddinPlays](https://github.com/NuruddinPlays)
-
-Want to see your name here? [Translate OptiGUI to your native language](https://github.com/opekope2/OptiGUI/blob/dev/CONTRIBUTING.md#i-want-to-add-a-translation).
 
 ## Resource pack docs
 
