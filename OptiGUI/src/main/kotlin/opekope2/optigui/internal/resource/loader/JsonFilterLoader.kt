@@ -2,7 +2,6 @@ package opekope2.optigui.internal.resource.loader
 
 import dev.runefox.json.Json
 import dev.runefox.json.JsonNode
-import net.minecraft.resources.FileToIdConverter
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager
@@ -11,10 +10,10 @@ import opekope2.optigui.util.OPTIGUI_JSON_RESOURCES_ROOT
 import opekope2.optigui.util.dfu.Json5Ops
 
 internal object JsonFilterLoader : AbstractResourceLoader<JsonNode>("json_loader") {
-    private val jsonFinder = FileToIdConverter.json(OPTIGUI_JSON_RESOURCES_ROOT)
     private val json = Json.json5()
 
-    override fun findResources(manager: ResourceManager) = jsonFinder.listMatchingResources(manager)
+    override fun findResources(manager: ResourceManager) =
+        manager.listResources(OPTIGUI_JSON_RESOURCES_ROOT) { it.path.endsWith(".json5") || it.path.endsWith(".json") }
 
     override fun loadResource(
         packId: String,
