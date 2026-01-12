@@ -40,7 +40,7 @@ public abstract class MinecraftMixin {
 
         if (screen instanceof ITextureChangeableScreen textureChangeableScreen) {
             InteractionManager.begin(textureChangeableScreen, player);
-        } else {
+        } else if (screen == null) {
             InteractionManager.end();
         }
     }

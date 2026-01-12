@@ -100,10 +100,8 @@ object InteractionManager {
     @JvmName("begin")
     @ApiStatus.Internal
     internal fun begin(screen: ITextureChangeableScreen, player: Player) {
-        if (this.screen != null) return
         interaction = nextInteractionFactory?.apply(screen)
             ?: GeneralInteraction(screen, player.mainHandItem, InteractionTarget.Unknown, player, MAIN_HAND)
-        if (!IConfig.get().keepInteractionFactory) nextInteractionFactory = null
         this.screen = screen
         clearCache()
     }
@@ -118,7 +116,7 @@ object InteractionManager {
         interaction = null
         screen = null
         clearCache(disconnected)
-        if (disconnected) nextInteractionFactory = null
+        if (!IConfig.get().keepInteractionFactory || disconnected) nextInteractionFactory = null
     }
 
     /**
