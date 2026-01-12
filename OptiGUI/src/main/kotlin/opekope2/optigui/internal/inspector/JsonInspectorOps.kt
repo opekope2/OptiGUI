@@ -44,23 +44,23 @@ internal class JsonInspectorOps private constructor(private val withType: Boolea
     }
 
     override fun createMap(map: Stream<Pair<JsonNode, JsonNode>>) = create(Tag.TAG_COMPOUND) {
-        map.forEachOrdered { pair -> it["@${pair.first.asString()}"] = create(pair.second) }
+        map.forEachOrdered { pair -> it["$${pair.first.asString()}"] = create(pair.second) }
     }
 
     override fun createBoolean(bl: Boolean): JsonNode = createByte(if (bl) 1 else 0)
 
     override fun createMap(map: Map<JsonNode, JsonNode>) = create(Tag.TAG_COMPOUND) {
-        map.forEach { (key, value) -> it["@$key"] = create(value) }
+        map.forEach { (key, value) -> it["$$key"] = create(value) }
     }
 
     fun createList(type: Byte, stream: Stream<JsonNode>) = create(type) {
-        stream.asSequence().withIndex().forEach { (index, element) -> it["#$index"] = create(element) }
+        stream.asSequence().withIndex().forEach { (index, element) -> it["_$index"] = create(element) }
     }
 
     override fun createList(stream: Stream<JsonNode>) = createList(Tag.TAG_LIST, stream)
 
     override fun createByteList(buf: ByteBuffer) = create(Tag.TAG_BYTE_ARRAY) {
-        for (i in 0 until buf.limit()) it["#$i"] = create(buf[i])
+        for (i in 0 until buf.limit()) it["_$i"] = create(buf[i])
     }
 
     override fun createIntList(stream: IntStream) =
@@ -73,7 +73,7 @@ internal class JsonInspectorOps private constructor(private val withType: Boolea
 
     private inner class JsonRecordBuilder() : RecordBuilder.AbstractStringBuilder<JsonNode, JsonNode>(this) {
         override fun append(key: String, value: JsonNode, builder: JsonNode): JsonNode =
-            builder.set("@$key", create(value))
+            builder.set("$$key", create(value))
 
         override fun initBuilder() = create(Tag.TAG_COMPOUND)
 

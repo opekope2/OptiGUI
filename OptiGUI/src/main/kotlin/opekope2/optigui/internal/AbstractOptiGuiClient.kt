@@ -66,8 +66,8 @@ abstract class AbstractOptiGuiClient {
 
     @MustBeInvokedByOverriders
     protected open fun registerPrefixNbtFilters() {
-        IPrefixNbtTransformer.register('@', PrefixSubNbtTransformer.type)
-        IPrefixNbtTransformer.register('#', PrefixNbtListIndexTransformer.type)
+        IPrefixNbtTransformer.register('$', PrefixSubNbtTransformer.type)
+        IPrefixNbtTransformer.register('_', PrefixNbtListIndexTransformer.type)
     }
 
     @MustBeInvokedByOverriders
@@ -125,8 +125,8 @@ abstract class AbstractOptiGuiClient {
 
         INbtFilter.register("root", NbtTransformerFilter.Type(RootNbtTransformer))
 
-        INbtFilter.register("?@", PrefixNbtTransformerFilter.Type(PrefixSubNbtTransformer))
-        INbtFilter.register("?#", PrefixNbtTransformerFilter.Type(PrefixNbtListIndexTransformer))
+        INbtFilter.register("?$", PrefixNbtTransformerFilter.Type(PrefixSubNbtTransformer))
+        INbtFilter.register("?_", PrefixNbtTransformerFilter.Type(PrefixNbtListIndexTransformer))
     }
 
     @MustBeInvokedByOverriders
