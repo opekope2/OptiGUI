@@ -94,10 +94,15 @@ subprojects {
                 "cloth_config" to libs.versions.cloth.config.get(),
                 "owo_lib" to libs.versions.owo.lib.fabric.get(),
             )
+            val commentRegex = """^\s*//.*$""".toRegex()
 
             inputs.properties(properties)
             filesMatching("fabric.mod.json") { expand(properties) }
             filesMatching("*.mixins.json") { expand(properties) }
+            filesMatching("assets/optigui/lang/*.jsonc") {
+                name = name.removeSuffix("c")
+                filter { line -> line.replace(commentRegex, "").takeIf { it != "" } }
+            }
         }
 
         val codegen by registering
