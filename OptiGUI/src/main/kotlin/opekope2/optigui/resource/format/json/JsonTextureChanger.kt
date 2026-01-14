@@ -8,7 +8,6 @@ import net.minecraft.util.ExtraCodecs
 import opekope2.optigui.filter.texture_changer.ITextureChanger
 import opekope2.optigui.filter.texture_changer.RandomizedTextureChanger
 import opekope2.optigui.filter.texture_changer.SimpleTextureChanger
-import opekope2.optigui.internal.I18n
 import opekope2.optigui.util.RelativeIdentifier
 
 /**
@@ -72,7 +71,7 @@ data class JsonTextureChanger(val newTextureChances: Map<Either<RelativeIdentifi
             RelativeIdentifier.RELATIVE_OR_ABSOLUTE_CODEC,
             Codec.unboundedMap(RelativeIdentifier.RELATIVE_OR_ABSOLUTE_CODEC, ExtraCodecs.POSITIVE_INT).validate {
                 if (it.isNotEmpty()) DataResult.success(it)
-                else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_EMPTY_MAP.supplyTranslation())
+                else DataResult.error { "No changed textures were specified" } // TODO i18n
             }
         ).xmap(
             { either -> Either.unwrap(either.mapLeft { mapOf(it to 1) }) },
