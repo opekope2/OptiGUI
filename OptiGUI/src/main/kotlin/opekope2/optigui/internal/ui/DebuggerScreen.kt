@@ -22,15 +22,15 @@ import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.mixin.TextComponentTagVisitorAccessor
 import opekope2.optigui.util.MOD_ID
 import opekope2.optigui.util.NbtFilterEvaluation
-import opekope2.optigui.util.childById
 import opekope2.optigui.util.collections.LinkedMruCollection
 import opekope2.optigui.util.expandTemplate
+import opekope2.optigui.util.requireChildById
 
 internal class DebuggerScreen(private val parent: Screen?, private val interaction: IInteraction?) :
     BaseUIModelScreen<FlowLayout>(FlowLayout::class.java, MODEL_ID) {
     private val rootComponent get() = uiAdapter.rootComponent
-    private val content by childById<FlowLayout>(::rootComponent)
-    private val done by childById<ButtonComponent>(::rootComponent)
+    private val content by requireChildById<FlowLayout>(::rootComponent)
+    private val done by requireChildById<ButtonComponent>(::rootComponent)
 
     override fun build(rootComponent: FlowLayout) {
         if (interaction != null) addDebugData(interaction)

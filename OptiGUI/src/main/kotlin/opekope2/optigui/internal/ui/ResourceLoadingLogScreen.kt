@@ -23,9 +23,9 @@ internal class ResourceLoadingLogScreen(
     private val onClose: Runnable
 ) : BaseUIModelScreen<FlowLayout>(FlowLayout::class.java, MODEL_ID) {
     private val rootComponent get() = uiAdapter.rootComponent
-    private val content by childById<FlowLayout>(::rootComponent)
-    private val doNotShowAgain by childById<CheckboxComponent>(::rootComponent)
-    private val ok by childById<ButtonComponent>(::rootComponent)
+    private val content by requireChildById<FlowLayout>(::rootComponent)
+    private val doNotShowAgain by requireChildById<CheckboxComponent>(::rootComponent)
+    private val ok by requireChildById<ButtonComponent>(::rootComponent)
 
     private var iconLoader: ResourcePackIconLoader? = null
 
@@ -75,8 +75,8 @@ internal class ResourceLoadingLogScreen(
                 val icon = pack?.let(iconLoader!!::loadIcon) ?: ResourcePackIconLoader.UNKNOWN_PACK
 
                 val packHeader by model.expandTemplate<ParentComponent>(mapOf("icon" to icon.toString()))
-                val title by childById<LabelComponent> { packHeader }
-                val description by childById<LabelComponent> { packHeader }
+                val title by requireChildById<LabelComponent> { packHeader }
+                val description by requireChildById<LabelComponent> { packHeader }
 
                 content.child(packHeader)
                 if (pack != null) {
