@@ -18,7 +18,6 @@
   "optigui.gui.rp_converter.target_namespace": "Цільовая прастора назваў (namespace)",
   "optigui.gui.rp_converter.title": "Канвертар рэсурс-пакаў OptiGUI",
 
-  "optigui.gui.rp_loader.copy_to_clipboard": "Капіраваць у буфер абмену",
   "optigui.gui.rp_loader.do_not_show_again": "Больш не паказваць",
   "optigui.gui.rp_loader.do_not_show_again.tooltip": "Гэта можна змяніць у любы час у наладах OptiGUI",
   "optigui.gui.rp_loader.load_fail": "OptiGUI не ўдалося загрузіць некаторыя рэсурсы",
@@ -29,9 +28,6 @@
   "optigui.inspector.description": "Націсніце, каб згенераваць JSON-рэсурс",
   "optigui.inspector.description.clicked": "JSON-рэсурс скапіяваны ў буфер",
   "optigui.inspector.description.debug": "Націсніце, каб адкрыць адладчык фільтраў",
-  "optigui.inspector.description.debug.clicked": "Збіранне даных для адладкі",
-  "optigui.inspector.description.debug.clicked.error": "Памылка пры зборы даных",
-  "optigui.inspector.description.debug.clicked.success": "Адладчык фільтраў адкрыты ў браўзеры",
   "optigui.inspector.description.hide": "Гэта можна схаваць у наладах OptiGUI",
   "optigui.inspector.key.more_info": "Утрымлівайце %s для дадатковай інфармацыі",
   "optigui.inspector.nbt_dumping_disabled": "Дамп NBT выключаны ў наладах OptiGUI",
@@ -41,24 +37,16 @@
   "optigui.inspector.title.custom_textures": "уласныя тэкстуры",
   "optigui.inspector.title.original_textures": "арыгінальныя тэкстуры",
 
-  "optigui.narration.rp_loader.error": "Памылка ў рэсурсе %s: %s",
-  "optigui.narration.rp_loader.error_list": "Спіс памылак",
-  "optigui.narration.rp_loader.resource_pack": "Памылкі ў рэсурс-паку %s",
-  "optigui.narration.rp_loader.warning": "Папярэджанне ў рэсурсе %s: %s",
-
   "optigui.rp_loader.info.load_success": "Рэсурс загружаны",
   "optigui.rp_loader.info.load_time_filtered": "Рэсурс прапушчаны з-за фільтра часу загрузкі",
   "optigui.rp_loader.info.loading_resource": "Загрузка рэсурсу",
 
   "optigui.rp_loader.warn.missing_sprites": "Адсутнічаюць спрайты: %s",
   "optigui.rp_loader.warn.missing_textures": "Адсутнічаюць тэкстуры: %s",
-  "optigui.rp_loader.warn.newest_supported_json_format": "найноўшы падтрымоўваны фармат",
   "optigui.rp_loader.warn.no_interaction_target": "Не ўказаны мэты ўзаемадзеяння (blocks, entities, items, inventory, unknown)",
   "optigui.rp_loader.warn.no_textures_or_sprites": "Не ўказана ні адной карэктнай тэкстуры або спрайта",
-  "optigui.rp_loader.warn.unsupported_json_format": "Непадтрымоўваны фармат JSON-рэсурсу",
 
   "optigui.validation.error.duplicate_filters": "Дубліраваныя фільтры: %s",
-  "optigui.validation.error.empty_map": "Пусты асацыятыўны масіў",
   "optigui.validation.error.no_filter": "Фільтр не знойдзены: %s",
   "optigui.validation.error.no_filter_type": "Тып фільтра не знойдзены: %s",
   "optigui.validation.error.not_a_number": "Не лік: %s",
