@@ -93,7 +93,7 @@
     "client": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.fabric.OptiGuiClient"
+        "value": "opekope2.optigui.internal.fabric.FabricOptiGuiClient"
       }
     ]
   },

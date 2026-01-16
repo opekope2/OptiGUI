@@ -30,7 +30,7 @@ import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 import opekope2.optigui.util.MOD_ID
 import kotlin.jvm.optionals.getOrNull
 
-internal class OptiGuiClient :
+internal class FabricOptiGuiClient :
     AbstractOptiGuiClient(),
     ClientModInitializer,
     ClientTickEvents.EndWorldTick,
