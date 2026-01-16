@@ -121,8 +121,8 @@ abstract class AbstractOptiGuiClient {
 
         INbtFilter.register("root", NbtTransformerFilter.Type(RootNbtTransformer))
 
-        INbtFilter.register("?$", PrefixNbtTransformerFilter.Type(PrefixSubNbtTransformer))
-        INbtFilter.register("?_", PrefixNbtTransformerFilter.Type(PrefixNbtListIndexTransformer))
+        INbtFilter.register("compound", DynamicPrefixNbtTransformerFilter.Type(PrefixSubNbtTransformer, "key"))
+        INbtFilter.register("list", DynamicPrefixNbtTransformerFilter.Type(PrefixNbtListIndexTransformer, "index"))
     }
 
     @MustBeInvokedByOverriders

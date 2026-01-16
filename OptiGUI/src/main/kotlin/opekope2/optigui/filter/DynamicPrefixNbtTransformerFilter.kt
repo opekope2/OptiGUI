@@ -10,7 +10,16 @@ import opekope2.optigui.resource.format.json.JsonFilterResource
 import opekope2.optigui.util.NbtFilterEvaluation
 import opekope2.optigui.util.dfu.field
 
-class PrefixNbtTransformerFilter(
+/**
+ * An NBT filter, which transforms an NBT element, and compares it with another NBT filter.
+ *
+ * @param subFilter The filter to test the transformed NBT element with
+ * @param transformerChain The NBT transformer chain used to extract the key NBT element to be passed to
+ *   [Type.transformer]
+ * @param type The type describing this filter
+ * @see IPrefixNbtTransformer
+ */
+class DynamicPrefixNbtTransformerFilter(
     val subFilter: INbtFilter,
     val transformerChain: NbtTransformerChain,
     override val type: Type
@@ -33,19 +42,27 @@ class PrefixNbtTransformerFilter(
             .joinTo(this, prefix = "[", postfix = "]", transform = { StringTag.quoteAndEscape(it.key) })
     }
 
-    data class Type(val transformer: IPrefixNbtTransformer) : INbtFilter.IType<PrefixNbtTransformerFilter> {
+    /**
+     * A type describing a [DynamicPrefixNbtTransformerFilter].
+     *
+     * @param transformer The prefix NBT transformer used to extract the input NBT element to be passed to
+     *   [DynamicPrefixNbtTransformerFilter.subFilter] from an NBT element using the given key
+     * @param transformerKey The JSON key referring to [DynamicPrefixNbtTransformerFilter.transformerChain]
+     */
+    data class Type(val transformer: IPrefixNbtTransformer, val transformerKey: String) :
+        INbtFilter.IType<DynamicPrefixNbtTransformerFilter> {
         init {
             require(transformer.type.isRegistered) { "Prefix NBT filter is not registered" }
         }
 
-        override val codec: Codec<PrefixNbtTransformerFilter> = RecordCodecBuilder.create { instance ->
+        override val codec: Codec<DynamicPrefixNbtTransformerFilter> = RecordCodecBuilder.create { instance ->
             instance.group(
-                INbtFilter.CODEC.field(JsonFilterResource.FILTER_KEY, PrefixNbtTransformerFilter::subFilter),
-                NbtTransformerChain.CODEC.field("?", PrefixNbtTransformerFilter::transformerChain),
+                NbtTransformerChain.CODEC.field(transformerKey, DynamicPrefixNbtTransformerFilter::transformerChain),
+                INbtFilter.CODEC.field(JsonFilterResource.FILTER_KEY, DynamicPrefixNbtTransformerFilter::subFilter),
             ).apply(instance, ::createFilter)
         }
 
-        private fun createFilter(subFilter: INbtFilter, transformerChain: NbtTransformerChain) =
-            PrefixNbtTransformerFilter(subFilter, transformerChain, this)
+        private fun createFilter(transformerChain: NbtTransformerChain, subFilter: INbtFilter) =
+            DynamicPrefixNbtTransformerFilter(subFilter, transformerChain, this)
     }
 }
