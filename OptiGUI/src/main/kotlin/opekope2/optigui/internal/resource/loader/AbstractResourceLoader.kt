@@ -16,7 +16,6 @@ import opekope2.optigui.internal.I18n
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import opekope2.optigui.resource.format.json.JsonTextureChanger
 import opekope2.optigui.util.*
-import opekope2.optigui.util.collections.LinkedMruCollection
 import org.slf4j.LoggerFactory
 import org.slf4j.event.LoggingEvent
 import kotlin.jvm.optionals.getOrNull
@@ -165,7 +164,7 @@ internal abstract class AbstractResourceLoader<TResource>(val id: ResourceLocati
                 json.filter,
                 textureChangers,
                 spriteChangers,
-                LinkedMruCollection(json.textStyleChangers)
+                ArrayList(json.textStyleChangers),
             )
 
             for (block in json.blocks) filters[InteractionTarget.Block(block)] += filter

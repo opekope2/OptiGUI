@@ -77,7 +77,7 @@ internal object TextStyler {
         }
 
         val nbt = encoded.result().get()
-        val styler = TextureChanger.filter.textStyleChangers.promoteFirstOrNull { it.filter.test(nbt, nbt) }
+        val styler = TextureChanger.filter.textStyleChangers.firstOrNull { it.filter.test(nbt, nbt) }
         if (styler != null) return styler
 
         cache.ignore(text, origin)

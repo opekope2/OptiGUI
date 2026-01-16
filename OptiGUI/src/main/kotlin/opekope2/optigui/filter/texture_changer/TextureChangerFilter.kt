@@ -5,7 +5,6 @@ import opekope2.optigui.filter.ConditionalFilter
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.filter.text_style_changer.TextStyleChanger
 import opekope2.optigui.util.MOD_ID
-import opekope2.optigui.util.collections.LinkedMruCollection
 
 /**
  * An NBT filter specifying which GUI textures it can change to which other textures.
@@ -21,7 +20,7 @@ data class TextureChangerFilter(
     private val filter: INbtFilter,
     val textureChangers: Map<ResourceLocation, ITextureChanger>,
     val spriteChangers: Map<ResourceLocation, ITextureChanger>,
-    val textStyleChangers: LinkedMruCollection<TextStyleChanger>,
+    val textStyleChangers: List<TextStyleChanger>,
 ) : INbtFilter by filter {
     companion object {
         @JvmField
@@ -30,7 +29,7 @@ data class TextureChangerFilter(
             ConditionalFilter.NEVER,
             emptyMap(),
             emptyMap(),
-            LinkedMruCollection(emptyList())
+            emptyList(),
         )
     }
 }
