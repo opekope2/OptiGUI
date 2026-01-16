@@ -144,7 +144,7 @@ abstract class AbstractOptiGuiClient {
 
         @JvmStatic
         private fun initialize(instance: AbstractOptiGuiClient) {
-            check(!::implementation.isInitialized) { "Tried to initialize OptiGuiClient twice" }
+            check(!::implementation.isInitialized) { "Tried to initialize AbstractOptiGuiClient twice" }
             implementation = instance
         }
 
