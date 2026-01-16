@@ -2,7 +2,7 @@ package opekope2.optigui.internal.inspector
 
 import dev.runefox.json.JsonNode
 import dev.runefox.json.JsonObject
-import opekope2.optigui.config.IConfig
+import opekope2.optigui.config.config
 import opekope2.optigui.interaction.IInteraction
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.InteractionTarget
@@ -15,7 +15,7 @@ internal object Inspector {
         it.addTarget(interaction.target)
         it[JsonFilterResource.TEXTURE_CHANGERS_KEY] = getLastRenderedTextures()
         it[JsonFilterResource.SPRITE_CHANGERS_KEY] = getLastRenderedSprites()
-        val nbtDumper = IConfig.get().dumpNbt
+        val nbtDumper = config.dumpNbt()
         it[JsonFilterResource.TEXT_STYLE_CHANGERS_KEY] = nbtDumper.getLastRenderedTexts()
         it[JsonFilterResource.LOAD_FILTER_KEY] = nbtDumper.getLoadTimeNbt()
         it[JsonFilterResource.FILTER_KEY] = nbtDumper.getInteractionNbt(interaction)

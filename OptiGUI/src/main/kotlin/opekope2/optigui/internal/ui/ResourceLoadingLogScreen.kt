@@ -11,7 +11,8 @@ import io.wispforest.owo.ui.core.ParentComponent
 import net.minecraft.ChatFormatting
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.resources.ResourceLocation
-import opekope2.optigui.config.IConfig
+import opekope2.optigui.config.ResourceLoadingLogFilter
+import opekope2.optigui.config.config
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.internal.I18n
 import opekope2.optigui.util.*
@@ -47,10 +48,7 @@ internal class ResourceLoadingLogScreen(
     override fun removed() {
         super.removed()
 
-        if (doNotShowAgain.selected()) {
-            IConfig.get().showResourceLoadingErrors = IConfig.ResourceLoadingErrorFilter.NOTHING
-            IConfig.get().save()
-        }
+        if (doNotShowAgain.selected()) config.showResourceLoadingErrors(ResourceLoadingLogFilter.NOTHING)
 
         iconLoader?.close()
         iconLoader = null
@@ -60,7 +58,7 @@ internal class ResourceLoadingLogScreen(
         val packManager = minecraft!!.resourcePackRepository
 
         val log = log
-            .filterTo(mutableListOf()) { it.level < Level.DEBUG }
+            .filterTo(mutableListOf()) { it.level <= Level.INFO }
             .apply { sort() }
         var lastPack: String? = null
         var lastResource: ResourceLocation? = null
@@ -94,10 +92,7 @@ internal class ResourceLoadingLogScreen(
             }
 
             val logEntry by model.expandTemplate<LabelComponent>(
-                mapOf(
-                    "text" to message,
-                    "color" to LEVEL_TO_COLOR.getValue(level),
-                )
+                mapOf("text" to message, "color" to LEVEL_TO_COLOR.getValue(level))
             )
 
             content.child(logEntry)
@@ -116,20 +111,13 @@ internal class ResourceLoadingLogScreen(
             Level.ERROR to ChatFormatting.RED,
             Level.WARN to ChatFormatting.YELLOW,
             Level.INFO to ChatFormatting.WHITE,
-            Level.DEBUG to ChatFormatting.GRAY,
-            Level.TRACE to ChatFormatting.DARK_GRAY,
         ).mapValues { (_, formatting) -> Color.ofFormatting(formatting).asHexString(true) }
 
         /**
-         * Returns if the filter loaders registered in [IFilterLoader.Registry] have errors matching
-         * [IConfig.showResourceLoadingErrors].
+         * Returns if the filter loaders registered in [IFilterLoader.Registry] have errors the user configured to see.
          */
         @JvmStatic
-        fun shouldShow() = when (IConfig.get().showResourceLoadingErrors) {
-            IConfig.ResourceLoadingErrorFilter.NOTHING -> false
-            IConfig.ResourceLoadingErrorFilter.ERRORS_ONLY -> IFilterLoader.any { (_, loader) -> loader.log.any { it.level <= Level.ERROR } }
-            IConfig.ResourceLoadingErrorFilter.ERRORS_AND_WARNINGS -> IFilterLoader.any { (_, loader) -> loader.log.any { it.level <= Level.WARN } }
-        }
+        fun shouldShow() = config.showResourceLoadingErrors().shouldShowResourceLoadingLog()
 
         /**
          * Shows a new [ResourceLoadingLogScreen] If errors occurred while reloading resources.

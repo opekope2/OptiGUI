@@ -1,7 +1,6 @@
 package opekope2.optigui.internal
 
-import me.shedaniel.autoconfig.AutoConfig
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer
+import io.wispforest.owo.config.ui.ConfigScreenProviders
 import opekope2.optigui.filter.*
 import opekope2.optigui.filter.comparer.INbtComparer.ComparisonResult.*
 import opekope2.optigui.filter.comparer.NbtStringOrNumberComparer
@@ -10,13 +9,12 @@ import opekope2.optigui.interaction.EntityInteraction
 import opekope2.optigui.interaction.IInteraction
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.nbt_provider.*
-import opekope2.optigui.internal.config.Config
-import opekope2.optigui.internal.config.gui.ButtonEntryGuiProvider
-import opekope2.optigui.internal.config.gui.ButtonListEntry
 import opekope2.optigui.internal.resource.loader.JsonFilterLoader
+import opekope2.optigui.internal.ui.ConfigScreen
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import opekope2.optigui.nbt_provider.NbtFilterNamesNbtProvider
 import opekope2.optigui.nbt_provider.PrefixNbtFilterNamesNbtProvider
+import opekope2.optigui.util.MOD_ID
 import org.jetbrains.annotations.ApiStatus
 import org.jetbrains.annotations.MustBeInvokedByOverriders
 
@@ -42,9 +40,7 @@ abstract class AbstractOptiGuiClient {
 
     @MustBeInvokedByOverriders
     protected open fun registerConfig() {
-        AutoConfig.getGuiRegistry(Config::class.java)
-            .registerTypeProvider(ButtonEntryGuiProvider, ButtonListEntry.IAction::class.java)
-        AutoConfig.register(Config::class.java, ::GsonConfigSerializer)
+        ConfigScreenProviders.register(MOD_ID, ::ConfigScreen)
     }
 
     @MustBeInvokedByOverriders

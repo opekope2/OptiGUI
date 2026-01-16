@@ -8,7 +8,8 @@ plugins {
     id("opekope2.optigui.buildscript.plugin.Common")
     id("opekope2.optigui.buildscript.plugin.Dokka")
     alias(libs.plugins.moddev)
-    id("org.jetbrains.kotlin.jvm")
+    kotlin
+    `kotlin-kapt`
 }
 
 version = Version.common(libs.versions.optigui, libs.versions.minecraft)
@@ -24,11 +25,11 @@ dependencies {
 
     compileOnly(libs.owo.lib.neoforge)
     accessTransformers(libs.owo.lib.neoforge)
+    kapt(libs.owo.lib.neoforge)
     interfaceInjectionData(libs.owo.lib.neoforge)
 
     api(libs.runefox.json)
     api(libs.runefox.jsonkt)
-    compileOnly(libs.cloth.config.neoforge) // fabric build is intermediary, neoforge build is mojmap
 
     api(project(":ScreenAPI"))
 }
@@ -39,6 +40,10 @@ neoForge {
         minecraftVersion = libs.versions.minecraft
         mappingsVersion = libs.versions.parchment
     }
+}
+
+kapt {
+    includeCompileClasspath = false
 }
 
 dokka {
@@ -93,5 +98,14 @@ tasks {
 artifacts {
     sourceSets.main {
         kotlin.sourceDirectories.forEach { add("commonKotlin", it) }
+    }
+}
+
+afterEvaluate {
+    artifacts {
+        sourceSets.main {
+            val kaptKotlin by tasks.getting
+            kaptKotlin.outputs.files.forEach { add("commonJava", it) }
+        }
     }
 }

@@ -91,7 +91,6 @@ subprojects {
                 "fabric_language_kotlin" to libs.versions.fabric.language.kotlin.get(),
                 "minecraft" to libs.versions.minecraft.get(),
                 "java" to libs.versions.java.get(),
-                "cloth_config" to libs.versions.cloth.config.get(),
                 "owo_lib" to libs.versions.owo.lib.fabric.get(),
             )
             val commentRegex = """^\s*//.*$""".toRegex()

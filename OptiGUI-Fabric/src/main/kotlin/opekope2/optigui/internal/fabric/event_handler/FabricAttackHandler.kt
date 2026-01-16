@@ -13,7 +13,7 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.EntityHitResult
-import opekope2.optigui.config.IConfig
+import opekope2.optigui.config.config
 import opekope2.optigui.interaction.*
 
 internal object FabricAttackHandler : AttackBlockCallback, AttackEntityCallback, ClientPreAttackCallback {
@@ -31,7 +31,7 @@ internal object FabricAttackHandler : AttackBlockCallback, AttackEntityCallback,
         direction: Direction
     ): InteractionResult {
         if (!world.isClientSide) return InteractionResult.PASS
-        if (!IConfig.get().interactWithAttackKey) return InteractionResult.PASS
+        if (!config.interactWithAttackKey()) return InteractionResult.PASS
 
         InteractionManager.prepare(
             BlockInteraction.factory(pos, world.getBlockState(pos), world.getBlockEntity(pos), player, hand)
@@ -48,7 +48,7 @@ internal object FabricAttackHandler : AttackBlockCallback, AttackEntityCallback,
         hitResult: EntityHitResult?
     ): InteractionResult {
         if (!world.isClientSide) return InteractionResult.PASS
-        if (!IConfig.get().interactWithAttackKey) return InteractionResult.PASS
+        if (!config.interactWithAttackKey()) return InteractionResult.PASS
 
         InteractionManager.prepare(EntityInteraction.factory(entity, player, hand))
 
@@ -60,7 +60,7 @@ internal object FabricAttackHandler : AttackBlockCallback, AttackEntityCallback,
         player: LocalPlayer,
         clickCount: Int
     ): Boolean {
-        if (!IConfig.get().interactWithAttackKey) return false
+        if (!config.interactWithAttackKey()) return false
 
         InteractionManager.prepare(
             GeneralInteraction.factory(InteractionTarget.Item(player.mainHandItem), player, InteractionHand.MAIN_HAND)

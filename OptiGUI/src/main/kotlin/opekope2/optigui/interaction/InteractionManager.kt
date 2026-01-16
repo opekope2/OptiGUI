@@ -5,7 +5,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.InteractionHand.MAIN_HAND
 import net.minecraft.world.entity.player.Player
-import opekope2.optigui.config.IConfig
+import opekope2.optigui.config.config
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager.clearCache
 import opekope2.optigui.interaction.InteractionManager.interaction
@@ -116,7 +116,7 @@ object InteractionManager {
         interaction = null
         screen = null
         clearCache(disconnected)
-        if (!IConfig.get().keepInteractionFactory || disconnected) nextInteractionFactory = null
+        if (!config.keepInteractionFactory() || disconnected) nextInteractionFactory = null
     }
 
     /**

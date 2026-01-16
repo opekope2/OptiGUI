@@ -95,19 +95,12 @@
         "adapter": "kotlin",
         "value": "opekope2.optigui.internal.fabric.OptiGuiClient"
       }
-    ],
-    "modmenu": [
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.fabric.ModMenuIntegration"
-      }
     ]
   },
   "mixins": [
     "optigui.mixins.json"
   ],
   "depends": {
-    "cloth-config": ">=$cloth_config",
     "fabric-api": ">=$fabric_api",
     "fabric-language-kotlin": ">=$fabric_language_kotlin",
     "fabricloader": ">=0.15.0",

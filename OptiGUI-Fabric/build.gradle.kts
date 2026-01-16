@@ -5,7 +5,7 @@ import opekope2.optigui.buildscript.task.GenerateInternalPackageInfos
 plugins {
     id("opekope2.optigui.buildscript.plugin.Loader")
     alias(libs.plugins.fabric.loom)
-    id("org.jetbrains.kotlin.jvm")
+    kotlin
 }
 
 version = Version.fabric(libs.versions.optigui, libs.versions.minecraft)
@@ -30,13 +30,10 @@ dependencies {
     modImplementation(libs.fabric.language.kotlin)
     modImplementation(libs.fabric.api)
 
-    modApi(libs.cloth.config.fabric) { exclude(group = "net.fabricmc.fabric-api") }
-    modImplementation(libs.modmenu)
-
     commonProject(":OptiGUI", kotlin = true)
 
     runtimeOnly(libs.ini4j)
-    modImplementation(libs.owo.lib.fabric)
+    modApi(libs.owo.lib.fabric)
     runtimeOnly(libs.runefox.json)
     runtimeOnly(libs.runefox.jsonkt)
     localRuntime(project(":ScreenAPI-Fabric", configuration = "namedElements"))

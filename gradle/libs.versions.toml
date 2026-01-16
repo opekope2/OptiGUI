@@ -14,13 +14,11 @@ fabric-loader = "0.16.10"
 fabric-api = "0.102.0+1.21"
 fabric-language-kotlin = "1.13.2+kotlin.2.1.20"
 kotlinforforge = "5.7.0"
-cloth-config = "15.0.127"
 ini4j = "0.5.4"
 jspecify = "1.0.0"
 owo-lib-fabric = "0.12.15.1+1.21"
 owo-lib-neoforge = "0.12.15.1-beta.1+1.21"
 runefox-json = "0.8"
-modmenu = "11.0.0"
 
 [libraries]
 kotlin-jvm-gradle-plugin = { group = "org.jetbrains.kotlin.jvm", name = "org.jetbrains.kotlin.jvm.gradle.plugin", version.ref = "kotlin" }
@@ -32,15 +30,12 @@ mixinextras-common = { group = "io.github.llamalad7", name = "mixinextras-common
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric-loader" }
 fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric-api" }
 fabric-language-kotlin = { group = "net.fabricmc", name = "fabric-language-kotlin", version.ref = "fabric-language-kotlin" }
-cloth-config-fabric = { group = "me.shedaniel.cloth", name = "cloth-config-fabric", version.ref = "cloth-config" }
-cloth-config-neoforge = { group = "me.shedaniel.cloth", name = "cloth-config-neoforge", version.ref = "cloth-config" }
 ini4j = { group = "org.ini4j", name = "ini4j", version.ref = "ini4j" }
 jspecify = { group = "org.jspecify", name = "jspecify", version.ref = "jspecify" }
 owo-lib-fabric = { group = "io.wispforest", name = "owo-lib", version.ref = "owo-lib-fabric" }
 owo-lib-neoforge = { group = "io.wispforest", name = "owo-lib-neoforge", version.ref = "owo-lib-neoforge" }
 runefox-json = { group = "dev.runefox", name = "json", version.ref = "runefox-json" }
 runefox-jsonkt = { group = "dev.runefox", name = "jsonkt", version.ref = "runefox-json" }
-modmenu = { group = "com.terraformersmc", name = "modmenu", version.ref = "modmenu" }
 
 [plugins]
 fabric-loom = { id = "fabric-loom", version.ref = "loom" }
