@@ -1,12 +1,4 @@
 {
-  "optigui.enum.InspectorNbtDumpOption.DISABLED": "Выключана",
-  "optigui.enum.InspectorNbtDumpOption.VALUES_AND_TYPES": "Значэнні і тыпы",
-  "optigui.enum.InspectorNbtDumpOption.VALUES_ONLY": "Толькі значэнні",
-
-  "optigui.enum.ResourceLoadingErrorFilter.ERRORS_AND_WARNINGS": "Памылкі і папярэджанні",
-  "optigui.enum.ResourceLoadingErrorFilter.ERRORS_ONLY": "Толькі памылкі",
-  "optigui.enum.ResourceLoadingErrorFilter.NOTHING": "Ніколі",
-
   "optigui.gui.rp_converter.conversion_fail": "OptiGUI не ўдалося канвертаваць некаторыя рэсурсы",
   "optigui.gui.rp_converter.conversion_success": "Рэсурс-пак паспяхова канвертаваны",
   "optigui.gui.rp_converter.convert": "Канвертаваць рэсурс-пак",
@@ -24,18 +16,24 @@
   "optigui.gui.rp_loader.unknown_pack": "Невядомы рэсурс-пак",
   "optigui.gui.rp_loader.unknown_resource": "Невядомы рэсурс",
 
+
   "optigui.inspector": "Інспектар OptiGUI",
+
   "optigui.inspector.description": "Націсніце, каб згенераваць JSON-рэсурс",
   "optigui.inspector.description.clicked": "JSON-рэсурс скапіяваны ў буфер",
   "optigui.inspector.description.debug": "Націсніце, каб адкрыць адладчык фільтраў",
   "optigui.inspector.description.hide": "Гэта можна схаваць у наладах OptiGUI",
+
   "optigui.inspector.key.more_info": "Утрымлівайце %s для дадатковай інфармацыі",
+
   "optigui.inspector.nbt_dumping_disabled": "Дамп NBT выключаны ў наладах OptiGUI",
+
   "optigui.inspector.title": "OptiGUI (%s)",
   "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
   "optigui.inspector.title.beta": "OptiGUI beta (%s)",
   "optigui.inspector.title.custom_textures": "уласныя тэкстуры",
   "optigui.inspector.title.original_textures": "арыгінальныя тэкстуры",
+
 
   "optigui.rp_loader.info.load_success": "Рэсурс загружаны",
   "optigui.rp_loader.info.load_time_filtered": "Рэсурс прапушчаны з-за фільтра часу загрузкі",
@@ -46,50 +44,56 @@
   "optigui.rp_loader.warn.no_interaction_target": "Не ўказаны мэты ўзаемадзеяння (blocks, entities, items, inventory, unknown)",
   "optigui.rp_loader.warn.no_textures_or_sprites": "Не ўказана ні адной карэктнай тэкстуры або спрайта",
 
+
   "optigui.validation.error.duplicate_filters": "Дубліраваныя фільтры: %s",
+
   "optigui.validation.error.no_filter": "Фільтр не знойдзены: %s",
   "optigui.validation.error.no_filter_type": "Тып фільтра не знойдзены: %s",
+
   "optigui.validation.error.not_a_number": "Не лік: %s",
   "optigui.validation.error.not_a_number_or_string": "Не лік і не радок: %s",
   "optigui.validation.error.not_a_relative_identifier": "Не адносны ідэнтыфікатар рэсурсу: %s",
   "optigui.validation.error.not_an_nbt_transformer": "Не NBT-трансформер: %s",
+
   "optigui.validation.error.of_incompatible_variants": "Несумяшчальныя варыянты: %s",
   "optigui.validation.error.of_invalid_bool": "Некарэктнае булева значэнне: %s",
   "optigui.validation.error.of_invalid_profession": "Некарэктная прафесія вяскоўца: %s",
   "optigui.validation.error.of_invalid_range": "Некарэктны дыяпазон: %s",
   "optigui.validation.error.of_texture_required": "Патрэбна прынамсі адна тэкстура або texture.PATH",
+
   "optigui.validation.error.unsupported_filter": "Непадтрымоўваны фільтр: %s",
+
   "optigui.validation.error.wrong_filter_type": "Чаканы тып фільтра %s, атрыманы %s",
 
-  "text.autoconfig.optigui.category.inspector": "Інспектар",
-  "text.autoconfig.optigui.category.interaction": "Узаемадзеянне",
-  "text.autoconfig.optigui.category.resourceLoading": "Загрузка рэсурсаў",
-  "text.autoconfig.optigui.category.utils": "Інструменты",
 
-  "text.autoconfig.optigui.option.dumpNbt": "Дамп NBT",
-  "text.autoconfig.optigui.option.dumpNbt.@Tooltip": "Уключаць дадзеныя NBT у згенераваныя JSON-рэсурсы",
+  "text.config.optigui.option.dumpNbt": "Дамп NBT",
+  "text.config.optigui.option.dumpNbt.tooltip": "Уключаць дадзеныя NBT у згенераваныя JSON-рэсурсы",
+  "text.config.optigui.option.dumpNbt.value.nothing": "Выключана",
+  "text.config.optigui.option.dumpNbt.value.values_and_types": "Значэнні і тыпы",
+  "text.config.optigui.option.dumpNbt.value.values_only": "Толькі значэнні",
 
-  "text.autoconfig.optigui.option.enableInspector": "Уключыць інспектар",
-  "text.autoconfig.optigui.option.enableInspector.@Tooltip": "Паказваць кнопку інспектара на падтрымоўваных экранах інвентара",
+  "text.config.optigui.option.enableInspector": "Уключыць інспектар",
+  "text.config.optigui.option.enableInspector.tooltip": "Паказваць кнопку інспектара на падтрымоўваных экранах інвентара",
 
-  "text.autoconfig.optigui.option.errorsAndWarnings": "Логі загрузкі рэсурсаў",
-  "text.autoconfig.optigui.option.errorsAndWarnings.@Tooltip": "Паказваць памылкі і папярэджанні, што ўзніклі падчас загрузкі рэсурсаў",
-  "text.autoconfig.optigui.option.errorsAndWarnings.button": "Прагледзець",
+  "text.config.optigui.option.interactWithAttackKey": "Узаемадзеянне праз клавішу атакі",
+  "text.config.optigui.option.interactWithAttackKey.tooltip": "У дадатак да клавішы выкарыстання, атака таксама пачынае ўзаемадзеянне\n§8Некаторыя серверы могуць адкрываць меню пры атацы па існасці",
 
-  "text.autoconfig.optigui.option.interactWithAttackKey": "Узаемадзеянне праз клавішу атакі",
-  "text.autoconfig.optigui.option.interactWithAttackKey.@Tooltip[0]": "У дадатак да клавішы выкарыстання, атака таксама пачынае ўзаемадзеянне",
-  "text.autoconfig.optigui.option.interactWithAttackKey.@Tooltip[1]": "§8Некаторыя серверы могуць адкрываць меню пры атацы па існасці",
+  "text.config.optigui.option.keepInteractionFactory": "Запамінаць апошняе ўзаемадзеянне",
+  "text.config.optigui.option.keepInteractionFactory.tooltip": "Не заканчваць узаемадзеянне пры закрыцці экрана\n§8Некаторыя серверы могуць адкрываць новыя меню з папярэдніх",
 
-  "text.autoconfig.optigui.option.keepInteractionFactory": "Запамінаць апошняе ўзаемадзеянне",
-  "text.autoconfig.optigui.option.keepInteractionFactory.@Tooltip[0]": "Не заканчваць узаемадзеянне пры закрыцці экрана",
-  "text.autoconfig.optigui.option.keepInteractionFactory.@Tooltip[1]": "§8Некаторыя серверы могуць адкрываць новыя меню з папярэдніх",
+  "text.config.optigui.option.showResourceLoadingErrors": "Паказваць журналы загрузкі рэсурсаў",
+  "text.config.optigui.option.showResourceLoadingErrors.tooltip": "Паказваць журналы загрузкі, калі OptiGUI не ўдалося загрузіць рэсурс",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_and_warnings": "Памылкі і папярэджанні",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_only": "Толькі памылкі",
+  "text.config.optigui.option.showResourceLoadingErrors.value.nothing": "Ніколі",
 
-  "text.autoconfig.optigui.option.resourcePackConverter": "Канвертар рэсурс-пакаў",
-  "text.autoconfig.optigui.option.resourcePackConverter.@Tooltip": "Канвертаваць OptiFine .properties і OptiGUI .ini у OptiGUI JSON-рэсурсы",
-  "text.autoconfig.optigui.option.resourcePackConverter.button": "Адкрыць",
+  "text.config.optigui.section.inspector": "Інспектар",
+  "text.config.optigui.section.interaction": "Узаемадзеянне",
+  "text.config.optigui.section.resourceLoading": "Загрузка рэсурсаў",
 
-  "text.autoconfig.optigui.option.showResourceLoadingErrors": "Паказваць журналы загрузкі рэсурсаў",
-  "text.autoconfig.optigui.option.showResourceLoadingErrors.@Tooltip": "Паказваць журналы загрузкі, калі OptiGUI не ўдалося загрузіць рэсурс",
+  "text.config.optigui.title": "Налады OptiGUI",
 
-  "text.autoconfig.optigui.title": "Налады OptiGUI"
+  "text.config.optigui.tools": "Інструменты",
+  "text.config.optigui.tools.resource_loading_logs": "Логі загрузкі рэсурсаў",
+  "text.config.optigui.tools.rp_converter": "Канвертар рэсурс-пакаў"
 }

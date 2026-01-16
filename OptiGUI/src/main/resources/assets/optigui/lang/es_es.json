@@ -1,10 +1,4 @@
 {
-  "optigui.enum.InspectorNbtDumpOption.DISABLED": "Desactivado",
-  "optigui.enum.InspectorNbtDumpOption.VALUES_AND_TYPES": "Valores y Tipos",
-  "optigui.enum.InspectorNbtDumpOption.VALUES_ONLY": "Solo valores",
-  "optigui.enum.ResourceLoadingErrorFilter.ERRORS_AND_WARNINGS": "Errores y advertencias",
-  "optigui.enum.ResourceLoadingErrorFilter.ERRORS_ONLY": "Solo errores",
-  "optigui.enum.ResourceLoadingErrorFilter.NOTHING": "Nunca",
   "optigui.gui.rp_converter.conversion_fail": "OptiGUI no pudo convertir algunos recursos",
   "optigui.gui.rp_converter.conversion_success": "Paquete de recursos convertido correctamente",
   "optigui.gui.rp_converter.convert": "Convertir paquete de recursos",
@@ -15,65 +9,91 @@
   "optigui.gui.rp_converter.output_file": "Nombre del archivo de salida",
   "optigui.gui.rp_converter.target_namespace": "Espacio de nombres de destino",
   "optigui.gui.rp_converter.title": "Convertidor de paquetes de recursos OptiGUI",
+
   "optigui.gui.rp_loader.do_not_show_again": "No volver a mostrar",
   "optigui.gui.rp_loader.do_not_show_again.tooltip": "Puede cambiar esto en cualquier momento en la configuración de OptiGUI",
   "optigui.gui.rp_loader.load_fail": "OptiGUI no pudo cargar algunos recursos",
   "optigui.gui.rp_loader.unknown_pack": "Paquete de recursos desconocido",
   "optigui.gui.rp_loader.unknown_resource": "Recurso desconocido",
+
+
   "optigui.inspector": "Inspector de OptiGUI",
+
   "optigui.inspector.description": "Haga clic para generar un recurso JSON",
   "optigui.inspector.description.clicked": "Recurso JSON copiado al portapapeles",
   "optigui.inspector.description.debug": "Haga clic para abrir el depurador de filtros",
   "optigui.inspector.description.hide": "Puede ocultar esto en la configuración de OptiGUI",
+
   "optigui.inspector.key.more_info": "Mantenga pulsado %s para obtener más información",
+
   "optigui.inspector.nbt_dumping_disabled": "El volcado NBT está desactivado en la configuración de OptiGUI",
+
   "optigui.inspector.title": "OptiGUI (%s)",
   "optigui.inspector.title.alpha": "OptiGUI alfa (%s)",
   "optigui.inspector.title.beta": "OptiGUI beta (%s)",
   "optigui.inspector.title.custom_textures": "texturas personalizadas",
   "optigui.inspector.title.original_textures": "texturas originales",
+
+
   "optigui.rp_loader.info.load_success": "Recurso cargado",
   "optigui.rp_loader.info.load_time_filtered": "Omitiendo el recurso debido al filtro de tiempo de carga",
   "optigui.rp_loader.info.loading_resource": "Cargando recurso",
+
   "optigui.rp_loader.warn.missing_sprites": "Sprites que faltan: %s",
   "optigui.rp_loader.warn.missing_textures": "Texturas que faltan: %s",
   "optigui.rp_loader.warn.no_interaction_target": "No se especificaron objetivos de interacción (blocks, entities, items, inventory, unknown)",
   "optigui.rp_loader.warn.no_textures_or_sprites": "No se especificaron texturas ni sprites válidos",
+
+
   "optigui.validation.error.duplicate_filters": "Filtros duplicados: %s",
+
   "optigui.validation.error.no_filter": "No existe tal filtro: %s",
   "optigui.validation.error.no_filter_type": "No existe ese tipo de filtro: %s",
+
   "optigui.validation.error.not_a_number": "No es un número: %s",
   "optigui.validation.error.not_a_number_or_string": "No es un número ni una cadena: %s",
   "optigui.validation.error.not_a_relative_identifier": "No es una ubicación de recurso relativa: %s",
   "optigui.validation.error.not_an_nbt_transformer": "No es un transformador NBT: %s",
+
   "optigui.validation.error.of_incompatible_variants": "Variantes incompatibles: %s",
   "optigui.validation.error.of_invalid_bool": "Booleano no válido: %s",
   "optigui.validation.error.of_invalid_profession": "Profesión de aldeano no válida: %s",
   "optigui.validation.error.of_invalid_range": "Rango no válido: %s",
   "optigui.validation.error.of_texture_required": "Se requiere al menos una textura o texture.PATH",
+
   "optigui.validation.error.unsupported_filter": "Filtro no compatible: %s",
+
   "optigui.validation.error.wrong_filter_type": "Se esperaba el tipo de filtro %s, se obtuvo %s",
-  "text.autoconfig.optigui.category.inspector": "Inspector",
-  "text.autoconfig.optigui.category.interaction": "Interacción",
-  "text.autoconfig.optigui.category.resourceLoading": "Carga de recursos",
-  "text.autoconfig.optigui.category.utils": "Utilidades",
-  "text.autoconfig.optigui.option.dumpNbt": "Volcar NBT",
-  "text.autoconfig.optigui.option.dumpNbt.@Tooltip": "Incluir datos NBT en los recursos JSON generados",
-  "text.autoconfig.optigui.option.enableInspector": "Habilitar inspector",
-  "text.autoconfig.optigui.option.enableInspector.@Tooltip": "Mostrar un botón de inspector en las pantallas de inventario compatibles",
-  "text.autoconfig.optigui.option.errorsAndWarnings": "Registros de carga de recursos",
-  "text.autoconfig.optigui.option.errorsAndWarnings.@Tooltip": "Mostrar errores y advertencias que se produjeron al cargar los recursos",
-  "text.autoconfig.optigui.option.errorsAndWarnings.button": "Ver",
-  "text.autoconfig.optigui.option.interactWithAttackKey": "Interactúa usando la tecla de ataque",
-  "text.autoconfig.optigui.option.interactWithAttackKey.@Tooltip[0]": "Además de la tecla de uso, atacar también inicia una interacción",
-  "text.autoconfig.optigui.option.interactWithAttackKey.@Tooltip[1]": "§8Algunos servidores pueden abrir un menú en pantalla al atacar a una entidad",
-  "text.autoconfig.optigui.option.keepInteractionFactory": "Recordar la última interacción",
-  "text.autoconfig.optigui.option.keepInteractionFactory.@Tooltip[0]": "No finalices la interacción cuando se cierre la pantalla",
-  "text.autoconfig.optigui.option.keepInteractionFactory.@Tooltip[1]": "§8Algunos servidores pueden abrir otras pantallas de menú desde una pantalla de menú",
-  "text.autoconfig.optigui.option.resourcePackConverter": "Convertidor de paquetes de recursos",
-  "text.autoconfig.optigui.option.resourcePackConverter.@Tooltip": "Convertir los archivos .properties de OptiFine y .ini de OptiGUI a recursos JSON de OptiGUI",
-  "text.autoconfig.optigui.option.resourcePackConverter.button": "Abrir",
-  "text.autoconfig.optigui.option.showResourceLoadingErrors": "Mostrar registros de carga de recursos",
-  "text.autoconfig.optigui.option.showResourceLoadingErrors.@Tooltip": "Mostrar registros cuando OptiGUI no puede cargar un recurso",
-  "text.autoconfig.optigui.title": "Configuración de OptiGUI"
+
+
+  "text.config.optigui.option.dumpNbt": "Volcar NBT",
+  "text.config.optigui.option.dumpNbt.tooltip": "Incluir datos NBT en los recursos JSON generados",
+  "text.config.optigui.option.dumpNbt.value.nothing": "Desactivado",
+  "text.config.optigui.option.dumpNbt.value.values_and_types": "Valores y Tipos",
+  "text.config.optigui.option.dumpNbt.value.values_only": "Solo valores",
+
+  "text.config.optigui.option.enableInspector": "Habilitar inspector",
+  "text.config.optigui.option.enableInspector.tooltip": "Mostrar un botón de inspector en las pantallas de inventario compatibles",
+
+  "text.config.optigui.option.interactWithAttackKey": "Interactúa usando la tecla de ataque",
+  "text.config.optigui.option.interactWithAttackKey.tooltip": "Además de la tecla de uso, atacar también inicia una interacción\n§8Algunos servidores pueden abrir un menú en pantalla al atacar a una entidad",
+
+  "text.config.optigui.option.keepInteractionFactory": "Recordar la última interacción",
+  "text.config.optigui.option.keepInteractionFactory.tooltip": "No finalices la interacción cuando se cierre la pantalla\n§8Algunos servidores pueden abrir otras pantallas de menú desde una pantalla de menú",
+
+  "text.config.optigui.option.showResourceLoadingErrors": "Mostrar registros de carga de recursos",
+  "text.config.optigui.option.showResourceLoadingErrors.tooltip": "Mostrar registros cuando OptiGUI no puede cargar un recurso",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_and_warnings": "Errores y advertencias",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_only": "Solo errores",
+  "text.config.optigui.option.showResourceLoadingErrors.value.nothing": "Nunca",
+
+  "text.config.optigui.section.inspector": "Inspector",
+  "text.config.optigui.section.interaction": "Interacción",
+  "text.config.optigui.section.resourceLoading": "Carga de recursos",
+
+  "text.config.optigui.title": "Configuración de OptiGUI",
+
+  "text.config.optigui.tools": "Utilidades",
+  "text.config.optigui.tools.resource_loading_logs": "Registros de carga de recursos",
+  "text.config.optigui.tools.rp_converter": "Convertidor de paquetes de recursos"
 }
