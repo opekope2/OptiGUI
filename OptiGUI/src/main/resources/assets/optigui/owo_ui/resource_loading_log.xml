@@ -65,7 +65,7 @@
                         <!-- TODO reload resources button -->
 
                         <button id="ok">
-                            <text translate="true">gui.ok</text>
+                            <text translate="true">gui.done</text>
                             <sizing>
                                 <horizontal method="fixed">200</horizontal>
                             </sizing>
