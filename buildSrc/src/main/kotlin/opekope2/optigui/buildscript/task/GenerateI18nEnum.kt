@@ -30,9 +30,9 @@ abstract class GenerateI18nEnum : AbstractCodegenTask() {
         packageDir.asFile.mkdirs()
 
         val json = JsonSlurper().setType(JsonParserType.LAX).parse(inputs.files.singleFile) as Map<String, String>
-        val members = json.entries.sortedBy { it.key }.joinToString(separator = ",\n") { (key, value) ->
+        val members = json.entries.sortedBy { it.key }.joinToString(separator = ",\n") { (key) ->
             val k = key.uppercase().replace("""[^a-zA-Z0-9]""".toRegex(), "_")
-            """    $k("$key", "$value")"""
+            """    $k("$key")"""
         }.trimStart()
 
         // language=kotlin
@@ -42,10 +42,10 @@ abstract class GenerateI18nEnum : AbstractCodegenTask() {
             |import net.minecraft.network.chat.Component
             |import java.util.function.Supplier
             |
-            |internal enum class $enumName(private val key: String, private val fallback: String) {
+            |internal enum class $enumName(val key: String) {
             |    $members;
             |
-            |    fun getText(vararg args: Any?) = Component.translatableWithFallback(key, fallback, *args)
+            |    fun getText(vararg args: Any?) = Component.translatable(key, *args)
             |
             |    fun getTranslation(vararg args: Any?) = getText(*args).getString()
             |
