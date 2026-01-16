@@ -69,7 +69,7 @@ enum class InspectorNbtDumper(private val ops: JsonInspectorOps) {
      * Gets the load-time NBT as JSON to be included in a generated JSON resource.
      */
     open fun getLoadTimeNbt(): JsonNode = JsonObject {
-        for ((key, supplier) in ILoadTimeNbtProvider.Registry) it[key] = supplier.get().toJson()
+        for ((key, supplier) in ILoadTimeNbtProvider.Registry) it["$$key"] = supplier.get().toJson()
     }
 
     /**
