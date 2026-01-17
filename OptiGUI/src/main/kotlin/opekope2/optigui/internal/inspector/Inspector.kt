@@ -4,8 +4,8 @@ import dev.runefox.json.JsonNode
 import dev.runefox.json.JsonObject
 import opekope2.optigui.config.config
 import opekope2.optigui.interaction.IInteraction
-import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.InteractionTarget
+import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.resource.format.json.JsonFilterResource
 import opekope2.optigui.util.JSON_RESOURCE_SCHEMA_URL
 
@@ -32,13 +32,13 @@ internal object Inspector {
     }
 
     private fun getLastRenderedTextures() = JsonObject().also {
-        for (texture in InteractionManager.renderedTextures) {
+        for (texture in TextureChanger.renderedTextures) {
             it[texture.toString()] = "example:path/to/changed/texture.png"
         }
     }
 
     private fun getLastRenderedSprites() = JsonObject().also {
-        for (texture in InteractionManager.renderedSprites) {
+        for (texture in TextureChanger.renderedSprites) {
             it[texture.toString()] = "example:path/to/changed/sprite"
         }
     }

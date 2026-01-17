@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.AbstractOptiGuiClient
 import opekope2.optigui.internal.I18n
+import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.ui.DebuggerScreen
 import opekope2.optigui.util.JSON_RESOURCE_DOCS_URL
 import opekope2.optigui.util.MOD_ID
@@ -33,14 +34,14 @@ open class InspectorWidget : AbstractWidget(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT,
 
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         val updateTooltip = when {
-            customTextures != InteractionManager.hasRenderedCustomTextures -> true
+            customTextures != TextureChanger.renderedCustomTextures -> true
             prevFilter != InteractionManager.textureChangerFilter -> true
             prevAlt != Screen.hasAltDown() -> true
             prevHovered != isHovered -> true
             prevFocused && !isFocused -> true
             else -> tooltip == null
         }
-        customTextures = InteractionManager.hasRenderedCustomTextures
+        customTextures = TextureChanger.renderedCustomTextures
         prevFilter = InteractionManager.textureChangerFilter
         prevAlt = Screen.hasAltDown()
         prevHovered = isHovered

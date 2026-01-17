@@ -10,7 +10,6 @@ import net.minecraft.nbt.Tag
 import net.minecraft.network.chat.Style
 import opekope2.optigui.filter.text_style_changer.TextStyleChanger
 import opekope2.optigui.interaction.IInteraction
-import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.internal.I18n
 import opekope2.optigui.internal.TextStyler
 import opekope2.optigui.internal.inspector.JsonInspectorOps
@@ -46,12 +45,12 @@ enum class InspectorNbtDumper(private val ops: JsonInspectorOps) {
      * Gets the texts rendered on the screen as JSON to be included in a generated JSON resource.
      */
     open fun getLastRenderedTexts(): JsonNode = JsonArray { json ->
-        InteractionManager.renderedStrings.forEach { source, text ->
+        TextStyler.renderedStrings.forEach { source, text ->
             val textJson = TextStyler.stringWithSourceCodec.encodeStart(ops, Pair(text, source))
             val textStyleChangerJson = textJson.map { textStyleChanger(it, JsonObject()) }
             textStyleChangerJson.ifSuccess(json::add)
         }
-        InteractionManager.renderedTexts.forEach { source, text ->
+        TextStyler.renderedTexts.forEach { source, text ->
             val textJson = TextStyler.textWithSourceCodec.encodeStart(ops, Pair(text, source))
             val styleJson = Style.Serializer.CODEC.encodeStart(Json5Ops, text.style)
             val textStyleChangerJson = textJson.apply2stable(::textStyleChanger, styleJson)

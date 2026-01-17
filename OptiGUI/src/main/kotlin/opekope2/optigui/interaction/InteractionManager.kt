@@ -1,21 +1,15 @@
 package opekope2.optigui.interaction
 
 import net.minecraft.client.gui.screens.Screen
-import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.InteractionHand.MAIN_HAND
 import net.minecraft.world.entity.player.Player
 import opekope2.optigui.config.config
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
-import opekope2.optigui.interaction.InteractionManager.clearCache
 import opekope2.optigui.interaction.InteractionManager.interaction
 import opekope2.optigui.internal.TextStyler
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
-import opekope2.optigui.util.TextOrigin
-import opekope2.optigui.util.collections.IEnumObjectPairSet
 import org.jetbrains.annotations.ApiStatus
-import java.util.*
 
 /**
  * Manages player interactions that have GUI interactions.
@@ -45,43 +39,6 @@ object InteractionManager {
     @JvmStatic
     val textureChangerFilter: TextureChangerFilter?
         get() = TextureChanger.filter.takeIf { isInteracting }
-
-    /**
-     * Returns the non-changed textures rendered since the previous call to [clearCache] or world tick (whichever was
-     * later). This may include textures rendered throughout multiple frames.
-     */
-    @JvmStatic
-    val renderedTextures: Set<ResourceLocation> = Collections.unmodifiableSet(TextureChanger.renderedTextures)
-
-    /**
-     * Returns the non-changed sprites rendered since the previous call to [clearCache] or world tick (whichever was
-     * later). This may include sprites rendered throughout multiple frames.
-     */
-    @JvmStatic
-    val renderedSprites: Set<ResourceLocation> = Collections.unmodifiableSet(TextureChanger.renderedSprites)
-
-    /**
-     * Returns the strings rendered since the previous call to [clearCache] or world tick (whichever was later). This
-     * may include strings rendered throughout multiple frames.
-     */
-    @JvmStatic
-    val renderedStrings: IEnumObjectPairSet<TextOrigin, String> = TextStyler.renderedStrings.View()
-
-    /**
-     * Returns the texts rendered since the previous call to [clearCache] or world tick (whichever was later). This may
-     * include texts rendered throughout multiple frames.
-     */
-    @JvmStatic
-    val renderedTexts: IEnumObjectPairSet<TextOrigin, Component> = TextStyler.renderedTexts.View()
-
-    /**
-     * Returns if custom textures were rendered since the previous call to [clearCache] or world tick (whichever was
-     * later). This may include textures rendered throughout multiple frames.
-     */
-    @JvmStatic
-    val hasRenderedCustomTextures: Boolean
-        @JvmName("hasRenderedCustomTextures")
-        get() = TextureChanger.renderedCustomTextures
 
     /**
      * Tells OptiGUI the details about the next interaction. If called multiple times before a [Screen] is opened, the
