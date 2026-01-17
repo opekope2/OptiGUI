@@ -2,10 +2,12 @@ package opekope2.optigui.internal.resource.loader
 
 import dev.runefox.json.Json
 import dev.runefox.json.JsonNode
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager
+import opekope2.optigui.internal.I18n
 import opekope2.optigui.resource.format.json.JsonFilterResource
+import opekope2.optigui.util.LOG_KEY_RESOURCE
+import opekope2.optigui.util.LOG_KEY_RESOURCE_PACK
 import opekope2.optigui.util.OPTIGUI_JSON_RESOURCES_ROOT
 import opekope2.optigui.util.dfu.Json5Ops
 
@@ -16,14 +18,26 @@ internal object JsonFilterLoader : AbstractResourceLoader<JsonNode>("json_loader
         manager.listResources(OPTIGUI_JSON_RESOURCES_ROOT) { it.path.endsWith(".json5") || it.path.endsWith(".json") }
 
     override fun loadResource(
-        packId: String,
-        resourceId: ResourceLocation,
-        resource: Resource,
-        manager: ResourceManager
-    ): JsonNode = resource.openAsReader().use(json::parse)
+        resource: IdentifiableResource<Resource>,
+        manager: ResourceManager,
+        collector: ResourceCollector
+    ) {
+        logger.atDebug()
+            .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.resource.sourcePackId())
+            .addKeyValue(LOG_KEY_RESOURCE, resource.id)
+            .addArgument(I18n.OPTIGUI_RP_LOADER_INFO_LOADING_RESOURCE.supplyTranslation())
+            .addArgument(resource.id)
+            .log("{} {}")
 
-    override fun parseResource(resource: IdentifiableResource<JsonNode>, collector: ResourceCollector) {
-        val json = JsonFilterResource.CODEC.parse(Json5Ops, resource.resource).map(resource::withResource)
-        collector.addResource(json)
+        val json = resource.resource.openAsReader().use(json::parse)
+        val result = JsonFilterResource.CODEC.parse(Json5Ops, json).map(resource::withResource)
+        collector.addResource(result)
+
+        if (result.isSuccess) logger.atDebug()
+            .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.packId)
+            .addKeyValue(LOG_KEY_RESOURCE, resource.id)
+            .addArgument(I18n.OPTIGUI_RP_LOADER_INFO_LOAD_SUCCESS.supplyTranslation())
+            .addArgument(resource.id)
+            .log("{} {}")
     }
 }
