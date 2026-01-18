@@ -1,14 +1,15 @@
 package opekope2.optigui.filter
 
-import com.mojang.datafixers.util.Either
+import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
+import com.mojang.serialization.DynamicOps
+import com.mojang.serialization.JavaOps
 import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.comparer.INbtComparer.ComparisonResult.EQUAL
 import opekope2.optigui.filter.comparer.NbtStringOrNumberComparer
 import opekope2.optigui.filter.transformer.IPrefixNbtTransformer
 import opekope2.optigui.util.NbtFilterEvaluation
-import opekope2.optigui.util.dfu.EitherCodec
 import opekope2.optigui.util.registry.BiRegistryBase
 import org.jetbrains.annotations.ApiStatus
 
@@ -91,51 +92,42 @@ interface INbtFilter {
      */
     companion object Registry : BiRegistryBase<String, IType<*>>() {
         /**
-         * A codec for the registered keys in this registry.
-         */
-        @JvmField
-        val keyCodec: Codec<String> = Codec.STRING.validate {
-            if (it in this) DataResult.success(it)
-            else DataResult.error { "No such filter: $it" }
-        }
-
-        /**
-         * A codec for the registered NBT filter types in this registry.
-         */
-        @JvmField
-        val typeCodec: Codec<IType<*>> = keyCodec.xmap(::getValue, IType<*>::key)
-
-        /**
-         * A codec for the keys present in [Registry] or [IPrefixNbtTransformer.Registry].
-         */
-        @JvmField
-        val KEY_CODEC: Codec<String> = EitherCodec(keyCodec, IPrefixNbtTransformer.keyCodec)
-
-        /**
          * A codec for the types registered in [Registry] or [IPrefixNbtTransformer.Registry].
          */
         @JvmField
-        val TYPE_CODEC: Codec<IType<*>> = EitherCodec(typeCodec, IPrefixNbtTransformer.typeCodec)
+        val TYPE_CODEC: Codec<IType<*>> = Codec.STRING.comapFlatMap({
+            when {
+                it in this -> DataResult.success(getValue(it))
+                it.isNotEmpty() && it[0] in IPrefixNbtTransformer.Registry ->
+                    IPrefixNbtTransformer.getValue(it[0]).filterTypeCodec.parse(JavaOps.INSTANCE, it.substring(1))
+
+                else -> DataResult.error { "No such filter: $it" }
+            }
+        }, IType<*>::key)
 
         /**
          * A codec for [INbtFilter].
          */
-        // Lazy-initialized codec to avoid circular reference during class loading
-        // INbtFilter::CODEC -> AggregateFilter.Type::codec -> INbtFilter::LIST_CODEC -> INbtFilter::CODEC
         @JvmField
-        val CODEC: Codec<INbtFilter> = Codec.lazyInitialized {
-            Codec.either(
-                EitherCodec(
-                    AggregateFilter.Type.JSON_OBJECT.typeValidatedCodec(),
-                    AggregateFilter.Type.ANY_OF.typeValidatedCodec()
-                ),
-                NbtStringOrNumberComparer.CASE_SENSITIVE.constantType(EQUAL).typeValidatedCodec()
-            ).flatComapMap(Either<*, *>::unwrap) {
-                when (it) {
-                    is AggregateFilter -> DataResult.success(Either.left(it))
-                    is ConstantNbtComparerFilter -> DataResult.success(Either.right(it))
-                    else -> DataResult.error { "Unsupported filter: $it" }
+        val CODEC: Codec<INbtFilter> = object : Codec<INbtFilter> {
+            private val codec1 by lazy { AggregateFilter.Type.JSON_OBJECT.codec as Codec<INbtFilter> }
+            private val codec2 by lazy { AggregateFilter.Type.ANY_OF.codec as Codec<INbtFilter> }
+            private val PRIMITIVE_TYPE = NbtStringOrNumberComparer.CASE_SENSITIVE.constantType(EQUAL)
+            private val codec3 by lazy { PRIMITIVE_TYPE.codec as Codec<INbtFilter> }
+
+            override fun <T> encode(input: INbtFilter, ops: DynamicOps<T>, prefix: T): DataResult<T> =
+                when (input.type) {
+                    AggregateFilter.Type.JSON_OBJECT -> codec1.encode(input, ops, prefix)
+                    AggregateFilter.Type.ANY_OF -> codec2.encode(input, ops, prefix)
+                    PRIMITIVE_TYPE -> codec3.encode(input, ops, prefix)
+                    else -> DataResult.error { "Unsupported filter: $input" }
                 }
+
+            override fun <T> decode(ops: DynamicOps<T>, input: T): DataResult<Pair<INbtFilter, T>> = when {
+                ops.getMap(input).isSuccess -> codec1.decode(ops, input)
+                ops.getList(input).isSuccess -> codec2.decode(ops, input)
+                ops.getStringValue(input).isSuccess || ops.getNumberValue(input).isSuccess -> codec3.decode(ops, input)
+                else -> DataResult.error { "Unsupported filter: $input" }
             }
         }
 
@@ -149,11 +141,6 @@ interface INbtFilter {
             super.validateEntry(key, value)
             require(key.isNotEmpty()) { "Key must not be empty" }
             require(key[0] !in IPrefixNbtTransformer.Registry) { "Prefix is already registered: ${key[0]}" }
-        }
-
-        private fun <T : INbtFilter> IType<T>.typeValidatedCodec(): Codec<T> = codec.validate {
-            if (it.type == this) DataResult.success(it)
-            else DataResult.error { "Expected filter type $this, got $it" }
         }
     }
 }

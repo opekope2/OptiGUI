@@ -1,8 +1,6 @@
 package opekope2.optigui.filter.transformer
 
 import com.mojang.serialization.Codec
-import com.mojang.serialization.DataResult
-import com.mojang.serialization.JavaOps
 import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.filter.NbtTransformerFilter
@@ -61,25 +59,6 @@ interface IPrefixNbtTransformer {
      * Prefix NBT filter registry.
      */
     companion object Registry : BiRegistryBase<Char, IType<*>>() {
-        /**
-         * A codec for strings with registered prefixes in this registry.
-         * This includes every string, whose first character is registered in this registry, even if it cannot be parsed.
-         */
-        @JvmField
-        val keyCodec: Codec<String> = Codec.STRING.validate {
-            if (it.isNotEmpty() && it[0] in this) DataResult.success(it)
-            else DataResult.error { "No such filter: $it" }
-        }
-
-        /**
-         * A codec for the NBT filter types that can be created from strings with prefixes registered in this registry.
-         */
-        @JvmField
-        val typeCodec: Codec<INbtFilter.IType<*>> = keyCodec.comapFlatMap(
-            { getValue(it[0]).filterTypeCodec.parse(JavaOps.INSTANCE, it.substring(1)) },
-            INbtFilter.IType<*>::key
-        )
-
         override fun validateEntry(key: Char, value: IType<*>) {
             super.validateEntry(key, value)
             require(INbtFilter.none { it.key.startsWith(key) }) { "A type is already registered with prefix $key" }
