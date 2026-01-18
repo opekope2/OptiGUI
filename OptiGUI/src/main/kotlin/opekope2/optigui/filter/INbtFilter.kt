@@ -129,7 +129,7 @@ interface INbtFilter {
                     AggregateFilter.Type.JSON_OBJECT.typeValidatedCodec(),
                     AggregateFilter.Type.ANY_OF.typeValidatedCodec()
                 ),
-                NbtStringOrNumberComparer.CaseSensitive.constantType(EQUAL).typeValidatedCodec()
+                NbtStringOrNumberComparer.CASE_SENSITIVE.constantType(EQUAL).typeValidatedCodec()
             ).flatComapMap(Either<*, *>::unwrap) {
                 when (it) {
                     is AggregateFilter -> DataResult.success(Either.left(it))

@@ -13,7 +13,8 @@ import java.util.*
  *
  * @param ignoreCase Whether to ignore case when comparing NBT strings
  */
-sealed class NbtStringOrNumberComparer(val ignoreCase: Boolean) : INbtComparer {
+@ConsistentCopyVisibility
+data class NbtStringOrNumberComparer private constructor(val ignoreCase: Boolean) : INbtComparer {
     /**
      * Creates a type describing a [ConstantNbtComparerFilter] with this comparer.
      *
@@ -59,20 +60,22 @@ sealed class NbtStringOrNumberComparer(val ignoreCase: Boolean) : INbtComparer {
         )
     }
 
-    /**
-     * A case-sensitive variant of [NbtStringOrNumberComparer].
-     */
-    data object CaseSensitive : NbtStringOrNumberComparer(false)
-
-    /**
-     * A case-insensitive variant of [NbtStringOrNumberComparer].
-     */
-    data object CaseInsensitive : NbtStringOrNumberComparer(true)
-
-    private companion object {
+    companion object {
         private val nbtStringOrNumberCodec: Codec<Tag> = ExtraCodecs.converter(NbtOps.INSTANCE).validate {
             if (it is StringTag || it is NumericTag) DataResult.success(it)
             else DataResult.error { "Not a number or string: ${it.asString}" }
         }
+
+        /**
+         * The case-sensitive instance of [NbtStringOrNumberComparer].
+         */
+        @JvmField
+        val CASE_SENSITIVE = NbtStringOrNumberComparer(false)
+
+        /**
+         * The case-insensitive instance of [NbtStringOrNumberComparer].
+         */
+        @JvmField
+        val CASE_INSENSITIVE = NbtStringOrNumberComparer(true)
     }
 }
