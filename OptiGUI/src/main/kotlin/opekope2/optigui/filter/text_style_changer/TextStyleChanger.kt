@@ -7,6 +7,7 @@ import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Style
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.util.dfu.field
+import opekope2.optigui.util.dfu.optionalField
 
 /**
  * Allows changing the style of a text if it matches a filter.
@@ -64,7 +65,7 @@ data class TextStyleChanger(val filter: INbtFilter, val style: Style, val overri
             instance.group(
                 INbtFilter.CODEC.field(FILTER_KEY, TextStyleChanger::filter),
                 Style.Serializer.CODEC.field(SET_STYLE_KEY, TextStyleChanger::style),
-                Codec.BOOL.field(OVERRIDE_KEY, TextStyleChanger::override),
+                Codec.BOOL.optionalField(OVERRIDE_KEY, TextStyleChanger::override, false),
             ).apply(instance, ::TextStyleChanger)
         }
     }
