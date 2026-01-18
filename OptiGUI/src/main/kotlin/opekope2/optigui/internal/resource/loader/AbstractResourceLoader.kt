@@ -22,8 +22,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-internal abstract class AbstractResourceLoader<TResource>(id: ResourceLocation) : PreparableReloadListener,
-    IFilterLoader {
+internal abstract class AbstractResourceLoader<T>(id: ResourceLocation) : PreparableReloadListener, IFilterLoader {
     constructor(id: String) : this(ResourceLocation.fromNamespaceAndPath(MOD_ID, id))
 
     init {

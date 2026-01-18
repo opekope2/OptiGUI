@@ -4,15 +4,15 @@ package opekope2.optigui.util.registry
  * A registry that has a value-to-key mapping in addition to the key-to-value mapping, which means that every value can
  * only be registered to one key.
  */
-abstract class BiRegistryBase<TKey, TValue> : RegistryBase<TKey, TValue>() {
-    private val reverseEntries = mutableMapOf<TValue, TKey>()
+abstract class BiRegistryBase<K, V> : RegistryBase<K, V>() {
+    private val reverseEntries = mutableMapOf<V, K>()
 
-    override fun validateEntry(key: TKey, value: TValue) {
+    override fun validateEntry(key: K, value: V) {
         super.validateEntry(key, value)
         require(value !in reverseEntries) { "Value is already registered: $value" }
     }
 
-    override fun register(key: TKey, value: TValue) {
+    override fun register(key: K, value: V) {
         super.register(key, value)
         reverseEntries[value] = key
     }
@@ -22,12 +22,12 @@ abstract class BiRegistryBase<TKey, TValue> : RegistryBase<TKey, TValue>() {
      *
      * @param value The value to check
      */
-    fun containsValue(value: TValue) = value in reverseEntries
+    fun containsValue(value: V) = value in reverseEntries
 
     /**
      * Gets the key associated with the given value or throws an exception, if the value is not present in this registry.
      *
      * @param value The value to check
      */
-    fun getKey(value: TValue) = reverseEntries.getValue(value)
+    fun getKey(value: V) = reverseEntries.getValue(value)
 }

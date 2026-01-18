@@ -73,49 +73,49 @@ fun <T> Codec<List<T>>.toSet(): Codec<Set<T>> = xmap(List<T>::toSet, Set<T>::toL
 /**
  * Shortcut for `fieldOf(name).forGetter(getter)`.
  *
- * @param TClass The type of the record containing the field
- * @param TField The type of the field in the record
+ * @param S The type of the record containing the field
+ * @param T The type of the field in the record
  * @param name The name of the field in the encoded representation
  * @param getter The function used to get the field's value from an object instance
  * @see Codec.fieldOf
  * @see MapCodec.forGetter
  */
-fun <TClass, TField> Codec<TField>.field(
+fun <S, T> Codec<T>.field(
     name: String,
-    getter: Function<TClass, TField>
-): RecordCodecBuilder<TClass, TField> = fieldOf(name).forGetter(getter)
+    getter: Function<S, T>
+): RecordCodecBuilder<S, T> = fieldOf(name).forGetter(getter)
 
 /**
  * Shortcut for `optionalFieldOf(name).forGetter(getter)`.
  *
- * @param TClass The type of the record containing the field
- * @param TField The type of the field in the record
+ * @param S The type of the record containing the field
+ * @param T The type of the field in the record
  * @param name The name of the field in the encoded representation
  * @param getter The function used to get the field's value from an object instance
  * @see Codec.optionalFieldOf
  * @see MapCodec.forGetter
  */
-fun <TClass, TField> Codec<TField>.optionalField(
+fun <S, T> Codec<T>.optionalField(
     name: String,
-    getter: Function<TClass, Optional<TField>>
-): RecordCodecBuilder<TClass, Optional<TField>> = optionalFieldOf(name).forGetter(getter)
+    getter: Function<S, Optional<T>>
+): RecordCodecBuilder<S, Optional<T>> = optionalFieldOf(name).forGetter(getter)
 
 /**
  * Shortcut for `optionalFieldOf(name, default).forGetter(getter)`.
  *
- * @param TClass The type of the record containing the field
- * @param TField The type of the field in the record
+ * @param S The type of the record containing the field
+ * @param T The type of the field in the record
  * @param name The name of the field in the encoded representation
  * @param getter The function used to get the field's value from an object instance
  * @param default The default value of the field if it's not present
  * @see Codec.optionalFieldOf
  * @see MapCodec.forGetter
  */
-fun <TClass, TField> Codec<TField>.optionalField(
+fun <S, T> Codec<T>.optionalField(
     name: String,
-    getter: Function<TClass, TField>,
-    default: TField
-): RecordCodecBuilder<TClass, TField> = optionalFieldOf(name, default).forGetter(getter)
+    getter: Function<S, T>,
+    default: T
+): RecordCodecBuilder<S, T> = optionalFieldOf(name, default).forGetter(getter)
 
 /**
  * Creates a [DelimitedListCodec] for the given codec.
