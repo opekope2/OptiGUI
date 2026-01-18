@@ -44,7 +44,7 @@ subprojects {
             filter { includeGroup("dev.runefox") }
         }
         exclusiveContent {
-            forRepository { maven("https://maven.su5ed.dev/releases") { name = "Sinytra" } }
+            forRepository { maven("https://maven.sinytra.org") { name = "Sinytra" } }
             filter { includeGroup("org.sinytra"); includeGroup("org.sinytra.forgified-fabric-api") }
         }
         exclusiveContent {

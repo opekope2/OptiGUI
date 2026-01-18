@@ -26,14 +26,21 @@ repositories {
 dependencies {
     implementation(libs.kotlinforforge) { exclude("net.neoforged.fancymodloader", "loader") }
 
-    api(libs.cloth.config.neoforge)
-
     commonProject(":OptiGUI", kotlin = true)
 
-    jarJar(libs.ini4j)
+    runtimeOnly(libs.ini4j)
+    api(libs.owo.lib.neoforge)
+    accessTransformers(libs.owo.lib.neoforge)
+    interfaceInjectionData(libs.owo.lib.neoforge)
+    runtimeOnly(libs.runefox.json)
+    runtimeOnly(libs.runefox.jsonkt)
     runtimeOnly(project(":ScreenAPI-NeoForge"))
-    jarJar(project(":ScreenAPI-NeoForge"))
     runtimeOnly(project(":ScreenNBT-NeoForge"))
+
+    jarJar(libs.ini4j)
+    jarJar(libs.runefox.json)
+    jarJar(libs.runefox.jsonkt)
+    jarJar(project(":ScreenAPI-NeoForge"))
     jarJar(project(":ScreenNBT-NeoForge"))
 }
 
