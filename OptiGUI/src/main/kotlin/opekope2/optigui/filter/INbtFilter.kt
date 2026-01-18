@@ -7,7 +7,6 @@ import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.comparer.INbtComparer.ComparisonResult.EQUAL
 import opekope2.optigui.filter.comparer.NbtStringOrNumberComparer
 import opekope2.optigui.filter.transformer.IPrefixNbtTransformer
-import opekope2.optigui.internal.I18n
 import opekope2.optigui.util.NbtFilterEvaluation
 import opekope2.optigui.util.dfu.EitherCodec
 import opekope2.optigui.util.registry.BiRegistryBase
@@ -97,7 +96,7 @@ interface INbtFilter {
         @JvmField
         val keyCodec: Codec<String> = Codec.STRING.validate {
             if (it in this) DataResult.success(it)
-            else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_NO_FILTER.supplyTranslation(it))
+            else DataResult.error { "No such filter: $it" }
         }
 
         /**
@@ -135,7 +134,7 @@ interface INbtFilter {
                 when (it) {
                     is AggregateFilter -> DataResult.success(Either.left(it))
                     is ConstantNbtComparerFilter -> DataResult.success(Either.right(it))
-                    else -> DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_UNSUPPORTED_FILTER.supplyTranslation(it))
+                    else -> DataResult.error { "Unsupported filter: $it" }
                 }
             }
         }
@@ -154,7 +153,7 @@ interface INbtFilter {
 
         private fun <T : INbtFilter> IType<T>.typeValidatedCodec(): Codec<T> = codec.validate {
             if (it.type == this) DataResult.success(it)
-            else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_WRONG_FILTER_TYPE.supplyTranslation(this, it.type))
+            else DataResult.error { "Expected filter type $this, got $it" }
         }
     }
 }

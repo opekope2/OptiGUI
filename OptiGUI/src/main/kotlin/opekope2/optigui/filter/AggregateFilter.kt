@@ -5,7 +5,6 @@ import com.mojang.serialization.DataResult
 import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.transformer.NbtListIndexTransformer
 import opekope2.optigui.filter.transformer.SubNbtTransformer
-import opekope2.optigui.internal.I18n
 import opekope2.optigui.util.AggregateOperator
 import opekope2.optigui.util.NbtFilterEvaluation
 import opekope2.optigui.util.collections.LinkedMruCollection
@@ -68,14 +67,10 @@ class AggregateFilter(val filters: LinkedMruCollection<INbtFilter>, override val
 
             private fun validate(filter: AggregateFilter): DataResult<AggregateFilter> {
                 val missing = filter.filters.filter { !it.type.isRegistered }
-                if (missing.isNotEmpty()) return DataResult.error {
-                    I18n.OPTIGUI_VALIDATION_ERROR_NO_FILTER_TYPE.getTranslation(missing.joinToString { it.type.toString() })
-                }
+                if (missing.isNotEmpty()) return DataResult.error { "Filter type not registered: " + missing.joinToString { it.type.toString() } }
 
                 val duplicates = filter.filters.groupingBy { it.type.key }.eachCount().filter { it.value > 1 }.keys
-                if (duplicates.isNotEmpty()) return DataResult.error {
-                    I18n.OPTIGUI_VALIDATION_ERROR_DUPLICATE_FILTERS.getTranslation(duplicates.joinToString())
-                }
+                if (duplicates.isNotEmpty()) return DataResult.error { "Duplicate filters: " + duplicates.joinToString() }
 
                 return DataResult.success(filter)
             }

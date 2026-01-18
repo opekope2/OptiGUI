@@ -35,35 +35,9 @@
   "optigui.inspector.title.original_textures": "арыгінальныя тэкстуры",
 
 
-  "optigui.rp_loader.info.load_success": "Рэсурс загружаны",
-  "optigui.rp_loader.info.load_time_filtered": "Рэсурс прапушчаны з-за фільтра часу загрузкі",
-  "optigui.rp_loader.info.loading_resource": "Загрузка рэсурсу",
-
   "optigui.rp_loader.warn.missing_sprites": "Адсутнічаюць спрайты: %s",
   "optigui.rp_loader.warn.missing_textures": "Адсутнічаюць тэкстуры: %s",
-  "optigui.rp_loader.warn.no_interaction_target": "Не ўказаны мэты ўзаемадзеяння (blocks, entities, items, inventory, unknown)",
   "optigui.rp_loader.warn.no_textures_or_sprites": "Не ўказана ні адной карэктнай тэкстуры або спрайта",
-
-
-  "optigui.validation.error.duplicate_filters": "Дубліраваныя фільтры: %s",
-
-  "optigui.validation.error.no_filter": "Фільтр не знойдзены: %s",
-  "optigui.validation.error.no_filter_type": "Тып фільтра не знойдзены: %s",
-
-  "optigui.validation.error.not_a_number": "Не лік: %s",
-  "optigui.validation.error.not_a_number_or_string": "Не лік і не радок: %s",
-  "optigui.validation.error.not_a_relative_identifier": "Не адносны ідэнтыфікатар рэсурсу: %s",
-  "optigui.validation.error.not_an_nbt_transformer": "Не NBT-трансформер: %s",
-
-  "optigui.validation.error.of_incompatible_variants": "Несумяшчальныя варыянты: %s",
-  "optigui.validation.error.of_invalid_bool": "Некарэктнае булева значэнне: %s",
-  "optigui.validation.error.of_invalid_profession": "Некарэктная прафесія вяскоўца: %s",
-  "optigui.validation.error.of_invalid_range": "Некарэктны дыяпазон: %s",
-  "optigui.validation.error.of_texture_required": "Патрэбна прынамсі адна тэкстура або texture.PATH",
-
-  "optigui.validation.error.unsupported_filter": "Непадтрымоўваны фільтр: %s",
-
-  "optigui.validation.error.wrong_filter_type": "Чаканы тып фільтра %s, атрыманы %s",
 
 
   "text.config.optigui.option.dumpNbt": "Дамп NBT",

@@ -6,7 +6,6 @@ import net.minecraft.nbt.*
 import net.minecraft.util.ExtraCodecs
 import opekope2.optigui.filter.ConstantNbtComparerFilter
 import opekope2.optigui.filter.DynamicNbtComparerFilter
-import opekope2.optigui.internal.I18n
 import java.util.*
 
 /**
@@ -73,7 +72,7 @@ sealed class NbtStringOrNumberComparer(val ignoreCase: Boolean) : INbtComparer {
     private companion object {
         private val nbtStringOrNumberCodec: Codec<Tag> = ExtraCodecs.converter(NbtOps.INSTANCE).validate {
             if (it is StringTag || it is NumericTag) DataResult.success(it)
-            else DataResult.error { I18n.OPTIGUI_VALIDATION_ERROR_NOT_A_NUMBER_OR_STRING.getTranslation(it.asString) }
+            else DataResult.error { "Not a number or string: ${it.asString}" }
         }
     }
 }

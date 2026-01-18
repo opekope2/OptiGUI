@@ -35,35 +35,9 @@
   "optigui.inspector.title.original_textures": "oryginalne tekstury",
 
 
-  "optigui.rp_loader.info.load_success": "Załadowano zasób",
-  "optigui.rp_loader.info.load_time_filtered": "Pomijanie zasobu przez filtr czasu ładowania",
-  "optigui.rp_loader.info.loading_resource": "Ładowanie zasobu",
-
   "optigui.rp_loader.warn.missing_sprites": "Brakujące sprite'y: %s",
   "optigui.rp_loader.warn.missing_textures": "Brakujące tekstury: %s",
-  "optigui.rp_loader.warn.no_interaction_target": "Nie określono celów interakcji (blocks, entities, items, inventory, unknown)",
   "optigui.rp_loader.warn.no_textures_or_sprites": "Nie określono prawidłowych tekstur ani sprite'ów",
-
-
-  "optigui.validation.error.duplicate_filters": "Duplikaty filtrów: %s",
-
-  "optigui.validation.error.no_filter": "Filtr nie istnieje: %s",
-  "optigui.validation.error.no_filter_type": "Typ filtra nie istnieje: %s",
-
-  "optigui.validation.error.not_a_number": "To nie liczba: %s",
-  "optigui.validation.error.not_a_number_or_string": "To nie liczba ani ciąg znaków: %s",
-  "optigui.validation.error.not_a_relative_identifier": "To nie względny identyfikator zasobu: %s",
-  "optigui.validation.error.not_an_nbt_transformer": "To nie transformer NBT: %s",
-
-  "optigui.validation.error.of_incompatible_variants": "Niekompatybilne warianty: %s",
-  "optigui.validation.error.of_invalid_bool": "Nieprawidłowy boolean: %s",
-  "optigui.validation.error.of_invalid_profession": "Nieprawidłowa profesja osadnika: %s",
-  "optigui.validation.error.of_invalid_range": "Nieprawidłowy zakres: %s",
-  "optigui.validation.error.of_texture_required": "Wymagana przynajmniej jedna tekstura lub texture.PATH",
-
-  "optigui.validation.error.unsupported_filter": "Nieobsługiwany filtr: %s",
-
-  "optigui.validation.error.wrong_filter_type": "Oczekiwano filtra typu %s, otrzymano %s",
 
 
   "text.config.optigui.option.dumpNbt": "Zrzucanie NBT",

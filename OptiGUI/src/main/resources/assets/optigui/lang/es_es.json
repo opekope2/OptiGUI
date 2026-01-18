@@ -35,35 +35,9 @@
   "optigui.inspector.title.original_textures": "texturas originales",
 
 
-  "optigui.rp_loader.info.load_success": "Recurso cargado",
-  "optigui.rp_loader.info.load_time_filtered": "Omitiendo el recurso debido al filtro de tiempo de carga",
-  "optigui.rp_loader.info.loading_resource": "Cargando recurso",
-
   "optigui.rp_loader.warn.missing_sprites": "Sprites que faltan: %s",
   "optigui.rp_loader.warn.missing_textures": "Texturas que faltan: %s",
-  "optigui.rp_loader.warn.no_interaction_target": "No se especificaron objetivos de interacción (blocks, entities, items, inventory, unknown)",
   "optigui.rp_loader.warn.no_textures_or_sprites": "No se especificaron texturas ni sprites válidos",
-
-
-  "optigui.validation.error.duplicate_filters": "Filtros duplicados: %s",
-
-  "optigui.validation.error.no_filter": "No existe tal filtro: %s",
-  "optigui.validation.error.no_filter_type": "No existe ese tipo de filtro: %s",
-
-  "optigui.validation.error.not_a_number": "No es un número: %s",
-  "optigui.validation.error.not_a_number_or_string": "No es un número ni una cadena: %s",
-  "optigui.validation.error.not_a_relative_identifier": "No es una ubicación de recurso relativa: %s",
-  "optigui.validation.error.not_an_nbt_transformer": "No es un transformador NBT: %s",
-
-  "optigui.validation.error.of_incompatible_variants": "Variantes incompatibles: %s",
-  "optigui.validation.error.of_invalid_bool": "Booleano no válido: %s",
-  "optigui.validation.error.of_invalid_profession": "Profesión de aldeano no válida: %s",
-  "optigui.validation.error.of_invalid_range": "Rango no válido: %s",
-  "optigui.validation.error.of_texture_required": "Se requiere al menos una textura o texture.PATH",
-
-  "optigui.validation.error.unsupported_filter": "Filtro no compatible: %s",
-
-  "optigui.validation.error.wrong_filter_type": "Se esperaba el tipo de filtro %s, se obtuvo %s",
 
 
   "text.config.optigui.option.dumpNbt": "Volcar NBT",

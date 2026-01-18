@@ -35,35 +35,9 @@
   "optigui.inspector.title.original_textures": "orjinal dokular",
 
 
-  "optigui.rp_loader.info.load_success": "Kaynak yüklendi",
-  "optigui.rp_loader.info.load_time_filtered": "Yükleme zamanı filtresi nedeniyle kaynak atlanıyor",
-  "optigui.rp_loader.info.loading_resource": "Kaynak yükleniyor",
-
   "optigui.rp_loader.warn.missing_sprites": "Eksik sprite'lar: %s",
   "optigui.rp_loader.warn.missing_textures": "Eksik dokular: %s",
-  "optigui.rp_loader.warn.no_interaction_target": "Hiçbir etkileşim hedefi (bloklar, varlıklar, eşyalar, envanter, bilinmeyen) belirtilmedi",
   "optigui.rp_loader.warn.no_textures_or_sprites": "Geçerli hiçbir doku veya sprite belirtilmedi",
-
-
-  "optigui.validation.error.duplicate_filters": "Çakışan filtrelers: %s",
-
-  "optigui.validation.error.no_filter": "Belirtilen filtre bulunamadı: %s",
-  "optigui.validation.error.no_filter_type": "Belirtilen filtre tipi bulunamadı: %s",
-
-  "optigui.validation.error.not_a_number": "Bir sayı değil: %s",
-  "optigui.validation.error.not_a_number_or_string": "Bir yazı veya sayı değil: %s",
-  "optigui.validation.error.not_a_relative_identifier": "Bağıl dosya yolu geçersiz: %s",
-  "optigui.validation.error.not_an_nbt_transformer": "Bir NBT dönüştürücü değil: %s",
-
-  "optigui.validation.error.of_incompatible_variants": "Uyumsuz varyantlar: %s",
-  "optigui.validation.error.of_invalid_bool": "Geçersiz boolean (doğru/yanlış): %s",
-  "optigui.validation.error.of_invalid_profession": "Geçersiz köylü mesleği: %s",
-  "optigui.validation.error.of_invalid_range": "Geçersiz aralık: %s",
-  "optigui.validation.error.of_texture_required": "En az bir doku veya texture.PATH gereklidir",
-
-  "optigui.validation.error.unsupported_filter": "Desteklenmeyen filtre: %s",
-
-  "optigui.validation.error.wrong_filter_type": "Beklenen filtre türü %s, ancak %s alındı",
 
 
   "text.config.optigui.option.dumpNbt": "NBT'yi boşalt",

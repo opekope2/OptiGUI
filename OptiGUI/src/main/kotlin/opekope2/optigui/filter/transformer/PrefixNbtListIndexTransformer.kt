@@ -5,7 +5,6 @@ import com.mojang.serialization.DataResult
 import net.minecraft.nbt.*
 import net.minecraft.util.ExtraCodecs
 import opekope2.optigui.filter.NbtTransformerFilter
-import opekope2.optigui.internal.I18n
 
 /**
  * An NBT transformer, which transforms the input NBT list to one of its elements specified dynamically.
@@ -26,7 +25,7 @@ object PrefixNbtListIndexTransformer : IPrefixNbtTransformer {
                 is NumericTag -> tag.asInt
                 is StringTag -> tag.asString.toIntOrNull()
                 else -> null
-            } ?: return DataResult.error { I18n.OPTIGUI_VALIDATION_ERROR_NOT_A_NUMBER.getTranslation(tag.asString) }
+            } ?: return DataResult.error { "Not a number: ${tag.asString}" }
 
             val type = NbtTransformerFilter.PrefixType("$key$index", NbtListIndexTransformer(index))
             return DataResult.success(type)

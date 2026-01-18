@@ -4,7 +4,6 @@ import dev.runefox.json.Json
 import dev.runefox.json.JsonNode
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager
-import opekope2.optigui.internal.I18n
 import opekope2.optigui.resource.format.json.JsonFilterResource
 import opekope2.optigui.util.LOG_KEY_RESOURCE
 import opekope2.optigui.util.LOG_KEY_RESOURCE_PACK
@@ -25,9 +24,7 @@ internal object JsonFilterLoader : AbstractResourceLoader<JsonNode>("json_loader
         logger.atDebug()
             .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.resource.sourcePackId())
             .addKeyValue(LOG_KEY_RESOURCE, resource.id)
-            .addArgument(I18n.OPTIGUI_RP_LOADER_INFO_LOADING_RESOURCE.supplyTranslation())
-            .addArgument(resource.id)
-            .log("{} {}")
+            .log("Loading resource {}", resource.id)
 
         val json = resource.resource.openAsReader().use(json::parse)
         val result = JsonFilterResource.CODEC.parse(Json5Ops, json).map(resource::withResource)
@@ -36,8 +33,6 @@ internal object JsonFilterLoader : AbstractResourceLoader<JsonNode>("json_loader
         if (result.isSuccess) logger.atDebug()
             .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.packId)
             .addKeyValue(LOG_KEY_RESOURCE, resource.id)
-            .addArgument(I18n.OPTIGUI_RP_LOADER_INFO_LOAD_SUCCESS.supplyTranslation())
-            .addArgument(resource.id)
-            .log("{} {}")
+            .log("Loaded resource {}", resource.id)
     }
 }

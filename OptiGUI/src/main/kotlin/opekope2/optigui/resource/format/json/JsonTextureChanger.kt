@@ -71,7 +71,7 @@ data class JsonTextureChanger(val newTextureChances: Map<Either<RelativeIdentifi
             RelativeIdentifier.RELATIVE_OR_ABSOLUTE_CODEC,
             Codec.unboundedMap(RelativeIdentifier.RELATIVE_OR_ABSOLUTE_CODEC, ExtraCodecs.POSITIVE_INT).validate {
                 if (it.isNotEmpty()) DataResult.success(it)
-                else DataResult.error { "No changed textures were specified" } // TODO i18n
+                else DataResult.error { "No changed textures were specified" }
             }
         ).xmap(
             { either -> Either.unwrap(either.mapLeft { mapOf(it to 1) }) },

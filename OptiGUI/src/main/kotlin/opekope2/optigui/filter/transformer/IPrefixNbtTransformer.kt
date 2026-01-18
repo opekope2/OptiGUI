@@ -6,7 +6,6 @@ import com.mojang.serialization.JavaOps
 import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.filter.NbtTransformerFilter
-import opekope2.optigui.internal.I18n
 import opekope2.optigui.util.registry.BiRegistryBase
 import org.jetbrains.annotations.ApiStatus
 
@@ -69,7 +68,7 @@ interface IPrefixNbtTransformer {
         @JvmField
         val keyCodec: Codec<String> = Codec.STRING.validate {
             if (it.isNotEmpty() && it[0] in this) DataResult.success(it)
-            else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_NO_FILTER.supplyTranslation(it))
+            else DataResult.error { "No such filter: $it" }
         }
 
         /**

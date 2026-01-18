@@ -57,45 +57,9 @@
   // OptiGUI resource loader //
   /////////////////////////////
 
-  "optigui.rp_loader.info.load_success": "Loaded resource",
-  "optigui.rp_loader.info.load_time_filtered": "Skipping resource because of load-time filter",
-  "optigui.rp_loader.info.loading_resource": "Loading resource",
-
   "optigui.rp_loader.warn.missing_sprites": "Missing sprites: %s",
   "optigui.rp_loader.warn.missing_textures": "Missing textures: %s",
-  // blocks, entities, items, inventory, and unknown are parts of JSON resources, so these shouldn't be translated
-  "optigui.rp_loader.warn.no_interaction_target": "No interaction targets (blocks, entities, items, inventory, unknown) were specified",
   "optigui.rp_loader.warn.no_textures_or_sprites": "No valid textures or sprites were specified",
-
-
-  ////////////////////////////////////////////
-  // DataFixerUpper codec validation errors //
-  ////////////////////////////////////////////
-  // OptiGUI uses DataFixerUpper codecs to parse supported resource formats.
-  // Mojang's DataFixerUpper library is not localized. These will result in mixed language error messages.
-  // I may create a mod that enables localizing DataFixerUpper if I have time, or remove these altogether for English-only messages.
-
-  "optigui.validation.error.duplicate_filters": "Duplicate filters: %s",
-
-  "optigui.validation.error.no_filter": "No such filter: %s",
-  "optigui.validation.error.no_filter_type": "No such filter type: %s",
-
-  "optigui.validation.error.not_a_number": "Not a number: %s",
-  "optigui.validation.error.not_a_number_or_string": "Not a number or string: %s",
-  // Relative resource location refers to an OptiGUI-specific variant of https://minecraft.wiki/w/Resource_location, so ./texture.png can be used instead of namespace:path/to/texture.png
-  "optigui.validation.error.not_a_relative_identifier": "Not a relative resource location: %s",
-  "optigui.validation.error.not_an_nbt_transformer": "Not an NBT transformer: %s",
-
-  "optigui.validation.error.of_incompatible_variants": "Incompatible variants: %s",
-  "optigui.validation.error.of_invalid_bool": "Invalid boolean: %s",
-  "optigui.validation.error.of_invalid_profession": "Invalid villager profession: %s",
-  "optigui.validation.error.of_invalid_range": "Invalid range: %s",
-  // texture.PATH is documented at https://optifine.readthedocs.io/custom_guis.html#texture-texture-path, so it should not be translated
-  "optigui.validation.error.of_texture_required": "At least one texture or texture.PATH is required",
-
-  "optigui.validation.error.unsupported_filter": "Unsupported filter: %s",
-
-  "optigui.validation.error.wrong_filter_type": "Expected filter type %s, got %s",
 
 
   ////////////////////

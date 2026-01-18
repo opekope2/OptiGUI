@@ -2,7 +2,6 @@ package opekope2.optigui.internal.resource.loader
 
 import com.mojang.serialization.DataResult
 import net.minecraft.nbt.CompoundTag
-import opekope2.optigui.internal.I18n
 import opekope2.optigui.resource.format.json.JsonFilterResource
 import opekope2.optigui.util.LOG_KEY_RESOURCE
 import opekope2.optigui.util.LOG_KEY_RESOURCE_PACK
@@ -37,14 +36,12 @@ internal class ResourceCollector(private val logger: Logger, private val loadTim
             json.blocks.isEmpty() && json.entities.isEmpty() && json.items.isEmpty() && !json.inventory && !json.unknown -> logger.atWarn()
                 .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.packId)
                 .addKeyValue(LOG_KEY_RESOURCE, resource.id)
-                .addArgument(I18n.OPTIGUI_RP_LOADER_WARN_NO_INTERACTION_TARGET.supplyTranslation())
-                .log("{}")
+                .log("No valid 'blocks', 'entities', 'items', 'inventory', or 'unknown' were specified")
 
             !json.loadFilter.test(loadTimeNbt, loadTimeNbt) -> logger.atInfo()
                 .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.packId)
                 .addKeyValue(LOG_KEY_RESOURCE, resource.id)
-                .addArgument(I18n.OPTIGUI_RP_LOADER_INFO_LOAD_TIME_FILTERED.supplyTranslation())
-                .log("{}")
+                .log("Skipping resource because of load-time filter")
 
             else -> resources += resource
         }
