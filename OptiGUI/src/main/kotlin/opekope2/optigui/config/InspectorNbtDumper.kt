@@ -45,14 +45,14 @@ enum class InspectorNbtDumper(private val ops: JsonInspectorOps) {
      * Gets the texts rendered on the screen as JSON to be included in a generated JSON resource.
      */
     open fun getLastRenderedTexts(): JsonNode = JsonArray { json ->
-        TextStyler.renderedStrings.forEach { source, text ->
-            val textJson = TextStyler.stringWithSourceCodec.encodeStart(ops, Pair(text, source))
+        for (cell in TextStyler.renderedStrings.cellSet()) {
+            val textJson = TextStyler.stringWithSourceCodec.encodeStart(ops, Pair(cell.columnKey, cell.rowKey))
             val textStyleChangerJson = textJson.map { textStyleChanger(it, JsonObject()) }
             textStyleChangerJson.ifSuccess(json::add)
         }
-        TextStyler.renderedTexts.forEach { source, text ->
-            val textJson = TextStyler.textWithSourceCodec.encodeStart(ops, Pair(text, source))
-            val styleJson = Style.Serializer.CODEC.encodeStart(Json5Ops, text.style)
+        for (cell in TextStyler.renderedTexts.cellSet()) {
+            val textJson = TextStyler.textWithSourceCodec.encodeStart(ops, Pair(cell.columnKey, cell.rowKey))
+            val styleJson = Style.Serializer.CODEC.encodeStart(Json5Ops, cell.columnKey.style)
             val textStyleChangerJson = textJson.apply2stable(::textStyleChanger, styleJson)
             textStyleChangerJson.ifSuccess(json::add)
         }
