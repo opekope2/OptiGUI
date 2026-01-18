@@ -1,12 +1,11 @@
 package opekope2.optigui.screen_api.screen;
 
 import net.minecraft.client.gui.layouts.LayoutElement;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.BookEditScreen;
-import net.minecraft.client.gui.screens.inventory.BookViewScreen;
-import net.minecraft.client.gui.screens.inventory.HangingSignEditScreen;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.*;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import opekope2.optigui.screen_api.util.INbtConvertible;
@@ -15,29 +14,29 @@ import opekope2.optigui.screen_api.util.NbtUtil;
 /**
  * Interface for allowing OptiGUI to change textures on a screen (and its subclasses).
  * <p>
- * If {@link INbtConvertible} is implemented into your {@link ITextureChangeableScreen}, OptiGUI will automatically call
- * {@link INbtConvertible#optiGui_writeNbt(CompoundTag, HolderLookup.Provider)} on it.
- * <p>
- * If OptiGUI Screen NBT mod is loaded (bundled by OptiGUI by default), and {@link INbtConvertible} is implemented into
- * your {@link AbstractContainerMenu}, the mod will automatically call
- * {@link INbtConvertible#optiGui_writeNbt(CompoundTag, HolderLookup.Provider)} on it.
- * <p>
- * Example implementation of {@link INbtConvertible#optiGui_writeNbt(CompoundTag, HolderLookup.Provider)}:
+ * The following NBT data is automatically merged into the screen NBT data:
+ * <ul>
+ * <li>{@link Screen#getTitle() The screen's title}</li>
+ * <li>If your screen implements {@link RecipeUpdateListener}: whether the recipe book is {@link RecipeBookComponent#isVisible() visible}</li>
+ * <li>If your screen implements {@link MenuAccess}, and {@link MenuAccess#getMenu() which} implements {@link INbtConvertible}: the return value of {@link INbtConvertible#optiGui_asNbt(RegistryAccess)} invoked on the menu</li>
+ * </ul>
+ * Example implementation of {@link INbtConvertible#optiGui_asNbt(RegistryAccess)}:
  * <p>
  * <pre>
  * {@code
- * compound.put(SCREEN_TITLE_KEY, NbtUtil.encode(getTitle(), TextCodecs.CODEC, lookup);
  * compound.putInt(COMPARATOR_OUTPUT_KEY, AbstractContainerMenu.getRedstoneSignalFromContainer(container));
  * compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(container, lookup));
  * }
  * </pre>
  * <p>
- * Mixed into {@link AbstractContainerScreen}, {@link BookViewScreen}, {@link BookEditScreen}, and {@link HangingSignEditScreen}.
+ * Screen NBT data is only available if OptiGUI Screen NBT mod is loaded, which is bundled by an official/unmodified release of OptiGUI.
+ * <p>
+ * Mixed into {@link AbstractContainerScreen}, {@link CreativeModeInventoryScreen}, {@link BookEditScreen}, {@link BookViewScreen}, and {@link HangingSignEditScreen}.
  *
  * @see AbstractContainerMenu#getRedstoneSignalFromContainer(Container)
  * @see NbtUtil
  */
-public interface ITextureChangeableScreen {
+public interface ITextureChangeableScreen extends INbtConvertible {
     /**
      * {@link LayoutElement#setPosition(int, int) Sets the position} of the OptiGUI Inspector button.
      * It sits right on top of a (vanilla) screen, and is aligned to the right of it.
@@ -45,4 +44,11 @@ public interface ITextureChangeableScreen {
      * @param inspectorButton The OptiGUI Inspector button
      */
     void optiGui_positionInspectorWidget(LayoutElement inspectorButton);
+
+    /**
+     * Casts this object to a {@link Screen}.
+     */
+    default Screen optiGui_asScreen() {
+        return (Screen) this;
+    }
 }

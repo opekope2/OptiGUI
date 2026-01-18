@@ -8,7 +8,8 @@ plugins {
     id("opekope2.optigui.buildscript.plugin.Common")
     id("opekope2.optigui.buildscript.plugin.Dokka")
     alias(libs.plugins.moddev)
-    id("org.jetbrains.kotlin.jvm")
+    kotlin
+    `kotlin-kapt`
 }
 
 version = Version.common(libs.versions.optigui, libs.versions.minecraft)
@@ -21,7 +22,14 @@ base {
 
 dependencies {
     api(libs.ini4j)
-    compileOnly(libs.cloth.config.neoforge) // fabric build is intermediary, neoforge build is mojmap
+
+    compileOnly(libs.owo.lib.neoforge)
+    accessTransformers(libs.owo.lib.neoforge)
+    kapt(libs.owo.lib.neoforge)
+    interfaceInjectionData(libs.owo.lib.neoforge)
+
+    api(libs.runefox.json)
+    api(libs.runefox.jsonkt)
 
     api(project(":ScreenAPI"))
 }
@@ -32,6 +40,10 @@ neoForge {
         minecraftVersion = libs.versions.minecraft
         mappingsVersion = libs.versions.parchment
     }
+}
+
+kapt {
+    includeCompileClasspath = false
 }
 
 dokka {
@@ -49,7 +61,7 @@ dokka {
 
 tasks {
     val generateI18n by registering(GenerateI18nEnum::class) {
-        inputs.file(projectDir.resolve("src/main/resources/assets/optigui/lang/en_us.json"))
+        inputs.file(projectDir.resolve("src/main/resources/assets/optigui/lang/en_us.jsonc"))
         enumPackage = "opekope2.optigui.internal"
     }
 
@@ -66,7 +78,7 @@ tasks {
     val worldNbtProviderChecksum by registering(VerifyChecksum::class) {
         dependsOn(generateWorldNbtProvider)
         inputs.files(generateWorldNbtProvider)
-        checksum("705ce6e75b45837db284062965154c40")
+        checksum("fbe22add93e1de5ce23f7d506fcf6d70")
     }
 
     codegen { dependsOn(generateI18n, generateInternalPackageInfos, generateWorldNbtProvider) }
@@ -86,5 +98,14 @@ tasks {
 artifacts {
     sourceSets.main {
         kotlin.sourceDirectories.forEach { add("commonKotlin", it) }
+    }
+}
+
+afterEvaluate {
+    artifacts {
+        sourceSets.main {
+            val kaptKotlin by tasks.getting
+            kaptKotlin.outputs.files.forEach { add("commonJava", it) }
+        }
     }
 }

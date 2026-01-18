@@ -1,0 +1,73 @@
+{
+  "optigui.gui.rp_converter.conversion_fail": "OptiGUI bazı kaynakları dönüştüremedi",
+  "optigui.gui.rp_converter.conversion_success": "Kaynak paketi başarıyla dönüştürüldü",
+  "optigui.gui.rp_converter.convert": "Kaynak paketi dönüştür",
+  "optigui.gui.rp_converter.convert_ini": "OptiGUI .ini'yi dönüştür",
+  "optigui.gui.rp_converter.convert_properties": "OptiFine .properties'i dönüştür",
+  "optigui.gui.rp_converter.converting": "Kaynak paketi dönüştürülüyor",
+  "optigui.gui.rp_converter.description": "Convert OptiFine .properties and OptiGUI .ini to OptiGUI JSON resources",
+  "optigui.gui.rp_converter.output_file": "Çıkan dosya adı",
+  "optigui.gui.rp_converter.target_namespace": "Hedef ad alanı",
+  "optigui.gui.rp_converter.title": "OptiGUI Kaynak Paketi Dönüştürücü",
+
+  "optigui.gui.rp_loader.do_not_show_again": "Tekrar gösterme",
+  "optigui.gui.rp_loader.do_not_show_again.tooltip": "Bunu istediğiniz zaman OptiGUI ayarlarından değiştirebilirsiniz",
+  "optigui.gui.rp_loader.load_fail": "OptiGUI bazı kaynakları yükleyemedi",
+  "optigui.gui.rp_loader.unknown_pack": "Bilinmeyen kaynak paketi",
+  "optigui.gui.rp_loader.unknown_resource": "Bilinmeyen kaynak",
+
+
+  "optigui.inspector": "OptiGUI Denetleyicisi",
+
+  "optigui.inspector.description": "Bir JSON kaynağı oluşturmak için tıkla",
+  "optigui.inspector.description.clicked": "JSON kaynağı panoya kopyalandı",
+  "optigui.inspector.description.debug": "Filtreli hata ayıklayıcısını açmak için tıkla",
+  "optigui.inspector.description.hide": "Bunu OptiGUI ayarlarından gizleyebilirsiniz",
+
+  "optigui.inspector.key.more_info": "Daha fazla bilgi için %s basılı tutun",
+
+  "optigui.inspector.nbt_dumping_disabled": "OptiGUI ayarlarında NBT dökümü devre dışı bırakılmış",
+
+  "optigui.inspector.title": "OptiGUI (%s)",
+  "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
+  "optigui.inspector.title.beta": "OptiGUI beta (%s)",
+  "optigui.inspector.title.custom_textures": "özel dokular",
+  "optigui.inspector.title.original_textures": "orjinal dokular",
+
+
+  "optigui.rp_loader.warn.missing_sprites": "Eksik sprite'lar: %s",
+  "optigui.rp_loader.warn.missing_textures": "Eksik dokular: %s",
+  "optigui.rp_loader.warn.no_textures_or_sprites": "Geçerli hiçbir doku veya sprite belirtilmedi",
+
+
+  "text.config.optigui.option.dumpNbt": "NBT'yi boşalt",
+  "text.config.optigui.option.dumpNbt.tooltip": "Oluşturulan JSON kaynaklarına NBT verilerini dahil et",
+  "text.config.optigui.option.dumpNbt.value.nothing": "Devre Dışı",
+  "text.config.optigui.option.dumpNbt.value.values_and_types": "Değerler & tipler",
+  "text.config.optigui.option.dumpNbt.value.values_only": "Sadece değer",
+
+  "text.config.optigui.option.enableInspector": "Denetleyiciyi etkinleştir",
+  "text.config.optigui.option.enableInspector.tooltip": "Desteklenen envanter ekranlarında denetleyici (inspector) düğmesini göster",
+
+  "text.config.optigui.option.interactWithAttackKey": "Saldırı tuşunu kullanarak etkileşime gir",
+  "text.config.optigui.option.interactWithAttackKey.tooltip": "Kullanma tuşuna ek olarak, saldırmak da bir etkileşim başlatır\n§8Bazı sunucular, bir varlığa saldırıldığında bir ekran menüsü açabilir",
+
+  "text.config.optigui.option.keepInteractionFactory": "Son etkileşimi hatırla",
+  "text.config.optigui.option.keepInteractionFactory.tooltip": "Ekran kapandığında etkileşimi sonlandırma\n§8Bazı sunucular bir menü ekranından başka menü ekranları açabilir",
+
+  "text.config.optigui.option.showResourceLoadingErrors": "Kaynak yükleme kayıtlarını göster",
+  "text.config.optigui.option.showResourceLoadingErrors.tooltip": "OptiGUI bir kaynağı yükleyemediğinde kayıtlarını göster",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_and_warnings": "Hatalar & uyarılar",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_only": "Sadece hatalar",
+  "text.config.optigui.option.showResourceLoadingErrors.value.nothing": "Asla",
+
+  "text.config.optigui.section.inspector": "Denetleyici",
+  "text.config.optigui.section.interaction": "Etkileşim",
+  "text.config.optigui.section.resourceLoading": "Kaynak yükleme",
+
+  "text.config.optigui.title": "OptiGUI Ayarları",
+
+  "text.config.optigui.tools": "Araçlar",
+  "text.config.optigui.tools.resource_loading_logs": "Kaynak yükleme kayıtları",
+  "text.config.optigui.tools.rp_converter": "Kaynak Paketi Dönüştürücüsü"
+}

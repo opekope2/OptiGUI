@@ -1,6 +1,6 @@
 package opekope2.optigui.screen_nbt.mixin;
 
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -18,8 +18,10 @@ public abstract class DispenserMenuMixin implements INbtConvertible {
     private Container dispenser;
 
     @Override
-    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
+    public CompoundTag optiGui_asNbt(RegistryAccess registryAccess) {
+        var compound = INbtConvertible.super.optiGui_asNbt(registryAccess);
         compound.putInt(COMPARATOR_OUTPUT_KEY, AbstractContainerMenu.getRedstoneSignalFromContainer(dispenser));
-        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(dispenser, lookup));
+        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(dispenser, registryAccess));
+        return compound;
     }
 }

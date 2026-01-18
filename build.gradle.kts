@@ -39,6 +39,18 @@ subprojects {
             forRepository { maven("https://maven.shedaniel.me") { name = "Shedaniel" } }
             filter { includeGroup("me.shedaniel.cloth") }
         }
+        exclusiveContent {
+            forRepository { maven("https://mvn.runefox.dev/releases") { name = "Runefox" } }
+            filter { includeGroup("dev.runefox") }
+        }
+        exclusiveContent {
+            forRepository { maven("https://maven.su5ed.dev/releases") { name = "Sinytra" } }
+            filter { includeGroup("org.sinytra"); includeGroup("org.sinytra.forgified-fabric-api") }
+        }
+        exclusiveContent {
+            forRepository { maven("https://maven.wispforest.io/releases") { name = "Wisp Forest" } }
+            filter { includeGroup("io.wispforest"); includeGroup("io.wispforest.endec") }
+        }
     }
 
     dependencies {
@@ -81,13 +93,18 @@ subprojects {
                 "kotlin_for_forge" to libs.versions.kotlinforforge.get(),
                 "minecraft" to libs.versions.minecraft.get(),
                 "java" to libs.versions.java.get(),
-                "cloth_config" to libs.versions.cloth.config.get(),
+                "owo_lib" to libs.versions.owo.lib.fabric.get(),
             )
+            val commentRegex = """^\s*//.*$""".toRegex()
 
             inputs.properties(properties)
             filesMatching("fabric.mod.json") { expand(properties) }
             filesMatching("META-INF/neoforge.mods.toml") { expand(properties) }
             filesMatching("*.mixins.json") { expand(properties) }
+            filesMatching("assets/optigui/lang/*.jsonc") {
+                name = name.removeSuffix("c")
+                filter { line -> line.replace(commentRegex, "").takeIf { it != "" } }
+            }
         }
 
         val codegen by registering

@@ -19,7 +19,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.1
       - name: Validate gradle wrapper
         uses: gradle/actions/wrapper-validation@v5.0.0
       - name: Load java version
@@ -29,7 +29,7 @@ jobs:
           file: gradle/libs.versions.toml
           field: versions.java
       - name: JDK setup
-        uses: actions/setup-java@v5.0.0
+        uses: actions/setup-java@v5.1.0
         with:
           java-version: ${{ steps.load-java-version.outputs.value }}
           distribution: temurin
@@ -40,7 +40,7 @@ jobs:
         run: ./gradlew test
       - name: Upload build output
         if: inputs.upload-output && matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v5.0.0
+        uses: actions/upload-artifact@v6.0.0
         with:
           name: jars
           path: OptiGUI/build/libs/*.jar

@@ -9,8 +9,7 @@ import opekope2.optigui.util.NbtFilterEvaluation
  * @param subFilter The filter to negate the result of
  */
 class NegatedFilter(val subFilter: INbtFilter) : INbtFilter {
-    override val type: INbtFilter.Type<NegatedFilter>
-        get() = TYPE
+    override val type get() = TYPE
 
     override fun test(nbt: Tag, root: Tag) = !subFilter.test(nbt, root)
 

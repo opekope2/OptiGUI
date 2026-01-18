@@ -8,9 +8,9 @@ import opekope2.optigui.filter.transformer.NbtTransformerChain
 import java.util.*
 
 /**
- * An NBT filter, which compares an NBT element with another NBT element extracted from the root NBT element.
+ * An NBT filter, which compares an NBT element with another NBT element.
  *
- * @param transformerChain The NBT transformer chain used to extract the other NBT element from the root NBT element
+ * @param transformerChain The NBT transformer chain used to extract the other NBT element
  * @param type The type describing this filter
  * @see INbtComparer
  * @see ConstantNbtComparerFilter
@@ -22,8 +22,11 @@ class DynamicNbtComparerFilter(private val transformerChain: NbtTransformerChain
         return type.comparer.compare(nbt, reference) in type.acceptedResults
     }
 
-    override fun asString() = super.asString() + " " + transformerChain.transformerChain
-        .joinToString(prefix = "[", postfix = "]", transform = { StringTag.quoteAndEscape(it.key) })
+    override fun asString() = buildString {
+        append(super.asString())
+        transformerChain.transformerChain
+            .joinTo(this, prefix = "[", postfix = "]", transform = { StringTag.quoteAndEscape(it.key) })
+    }
 
     /**
      * A type describing a [DynamicNbtComparerFilter].

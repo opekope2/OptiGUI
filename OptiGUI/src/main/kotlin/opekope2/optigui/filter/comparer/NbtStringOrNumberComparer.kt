@@ -6,7 +6,6 @@ import net.minecraft.nbt.*
 import net.minecraft.util.ExtraCodecs
 import opekope2.optigui.filter.ConstantNbtComparerFilter
 import opekope2.optigui.filter.DynamicNbtComparerFilter
-import opekope2.optigui.internal.I18n
 import java.util.*
 
 /**
@@ -14,7 +13,8 @@ import java.util.*
  *
  * @param ignoreCase Whether to ignore case when comparing NBT strings
  */
-sealed class NbtStringOrNumberComparer(val ignoreCase: Boolean) : INbtComparer {
+@ConsistentCopyVisibility
+data class NbtStringOrNumberComparer private constructor(val ignoreCase: Boolean) : INbtComparer {
     /**
      * Creates a type describing a [ConstantNbtComparerFilter] with this comparer.
      *
@@ -50,30 +50,32 @@ sealed class NbtStringOrNumberComparer(val ignoreCase: Boolean) : INbtComparer {
     override fun compare(nbt: Tag, reference: Tag): INbtComparer.ComparisonResult {
         return INbtComparer.ComparisonResult.ofComparison(
             when {
-                nbt is StringTag && reference is StringTag -> reference.asString.compareTo(nbt.asString, ignoreCase)
+                nbt is StringTag && reference is StringTag -> nbt.asString.compareTo(reference.asString, ignoreCase)
                 nbt !is NumericTag || reference !is NumericTag -> return INbtComparer.ComparisonResult.INCOMPARABLE
-                nbt is DoubleTag || reference is DoubleTag -> reference.asDouble.compareTo(nbt.asDouble)
-                nbt is FloatTag || reference is FloatTag -> reference.asFloat.compareTo(nbt.asFloat)
-                nbt is LongTag || reference is LongTag -> reference.asLong.compareTo(nbt.asLong)
+                nbt is DoubleTag || reference is DoubleTag -> nbt.asDouble.compareTo(reference.asDouble)
+                nbt is FloatTag || reference is FloatTag -> nbt.asFloat.compareTo(reference.asFloat)
+                nbt is LongTag || reference is LongTag -> nbt.asLong.compareTo(reference.asLong)
                 else -> nbt.asInt.compareTo(reference.asInt)
             }
         )
     }
 
-    /**
-     * A case-sensitive variant of [NbtStringOrNumberComparer].
-     */
-    data object CaseSensitive : NbtStringOrNumberComparer(false)
-
-    /**
-     * A case-insensitive variant of [NbtStringOrNumberComparer].
-     */
-    data object CaseInsensitive : NbtStringOrNumberComparer(true)
-
-    private companion object {
+    companion object {
         private val nbtStringOrNumberCodec: Codec<Tag> = ExtraCodecs.converter(NbtOps.INSTANCE).validate {
             if (it is StringTag || it is NumericTag) DataResult.success(it)
-            else DataResult.error { I18n.OPTIGUI_VALIDATION_ERROR_NOT_A_NUMBER_OR_STRING.getTranslation(it.asString) }
+            else DataResult.error { "Not a number or string: ${it.asString}" }
         }
+
+        /**
+         * The case-sensitive instance of [NbtStringOrNumberComparer].
+         */
+        @JvmField
+        val CASE_SENSITIVE = NbtStringOrNumberComparer(false)
+
+        /**
+         * The case-insensitive instance of [NbtStringOrNumberComparer].
+         */
+        @JvmField
+        val CASE_INSENSITIVE = NbtStringOrNumberComparer(true)
     }
 }

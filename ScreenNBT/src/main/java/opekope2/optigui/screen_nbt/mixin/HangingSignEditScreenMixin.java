@@ -1,10 +1,9 @@
 package opekope2.optigui.screen_nbt.mixin;
 
 import net.minecraft.client.gui.screens.inventory.HangingSignEditScreen;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.world.level.block.entity.SignText;
 import opekope2.optigui.screen_api.util.INbtConvertible;
 import opekope2.optigui.screen_api.util.NbtUtil;
@@ -17,8 +16,9 @@ public abstract class HangingSignEditScreenMixin extends AbstractSignEditScreenM
     }
 
     @Override
-    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
-        compound.put(SCREEN_TITLE_KEY, NbtUtil.encode(getTitle(), ComponentSerialization.CODEC, lookup));
-        compound.put(SCREEN_TEXT_KEY, NbtUtil.encode(getText(), SignText.DIRECT_CODEC, lookup));
+    public CompoundTag optiGui_asNbt(RegistryAccess registryAccess) {
+        var compound = INbtConvertible.super.optiGui_asNbt(registryAccess);
+        compound.put(SCREEN_TEXT_KEY, NbtUtil.encode(getText(), SignText.DIRECT_CODEC, registryAccess));
+        return compound;
     }
 }

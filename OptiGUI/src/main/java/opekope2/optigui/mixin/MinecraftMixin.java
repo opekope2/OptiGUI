@@ -5,10 +5,10 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
-import opekope2.optigui.gui.screen.ResourceLoadingErrorScreen;
 import opekope2.optigui.interaction.GeneralInteraction;
 import opekope2.optigui.interaction.InteractionManager;
 import opekope2.optigui.interaction.InteractionTarget;
+import opekope2.optigui.internal.ui.ResourceLoadingLogScreen;
 import opekope2.optigui.screen_api.screen.ITextureChangeableScreen;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,18 +40,18 @@ public abstract class MinecraftMixin {
 
         if (screen instanceof ITextureChangeableScreen textureChangeableScreen) {
             InteractionManager.begin(textureChangeableScreen, player);
-        } else {
+        } else if (screen == null) {
             InteractionManager.end();
         }
     }
 
     @Inject(method = "addInitialScreens", at = @At("TAIL"))
     private void showResourceLoadingErrors(List<Function<Runnable, Screen>> list, CallbackInfo ci) {
-        if (ResourceLoadingErrorScreen.shouldShow()) list.add(ResourceLoadingErrorScreen::create);
+        if (ResourceLoadingLogScreen.shouldShow()) list.add(ResourceLoadingLogScreen::new);
     }
 
     @Inject(method = "reloadResourcePacks()Ljava/util/concurrent/CompletableFuture;", at = @At("RETURN"))
     private void showResourceLoadingErrors(CallbackInfoReturnable<CompletableFuture<Void>> cir) {
-        cir.getReturnValue().thenRun(ResourceLoadingErrorScreen::showIfErrorsOccurred);
+        cir.getReturnValue().thenRun(ResourceLoadingLogScreen::showIfErrorsOccurred);
     }
 }

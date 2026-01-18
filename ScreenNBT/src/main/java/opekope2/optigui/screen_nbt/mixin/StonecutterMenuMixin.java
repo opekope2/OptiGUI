@@ -1,6 +1,6 @@
 package opekope2.optigui.screen_nbt.mixin;
 
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.ResultContainer;
@@ -22,8 +22,10 @@ public abstract class StonecutterMenuMixin implements INbtConvertible {
     ResultContainer resultContainer;
 
     @Override
-    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
-        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(container, lookup));
-        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(resultContainer, lookup));
+    public CompoundTag optiGui_asNbt(RegistryAccess registryAccess) {
+        var compound = INbtConvertible.super.optiGui_asNbt(registryAccess);
+        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(container, registryAccess));
+        compound.put(RESULT_INVENTORY_KEY, NbtUtil.createInventoryNbt(resultContainer, registryAccess));
+        return compound;
     }
 }

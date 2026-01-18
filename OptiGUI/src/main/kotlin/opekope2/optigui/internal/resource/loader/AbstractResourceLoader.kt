@@ -5,9 +5,9 @@ import com.google.common.collect.Multimap
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager
-import net.minecraft.server.packs.resources.SimplePreparableReloadListener
 import net.minecraft.util.profiling.ProfilerFiller
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
@@ -16,68 +16,84 @@ import opekope2.optigui.internal.I18n
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import opekope2.optigui.resource.format.json.JsonTextureChanger
 import opekope2.optigui.util.*
-import opekope2.optigui.util.collections.LinkedMruCollection
 import org.slf4j.LoggerFactory
+import org.slf4j.event.LoggingEvent
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-private typealias Resources<T> = List<IdentifiableResource<T>>
-
-internal abstract class AbstractResourceLoader<TResource>(val id: ResourceLocation) :
-    SimplePreparableReloadListener<Resources<TResource>>(), IFilterLoader {
+internal abstract class AbstractResourceLoader<T>(id: ResourceLocation) : PreparableReloadListener, IFilterLoader {
     constructor(id: String) : this(ResourceLocation.fromNamespaceAndPath(MOD_ID, id))
 
     init {
         IFilterLoader.register(id, this)
     }
 
-    private lateinit var loadTimeNbt: CompoundTag
-
     protected val logger: EventCollectorLogger = EventCollectorLogger(LoggerFactory.getLogger(javaClass))
 
-    final override val errors: List<ResourceLoadingLoggingEvent>
-        get() = logger.events.map {
-            ResourceLoadingLoggingEvent.fromLoggingEvent(it, mc.resourcePackRepository::isAvailable)
-        }
+    final override val log: List<LoggingEvent> get() = logger.events
 
     final override lateinit var filters: Multimap<InteractionTarget, TextureChangerFilter>
 
     protected abstract fun findResources(manager: ResourceManager): Map<ResourceLocation, Resource>
 
-    final override fun prepare(manager: ResourceManager, profiler: ProfilerFiller): Resources<TResource> {
-        logger.events.clear()
-        loadTimeNbt = CompoundTag()
-        for ((key, supplier) in ILoadTimeNbtProvider.Registry) loadTimeNbt.put(key, supplier.get())
+    protected abstract fun loadResource(
+        resource: IdentifiableResource<Resource>,
+        manager: ResourceManager,
+        collector: ResourceCollector,
+    )
 
-        return buildList {
-            for ((resourceId, resource) in findResources(manager)) {
-                try {
-                    logger.atDebug()
-                        .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.sourcePackId())
-                        .addKeyValue(LOG_KEY_RESOURCE, resourceId)
-                        .addArgument(I18n.OPTIGUI_RP_LOADER_INFO_LOADING_RESOURCE.supplyTranslation())
-                        .addArgument(resourceId)
-                        .log("{} {}")
-                    val loadedResource = loadResource(resource.sourcePackId(), resourceId, resource, manager)
-                    add(IdentifiableResource(resource.sourcePackId(), resourceId, loadedResource))
-                } catch (e: Exception) {
-                    logger.atError()
-                        .setCause(e)
-                        .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.sourcePackId())
-                        .addKeyValue(LOG_KEY_RESOURCE, resourceId)
-                        .log("{}", e.message)
-                }
-            }
-        }
+    private fun createLoadTimeNbt() = ILoadTimeNbtProvider.fold(CompoundTag()) { compound, (key, supplier) ->
+        compound.also { it.put(key, supplier.get()) }
     }
 
-    protected abstract fun loadResource(
-        packId: String,
-        resourceId: ResourceLocation,
-        resource: Resource,
-        manager: ResourceManager
-    ): TResource
+    private fun logError(resource: IdentifiableResource<*>, e: Throwable) {
+        logger.atError()
+            .setCause(e)
+            .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.packId)
+            .addKeyValue(LOG_KEY_RESOURCE, resource.id)
+            .log("{}", e.message)
+    }
 
-    protected abstract fun parseResource(resource: IdentifiableResource<TResource>, collector: ResourceCollector)
+    private fun loadResources(
+        resources: Map<ResourceLocation, Resource>,
+        resourceManager: ResourceManager,
+        collector: ResourceCollector,
+        executor: Executor
+    ): CompletableFuture<*> {
+        val tasks = resources.mapTo(ArrayList(resources.size)) { (resourceId, resource) ->
+            val resource = IdentifiableResource(resource.sourcePackId(), resourceId, resource)
+            CompletableFuture.supplyAsync({ loadResource(resource, resourceManager, collector) }, executor)
+                .exceptionallyAsync({ logError(resource, it) }, executor)
+                .thenRunAsync({ resource.resource }, executor)
+        }
+
+        return CompletableFuture.allOf(*tasks.toTypedArray())
+    }
+
+    override fun reload(
+        preparationBarrier: PreparableReloadListener.PreparationBarrier,
+        resourceManager: ResourceManager,
+        preparationsProfiler: ProfilerFiller,
+        reloadProfiler: ProfilerFiller,
+        backgroundExecutor: Executor,
+        gameExecutor: Executor
+    ): CompletableFuture<Void?> {
+        logger.events.clear()
+
+        val resources = CompletableFuture.supplyAsync({ findResources(resourceManager) }, backgroundExecutor)
+        val collector = CompletableFuture.supplyAsync(::createLoadTimeNbt, backgroundExecutor)
+            .thenApply { ResourceCollector(logger, it) }
+
+        return resources
+            .thenCombine(collector) { resources, collector -> resources to collector }
+            .thenComposeAsync({ (resources, collector) ->
+                loadResources(resources, resourceManager, collector, backgroundExecutor)
+            }, backgroundExecutor)
+            .thenCombine(collector) { _, collector -> collector }
+            .thenCompose(preparationBarrier::wait)
+            .thenAcceptAsync({ loadFilters(it, resourceManager) }, gameExecutor)
+    }
 
     private inline fun createTextureChangers(
         resource: IdentifiableResource<*>,
@@ -105,51 +121,21 @@ internal abstract class AbstractResourceLoader<TResource>(val id: ResourceLocati
             .log("{}")
     }
 
-    final override fun apply(prepared: Resources<TResource>, manager: ResourceManager, profiler: ProfilerFiller) {
+    private fun loadFilters(collector: ResourceCollector, manager: ResourceManager) {
         val guiAtlasManager = mc.guiSprites
         val missingSprite = guiAtlasManager.getSprite(MissingTextureAtlasSprite.getLocation())
-        val resourceCollector = ResourceCollector(logger, loadTimeNbt)
-
-        for (resource in prepared) {
-            val (packId, resourceId) = resource
-            try {
-                parseResource(resource, resourceCollector)
-                logger.atDebug()
-                    .addKeyValue(LOG_KEY_RESOURCE_PACK, packId)
-                    .addKeyValue(LOG_KEY_RESOURCE, resourceId)
-                    .addArgument(I18n.OPTIGUI_RP_LOADER_INFO_LOAD_SUCCESS.supplyTranslation())
-                    .addArgument(resourceId)
-                    .log("{} {}")
-            } catch (e: Exception) {
-                logger.atError()
-                    .setCause(e)
-                    .addKeyValue(LOG_KEY_RESOURCE_PACK, packId)
-                    .addKeyValue(LOG_KEY_RESOURCE, resourceId)
-                    .log("{}", e.message)
-                continue
-            }
-        }
 
         filters = LinkedListMultimap.create()
-        for (resource in resourceCollector) {
-            val jsonV2 = resource.resource
-            if (jsonV2.blocks.isEmpty() && jsonV2.entities.isEmpty() && jsonV2.items.isEmpty() && !jsonV2.inventory && !jsonV2.unknown) {
-                logger.atWarn()
-                    .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.packId)
-                    .addKeyValue(LOG_KEY_RESOURCE, resource.id)
-                    .addArgument(I18n.OPTIGUI_RP_LOADER_WARN_NO_INTERACTION_TARGET.supplyTranslation())
-                    .log("{}")
-                continue
-            }
-
+        for (resource in collector) {
+            val json = resource.resource
             val textureChangers = createTextureChangers(
                 resource,
-                jsonV2.textureChangers,
+                json.textureChangers,
                 I18n.OPTIGUI_RP_LOADER_WARN_MISSING_TEXTURES
             ) { manager.getResource(it).isPresent }
             val spriteChangers = createTextureChangers(
                 resource,
-                jsonV2.spriteChangers,
+                json.spriteChangers,
                 I18n.OPTIGUI_RP_LOADER_WARN_MISSING_SPRITES
             ) { guiAtlasManager.getSprite(it) !== missingSprite }
 
@@ -164,17 +150,17 @@ internal abstract class AbstractResourceLoader<TResource>(val id: ResourceLocati
 
             val filter = TextureChangerFilter(
                 resource.id,
-                jsonV2.filter,
+                json.filter,
                 textureChangers,
                 spriteChangers,
-                LinkedMruCollection(jsonV2.textStyleChangers)
+                ArrayList(json.textStyleChangers),
             )
 
-            for (block in jsonV2.blocks) filters[InteractionTarget.Block(block)] += filter
-            for (entity in jsonV2.entities) filters[InteractionTarget.Entity(entity)] += filter
-            for (item in jsonV2.items) filters[InteractionTarget.Item(item)] += filter
-            if (jsonV2.inventory) filters[InteractionTarget.Inventory] += filter
-            if (jsonV2.unknown) filters[InteractionTarget.Unknown] += filter
+            for (block in json.blocks) filters[InteractionTarget.Block(block)] += filter
+            for (entity in json.entities) filters[InteractionTarget.Entity(entity)] += filter
+            for (item in json.items) filters[InteractionTarget.Item(item)] += filter
+            if (json.inventory) filters[InteractionTarget.Inventory] += filter
+            if (json.unknown) filters[InteractionTarget.Unknown] += filter
         }
     }
 }

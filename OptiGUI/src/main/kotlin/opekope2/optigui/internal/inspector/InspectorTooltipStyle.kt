@@ -6,8 +6,8 @@ import net.minecraft.network.chat.CommonComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import opekope2.optigui.interaction.InteractionManager
+import opekope2.optigui.internal.AbstractOptiGuiClient
 import opekope2.optigui.internal.I18n
-import opekope2.optigui.internal.IOptiGuiPlatform
 
 internal enum class InspectorTooltipStyle(private val translation: I18n, private val titleFormatting: ChatFormatting) {
     ALPHA(I18n.OPTIGUI_INSPECTOR_TITLE_ALPHA, ChatFormatting.RED),
@@ -53,8 +53,8 @@ internal enum class InspectorTooltipStyle(private val translation: I18n, private
 
         @JvmField
         val CURRENT = when {
-            "alpha" in IOptiGuiPlatform.get().version -> ALPHA
-            "beta" in IOptiGuiPlatform.get().version -> BETA
+            "alpha" in AbstractOptiGuiClient.implementation.version -> ALPHA
+            "beta" in AbstractOptiGuiClient.implementation.version -> BETA
             else -> STABLE
         }
     }

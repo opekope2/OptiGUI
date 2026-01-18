@@ -15,7 +15,7 @@ import opekope2.optigui.util.NbtFilterEvaluation
  * @param type The type describing this filter
  * @see AggregateFilter
  */
-class NbtListFilter(override val subFilter: INbtFilter, override val type: Type) : INbtListFilter {
+class NbtListFilter(val subFilter: INbtFilter, override val type: Type) : INbtFilter {
     override fun test(nbt: Tag, root: Tag): Boolean {
         val operator = type.operator
 
@@ -40,30 +40,30 @@ class NbtListFilter(override val subFilter: INbtFilter, override val type: Type)
      *
      * @param operator The aggregate operator specifying how to combine the results of multiple filters
      */
-    enum class Type(val operator: AggregateOperator, override val nonPrefixedKey: String) : INbtListFilter.IType {
+    enum class Type(val operator: AggregateOperator) : INbtFilter.IType<NbtListFilter> {
         /**
          * An [NbtListFilter] type, which requires the filter to return `false` for all NBT list elements.
          */
-        NONE_OF(AggregateOperator.NONE_OF, "none"),
+        NONE(AggregateOperator.NONE),
 
         /**
          * An [NbtListFilter] type, which requires the filter to return `true` for at least one NBT list element.
          */
-        ANY_OF(AggregateOperator.ANY_OF, "any"),
+        ANY(AggregateOperator.ANY),
 
         /**
          * An [NbtListFilter] type, which requires the filter to return `false` for at least one NBT list element.
          */
-        SOME_OF(AggregateOperator.SOME_OF, "some"),
+        SOME(AggregateOperator.SOME),
 
         /**
          * An [NbtListFilter] type, which requires the filter to return `true` for all NBT list elements.
          */
-        ALL_OF(AggregateOperator.ALL_OF, "all");
+        ALL(AggregateOperator.ALL);
 
-        override val codec: Codec<INbtListFilter> = INbtFilter.CODEC.xmap(
+        override val codec: Codec<NbtListFilter> = INbtFilter.CODEC.xmap(
             { NbtListFilter(it, this) },
-            INbtListFilter::subFilter
+            NbtListFilter::subFilter
         )
     }
 }

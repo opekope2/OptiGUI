@@ -3,7 +3,6 @@ package opekope2.optigui.interaction
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.InteractionHand
-import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
@@ -52,18 +51,12 @@ sealed interface IInteraction {
         get() = player.commandSenderWorld
 
     /**
-     * The entity the player is rinding or `null`, if the player is not riding anything.
-     */
-    val vehicle: Entity?
-        get() = player.vehicle
-
-    /**
      * Converts the interaction to NBT for filtering.
      */
     fun createNbt() = CompoundTag().also {
-        val lookup = player.level().registryAccess()
+        val registryAccess = player.level().registryAccess()
         for ((key, value) in IInteractionNbtProvider.Registry) {
-            it.put(key, value.get(this, lookup) ?: continue)
+            it.put(key, value.get(this, registryAccess) ?: continue)
         }
     }
 

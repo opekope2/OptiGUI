@@ -13,10 +13,10 @@ import com.mojang.serialization.DynamicOps
  * @param first One of the codecs
  * @param second The other codec
  */
-class EitherCodec<TObj>(val first: Codec<TObj>, val second: Codec<TObj>) : Codec<TObj> {
-    private val decoder: Decoder<Either<TObj, TObj>> = Codec.either(first, second)
+class EitherCodec<A>(val first: Codec<A>, val second: Codec<A>) : Codec<A> {
+    private val decoder: Decoder<Either<A, A>> = Codec.either(first, second)
 
-    override fun <T> encode(input: TObj, ops: DynamicOps<T>, prefix: T): DataResult<T> {
+    override fun <T> encode(input: A, ops: DynamicOps<T>, prefix: T): DataResult<T> {
         val firstRead = first.encode(input, ops, prefix)
         if (firstRead.isSuccess) return firstRead
 
@@ -33,6 +33,6 @@ class EitherCodec<TObj>(val first: Codec<TObj>, val second: Codec<TObj>) : Codec
         }
     }
 
-    override fun <T> decode(ops: DynamicOps<T>, input: T): DataResult<Pair<TObj, T>> =
+    override fun <T> decode(ops: DynamicOps<T>, input: T): DataResult<Pair<A, T>> =
         decoder.decode(ops, input).map { it.mapFirst(Either<*, *>::unwrap) }
 }

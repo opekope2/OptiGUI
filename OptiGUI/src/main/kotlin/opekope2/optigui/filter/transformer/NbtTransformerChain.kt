@@ -5,7 +5,6 @@ import com.mojang.serialization.DataResult
 import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.filter.NbtTransformerFilter
-import opekope2.optigui.internal.I18n
 import java.util.function.Function
 
 /**
@@ -40,7 +39,7 @@ class NbtTransformerChain(val transformerChain: List<NbtTransformerFilter.IType>
         val CODEC: Codec<NbtTransformerChain> = INbtFilter.TYPE_CODEC.comapFlatMap(
             {
                 if (it is NbtTransformerFilter.IType) DataResult.success(it)
-                else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_NOT_AN_NBT_TRANSFORMER.supplyTranslation(it))
+                else DataResult.error { "Not an NBT transformer type: $it" }
             },
             Function.identity()
         ).listOf().xmap(::NbtTransformerChain, NbtTransformerChain::transformerChain)

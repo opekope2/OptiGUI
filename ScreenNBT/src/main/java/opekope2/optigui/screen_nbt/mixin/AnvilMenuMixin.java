@@ -1,6 +1,6 @@
 package opekope2.optigui.screen_nbt.mixin;
 
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.inventory.AnvilMenu;
 import org.jspecify.annotations.Nullable;
@@ -16,9 +16,10 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenuMixin {
     private @Nullable String itemName;
 
     @Override
-    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
-        super.optiGui_writeNbt(compound, lookup);
+    public CompoundTag optiGui_asNbt(RegistryAccess registryAccess) {
+        var compound = super.optiGui_asNbt(registryAccess);
         if (itemName != null) compound.putString("item_name", itemName);
         compound.putInt("cost", getCost());
+        return compound;
     }
 }

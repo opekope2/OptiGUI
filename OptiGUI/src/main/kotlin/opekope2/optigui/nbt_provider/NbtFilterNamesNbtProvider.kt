@@ -8,5 +8,5 @@ import opekope2.optigui.filter.INbtFilter
  * A load-time NBT provider that provides a list of the registered filter names in [INbtFilter.Registry].
  */
 object NbtFilterNamesNbtProvider : ILoadTimeNbtProvider {
-    override fun get() = INbtFilter.Registry.mapTo(ListTag()) { StringTag.valueOf(it.key) }
+    override fun get() = INbtFilter.mapTo(ListTag()) { StringTag.valueOf(it.key) }
 }

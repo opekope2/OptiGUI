@@ -15,15 +15,21 @@
   ],
   "contributors": [
     {
+      "name": "Creeperucan",
+      "contact": {
+        "github": "https://github.com/Creeperucan"
+      }
+    },
+    {
       "name": "dirtTW",
       "contact": {
         "github": "https://github.com/yichifauzi"
       }
     },
     {
-      "name": "notlin4",
+      "name": "gorr0w7",
       "contact": {
-        "github": "https://github.com/notlin4"
+        "github": "https://github.com/gorr0w7"
       }
     },
     {
@@ -33,15 +39,27 @@
       }
     },
     {
+      "name": "lumiscosity",
+      "contact": {
+        "github": "https://github.com/lumiscosity"
+      }
+    },
+    {
       "name": "LyriaWintona",
       "contact": {
         "github": "https://github.com/LyriaWintona"
       }
     },
     {
-      "name": "RoberbufDx8105",
+      "name": "Nadios_kox",
       "contact": {
-        "github": "https://github.com/RoberbufDx8105"
+        "github": "https://github.com/Fhilips613"
+      }
+    },
+    {
+      "name": "notlin4",
+      "contact": {
+        "github": "https://github.com/notlin4"
       }
     },
     {
@@ -51,9 +69,15 @@
       }
     },
     {
-      "name": "gorr0w7",
+      "name": "RoberbufDx8105",
       "contact": {
-        "github": "https://github.com/gorr0w7"
+        "github": "https://github.com/RoberbufDx8105"
+      }
+    },
+    {
+      "name": "Texaliuz",
+      "contact": {
+        "github": "https://github.com/Texaliuz"
       }
     }
   ],
@@ -69,13 +93,7 @@
     "client": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.fabric.OptiGuiClient"
-      }
-    ],
-    "modmenu": [
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.optigui.internal.fabric.ModMenuIntegration"
+        "value": "opekope2.optigui.internal.fabric.FabricOptiGuiClient"
       }
     ]
   },
@@ -83,13 +101,13 @@
     "optigui.mixins.json"
   ],
   "depends": {
-    "cloth-config": ">=$cloth_config",
     "fabric-api": ">=$fabric_api",
     "fabric-language-kotlin": ">=$fabric_language_kotlin",
     "fabricloader": ">=0.15.0",
     "java": ">=$java",
     "minecraft": ">=$minecraft <1.21.2",
-    "optigui-screen-api": ">=$version"
+    "optigui-screen-api": ">=$version",
+    "owo-lib": ">=$owo_lib"
   },
   "suggests": {
     "modmenu": "*",

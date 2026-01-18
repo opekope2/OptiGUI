@@ -104,7 +104,7 @@ abstract class GenerateWorldNbtProvider : AbstractCodegenTask() {
         imports += listOf(
             "net.minecraft.core.BlockPos",
             "net.minecraft.core.Holder",
-            "net.minecraft.core.HolderLookup",
+            "net.minecraft.core.RegistryAccess",
             "net.minecraft.nbt.CompoundTag",
             "net.minecraft.nbt.StringTag",
             "net.minecraft.world.flag.FeatureFlagSet",
@@ -132,31 +132,31 @@ abstract class GenerateWorldNbtProvider : AbstractCodegenTask() {
             |
             |/**
             | * Provides the world NBT of an interaction.
-            | */            
+            | */
             |object WorldNbtProvider : IInteractionNbtProvider {
-            |    override fun get(interaction: IInteraction, lookup: HolderLookup.Provider): CompoundTag {
+            |    override fun get(interaction: IInteraction, registryAccess: RegistryAccess): CompoundTag {
             |        val world = interaction.world
-            |        val result = encodeLevel(world, lookup)
-            |        if (world is ClientLevel) result.merge(encodeClientLevel(world, lookup))
+            |        val result = encodeLevel(world, registryAccess)
+            |        if (world is ClientLevel) result.merge(encodeClientLevel(world, registryAccess))
             |        return result
             |    }
             |
             |$members
             |
-            |    private fun encodeBlockPos(value: BlockPos, lookup: HolderLookup.Provider) =
-            |        NbtUtil.encode(value, BlockPos.CODEC, lookup)
+            |    private fun encodeBlockPos(value: BlockPos, registryAccess: RegistryAccess) =
+            |        NbtUtil.encode(value, BlockPos.CODEC, registryAccess)
             |
-            |    private fun encodeDimensionType(value: DimensionType, lookup: HolderLookup.Provider) =
-            |        NbtUtil.encode(value, DimensionType.DIRECT_CODEC, lookup)
+            |    private fun encodeDimensionType(value: DimensionType, registryAccess: RegistryAccess) =
+            |        NbtUtil.encode(value, DimensionType.DIRECT_CODEC, registryAccess)
             |
-            |    private fun encodeFeatureFlagSet(value: FeatureFlagSet, lookup: HolderLookup.Provider) =
-            |        NbtUtil.encode(value, FeatureFlags.CODEC, lookup)
+            |    private fun encodeFeatureFlagSet(value: FeatureFlagSet, registryAccess: RegistryAccess) =
+            |        NbtUtil.encode(value, FeatureFlags.CODEC, registryAccess)
             |
-            |    private fun encodeHolder(value: Holder<*>, lookup: HolderLookup.Provider) =
+            |    private fun encodeHolder(value: Holder<*>, registryAccess: RegistryAccess) =
             |        StringTag.valueOf(value.getRegisteredName())
             |
-            |    private fun encodeScoreboard(value: Scoreboard, lookup: HolderLookup.Provider) =
-            |        ScoreboardSaveData(value).save(CompoundTag(), lookup)
+            |    private fun encodeScoreboard(value: Scoreboard, registryAccess: RegistryAccess) =
+            |        ScoreboardSaveData(value).save(CompoundTag(), registryAccess)
             |}
         """.trimMargin()
     }
@@ -168,7 +168,7 @@ abstract class GenerateWorldNbtProvider : AbstractCodegenTask() {
 
         // language=kotlin
         return """
-            |    private fun encode$className(value: $className, lookup: HolderLookup.Provider) = CompoundTag().apply {
+            |    private fun encode$className(value: $className, registryAccess: RegistryAccess) = CompoundTag().apply {
             |${methods.joinToString(separator = "\n", transform = ::emitPutCall)}
             |    }
         """.trimMargin()
@@ -204,7 +204,7 @@ abstract class GenerateWorldNbtProvider : AbstractCodegenTask() {
         return when {
             putMethodName != null -> """$indent$putMethodName("$key", value.$methodName())"""
             returnType.isEnum -> """${indent}putString("$key", value.$methodName().name)"""
-            else -> """${indent}put("$key", encode${returnType.simpleName}(value.$methodName(), lookup))"""
+            else -> """${indent}put("$key", encode${returnType.simpleName}(value.$methodName(), registryAccess))"""
         }
     }
 }

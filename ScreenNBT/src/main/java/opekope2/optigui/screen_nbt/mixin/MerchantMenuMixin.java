@@ -1,6 +1,6 @@
 package opekope2.optigui.screen_nbt.mixin;
 
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.inventory.MerchantContainer;
 import net.minecraft.world.inventory.MerchantMenu;
@@ -36,13 +36,15 @@ public abstract class MerchantMenuMixin implements INbtConvertible {
     public abstract MerchantOffers getOffers();
 
     @Override
-    public void optiGui_writeNbt(CompoundTag compound, HolderLookup.Provider lookup) {
-        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(tradeContainer, lookup));
+    public CompoundTag optiGui_asNbt(RegistryAccess registryAccess) {
+        var compound = INbtConvertible.super.optiGui_asNbt(registryAccess);
+        compound.put(INVENTORY_KEY, NbtUtil.createInventoryNbt(tradeContainer, registryAccess));
         compound.putBoolean("can_restock", canRestock());
         compound.putInt("trader_xp", getTraderXp());
         compound.putInt("future_trader_xp", getFutureTraderXp());
         compound.putInt("trader_level", getTraderLevel());
         compound.putBoolean("show_progress_bar", showProgressBar());
-        compound.put("offers", NbtUtil.encode(getOffers(), MerchantOffers.CODEC, lookup));
+        compound.put("offers", NbtUtil.encode(getOffers(), MerchantOffers.CODEC, registryAccess));
+        return compound;
     }
 }

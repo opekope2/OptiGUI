@@ -20,6 +20,13 @@ data class ResourceLoadingLoggingEvent(
     val packName: String?,
     val resourceId: ResourceLocation?
 ) : Comparable<ResourceLoadingLoggingEvent> {
+    constructor(event: LoggingEvent) : this(
+        MessageFormatter.basicArrayFormat(event.message, event.argumentArray),
+        event.level,
+        event.findValue<String>(LOG_KEY_RESOURCE_PACK, mc.resourcePackRepository::isAvailable),
+        event.findValue<ResourceLocation>(LOG_KEY_RESOURCE) { true }
+    )
+
     // Unknown pack is last
     private fun comparePackName(second: ResourceLoadingLoggingEvent): Int {
         val pack1 = packName ?: return if (second.packName == null) 0 else 1
@@ -39,18 +46,12 @@ data class ResourceLoadingLoggingEvent(
         else -> result
     }
 
-    companion object {
-        /**
-         * Creates a new [ResourceLoadingLoggingEvent] from a [LoggingEvent].
-         *
-         * @param event The logging event to extract information from
-         * @param packExists A predicate testing if a resource pack with a name exists
-         */
-        inline fun fromLoggingEvent(event: LoggingEvent, packExists: (String) -> Boolean) = ResourceLoadingLoggingEvent(
-            MessageFormatter.basicArrayFormat(event.message, event.argumentArray),
-            event.level,
-            event.keyValuePairs?.firstOrNull { it.key == LOG_KEY_RESOURCE_PACK && it.value is String && packExists(it.value as String) }?.value as? String,
-            event.keyValuePairs?.firstOrNull { it.key == LOG_KEY_RESOURCE && it.value is ResourceLocation }?.value as? ResourceLocation
-        )
+    private companion object {
+        private inline fun <reified T> LoggingEvent.findValue(key: String, valuePredicate: (T) -> Boolean): T? {
+            val pair = keyValuePairs
+                ?.firstOrNull { pair -> pair.key == key && pair.value.let { it is T && valuePredicate(it) } }
+                ?: return null
+            return pair.value as T
+        }
     }
 }

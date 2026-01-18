@@ -12,22 +12,22 @@ enum class AggregateOperator(val shortCircuitValue: Boolean, val shortCircuitRes
     /**
      * An aggregate operator, which requires all boolean values to be `false`.
      */
-    NONE_OF(true, false),
+    NONE(true, false),
 
     /**
      * An aggregate operator, which requires at least one boolean value to be `true`.
      */
-    ANY_OF(true, true),
+    ANY(true, true),
 
     /**
      * An aggregate operator, which requires at least one boolean values to be `false`.
      */
-    SOME_OF(false, true),
+    SOME(false, true),
 
     /**
      * An aggregate operator, which requires all boolean values to be `true`.
      */
-    ALL_OF(false, false);
+    ALL(false, false);
 
     /**
      * @see shortCircuitValue

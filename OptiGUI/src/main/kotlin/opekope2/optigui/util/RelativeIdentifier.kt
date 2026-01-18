@@ -5,7 +5,6 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.ExtraCodecs
-import opekope2.optigui.internal.I18n
 
 /**
  * A relative version of [ResourceLocation].
@@ -42,7 +41,7 @@ data class RelativeIdentifier(val path: String) {
         @JvmField
         val CODEC: Codec<RelativeIdentifier> = ExtraCodecs.RESOURCE_PATH_CODEC.validate {
             if (it.startsWith("./")) DataResult.success(it)
-            else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_NOT_A_RELATIVE_IDENTIFIER.supplyTranslation(it))
+            else DataResult.error { "Not a relative identifier: $it" }
         }.xmap(::RelativeIdentifier, RelativeIdentifier::path)
 
         /**
