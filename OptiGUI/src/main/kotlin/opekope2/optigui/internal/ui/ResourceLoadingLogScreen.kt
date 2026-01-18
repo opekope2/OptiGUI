@@ -110,7 +110,7 @@ internal class ResourceLoadingLogScreen(
         private val LEVEL_TO_COLOR = mapOf(
             Level.ERROR to ChatFormatting.RED,
             Level.WARN to ChatFormatting.YELLOW,
-            Level.INFO to ChatFormatting.WHITE,
+            Level.INFO to ChatFormatting.AQUA,
         ).mapValues { (_, formatting) -> Color.ofFormatting(formatting).asHexString(true) }
 
         /**
