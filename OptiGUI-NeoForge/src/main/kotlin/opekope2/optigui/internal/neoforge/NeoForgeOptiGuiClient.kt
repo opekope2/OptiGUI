@@ -11,16 +11,17 @@ import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent
 import net.neoforged.neoforge.client.event.ScreenEvent
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 import net.neoforged.neoforge.event.tick.LevelTickEvent
-import opekope2.optigui.config.IConfig
+import opekope2.optigui.config.config
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.interaction.InteractionManager
-import opekope2.optigui.internal.IOptiGuiPlatform
+import opekope2.optigui.internal.AbstractOptiGuiClient
 import opekope2.optigui.internal.TextureChanger
 import opekope2.optigui.internal.neoforge.event_handler.NeoForgeAttackHandler
 import opekope2.optigui.internal.neoforge.event_handler.NeoForgeInteractionHandler
 import opekope2.optigui.internal.neoforge.filter.NbtVersionFilter
 import opekope2.optigui.internal.neoforge.gui.widget.NeoForgeInspectorWidget
 import opekope2.optigui.internal.neoforge.nbt_provider.NeoForgeModsNbtProvider
+import opekope2.optigui.internal.ui.ConfigScreen
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 import opekope2.optigui.util.MOD_ID
@@ -28,11 +29,10 @@ import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 import kotlin.jvm.optionals.getOrDefault
 
 @Mod(MOD_ID, dist = [Dist.CLIENT])
-internal class OptiGuiClient(modContainer: ModContainer) : IOptiGuiPlatform, IConfigScreenFactory {
+internal class NeoForgeOptiGuiClient(modContainer: ModContainer) : AbstractOptiGuiClient(), IConfigScreenFactory {
     init {
-        IOptiGuiPlatform.initialize(this)
-        registerNbtFilters()
-        registerLoadTimeNbtSuppliers()
+        super.initialize()
+
         FORGE_BUS.register(NeoForgeInteractionHandler)
         FORGE_BUS.register(NeoForgeAttackHandler)
         FORGE_BUS.register(this)
@@ -48,18 +48,20 @@ internal class OptiGuiClient(modContainer: ModContainer) : IOptiGuiPlatform, ICo
 
     override fun isModInstalled(modId: String) = ModList.get().isLoaded(modId)
 
-    private fun registerNbtFilters() {
-        INbtFilter.Registry.register(">v", NbtVersionFilter.Type.VERSION_GREATER)
-        INbtFilter.Registry.register(">=v", NbtVersionFilter.Type.VERSION_GREATER_EQUAL)
-        INbtFilter.Registry.register("=v", NbtVersionFilter.Type.VERSION_EQUAL)
-        INbtFilter.Registry.register("!=v", NbtVersionFilter.Type.VERSION_NOT_EQUAL)
-        INbtFilter.Registry.register("<=v", NbtVersionFilter.Type.VERSION_LESS_EQUAL)
-        INbtFilter.Registry.register("<v", NbtVersionFilter.Type.VERSION_LESS)
-        INbtFilter.Registry.register("~v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MINOR)
-        INbtFilter.Registry.register("^v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MAJOR)
+    override fun registerNbtFilters() {
+        super.registerNbtFilters()
+        INbtFilter.register(">v", NbtVersionFilter.Type.VERSION_GREATER)
+        INbtFilter.register(">=v", NbtVersionFilter.Type.VERSION_GREATER_EQUAL)
+        INbtFilter.register("=v", NbtVersionFilter.Type.VERSION_EQUAL)
+        INbtFilter.register("!=v", NbtVersionFilter.Type.VERSION_NOT_EQUAL)
+        INbtFilter.register("<=v", NbtVersionFilter.Type.VERSION_LESS_EQUAL)
+        INbtFilter.register("<v", NbtVersionFilter.Type.VERSION_LESS)
+        INbtFilter.register("~v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MINOR)
+        INbtFilter.register("^v", NbtVersionFilter.Type.VERSION_SAME_TO_NEXT_MAJOR)
     }
 
-    private fun registerLoadTimeNbtSuppliers() {
+    override fun registerLoadTimeNbtProviders() {
+        super.registerLoadTimeNbtProviders()
         ILoadTimeNbtProvider.register("mods", NeoForgeModsNbtProvider(this))
     }
 
@@ -76,7 +78,7 @@ internal class OptiGuiClient(modContainer: ModContainer) : IOptiGuiPlatform, ICo
 
     @SubscribeEvent
     fun afterScreenInit(event: ScreenEvent.Init.Post) {
-        if (event.screen is ITextureChangeableScreen && IConfig.get().enableInspector) {
+        if (event.screen is ITextureChangeableScreen && config.enableInspector()) {
             event.addListener(NeoForgeInspectorWidget())
         }
     }
@@ -91,7 +93,5 @@ internal class OptiGuiClient(modContainer: ModContainer) : IOptiGuiPlatform, ICo
         TextureChanger.renderingScreen = false
     }
 
-    override fun createScreen(container: ModContainer, modListScreen: Screen) =
-        IConfig.createConfigScreen(modListScreen)
+    override fun createScreen(container: ModContainer, modListScreen: Screen) = ConfigScreen(modListScreen)
 }
-

@@ -4,14 +4,14 @@ import net.minecraft.world.InteractionHand
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
-import opekope2.optigui.config.IConfig
+import opekope2.optigui.config.config
 import opekope2.optigui.interaction.*
 
 internal object NeoForgeAttackHandler {
     @SubscribeEvent
     fun attackBlock(event: PlayerInteractEvent.LeftClickBlock) {
         if (!event.level.isClientSide) return
-        if (!IConfig.get().interactWithAttackKey) return
+        if (!config.interactWithAttackKey()) return
 
         val pos = event.pos
         val world = event.level
@@ -26,7 +26,7 @@ internal object NeoForgeAttackHandler {
     @SubscribeEvent
     fun attackEntity(event: AttackEntityEvent) {
         if (!event.entity.level().isClientSide) return
-        if (!IConfig.get().interactWithAttackKey) return
+        if (!config.interactWithAttackKey()) return
 
         InteractionManager.prepare(EntityInteraction.factory(event.target, event.entity, InteractionHand.MAIN_HAND))
     }
@@ -34,7 +34,7 @@ internal object NeoForgeAttackHandler {
     @SubscribeEvent
     fun attackWithItem(event: PlayerInteractEvent.LeftClickEmpty) {
         if (!event.level.isClientSide) return
-        if (!IConfig.get().interactWithAttackKey) return
+        if (!config.interactWithAttackKey()) return
 
         val player = event.entity
 

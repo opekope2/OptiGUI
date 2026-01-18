@@ -14,23 +14,23 @@ logoFile = "icon.png"
 logoBlur = false
 features = { java_version = "[$java,)" }
 credits = '''
+Creeperucan
 dirtTW
-notlin4
-Lucanoria
-LyriaWintona
-RoberbufDx8105
-NuruddinPlays
 gorr0w7
+Lucanoria
+lumiscosity
+LyriaWintona
+Nadios_kox
+notlin4
+NuruddinPlays
+RoberbufDx8105
+Texaliuz
 '''
 authors = "opekope2"
 displayURL = "https://opekope2.dev/OptiGUI"
 
 [[mixins]]
 config = "optigui.mixins.json"
-
-[[dependencies.optigui]]
-modId = "cloth_config"
-versionRange = "[$cloth_config,)"
 
 [[dependencies.optigui]]
 modId = "kotlinforforge"
@@ -48,8 +48,12 @@ versionRange = "[$neoforge,)"
 modId = "optigui_screen_api"
 versionRange = "[$version,)"
 
+[[dependencies.optigui]]
+modId = "owo"
+versionRange = "[$owo_neoforge,)"
+
 [mc-publish]
 dependencies = [
-    "cloth-config@$cloth_config",
+    "owo-lib@$owo_neoforge",
     "kotlin-for-forge@$kotlin_for_forge"
 ]

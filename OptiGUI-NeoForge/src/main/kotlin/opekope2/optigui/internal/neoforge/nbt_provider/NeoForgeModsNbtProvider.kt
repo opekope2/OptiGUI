@@ -4,13 +4,13 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps
 import net.neoforged.fml.ModList
 import net.neoforged.neoforgespi.language.IModInfo
-import opekope2.optigui.internal.neoforge.OptiGuiClient
+import opekope2.optigui.internal.neoforge.NeoForgeOptiGuiClient
 import opekope2.optigui.internal.neoforge.dfu.NightConfigOps
 import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import org.slf4j.LoggerFactory
 import kotlin.jvm.optionals.getOrNull
 
-internal class NeoForgeModsNbtProvider(private val mod: OptiGuiClient) : ILoadTimeNbtProvider {
+internal class NeoForgeModsNbtProvider(private val mod: NeoForgeOptiGuiClient) : ILoadTimeNbtProvider {
     private val logger = LoggerFactory.getLogger(NeoForgeModsNbtProvider::class.java)
     private val suppressedModErrors = mutableSetOf<String>()
 
