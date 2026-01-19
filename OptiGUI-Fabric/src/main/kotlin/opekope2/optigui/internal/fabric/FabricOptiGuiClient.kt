@@ -75,7 +75,7 @@ internal class FabricOptiGuiClient :
         val textureChanger = FabricResourceReloadListener(id, TextureChanger) { IFilterLoader.map { it.key } }
         manager.registerReloadListener(textureChanger)
 
-        for ((id, loader) in IFilterLoader) {
+        for (loader in filterLoaders) {
             manager.registerReloadListener(FabricResourceReloadListener(id, loader, ::emptyList))
         }
     }

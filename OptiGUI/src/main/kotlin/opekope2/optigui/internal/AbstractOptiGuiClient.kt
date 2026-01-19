@@ -23,6 +23,10 @@ import org.jetbrains.annotations.MustBeInvokedByOverriders
 abstract class AbstractOptiGuiClient {
     abstract val version: String
 
+    // Available after initialize()
+    protected lateinit var filterLoaders: List<IFilterLoader>
+        private set
+
     abstract fun isModInstalled(modId: String): Boolean
 
     protected fun initialize() {
@@ -36,7 +40,7 @@ abstract class AbstractOptiGuiClient {
         registerPrefixNbtFilters()
         registerNbtFilters()
         registerLoadTimeNbtProviders()
-        registerFilterLoaders()
+        filterLoaders = listOf(JsonFilterLoader)
     }
 
     @MustBeInvokedByOverriders
@@ -131,11 +135,6 @@ abstract class AbstractOptiGuiClient {
     protected open fun registerLoadTimeNbtProviders() {
         ILoadTimeNbtProvider.register("filters", NbtFilterNamesNbtProvider)
         ILoadTimeNbtProvider.register("prefix_filters", PrefixNbtFilterNamesNbtProvider)
-    }
-
-    @MustBeInvokedByOverriders
-    protected open fun registerFilterLoaders() {
-        JsonFilterLoader.initialize()
     }
 
     @ApiStatus.Internal

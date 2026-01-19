@@ -3,11 +3,13 @@ package opekope2.optigui.internal.neoforge
 import com.google.common.base.Suppliers
 import net.minecraft.client.gui.screens.Screen
 import net.neoforged.api.distmarker.Dist
+import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.ModContainer
 import net.neoforged.fml.ModList
 import net.neoforged.fml.common.Mod
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent
 import net.neoforged.neoforge.client.event.ScreenEvent
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 import net.neoforged.neoforge.event.tick.LevelTickEvent
@@ -26,6 +28,7 @@ import opekope2.optigui.nbt_provider.ILoadTimeNbtProvider
 import opekope2.optigui.screen_api.screen.ITextureChangeableScreen
 import opekope2.optigui.util.MOD_ID
 import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
+import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import kotlin.jvm.optionals.getOrDefault
 
 @Mod(MOD_ID, dist = [Dist.CLIENT])
@@ -36,6 +39,9 @@ internal class NeoForgeOptiGuiClient(modContainer: ModContainer) : AbstractOptiG
         FORGE_BUS.register(NeoForgeInteractionHandler)
         FORGE_BUS.register(NeoForgeAttackHandler)
         FORGE_BUS.register(this)
+        MOD_BUS.addListener(::registerFilterLoaders)
+        // Ensure that all other filter loaders finished applying the loaded resources and set IFilterLoader.filters
+        MOD_BUS.addListener(EventPriority.LOWEST, ::registerTextureChangerFilterLoader)
         modContainer.registerExtensionPoint(IConfigScreenFactory::class.java, this)
     }
 
@@ -63,6 +69,14 @@ internal class NeoForgeOptiGuiClient(modContainer: ModContainer) : AbstractOptiG
     override fun registerLoadTimeNbtProviders() {
         super.registerLoadTimeNbtProviders()
         ILoadTimeNbtProvider.register("mods", NeoForgeModsNbtProvider(this))
+    }
+
+    fun registerFilterLoaders(event: RegisterClientReloadListenersEvent) {
+        for (loader in filterLoaders) event.registerReloadListener(loader)
+    }
+
+    fun registerTextureChangerFilterLoader(event: RegisterClientReloadListenersEvent) {
+        event.registerReloadListener(TextureChanger)
     }
 
     @SubscribeEvent
