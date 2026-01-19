@@ -52,6 +52,8 @@ internal class NeoForgeOptiGuiClient(modContainer: ModContainer) : AbstractOptiG
 
     override val version = modContainer.modInfo.version.toString()
 
+    override val isInitialized: Boolean = true // Only false if something in the constructor crashes
+
     override fun isModInstalled(modId: String) = ModList.get().isLoaded(modId)
 
     override fun registerNbtFilters() {

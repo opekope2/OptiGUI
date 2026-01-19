@@ -23,6 +23,8 @@ import org.jetbrains.annotations.MustBeInvokedByOverriders
 abstract class AbstractOptiGuiClient {
     abstract val version: String
 
+    abstract val isInitialized: Boolean
+
     // Available after initialize()
     protected lateinit var filterLoaders: List<IFilterLoader>
         private set

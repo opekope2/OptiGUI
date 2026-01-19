@@ -40,6 +40,9 @@ internal class FabricOptiGuiClient :
     ScreenEvents.AfterRender {
     override val version = FabricLoader.getInstance().getModContainer(MOD_ID).getOrNull()?.metadata?.version.toString()
 
+    override var isInitialized: Boolean = false
+        private set
+
     override fun isModInstalled(modId: String) = FabricLoader.getInstance().isModLoaded(modId)
 
     override fun onInitializeClient() {
@@ -51,6 +54,7 @@ internal class FabricOptiGuiClient :
         ClientTickEvents.END_WORLD_TICK.register(this)
         ClientPlayConnectionEvents.DISCONNECT.register(this)
         ScreenEvents.AFTER_INIT.register(this)
+        isInitialized = true
     }
 
     override fun registerNbtFilters() {
