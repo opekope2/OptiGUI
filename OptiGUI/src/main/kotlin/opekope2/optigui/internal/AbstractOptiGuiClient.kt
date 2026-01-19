@@ -1,6 +1,7 @@
 package opekope2.optigui.internal
 
 import io.wispforest.owo.config.ui.ConfigScreenProviders
+import opekope2.optigui.config.config
 import opekope2.optigui.filter.*
 import opekope2.optigui.filter.comparer.INbtComparer.ComparisonResult.*
 import opekope2.optigui.filter.comparer.NbtStringOrNumberComparer
@@ -40,6 +41,7 @@ abstract class AbstractOptiGuiClient {
 
     @MustBeInvokedByOverriders
     protected open fun registerConfig() {
+        config.initialize()
         ConfigScreenProviders.register(MOD_ID, ::ConfigScreen)
     }
 
