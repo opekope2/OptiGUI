@@ -8,8 +8,6 @@ import opekope2.optigui.filter.comparer.INbtComparer
 import opekope2.optigui.filter.comparer.INbtComparer.ComparisonResult.*
 import org.apache.maven.artifact.versioning.ArtifactVersion
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion
-import thedarkcolour.kotlinforforge.neoforge.kotlin.enumSet
-import thedarkcolour.kotlinforforge.neoforge.kotlin.enumSetOf
 import java.util.*
 
 internal class NbtVersionFilter(private val version: ArtifactVersion, override val type: Type) : INbtFilter {
@@ -31,11 +29,12 @@ internal class NbtVersionFilter(private val version: ArtifactVersion, override v
         VERSION_GREATER(MORE),
         VERSION_LESS(LESS),
         VERSION_EQUAL(EQUAL),
-        VERSION_SAME_TO_NEXT_MINOR(enumSetOf(MORE, EQUAL), requireSameMajor = true),
-        VERSION_SAME_TO_NEXT_MAJOR(enumSetOf(MORE, EQUAL), requireSameMajor = true, requireSameMinor = true),
+        VERSION_SAME_TO_NEXT_MINOR(EnumSet.of(MORE, EQUAL), requireSameMajor = true),
+        VERSION_SAME_TO_NEXT_MAJOR(EnumSet.of(MORE, EQUAL), requireSameMajor = true, requireSameMinor = true),
         VERSION_NOT_EQUAL(MORE, LESS);
 
-        constructor(vararg acceptedResults: INbtComparer.ComparisonResult) : this(acceptedResults.toCollection(enumSet()))
+        constructor(vararg acceptedResults: INbtComparer.ComparisonResult) :
+                this(acceptedResults.toCollection(EnumSet.noneOf(INbtComparer.ComparisonResult::class.java)))
 
         override val codec: Codec<NbtVersionFilter> = Codec.STRING.xmap(
             { NbtVersionFilter(DefaultArtifactVersion(it), this) },
