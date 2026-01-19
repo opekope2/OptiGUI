@@ -5,7 +5,7 @@ import opekope2.optigui.buildscript.task.GenerateInternalPackageInfos
 plugins {
     id("opekope2.optigui.buildscript.plugin.Loader")
     alias(libs.plugins.moddev)
-    id("org.jetbrains.kotlin.jvm")
+    kotlin
 }
 
 version = Version.neoForge(libs.versions.optigui, libs.versions.minecraft)
@@ -14,37 +14,6 @@ val commonKotlin by configurations.registering { isCanBeResolved = true }
 
 base {
     archivesName = "optigui-neoforge"
-}
-
-repositories {
-    exclusiveContent {
-        forRepository { maven("https://thedarkcolour.github.io/KotlinForForge/") { name = "Kotlin for Forge" } }
-        filter { includeGroup("thedarkcolour") }
-    }
-}
-
-dependencies {
-    // https://discord.com/channels/313125603924639766/1185197721477468160/1462863046710923422
-    implementation(libs.kfflang)
-    implementation(libs.kfflib)
-    implementation(libs.kffmod)
-
-    commonProject(":OptiGUI", kotlin = true)
-
-    runtimeOnly(libs.ini4j)
-    api(libs.owo.lib.neoforge)
-    accessTransformers(libs.owo.lib.neoforge)
-    interfaceInjectionData(libs.owo.lib.neoforge)
-    runtimeOnly(libs.runefox.json)
-    runtimeOnly(libs.runefox.jsonkt)
-    runtimeOnly(project(":ScreenAPI-NeoForge"))
-    runtimeOnly(project(":ScreenNBT-NeoForge"))
-
-    jarJar(libs.ini4j)
-    jarJar(libs.runefox.json)
-    jarJar(libs.runefox.jsonkt)
-    jarJar(project(":ScreenAPI-NeoForge"))
-    jarJar(project(":ScreenNBT-NeoForge"))
 }
 
 neoForge {
@@ -67,6 +36,44 @@ neoForge {
             sourceSet(sourceSets["main"])
         }
     }
+}
+
+repositories {
+    exclusiveContent {
+        forRepository { maven("https://thedarkcolour.github.io/KotlinForForge/") { name = "Kotlin for Forge" } }
+        filter { includeGroup("thedarkcolour") }
+    }
+}
+
+dependencies {
+    // https://discord.com/channels/313125603924639766/1185197721477468160/1462863046710923422
+    implementation(libs.kfflang)
+    implementation(libs.kfflib)
+    implementation(libs.kffmod)
+
+    commonProject(":OptiGUI", kotlin = true)
+
+    api(libs.owo.lib.neoforge)
+    accessTransformers(libs.owo.lib.neoforge)
+    interfaceInjectionData(libs.owo.lib.neoforge)
+
+    runtimeOnly(libs.ini4j)
+    runtimeOnly(libs.runefox.json)
+    runtimeOnly(libs.runefox.jsonkt)
+    runtimeOnly(project(":ScreenAPI-NeoForge"))
+    runtimeOnly(project(":ScreenNBT-NeoForge"))
+
+    "additionalRuntimeClasspath"(libs.ini4j)
+    "additionalRuntimeClasspath"(libs.runefox.json)
+    "additionalRuntimeClasspath"(libs.runefox.jsonkt)
+    "additionalRuntimeClasspath"(libs.kotlin.stdlib)
+    "additionalRuntimeClasspath"(libs.kotlin.reflect)
+
+    jarJar(libs.ini4j)
+    jarJar(libs.runefox.json)
+    jarJar(libs.runefox.jsonkt)
+    jarJar(project(":ScreenAPI-NeoForge"))
+    jarJar(project(":ScreenNBT-NeoForge"))
 }
 
 tasks {
