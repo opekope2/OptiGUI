@@ -93,7 +93,8 @@ subprojects {
                 "kotlin_for_forge" to libs.versions.kotlinforforge.get(),
                 "minecraft" to libs.versions.minecraft.get(),
                 "java" to libs.versions.java.get(),
-                "owo_lib" to libs.versions.owo.lib.fabric.get(),
+                "owo_fabric" to libs.versions.owo.lib.fabric.get(),
+                "owo_neoforge" to libs.versions.owo.lib.neoforge.get(),
             )
             val commentRegex = """^\s*//.*$""".toRegex()
 

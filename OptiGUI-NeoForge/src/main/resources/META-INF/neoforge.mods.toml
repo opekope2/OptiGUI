@@ -38,7 +38,7 @@ versionRange = "[$kotlin_for_forge,)"
 
 [[dependencies.optigui]]
 modId = "minecraft"
-versionRange = "[$minecraft,)"
+versionRange = "[$minecraft]"
 
 [[dependencies.optigui]]
 modId = "neoforge"

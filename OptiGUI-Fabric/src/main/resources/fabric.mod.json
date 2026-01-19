@@ -105,9 +105,9 @@
     "fabric-language-kotlin": ">=$fabric_language_kotlin",
     "fabricloader": ">=0.15.0",
     "java": ">=$java",
-    "minecraft": ">=$minecraft <1.21.2",
+    "minecraft": ">=1.21 <1.21.2",
     "optigui-screen-api": ">=$version",
-    "owo-lib": ">=$owo_lib"
+    "owo-lib": ">=$owo_fabric"
   },
   "suggests": {
     "modmenu": "*",

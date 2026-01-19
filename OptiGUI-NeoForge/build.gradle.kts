@@ -24,7 +24,10 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.kotlinforforge) { exclude("net.neoforged.fancymodloader", "loader") }
+    // https://discord.com/channels/313125603924639766/1185197721477468160/1462863046710923422
+    implementation(libs.kfflang)
+    implementation(libs.kfflib)
+    implementation(libs.kffmod)
 
     commonProject(":OptiGUI", kotlin = true)
 
