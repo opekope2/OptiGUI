@@ -14,7 +14,7 @@ import org.slf4j.event.LoggingEvent
 import org.slf4j.spi.LoggingEventBuilder
 
 /**
- * A filter supplier that loads [filters][TextureChangerFilter] from resources.
+ * A filter loader that loads [filters][TextureChangerFilter] from resources.
  */
 interface IFilterLoader : PreparableReloadListener {
     /**
@@ -33,7 +33,9 @@ interface IFilterLoader : PreparableReloadListener {
     val filters: Multimap<InteractionTarget, TextureChangerFilter>
 
     /**
-     * Filter supplier registry.
+     * Filter loader registry.
+     * Filter loaders must also be registered using loader-specific APIs and with the same ID as registered here.
+     * On NeoForge, filter loaders must be registered to the loader above the `LOWEST` priority.
      */
     companion object Registry : RegistryBase<ResourceLocation, IFilterLoader>() {
         @JvmStatic

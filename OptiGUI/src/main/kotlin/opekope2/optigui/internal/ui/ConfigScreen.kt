@@ -13,9 +13,11 @@ import opekope2.optigui.util.MOD_ID
 import opekope2.optigui.util.expandTemplate
 import opekope2.optigui.util.mc
 import opekope2.optigui.util.requireChildById
+import org.jetbrains.annotations.ApiStatus
 import io.wispforest.owo.config.ui.ConfigScreen as OwoConfigScreen
 
-internal class ConfigScreen(parent: Screen?) : OwoConfigScreen(MODEL_ID, config, parent) {
+@ApiStatus.Internal
+class ConfigScreen(parent: Screen?) : OwoConfigScreen(MODEL_ID, config, parent) {
     private val rootComponent get() = uiAdapter.rootComponent
     private val toolsButton by requireChildById<ButtonComponent>(::rootComponent)
     private var contextMenu: DropdownComponent? = null

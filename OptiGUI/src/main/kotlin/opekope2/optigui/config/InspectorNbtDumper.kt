@@ -1,10 +1,10 @@
 package opekope2.optigui.config
 
 import com.mojang.datafixers.util.Pair
-import dev.runefox.json.JsonArray
 import dev.runefox.json.JsonNode
-import dev.runefox.json.JsonObject
-import dev.runefox.json.JsonString
+import dev.runefox.json.kt.JsonArray
+import dev.runefox.json.kt.JsonObject
+import dev.runefox.json.kt.JsonString
 import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.Tag
 import net.minecraft.network.chat.Style

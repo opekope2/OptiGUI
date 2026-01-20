@@ -8,6 +8,7 @@ import net.minecraft.world.InteractionHand;
 import opekope2.optigui.interaction.GeneralInteraction;
 import opekope2.optigui.interaction.InteractionManager;
 import opekope2.optigui.interaction.InteractionTarget;
+import opekope2.optigui.internal.AbstractOptiGuiClient;
 import opekope2.optigui.internal.ui.ResourceLoadingLogScreen;
 import opekope2.optigui.screen_api.screen.ITextureChangeableScreen;
 import org.jspecify.annotations.Nullable;
@@ -47,6 +48,8 @@ public abstract class MinecraftMixin {
 
     @Inject(method = "addInitialScreens", at = @At("TAIL"))
     private void showResourceLoadingErrors(List<Function<Runnable, Screen>> list, CallbackInfo ci) {
+        if (!AbstractOptiGuiClient.getImplementation().isInitialized())
+            return; // Otherwise NeoForge will get stuck on "Loading Minecraft" screen
         if (ResourceLoadingLogScreen.shouldShow()) list.add(ResourceLoadingLogScreen::new);
     }
 

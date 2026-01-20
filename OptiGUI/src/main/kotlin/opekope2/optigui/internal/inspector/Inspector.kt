@@ -1,7 +1,7 @@
 package opekope2.optigui.internal.inspector
 
 import dev.runefox.json.JsonNode
-import dev.runefox.json.JsonObject
+import dev.runefox.json.kt.JsonObject
 import opekope2.optigui.config.config
 import opekope2.optigui.interaction.IInteraction
 import opekope2.optigui.interaction.InteractionTarget
@@ -11,7 +11,7 @@ import opekope2.optigui.util.JSON_RESOURCE_SCHEMA_URL
 
 internal object Inspector {
     fun generateJsonResource(interaction: IInteraction) = JsonObject {
-        it["\$schema"] = JSON_RESOURCE_SCHEMA_URL
+        it[$$"$schema"] = JSON_RESOURCE_SCHEMA_URL
         it.addTarget(interaction.target)
         it[JsonFilterResource.TEXTURE_CHANGERS_KEY] = getLastRenderedTextures()
         it[JsonFilterResource.SPRITE_CHANGERS_KEY] = getLastRenderedSprites()

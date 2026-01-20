@@ -1,6 +1,7 @@
 package opekope2.optigui.internal
 
 import io.wispforest.owo.config.ui.ConfigScreenProviders
+import opekope2.optigui.config.config
 import opekope2.optigui.filter.*
 import opekope2.optigui.filter.comparer.INbtComparer.ComparisonResult.*
 import opekope2.optigui.filter.comparer.NbtStringOrNumberComparer
@@ -22,6 +23,12 @@ import org.jetbrains.annotations.MustBeInvokedByOverriders
 abstract class AbstractOptiGuiClient {
     abstract val version: String
 
+    abstract val isInitialized: Boolean
+
+    // Available after initialize()
+    protected lateinit var filterLoaders: List<IFilterLoader>
+        private set
+
     abstract fun isModInstalled(modId: String): Boolean
 
     protected fun initialize() {
@@ -35,11 +42,12 @@ abstract class AbstractOptiGuiClient {
         registerPrefixNbtFilters()
         registerNbtFilters()
         registerLoadTimeNbtProviders()
-        registerFilterLoaders()
+        filterLoaders = listOf(JsonFilterLoader)
     }
 
     @MustBeInvokedByOverriders
     protected open fun registerConfig() {
+        config.initialize()
         ConfigScreenProviders.register(MOD_ID, ::ConfigScreen)
     }
 
@@ -129,11 +137,6 @@ abstract class AbstractOptiGuiClient {
     protected open fun registerLoadTimeNbtProviders() {
         ILoadTimeNbtProvider.register("filters", NbtFilterNamesNbtProvider)
         ILoadTimeNbtProvider.register("prefix_filters", PrefixNbtFilterNamesNbtProvider)
-    }
-
-    @MustBeInvokedByOverriders
-    protected open fun registerFilterLoaders() {
-        JsonFilterLoader.initialize()
     }
 
     @ApiStatus.Internal

@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -44,7 +45,7 @@ subprojects {
             filter { includeGroup("dev.runefox") }
         }
         exclusiveContent {
-            forRepository { maven("https://maven.su5ed.dev/releases") { name = "Sinytra" } }
+            forRepository { maven("https://maven.sinytra.org") { name = "Sinytra" } }
             filter { includeGroup("org.sinytra"); includeGroup("org.sinytra.forgified-fabric-api") }
         }
         exclusiveContent {
@@ -74,8 +75,9 @@ subprojects {
 
         withType<KotlinCompile>().configureEach {
             compilerOptions {
+                jvmDefault = JvmDefaultMode.NO_COMPATIBILITY
                 jvmTarget = libs.versions.java.map(JvmTarget::fromTarget)
-                freeCompilerArgs.addAll("-Xjvm-default=all", "-Xjsr305=strict")
+                freeCompilerArgs.add("-Xjsr305=strict")
             }
         }
 
@@ -89,14 +91,18 @@ subprojects {
                 "fabric_loader" to libs.versions.fabric.loader.get(),
                 "fabric_api" to libs.versions.fabric.api.get(),
                 "fabric_language_kotlin" to libs.versions.fabric.language.kotlin.get(),
+                "neoforge" to libs.versions.neoforge.get(),
+                "kotlin_for_forge" to libs.versions.kotlinforforge.get(),
                 "minecraft" to libs.versions.minecraft.get(),
                 "java" to libs.versions.java.get(),
-                "owo_lib" to libs.versions.owo.lib.fabric.get(),
+                "owo_fabric" to libs.versions.owo.lib.fabric.get(),
+                "owo_neoforge" to libs.versions.owo.lib.neoforge.get(),
             )
             val commentRegex = """^\s*//.*$""".toRegex()
 
             inputs.properties(properties)
             filesMatching("fabric.mod.json") { expand(properties) }
+            filesMatching("META-INF/neoforge.mods.toml") { expand(properties) }
             filesMatching("*.mixins.json") { expand(properties) }
             filesMatching("assets/optigui/lang/*.jsonc") {
                 name = name.removeSuffix("c")

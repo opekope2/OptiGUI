@@ -1,0 +1,29 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+issueTrackerURL = "https://github.com/opekope2/OptiGUI/issues"
+license = "LGPL-3.0-or-later"
+
+[[mods]]
+modId = "optigui_screen_api"
+version = "$version"
+displayName = "OptiGUI Screen API"
+description = '''
+OptiGUI Screen API allows developers to add OptiGUI compatibility to GUI screens.
+OptiGUI Screen API makes relevant vanilla GUI screens compatible with OptiGUI.
+'''
+logoFile = "icon.png"
+logoBlur = false
+features = { java_version = "[$java,)" }
+authors = "opekope2"
+displayURL = "https://opekope2.dev/OptiGUI"
+
+[[mixins]]
+config = "optigui-screen-api.mixins.json"
+
+[[dependencies.optigui_screen_api]]
+modId = "neoforge"
+versionRange = "[$neoforge,)"
+
+[[dependencies.optigui_screen_api]]
+modId = "minecraft"
+versionRange = "[$minecraft,)"
