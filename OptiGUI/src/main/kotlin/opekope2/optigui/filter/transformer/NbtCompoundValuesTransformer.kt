@@ -10,7 +10,7 @@ import net.minecraft.nbt.Tag
  * @see CompoundTag.get
  */
 data object NbtCompoundValuesTransformer : INbtTransformer {
-    override fun transform(nbt: Tag, root: Tag) =
+    override fun transform(nbt: Tag, root: Tag): ListTag? =
         if (nbt !is CompoundTag) null
         else ListTag().apply {
             // Collection::mapTo uses MutableCollection::add

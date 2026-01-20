@@ -88,7 +88,7 @@ abstract class GenerateWorldNbtProvider : AbstractCodegenTask() {
                 classLoader.loadClass("net.minecraft.world.level.Level"),
                 levelExcludedMethods
             ) - "getLevelData",
-            "net.minecraft.client.multiplayer.ClientLevel\$ClientLevelData" to levelDataExcludedMethods + getMethodNames(
+            $$"net.minecraft.client.multiplayer.ClientLevel$ClientLevelData" to levelDataExcludedMethods + getMethodNames(
                 classLoader.loadClass("net.minecraft.world.level.storage.LevelData"),
                 levelDataExcludedMethods
             ),

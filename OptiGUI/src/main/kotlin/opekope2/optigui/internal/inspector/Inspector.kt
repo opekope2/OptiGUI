@@ -11,7 +11,7 @@ import opekope2.optigui.util.JSON_RESOURCE_SCHEMA_URL
 
 internal object Inspector {
     fun generateJsonResource(interaction: IInteraction) = JsonObject {
-        it["\$schema"] = JSON_RESOURCE_SCHEMA_URL
+        it[$$"$schema"] = JSON_RESOURCE_SCHEMA_URL
         it.addTarget(interaction.target)
         it[JsonFilterResource.TEXTURE_CHANGERS_KEY] = getLastRenderedTextures()
         it[JsonFilterResource.SPRITE_CHANGERS_KEY] = getLastRenderedSprites()

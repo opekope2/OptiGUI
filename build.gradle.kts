@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -74,8 +75,9 @@ subprojects {
 
         withType<KotlinCompile>().configureEach {
             compilerOptions {
+                jvmDefault = JvmDefaultMode.NO_COMPATIBILITY
                 jvmTarget = libs.versions.java.map(JvmTarget::fromTarget)
-                freeCompilerArgs.addAll("-Xjvm-default=all", "-Xjsr305=strict")
+                freeCompilerArgs.add("-Xjsr305=strict")
             }
         }
 
