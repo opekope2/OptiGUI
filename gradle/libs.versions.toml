@@ -19,7 +19,7 @@ ini4j = "0.5.4"
 jspecify = "1.0.0"
 owo-lib-fabric = "0.12.15.1+1.21"
 owo-lib-neoforge = "0.12.15.1-beta.1+1.21"
-runefox-json = "0.8"
+runefox-json = "0.8.1"
 
 [libraries]
 kotlin-jvm-gradle-plugin = { group = "org.jetbrains.kotlin.jvm", name = "org.jetbrains.kotlin.jvm.gradle.plugin", version.ref = "kotlin" }

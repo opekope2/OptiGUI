@@ -1,7 +1,7 @@
 package opekope2.optigui.internal.inspector
 
 import dev.runefox.json.JsonNode
-import dev.runefox.json.JsonObject
+import dev.runefox.json.kt.JsonObject
 import opekope2.optigui.config.config
 import opekope2.optigui.interaction.IInteraction
 import opekope2.optigui.interaction.InteractionTarget

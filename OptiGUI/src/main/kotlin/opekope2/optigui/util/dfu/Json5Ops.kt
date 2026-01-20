@@ -2,7 +2,8 @@ package opekope2.optigui.util.dfu
 
 import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.*
-import dev.runefox.json.*
+import dev.runefox.json.JsonNode
+import dev.runefox.json.kt.*
 import java.util.*
 import java.util.Spliterator.*
 import java.util.function.BiConsumer
@@ -14,6 +15,7 @@ import java.util.stream.StreamSupport
 /**
  * JSON 5 pps for [JsonNode].
  */
+@OptIn(ExperimentalKotlinJsonNodeApi::class)
 object Json5Ops : DynamicOps<JsonNode> {
     private fun JsonNode?.takeIfNotNull() = this?.takeIf { !isNull }
 

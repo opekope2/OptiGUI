@@ -4,9 +4,10 @@ import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.RecordBuilder
 import dev.runefox.json.JsonNode
-import dev.runefox.json.JsonNumber
-import dev.runefox.json.JsonObject
-import dev.runefox.json.copy
+import dev.runefox.json.kt.ExperimentalKotlinJsonNodeApi
+import dev.runefox.json.kt.JsonNumber
+import dev.runefox.json.kt.JsonObject
+import dev.runefox.json.kt.copy
 import net.minecraft.nbt.Tag
 import net.minecraft.resources.DelegatingOps
 import opekope2.optigui.filter.transformer.NbtTypeTransformer
@@ -77,6 +78,7 @@ internal class JsonInspectorOps private constructor(private val withType: Boolea
 
         override fun initBuilder() = create(Tag.TAG_COMPOUND)
 
+        @OptIn(ExperimentalKotlinJsonNodeApi::class)
         override fun build(builder: JsonNode, prefix: JsonNode): DataResult<JsonNode> = when {
             prefix.isNull -> success(builder)
             prefix.isObject -> success(prefix.copy { builder.forEachEntry(it::set) })
