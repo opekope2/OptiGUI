@@ -1,0 +1,107 @@
+{
+  "optigui.enum.InspectorNbtDumpOption.DISABLED": "Désactivé",
+  "optigui.enum.InspectorNbtDumpOption.VALUES_AND_TYPES": "Valeurs et types",
+  "optigui.enum.InspectorNbtDumpOption.VALUES_ONLY": "Valeurs uniquement",
+
+  "optigui.enum.ResourceLoadingErrorFilter.ERRORS_AND_WARNINGS": "Erreurs et avertissements",
+  "optigui.enum.ResourceLoadingErrorFilter.ERRORS_ONLY": "Erreurs uniquement",
+  "optigui.enum.ResourceLoadingErrorFilter.NOTHING": "Jamais",
+
+  "optigui.gui.rp_converter.conversion_fail": "OptiGUI n’a pas pu convertir certaines ressources",
+  "optigui.gui.rp_converter.conversion_success": "Pack de ressources converti avec succès",
+  "optigui.gui.rp_converter.convert": "Convertir le pack de ressources",
+  "optigui.gui.rp_converter.convert_ini": "Convertir les fichiers INI d’OptiGUI",
+  "optigui.gui.rp_converter.convert_properties": "Convertir les fichiers \".properties\" d’OptiFine",
+  "optigui.gui.rp_converter.converting": "Conversion du pack de ressources",
+  "optigui.gui.rp_converter.description": "Convertit les fichiers \".properties\" d’OptiFine et les fichiers INI d’OptiGUI en ressources JSON OptiGUI",
+  "optigui.gui.rp_converter.output_file": "Nom du fichier de sortie",
+  "optigui.gui.rp_converter.target_namespace": "Espace de noms cible",
+  "optigui.gui.rp_converter.title": "Convertisseur de packs de ressources OptiGUI",
+
+  "optigui.gui.rp_loader.copy_to_clipboard": "Copier dans le presse-papiers",
+  "optigui.gui.rp_loader.do_not_show_again": "Ne plus afficher",
+  "optigui.gui.rp_loader.do_not_show_again.tooltip": "Vous pouvez modifier ce paramètre à tout moment dans les options d’OptiGUI",
+  "optigui.gui.rp_loader.load_fail": "OptiGUI n’a pas pu charger certaines ressources",
+  "optigui.gui.rp_loader.unknown_pack": "Pack de ressources inconnu",
+  "optigui.gui.rp_loader.unknown_resource": "Ressource inconnue",
+
+  "optigui.inspector": "Inspecteur OptiGUI",
+  "optigui.inspector.description": "Cliquez pour générer une ressource JSON",
+  "optigui.inspector.description.clicked": "Ressource JSON copiée dans le presse-papiers",
+  "optigui.inspector.description.debug": "Cliquez pour ouvrir le débogueur de filtres",
+  "optigui.inspector.description.debug.clicked": "Collecte des données de débogage",
+  "optigui.inspector.description.debug.clicked.error": "Erreur lors de la collecte des données de débogage",
+  "optigui.inspector.description.debug.clicked.success": "Débogueur de filtres ouvert dans votre navigateur",
+  "optigui.inspector.description.hide": "Vous pouvez masquer ceci dans les paramètres d’OptiGUI",
+  "optigui.inspector.key.more_info": "Maintenez %s pour plus d’informations",
+  "optigui.inspector.nbt_dumping_disabled": "L’export NBT est désactivé dans les paramètres d’OptiGUI",
+  "optigui.inspector.title": "OptiGUI (%s)",
+  "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
+  "optigui.inspector.title.beta": "OptiGUI bêta (%s)",
+  "optigui.inspector.title.custom_textures": "textures personnalisées",
+  "optigui.inspector.title.original_textures": "textures originales",
+
+  "optigui.narration.rp_loader.error": "Erreur dans la ressource %s : %s",
+  "optigui.narration.rp_loader.error_list": "Liste des erreurs",
+  "optigui.narration.rp_loader.resource_pack": "Erreurs dans le pack de ressources %s",
+  "optigui.narration.rp_loader.warning": "Avertissement dans la ressource %s : %s",
+
+  "optigui.rp_loader.info.load_success": "Ressource chargée",
+  "optigui.rp_loader.info.load_time_filtered": "Ressource ignorée en raison du filtre de chargement",
+  "optigui.rp_loader.info.loading_resource": "Chargement de la ressource",
+
+  "optigui.rp_loader.warn.missing_sprites": "Sprites manquants : %s",
+  "optigui.rp_loader.warn.missing_textures": "Textures manquantes : %s",
+  "optigui.rp_loader.warn.newest_supported_json_format": "format le plus récent pris en charge",
+  "optigui.rp_loader.warn.no_interaction_target": "Aucune cible d’interaction (blocks, entities, items, inventory ou unknown) n’a été spécifiée",
+  "optigui.rp_loader.warn.no_textures_or_sprites": "Aucune texture ou sprite valide spécifié",
+  "optigui.rp_loader.warn.unsupported_json_format": "Format de ressource JSON non pris en charge",
+
+  "optigui.validation.error.duplicate_filters": "Filtres dupliqués : %s",
+  "optigui.validation.error.empty_map": "Carte vide",
+  "optigui.validation.error.no_filter": "Aucun filtre trouvé : %s",
+  "optigui.validation.error.no_filter_type": "Aucun type de filtre trouvé : %s",
+  "optigui.validation.error.not_a_number": "Ce n’est pas un nombre : %s",
+  "optigui.validation.error.not_a_number_or_string": "Ce n’est pas un nombre ou une chaîne : %s",
+  "optigui.validation.error.not_a_relative_identifier": "Emplacement de ressource non relatif : %s",
+  "optigui.validation.error.not_an_nbt_transformer": "Transformateur NBT invalide : %s",
+  "optigui.validation.error.of_incompatible_variants": "Variantes incompatibles : %s",
+  "optigui.validation.error.of_invalid_bool": "Valeur booléenne invalide : %s",
+  "optigui.validation.error.of_invalid_profession": "Profession de villageois invalide : %s",
+  "optigui.validation.error.of_invalid_range": "Plage invalide : %s",
+  "optigui.validation.error.of_texture_required": "Au moins une texture ou un texture.PATH est requis",
+  "optigui.validation.error.unsupported_filter": "Filtre non pris en charge : %s",
+  "optigui.validation.error.wrong_filter_type": "Type de filtre attendu : %s, reçu : %s",
+
+  "text.autoconfig.optigui.category.inspector": "Inspecteur",
+  "text.autoconfig.optigui.category.interaction": "Interaction",
+  "text.autoconfig.optigui.category.resourceLoading": "Chargement des ressources",
+  "text.autoconfig.optigui.category.utils": "Utilitaires",
+
+  "text.autoconfig.optigui.option.dumpNbt": "Exporter le NBT",
+  "text.autoconfig.optigui.option.dumpNbt.@Tooltip": "Inclure les données NBT dans les ressources JSON générées",
+
+  "text.autoconfig.optigui.option.enableInspector": "Activer l’inspecteur",
+  "text.autoconfig.optigui.option.enableInspector.@Tooltip": "Afficher un bouton d’inspecteur sur les écrans d’inventaire compatibles",
+
+  "text.autoconfig.optigui.option.errorsAndWarnings": "Logs de chargement des ressources",
+  "text.autoconfig.optigui.option.errorsAndWarnings.@Tooltip": "Afficher les erreurs et avertissements survenus lors du chargement des ressources",
+  "text.autoconfig.optigui.option.errorsAndWarnings.button": "Voir",
+
+  "text.autoconfig.optigui.option.interactWithAttackKey": "Interagir via la touche d’attaque",
+  "text.autoconfig.optigui.option.interactWithAttackKey.@Tooltip[0]": "En plus de la touche d’utilisation, attaquer déclenche aussi une interaction",
+  "text.autoconfig.optigui.option.interactWithAttackKey.@Tooltip[1]": "§8Certains serveurs peuvent ouvrir un menu lors d'une attaque sur une entité",
+
+  "text.autoconfig.optigui.option.keepInteractionFactory": "Mémoriser la dernière interaction",
+  "text.autoconfig.optigui.option.keepInteractionFactory.@Tooltip[0]": "Ne pas terminer l’interaction quand l’écran se ferme",
+  "text.autoconfig.optigui.option.keepInteractionFactory.@Tooltip[1]": "§8Certains serveurs peuvent enchaîner plusieurs menus",
+
+  "text.autoconfig.optigui.option.resourcePackConverter": "Convertisseur de packs de ressources",
+  "text.autoconfig.optigui.option.resourcePackConverter.@Tooltip": "Convertit les propriétés OptiFine et les fichiers INI d’OptiGUI en ressources JSON OptiGUI",
+  "text.autoconfig.optigui.option.resourcePackConverter.button": "Ouvrir",
+
+  "text.autoconfig.optigui.option.showResourceLoadingErrors": "Afficher les logs de chargement des ressources",
+  "text.autoconfig.optigui.option.showResourceLoadingErrors.@Tooltip": "Afficher les logs lorsque OptiGUI échoue à charger une ressource",
+
+  "text.autoconfig.optigui.title": "Paramètres OptiGUI"
+}
