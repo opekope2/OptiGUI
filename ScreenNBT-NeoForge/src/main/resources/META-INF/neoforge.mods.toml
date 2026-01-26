@@ -1,0 +1,28 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+issueTrackerURL = "https://github.com/opekope2/OptiGUI/issues"
+license = "LGPL-3.0-or-later"
+
+[[mods]]
+modId = "optigui_screen_nbt"
+version = "$version"
+displayName = "OptiGUI Screen NBT"
+description = '''
+OptiGUI Screen NBT mod provides GUI screen information as NBT, which can be filtered with JSON resources.
+'''
+logoFile = "icon.png"
+logoBlur = false
+features = { java_version = "[$java,)" }
+authors = "opekope2"
+displayURL = "https://opekope2.dev/OptiGUI"
+
+[[mixins]]
+config = "optigui-screen-nbt.mixins.json"
+
+[[dependencies.optigui_screen_nbt]]
+modId = "neoforge"
+versionRange = "[$neoforge,)"
+
+[[dependencies.optigui_screen_nbt]]
+modId = "minecraft"
+versionRange = "[$minecraft,)"

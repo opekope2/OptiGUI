@@ -2,10 +2,9 @@ package opekope2.optigui.filter
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.transformer.NbtListIndexTransformer
 import opekope2.optigui.filter.transformer.SubNbtTransformer
-import opekope2.optigui.internal.I18n
 import opekope2.optigui.util.AggregateOperator
 import opekope2.optigui.util.NbtFilterEvaluation
 import opekope2.optigui.util.collections.LinkedMruCollection
@@ -18,13 +17,13 @@ import opekope2.optigui.util.collections.LinkedMruCollection
  * @see NbtListFilter
  */
 class AggregateFilter(val filters: LinkedMruCollection<INbtFilter>, override val type: Type) : INbtFilter {
-    override fun test(nbt: NbtElement, root: NbtElement): Boolean {
+    override fun test(nbt: Tag, root: Tag): Boolean {
         val operator = type.operator
         return if (filters.promoteFirst { operator shortCircuitsOn it.test(nbt, root) }) operator.shortCircuitResult
         else !operator.shortCircuitResult
     }
 
-    override fun testSubFilters(nbt: NbtElement?, root: NbtElement) = filters.map { NbtFilterEvaluation(it, nbt, root) }
+    override fun testSubFilters(nbt: Tag?, root: Tag) = filters.map { NbtFilterEvaluation(it, nbt, root) }
 
     override fun asString() = type.operator.toString()
 
@@ -37,94 +36,49 @@ class AggregateFilter(val filters: LinkedMruCollection<INbtFilter>, override val
         /**
          * An [AggregateFilter] type, which requires all filters to return `false`.
          */
-        NONE_OF(AggregateOperator.NONE_OF),
+        NONE_OF(AggregateOperator.NONE),
 
         /**
          * An [AggregateFilter] type, which requires at least one filter to return `true`.
          */
-        ANY_OF(AggregateOperator.ANY_OF),
+        ANY_OF(AggregateOperator.ANY),
 
         /**
          * An [AggregateFilter] type, which requires at least one filter to return `false`.
          */
-        SOME_OF(AggregateOperator.SOME_OF),
+        SOME_OF(AggregateOperator.SOME),
 
         /**
          * An [AggregateFilter] type, which requires all filters to return `true`.
          */
-        ALL_OF(AggregateOperator.ALL_OF),
+        ALL_OF(AggregateOperator.ALL),
 
         /**
          * An [AggregateFilter] type, which requires all filters to return `false`, and serializes to and from a map
          * instead of a list. The map format is the only way to serialize and deserialize [SubNbtTransformer] and
          * [NbtListIndexTransformer] filters.
          */
-        JSON_OBJECT(AggregateOperator.ALL_OF) {
+        JSON_OBJECT(AggregateOperator.ALL) {
             override val codec: Codec<AggregateFilter> =
-                Codec.dispatchedMap(INbtFilter.keyCodec) { INbtFilter.getType(it).codec }.xmap(
+                Codec.dispatchedMap(INbtFilter.TYPE_CODEC, INbtFilter.IType<*>::codec).xmap(
                     { AggregateFilter(LinkedMruCollection(it.values), this) },
-                    { filter -> filter.filters.associateBy { INbtFilter.getKey(it.type) } }
+                    { it.filters.associateBy(INbtFilter::type) }
                 ).validate(::validate)
 
             private fun validate(filter: AggregateFilter): DataResult<AggregateFilter> {
-                val missing = filter.filters.filter { !INbtFilter.containsType(it.type) }
-                if (missing.isNotEmpty()) return DataResult.error {
-                    I18n.OPTIGUI_VALIDATION_ERROR_NO_FILTER_TYPE.getTranslation(missing.joinToString { it.type.toString() })
-                }
+                val missing = filter.filters.filter { !it.type.isRegistered }
+                if (missing.isNotEmpty()) return DataResult.error { "Filter type not registered: " + missing.joinToString { it.type.toString() } }
 
-                val duplicates =
-                    filter.filters.groupingBy { INbtFilter.getKey(it.type) }.eachCount().filter { it.value > 1 }.keys
-                if (duplicates.isNotEmpty()) return DataResult.error {
-                    I18n.OPTIGUI_VALIDATION_ERROR_DUPLICATE_FILTERS.getTranslation(duplicates.joinToString())
-                }
+                val duplicates = filter.filters.groupingBy { it.type.key }.eachCount().filter { it.value > 1 }.keys
+                if (duplicates.isNotEmpty()) return DataResult.error { "Duplicate filters: " + duplicates.joinToString() }
 
                 return DataResult.success(filter)
             }
         };
 
-        override val codec: Codec<AggregateFilter> = INbtFilter.listCodec.xmap(
+        override val codec: Codec<AggregateFilter> = INbtFilter.LIST_CODEC.xmap(
             { AggregateFilter(LinkedMruCollection(it), this) },
             { it.filters.toList() }
         )
-    }
-
-    companion object {
-        /**
-         * Matches only if no filters match in the collection. Matches if [filters][filters] [is empty][isEmpty].
-         *
-         * @param filters The filters to evaluate
-         */
-        @JvmStatic
-        fun noneOf(filters: Collection<INbtFilter>) =
-            AggregateFilter(LinkedMruCollection(filters), Type.NONE_OF)
-
-        /**
-         * Matches if at least 1 filter matches in the collection. Doesn't match if [filters][filters]
-         * [is empty][isEmpty].
-         *
-         * @param filters The filters to evaluate
-         */
-        @JvmStatic
-        fun anyOf(filters: Collection<INbtFilter>) =
-            AggregateFilter(LinkedMruCollection(filters), Type.ANY_OF)
-
-        /**
-         * Matches if 0 or more, but not all filters match in the collection. Doesn't match if [filters][filters]
-         * [is empty][isEmpty].
-         *
-         * @param filters The filters to evaluate
-         */
-        @JvmStatic
-        fun someOf(filters: Collection<INbtFilter>) =
-            AggregateFilter(LinkedMruCollection(filters), Type.SOME_OF)
-
-        /**
-         * Matches if every single filter matches in the collection. Matches if [filters][filters] [is empty][isEmpty].
-         *
-         * @param filters The filters to evaluate
-         */
-        @JvmStatic
-        fun allOf(filters: Collection<INbtFilter>) =
-            AggregateFilter(LinkedMruCollection(filters), Type.ALL_OF)
     }
 }

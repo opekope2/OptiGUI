@@ -1,9 +1,9 @@
 package opekope2.optigui.filter
 
 import com.mojang.serialization.Codec
-import net.minecraft.nbt.AbstractNbtList
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.CollectionTag
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.Tag
 import opekope2.optigui.util.AggregateOperator
 import opekope2.optigui.util.NbtFilterEvaluation
 
@@ -11,17 +11,17 @@ import opekope2.optigui.util.NbtFilterEvaluation
  * An NBT filter, which tests a subfilter for an NBT list's elements, and combines the results using an
  * [AggregateOperator].
  *
- * @param filter The filter testing the NBT list
+ * @param subFilter The filter testing the NBT list
  * @param type The type describing this filter
  * @see AggregateFilter
  */
-class NbtListFilter(val filter: INbtFilter, override val type: Type) : INbtFilter {
-    override fun test(nbt: NbtElement, root: NbtElement): Boolean {
+class NbtListFilter(val subFilter: INbtFilter, override val type: Type) : INbtFilter {
+    override fun test(nbt: Tag, root: Tag): Boolean {
         val operator = type.operator
 
         val shortCircuit = when (nbt) {
-            is NbtCompound -> nbt.keys.any { operator shortCircuitsOn filter.test(nbt[it]!!, root) }
-            is AbstractNbtList<*> -> nbt.any { operator shortCircuitsOn filter.test(it, root) }
+            is CompoundTag -> nbt.allKeys.any { operator shortCircuitsOn subFilter.test(nbt[it]!!, root) }
+            is CollectionTag<*> -> nbt.any { operator shortCircuitsOn subFilter.test(it, root) }
             else -> return false
         }
 
@@ -29,10 +29,10 @@ class NbtListFilter(val filter: INbtFilter, override val type: Type) : INbtFilte
         else !operator.shortCircuitResult
     }
 
-    override fun testSubFilters(nbt: NbtElement?, root: NbtElement) = when (nbt) {
-        is NbtCompound -> nbt.keys.map { NbtFilterEvaluation(filter, nbt[it]!!, root) }
-        is AbstractNbtList<*> -> nbt.map { NbtFilterEvaluation(filter, it, root) }
-        else -> listOf(NbtFilterEvaluation(filter, null, root))
+    override fun testSubFilters(nbt: Tag?, root: Tag) = when (nbt) {
+        is CompoundTag -> nbt.allKeys.map { NbtFilterEvaluation(subFilter, nbt[it]!!, root) }
+        is CollectionTag<*> -> nbt.map { NbtFilterEvaluation(subFilter, it, root) }
+        else -> listOf(NbtFilterEvaluation(subFilter, null, root))
     }
 
     /**
@@ -44,26 +44,26 @@ class NbtListFilter(val filter: INbtFilter, override val type: Type) : INbtFilte
         /**
          * An [NbtListFilter] type, which requires the filter to return `false` for all NBT list elements.
          */
-        NONE_OF_LIST(AggregateOperator.NONE_OF),
+        NONE(AggregateOperator.NONE),
 
         /**
          * An [NbtListFilter] type, which requires the filter to return `true` for at least one NBT list element.
          */
-        ANY_OF_LIST(AggregateOperator.ANY_OF),
+        ANY(AggregateOperator.ANY),
 
         /**
          * An [NbtListFilter] type, which requires the filter to return `false` for at least one NBT list element.
          */
-        SOME_OF_LIST(AggregateOperator.SOME_OF),
+        SOME(AggregateOperator.SOME),
 
         /**
          * An [NbtListFilter] type, which requires the filter to return `true` for all NBT list elements.
          */
-        ALL_OF_LIST(AggregateOperator.ALL_OF);
+        ALL(AggregateOperator.ALL);
 
-        override val codec: Codec<NbtListFilter> = INbtFilter.codec.xmap(
+        override val codec: Codec<NbtListFilter> = INbtFilter.CODEC.xmap(
             { NbtListFilter(it, this) },
-            NbtListFilter::filter
+            NbtListFilter::subFilter
         )
     }
 }

@@ -1,7 +1,6 @@
 @ApiStatus.Internal
-@ParametersAreNonnullByDefault
+@NullMarked
 package opekope2.optigui.mixin;
 
 import org.jetbrains.annotations.ApiStatus;
-
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jspecify.annotations.NullMarked;

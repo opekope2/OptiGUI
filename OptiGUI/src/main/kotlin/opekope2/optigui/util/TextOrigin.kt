@@ -1,16 +1,15 @@
 package opekope2.optigui.util
 
 import com.mojang.serialization.Codec
-import net.minecraft.client.MinecraftClient
-import net.minecraft.text.Text
-import net.minecraft.util.StringIdentifiable
+import net.minecraft.network.chat.Component
+import net.minecraft.util.StringRepresentable
 
 /**
  * Represents the origin of a rendered text.
  *
  * @param id The string representation of the text origin
  */
-enum class TextOrigin(private val id: String) : StringIdentifiable {
+enum class TextOrigin(private val id: String) : StringRepresentable {
     /**
      * The text is the title of the active screen.
      */
@@ -32,18 +31,18 @@ enum class TextOrigin(private val id: String) : StringIdentifiable {
     UNKNOWN_STRING("unknown/string"),
 
     /**
-     * The text is a [Text] with unknown origin.
+     * The text is a [Component] with unknown origin.
      */
     UNKNOWN_TEXT("unknown/text");
 
-    override fun asString() = id
+    override fun getSerializedName() = id
 
     companion object {
         /**
          * A codec for [TextOrigin].
          */
         @JvmField
-        val CODEC: Codec<TextOrigin> = StringIdentifiable.createCodec(::values)
+        val CODEC: Codec<TextOrigin> = StringRepresentable.fromEnum(::values)
 
         /**
          * Returns the origin of the given text.
@@ -52,8 +51,8 @@ enum class TextOrigin(private val id: String) : StringIdentifiable {
          * @return [TITLE] if the given text is the title of the active screen, [UNKNOWN_TEXT] otherwise
          */
         @JvmStatic
-        fun of(text: Text) =
-            if (text === MinecraftClient.getInstance().currentScreen?.title) TITLE
+        fun of(text: Component) =
+            if (text === mc.screen?.title) TITLE
             else UNKNOWN_TEXT
     }
 }

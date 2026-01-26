@@ -1,7 +1,7 @@
 package opekope2.optigui.interaction.nbt_provider
 
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.registry.RegistryWrapper
+import net.minecraft.core.RegistryAccess
+import net.minecraft.nbt.CompoundTag
 import opekope2.optigui.interaction.IInteraction
 import opekope2.optigui.interaction.InteractionTarget
 
@@ -9,7 +9,7 @@ import opekope2.optigui.interaction.InteractionTarget
  * Provides the target NBT of an interaction.
  */
 object TargetNbtProvider : IInteractionNbtProvider {
-    override fun get(interaction: IInteraction, lookup: RegistryWrapper.WrapperLookup) = NbtCompound().apply {
+    override fun get(interaction: IInteraction, registryAccess: RegistryAccess) = CompoundTag().apply {
         val target = interaction.target
         putString("type", target.type)
         if (target is InteractionTarget.Block) putString("id", target.id.toString())

@@ -1,0 +1,103 @@
+<owo-ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/wisp-forest/owo-lib/1.20/owo-ui.xsd">
+    <components>
+        <flow-layout direction="vertical">
+            <children>
+                <!-- Header -->
+                <flow-layout direction="vertical">
+                    <children>
+                        <label>
+                            <!-- TODO i18n -->
+                            <text>OptiGUI Debugger</text>
+                            <shadow>true</shadow>
+                            <horizontal-text-alignment>center</horizontal-text-alignment>
+                        </label>
+                    </children>
+
+                    <sizing>
+                        <horizontal method="fill">100</horizontal>
+                        <vertical method="fixed">33</vertical>
+                    </sizing>
+
+                    <horizontal-alignment>center</horizontal-alignment>
+                    <vertical-alignment>center</vertical-alignment>
+                </flow-layout>
+
+                <!-- Content -->
+                <scroll direction="vertical">
+                    <flow-layout direction="vertical" id="content">
+                        <children/>
+
+                        <sizing>
+                            <horizontal method="fill">100</horizontal>
+                        </sizing>
+                        <padding>
+                            <left>6</left>
+                            <right>6</right>
+                        </padding>
+                    </flow-layout>
+
+                    <scrollbar>
+                        <vanilla-flat/>
+                    </scrollbar>
+                    <scrollbar-thiccness>6</scrollbar-thiccness>
+
+                    <surface>
+                        <vanilla-translucent/>
+                    </surface>
+
+                    <sizing>
+                        <horizontal method="fill">100</horizontal>
+                        <vertical method="expand">100</vertical>
+                    </sizing>
+                    <padding>
+                        <left>20</left>
+                        <right>20</right>
+                    </padding>
+                </scroll>
+
+                <!-- Footer -->
+                <flow-layout direction="horizontal">
+                    <children>
+                        <button id="done">
+                            <text translate="true">gui.done</text>
+                            <sizing>
+                                <horizontal method="fixed">200</horizontal>
+                            </sizing>
+                        </button>
+                    </children>
+
+                    <sizing>
+                        <horizontal method="fill">100</horizontal>
+                        <vertical method="fixed">33</vertical>
+                    </sizing>
+
+                    <horizontal-alignment>center</horizontal-alignment>
+                    <vertical-alignment>center</vertical-alignment>
+                </flow-layout>
+            </children>
+
+            <surface>
+                <options-background/>
+            </surface>
+        </flow-layout>
+    </components>
+
+    <templates>
+        <template name="noFilters">
+            <label>
+                <!-- TODO i18n -->
+                <text>No filter resources found</text>
+
+                <sizing>
+                    <horizontal method="fill">100</horizontal>
+                </sizing>
+                <margins>
+                    <all>5</all>
+                </margins>
+
+                <horizontal-text-alignment>center</horizontal-text-alignment>
+            </label>
+        </template>
+    </templates>
+</owo-ui>

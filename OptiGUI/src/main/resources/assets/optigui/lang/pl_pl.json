@@ -1,0 +1,73 @@
+{
+  "optigui.gui.rp_converter.conversion_fail": "OptiGUI nie mogło przekonwertować niektórych zasobów",
+  "optigui.gui.rp_converter.conversion_success": "Paczka zasobów została pomyślnie przekonwertowana",
+  "optigui.gui.rp_converter.convert": "Konwertuj paczkę zasobów",
+  "optigui.gui.rp_converter.convert_ini": "Konwertuj OptiGUI .ini",
+  "optigui.gui.rp_converter.convert_properties": "Konwertuj OptiFine .properties",
+  "optigui.gui.rp_converter.converting": "Konwertowanie paczki zasobów",
+  "optigui.gui.rp_converter.description": "Konwertuje pliki .properties OptiFine i zasoby .ini OptiGUI na zasoby JSON OptiGUI",
+  "optigui.gui.rp_converter.output_file": "Nazwa pliku wyjściowego",
+  "optigui.gui.rp_converter.target_namespace": "Docelowa przestrzeń nazw (namespace)",
+  "optigui.gui.rp_converter.title": "Konwerter paczek zasobów OptiGUI",
+
+  "optigui.gui.rp_loader.do_not_show_again": "Nie pokazuj ponownie",
+  "optigui.gui.rp_loader.do_not_show_again.tooltip": "Możesz to zmienić w dowolnym momencie w ustawieniach OptiGUI",
+  "optigui.gui.rp_loader.load_fail": "OptiGUI nie mogło załadować niektórych zasobów",
+  "optigui.gui.rp_loader.unknown_pack": "Nieznana paczka zasobów",
+  "optigui.gui.rp_loader.unknown_resource": "Nieznany zasób",
+
+
+  "optigui.inspector": "Inspektor OptiGUI",
+
+  "optigui.inspector.description": "Kliknij, aby wygenerować zasób JSON",
+  "optigui.inspector.description.clicked": "Zasób JSON skopiowany do schowka",
+  "optigui.inspector.description.debug": "Kliknij, aby otworzyć debugger filtrów",
+  "optigui.inspector.description.hide": "Możesz to ukryć w ustawieniach OptiGUI",
+
+  "optigui.inspector.key.more_info": "Przytrzymaj %s dla dodatkowych informacji",
+
+  "optigui.inspector.nbt_dumping_disabled": "Zrzucanie NBT jest wyłączone w ustawieniach OptiGUI",
+
+  "optigui.inspector.title": "OptiGUI (%s)",
+  "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
+  "optigui.inspector.title.beta": "OptiGUI beta (%s)",
+  "optigui.inspector.title.custom_textures": "własne tekstury",
+  "optigui.inspector.title.original_textures": "oryginalne tekstury",
+
+
+  "optigui.rp_loader.warn.missing_sprites": "Brakujące sprite'y: %s",
+  "optigui.rp_loader.warn.missing_textures": "Brakujące tekstury: %s",
+  "optigui.rp_loader.warn.no_textures_or_sprites": "Nie określono prawidłowych tekstur ani sprite'ów",
+
+
+  "text.config.optigui.option.dumpNbt": "Zrzucanie NBT",
+  "text.config.optigui.option.dumpNbt.tooltip": "Dołącz dane NBT do wygenerowanych zasobach JSON",
+  "text.config.optigui.option.dumpNbt.value.nothing": "Wyłączone",
+  "text.config.optigui.option.dumpNbt.value.values_and_types": "Wartości i typy",
+  "text.config.optigui.option.dumpNbt.value.values_only": "Tylko wartości",
+
+  "text.config.optigui.option.enableInspector": "Włącz inspektor",
+  "text.config.optigui.option.enableInspector.tooltip": "Pokaż przycisk inspektora w obsługiwanych ekranach ekwipunku",
+
+  "text.config.optigui.option.interactWithAttackKey": "Interakcja klawiszem ataku",
+  "text.config.optigui.option.interactWithAttackKey.tooltip": "Oprócz klawisza użycia, atakowanie również rozpoczyna interakcję\n§8Niektóre serwery mogą otwierać menu po zaatakowaniu jednostki",
+
+  "text.config.optigui.option.keepInteractionFactory": "Zapamiętaj ostatnią interakcję",
+  "text.config.optigui.option.keepInteractionFactory.tooltip": "Nie kończ interakcji po zamknięciu ekranu\n§8Niektóre serwery mogą otwierać inne ekrany menu z poziomu menu",
+
+  "text.config.optigui.option.showResourceLoadingErrors": "Pokaż logi ładowania zasobów",
+  "text.config.optigui.option.showResourceLoadingErrors.tooltip": "Pokaż logi, gdy OptiGUI nie może załadować zasobów",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_and_warnings": "Błędy i ostrzeżenia",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_only": "Tylko błędy",
+  "text.config.optigui.option.showResourceLoadingErrors.value.nothing": "Nigdy",
+
+  "text.config.optigui.section.inspector": "Inspektor",
+  "text.config.optigui.section.interaction": "Interakcja",
+  "text.config.optigui.section.resourceLoading": "Ładowanie zasobów",
+
+  "text.config.optigui.title": "Ustawienia OptiGUI",
+
+  "text.config.optigui.tools": "Narzędzia",
+  "text.config.optigui.tools.resource_loading_logs": "Logi ładowania zasobów",
+  "text.config.optigui.tools.rp_converter": "Konwerter paczek zasobów"
+}

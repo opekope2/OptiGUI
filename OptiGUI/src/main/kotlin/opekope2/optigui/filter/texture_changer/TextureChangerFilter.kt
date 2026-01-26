@@ -1,11 +1,10 @@
 package opekope2.optigui.filter.texture_changer
 
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import opekope2.optigui.filter.ConditionalFilter
 import opekope2.optigui.filter.INbtFilter
 import opekope2.optigui.filter.text_style_changer.TextStyleChanger
 import opekope2.optigui.util.MOD_ID
-import opekope2.optigui.util.collections.LinkedMruCollection
 
 /**
  * An NBT filter specifying which GUI textures it can change to which other textures.
@@ -17,20 +16,20 @@ import opekope2.optigui.util.collections.LinkedMruCollection
  * @param textStyleChangers A collection of text style changers
  */
 data class TextureChangerFilter(
-    val resourceId: Identifier,
+    val resourceId: ResourceLocation,
     private val filter: INbtFilter,
-    val textureChangers: Map<Identifier, ITextureChanger>,
-    val spriteChangers: Map<Identifier, ITextureChanger>,
-    val textStyleChangers: LinkedMruCollection<TextStyleChanger>,
+    val textureChangers: Map<ResourceLocation, ITextureChanger>,
+    val spriteChangers: Map<ResourceLocation, ITextureChanger>,
+    val textStyleChangers: List<TextStyleChanger>,
 ) : INbtFilter by filter {
     companion object {
         @JvmField
         val NO_OP = TextureChangerFilter(
-            Identifier.of(MOD_ID, ""),
+            ResourceLocation.fromNamespaceAndPath(MOD_ID, ""),
             ConditionalFilter.NEVER,
             emptyMap(),
             emptyMap(),
-            LinkedMruCollection(emptyList())
+            emptyList(),
         )
     }
 }

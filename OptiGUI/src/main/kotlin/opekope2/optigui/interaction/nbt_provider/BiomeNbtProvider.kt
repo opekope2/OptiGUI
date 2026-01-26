@@ -1,16 +1,21 @@
 package opekope2.optigui.interaction.nbt_provider
 
-import net.minecraft.nbt.NbtElement
-import net.minecraft.registry.RegistryWrapper
-import net.minecraft.world.biome.Biome
+import net.minecraft.core.BlockPos
+import net.minecraft.core.RegistryAccess
+import net.minecraft.world.level.biome.Biome
 import opekope2.optigui.interaction.IInteraction
-import opekope2.optigui.util.encode
+import opekope2.optigui.screen_api.util.NbtUtil
+import java.util.function.Function
 
 /**
- * Provides the biome NBT of an interaction.
+ * Provides the biome NBT at a [BlockPos].
+ *
+ * @param blockPosGetter A function that gets the [BlockPos] from the interaction where the biome should be checked
  */
-object BiomeNbtProvider : IInteractionNbtProvider {
-    override fun get(interaction: IInteraction, lookup: RegistryWrapper.WrapperLookup): NbtElement {
-        return encode(interaction.world.getBiome(interaction.blockPos).value(), Biome.CODEC, lookup)
-    }
+class BiomeNbtProvider(private val blockPosGetter: Function<IInteraction, BlockPos>) : IInteractionNbtProvider {
+    override fun get(interaction: IInteraction, registryAccess: RegistryAccess) = NbtUtil.encode(
+        interaction.world.getBiome(blockPosGetter.apply(interaction)).value(),
+        Biome.DIRECT_CODEC,
+        registryAccess
+    )
 }

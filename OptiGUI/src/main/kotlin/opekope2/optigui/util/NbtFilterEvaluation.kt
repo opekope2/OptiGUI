@@ -1,6 +1,6 @@
 package opekope2.optigui.util
 
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.INbtFilter
 
 /**
@@ -10,7 +10,7 @@ import opekope2.optigui.filter.INbtFilter
  * @param nbt The first argument for [INbtFilter.test] or `null`, if no NBT can be passed to the filter
  * @param root The second argument for [INbtFilter.test]
  */
-data class NbtFilterEvaluation(val filter: INbtFilter, val nbt: NbtElement?, val root: NbtElement) {
+data class NbtFilterEvaluation(val filter: INbtFilter, val nbt: Tag?, val root: Tag) {
     /**
      * Tests [filter] with the specified arguments.
      *

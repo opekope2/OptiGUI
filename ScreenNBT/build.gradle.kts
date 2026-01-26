@@ -1,81 +1,39 @@
+import opekope2.optigui.buildscript.extension.Version
+
 plugins {
-    alias(libs.plugins.fabric.loom)
+    id("opekope2.optigui.buildscript.plugin.Common")
+    id("opekope2.optigui.buildscript.plugin.Dokka")
+    alias(libs.plugins.moddev)
 }
+
+version = Version.common(libs.versions.optigui, libs.versions.minecraft)
 
 base {
-    archivesName = "optigui-screen-nbt"
-}
-
-version = libs.versions.optigui.get()
-group = "opekope2.optigui"
-
-repositories {
-    maven("https://maven.terraformersmc.com/") {
-        name = "Terraformers"
-    }
-    maven("https://maven.shedaniel.me/") {
-        name = "Shedaniel"
-    }
+    archivesName = "screen-nbt"
 }
 
 dependencies {
-    minecraft(libs.minecraft)
-    mappings(variantOf(libs.yarn) { classifier("v2") })
-    modImplementation(libs.fabric.loader)
-    implementation(project(":ScreenAPI", configuration = "namedElements"))
+    api(project(":ScreenAPI"))
+    api(project(":OptiGUI"))
 }
 
-loom {
-    runtimeOnlyLog4j = true
+neoForge {
+    neoFormVersion = libs.versions.neoform.get()
+    parchment {
+        minecraftVersion = libs.versions.minecraft
+        mappingsVersion = libs.versions.parchment
+    }
 }
 
-tasks {
-    val javaVersion = libs.versions.java.get()
+dokka {
+    moduleName = "Screen NBT"
 
-    withType<JavaCompile>().configureEach {
-        options.encoding = "UTF-8"
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
-        options.release = javaVersion.toInt()
-    }
-
-    jar {
-        from(rootDir.resolve("COPYING"))
-        from(rootDir.resolve("COPYING.LESSER"))
-    }
-
-    processResources {
-        filesMatching("fabric.mod.json") {
-            expand(
-                mapOf(
-                    "version" to version as String,
-                    "minecraft" to libs.versions.minecraft.get(),
-                    "java" to javaVersion,
-                )
-            )
-        }
-        filesMatching("*.mixins.json") {
-            expand(
-                mapOf(
-                    "java" to javaVersion
-                )
-            )
-        }
-    }
-
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(javaVersion)
-        }
-        sourceCompatibility = JavaVersion.toVersion(javaVersion)
-        targetCompatibility = JavaVersion.toVersion(javaVersion)
-        withSourcesJar()
-    }
-
-    test {
-        useJUnitPlatform()
-        testLogging {
-            events("PASSED", "SKIPPED", "FAILED")
+    dokkaSourceSets.configureEach {
+        perPackageOption {
+            // language=RegExp
+            matchingRegex = """opekope2\.optigui\.screen_nbt\.mixin"""
+            suppress = true
+            documentedVisibilities()
         }
     }
 }

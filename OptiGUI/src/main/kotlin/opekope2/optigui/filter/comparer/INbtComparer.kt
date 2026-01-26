@@ -1,6 +1,6 @@
 package opekope2.optigui.filter.comparer
 
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.ConstantNbtComparerFilter
 import opekope2.optigui.filter.DynamicNbtComparerFilter
 import opekope2.optigui.filter.INbtFilter
@@ -20,7 +20,7 @@ fun interface INbtComparer {
      * @see Comparable.compareTo
      * @see java.util.Comparator.compare
      */
-    fun compare(nbt: NbtElement, reference: NbtElement): ComparisonResult
+    fun compare(nbt: Tag, reference: Tag): ComparisonResult
 
     /**
      * The result of a comparison.

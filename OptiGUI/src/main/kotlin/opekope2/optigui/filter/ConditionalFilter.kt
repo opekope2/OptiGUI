@@ -1,7 +1,7 @@
 package opekope2.optigui.filter
 
 import com.mojang.serialization.Codec
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.ConditionalFilter.Companion.ALWAYS
 import opekope2.optigui.filter.ConditionalFilter.Companion.NEVER
 
@@ -11,10 +11,9 @@ import opekope2.optigui.filter.ConditionalFilter.Companion.NEVER
  * @param match Whether to match any NBT or none
  */
 class ConditionalFilter private constructor(val match: Boolean) : INbtFilter {
-    override val type: INbtFilter.Type<ConditionalFilter>
-        get() = TYPE
+    override val type get() = TYPE
 
-    override fun test(nbt: NbtElement, root: NbtElement) = match
+    override fun test(nbt: Tag, root: Tag) = match
 
     override fun asString() = super.asString() + " " + match
 

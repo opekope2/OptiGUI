@@ -1,72 +1,51 @@
 package opekope2.optigui.internal.resource.loader
 
 import com.mojang.serialization.DataResult
-import net.minecraft.nbt.NbtCompound
-import opekope2.optigui.internal.I18n
+import net.minecraft.nbt.CompoundTag
 import opekope2.optigui.resource.format.json.JsonFilterResource
 import opekope2.optigui.util.LOG_KEY_RESOURCE
 import opekope2.optigui.util.LOG_KEY_RESOURCE_PACK
 import org.slf4j.Logger
+import java.util.concurrent.ConcurrentLinkedDeque
 import kotlin.jvm.optionals.getOrNull
 
-internal class ResourceCollector(private val logger: Logger, private val loadTimeNbt: NbtCompound) :
-    Iterable<IdentifiableResource<JsonFilterResource.V2>> {
-    private val resources = mutableListOf<IdentifiableResource<JsonFilterResource.V2>>()
+internal class ResourceCollector(private val logger: Logger, private val loadTimeNbt: CompoundTag) :
+    Iterable<IdentifiableResource<JsonFilterResource>> {
+    private val resources = ConcurrentLinkedDeque<IdentifiableResource<JsonFilterResource>>()
 
-    fun <T : JsonFilterResource> addResource(resource: DataResult<IdentifiableResource<T>>) {
+    fun addResource(resource: DataResult<IdentifiableResource<JsonFilterResource>>) {
         resource.ifSuccess(::addResource).ifError {
             val resource = it.resultOrPartial().getOrNull()
             if (resource == null) {
                 logger.atError().addArgument(it.messageSupplier).log("{}") // This will go to unknown resources
-                return@ifError
+            } else {
+                val loadFilter = resource.resource.loadFilter
+                if (loadFilter.test(loadTimeNbt, loadTimeNbt)) logger.atError()
+                    .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.packId)
+                    .addKeyValue(LOG_KEY_RESOURCE, resource.id)
+                    .addArgument(it.messageSupplier)
+                    .log("{}")
             }
+        }
+    }
 
-            val loadFilter = when (val json = resource.resource) {
-                is JsonFilterResource.V1 -> json.loadFilter
-                is JsonFilterResource.V2 -> json.loadFilter
-                is JsonFilterResource.Future -> {
-                    addFutureResource(resource.withResource(json))
-                    return@ifError
-                }
-            }
-            if (loadFilter.test(loadTimeNbt, loadTimeNbt)) logger.atError()
+    fun addResource(resource: IdentifiableResource<JsonFilterResource>) {
+        val json = resource.resource
+
+        when {
+            json.blocks.isEmpty() && json.entities.isEmpty() && json.items.isEmpty() && !json.inventory && !json.unknown -> logger.atWarn()
                 .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.packId)
                 .addKeyValue(LOG_KEY_RESOURCE, resource.id)
-                .addArgument(it.messageSupplier)
-                .log("{}")
-        }
-    }
+                .log("No valid 'blocks', 'entities', 'items', 'inventory', or 'unknown' were specified")
 
-    fun <T : JsonFilterResource> addResource(resource: IdentifiableResource<T>) {
-        when (val json = resource.resource) {
-            is JsonFilterResource.V1 -> addV2Resource(resource.withResource(json.toV2()))
-            is JsonFilterResource.V2 -> addV2Resource(resource.withResource(json))
-            is JsonFilterResource.Future -> addFutureResource(resource.withResource(json))
-        }
-    }
-
-    private fun addV2Resource(resource: IdentifiableResource<JsonFilterResource.V2>) {
-        if (resource.resource.loadFilter.test(loadTimeNbt, loadTimeNbt)) {
-            resources += resource
-        } else {
-            logger.atInfo()
+            !json.loadFilter.test(loadTimeNbt, loadTimeNbt) -> logger.atInfo()
                 .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.packId)
-                .addKeyValue(LOG_KEY_RESOURCE, resource)
-                .addArgument(I18n.OPTIGUI_RP_LOADER_INFO_LOAD_TIME_FILTERED.supplyTranslation())
-                .log("{}")
+                .addKeyValue(LOG_KEY_RESOURCE, resource.id)
+                .log("Skipping resource because of load-time filter")
+
+            else -> resources += resource
         }
     }
 
-    private fun addFutureResource(resource: IdentifiableResource<JsonFilterResource.Future>) {
-        logger.atWarn()
-            .addKeyValue(LOG_KEY_RESOURCE_PACK, resource.packId)
-            .addKeyValue(LOG_KEY_RESOURCE, resource)
-            .addArgument(I18n.OPTIGUI_RP_LOADER_WARN_UNSUPPORTED_JSON_FORMAT.supplyTranslation())
-            .addArgument(resource.resource.format)
-            .addArgument(I18n.OPTIGUI_RP_LOADER_WARN_NEWEST_SUPPORTED_JSON_FORMAT.supplyTranslation())
-            .addArgument(JsonFilterResource.NEWEST_FORMAT)
-            .log("{}: {}; {}: {}")
-    }
-
-    override fun iterator(): Iterator<IdentifiableResource<JsonFilterResource.V2>> = resources.iterator()
+    override fun iterator(): Iterator<IdentifiableResource<JsonFilterResource>> = resources.iterator()
 }

@@ -1,0 +1,59 @@
+modLoader = "kotlinforforge"
+loaderVersion = "[$kotlin_for_forge,)"
+issueTrackerURL = "https://github.com/opekope2/OptiGUI/issues"
+license = "LGPL-3.0-or-later"
+
+[[mods]]
+modId = "optigui"
+version = "$version"
+displayName = "OptiGUI"
+description = '''
+Blazing fast custom GUI textures on Fabric and Quilt with built-in OptiFine custom GUI resource pack support
+'''
+logoFile = "icon.png"
+logoBlur = false
+features = { java_version = "[$java,)" }
+credits = '''
+Creeperucan
+dirtTW
+gorr0w7
+Lucanoria
+lumiscosity
+LyriaWintona
+Nadios_kox
+notlin4
+NuruddinPlays
+RoberbufDx8105
+Texaliuz
+'''
+authors = "opekope2"
+displayURL = "https://opekope2.dev/OptiGUI"
+
+[[mixins]]
+config = "optigui.mixins.json"
+
+[[dependencies.optigui]]
+modId = "kotlinforforge"
+versionRange = "[$kotlin_for_forge,)"
+
+[[dependencies.optigui]]
+modId = "minecraft"
+versionRange = "[$minecraft]"
+
+[[dependencies.optigui]]
+modId = "neoforge"
+versionRange = "[$neoforge,)"
+
+[[dependencies.optigui]]
+modId = "optigui_screen_api"
+versionRange = "[$version,)"
+
+[[dependencies.optigui]]
+modId = "owo"
+versionRange = "[$owo_neoforge,)"
+
+[mc-publish]
+dependencies = [
+    "owo-lib@$owo_neoforge",
+    "kotlin-for-forge@$kotlin_for_forge"
+]

@@ -1,0 +1,73 @@
+{
+  "optigui.gui.rp_converter.conversion_fail": "OptiGUI konnte einige Ressourcen nicht konvertieren",
+  "optigui.gui.rp_converter.conversion_success": "Ressourcenpaket erfolgreich konvertiert",
+  "optigui.gui.rp_converter.convert": "Ressourcenpaket konvertieren",
+  "optigui.gui.rp_converter.convert_ini": "OptiGUI .ini konvertieren",
+  "optigui.gui.rp_converter.convert_properties": "OptiFine .properties konvertieren",
+  "optigui.gui.rp_converter.converting": "Ressourcenpaket wird konvertiert",
+  "optigui.gui.rp_converter.description": "Konvertiert OptiFine .properties und OptiGUI .ini in OptiGUI JSON-Ressourcen",
+  "optigui.gui.rp_converter.output_file": "Name der Ausgabedatei",
+  "optigui.gui.rp_converter.target_namespace": "Ziel-Namespace",
+  "optigui.gui.rp_converter.title": "OptiGUI-Ressourcenpaket-Konverter",
+
+  "optigui.gui.rp_loader.do_not_show_again": "Nicht erneut anzeigen",
+  "optigui.gui.rp_loader.do_not_show_again.tooltip": "Kann jederzeit in den OptiGUI-Einstellungen geändert werden",
+  "optigui.gui.rp_loader.load_fail": "OptiGUI konnte einige Ressourcen nicht laden",
+  "optigui.gui.rp_loader.unknown_pack": "Unbekanntes Ressourcenpaket",
+  "optigui.gui.rp_loader.unknown_resource": "Unbekannte Ressource",
+
+
+  "optigui.inspector": "OptiGUI-Inspektor",
+
+  "optigui.inspector.description": "Klicken, um eine JSON-Ressource zu erstellen",
+  "optigui.inspector.description.clicked": "JSON-Ressource in Zwischenablage kopiert",
+  "optigui.inspector.description.debug": "Klicken, um den Filter-Debugger zu öffnen",
+  "optigui.inspector.description.hide": "Dies kann in den OptiGUI-Einstellungen ausgeblendet werden",
+
+  "optigui.inspector.key.more_info": "Halte %s für weitere Informationen",
+
+  "optigui.inspector.nbt_dumping_disabled": "NBT-Ausgabe ist in den OptiGUI-Einstellungen deaktiviert",
+
+  "optigui.inspector.title": "OptiGUI (%s)",
+  "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
+  "optigui.inspector.title.beta": "OptiGUI beta (%s)",
+  "optigui.inspector.title.custom_textures": "eigene Texturen",
+  "optigui.inspector.title.original_textures": "Originaltexturen",
+
+
+  "optigui.rp_loader.warn.missing_sprites": "Fehlende Sprites: %s",
+  "optigui.rp_loader.warn.missing_textures": "Fehlende Texturen: %s",
+  "optigui.rp_loader.warn.no_textures_or_sprites": "Keine gültigen Texturen oder Sprites angegeben",
+
+
+  "text.config.optigui.option.dumpNbt": "NBT ausgeben",
+  "text.config.optigui.option.dumpNbt.tooltip": "NBT-Daten in generierte JSON-Ressourcen einbeziehen",
+  "text.config.optigui.option.dumpNbt.value.nothing": "Deaktiviert",
+  "text.config.optigui.option.dumpNbt.value.values_and_types": "Werte & Typen",
+  "text.config.optigui.option.dumpNbt.value.values_only": "Nur Werte",
+
+  "text.config.optigui.option.enableInspector": "Inspektor aktivieren",
+  "text.config.optigui.option.enableInspector.tooltip": "Zeigt eine Inspektor-Schaltfläche in unterstützten Inventar-Menüs an",
+
+  "text.config.optigui.option.interactWithAttackKey": "Interaktion über Angriffstaste",
+  "text.config.optigui.option.interactWithAttackKey.tooltip": "Zusätzlich zur Benutzungstaste löst auch die Angriffstaste eine Interaktion aus\n§8Einige Server öffnen eventuell Menüs beim Angreifen einer Entität",
+
+  "text.config.optigui.option.keepInteractionFactory": "Letzte Interaktion beibehalten",
+  "text.config.optigui.option.keepInteractionFactory.tooltip": "Interaktion beim Schließen des Menüs nicht beenden\n§8Einige Server öffnen eventuell weitere Menüs aus einem Menü heraus",
+
+  "text.config.optigui.option.showResourceLoadingErrors": "Lade-Protokolle anzeigen",
+  "text.config.optigui.option.showResourceLoadingErrors.tooltip": "Zeigt Protokolle an, falls das Laden einer Ressource fehlschlägt",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_and_warnings": "Fehler & Warnungen",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_only": "Nur Fehler",
+  "text.config.optigui.option.showResourceLoadingErrors.value.nothing": "Nie",
+
+  "text.config.optigui.section.inspector": "Inspektor",
+  "text.config.optigui.section.interaction": "Interaktion",
+  "text.config.optigui.section.resourceLoading": "Laden von Ressourcen",
+
+  "text.config.optigui.title": "OptiGUI-Einstellungen",
+
+  "text.config.optigui.tools": "Werkzeuge",
+  "text.config.optigui.tools.resource_loading_logs": "Ressourcen-Lade-Protokolle",
+  "text.config.optigui.tools.rp_converter": "Ressourcenpaket-Konverter"
+}
