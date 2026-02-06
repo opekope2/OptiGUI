@@ -1,0 +1,78 @@
+
+{
+  "optigui.gui.rp_converter.conversion_fail": "OptiGUI không thể chuyển đổi một số tài nguyên",
+  "optigui.gui.rp_converter.conversion_success": "Thành công chuyển đổi gói tài nguyên",
+  "optigui.gui.rp_converter.convert": "Chuyển đổi gói tài nguyên",
+  "optigui.gui.rp_converter.convert_ini": "Chuyển dổi OptiGUI .ini",
+  "optigui.gui.rp_converter.convert_properties": "Chuyển đổi OptiFine .properties",
+  "optigui.gui.rp_converter.converting": "Đang chuyển đổi gói tài nguyên",
+  "optigui.gui.rp_converter.description": "Chuyển đổi OptiFine .properties và OptiGUI .ini thành tài nguyên OptiGUI JSON",
+  "optigui.gui.rp_converter.output_file": "Tên tệp đầu ra",
+  "optigui.gui.rp_converter.target_namespace": "Không gian tên (namespace) đích",
+  "optigui.gui.rp_converter.title": "Bộ chuyển đổi gói tài nguyên OptiGUI",
+
+  "optigui.gui.rp_loader.do_not_show_again": "Không hiển thị lại lần nữa",
+  "optigui.gui.rp_loader.do_not_show_again.tooltip": "Bạn có thể thay đổi thứ này bất cứ lúc nào trong mục cài đặt của OptiGUI",
+  "optigui.gui.rp_loader.load_fail": "OptiGUI không thể tải một số tài nguyên",
+  "optigui.gui.rp_loader.unknown_pack": "Gói tài nguyên không xác định",
+  "optigui.gui.rp_loader.unknown_resource": "Tài nguyên không xác định",
+
+
+  "optigui.inspector": "Bộ kiểm tra OptiGUI",
+
+  "optigui.inspector.description": "Bấm để tạo một tài nguyên JSON",
+  "optigui.inspector.description.clicked": "Tài nguyên JSON đã được sao chép vào bảng nhớ tạm",
+  "optigui.inspector.description.debug": "Bấm để mở trình gỡ lỗi bộ lọc",
+  "optigui.inspector.description.hide": "Bạn có thể ẩn thứ này đi trong cài đặt của OptiGUI",
+
+  "optigui.inspector.key.more_info": "Giữ %s để có nhiều thông tin hơn",
+
+  "optigui.inspector.nbt_dumping_disabled": "Sao lưu NBT đã bị vô hiệu hóa trong cài đặt của OptiGUI",
+
+  "optigui.inspector.title": "OptiGUI (%s)",
+  "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
+  "optigui.inspector.title.beta": "OptiGUI beta (%s)",
+  "optigui.inspector.title.custom_textures": "Kết cấu (textures) tùy chỉnh",
+  "optigui.inspector.title.original_textures": "Kết cấu (textures) gốc",
+
+  "optigui.rp_loader.warn.missing_sprites": "Thiếu các hình ảnh: %s",
+  "optigui.rp_loader.warn.missing_textures": "Thiếu các kết cấu (textures): %s",
+  "optigui.rp_loader.warn.no_textures_or_sprites": "Không có kết cấu (textures) hoặc hình ảnh hợp lệ nào được chỉ định.",
+
+  "text.config.optigui.option.dumpNbt": "Sao lưu NBT",
+  "text.config.optigui.option.dumpNbt.tooltip": "Bao gồm dữ liệu NBT trong tài nguyên JSON đã được tạo",
+
+  "text.config.optigui.option.dumpNbt.value.nothing": "Vô hiệu hóa",
+
+  "text.config.optigui.option.dumpNbt.value.values_and_types": "Giá trị và kiểu dữ liệu",
+
+  "text.config.optigui.option.dumpNbt.value.values_only": "Chỉ các giá trị",
+
+  "text.config.optigui.option.enableInspector": "Bật kiểm tra",
+  "text.config.optigui.option.enableInspector.tooltip": "Hiện một nút kiểm tra trong màn hình kho đồ được hỗ trợ",
+
+  "text.config.optigui.option.interactWithAttackKey": "Tương tác bằng cách sử dụng phím tấn công",
+  "text.config.optigui.option.interactWithAttackKey.tooltip": "Ngoài phím được sử dụng, tấn công có thể bắt đầu một sự tương tác\n§8Một số máy chủ có thể sẽ mở màn hình menu khi tấn công một thực thể",
+
+  "text.config.optigui.option.keepInteractionFactory": "Ghi nhớ lần tương tác cuối cùng",
+  "text.config.optigui.option.keepInteractionFactory.tooltip": "Không kết thúc tương tác khi màn hình tắt\n§8Một số máy chủ có thể mở các màn hình menu khác từ một màn hình menu",
+
+  "text.config.optigui.option.showResourceLoadingErrors": "Mở nhật kí tải tài nguyên",
+  "text.config.optigui.option.showResourceLoadingErrors.tooltip": "Mở nhật kí khi OptiGUI tải một tài nguyên thất bại",
+
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_and_warnings": "Lỗi và cảnh báo",
+
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_only": "Chỉ các lỗi",
+
+  "text.config.optigui.option.showResourceLoadingErrors.value.nothing": "Không bao giờ",
+
+  "text.config.optigui.section.inspector": "Kiểm tra",
+  "text.config.optigui.section.interaction": "Tương tác",
+  "text.config.optigui.section.resourceLoading": "Đang tải tài nguyên",
+
+  "text.config.optigui.title": "Cài đặt OptiGUI",
+
+  "text.config.optigui.tools": "Các công cụ",
+  "text.config.optigui.tools.rp_converter": "Bộ chuyển đổi gói tài nguyên",
+  "text.config.optigui.tools.resource_loading_logs": "Nhật kí tải tài nguyên"
+}
