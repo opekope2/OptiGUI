@@ -60,7 +60,7 @@
   "optigui.inspector.title": "OptiGUI (%s)",
   "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
   "optigui.inspector.title.beta": "OptiGUI beta (%s)",
-  "optigui.inspector.title.custom_textures": "textuuras personalizadas",
+  "optigui.inspector.title.custom_textures": "texturas personalizadas",
   "optigui.inspector.title.original_textures": "texturas originais",
 
 
@@ -70,7 +70,7 @@
 
   "optigui.rp_loader.warn.missing_sprites": "Sprites ausentes: %s",
   "optigui.rp_loader.warn.missing_textures": "Texturas ausentes: %s",
-  "optigui.rp_loader.warn.no_textures_or_sprites": "Nenhuma texutra ou sprite válido foi especificado",
+  "optigui.rp_loader.warn.no_textures_or_sprites": "Nenhuma textura ou sprite válido foi especificado",
 
 
   ////////////////////
