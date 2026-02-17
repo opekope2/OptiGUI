@@ -33,7 +33,7 @@
 
   "optigui.gui.rp_loader.do_not_show_again": "Não mostre isso de novo",
   "optigui.gui.rp_loader.do_not_show_again.tooltip": "Você pode mudar isso a qualquer nas configurações do OptiGUI",
-  "optigui.gui.rp_loader.load_fail": "OptiGUI não conseguiu carregar algumas recursos",
+  "optigui.gui.rp_loader.load_fail": "OptiGUI não conseguiu carregar alguns recursos",
   "optigui.gui.rp_loader.unknown_pack": "Pacote de recurso desconhecido",
   "optigui.gui.rp_loader.unknown_resource": "Recurso desconhecido",
 
@@ -60,7 +60,7 @@
   "optigui.inspector.title": "OptiGUI (%s)",
   "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
   "optigui.inspector.title.beta": "OptiGUI beta (%s)",
-  "optigui.inspector.title.custom_textures": "texuturas personalizadas",
+  "optigui.inspector.title.custom_textures": "textuuras personalizadas",
   "optigui.inspector.title.original_textures": "texturas originais",
 
 
