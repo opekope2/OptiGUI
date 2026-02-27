@@ -1,0 +1,73 @@
+{
+  "optigui.gui.rp_converter.conversion_fail": "OptiGUI non è riuscito a convertire alcune risorse",
+  "optigui.gui.rp_converter.conversion_success": "Pacchetto di risorse convertito con successo",
+  "optigui.gui.rp_converter.convert": "Convertitori di pacchetti di risorse",
+  "optigui.gui.rp_converter.convert_ini": "Converti OptiGUI .ini",
+  "optigui.gui.rp_converter.convert_properties": "Converti OptiFine .properties",
+  "optigui.gui.rp_converter.converting": "Conversione di pacchetto di risorse in corso",
+  "optigui.gui.rp_converter.description": "Converti OptiFine .properties e OptiGUI .ini a risorse OptiGUI JSON",
+  "optigui.gui.rp_converter.output_file": "Nome del file di output",
+  "optigui.gui.rp_converter.target_namespace": "Namespace di riferimento",
+  "optigui.gui.rp_converter.title": "Convertitore di pacchetti di risorse di OptiGUI",
+
+  "optigui.gui.rp_loader.do_not_show_again": "Non mostrare più",
+  "optigui.gui.rp_loader.do_not_show_again.tooltip": "Puoi cambiare questo in qualsiasi momento nelle impostazioni di OptiGUI",
+  "optigui.gui.rp_loader.load_fail": "OptiGUI non è riuscito a caricare alcune risorse",
+  "optigui.gui.rp_loader.unknown_pack": "Pacchetto di risorse sconosciuto",
+  "optigui.gui.rp_loader.unknown_resource": "Risorsa sconosciuta",
+
+
+  "optigui.inspector": "Ispettore OptiGUI",
+
+  "optigui.inspector.description": "Clicca per generare una risorsa JSON",
+  "optigui.inspector.description.clicked": "Risorsa JSON copiata negli appunti",
+  "optigui.inspector.description.debug": "Clicca per aprire il debugger del filtro",
+  "optigui.inspector.description.hide": "Puoi nascondere questo nelle impostazioni di OptiGUI",
+
+  "optigui.inspector.key.more_info": "Tieni premuto %s per più informazioni",
+
+  "optigui.inspector.nbt_dumping_disabled": "Lo scaricamento dell' NBT è disattivato nelle impostazioni di OptiGUI",
+
+  "optigui.inspector.title": "OptiGUI (%s)",
+  "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
+  "optigui.inspector.title.beta": "OptiGUI beta (%s)",
+  "optigui.inspector.title.custom_textures": "Texture personalizzate",
+  "optigui.inspector.title.original_textures": "Texture originali",
+
+
+  "optigui.rp_loader.warn.missing_sprites": "Sprite mancanti: %s",
+  "optigui.rp_loader.warn.missing_textures": "Texture mancanti: %s",
+  "optigui.rp_loader.warn.no_textures_or_sprites": "Non sono stati specificati texture o sprite validi",
+
+
+  "text.config.optigui.option.dumpNbt": "Scarica NBT",
+  "text.config.optigui.option.dumpNbt.tooltip": "Includi dati NBT nelle risorse JSON generate",
+  "text.config.optigui.option.dumpNbt.value.nothing": "Disabilitato",
+  "text.config.optigui.option.dumpNbt.value.values_and_types": "Valori e tipi",
+  "text.config.optigui.option.dumpNbt.value.values_only": "Solo valori",
+
+  "text.config.optigui.option.enableInspector": "Abilita ispettore",
+  "text.config.optigui.option.enableInspector.tooltip": "Mostra un pulsante ispettore nelle schermate dell' inventario supportate",
+
+  "text.config.optigui.option.interactWithAttackKey": "Interagisci con il pulsante di attacco",
+  "text.config.optigui.option.interactWithAttackKey.tooltip": "Oltre al pulsante per l'uso, attaccare inizia un' interazione\n§8Alcuni server potrebbero aprire un menù quando si attacca un' entità",
+
+  "text.config.optigui.option.keepInteractionFactory": "Ricorda l' ultima interazione",
+  "text.config.optigui.option.keepInteractionFactory.tooltip": "Non finire l' interazione quando si chiude il menù\n§8Alcuni server potrebbero aprire altri menù a partire da un menù",
+
+  "text.config.optigui.option.showResourceLoadingErrors": "Mostra i log di caricamento",
+  "text.config.optigui.option.showResourceLoadingErrors.tooltip": "Mostra i log quando OptiGUI fallisce nel caricamento delle risorse",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_and_warnings": "Errori e avvertimenti",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_only": "Solo errori",
+  "text.config.optigui.option.showResourceLoadingErrors.value.nothing": "Mai",
+
+  "text.config.optigui.section.inspector": "Isperrore",
+  "text.config.optigui.section.interaction": "Interazione",
+  "text.config.optigui.section.resourceLoading": "Caricamento di risorse",
+
+  "text.config.optigui.title": "Impostazioni di OptiGUI",
+
+  "text.config.optigui.tools": "Utilità",
+  "text.config.optigui.tools.resource_loading_logs": "Log del caricamento di risorse",
+  "text.config.optigui.tools.rp_converter": "Convertitore di pacchetti di risorse"
+}
