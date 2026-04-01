@@ -1,8 +1,4 @@
-import org.jetbrains.dokka.DokkaConfiguration
-import org.jetbrains.dokka.base.DokkaBase
-import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.time.Year
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
@@ -101,7 +97,7 @@ tasks {
         }
     }
 
-    dokkaHtml {
+    /*dokkaHtml {
         moduleName = "OptiGUI"
         moduleVersion = version as String
         outputDirectory = layout.buildDirectory.dir(
@@ -154,5 +150,5 @@ tasks {
             jdkVersion = libs.versions.java.get().toInt()
             languageVersion.set(libs.versions.kotlin)
         }
-    }
+    }*/
 }

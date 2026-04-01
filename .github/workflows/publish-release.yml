@@ -11,7 +11,7 @@ jobs:
     uses: ./.github/workflows/build.yml
     with:
       build-project: true
-      build-docs: true
+      build-docs: false
       upload-output: true
       fast: true
 
