@@ -123,7 +123,7 @@ tasks {
             )
 
             sourceLink {
-                localDirectory = projectDir.resolve("src/main/kotlin")
+                localDirectory.set(projectDir.resolve("src/main/kotlin"))
                 remoteUrl = uri("https://github.com/opekope2/OptiGUI/tree/$version/OptiGUI/src/main/kotlin").toURL()
                 remoteLineSuffix = "#L"
             }
@@ -152,7 +152,7 @@ tasks {
             // Apply these last, otherwise the other options get ignored
             // You don't want to know how many hours I spent on this...
             jdkVersion = libs.versions.java.get().toInt()
-            languageVersion = libs.versions.kotlin
+            languageVersion.set(libs.versions.kotlin)
         }
     }
 }
