@@ -2,23 +2,23 @@
 
 package opekope2.optigui.util
 
-import net.minecraft.client.gui.screen.ingame.LecternScreen
-import net.minecraft.screen.*
-import net.minecraft.util.math.MathHelper
+import net.minecraft.client.gui.screens.inventory.LecternScreen
+import net.minecraft.util.Mth
+import net.minecraft.world.inventory.*
 
 /**
  * Computes the comparator output based on the screen's inventory.
  */
-val ScreenHandler.redstoneComparatorOutput: Int?
+val AbstractContainerMenu.redstoneComparatorOutput: Int?
     get() {
-        return ScreenHandler.calculateComparatorOutput(
+        return AbstractContainerMenu.getRedstoneSignalFromContainer(
             when (this) {
-                is BrewingStandScreenHandler -> inventory
-                is AbstractFurnaceScreenHandler -> inventory
-                is GenericContainerScreenHandler -> inventory
-                is Generic3x3ContainerScreenHandler -> inventory
-                is HopperScreenHandler -> inventory
-                is ShulkerBoxScreenHandler -> inventory
+                is BrewingStandMenu -> brewingStand
+                is AbstractFurnaceMenu -> container
+                is ChestMenu -> container
+                is DispenserMenu -> dispenser
+                is HopperMenu -> hopper
+                is ShulkerBoxMenu -> container
                 else -> return null
             }
         )
@@ -29,6 +29,6 @@ val ScreenHandler.redstoneComparatorOutput: Int?
  */
 val LecternScreen.redstoneComparatorOutput: Int
     get() {
-        val f = if (this.pageCount > 1) this.pageIndex.toFloat() / (this.pageCount.toFloat() - 1.0f) else 1.0f
-        return MathHelper.floor(f * 14.0f) + 1
+        val f = if (this.numPages > 1) this.currentPage.toFloat() / (this.numPages.toFloat() - 1.0f) else 1.0f
+        return Mth.floor(f * 14.0f) + 1
     }

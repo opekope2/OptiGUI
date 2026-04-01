@@ -21,7 +21,7 @@ repositories {}
 
 dependencies {
     minecraft(libs.minecraft)
-    mappings(variantOf(libs.yarn) { classifier("v2") })
+    mappings(loom.officialMojangMappings())
     modImplementation(libs.fabric.loader)
     modImplementation(libs.fabric.language.kotlin)
 
@@ -128,11 +128,6 @@ tasks {
                 remoteLineSuffix = "#L"
             }
 
-            externalDocumentationLink {
-                val mappingsVersion = libs.versions.yarn.get()
-                url = uri("https://maven.fabricmc.net/docs/yarn-$mappingsVersion/").toURL()
-                packageListUrl = uri("https://maven.fabricmc.net/docs/yarn-$mappingsVersion/element-list").toURL()
-            }
             externalDocumentationLink {
                 val fabricVersion = fabric.bom.get().version
                 url = uri("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/").toURL()

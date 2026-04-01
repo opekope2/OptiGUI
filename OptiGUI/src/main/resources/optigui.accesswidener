@@ -2,33 +2,33 @@ accessWidener v1 named
 # As you have guessed, I ain't creating that many @Accessor mixins
 
 # AbstractSignEditScreen
-accessible  field   net/minecraft/client/gui/screen/ingame/AbstractSignEditScreen   blockEntity     Lnet/minecraft/block/entity/SignBlockEntity;
+accessible  field   net/minecraft/client/gui/screens/inventory/AbstractSignEditScreen   sign            Lnet/minecraft/world/level/block/entity/SignBlockEntity;
 
 # BeaconBlockEntity
-accessible  field   net/minecraft/block/entity/BeaconBlockEntity                    level           I
+accessible  field   net/minecraft/world/level/block/entity/BeaconBlockEntity            levels          I
 
 # BookEditScreen
-accessible  field   net/minecraft/client/gui/screen/ingame/BookEditScreen           currentPage     I
-accessible  method  net/minecraft/client/gui/screen/ingame/BookEditScreen           countPages      ()I
+accessible  field   net/minecraft/client/gui/screens/inventory/BookEditScreen           currentPage     I
+accessible  method  net/minecraft/client/gui/screens/inventory/BookEditScreen           getNumPages     ()I
 
 # BookScreen
-accessible  field   net/minecraft/client/gui/screen/ingame/BookScreen               pageIndex       I
-accessible  method  net/minecraft/client/gui/screen/ingame/BookScreen               getPageCount    ()I
+accessible  field   net/minecraft/client/gui/screens/inventory/BookViewScreen           currentPage     I
+accessible  method  net/minecraft/client/gui/screens/inventory/BookViewScreen           getNumPages     ()I
 
 # BrewingStandScreenHandler
-accessible  field   net/minecraft/screen/BrewingStandScreenHandler                  inventory       Lnet/minecraft/inventory/Inventory;
+accessible  field   net/minecraft/world/inventory/BrewingStandMenu                      brewingStand    Lnet/minecraft/world/Container;
 
 # AbstractFurnaceScreenHandler
-accessible  field   net/minecraft/screen/AbstractFurnaceScreenHandler               inventory       Lnet/minecraft/inventory/Inventory;
+accessible  field   net/minecraft/world/inventory/AbstractFurnaceMenu                   container       Lnet/minecraft/world/Container;
 
 # GenericContainerScreenHandler
-accessible  field   net/minecraft/screen/GenericContainerScreenHandler              inventory       Lnet/minecraft/inventory/Inventory;
+accessible  field   net/minecraft/world/inventory/ChestMenu                             container       Lnet/minecraft/world/Container;
 
 # Generic3x3ContainerScreenHandler
-accessible  field   net/minecraft/screen/Generic3x3ContainerScreenHandler           inventory       Lnet/minecraft/inventory/Inventory;
+accessible  field   net/minecraft/world/inventory/DispenserMenu                         dispenser       Lnet/minecraft/world/Container;
 
 # HopperScreenHandler
-accessible  field   net/minecraft/screen/HopperScreenHandler                        inventory       Lnet/minecraft/inventory/Inventory;
+accessible  field   net/minecraft/world/inventory/HopperMenu                            hopper          Lnet/minecraft/world/Container;
 
 # ShulkerBoxScreenHandler
-accessible  field   net/minecraft/screen/ShulkerBoxScreenHandler                    inventory       Lnet/minecraft/inventory/Inventory;
+accessible  field   net/minecraft/world/inventory/ShulkerBoxMenu                        container       Lnet/minecraft/world/Container;

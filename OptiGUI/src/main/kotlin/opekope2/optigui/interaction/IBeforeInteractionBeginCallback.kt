@@ -2,7 +2,7 @@ package opekope2.optigui.interaction
 
 import net.fabricmc.fabric.api.event.Event
 import net.fabricmc.fabric.api.event.EventFactory
-import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.gui.screens.Screen
 
 /**
  * Callback fired before an interaction begins.

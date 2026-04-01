@@ -1,6 +1,6 @@
 package opekope2.optigui.resource
 
-import net.minecraft.resource.ResourceManager
+import net.minecraft.server.packs.resources.ResourceManager
 import org.slf4j.Logger
 
 /**

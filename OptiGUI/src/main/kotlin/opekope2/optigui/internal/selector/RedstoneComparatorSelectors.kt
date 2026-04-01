@@ -1,7 +1,7 @@
 package opekope2.optigui.internal.selector
 
-import net.minecraft.client.gui.screen.ingame.HandledScreen
-import net.minecraft.client.gui.screen.ingame.LecternScreen
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
+import net.minecraft.client.gui.screens.inventory.LecternScreen
 import opekope2.optigui.filter.DisjunctionFilter
 import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.interaction.Interaction
@@ -23,6 +23,6 @@ internal class RedstoneComparatorOutputSelector : AbstractListSelector<NumberOrR
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        (interaction.screen as? HandledScreen<*>)?.screenHandler?.redstoneComparatorOutput
+        (interaction.screen as? AbstractContainerScreen<*>)?.menu?.redstoneComparatorOutput
             ?: (interaction.screen as? LecternScreen)?.redstoneComparatorOutput
 }

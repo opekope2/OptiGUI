@@ -17,9 +17,9 @@ internal class RegexPlayerNameSelector(ignoreCase: Boolean) : RegexNameSelector(
 
 internal class PlayerBiomeSelector : BiomeSelector() {
     override fun transformInteraction(interaction: Interaction) =
-        interaction.data.world.getBiomeId(interaction.data.player.blockPos)
+        interaction.data.world.getBiomeId(interaction.data.player.blockPosition())
 }
 
 internal class PlayerHeightSelector : HeightSelector() {
-    override fun transformInteraction(interaction: Interaction) = interaction.data.player.blockPos.y
+    override fun transformInteraction(interaction: Interaction) = interaction.data.player.blockPosition().y
 }

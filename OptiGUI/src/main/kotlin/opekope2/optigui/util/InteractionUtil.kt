@@ -2,8 +2,8 @@
 
 package opekope2.optigui.util
 
-import net.minecraft.storage.NbtWriteView
-import net.minecraft.util.ErrorReporter
+import net.minecraft.world.level.storage.TagValueOutput
+import net.minecraft.util.ProblemReporter
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.TextureReplacer
 import opekope2.optigui.registry.SelectorRegistry
@@ -42,14 +42,14 @@ fun inspectInteraction(): String? {
         when {
             data.blockEntity != null -> {
                 appendLine("# NBT (for more detailed inspection purposes, as there is no selector for NBT):")
-                appendLine("# ${data.blockEntity.createNbt(data.world.registryManager)}")
+                appendLine("# ${data.blockEntity.saveWithoutMetadata(data.world.registryAccess())}")
                 appendLine()
             }
 
             data.entity != null -> {
                 appendLine("# NBT (for more detailed inspection purposes, as there is no selector for NBT):")
-                val nbtWriter = NbtWriteView.create(ErrorReporter.EMPTY, data.world.registryManager)
-                appendLine("# ${data.entity.writeData(nbtWriter)}")
+                val nbtWriter = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, data.world.registryAccess())
+                appendLine("# ${data.entity.saveWithoutId(nbtWriter)}")
                 appendLine()
             }
 

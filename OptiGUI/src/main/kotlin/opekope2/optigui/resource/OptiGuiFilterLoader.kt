@@ -1,7 +1,7 @@
 package opekope2.optigui.resource
 
-import net.minecraft.resource.ResourceManager
-import net.minecraft.util.Identifier
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.resources.ResourceLocation
 import opekope2.optigui.internal.util.assertNotEmpty
 import opekope2.optigui.internal.util.delimiters
 import opekope2.optigui.internal.util.eventBuilder
@@ -19,10 +19,10 @@ import org.slf4j.event.Level.WARN
  */
 class OptiGuiFilterLoader : IFilterLoader {
     override fun loadRawFilters(resourceManager: ResourceManager, logger: Logger): Collection<IRawFilterData> {
-        return resourceManager.findResources(OPTIGUI_RESOURCES_ROOT) { (ns, path) ->
+        return resourceManager.listResources(OPTIGUI_RESOURCES_ROOT) { (ns, path) ->
             ns == MOD_ID && path.endsWith(".ini")
         }.map { (id, resource) ->
-            id to resource.inputStream.use(::Ini)
+            id to resource.open().use(::Ini)
         }.flatMap { (id, ini) ->
             ini.flatMap loadSection@{ (sectionName, section) ->
                 val containers = sectionName
@@ -30,7 +30,7 @@ class OptiGuiFilterLoader : IFilterLoader {
                     ?.assertNotEmpty()
                     ?.filter { !it.startsWith('#') }
                     ?.mapNotNull { container ->
-                        Identifier.tryParse(container) ?: run {
+                        ResourceLocation.tryParse(container) ?: run {
                             logger.eventBuilder(ERROR, id, container).log(
                                 "Invalid container identifier `{}` in `{}`",
                                 container, id
@@ -64,7 +64,7 @@ class OptiGuiFilterLoader : IFilterLoader {
                     }
                     section -= "load.priority"
                 }
-                
+
                 containers.map { FilterData(priority, id, it, replacement, section) }
             }
         }
@@ -72,13 +72,13 @@ class OptiGuiFilterLoader : IFilterLoader {
 
     private class FilterData(
         override val priority: Int,
-        override val resource: Identifier,
-        override val container: Identifier?,
-        override val replacementTexture: Identifier,
+        override val resource: ResourceLocation,
+        override val container: ResourceLocation?,
+        override val replacementTexture: ResourceLocation,
         private val section: Profile.Section
     ) : IRawFilterData {
-        override var replaceableTextures: Set<Identifier> = (
-                if ("interaction.texture" in section) Identifier.tryParse(section["interaction.texture"]!!)
+        override var replaceableTextures: Set<ResourceLocation> = (
+                if ("interaction.texture" in section) ResourceLocation.tryParse(section["interaction.texture"]!!)
                 else container?.let(ContainerDefaultGuiTextureRegistry::get)
                 )?.let(::setOf) ?: setOf()
 

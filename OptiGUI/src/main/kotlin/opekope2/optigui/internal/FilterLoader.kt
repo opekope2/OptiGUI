@@ -3,10 +3,10 @@ package opekope2.optigui.internal
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
-import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.ResourceReloader
-import net.minecraft.resource.ResourceType
-import net.minecraft.util.Identifier
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.server.packs.resources.PreparableReloadListener
+import net.minecraft.server.packs.PackType
+import net.minecraft.resources.ResourceLocation
 import opekope2.optigui.filter.ConjunctionFilter
 import opekope2.optigui.filter.IFilter
 import opekope2.optigui.filter.PostProcessorFilter
@@ -28,21 +28,21 @@ import java.util.concurrent.Executor
 internal object FilterLoader : IdentifiableResourceReloadListener, ClientModInitializer {
     private val LOGGER = LoggerFactory.getLogger("OptiGUI/FilterLoader")
 
-    override fun getFabricId(): Identifier = Identifier.of(MOD_ID, "filter_loader")
+    override fun getFabricId(): ResourceLocation = ResourceLocation.fromNamespaceAndPath(MOD_ID, "filter_loader")
 
     override fun reload(
-        store: ResourceReloader.Store,
+        store: PreparableReloadListener.SharedState,
         prepareExecutor: Executor,
-        reloadSynchronizer: ResourceReloader.Synchronizer,
+        reloadSynchronizer: PreparableReloadListener.PreparationBarrier,
         applyExecutor: Executor
     ): CompletableFuture<Void> {
-        return CompletableFuture.supplyAsync({ loadRawFilters(store.resourceManager, LOGGER) }, prepareExecutor)
-            .thenCompose(reloadSynchronizer::whenPrepared)
-            .thenAcceptAsync({ loadFilters(store.resourceManager, it, LOGGER) }, applyExecutor)
+        return CompletableFuture.supplyAsync({ loadRawFilters(store.resourceManager(), LOGGER) }, prepareExecutor)
+            .thenCompose(reloadSynchronizer::wait)
+            .thenAcceptAsync({ loadFilters(store.resourceManager(), it, LOGGER) }, applyExecutor)
     }
 
     override fun onInitializeClient() {
-        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(FilterLoader)
+        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(FilterLoader)
     }
 
     private fun loadRawFilters(manager: ResourceManager, logger: Logger) =

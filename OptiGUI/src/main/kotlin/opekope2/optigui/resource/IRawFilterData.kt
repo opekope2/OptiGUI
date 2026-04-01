@@ -1,6 +1,6 @@
 package opekope2.optigui.resource
 
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Represents unprocessed filter data.
@@ -15,23 +15,23 @@ interface IRawFilterData {
     /**
      * The originating resource.
      */
-    val resource: Identifier
+    val resource: ResourceLocation
 
     /**
      * The identifier of the container (if applicable). If this is `null`, the resulting filter will be evaluated after
      * the matching container's filters.
      */
-    val container: Identifier?
+    val container: ResourceLocation?
 
     /**
      * The set of textures the filter can replace.
      */
-    val replaceableTextures: Set<Identifier>
+    val replaceableTextures: Set<ResourceLocation>
 
     /**
      * The replacement texture of the filter.
      */
-    val replacementTexture: Identifier
+    val replacementTexture: ResourceLocation
 
     /**
      * The raw selector data as key-value pairs.

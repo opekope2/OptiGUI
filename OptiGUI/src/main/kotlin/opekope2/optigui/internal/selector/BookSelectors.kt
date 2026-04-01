@@ -1,6 +1,6 @@
 package opekope2.optigui.internal.selector
 
-import net.minecraft.client.gui.screen.ingame.LecternScreen
+import net.minecraft.client.gui.screens.inventory.LecternScreen
 import opekope2.optigui.filter.DisjunctionFilter
 import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.interaction.Interaction
@@ -23,7 +23,7 @@ internal class BookPageSelector : AbstractListSelector<NumberOrRange>() {
 
     override fun transformInteraction(interaction: Interaction) =
         (interaction.data.extra as? BookExtraProperties)?.currentPage
-            ?: (interaction.screen as? LecternScreen)?.pageIndex?.plus(1)
+            ?: (interaction.screen as? LecternScreen)?.currentPage?.plus(1)
 }
 
 internal class BookPageCountSelector : AbstractListSelector<NumberOrRange>() {
@@ -41,5 +41,5 @@ internal class BookPageCountSelector : AbstractListSelector<NumberOrRange>() {
 
     override fun transformInteraction(interaction: Interaction) =
         (interaction.data.extra as? BookExtraProperties)?.pageCount
-            ?: (interaction.screen as? LecternScreen)?.pageCount
+            ?: (interaction.screen as? LecternScreen)?.numPages
 }

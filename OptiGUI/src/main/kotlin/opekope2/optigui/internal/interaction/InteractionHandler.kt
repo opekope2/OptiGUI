@@ -5,19 +5,19 @@ import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.gui.screen.ingame.*
-import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Items
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.hit.EntityHitResult
-import net.minecraft.world.World
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.screens.Screen
+import net.minecraft.client.gui.screens.inventory.*
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.Items
+import net.minecraft.world.level.Level
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.EntityHitResult
 import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.TextureReplacer
@@ -36,80 +36,80 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
         ScreenEvents.BEFORE_INIT.register(this)
     }
 
-    override fun interact(player: PlayerEntity, world: World, hand: Hand, hitResult: BlockHitResult): ActionResult {
-        if (!world.isClient) return ActionResult.PASS
+    override fun interact(player: Player, world: Level, hand: InteractionHand, hitResult: BlockHitResult): InteractionResult {
+        if (!world.isClientSide) return InteractionResult.PASS
 
         val container = world.getBlockState(hitResult.blockPos).block.identifier
         val blockEntity = world.getBlockEntity(hitResult.blockPos)
 
         if (blockEntity != null) {
             Interaction.prepare(container, player, world, hand, hitResult, null, blockEntity)
-            return ActionResult.PASS
+            return InteractionResult.PASS
         }
 
         if (container in ContainerDefaultGuiTextureRegistry) {
             Interaction.prepare(container, player, world, hand, hitResult, null)
         }
 
-        return ActionResult.PASS
+        return InteractionResult.PASS
     }
 
     override fun interact(
-        player: PlayerEntity,
-        world: World,
-        hand: Hand,
+        player: Player,
+        world: Level,
+        hand: InteractionHand,
         entity: Entity,
         hitResult: EntityHitResult?
-    ): ActionResult {
-        if (!world.isClient) return ActionResult.PASS
+    ): InteractionResult {
+        if (!world.isClientSide) return InteractionResult.PASS
 
         val container = entity.identifier
         Interaction.prepare(container, player, world, hand, hitResult, null, entity)
 
-        return ActionResult.PASS
+        return InteractionResult.PASS
     }
 
-    override fun interact(player: PlayerEntity, world: World, hand: Hand): ActionResult {
-        if (!world.isClient) return ActionResult.PASS
+    override fun interact(player: Player, world: Level, hand: InteractionHand): InteractionResult {
+        if (!world.isClientSide) return InteractionResult.PASS
 
-        val stack = player.getStackInHand(hand)
-        if (stack.isOf(Items.WRITABLE_BOOK) || stack.isOf(Items.WRITTEN_BOOK)) {
-            Interaction.prepare(stack.item.identifier, player, world, Hand.MAIN_HAND, null, BookExtraProperties(0, 0))
+        val stack = player.getItemInHand(hand)
+        if (stack.`is`(Items.WRITABLE_BOOK) || stack.`is`(Items.WRITTEN_BOOK)) {
+            Interaction.prepare(stack.item.identifier, player, world, InteractionHand.MAIN_HAND, null, BookExtraProperties(0, 0))
             // BookExtraProperties will be updated later
         }
-        return ActionResult.PASS
+        return InteractionResult.PASS
     }
 
     override fun onBeforeBegin(screen: Screen) {
         when (screen) {
-            is BookEditScreen -> tryUpdateBookProperties(screen.currentPage + 1, screen.countPages())
-            is BookScreen -> tryUpdateBookProperties(screen.pageIndex + 1, screen.pageCount)
+            is BookEditScreen -> tryUpdateBookProperties(screen.currentPage + 1, screen.numPages)
+            is BookViewScreen -> tryUpdateBookProperties(screen.currentPage + 1, screen.numPages)
         }
     }
 
-    override fun beforeInit(client: MinecraftClient?, screen: Screen, scaledWidth: Int, scaledHeight: Int) {
+    override fun beforeInit(client: Minecraft?, screen: Screen, scaledWidth: Int, scaledHeight: Int) {
         ScreenEvents.beforeRender(screen).register(this)
         ScreenEvents.afterRender(screen).register(this)
     }
 
-    override fun beforeRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
+    override fun beforeRender(screen: Screen?, drawContext: GuiGraphics?, mouseX: Int, mouseY: Int, tickDelta: Float) {
         TextureReplacer.isReplacingTextures = true
     }
 
-    override fun afterRender(screen: Screen?, drawContext: DrawContext?, mouseX: Int, mouseY: Int, tickDelta: Float) {
+    override fun afterRender(screen: Screen?, drawContext: GuiGraphics?, mouseX: Int, mouseY: Int, tickDelta: Float) {
         TextureReplacer.isReplacingTextures = false
     }
 
     @JvmStatic
-    fun interact(player: PlayerEntity, world: World, currentScreen: Screen) {
+    fun interact(player: Player, world: Level, currentScreen: Screen) {
         val container = when (currentScreen) {
-            is InventoryScreen -> Identifier.ofVanilla("player")
-            is CreativeInventoryScreen -> Identifier.ofVanilla("player")
-            is HangingSignEditScreen -> world.getBlockState(currentScreen.blockEntity.pos).block.identifier
+            is InventoryScreen -> ResourceLocation.withDefaultNamespace("player")
+            is CreativeModeInventoryScreen -> ResourceLocation.withDefaultNamespace("player")
+            is HangingSignEditScreen -> world.getBlockState(currentScreen.sign.blockPos).block.identifier
             else -> return
         }
 
-        Interaction.prepare(container, player, world, Hand.MAIN_HAND, null, null)
+        Interaction.prepare(container, player, world, InteractionHand.MAIN_HAND, null, null)
     }
 
     @JvmStatic

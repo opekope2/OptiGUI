@@ -1,6 +1,6 @@
 package opekope2.optigui.internal.selector
 
-import net.minecraft.block.entity.BeaconBlockEntity
+import net.minecraft.world.level.block.entity.BeaconBlockEntity
 import opekope2.optigui.filter.DisjunctionFilter
 import opekope2.optigui.filter.PreProcessorFilter
 import opekope2.optigui.interaction.Interaction
@@ -21,5 +21,5 @@ internal class BeaconLevelSelector : AbstractListSelector<NumberOrRange>() {
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        (interaction.data.blockEntity as? BeaconBlockEntity)?.level
+        (interaction.data.blockEntity as? BeaconBlockEntity)?.levels
 }

@@ -1,6 +1,6 @@
 package opekope2.optigui.registry
 
-import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.gui.screens.Screen
 
 /**
  * Registry holding screens, which can be retextured by OptiGUI.

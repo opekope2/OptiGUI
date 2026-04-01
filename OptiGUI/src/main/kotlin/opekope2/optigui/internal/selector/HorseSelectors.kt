@@ -1,9 +1,9 @@
 package opekope2.optigui.internal.selector
 
-import net.minecraft.block.DyedCarpetBlock
-import net.minecraft.entity.passive.*
-import net.minecraft.item.BlockItem
-import net.minecraft.util.DyeColor
+import net.minecraft.world.entity.animal.horse.*
+import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.DyeColor
+import net.minecraft.world.level.block.WoolCarpetBlock
 import opekope2.optigui.filter.ContainingFilter
 import opekope2.optigui.filter.EqualityFilter
 import opekope2.optigui.filter.PreProcessorFilter
@@ -20,7 +20,7 @@ internal class DonkeyChestSelector : ISelector {
     )
 
     private fun hasDonkeyChest(interaction: Interaction) =
-        (interaction.data.entityOrRiddenEntity as? AbstractDonkeyEntity)?.hasChest()
+        (interaction.data.entityOrRiddenEntity as? AbstractChestedHorse)?.hasChest()
 
     override fun getRawSelector(interaction: Interaction) = hasDonkeyChest(interaction)?.toString()
 }
@@ -34,18 +34,18 @@ internal class HorseSaddleSelector : ISelector {
     )
 
     private fun isHorseSaddled(interaction: Interaction) =
-        (interaction.data.entityOrRiddenEntity as? AbstractHorseEntity)?.hasSaddleEquipped()
+        (interaction.data.entityOrRiddenEntity as? AbstractHorse)?.isSaddled
 
     override fun getRawSelector(interaction: Interaction): String? = isHorseSaddled(interaction)?.toString()
 }
 
-internal class HorseVariantSelector : AbstractListSelector<HorseColor>() {
-    override fun parseSelector(selector: String) = HorseColor.entries.firstOrNull { it.name.lowercase() == selector }
+internal class HorseVariantSelector : AbstractListSelector<Variant>() {
+    override fun parseSelector(selector: String) = Variant.entries.firstOrNull { it.name.lowercase() == selector }
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
         throw RuntimeException("Invalid horse variants: ${joinNotFound(invalidSelectors)}")
 
-    override fun createFilter(parsedSelectors: Collection<HorseColor>) = PreProcessorFilter.nullGuarded(
+    override fun createFilter(parsedSelectors: Collection<Variant>) = PreProcessorFilter.nullGuarded(
         ::transformInteraction,
         "Get horse variant",
         null,
@@ -53,16 +53,16 @@ internal class HorseVariantSelector : AbstractListSelector<HorseColor>() {
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        (interaction.data.entityOrRiddenEntity as? HorseEntity)?.horseColor
+        (interaction.data.entityOrRiddenEntity as? Horse)?.variant
 }
 
-internal class HorseMarkingSelector : AbstractListSelector<HorseMarking>() {
-    override fun parseSelector(selector: String) = HorseMarking.entries.firstOrNull { it.name.lowercase() == selector }
+internal class HorseMarkingSelector : AbstractListSelector<Markings>() {
+    override fun parseSelector(selector: String) = Markings.entries.firstOrNull { it.name.lowercase() == selector }
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
         throw RuntimeException("Invalid horse markings: ${joinNotFound(invalidSelectors)}")
 
-    override fun createFilter(parsedSelectors: Collection<HorseMarking>) = PreProcessorFilter.nullGuarded(
+    override fun createFilter(parsedSelectors: Collection<Markings>) = PreProcessorFilter.nullGuarded(
         ::transformInteraction,
         "Get horse marking",
         null,
@@ -70,11 +70,11 @@ internal class HorseMarkingSelector : AbstractListSelector<HorseMarking>() {
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        (interaction.data.entityOrRiddenEntity as? HorseEntity)?.marking
+        (interaction.data.entityOrRiddenEntity as? Horse)?.markings
 }
 
 internal class LlamaCarpetColorSelector : AbstractListSelector<DyeColor>() {
-    override fun parseSelector(selector: String) = DyeColor.byId(selector, null)
+    override fun parseSelector(selector: String) = DyeColor.byName(selector, null)
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
         throw RuntimeException("Invalid llama carpet colors: ${joinNotFound(invalidSelectors)}")
@@ -87,19 +87,19 @@ internal class LlamaCarpetColorSelector : AbstractListSelector<DyeColor>() {
     )
 
     private fun getLlamaCarpetColor(interaction: Interaction) =
-        (((interaction.data.entityOrRiddenEntity as? LlamaEntity)?.bodyArmor?.item as? BlockItem)?.block as? DyedCarpetBlock)?.dyeColor
+        (((interaction.data.entityOrRiddenEntity as? Llama)?.bodyArmorItem?.item as? BlockItem)?.block as? WoolCarpetBlock)?.color
 
-    override fun transformInteraction(interaction: Interaction) = getLlamaCarpetColor(interaction)?.id
+    override fun transformInteraction(interaction: Interaction) = getLlamaCarpetColor(interaction)?.name
 }
 
-internal class LlamaVariantSelector : AbstractListSelector<LlamaEntity.Variant>() {
+internal class LlamaVariantSelector : AbstractListSelector<Llama.Variant>() {
     override fun parseSelector(selector: String) =
-        LlamaEntity.Variant.entries.firstOrNull { it.name.lowercase() == selector }
+        Llama.Variant.entries.firstOrNull { it.name.lowercase() == selector }
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
         throw RuntimeException("Invalid llama variants: ${joinNotFound(invalidSelectors)}")
 
-    override fun createFilter(parsedSelectors: Collection<LlamaEntity.Variant>) = PreProcessorFilter.nullGuarded(
+    override fun createFilter(parsedSelectors: Collection<Llama.Variant>) = PreProcessorFilter.nullGuarded(
         ::getLlamaVariant,
         "Get llama variant",
         null,
@@ -107,7 +107,7 @@ internal class LlamaVariantSelector : AbstractListSelector<LlamaEntity.Variant>(
     )
 
     private fun getLlamaVariant(interaction: Interaction) =
-        (interaction.data.entityOrRiddenEntity as? LlamaEntity)?.variant
+        (interaction.data.entityOrRiddenEntity as? Llama)?.variant
 
-    override fun transformInteraction(interaction: Interaction) = getLlamaVariant(interaction)?.asString()
+    override fun transformInteraction(interaction: Interaction) = getLlamaVariant(interaction)?.serializedName
 }

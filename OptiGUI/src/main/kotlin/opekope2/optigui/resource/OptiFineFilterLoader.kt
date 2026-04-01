@@ -1,8 +1,8 @@
 package opekope2.optigui.resource
 
-import net.minecraft.resource.ResourceManager
-import net.minecraft.util.DyeColor
-import net.minecraft.util.Identifier
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.world.item.DyeColor
+import net.minecraft.resources.ResourceLocation
 import opekope2.optigui.internal.util.delimiters
 import opekope2.optigui.internal.util.eventBuilder
 import opekope2.optigui.internal.util.splitIgnoreEmpty
@@ -18,17 +18,17 @@ import org.slf4j.event.Level.WARN
  */
 class OptiFineFilterLoader : IFilterLoader {
     override fun loadRawFilters(resourceManager: ResourceManager, logger: Logger): Collection<IRawFilterData> {
-        return resourceManager.findResources(OPTIFINE_RESOURCES_ROOT) { (ns, path) ->
-            ns == Identifier.DEFAULT_NAMESPACE && path.endsWith(".properties")
+        return resourceManager.listResources(OPTIFINE_RESOURCES_ROOT) { (ns, path) ->
+            ns == ResourceLocation.DEFAULT_NAMESPACE && path.endsWith(".properties")
         }.flatMap { (id, resource) ->
-            createFilterData(resourceManager, id, resource.inputStream.use(::Options), logger)
+            createFilterData(resourceManager, id, resource.open().use(::Options), logger)
         }
     }
 }
 
 private fun createFilterData(
     resourceManager: ResourceManager,
-    resourcePath: Identifier,
+    resourcePath: ResourceLocation,
     properties: Options,
     logger: Logger
 ) = sequence {
@@ -41,7 +41,7 @@ private fun createFilterData(
             val partialPath = key.substring("texture.".length)
             var fullPath = "textures/gui/$partialPath"
             if (!fullPath.endsWith(".png")) fullPath += ".png"
-            Triple(key, Identifier.tryParse(fullPath) ?: return@mapNotNull null, value)
+            Triple(key, ResourceLocation.tryParse(fullPath) ?: return@mapNotNull null, value)
         } else null
     }
 
@@ -74,9 +74,9 @@ private val dispenserVariants = setOf("dispenser", "dropper")
 private val horseVariants = setOf("horse", "donkey", "mule", "llama")
 
 private fun createFilterData(
-    resource: Identifier,
+    resource: ResourceLocation,
     container: String,
-    replacementTexture: Identifier,
+    replacementTexture: ResourceLocation,
     properties: Options
 ) = sequence {
     when (container) {
@@ -142,7 +142,7 @@ private fun createFilterData(
             val shulkerBoxes = properties["colors"]
                 ?.splitIgnoreEmpty(*delimiters)
                 ?.toSet()
-                ?.filter { DyeColor.byId(it, null) != null }
+                ?.filter { DyeColor.byName(it, null) != null }
                 ?.map { "${it}_shulker_box" }
                 ?: listOf("shulker_box")
             for (shulkerBox in shulkerBoxes) {
@@ -158,37 +158,37 @@ private fun createFilterData(
 private fun resolveTexture(
     resourceManager: ResourceManager,
     texture: String,
-    resourcePath: Identifier
-): Identifier? {
+    resourcePath: ResourceLocation
+): ResourceLocation? {
     var texturePath = resolvePath(texture, resourcePath, OPTIFINE_TILDE_PATH) ?: return null
 
     if (resourceManager.getResource(texturePath).isPresent) return texturePath
 
-    texturePath = texturePath.run { Identifier.of(namespace, "$path.png") }
+    texturePath = texturePath.run { ResourceLocation.fromNamespaceAndPath(namespace, "$path.png") }
 
     return if (resourceManager.getResource(texturePath).isPresent) texturePath
     else null
 }
 
 private open class OptiFineFilterData(
-    override val resource: Identifier,
-    final override val container: Identifier?,
-    final override var replacementTexture: Identifier,
+    override val resource: ResourceLocation,
+    final override val container: ResourceLocation?,
+    final override var replacementTexture: ResourceLocation,
     protected val properties: Options,
     private val filterName: Boolean
 ) : IRawFilterData {
-    override var replaceableTextures: Set<Identifier> =
+    override var replaceableTextures: Set<ResourceLocation> =
         container?.let(ContainerDefaultGuiTextureRegistry::get)?.let(::setOf) ?: setOf()
 
     constructor(
-        resource: Identifier,
+        resource: ResourceLocation,
         container: String,
-        replacementTexture: Identifier,
+        replacementTexture: ResourceLocation,
         properties: Options,
         filterName: Boolean
-    ) : this(resource, Identifier.ofVanilla(container), replacementTexture, properties, filterName)
+    ) : this(resource, ResourceLocation.withDefaultNamespace(container), replacementTexture, properties, filterName)
 
-    open val originalTexture: Identifier? = container?.let(ContainerDefaultGuiTextureRegistry::get)
+    open val originalTexture: ResourceLocation? = container?.let(ContainerDefaultGuiTextureRegistry::get)
 
     override val rawSelectorData
         get() = sequence {
@@ -202,8 +202,8 @@ private open class OptiFineFilterData(
 }
 
 private class BeaconFilterData(
-    resource: Identifier,
-    replacementTexture: Identifier,
+    resource: ResourceLocation,
+    replacementTexture: ResourceLocation,
     properties: Options
 ) : OptiFineFilterData(resource, "beacon", replacementTexture, properties, true) {
     override val rawSelectorData
@@ -214,9 +214,9 @@ private class BeaconFilterData(
 }
 
 private class ChestFilterData(
-    resource: Identifier,
+    resource: ResourceLocation,
     container: String,
-    replacementTexture: Identifier,
+    replacementTexture: ResourceLocation,
     properties: Options
 ) : OptiFineFilterData(resource, container, replacementTexture, properties, true) {
     override val rawSelectorData
@@ -234,8 +234,8 @@ private class ChestFilterData(
 }
 
 private class LlamaFilterData(
-    resource: Identifier,
-    replacementTexture: Identifier,
+    resource: ResourceLocation,
+    replacementTexture: ResourceLocation,
     properties: Options
 ) : OptiFineFilterData(resource, "llama", replacementTexture, properties, true) {
     override val rawSelectorData
@@ -246,8 +246,8 @@ private class LlamaFilterData(
 }
 
 private class VillagerFilterData(
-    resource: Identifier,
-    replacementTexture: Identifier,
+    resource: ResourceLocation,
+    replacementTexture: ResourceLocation,
     properties: Options
 ) : OptiFineFilterData(resource, "villager", replacementTexture, properties, true) {
     override val rawSelectorData
@@ -275,8 +275,8 @@ private class VillagerFilterData(
 }
 
 private class PlayerFilterData(
-    resource: Identifier,
-    replacementTexture: Identifier,
+    resource: ResourceLocation,
+    replacementTexture: ResourceLocation,
     properties: Options
 ) : OptiFineFilterData(resource, "player", replacementTexture, properties, false) {
     override val rawSelectorData
@@ -288,9 +288,9 @@ private class PlayerFilterData(
 }
 
 private class TexturePathFilterData(
-    resource: Identifier,
-    override val originalTexture: Identifier,
-    replacementTexture: Identifier,
+    resource: ResourceLocation,
+    override val originalTexture: ResourceLocation,
+    replacementTexture: ResourceLocation,
     properties: Options
 ) : OptiFineFilterData(resource, null, replacementTexture, properties, false) {
     init {

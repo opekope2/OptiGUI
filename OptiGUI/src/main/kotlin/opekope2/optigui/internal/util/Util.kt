@@ -1,6 +1,6 @@
 package opekope2.optigui.internal.util
 
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import opekope2.optigui.util.LOG_KEY_CONTAINER
 import opekope2.optigui.util.LOG_KEY_RESOURCE
 import org.slf4j.Logger
@@ -50,8 +50,8 @@ internal inline fun <T, TResult> Collection<T>.mapNotNull(
 
 internal fun joinNotFound(strings: Collection<String>) = strings.joinToString { "`$it`" }
 
-internal fun Logger.eventBuilder(level: Level, resource: Identifier, container: String?) =
+internal fun Logger.eventBuilder(level: Level, resource: ResourceLocation, container: String?) =
     atLevel(level).addKeyValue(LOG_KEY_RESOURCE, resource).addKeyValue(LOG_KEY_CONTAINER, container)
 
-internal fun Logger.eventBuilder(level: Level, resource: Identifier, container: Identifier?) =
+internal fun Logger.eventBuilder(level: Level, resource: ResourceLocation, container: ResourceLocation?) =
     eventBuilder(level, resource, container?.toString())

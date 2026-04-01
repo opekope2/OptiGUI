@@ -1,13 +1,13 @@
 package opekope2.optigui.interaction
 
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.client.gui.screen.Screen
-import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
-import net.minecraft.util.hit.HitResult
-import net.minecraft.world.World
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.client.gui.screens.Screen
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.InteractionHand
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.phys.HitResult
+import net.minecraft.world.level.Level
 import opekope2.optigui.internal.TextureReplacer
 
 /**
@@ -19,8 +19,8 @@ import opekope2.optigui.internal.TextureReplacer
  * @param data The details of the interaction
  */
 data class Interaction(
-    val container: Identifier,
-    val texture: Identifier,
+    val container: ResourceLocation,
+    val texture: ResourceLocation,
     val screen: Screen,
     val data: Data
 ) {
@@ -35,16 +35,16 @@ data class Interaction(
      * @param entity The target entity. Is `null`, if [blockEntity] is not `null`
      */
     data class Data(
-        val player: PlayerEntity,
-        val world: World,
-        val hand: Hand,
+        val player: Player,
+        val world: Level,
+        val hand: InteractionHand,
         val hitResult: HitResult?,
         val extra: Any?,
         val blockEntity: BlockEntity?,
         val entity: Entity?
     ) {
         init {
-            if (!world.isClient) throw IllegalArgumentException("World must be client world")
+            if (!world.isClientSide) throw IllegalArgumentException("World must be client world")
             if (blockEntity != null && entity != null) throw IllegalArgumentException("Can't set both blockEntity and entity")
         }
 
@@ -58,10 +58,10 @@ data class Interaction(
     companion object {
         @JvmStatic
         private fun prepare(
-            container: Identifier,
-            player: PlayerEntity,
-            world: World,
-            hand: Hand,
+            container: ResourceLocation,
+            player: Player,
+            world: Level,
+            hand: InteractionHand,
             hitResult: HitResult?,
             extra: Any?,
             blockEntity: BlockEntity?,
@@ -81,10 +81,10 @@ data class Interaction(
          */
         @JvmStatic
         fun prepare(
-            container: Identifier,
-            player: PlayerEntity,
-            world: World,
-            hand: Hand,
+            container: ResourceLocation,
+            player: Player,
+            world: Level,
+            hand: InteractionHand,
             hitResult: HitResult?,
             extra: Any?
         ): Boolean = prepare(container, player, world, hand, hitResult, extra, null, null)
@@ -99,10 +99,10 @@ data class Interaction(
          */
         @JvmStatic
         fun prepare(
-            container: Identifier,
-            player: PlayerEntity,
-            world: World,
-            hand: Hand,
+            container: ResourceLocation,
+            player: Player,
+            world: Level,
+            hand: InteractionHand,
             hitResult: HitResult?,
             extra: Any?,
             blockEntity: BlockEntity
@@ -118,10 +118,10 @@ data class Interaction(
          */
         @JvmStatic
         fun prepare(
-            container: Identifier,
-            player: PlayerEntity,
-            world: World,
-            hand: Hand,
+            container: ResourceLocation,
+            player: Player,
+            world: Level,
+            hand: InteractionHand,
             hitResult: HitResult?,
             extra: Any?,
             entity: Entity

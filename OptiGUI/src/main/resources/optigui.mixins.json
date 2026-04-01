@@ -7,9 +7,9 @@
   },
   "client": [
     "BookEditScreenMixin",
-    "BookScreenMixin",
-    "DrawContextMixin",
-    "MinecraftClientMixin",
+    "BookViewScreenMixin",
+    "GuiGraphicsMixin",
+    "MinecraftMixin",
     "ScreenMixin"
   ]
 }

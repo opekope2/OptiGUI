@@ -1,12 +1,12 @@
 package opekope2.optigui.toast
 
-import net.minecraft.client.font.TextRenderer
-import net.minecraft.client.gl.RenderPipelines
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.toast.Toast
-import net.minecraft.client.toast.ToastManager
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.client.gui.Font
+import net.minecraft.client.renderer.RenderPipelines
+import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.components.toasts.Toast
+import net.minecraft.client.gui.components.toasts.ToastManager
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 
 /**
  * A toast displaying the inspector message.
@@ -14,22 +14,22 @@ import net.minecraft.util.Identifier
 class InspectorToast : Toast {
     private var visibility = Toast.Visibility.HIDE
 
-    override fun getVisibility() = visibility
+    override fun getWantedVisibility() = visibility
 
     override fun update(manager: ToastManager, time: Long) {
         visibility = if (time >= 4000 * manager.notificationDisplayTimeMultiplier) Toast.Visibility.HIDE
         else Toast.Visibility.SHOW
     }
 
-    override fun draw(context: DrawContext, textRenderer: TextRenderer, startTime: Long) {
-        context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, 0, 0, width, height)
-        context.drawText(textRenderer, TITLE, 7, 7, 0xFF00FFFF.toInt(), false)
-        context.drawText(textRenderer, DESCRIPTION, 7, 18, 0xFFFFFFFF.toInt(), false)
+    override fun render(context: GuiGraphics, textRenderer: Font, startTime: Long) {
+        context.blitSprite(RenderPipelines.GUI_TEXTURED, TEXTURE, 0, 0, width(), height())
+        context.drawString(textRenderer, TITLE, 7, 7, 0xFF00FFFF.toInt(), false)
+        context.drawString(textRenderer, DESCRIPTION, 7, 18, 0xFFFFFFFF.toInt(), false)
     }
 
     companion object {
-        private val TEXTURE = Identifier.ofVanilla("toast/advancement")
-        private val TITLE = Text.translatable("optigui.toast.inspector.title")
-        private val DESCRIPTION = Text.translatable("optigui.toast.inspector.description")
+        private val TEXTURE = ResourceLocation.withDefaultNamespace("toast/advancement")
+        private val TITLE = Component.translatable("optigui.toast.inspector.title")
+        private val DESCRIPTION = Component.translatable("optigui.toast.inspector.description")
     }
 }

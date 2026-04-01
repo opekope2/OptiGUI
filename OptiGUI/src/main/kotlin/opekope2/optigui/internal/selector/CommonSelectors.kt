@@ -1,7 +1,7 @@
 package opekope2.optigui.internal.selector
 
-import net.minecraft.util.Identifier
-import net.minecraft.util.Nameable
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.Nameable
 import opekope2.optigui.filter.ContainingFilter
 import opekope2.optigui.filter.DisjunctionFilter
 import opekope2.optigui.filter.PreProcessorFilter
@@ -87,22 +87,22 @@ internal open class RegexNameSelector(private val ignoreCase: Boolean) : Abstrac
     )
 }
 
-internal open class BiomeSelector : AbstractListSelector<Identifier>() {
-    override fun parseSelector(selector: String) = Identifier.tryParse(selector)
+internal open class BiomeSelector : AbstractListSelector<ResourceLocation>() {
+    override fun parseSelector(selector: String) = ResourceLocation.tryParse(selector)
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
         throw RuntimeException("Invalid biome identifiers: ${joinNotFound(invalidSelectors)}")
 
-    override fun createFilter(parsedSelectors: Collection<Identifier>) = PreProcessorFilter.nullGuarded(
+    override fun createFilter(parsedSelectors: Collection<ResourceLocation>) = PreProcessorFilter.nullGuarded(
         ::transformInteraction,
         "Get interaction biome",
         null,
         ContainingFilter(parsedSelectors)
     )
 
-    override fun transformInteraction(interaction: Interaction): Identifier? {
+    override fun transformInteraction(interaction: Interaction): ResourceLocation? {
         val (_, _, _, data) = interaction
-        return (data.blockEntity?.pos ?: data.entityOrRiddenEntity?.blockPos)?.let(data.world::getBiomeId)
+        return (data.blockEntity?.blockPos ?: data.entityOrRiddenEntity?.blockPosition())?.let(data.world::getBiomeId)
     }
 }
 
@@ -121,6 +121,6 @@ internal open class HeightSelector : AbstractListSelector<NumberOrRange>() {
 
     override fun transformInteraction(interaction: Interaction): Int? {
         val (_, _, _, data) = interaction
-        return (data.blockEntity?.pos ?: data.entityOrRiddenEntity?.blockPos)?.y
+        return (data.blockEntity?.blockPos ?: data.entityOrRiddenEntity?.blockPosition())?.y
     }
 }

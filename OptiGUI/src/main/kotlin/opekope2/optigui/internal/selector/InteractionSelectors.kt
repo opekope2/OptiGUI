@@ -1,7 +1,7 @@
 package opekope2.optigui.internal.selector
 
-import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
+import net.minecraft.world.InteractionHand
+import net.minecraft.resources.ResourceLocation
 import opekope2.optigui.filter.ContainingFilter
 import opekope2.optigui.filter.EqualityFilter
 import opekope2.optigui.filter.IFilter
@@ -15,19 +15,19 @@ internal class InteractionTextureSelector : ISelector {
         PreProcessorFilter(
             { it.texture },
             "Get interaction screen texture",
-            EqualityFilter(Identifier.of(selector))
+            EqualityFilter(ResourceLocation.parse(selector))
         )
 
     override fun getRawSelector(interaction: Interaction) = interaction.texture.toString()
 }
 
-internal class InteractionHandSelector : AbstractListSelector<Hand>() {
-    override fun parseSelector(selector: String) = Hand.entries.firstOrNull { it.name.lowercase() == selector }
+internal class InteractionHandSelector : AbstractListSelector<InteractionHand>() {
+    override fun parseSelector(selector: String) = InteractionHand.entries.firstOrNull { it.name.lowercase() == selector }
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
         throw RuntimeException("Invalid hands: ${joinNotFound(invalidSelectors)}")
 
-    override fun createFilter(parsedSelectors: Collection<Hand>): IFilter<Interaction, *> = PreProcessorFilter(
+    override fun createFilter(parsedSelectors: Collection<InteractionHand>): IFilter<Interaction, *> = PreProcessorFilter(
         { it.data.hand },
         "Get interacting player hand",
         ContainingFilter(parsedSelectors)

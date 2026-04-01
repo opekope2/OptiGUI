@@ -1,13 +1,13 @@
 package opekope2.optigui.internal
 
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
-import net.minecraft.client.gui.screen.ingame.BookEditScreen
-import net.minecraft.client.gui.screen.ingame.BookScreen
-import net.minecraft.client.gui.screen.ingame.HandledScreen
-import net.minecraft.client.gui.screen.ingame.HangingSignEditScreen
-import net.minecraft.client.option.KeyBinding
-import net.minecraft.client.util.InputUtil
-import net.minecraft.util.Identifier
+import net.minecraft.client.gui.screens.inventory.BookEditScreen
+import net.minecraft.client.gui.screens.inventory.BookViewScreen
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
+import net.minecraft.client.gui.screens.inventory.HangingSignEditScreen
+import net.minecraft.client.KeyMapping
+import com.mojang.blaze3d.platform.InputConstants
+import net.minecraft.resources.ResourceLocation
 import opekope2.optigui.registry.FilterLoaderRegistry
 import opekope2.optigui.registry.RetexturableScreenRegistry
 import opekope2.optigui.resource.OptiFineFilterLoader
@@ -16,21 +16,21 @@ import opekope2.optigui.util.MOD_ID
 import org.lwjgl.glfw.GLFW
 
 @JvmField
-internal val OPTIGUI_INSPECTOR_CATEGORY = KeyBinding.Category.create(Identifier.of(MOD_ID, "inspector"))
+internal val OPTIGUI_INSPECTOR_CATEGORY = KeyMapping.Category.register(ResourceLocation.fromNamespaceAndPath(MOD_ID, "inspector"))
 
 @JvmField
-internal val INSPECTOR_KEY_BINDING: KeyBinding = KeyBindingHelper.registerKeyBinding(
-    KeyBinding(
+internal val INSPECTOR_KEY_BINDING: KeyMapping = KeyBindingHelper.registerKeyBinding(
+    KeyMapping(
         "key.optigui.inspect",
-        InputUtil.Type.KEYSYM,
+        InputConstants.Type.KEYSYM,
         GLFW.GLFW_KEY_F12,
         OPTIGUI_INSPECTOR_CATEGORY
     )
 )
 
 internal fun initialize() {
-    RetexturableScreenRegistry.register(HandledScreen::class.java)
-    RetexturableScreenRegistry.register(BookScreen::class.java)
+    RetexturableScreenRegistry.register(AbstractContainerScreen::class.java)
+    RetexturableScreenRegistry.register(BookViewScreen::class.java)
     RetexturableScreenRegistry.register(BookEditScreen::class.java)
     RetexturableScreenRegistry.register(HangingSignEditScreen::class.java)
 
