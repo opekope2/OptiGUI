@@ -6,27 +6,27 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.item.Item
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.core.BlockPos
+import net.minecraft.resources.Identifier
 import net.minecraft.world.level.Level
 import kotlin.jvm.optionals.getOrNull
 
 /**
  * Finds the ID of the given block in the registry.
  */
-val Block.identifier: ResourceLocation
+val Block.identifier: Identifier
     get() = BuiltInRegistries.BLOCK.getKey(this)
 
 /**
  * Finds the ID of the given entity in the registry.
  */
-val Entity.identifier: ResourceLocation
+val Entity.identifier: Identifier
     get() = BuiltInRegistries.ENTITY_TYPE.getKey(type)
 
 /**
  * Finds the ID of the given item in the registry.
  */
-val Item.identifier: ResourceLocation
+val Item.identifier: Identifier
     get() = BuiltInRegistries.ITEM.getKey(this)
 
 /**
@@ -34,5 +34,5 @@ val Item.identifier: ResourceLocation
  *
  * @param pos The position to look up the biome
  */
-fun Level.getBiomeId(pos: BlockPos) = getBiome(pos).unwrapKey().getOrNull()?.location()
+fun Level.getBiomeId(pos: BlockPos) = getBiome(pos).unwrapKey().getOrNull()?.identifier()
     ?: throw RuntimeException("Cannot load biome at $pos in world $this!")

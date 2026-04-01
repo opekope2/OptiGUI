@@ -5,7 +5,7 @@ package opekope2.optigui.registry
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.metadata.ModMetadata
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 /**
  * Texture paths for Minecraft containers.
@@ -18,7 +18,7 @@ import net.minecraft.resources.ResourceLocation
 object ContainerDefaultGuiTextureRegistry : ClientModInitializer {
     private const val CONTAINER_DEFAULT_TEXTURES_KEY = "optigui:container_default_gui_textures"
 
-    private lateinit var containerTextures: MutableMap<ResourceLocation, ResourceLocation>
+    private lateinit var containerTextures: MutableMap<Identifier, Identifier>
 
     override fun onInitializeClient() {
         containerTextures = mutableMapOf()
@@ -39,8 +39,8 @@ object ContainerDefaultGuiTextureRegistry : ClientModInitializer {
         for ((key, value) in texturesObj) {
             val valueString = value.asString
 
-            val keyId = ResourceLocation.parse(key)
-            val valueId = ResourceLocation.parse(valueString)
+            val keyId = Identifier.parse(key)
+            val valueId = Identifier.parse(valueString)
 
             if (keyId in containerTextures) {
                 throw RuntimeException("A default GUI texture for container `$key` has already been registered")
@@ -56,7 +56,7 @@ object ContainerDefaultGuiTextureRegistry : ClientModInitializer {
      * @param container The id of the entity or block entity
      */
     @JvmStatic
-    operator fun contains(container: ResourceLocation) = container in containerTextures
+    operator fun contains(container: Identifier) = container in containerTextures
 
     /**
      * Gets the default GUI texture of the given container, or `null`, if it's unknown.
@@ -64,5 +64,5 @@ object ContainerDefaultGuiTextureRegistry : ClientModInitializer {
      * @param container The id of the entity or block entity to get its GUI texture
      */
     @JvmStatic
-    operator fun get(container: ResourceLocation) = containerTextures[container]
+    operator fun get(container: Identifier) = containerTextures[container]
 }

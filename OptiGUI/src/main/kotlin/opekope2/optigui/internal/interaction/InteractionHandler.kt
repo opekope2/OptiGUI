@@ -6,10 +6,10 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.gui.screens.inventory.*
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.Entity
@@ -27,7 +27,7 @@ import opekope2.optigui.util.interactionData
 import opekope2.optigui.util.invalidateCachedReplacement
 
 internal object InteractionHandler : ClientModInitializer, UseBlockCallback, UseEntityCallback, UseItemCallback,
-    IBeforeInteractionBeginCallback, ScreenEvents.BeforeInit, ScreenEvents.BeforeRender, ScreenEvents.AfterRender {
+    IBeforeInteractionBeginCallback, ScreenEvents.BeforeInit, ScreenEvents.BeforeExtract, ScreenEvents.AfterExtract {
     override fun onInitializeClient() {
         UseBlockCallback.EVENT.register(this)
         UseEntityCallback.EVENT.register(this)
@@ -87,24 +87,24 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
         }
     }
 
-    override fun beforeInit(client: Minecraft?, screen: Screen, scaledWidth: Int, scaledHeight: Int) {
-        ScreenEvents.beforeRender(screen).register(this)
-        ScreenEvents.afterRender(screen).register(this)
+    override fun beforeInit(client: Minecraft, screen: Screen, scaledWidth: Int, scaledHeight: Int) {
+        ScreenEvents.beforeExtract(screen).register(this)
+        ScreenEvents.afterExtract(screen).register(this)
     }
 
-    override fun beforeRender(screen: Screen?, drawContext: GuiGraphics?, mouseX: Int, mouseY: Int, tickDelta: Float) {
+    override fun beforeExtract(screen: Screen, drawContext: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, tickDelta: Float) {
         TextureReplacer.isReplacingTextures = true
     }
 
-    override fun afterRender(screen: Screen?, drawContext: GuiGraphics?, mouseX: Int, mouseY: Int, tickDelta: Float) {
+    override fun afterExtract(screen: Screen, drawContext: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, tickDelta: Float) {
         TextureReplacer.isReplacingTextures = false
     }
 
     @JvmStatic
     fun interact(player: Player, world: Level, currentScreen: Screen) {
         val container = when (currentScreen) {
-            is InventoryScreen -> ResourceLocation.withDefaultNamespace("player")
-            is CreativeModeInventoryScreen -> ResourceLocation.withDefaultNamespace("player")
+            is InventoryScreen -> Identifier.withDefaultNamespace("player")
+            is CreativeModeInventoryScreen -> Identifier.withDefaultNamespace("player")
             is HangingSignEditScreen -> world.getBlockState(currentScreen.sign.blockPos).block.identifier
             else -> return
         }

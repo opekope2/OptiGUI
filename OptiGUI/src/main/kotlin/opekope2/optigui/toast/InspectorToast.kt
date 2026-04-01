@@ -2,11 +2,11 @@ package opekope2.optigui.toast
 
 import net.minecraft.client.gui.Font
 import net.minecraft.client.renderer.RenderPipelines
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.toasts.Toast
 import net.minecraft.client.gui.components.toasts.ToastManager
 import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 /**
  * A toast displaying the inspector message.
@@ -21,14 +21,14 @@ class InspectorToast : Toast {
         else Toast.Visibility.SHOW
     }
 
-    override fun render(context: GuiGraphics, textRenderer: Font, startTime: Long) {
+    override fun extractRenderState(context: GuiGraphicsExtractor, textRenderer: Font, startTime: Long) {
         context.blitSprite(RenderPipelines.GUI_TEXTURED, TEXTURE, 0, 0, width(), height())
-        context.drawString(textRenderer, TITLE, 7, 7, 0xFF00FFFF.toInt(), false)
-        context.drawString(textRenderer, DESCRIPTION, 7, 18, 0xFFFFFFFF.toInt(), false)
+        context.text(textRenderer, TITLE, 7, 7, 0xFF00FFFF.toInt(), false)
+        context.text(textRenderer, DESCRIPTION, 7, 18, 0xFFFFFFFF.toInt(), false)
     }
 
     companion object {
-        private val TEXTURE = ResourceLocation.withDefaultNamespace("toast/advancement")
+        private val TEXTURE = Identifier.withDefaultNamespace("toast/advancement")
         private val TITLE = Component.translatable("optigui.toast.inspector.title")
         private val DESCRIPTION = Component.translatable("optigui.toast.inspector.description")
     }

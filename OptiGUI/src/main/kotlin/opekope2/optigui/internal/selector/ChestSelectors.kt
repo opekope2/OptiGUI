@@ -20,7 +20,7 @@ internal class LargeChestSelector : ISelector {
         val world = interaction.data.world
         val blockEntity = interaction.data.blockEntity as? ChestBlockEntity ?: return null
         val state = world.getBlockState(blockEntity.blockPos)
-        return state.values[ChestBlock.TYPE] != ChestType.SINGLE
+        return state.getValue(ChestBlock.TYPE) != ChestType.SINGLE
     }
 
     override fun getRawSelector(interaction: Interaction) = isChestLarge(interaction)?.toString()

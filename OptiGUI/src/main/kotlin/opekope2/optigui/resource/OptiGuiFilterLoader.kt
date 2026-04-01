@@ -1,7 +1,7 @@
 package opekope2.optigui.resource
 
+import net.minecraft.resources.Identifier
 import net.minecraft.server.packs.resources.ResourceManager
-import net.minecraft.resources.ResourceLocation
 import opekope2.optigui.internal.util.assertNotEmpty
 import opekope2.optigui.internal.util.delimiters
 import opekope2.optigui.internal.util.eventBuilder
@@ -30,7 +30,7 @@ class OptiGuiFilterLoader : IFilterLoader {
                     ?.assertNotEmpty()
                     ?.filter { !it.startsWith('#') }
                     ?.mapNotNull { container ->
-                        ResourceLocation.tryParse(container) ?: run {
+                        Identifier.tryParse(container) ?: run {
                             logger.eventBuilder(ERROR, id, container).log(
                                 "Invalid container identifier `{}` in `{}`",
                                 container, id
@@ -72,13 +72,13 @@ class OptiGuiFilterLoader : IFilterLoader {
 
     private class FilterData(
         override val priority: Int,
-        override val resource: ResourceLocation,
-        override val container: ResourceLocation?,
-        override val replacementTexture: ResourceLocation,
+        override val resource: Identifier,
+        override val container: Identifier?,
+        override val replacementTexture: Identifier,
         private val section: Profile.Section
     ) : IRawFilterData {
-        override var replaceableTextures: Set<ResourceLocation> = (
-                if ("interaction.texture" in section) ResourceLocation.tryParse(section["interaction.texture"]!!)
+        override var replaceableTextures: Set<Identifier> = (
+                if ("interaction.texture" in section) Identifier.tryParse(section["interaction.texture"]!!)
                 else container?.let(ContainerDefaultGuiTextureRegistry::get)
                 )?.let(::setOf) ?: setOf()
 

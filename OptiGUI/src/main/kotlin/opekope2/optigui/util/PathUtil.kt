@@ -2,8 +2,8 @@
 
 package opekope2.optigui.util
 
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.ResourceLocationException
+import net.minecraft.IdentifierException
+import net.minecraft.resources.Identifier
 import java.nio.file.Path
 
 /**
@@ -15,7 +15,7 @@ import java.nio.file.Path
  * @return The found resource or `null`, if the path is malformed
  */
 @JvmOverloads
-fun resolvePath(pathToResolve: String, resource: ResourceLocation, tildePath: String? = null): ResourceLocation? {
+fun resolvePath(pathToResolve: String, resource: Identifier, tildePath: String? = null): Identifier? {
     val tildeValid = tildePath != null && pathToResolve.startsWith("~/")
     val root = Path.of(
         if (tildeValid) "$tildePath/."
@@ -32,12 +32,12 @@ fun resolvePath(pathToResolve: String, resource: ResourceLocation, tildePath: St
             val path = root.resolveSibling(toResolve).normalize().toString().replace('\\', '/')
 
             if (path.contains("..")) null
-            else ResourceLocation.fromNamespaceAndPath(resource.namespace, path)
-        } catch (_: ResourceLocationException) {
+            else Identifier.fromNamespaceAndPath(resource.namespace, path)
+        } catch (_: IdentifierException) {
             null
         }
 
-        1 -> ResourceLocation.tryParse(toResolve)
+        1 -> Identifier.tryParse(toResolve)
 
         else -> return null
     }

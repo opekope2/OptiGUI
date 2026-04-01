@@ -2,10 +2,10 @@ package opekope2.optigui.interaction
 
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.client.gui.screens.Screen
+import net.minecraft.resources.Identifier
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.InteractionHand
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.phys.HitResult
 import net.minecraft.world.level.Level
 import opekope2.optigui.internal.TextureReplacer
@@ -19,8 +19,8 @@ import opekope2.optigui.internal.TextureReplacer
  * @param data The details of the interaction
  */
 data class Interaction(
-    val container: ResourceLocation,
-    val texture: ResourceLocation,
+    val container: Identifier,
+    val texture: Identifier,
     val screen: Screen,
     val data: Data
 ) {
@@ -58,7 +58,7 @@ data class Interaction(
     companion object {
         @JvmStatic
         private fun prepare(
-            container: ResourceLocation,
+            container: Identifier,
             player: Player,
             world: Level,
             hand: InteractionHand,
@@ -81,7 +81,7 @@ data class Interaction(
          */
         @JvmStatic
         fun prepare(
-            container: ResourceLocation,
+            container: Identifier,
             player: Player,
             world: Level,
             hand: InteractionHand,
@@ -99,7 +99,7 @@ data class Interaction(
          */
         @JvmStatic
         fun prepare(
-            container: ResourceLocation,
+            container: Identifier,
             player: Player,
             world: Level,
             hand: InteractionHand,
@@ -118,7 +118,7 @@ data class Interaction(
          */
         @JvmStatic
         fun prepare(
-            container: ResourceLocation,
+            container: Identifier,
             player: Player,
             world: Level,
             hand: InteractionHand,

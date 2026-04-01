@@ -1,6 +1,6 @@
 package opekope2.optigui.internal.selector
 
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.world.Nameable
 import opekope2.optigui.filter.ContainingFilter
 import opekope2.optigui.filter.DisjunctionFilter
@@ -87,20 +87,20 @@ internal open class RegexNameSelector(private val ignoreCase: Boolean) : Abstrac
     )
 }
 
-internal open class BiomeSelector : AbstractListSelector<ResourceLocation>() {
-    override fun parseSelector(selector: String) = ResourceLocation.tryParse(selector)
+internal open class BiomeSelector : AbstractListSelector<Identifier>() {
+    override fun parseSelector(selector: String) = Identifier.tryParse(selector)
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
         throw RuntimeException("Invalid biome identifiers: ${joinNotFound(invalidSelectors)}")
 
-    override fun createFilter(parsedSelectors: Collection<ResourceLocation>) = PreProcessorFilter.nullGuarded(
+    override fun createFilter(parsedSelectors: Collection<Identifier>) = PreProcessorFilter.nullGuarded(
         ::transformInteraction,
         "Get interaction biome",
         null,
         ContainingFilter(parsedSelectors)
     )
 
-    override fun transformInteraction(interaction: Interaction): ResourceLocation? {
+    override fun transformInteraction(interaction: Interaction): Identifier? {
         val (_, _, _, data) = interaction
         return (data.blockEntity?.blockPos ?: data.entityOrRiddenEntity?.blockPosition())?.let(data.world::getBiomeId)
     }

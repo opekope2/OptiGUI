@@ -86,7 +86,7 @@
   "depends": {
     "fabricloader": ">=0.15.0",
     "fabric-events-interaction-v0": "*",
-    "fabric-key-binding-api-v1": "*",
+    "fabric-key-mapping-api-v1": "*",
     "fabric-lifecycle-events-v1": "*",
     "fabric-networking-api-v1": "*",
     "fabric-resource-loader-v0": "*",

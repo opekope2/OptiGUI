@@ -1,7 +1,7 @@
 package opekope2.optigui.internal.selector
 
+import net.minecraft.resources.Identifier
 import net.minecraft.world.InteractionHand
-import net.minecraft.resources.ResourceLocation
 import opekope2.optigui.filter.ContainingFilter
 import opekope2.optigui.filter.EqualityFilter
 import opekope2.optigui.filter.IFilter
@@ -15,7 +15,7 @@ internal class InteractionTextureSelector : ISelector {
         PreProcessorFilter(
             { it.texture },
             "Get interaction screen texture",
-            EqualityFilter(ResourceLocation.parse(selector))
+            EqualityFilter(Identifier.parse(selector))
         )
 
     override fun getRawSelector(interaction: Interaction) = interaction.texture.toString()

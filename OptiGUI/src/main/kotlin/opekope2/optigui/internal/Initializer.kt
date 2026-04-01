@@ -1,13 +1,13 @@
 package opekope2.optigui.internal
 
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper
 import net.minecraft.client.gui.screens.inventory.BookEditScreen
 import net.minecraft.client.gui.screens.inventory.BookViewScreen
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.client.gui.screens.inventory.HangingSignEditScreen
 import net.minecraft.client.KeyMapping
 import com.mojang.blaze3d.platform.InputConstants
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import opekope2.optigui.registry.FilterLoaderRegistry
 import opekope2.optigui.registry.RetexturableScreenRegistry
 import opekope2.optigui.resource.OptiFineFilterLoader
@@ -16,10 +16,11 @@ import opekope2.optigui.util.MOD_ID
 import org.lwjgl.glfw.GLFW
 
 @JvmField
-internal val OPTIGUI_INSPECTOR_CATEGORY = KeyMapping.Category.register(ResourceLocation.fromNamespaceAndPath(MOD_ID, "inspector"))
+internal val OPTIGUI_INSPECTOR_CATEGORY =
+    KeyMapping.Category.register(Identifier.fromNamespaceAndPath(MOD_ID, "inspector"))
 
 @JvmField
-internal val INSPECTOR_KEY_BINDING: KeyMapping = KeyBindingHelper.registerKeyBinding(
+internal val INSPECTOR_KEY_BINDING: KeyMapping = KeyMappingHelper.registerKeyMapping(
     KeyMapping(
         "key.optigui.inspect",
         InputConstants.Type.KEYSYM,

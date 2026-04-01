@@ -17,16 +17,15 @@ repositories {}
 
 dependencies {
     minecraft(libs.minecraft)
-    mappings(loom.officialMojangMappings())
-    modImplementation(libs.fabric.loader)
-    modImplementation(libs.fabric.language.kotlin)
+    implementation(libs.fabric.loader)
+    implementation(libs.fabric.language.kotlin)
 
-    modImplementation(fabric.events.interaction.v0)
-    modImplementation(fabric.key.binding.api.v1)
-    modImplementation(fabric.lifecycle.events.v1)
-    modImplementation(fabric.networking.api.v1)
-    modImplementation(fabric.resource.loader.v0)
-    modImplementation(fabric.screen.api.v1)
+    implementation(fabric.events.interaction.v0)
+    implementation(fabric.key.mapping.api.v1)
+    implementation(fabric.lifecycle.events.v1)
+    implementation(fabric.networking.api.v1)
+    implementation(fabric.deprecated.resource.loader.v0)
+    implementation(fabric.screen.api.v1)
 
     implementation(libs.apache.commons.text)
     include(libs.apache.commons.text)

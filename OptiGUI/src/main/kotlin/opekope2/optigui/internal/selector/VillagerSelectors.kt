@@ -1,22 +1,22 @@
 package opekope2.optigui.internal.selector
 
-import net.minecraft.world.entity.npc.Villager
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
+import net.minecraft.world.entity.npc.villager.Villager
 import opekope2.optigui.filter.*
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.util.joinNotFound
 import opekope2.optigui.util.NumberOrRange
 import kotlin.jvm.optionals.getOrNull
 
-internal class VillagerProfessionSelector : AbstractListSelector<Pair<ResourceLocation, NumberOrRange?>>() {
-    override fun parseSelector(selector: String): Pair<ResourceLocation, NumberOrRange?>? {
+internal class VillagerProfessionSelector : AbstractListSelector<Pair<Identifier, NumberOrRange?>>() {
+    override fun parseSelector(selector: String): Pair<Identifier, NumberOrRange?>? {
         val parts = selector.split('@')
         return when (parts.size) {
-            1 -> (ResourceLocation.tryParse(parts[0]) ?: return null) to null
+            1 -> (Identifier.tryParse(parts[0]) ?: return null) to null
             2 -> {
                 val (rawProfession, rawLevel) = parts
 
-                val profId = ResourceLocation.tryParse(rawProfession) ?: return null
+                val profId = Identifier.tryParse(rawProfession) ?: return null
                 val profLevel = NumberOrRange.tryParse(rawLevel) ?: return null
 
                 profId to profLevel
@@ -29,7 +29,7 @@ internal class VillagerProfessionSelector : AbstractListSelector<Pair<ResourceLo
     override fun parseFailed(invalidSelectors: Collection<String>) =
         throw RuntimeException("Invalid villager professions: ${joinNotFound(invalidSelectors)}")
 
-    override fun createFilter(parsedSelectors: Collection<Pair<ResourceLocation, NumberOrRange?>>) = DisjunctionFilter(
+    override fun createFilter(parsedSelectors: Collection<Pair<Identifier, NumberOrRange?>>) = DisjunctionFilter(
         parsedSelectors.map { (profession, level) ->
             val profFilter = PreProcessorFilter.nullGuarded(
                 ::getVillagerProfession,
@@ -58,19 +58,19 @@ internal class VillagerProfessionSelector : AbstractListSelector<Pair<ResourceLo
     }
 
     private fun getVillagerProfession(interaction: Interaction) =
-        (interaction.data.entity as? Villager)?.villagerData?.profession?.unwrapKey()?.getOrNull()?.location()
+        (interaction.data.entity as? Villager)?.villagerData?.profession?.unwrapKey()?.getOrNull()?.identifier()
 
     private fun getVillagerLevel(interaction: Interaction) =
         (interaction.data.entity as? Villager)?.villagerData?.level
 }
 
-internal class VillagerTypeSelector : AbstractListSelector<ResourceLocation>() {
-    override fun parseSelector(selector: String) = ResourceLocation.tryParse(selector)
+internal class VillagerTypeSelector : AbstractListSelector<Identifier>() {
+    override fun parseSelector(selector: String) = Identifier.tryParse(selector)
 
     override fun parseFailed(invalidSelectors: Collection<String>) =
         throw RuntimeException("Invalid villager types: ${joinNotFound(invalidSelectors)}")
 
-    override fun createFilter(parsedSelectors: Collection<ResourceLocation>) = PreProcessorFilter.nullGuarded(
+    override fun createFilter(parsedSelectors: Collection<Identifier>) = PreProcessorFilter.nullGuarded(
         ::transformInteraction,
         "Get villager type",
         null,
@@ -78,5 +78,5 @@ internal class VillagerTypeSelector : AbstractListSelector<ResourceLocation>() {
     )
 
     override fun transformInteraction(interaction: Interaction) =
-        (interaction.data.entity as? Villager)?.villagerData?.type?.unwrapKey()?.getOrNull()?.location()
+        (interaction.data.entity as? Villager)?.villagerData?.type?.unwrapKey()?.getOrNull()?.identifier()
 }

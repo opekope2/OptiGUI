@@ -8,8 +8,8 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.multiplayer.ClientPacketListener
 import net.minecraft.client.multiplayer.ClientLevel
+import net.minecraft.resources.Identifier
 import net.minecraft.world.InteractionHand
-import net.minecraft.resources.ResourceLocation
 import opekope2.optigui.interaction.IBeforeInteractionBeginCallback
 import opekope2.optigui.interaction.Interaction
 import opekope2.optigui.internal.filter.ContainerMapFilter
@@ -18,20 +18,20 @@ import opekope2.optigui.registry.RetexturableScreenRegistry
 import opekope2.optigui.util.identifier
 
 internal object TextureReplacer : ClientModInitializer {
-    private object InteractionHolder : ClientTickEvents.EndWorldTick, ClientPlayConnectionEvents.Join,
+    private object InteractionHolder : ClientTickEvents.EndLevelTick, ClientPlayConnectionEvents.Join,
         ClientPlayConnectionEvents.Disconnect {
-        val replacementCache = mutableMapOf<ResourceLocation, ResourceLocation>()
+        val replacementCache = mutableMapOf<Identifier, Identifier>()
 
         var interacting: Boolean = false
             private set
 
-        var container: ResourceLocation? = null
+        var container: Identifier? = null
             private set
         var data: Interaction.Data? = null
             private set
         private var screen: Screen? = null
 
-        fun prepare(container: ResourceLocation, data: Interaction.Data): Boolean {
+        fun prepare(container: Identifier, data: Interaction.Data): Boolean {
             if (interacting) return false
 
             this.container = container
@@ -57,7 +57,7 @@ internal object TextureReplacer : ClientModInitializer {
             replacementCache.clear()
         }
 
-        fun createInteraction(texture: ResourceLocation): Interaction? {
+        fun createInteraction(texture: Identifier): Interaction? {
             return if (!interacting) null
             else Interaction(
                 container ?: data?.player?.vehicle?.identifier ?: return null,
@@ -67,17 +67,17 @@ internal object TextureReplacer : ClientModInitializer {
             )
         }
 
-        override fun onEndTick(world: ClientLevel?) {
+        override fun onEndTick(world: ClientLevel) {
             if (interacting) {
                 replacementCache.clear()
             }
         }
 
-        override fun onPlayReady(handler: ClientPacketListener, sender: PacketSender?, client: Minecraft) {
+        override fun onPlayReady(handler: ClientPacketListener, sender: PacketSender, client: Minecraft) {
             data = Interaction.Data(client.player!!, handler.level, InteractionHand.MAIN_HAND, null, null, null, null)
         }
 
-        override fun onPlayDisconnect(handler: ClientPacketListener?, client: Minecraft?) {
+        override fun onPlayDisconnect(handler: ClientPacketListener, client: Minecraft) {
             // Clean up, don't leak memory. Just to be safe.
             end()
             data = null
@@ -85,7 +85,7 @@ internal object TextureReplacer : ClientModInitializer {
     }
 
     private var filter: ContainerMapFilter = ContainerMapFilter(mapOf())
-    private var replaceableTextures: Set<ResourceLocation> = setOf()
+    private var replaceableTextures: Set<Identifier> = setOf()
 
     val inspectableInteraction: Interaction?
         get() {
@@ -100,13 +100,13 @@ internal object TextureReplacer : ClientModInitializer {
         get() = field && InteractionHolder.interacting
 
     override fun onInitializeClient() {
-        ClientTickEvents.END_WORLD_TICK.register(InteractionHolder)
+        ClientTickEvents.END_LEVEL_TICK.register(InteractionHolder)
         ClientPlayConnectionEvents.JOIN.register(InteractionHolder)
         ClientPlayConnectionEvents.DISCONNECT.register(InteractionHolder)
     }
 
     @JvmStatic
-    fun replaceTexture(texture: ResourceLocation): ResourceLocation {
+    fun replaceTexture(texture: Identifier): Identifier {
         // Only replace predefined textures
         if (texture !in replaceableTextures) return texture
 
@@ -127,10 +127,10 @@ internal object TextureReplacer : ClientModInitializer {
         }
     }
 
-    fun prepareInteraction(container: ResourceLocation, data: Interaction.Data): Boolean =
+    fun prepareInteraction(container: Identifier, data: Interaction.Data): Boolean =
         InteractionHolder.prepare(container, data)
 
-    fun onFiltersLoaded(filter: ContainerMapFilter, replaceableTextures: Set<ResourceLocation>) {
+    fun onFiltersLoaded(filter: ContainerMapFilter, replaceableTextures: Set<Identifier>) {
         this.filter = filter
         this.replaceableTextures = replaceableTextures
     }
