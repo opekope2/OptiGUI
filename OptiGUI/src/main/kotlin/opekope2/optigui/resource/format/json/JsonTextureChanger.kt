@@ -1,15 +1,13 @@
 package opekope2.optigui.resource.format.json
 
-import com.google.common.base.Suppliers
 import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
-import net.minecraft.util.Identifier
-import net.minecraft.util.dynamic.Codecs
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.ExtraCodecs
 import opekope2.optigui.filter.texture_changer.ITextureChanger
 import opekope2.optigui.filter.texture_changer.RandomizedTextureChanger
 import opekope2.optigui.filter.texture_changer.SimpleTextureChanger
-import opekope2.optigui.internal.I18n
 import opekope2.optigui.util.RelativeIdentifier
 
 /**
@@ -17,9 +15,9 @@ import opekope2.optigui.util.RelativeIdentifier
  *
  * @param newTextureChances A map containing the changed textures and a positive weight for the randomizer
  */
-data class JsonTextureChanger(val newTextureChances: Map<Either<RelativeIdentifier, Identifier>, Int>) {
-    constructor(newTexture: Either<RelativeIdentifier, Identifier>) : this(mapOf(newTexture to 1))
-    constructor(newTexture: Identifier) : this(Either.right(newTexture))
+data class JsonTextureChanger(val newTextureChances: Map<Either<RelativeIdentifier, ResourceLocation>, Int>) {
+    constructor(newTexture: Either<RelativeIdentifier, ResourceLocation>) : this(mapOf(newTexture to 1))
+    constructor(newTexture: ResourceLocation) : this(Either.right(newTexture))
 
     init {
         require(newTextureChances.isNotEmpty()) { "New texture chances cannot be empty" }
@@ -35,8 +33,8 @@ data class JsonTextureChanger(val newTextureChances: Map<Either<RelativeIdentifi
      *
      * @param textureResolver The predicate that checks if a texture is present in-game
      */
-    inline fun createTextureChanger(textureResolver: (Either<RelativeIdentifier, Identifier>) -> Identifier?): DataResult<ITextureChanger> {
-        val found = mutableMapOf<Identifier, Int>()
+    inline fun createTextureChanger(textureResolver: (Either<RelativeIdentifier, ResourceLocation>) -> ResourceLocation?): DataResult<ITextureChanger> {
+        val found = mutableMapOf<ResourceLocation, Int>()
         val notFound = mutableSetOf<String>()
 
         for ((texture, weight) in newTextureChances) {
@@ -50,15 +48,15 @@ data class JsonTextureChanger(val newTextureChances: Map<Either<RelativeIdentifi
                 if (newTextureChances.size == 1) DataResult.success(SimpleTextureChanger(found.keys.single()))
                 else DataResult.success(RandomizedTextureChanger(found))
 
-            0 -> DataResult.error(Suppliers.memoize { notFound.joinToString(prefix = "Missing textures: ") })
+            0 -> DataResult.error { notFound.joinToString(prefix = "Missing textures: ") }
 
             1 -> DataResult.error(
-                Suppliers.memoize { notFound.joinToString(prefix = "Missing textures: ") },
+                { notFound.joinToString(prefix = "Missing textures: ") },
                 SimpleTextureChanger(found.keys.single())
             )
 
             else -> DataResult.error(
-                Suppliers.memoize { notFound.joinToString(prefix = "Missing textures: ") },
+                { notFound.joinToString(prefix = "Missing textures: ") },
                 RandomizedTextureChanger(found)
             )
         }
@@ -71,9 +69,9 @@ data class JsonTextureChanger(val newTextureChances: Map<Either<RelativeIdentifi
         @JvmField
         val CODEC: Codec<JsonTextureChanger> = Codec.either(
             RelativeIdentifier.RELATIVE_OR_ABSOLUTE_CODEC,
-            Codec.unboundedMap(RelativeIdentifier.RELATIVE_OR_ABSOLUTE_CODEC, Codecs.POSITIVE_INT).validate {
+            Codec.unboundedMap(RelativeIdentifier.RELATIVE_OR_ABSOLUTE_CODEC, ExtraCodecs.POSITIVE_INT).validate {
                 if (it.isNotEmpty()) DataResult.success(it)
-                else DataResult.error(I18n.OPTIGUI_VALIDATION_ERROR_EMPTY_MAP.supplyTranslation())
+                else DataResult.error { "No changed textures were specified" }
             }
         ).xmap(
             { either -> Either.unwrap(either.mapLeft { mapOf(it to 1) }) },

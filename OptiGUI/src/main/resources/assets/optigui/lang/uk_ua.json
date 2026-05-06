@@ -1,0 +1,73 @@
+{
+  "optigui.gui.rp_converter.conversion_fail": "OptiGUI не вдалося конвертувати деякі ресурси",
+  "optigui.gui.rp_converter.conversion_success": "Ресурс-пак успішно конвертовано",
+  "optigui.gui.rp_converter.convert": "Конвертувати ресурс-пак",
+  "optigui.gui.rp_converter.convert_ini": "Конвертувати OptiGUI .ini",
+  "optigui.gui.rp_converter.convert_properties": "Конвертувати OptiFine .properties",
+  "optigui.gui.rp_converter.converting": "Конвертування ресурс-паку",
+  "optigui.gui.rp_converter.description": "Конвертує OptiFine .properties та OptiGUI .ini у JSON-ресурси OptiGUI",
+  "optigui.gui.rp_converter.output_file": "Назва вихідного файлу",
+  "optigui.gui.rp_converter.target_namespace": "Цільовий простір назв (namespace)",
+  "optigui.gui.rp_converter.title": "Конвертер ресурс-паків OptiGUI",
+
+  "optigui.gui.rp_loader.do_not_show_again": "Більше не показувати",
+  "optigui.gui.rp_loader.do_not_show_again.tooltip": "Це можна змінити будь-коли в налаштуваннях OptiGUI",
+  "optigui.gui.rp_loader.load_fail": "OptiGUI не вдалося завантажити деякі ресурси",
+  "optigui.gui.rp_loader.unknown_pack": "Невідомий ресурс-пак",
+  "optigui.gui.rp_loader.unknown_resource": "Невідомий ресурс",
+
+
+  "optigui.inspector": "Інспектор OptiGUI",
+
+  "optigui.inspector.description": "Натисніть, щоб згенерувати JSON-ресурс",
+  "optigui.inspector.description.clicked": "JSON-ресурс скопійовано в буфер обміну",
+  "optigui.inspector.description.debug": "Натисніть, щоб відкрити відлагоджувач фільтрів",
+  "optigui.inspector.description.hide": "Це можна приховати в налаштуваннях OptiGUI",
+
+  "optigui.inspector.key.more_info": "Утримуйте %s для додаткової інформації",
+
+  "optigui.inspector.nbt_dumping_disabled": "Дамп NBT вимкнено в налаштуваннях OptiGUI",
+
+  "optigui.inspector.title": "OptiGUI (%s)",
+  "optigui.inspector.title.alpha": "OptiGUI alpha (%s)",
+  "optigui.inspector.title.beta": "OptiGUI beta (%s)",
+  "optigui.inspector.title.custom_textures": "власні текстури",
+  "optigui.inspector.title.original_textures": "оригінальні текстури",
+
+
+  "optigui.rp_loader.warn.missing_sprites": "Відсутні спрайти: %s",
+  "optigui.rp_loader.warn.missing_textures": "Відсутні текстури: %s",
+  "optigui.rp_loader.warn.no_textures_or_sprites": "Не вказано жодної коректної текстури або спрайта",
+
+
+  "text.config.optigui.option.dumpNbt": "Створювати дамп NBT",
+  "text.config.optigui.option.dumpNbt.tooltip": "Включати дані NBT у згенеровані JSON-ресурси",
+  "text.config.optigui.option.dumpNbt.value.nothing": "Вимкнено",
+  "text.config.optigui.option.dumpNbt.value.values_and_types": "Значення і типи",
+  "text.config.optigui.option.dumpNbt.value.values_only": "Лише значення",
+
+  "text.config.optigui.option.enableInspector": "Увімкнути інспектор",
+  "text.config.optigui.option.enableInspector.tooltip": "Показувати кнопку інспектора на підтримуваних екранах інвентарю",
+
+  "text.config.optigui.option.interactWithAttackKey": "Взаємодія клавішею атаки",
+  "text.config.optigui.option.interactWithAttackKey.tooltip": "На додачу до клавіші використання, атака також починає взаємодію\n§8Деякі сервери можуть відкривати меню при атаці по сутності",
+
+  "text.config.optigui.option.keepInteractionFactory": "Запам'ятовувати останню взаємодію",
+  "text.config.optigui.option.keepInteractionFactory.tooltip": "Не завершувати взаємодію при закритті екрана\n§8Деякі сервери можуть відкривати нові меню з попередніх",
+
+  "text.config.optigui.option.showResourceLoadingErrors": "Показувати журнали завантаження ресурсів",
+  "text.config.optigui.option.showResourceLoadingErrors.tooltip": "Показувати журнали завантаження, коли OptiGUI не вдалося завантажити ресурс",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_and_warnings": "Помилки й попередження",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_only": "Лише помилки",
+  "text.config.optigui.option.showResourceLoadingErrors.value.nothing": "Ніколи",
+
+  "text.config.optigui.section.inspector": "Інспектор",
+  "text.config.optigui.section.interaction": "Взаємодія",
+  "text.config.optigui.section.resourceLoading": "Завантаження ресурсів",
+
+  "text.config.optigui.title": "Налаштування OptiGUI",
+
+  "text.config.optigui.tools": "Інструменти",
+  "text.config.optigui.tools.resource_loading_logs": "Журнали завантаження ресурсів",
+  "text.config.optigui.tools.rp_converter": "Конвертер ресурс-паків"
+}

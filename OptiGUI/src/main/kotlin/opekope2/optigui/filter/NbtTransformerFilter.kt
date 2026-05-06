@@ -1,8 +1,9 @@
 package opekope2.optigui.filter
 
 import com.mojang.serialization.Codec
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.Tag
 import opekope2.optigui.filter.transformer.INbtTransformer
+import opekope2.optigui.filter.transformer.IPrefixNbtTransformer
 import opekope2.optigui.util.NbtFilterEvaluation
 
 /**
@@ -12,37 +13,60 @@ import opekope2.optigui.util.NbtFilterEvaluation
  * @param type The type describing this filter
  * @see INbtTransformer
  */
-class NbtTransformerFilter(val subFilter: INbtFilter, override val type: TypeBase) : INbtFilter {
-    override fun test(nbt: NbtElement, root: NbtElement): Boolean {
-        return subFilter.test(type.transformer.transform(nbt) ?: return false, root)
+class NbtTransformerFilter(val subFilter: INbtFilter, override val type: IType) : INbtFilter {
+    override fun test(nbt: Tag, root: Tag): Boolean {
+        return subFilter.test(type.transformer.transform(nbt, root) ?: return false, root)
     }
 
-    override fun testSubFilters(nbt: NbtElement, root: NbtElement): Collection<NbtFilterEvaluation> {
-        return listOf(NbtFilterEvaluation(subFilter, type.transformer.transform(nbt) ?: return emptyList(), root))
+    override fun testSubFilters(nbt: Tag?, root: Tag): List<NbtFilterEvaluation> {
+        val transformed = if (nbt != null) type.transformer.transform(nbt, root) else null
+        return listOf(NbtFilterEvaluation(subFilter, transformed, root))
     }
 
     /**
      * The base type describing [NbtTransformerFilter].
      *
-     * @param transformer The NBT transformer used to transform the input NBT element
      * @see Type
+     * @see PrefixType
      */
-    abstract class TypeBase(val transformer: INbtTransformer) : INbtFilter.IType<NbtTransformerFilter> {
-        final override val codec: Codec<NbtTransformerFilter> by lazy {
-            INbtFilter.codec.xmap(
+    sealed interface IType : INbtFilter.IType<NbtTransformerFilter> {
+        override val codec: Codec<NbtTransformerFilter>
+            get() = INbtFilter.CODEC.xmap(
                 { NbtTransformerFilter(it, this) },
                 NbtTransformerFilter::subFilter
             )
-        }
+
+        /**
+         * The NBT transformer used to transform the input NBT element.
+         */
+        val transformer: INbtTransformer
     }
 
     /**
-     * A type describing an [NbtTransformerFilter], the default implementation of [TypeBase].
+     * A type describing an [NbtTransformerFilter].
      *
-     * @param nbtTransformer The NBT transformer used to transform the input NBT element. It is identical to
-     *   [transformer]
+     * @param transformer The NBT transformer used to transform the input NBT element
      */
-    // nbtTransformer needed a new name because transformer is not virtual for performance reasons
-    // But JVM only has INVOKEVIRTUAL, not INVOKE, hence how getTransformer() is called in NbtTransformerFilter::test
-    data class Type(val nbtTransformer: INbtTransformer) : TypeBase(nbtTransformer)
+    data class Type(override val transformer: INbtTransformer) : IType {
+        override val codec = super.codec
+    }
+
+    /**
+     * A type describing a prefix [NbtTransformerFilter].
+     *
+     * @param T The type of the NBT transformer used to transform the input NBT element
+     * @param key The prefixed key of a prefix NBT transformer
+     * @param transformer The NBT transformer created by a prefix NBT transformer by specifying the `key` argument in
+     *   [IPrefixNbtTransformer.transform]
+     */
+    data class PrefixType<T : INbtTransformer>(override val key: String, override val transformer: T) : IType {
+        init {
+            require(isRegistered) { "Prefix NBT filter is not registered" }
+        }
+
+        override val isRegistered: Boolean
+            get() = key.isNotEmpty() && key[0] in IPrefixNbtTransformer
+
+        override val codec = super.codec
+    }
 }

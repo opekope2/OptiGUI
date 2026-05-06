@@ -1,9 +1,9 @@
 package opekope2.optigui.filter
 
 import com.mojang.serialization.Codec
-import net.minecraft.nbt.NbtElement
-import net.minecraft.nbt.NbtString
-import net.minecraft.util.dynamic.Codecs
+import net.minecraft.nbt.StringTag
+import net.minecraft.nbt.Tag
+import net.minecraft.util.ExtraCodecs
 import java.util.function.UnaryOperator
 import java.util.regex.PatternSyntaxException
 
@@ -17,9 +17,11 @@ import java.util.regex.PatternSyntaxException
 class NbtStringRegexFilter(val pattern: String, override val type: Type) : INbtFilter {
     private val regex: Regex = type.toRegex.apply(pattern).toRegex(type.regexOptions)
 
-    override fun test(nbt: NbtElement, root: NbtElement) =
-        if (nbt !is NbtString) false
-        else regex.matches(nbt.asString())
+    override fun test(nbt: Tag, root: Tag) =
+        if (nbt !is StringTag) false
+        else regex.matches(nbt.asString)
+
+    override fun toString() = super.asString() + " " + pattern
 
     /**
      * A type describing an [NbtStringRegexFilter].
@@ -49,7 +51,7 @@ class NbtStringRegexFilter(val pattern: String, override val type: Type) : INbtF
          */
         CASE_INSENSITIVE_WILDCARD(::wildcardToRegex, setOf(RegexOption.IGNORE_CASE));
 
-        override val codec: Codec<NbtStringRegexFilter> = Codecs.exceptionCatching(
+        override val codec: Codec<NbtStringRegexFilter> = ExtraCodecs.catchDecoderException(
             Codec.STRING.xmap({ NbtStringRegexFilter(it, this) }, NbtStringRegexFilter::pattern)
         )
 

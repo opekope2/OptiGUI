@@ -17,8 +17,9 @@ Cool!
 
 1. Clone the repository
 2. Create a new branch from `dev`
-3. Add your translation JSON to `OptiGUI/src/main/resources/assets/optigui/lang/` folder
+3. Add your translation JSON to `OptiGUI/src/main/resources/assets/optigui/lang/` folder. See `en_us.jsonc` for translation context
 4. Open a pull request to the `dev` branch
+5. I will add your GitHub display name and GitHub link to the README, the Modrinth and CurseForge pages, `fabric.mod.json`, and `neoforge.mods.toml`. If you want a different name or link, include it in the pull request description
 
 ## I'd like to see a feature added to OptiGUI
 

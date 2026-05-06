@@ -6,8 +6,13 @@
     "defaultRequire": 1
   },
   "client": [
-    "ClientPlayerEntityMixin",
-    "DrawContextMixin",
-    "MinecraftClientMixin"
+    "AnvilScreenMixin",
+    "BookEditScreenMixin",
+    "BookViewScreenMixin",
+    "CreativeModeInventoryScreenMixin",
+    "GuiGraphicsMixin",
+    "LocalPlayerMixin",
+    "MinecraftMixin",
+    "TextComponentTagVisitorAccessor"
   ]
 }

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "optigui-screen-nbt",
+  "version": "$version",
+  "name": "OptiGUI Screen NBT",
+  "description": "OptiGUI Screen NBT mod provides GUI screen information as NBT, which can be filtered with JSON resources.",
+  "authors": [
+    {
+      "name": "opekope2",
+      "contact": {
+        "homepage": "https://opekope2.dev",
+        "github": "https://github.com/opekope2"
+      }
+    }
+  ],
+  "contact": {
+    "homepage": "https://opekope2.dev/OptiGUI",
+    "sources": "https://github.com/opekope2/OptiGUI",
+    "issues": "https://github.com/opekope2/OptiGUI/issues"
+  },
+  "license": "LGPL-3.0-or-later",
+  "icon": "icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "opekope2.optigui.screen_nbt.internal.fabric.OptiGuiScreenNbtClient"
+    ]
+  },
+  "mixins": [
+    "optigui-screen-nbt.mixins.json"
+  ],
+  "depends": {
+    "minecraft": ">=$minecraft",
+    "java": ">=$java"
+  },
+  "custom": {
+    "modmenu": {
+      "parent": "optigui"
+    }
+  }
+}

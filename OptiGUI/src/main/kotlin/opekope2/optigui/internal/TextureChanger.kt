@@ -1,27 +1,30 @@
 package opekope2.optigui.internal
 
 import com.google.common.collect.LinkedListMultimap
-import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.SynchronousResourceReloader
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener
 import opekope2.optigui.filter.IFilterLoader
 import opekope2.optigui.filter.texture_changer.TextureChangerFilter
 import opekope2.optigui.interaction.InteractionManager
 import opekope2.optigui.interaction.InteractionTarget
 import opekope2.optigui.util.collections.LinkedMruCollection
+import org.jetbrains.annotations.ApiStatus
 
-internal object TextureChanger : SynchronousResourceReloader {
+@ApiStatus.Internal
+object TextureChanger : ResourceManagerReloadListener {
     var filter: TextureChangerFilter = TextureChangerFilter.NO_OP
         private set
-    private var filters = mapOf<InteractionTarget, LinkedMruCollection<TextureChangerFilter>>()
+    var filters = mapOf<InteractionTarget, LinkedMruCollection<TextureChangerFilter>>()
+        private set
     var renderingScreen = false
-    val renderedTextures = mutableSetOf<Identifier>()
-    val renderedSprites = mutableSetOf<Identifier>()
+    val renderedTextures = mutableSetOf<ResourceLocation>()
+    val renderedSprites = mutableSetOf<ResourceLocation>()
     var renderedCustomTextures = false
         private set
 
     @JvmStatic
-    fun changeTexture(texture: Identifier): Identifier {
+    fun changeTexture(texture: ResourceLocation): ResourceLocation {
         if (!renderingScreen) return texture
         if (!InteractionManager.isInteracting) return texture
         renderedTextures += texture
@@ -32,7 +35,7 @@ internal object TextureChanger : SynchronousResourceReloader {
     }
 
     @JvmStatic
-    fun changeSprite(sprite: Identifier): Identifier {
+    fun changeSprite(sprite: ResourceLocation): ResourceLocation {
         if (!renderingScreen) return sprite
         if (!InteractionManager.isInteracting) return sprite
         renderedSprites += sprite
@@ -42,13 +45,10 @@ internal object TextureChanger : SynchronousResourceReloader {
         return filter.spriteChangers.getValue(sprite).apply(sprite)
     }
 
-    fun clearCache(disconnected: Boolean) {
-        val prevFilter = filter
+    fun clearCache() {
         filter = updateFilter()
         renderedTextures.clear()
         renderedCustomTextures = false
-
-        TextStyler.clearCache(prevFilter.textStyleChangers !== filter.textStyleChangers, disconnected)
     }
 
     private fun updateFilter(): TextureChangerFilter {
@@ -58,7 +58,7 @@ internal object TextureChanger : SynchronousResourceReloader {
         return filters.promoteFirstOrNull { it.test(nbt, nbt) } ?: TextureChangerFilter.NO_OP
     }
 
-    override fun reload(manager: ResourceManager?) {
+    override fun onResourceManagerReload(manager: ResourceManager) {
         val map = LinkedListMultimap.create<InteractionTarget, TextureChangerFilter>()
         for ((_, filterLoader) in IFilterLoader.Registry) {
             map.putAll(filterLoader.filters)

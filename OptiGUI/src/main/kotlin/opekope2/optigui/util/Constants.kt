@@ -8,6 +8,16 @@ package opekope2.optigui.util
 const val MOD_ID = "optigui"
 
 /**
+ * OptiGUI JSON filter resource documentation URL.
+ */
+const val JSON_RESOURCE_DOCS_URL = "https://opekope2.dev/OptiGUI/JSON.html"
+
+/**
+ * OptiGUI JSON resource schema URL.
+ */
+const val JSON_RESOURCE_SCHEMA_URL = "https://opekope2.dev/OptiGUI/json_resource.schema.json"
+
+/**
  * Root folder to look for OptiGUI custom GUI INI resources.
  */
 const val OPTIGUI_INI_RESOURCES_ROOT = "gui"
@@ -32,3 +42,8 @@ const val OF_TILDE_PATH = "optifine/."
  * Log key to tell OptiGUI about the resource being loaded.
  */
 const val LOG_KEY_RESOURCE = "resource"
+
+/**
+ * Log key to tell OptiGUI about the resource pack being loaded.
+ */
+const val LOG_KEY_RESOURCE_PACK = "pack"

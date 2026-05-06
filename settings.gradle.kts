@@ -1,8 +1,11 @@
 pluginManagement {
     repositories {
-        maven("https://maven.fabricmc.net") { name = "Fabric" }
         mavenCentral()
         gradlePluginPortal()
+        exclusiveContent {
+            forRepository { maven("https://maven.fabricmc.net") { name = "Fabric" } }
+            filter { includeGroup("net.fabricmc"); includeGroup("net.fabricmc.unpick"); includeGroup("fabric-loom") }
+        }
     }
 }
 
@@ -12,13 +15,17 @@ plugins {
 }
 
 dependencyResolutionManagement {
-    versionCatalogs {
-        val libs by creating
-    }
+    versionCatalogs.register("libs")
 }
 
 include(
     "OptiGUI",
+    "OptiGUI-Fabric",
+    "OptiGUI-NeoForge",
     "ScreenAPI",
+    "ScreenAPI-Fabric",
+    "ScreenAPI-NeoForge",
     "ScreenNBT",
+    "ScreenNBT-Fabric",
+    "ScreenNBT-NeoForge",
 )

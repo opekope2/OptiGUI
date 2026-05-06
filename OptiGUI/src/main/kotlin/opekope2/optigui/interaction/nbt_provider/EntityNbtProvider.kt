@@ -1,17 +1,17 @@
 package opekope2.optigui.interaction.nbt_provider
 
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtElement
-import net.minecraft.registry.RegistryWrapper
-import opekope2.optigui.interaction.EntityInteraction
+import net.minecraft.core.RegistryAccess
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.world.entity.Entity
 import opekope2.optigui.interaction.IInteraction
+import java.util.function.Function
 
 /**
- * Provides the entity NBT of an interaction.
+ * Provides the NBT of an entity.
+ *
+ * @param entityGetter A function that gets the [Entity] from the interaction, if applicable.
  */
-object EntityNbtProvider : IInteractionNbtProvider {
-    override fun get(interaction: IInteraction, lookup: RegistryWrapper.WrapperLookup): NbtElement? {
-        val data = interaction as? EntityInteraction ?: return null
-        return data.entity.writeNbt(NbtCompound())
-    }
+class EntityNbtProvider(private val entityGetter: Function<IInteraction, Entity?>) : IInteractionNbtProvider {
+    override fun get(interaction: IInteraction, registryAccess: RegistryAccess) =
+        entityGetter.apply(interaction)?.saveWithoutId(CompoundTag())
 }

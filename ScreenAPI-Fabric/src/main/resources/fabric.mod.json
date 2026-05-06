@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "optigui-screen-api",
+  "version": "$version",
+  "name": "OptiGUI Screen API",
+  "description": "OptiGUI Screen API allows developers to add OptiGUI compatibility to GUI screens.\nOptiGUI Screen API adds OptiGUI compatibility to relevant vanilla GUI screens.",
+  "authors": [
+    {
+      "name": "opekope2",
+      "contact": {
+        "homepage": "https://opekope2.dev",
+        "github": "https://github.com/opekope2"
+      }
+    }
+  ],
+  "contact": {
+    "homepage": "https://opekope2.dev/OptiGUI",
+    "sources": "https://github.com/opekope2/OptiGUI",
+    "issues": "https://github.com/opekope2/OptiGUI/issues"
+  },
+  "license": "MIT",
+  "icon": "icon.png",
+  "environment": "client",
+  "mixins": [
+    "optigui-screen-api.mixins.json"
+  ],
+  "depends": {
+    "minecraft": ">=$minecraft",
+    "java": ">=$java"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [
+        "library"
+      ],
+      "parent": "optigui"
+    }
+  }
+}
