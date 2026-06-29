@@ -9,7 +9,7 @@
     "BookEditScreenMixin",
     "BookViewScreenMixin",
     "GuiGraphicsExtractorMixin",
-    "MinecraftMixin",
+    "GuiMixin",
     "ScreenMixin"
   ]
 }

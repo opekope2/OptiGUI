@@ -59,7 +59,7 @@ internal object InteractionHandler : ClientModInitializer, UseBlockCallback, Use
         world: Level,
         hand: InteractionHand,
         entity: Entity,
-        hitResult: EntityHitResult?
+        hitResult: EntityHitResult
     ): InteractionResult {
         if (!world.isClientSide) return InteractionResult.PASS
 

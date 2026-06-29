@@ -7,6 +7,7 @@ import opekope2.optigui.internal.InitializerKt;
 import opekope2.optigui.registry.RetexturableScreenRegistry;
 import opekope2.optigui.toast.InspectorToast;
 import opekope2.optigui.util.InteractionUtil;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Screen.class)
 public abstract class ScreenMixin {
+    @Final
     @Shadow
     protected Minecraft minecraft;
 
@@ -29,6 +31,6 @@ public abstract class ScreenMixin {
         if (inspection == null) return;
 
         minecraft.keyboardHandler.setClipboard(inspection);
-        minecraft.getToastManager().addToast(new InspectorToast());
+        minecraft.gui.toastManager().addToast(new InspectorToast());
     }
 }
