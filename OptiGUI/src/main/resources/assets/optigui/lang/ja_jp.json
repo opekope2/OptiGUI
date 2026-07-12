@@ -1,0 +1,75 @@
+{
+  "optigui.gui.rp_converter.conversion_fail": "OptiGUI では一部のリソースを変換できませんでした",
+  "optigui.gui.rp_converter.conversion_success": "リソースパックの変換に成功しました",
+  "optigui.gui.rp_converter.convert": "リソースパックを変換",
+  "optigui.gui.rp_converter.convert_ini": "OptiGUI .ini を変換中",
+  "optigui.gui.rp_converter.convert_properties": "OptiFine .properties を変換中",
+  "optigui.gui.rp_converter.converting": "リソースパックを変換中",
+  "optigui.gui.rp_converter.description": "OptiFineの.propertiesファイルおよびOptiGUIの.iniファイルをOptiGUI JSONリソースに変換",
+  "optigui.gui.rp_converter.output_file": "出力ファイル名",
+  "optigui.gui.rp_converter.target_namespace": "対象の名前空間",
+  "optigui.gui.rp_converter.title": "OptiGUI リソースパックコンバーター",
+
+  "optigui.gui.rp_loader.do_not_show_again": "二度と表示しない",
+  "optigui.gui.rp_loader.do_not_show_again.tooltip": "OptiGUIの設定でいつでもこれを変更できます",
+  "optigui.gui.rp_loader.load_fail": "OptiGUIの一部リソースを読み込めませんでした",
+  "optigui.gui.rp_loader.unknown_pack": "不明なリソースパック",
+  "optigui.gui.rp_loader.unknown_resource": "不明なリソース",
+
+  "optigui.inspector": "OptiGUI インスペクター",
+
+  "optigui.inspector.description": "クリックしてJSONリソースを生成します",
+  "optigui.inspector.description.clicked": "JSONリソースがクリップボードにコピーされました",
+  "optigui.inspector.description.debug": "クリックしてフィルターデバッガーを開きます",
+  "optigui.inspector.description.hide": "OptiGUIの設定でこれを非表示にできます",
+
+  "optigui.inspector.key.more_info": "詳細情報を表示するには %s を長押ししてください",
+
+  "optigui.inspector.nbt_dumping_disabled": "OptiGUIの設定でNBTダンプが無効になっています",
+
+  "optigui.inspector.title": "OptiGUI (%s)",
+  "optigui.inspector.title.alpha": "OptiGUI アルファ版 (%s)",
+  "optigui.inspector.title.beta": "OptiGUI ベータ版 (%s)",
+  "optigui.inspector.title.custom_textures": "カスタムテクスチャ",
+  "optigui.inspector.title.original_textures": "オリジナルテクスチャ",
+
+
+  /////////////////////////////
+  // OptiGUI resource loader //
+  /////////////////////////////
+
+  "optigui.rp_loader.warn.missing_sprites": "表示されていないスプライト: %s",
+  "optigui.rp_loader.warn.missing_textures": "表示されていないテクスチャ: %s",
+  "optigui.rp_loader.warn.no_textures_or_sprites": "有効なテクスチャやスプライトが指定されていません",
+  
+  "text.config.optigui.option.dumpNbt": "NBTをダンプ",
+  "text.config.optigui.option.dumpNbt.tooltip": "生成されるJSONリソースにNBTデータを含める",
+  "text.config.optigui.option.dumpNbt.value.nothing": "無効",
+  "text.config.optigui.option.dumpNbt.value.values_and_types": "値と型",
+  "text.config.optigui.option.dumpNbt.value.values_only": "値のみ",
+
+  "text.config.optigui.option.enableInspector": "インスペクターを有効化",
+  "text.config.optigui.option.enableInspector.tooltip": "対応しているインベントリにインスペクターボタンを表示",
+
+  "text.config.optigui.option.interactWithAttackKey": "攻撃キーを使ってインタラクション",
+  "text.config.optigui.option.interactWithAttackKey.tooltip": "使用キーに加え、攻撃を行ってもインタラクションが開始されます\n§8 一部のサーバーでは、エンティティを攻撃するとメニューが表示される場合があります",
+
+  "text.config.optigui.option.keepInteractionFactory": "最後のインタラクションを記憶",
+  "text.config.optigui.option.keepInteractionFactory.tooltip": "画面が閉じても、操作を終了しません\n§8 サーバーによっては、メニューから別のメニューを開く場合があります",
+
+  "text.config.optigui.option.showResourceLoadingErrors": "リソース読み込みログを表示",
+  "text.config.optigui.option.showResourceLoadingErrors.tooltip": "OptiGUI がリソース読み込みに失敗した際のログを表示",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_and_warnings": "エラーと警告",
+  "text.config.optigui.option.showResourceLoadingErrors.value.errors_only": "エラーのみ",
+  "text.config.optigui.option.showResourceLoadingErrors.value.nothing": "その他",
+
+  "text.config.optigui.section.inspector": "インスペクター",
+  "text.config.optigui.section.interaction": "インタラクション",
+  "text.config.optigui.section.resourceLoading": "リソース読み込み",
+
+  "text.config.optigui.title": "OptiGUI 設定",
+
+  "text.config.optigui.tools": "ユーティリティ",
+  "text.config.optigui.tools.rp_converter": "リソースパックコンバーター",
+  "text.config.optigui.tools.resource_loading_logs": "リソース読み込みログ"
+}
