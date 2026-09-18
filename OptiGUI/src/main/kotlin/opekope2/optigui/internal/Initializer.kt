@@ -13,7 +13,6 @@ import opekope2.optigui.registry.RetexturableScreenRegistry
 import opekope2.optigui.resource.OptiFineFilterLoader
 import opekope2.optigui.resource.OptiGuiFilterLoader
 import opekope2.optigui.util.MOD_ID
-import org.lwjgl.glfw.GLFW
 
 @JvmField
 internal val OPTIGUI_INSPECTOR_CATEGORY =
@@ -23,8 +22,8 @@ internal val OPTIGUI_INSPECTOR_CATEGORY =
 internal val INSPECTOR_KEY_BINDING: KeyMapping = KeyMappingHelper.registerKeyMapping(
     KeyMapping(
         "key.optigui.inspect",
-        InputConstants.Type.KEYSYM,
-        GLFW.GLFW_KEY_F12,
+        InputConstants.Type.KEYBOARD,
+        InputConstants.KEY_F12,
         OPTIGUI_INSPECTOR_CATEGORY
     )
 )
