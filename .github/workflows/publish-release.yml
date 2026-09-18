@@ -49,7 +49,7 @@ jobs:
           echo "git tag '$GITHUB_REF_NAME' doesn't match mod version '${{ steps.load-mod-version.outputs.value }}'"
           exit 1
       - name: Publish to GitHub, Modrinth, and CurseForge
-        uses: Kir-Antipov/mc-publish@v3.3.0
+        uses: Kir-Antipov/mc-publish@v3.3.1
         with:
           modrinth-id: ${{ vars.MODRINTH_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
@@ -67,6 +67,7 @@ jobs:
           changelog-file: CHANGELOG.g.md
           game-version-filter: releases
           java: ${{ steps.load-java-version.outputs.value }}
+          environment: client
       - name: Delete build output
         uses: geekyeggo/delete-artifact@v5.0.0
         with:
