@@ -35,9 +35,5 @@ fun inspectInteraction(): String? {
             val selectorValue = selector.getRawSelector(interaction) ?: continue
             appendLine("$selectorKey=$selectorValue")
         }
-        appendLine()
-
-        appendLine("# If you have an idea or feedback about the inspector, feel free to share it at")
-        appendLine("# https://github.com/opekope2/OptiGUI/issues/72")
     }
 }
